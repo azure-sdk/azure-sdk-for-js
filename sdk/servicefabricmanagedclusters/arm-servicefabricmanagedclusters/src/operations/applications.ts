@@ -24,13 +24,6 @@ import {
   ApplicationsListNextOptionalParams,
   ApplicationsListOptionalParams,
   ApplicationsListResponse,
-  ApplicationsReadUpgradeOptionalParams,
-  ApplicationsReadUpgradeResponse,
-  ApplicationsStartRollbackOptionalParams,
-  ApplicationsStartRollbackResponse,
-  RuntimeResumeApplicationUpgradeParameters,
-  ApplicationsResumeUpgradeOptionalParams,
-  ApplicationsResumeUpgradeResponse,
   ApplicationsGetOptionalParams,
   ApplicationsGetResponse,
   ApplicationsCreateOrUpdateOptionalParams,
@@ -39,6 +32,14 @@ import {
   ApplicationsUpdateOptionalParams,
   ApplicationsUpdateResponse,
   ApplicationsDeleteOptionalParams,
+  ApplicationsDeleteResponse,
+  ApplicationsReadUpgradeOptionalParams,
+  ApplicationsReadUpgradeResponse,
+  RuntimeResumeApplicationUpgradeParameters,
+  ApplicationsResumeUpgradeOptionalParams,
+  ApplicationsResumeUpgradeResponse,
+  ApplicationsStartRollbackOptionalParams,
+  ApplicationsStartRollbackResponse,
   ApplicationsListNextResponse,
 } from "../models/index.js";
 
@@ -58,7 +59,7 @@ export class ApplicationsImpl implements Applications {
   /**
    * Gets all managed application resources created or in the process of being created in the Service
    * Fabric cluster resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param options The options parameters.
    */
@@ -133,9 +134,269 @@ export class ApplicationsImpl implements Applications {
   }
 
   /**
+   * Gets all managed application resources created or in the process of being created in the Service
+   * Fabric cluster resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ApplicationsListOptionalParams,
+  ): Promise<ApplicationsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterName, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
+   * Get a Service Fabric managed application resource created or in the process of being created in the
+   * Service Fabric cluster resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param applicationName The name of the application resource.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    options?: ApplicationsGetOptionalParams,
+  ): Promise<ApplicationsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterName, applicationName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * Create or update a Service Fabric managed application resource with the specified name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param applicationName The name of the application resource.
+   * @param parameters The application resource.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdate(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    parameters: ApplicationResource,
+    options?: ApplicationsCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ApplicationsCreateOrUpdateResponse>,
+      ApplicationsCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ApplicationsCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        clusterName,
+        applicationName,
+        parameters,
+        options,
+      },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ApplicationsCreateOrUpdateResponse,
+      OperationState<ApplicationsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Create or update a Service Fabric managed application resource with the specified name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param applicationName The name of the application resource.
+   * @param parameters The application resource.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    parameters: ApplicationResource,
+    options?: ApplicationsCreateOrUpdateOptionalParams,
+  ): Promise<ApplicationsCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      clusterName,
+      applicationName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Updates the tags of an application resource of a given managed cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param applicationName The name of the application resource.
+   * @param parameters The application resource updated tags.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    parameters: ApplicationUpdateParameters,
+    options?: ApplicationsUpdateOptionalParams,
+  ): Promise<ApplicationsUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterName, applicationName, parameters, options },
+      updateOperationSpec,
+    );
+  }
+
+  /**
+   * Delete a Service Fabric managed application resource with the specified name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param applicationName The name of the application resource.
+   * @param options The options parameters.
+   */
+  async beginDelete(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    options?: ApplicationsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ApplicationsDeleteResponse>,
+      ApplicationsDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ApplicationsDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, applicationName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ApplicationsDeleteResponse,
+      OperationState<ApplicationsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Delete a Service Fabric managed application resource with the specified name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param applicationName The name of the application resource.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    options?: ApplicationsDeleteOptionalParams,
+  ): Promise<ApplicationsDeleteResponse> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      clusterName,
+      applicationName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Get the status of the latest application upgrade. It will query the cluster to find the status of
    * the latest application upgrade.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationName The name of the application resource.
    * @param options The options parameters.
@@ -209,7 +470,7 @@ export class ApplicationsImpl implements Applications {
   /**
    * Get the status of the latest application upgrade. It will query the cluster to find the status of
    * the latest application upgrade.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationName The name of the application resource.
    * @param options The options parameters.
@@ -230,106 +491,9 @@ export class ApplicationsImpl implements Applications {
   }
 
   /**
-   * Send a request to start a rollback of the current application upgrade. This will start rolling back
-   * the application to the previous version.
-   * @param resourceGroupName The name of the resource group.
-   * @param clusterName The name of the cluster resource.
-   * @param applicationName The name of the application resource.
-   * @param options The options parameters.
-   */
-  async beginStartRollback(
-    resourceGroupName: string,
-    clusterName: string,
-    applicationName: string,
-    options?: ApplicationsStartRollbackOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ApplicationsStartRollbackResponse>,
-      ApplicationsStartRollbackResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<ApplicationsStartRollbackResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, clusterName, applicationName, options },
-      spec: startRollbackOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      ApplicationsStartRollbackResponse,
-      OperationState<ApplicationsStartRollbackResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Send a request to start a rollback of the current application upgrade. This will start rolling back
-   * the application to the previous version.
-   * @param resourceGroupName The name of the resource group.
-   * @param clusterName The name of the cluster resource.
-   * @param applicationName The name of the application resource.
-   * @param options The options parameters.
-   */
-  async beginStartRollbackAndWait(
-    resourceGroupName: string,
-    clusterName: string,
-    applicationName: string,
-    options?: ApplicationsStartRollbackOptionalParams,
-  ): Promise<ApplicationsStartRollbackResponse> {
-    const poller = await this.beginStartRollback(
-      resourceGroupName,
-      clusterName,
-      applicationName,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
    * Send a request to resume the current application upgrade. This will resume the application upgrade
    * from where it was paused.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationName The name of the application resource.
    * @param parameters The parameters for resuming an application upgrade.
@@ -411,7 +575,7 @@ export class ApplicationsImpl implements Applications {
   /**
    * Send a request to resume the current application upgrade. This will resume the application upgrade
    * from where it was paused.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationName The name of the application resource.
    * @param parameters The parameters for resuming an application upgrade.
@@ -435,169 +599,28 @@ export class ApplicationsImpl implements Applications {
   }
 
   /**
-   * Get a Service Fabric managed application resource created or in the process of being created in the
-   * Service Fabric cluster resource.
-   * @param resourceGroupName The name of the resource group.
+   * Send a request to start a rollback of the current application upgrade. This will start rolling back
+   * the application to the previous version.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationName The name of the application resource.
    * @param options The options parameters.
    */
-  get(
+  async beginStartRollback(
     resourceGroupName: string,
     clusterName: string,
     applicationName: string,
-    options?: ApplicationsGetOptionalParams,
-  ): Promise<ApplicationsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, clusterName, applicationName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * Create or update a Service Fabric managed application resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
-   * @param clusterName The name of the cluster resource.
-   * @param applicationName The name of the application resource.
-   * @param parameters The application resource.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdate(
-    resourceGroupName: string,
-    clusterName: string,
-    applicationName: string,
-    parameters: ApplicationResource,
-    options?: ApplicationsCreateOrUpdateOptionalParams,
+    options?: ApplicationsStartRollbackOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ApplicationsCreateOrUpdateResponse>,
-      ApplicationsCreateOrUpdateResponse
+      OperationState<ApplicationsStartRollbackResponse>,
+      ApplicationsStartRollbackResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ApplicationsCreateOrUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        clusterName,
-        applicationName,
-        parameters,
-        options,
-      },
-      spec: createOrUpdateOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      ApplicationsCreateOrUpdateResponse,
-      OperationState<ApplicationsCreateOrUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Create or update a Service Fabric managed application resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
-   * @param clusterName The name of the cluster resource.
-   * @param applicationName The name of the application resource.
-   * @param parameters The application resource.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdateAndWait(
-    resourceGroupName: string,
-    clusterName: string,
-    applicationName: string,
-    parameters: ApplicationResource,
-    options?: ApplicationsCreateOrUpdateOptionalParams,
-  ): Promise<ApplicationsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      clusterName,
-      applicationName,
-      parameters,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Updates the tags of an application resource of a given managed cluster.
-   * @param resourceGroupName The name of the resource group.
-   * @param clusterName The name of the cluster resource.
-   * @param applicationName The name of the application resource.
-   * @param parameters The application resource updated tags.
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    clusterName: string,
-    applicationName: string,
-    parameters: ApplicationUpdateParameters,
-    options?: ApplicationsUpdateOptionalParams,
-  ): Promise<ApplicationsUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, clusterName, applicationName, parameters, options },
-      updateOperationSpec,
-    );
-  }
-
-  /**
-   * Delete a Service Fabric managed application resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
-   * @param clusterName The name of the cluster resource.
-   * @param applicationName The name of the application resource.
-   * @param options The options parameters.
-   */
-  async beginDelete(
-    resourceGroupName: string,
-    clusterName: string,
-    applicationName: string,
-    options?: ApplicationsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<ApplicationsStartRollbackResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -635,9 +658,12 @@ export class ApplicationsImpl implements Applications {
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, clusterName, applicationName, options },
-      spec: deleteOperationSpec,
+      spec: startRollbackOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      ApplicationsStartRollbackResponse,
+      OperationState<ApplicationsStartRollbackResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location",
@@ -647,19 +673,20 @@ export class ApplicationsImpl implements Applications {
   }
 
   /**
-   * Delete a Service Fabric managed application resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
+   * Send a request to start a rollback of the current application upgrade. This will start rolling back
+   * the application to the previous version.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationName The name of the application resource.
    * @param options The options parameters.
    */
-  async beginDeleteAndWait(
+  async beginStartRollbackAndWait(
     resourceGroupName: string,
     clusterName: string,
     applicationName: string,
-    options?: ApplicationsDeleteOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginDelete(
+    options?: ApplicationsStartRollbackOptionalParams,
+  ): Promise<ApplicationsStartRollbackResponse> {
+    const poller = await this.beginStartRollback(
       resourceGroupName,
       clusterName,
       applicationName,
@@ -669,26 +696,8 @@ export class ApplicationsImpl implements Applications {
   }
 
   /**
-   * Gets all managed application resources created or in the process of being created in the Service
-   * Fabric cluster resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param clusterName The name of the cluster resource.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    clusterName: string,
-    options?: ApplicationsListOptionalParams,
-  ): Promise<ApplicationsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, clusterName, options },
-      listOperationSpec,
-    );
-  }
-
-  /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -708,6 +717,137 @@ export class ApplicationsImpl implements Applications {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplicationResourceList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplicationResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.applicationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplicationResource,
+    },
+    201: {
+      bodyMapper: Mappers.ApplicationResource,
+    },
+    202: {
+      bodyMapper: Mappers.ApplicationResource,
+    },
+    204: {
+      bodyMapper: Mappers.ApplicationResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters8,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.applicationName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplicationResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters9,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.applicationName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.ApplicationsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ApplicationsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ApplicationsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ApplicationsDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.applicationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const readUpgradeOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}/fetchUpgradeStatus",
   httpMethod: "POST",
@@ -725,38 +865,7 @@ const readUpgradeOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.ApplicationsReadUpgradeHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.applicationName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const startRollbackOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}/startRollback",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      headersMapper: Mappers.ApplicationsStartRollbackHeaders,
-    },
-    201: {
-      headersMapper: Mappers.ApplicationsStartRollbackHeaders,
-    },
-    202: {
-      headersMapper: Mappers.ApplicationsStartRollbackHeaders,
-    },
-    204: {
-      headersMapper: Mappers.ApplicationsStartRollbackHeaders,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -787,10 +896,10 @@ const resumeUpgradeOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.ApplicationsResumeUpgradeHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -803,95 +912,24 @@ const resumeUpgradeOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedclusters/{clusterName}/applications/{applicationName}",
-  httpMethod: "GET",
+const startRollbackOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}/startRollback",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationResource,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorModel,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.applicationName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedclusters/{clusterName}/applications/{applicationName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApplicationResource,
+      headersMapper: Mappers.ApplicationsStartRollbackHeaders,
     },
     201: {
-      bodyMapper: Mappers.ApplicationResource,
+      headersMapper: Mappers.ApplicationsStartRollbackHeaders,
     },
     202: {
-      bodyMapper: Mappers.ApplicationResource,
+      headersMapper: Mappers.ApplicationsStartRollbackHeaders,
     },
     204: {
-      bodyMapper: Mappers.ApplicationResource,
+      headersMapper: Mappers.ApplicationsStartRollbackHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
-    },
-  },
-  requestBody: Parameters.parameters5,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.applicationName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedclusters/{clusterName}/applications/{applicationName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApplicationResource,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorModel,
-    },
-  },
-  requestBody: Parameters.parameters6,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.applicationName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedclusters/{clusterName}/applications/{applicationName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -901,27 +939,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.applicationName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedclusters/{clusterName}/applications",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApplicationResourceList,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorModel,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -934,15 +951,15 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ApplicationResourceList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

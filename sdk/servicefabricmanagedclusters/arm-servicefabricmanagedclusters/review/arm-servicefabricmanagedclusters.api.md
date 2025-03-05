@@ -42,28 +42,31 @@ export interface ApplicationHealthPolicy {
 // @public
 export interface ApplicationResource extends ProxyResource {
     identity?: ManagedIdentity;
+    location?: string;
     managedIdentities?: ApplicationUserAssignedIdentity[];
     parameters?: {
         [propertyName: string]: string;
     };
     readonly provisioningState?: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
     upgradePolicy?: ApplicationUpgradePolicy;
     version?: string;
 }
 
 // @public
 export interface ApplicationResourceList {
-    readonly nextLink?: string;
-    // (undocumented)
-    value?: ApplicationResource[];
+    nextLink?: string;
+    value: ApplicationResource[];
 }
 
 // @public
 export interface Applications {
     beginCreateOrUpdate(resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationResource, options?: ApplicationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ApplicationsCreateOrUpdateResponse>, ApplicationsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationResource, options?: ApplicationsCreateOrUpdateOptionalParams): Promise<ApplicationsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ApplicationsDeleteResponse>, ApplicationsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams): Promise<ApplicationsDeleteResponse>;
     beginReadUpgrade(resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsReadUpgradeOptionalParams): Promise<SimplePollerLike<OperationState<ApplicationsReadUpgradeResponse>, ApplicationsReadUpgradeResponse>>;
     beginReadUpgradeAndWait(resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsReadUpgradeOptionalParams): Promise<ApplicationsReadUpgradeResponse>;
     beginResumeUpgrade(resourceGroupName: string, clusterName: string, applicationName: string, parameters: RuntimeResumeApplicationUpgradeParameters, options?: ApplicationsResumeUpgradeOptionalParams): Promise<SimplePollerLike<OperationState<ApplicationsResumeUpgradeResponse>, ApplicationsResumeUpgradeResponse>>;
@@ -101,6 +104,9 @@ export interface ApplicationsDeleteOptionalParams extends coreClient.OperationOp
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type ApplicationsDeleteResponse = ApplicationsDeleteHeaders;
 
 // @public
 export interface ApplicationsGetOptionalParams extends coreClient.OperationOptions {
@@ -177,20 +183,23 @@ export type ApplicationsUpdateResponse = ApplicationResource;
 
 // @public
 export interface ApplicationTypeResource extends ProxyResource {
+    location?: string;
     readonly provisioningState?: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
 export interface ApplicationTypeResourceList {
-    readonly nextLink?: string;
-    // (undocumented)
-    value?: ApplicationTypeResource[];
+    nextLink?: string;
+    value: ApplicationTypeResource[];
 }
 
 // @public
 export interface ApplicationTypes {
-    beginDelete(resourceGroupName: string, clusterName: string, applicationTypeName: string, options?: ApplicationTypesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterName: string, applicationTypeName: string, options?: ApplicationTypesDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, clusterName: string, applicationTypeName: string, options?: ApplicationTypesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ApplicationTypesDeleteResponse>, ApplicationTypesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, clusterName: string, applicationTypeName: string, options?: ApplicationTypesDeleteOptionalParams): Promise<ApplicationTypesDeleteResponse>;
     createOrUpdate(resourceGroupName: string, clusterName: string, applicationTypeName: string, parameters: ApplicationTypeResource, options?: ApplicationTypesCreateOrUpdateOptionalParams): Promise<ApplicationTypesCreateOrUpdateResponse>;
     get(resourceGroupName: string, clusterName: string, applicationTypeName: string, options?: ApplicationTypesGetOptionalParams): Promise<ApplicationTypesGetResponse>;
     list(resourceGroupName: string, clusterName: string, options?: ApplicationTypesListOptionalParams): PagedAsyncIterableIterator<ApplicationTypeResource>;
@@ -205,10 +214,19 @@ export interface ApplicationTypesCreateOrUpdateOptionalParams extends coreClient
 export type ApplicationTypesCreateOrUpdateResponse = ApplicationTypeResource;
 
 // @public
+export interface ApplicationTypesDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
 export interface ApplicationTypesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type ApplicationTypesDeleteResponse = ApplicationTypesDeleteHeaders;
 
 // @public
 export interface ApplicationTypesGetOptionalParams extends coreClient.OperationOptions {
@@ -248,22 +266,25 @@ export interface ApplicationTypeUpdateParameters {
 // @public
 export interface ApplicationTypeVersionResource extends ProxyResource {
     appPackageUrl?: string;
+    location?: string;
     readonly provisioningState?: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
 export interface ApplicationTypeVersionResourceList {
-    readonly nextLink?: string;
-    // (undocumented)
-    value?: ApplicationTypeVersionResource[];
+    nextLink?: string;
+    value: ApplicationTypeVersionResource[];
 }
 
 // @public
 export interface ApplicationTypeVersions {
     beginCreateOrUpdate(resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, parameters: ApplicationTypeVersionResource, options?: ApplicationTypeVersionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ApplicationTypeVersionsCreateOrUpdateResponse>, ApplicationTypeVersionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, parameters: ApplicationTypeVersionResource, options?: ApplicationTypeVersionsCreateOrUpdateOptionalParams): Promise<ApplicationTypeVersionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, options?: ApplicationTypeVersionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, options?: ApplicationTypeVersionsDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, options?: ApplicationTypeVersionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ApplicationTypeVersionsDeleteResponse>, ApplicationTypeVersionsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, options?: ApplicationTypeVersionsDeleteOptionalParams): Promise<ApplicationTypeVersionsDeleteResponse>;
     get(resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, options?: ApplicationTypeVersionsGetOptionalParams): Promise<ApplicationTypeVersionsGetResponse>;
     listByApplicationTypes(resourceGroupName: string, clusterName: string, applicationTypeName: string, options?: ApplicationTypeVersionsListByApplicationTypesOptionalParams): PagedAsyncIterableIterator<ApplicationTypeVersionResource>;
     update(resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, parameters: ApplicationTypeVersionUpdateParameters, options?: ApplicationTypeVersionsUpdateOptionalParams): Promise<ApplicationTypeVersionsUpdateResponse>;
@@ -300,6 +321,9 @@ export interface ApplicationTypeVersionsDeleteOptionalParams extends coreClient.
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type ApplicationTypeVersionsDeleteResponse = ApplicationTypeVersionsDeleteHeaders;
 
 // @public
 export interface ApplicationTypeVersionsGetOptionalParams extends coreClient.OperationOptions {
@@ -354,7 +378,7 @@ export interface ApplicationUpgradePolicy {
     upgradeReplicaSetCheckTimeout?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationUserAssignedIdentity {
     name: string;
     principalId: string;
@@ -446,6 +470,9 @@ export interface ClusterUpgradePolicy {
 }
 
 // @public
+export type CreatedByType = string;
+
+// @public
 export type Direction = string;
 
 // @public
@@ -458,8 +485,18 @@ export interface EndpointRangeDescription {
 }
 
 // @public
-export interface ErrorModel {
-    error?: ErrorModelError;
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
 }
 
 // @public
@@ -469,10 +506,64 @@ export interface ErrorModelError {
 }
 
 // @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export type EvictionPolicyType = string;
 
 // @public
 export type FailureAction = string;
+
+// @public
+export type FaultKind = string;
+
+// @public
+export interface FaultSimulation {
+    details?: FaultSimulationDetails;
+    endTime?: Date;
+    simulationId?: string;
+    startTime?: Date;
+    status?: FaultSimulationStatus;
+}
+
+// @public
+export interface FaultSimulationConstraints {
+    expirationTime?: Date;
+}
+
+// @public
+export interface FaultSimulationContent {
+    constraints?: FaultSimulationConstraints;
+    faultKind: "Zone";
+    force?: boolean;
+}
+
+// @public (undocumented)
+export type FaultSimulationContentUnion = FaultSimulationContent | ZoneFaultSimulationContent;
+
+// @public
+export interface FaultSimulationDetails {
+    clusterId?: string;
+    nodeTypeFaultSimulation?: NodeTypeFaultSimulation[];
+    operationId?: string;
+    parameters?: FaultSimulationContentUnion;
+}
+
+// @public
+export interface FaultSimulationIdContent {
+    simulationId: string;
+}
+
+// @public
+export interface FaultSimulationListResult {
+    nextLink?: string;
+    value: FaultSimulation[];
+}
+
+// @public
+export type FaultSimulationStatus = string;
 
 // @public
 export interface FrontendConfiguration {
@@ -550,6 +641,14 @@ export enum KnownClusterUpgradeMode {
 }
 
 // @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
 export enum KnownDirection {
     Inbound = "inbound",
     Outbound = "outbound"
@@ -558,8 +657,11 @@ export enum KnownDirection {
 // @public
 export enum KnownDiskType {
     PremiumLRS = "Premium_LRS",
+    PremiumV2LRS = "PremiumV2_LRS",
+    PremiumZRS = "Premium_ZRS",
     StandardLRS = "Standard_LRS",
-    StandardSSDLRS = "StandardSSD_LRS"
+    StandardSSDLRS = "StandardSSD_LRS",
+    StandardSSDZRS = "StandardSSD_ZRS"
 }
 
 // @public
@@ -572,6 +674,21 @@ export enum KnownEvictionPolicyType {
 export enum KnownFailureAction {
     Manual = "Manual",
     Rollback = "Rollback"
+}
+
+// @public
+export enum KnownFaultKind {
+    Zone = "Zone"
+}
+
+// @public
+export enum KnownFaultSimulationStatus {
+    Active = "Active",
+    Done = "Done",
+    StartFailed = "StartFailed",
+    Starting = "Starting",
+    StopFailed = "StopFailed",
+    Stopping = "Stopping"
 }
 
 // @public
@@ -741,6 +858,16 @@ export enum KnownServiceScalingTriggerKind {
 }
 
 // @public
+export enum KnownSfmcOperationStatus {
+    Aborted = "Aborted",
+    Canceled = "Canceled",
+    Created = "Created",
+    Failed = "Failed",
+    Started = "Started",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownSkuName {
     Basic = "Basic",
     Standard = "Standard"
@@ -750,13 +877,6 @@ export enum KnownSkuName {
 export enum KnownUpdateType {
     ByUpgradeDomain = "ByUpgradeDomain",
     Default = "Default"
-}
-
-// @public
-export enum KnownUpgradeMode {
-    Monitored = "Monitored",
-    UnmonitoredAuto = "UnmonitoredAuto",
-    UnmonitoredManual = "UnmonitoredManual"
 }
 
 // @public
@@ -825,7 +945,7 @@ export interface ManagedAzResiliencyStatusOperations {
 }
 
 // @public
-export interface ManagedCluster extends Resource {
+export interface ManagedCluster extends TrackedResource {
     addonFeatures?: ManagedClusterAddOnFeature[];
     adminPassword?: string;
     adminUserName?: string;
@@ -849,6 +969,7 @@ export interface ManagedCluster extends Resource {
     enableHttpGatewayExclusiveAuthMode?: boolean;
     enableIpv6?: boolean;
     enableServicePublicIP?: boolean;
+    readonly etag?: string;
     fabricSettings?: SettingsSectionDescription[];
     readonly fqdn?: string;
     httpGatewayConnectionPort?: number;
@@ -879,26 +1000,31 @@ export interface ManagedClusterCodeVersionResult {
     id?: string;
     name?: string;
     osType?: OsType;
-    supportExpiryUtc?: string;
+    supportExpiryUtc?: Date;
     type?: string;
 }
 
 // @public
 export interface ManagedClusterListResult {
     nextLink?: string;
-    // (undocumented)
-    value?: ManagedCluster[];
+    value: ManagedCluster[];
 }
 
 // @public
 export interface ManagedClusters {
     beginCreateOrUpdate(resourceGroupName: string, clusterName: string, parameters: ManagedCluster, options?: ManagedClustersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ManagedClustersCreateOrUpdateResponse>, ManagedClustersCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, parameters: ManagedCluster, options?: ManagedClustersCreateOrUpdateOptionalParams): Promise<ManagedClustersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, options?: ManagedClustersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: ManagedClustersDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, clusterName: string, options?: ManagedClustersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ManagedClustersDeleteResponse>, ManagedClustersDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: ManagedClustersDeleteOptionalParams): Promise<ManagedClustersDeleteResponse>;
+    beginStartFaultSimulation(resourceGroupName: string, clusterName: string, parameters: FaultSimulationContentUnion, options?: ManagedClustersStartFaultSimulationOptionalParams): Promise<SimplePollerLike<OperationState<ManagedClustersStartFaultSimulationResponse>, ManagedClustersStartFaultSimulationResponse>>;
+    beginStartFaultSimulationAndWait(resourceGroupName: string, clusterName: string, parameters: FaultSimulationContentUnion, options?: ManagedClustersStartFaultSimulationOptionalParams): Promise<ManagedClustersStartFaultSimulationResponse>;
+    beginStopFaultSimulation(resourceGroupName: string, clusterName: string, parameters: FaultSimulationIdContent, options?: ManagedClustersStopFaultSimulationOptionalParams): Promise<SimplePollerLike<OperationState<ManagedClustersStopFaultSimulationResponse>, ManagedClustersStopFaultSimulationResponse>>;
+    beginStopFaultSimulationAndWait(resourceGroupName: string, clusterName: string, parameters: FaultSimulationIdContent, options?: ManagedClustersStopFaultSimulationOptionalParams): Promise<ManagedClustersStopFaultSimulationResponse>;
     get(resourceGroupName: string, clusterName: string, options?: ManagedClustersGetOptionalParams): Promise<ManagedClustersGetResponse>;
+    getFaultSimulation(resourceGroupName: string, clusterName: string, parameters: FaultSimulationIdContent, options?: ManagedClustersGetFaultSimulationOptionalParams): Promise<ManagedClustersGetFaultSimulationResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ManagedClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ManagedCluster>;
     listBySubscription(options?: ManagedClustersListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ManagedCluster>;
+    listFaultSimulation(resourceGroupName: string, clusterName: string, options?: ManagedClustersListFaultSimulationOptionalParams): PagedAsyncIterableIterator<FaultSimulation>;
     update(resourceGroupName: string, clusterName: string, parameters: ManagedClusterUpdateParameters, options?: ManagedClustersUpdateOptionalParams): Promise<ManagedClustersUpdateResponse>;
 }
 
@@ -928,6 +1054,16 @@ export interface ManagedClustersDeleteOptionalParams extends coreClient.Operatio
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type ManagedClustersDeleteResponse = ManagedClustersDeleteHeaders;
+
+// @public
+export interface ManagedClustersGetFaultSimulationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClustersGetFaultSimulationResponse = FaultSimulation;
 
 // @public
 export interface ManagedClustersGetOptionalParams extends coreClient.OperationOptions {
@@ -963,6 +1099,50 @@ export interface ManagedClustersListBySubscriptionOptionalParams extends coreCli
 
 // @public
 export type ManagedClustersListBySubscriptionResponse = ManagedClusterListResult;
+
+// @public
+export interface ManagedClustersListFaultSimulationNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClustersListFaultSimulationNextResponse = FaultSimulationListResult;
+
+// @public
+export interface ManagedClustersListFaultSimulationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClustersListFaultSimulationResponse = FaultSimulationListResult;
+
+// @public
+export interface ManagedClustersStartFaultSimulationHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface ManagedClustersStartFaultSimulationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ManagedClustersStartFaultSimulationResponse = FaultSimulation;
+
+// @public
+export interface ManagedClustersStopFaultSimulationHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface ManagedClustersStopFaultSimulationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ManagedClustersStopFaultSimulationResponse = FaultSimulation;
 
 // @public
 export interface ManagedClustersUpdateOptionalParams extends coreClient.OperationOptions {
@@ -1054,17 +1234,6 @@ export interface ManagedMaintenanceWindowStatusOperations {
 }
 
 // @public
-export interface ManagedProxyResource {
-    readonly id?: string;
-    readonly name?: string;
-    readonly systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
-}
-
-// @public
 export type ManagedResourceProvisioningState = string;
 
 // @public
@@ -1104,8 +1273,8 @@ export interface ManagedVMSize {
 
 // @public
 export interface ManagedVMSizesResult {
-    readonly nextLink?: string;
-    value?: ManagedVMSize[];
+    nextLink?: string;
+    value: ManagedVMSize[];
 }
 
 // @public
@@ -1136,7 +1305,7 @@ export interface NetworkSecurityRule {
 }
 
 // @public
-export interface NodeType extends ManagedProxyResource {
+export interface NodeType extends ProxyResource {
     additionalDataDisks?: VmssDataDisk[];
     additionalNetworkInterfaceConfigurations?: AdditionalNetworkInterfaceConfiguration[];
     applicationPorts?: EndpointRangeDescription;
@@ -1174,6 +1343,9 @@ export interface NodeType extends ManagedProxyResource {
     sku?: NodeTypeSku;
     spotRestoreTimeout?: string;
     subnetId?: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
     useDefaultPublicLoadBalancer?: boolean;
     useEphemeralOSDisk?: boolean;
     useTempDataDisk?: boolean;
@@ -1209,15 +1381,23 @@ export interface NodeTypeAvailableSku {
 }
 
 // @public
+export interface NodeTypeFaultSimulation {
+    nodeTypeName?: string;
+    operationId?: string;
+    readonly operationStatus?: SfmcOperationStatus;
+    status?: FaultSimulationStatus;
+}
+
+// @public
 export interface NodeTypeListResult {
     nextLink?: string;
-    value?: NodeType[];
+    value: NodeType[];
 }
 
 // @public
 export interface NodeTypeListSkuResult {
     nextLink?: string;
-    value?: NodeTypeAvailableSku[];
+    value: NodeTypeAvailableSku[];
 }
 
 // @public
@@ -1231,18 +1411,30 @@ export interface NodeTypeNatConfig {
 export interface NodeTypes {
     beginCreateOrUpdate(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeType, options?: NodeTypesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NodeTypesCreateOrUpdateResponse>, NodeTypesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeType, options?: NodeTypesCreateOrUpdateOptionalParams): Promise<NodeTypesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, nodeTypeName: string, options?: NodeTypesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterName: string, nodeTypeName: string, options?: NodeTypesDeleteOptionalParams): Promise<void>;
-    beginDeleteNode(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesDeleteNodeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteNodeAndWait(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesDeleteNodeOptionalParams): Promise<void>;
-    beginReimage(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesReimageOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginReimageAndWait(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesReimageOptionalParams): Promise<void>;
-    beginRestart(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesRestartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRestartAndWait(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesRestartOptionalParams): Promise<void>;
+    beginDeallocate(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesDeallocateOptionalParams): Promise<SimplePollerLike<OperationState<NodeTypesDeallocateResponse>, NodeTypesDeallocateResponse>>;
+    beginDeallocateAndWait(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesDeallocateOptionalParams): Promise<NodeTypesDeallocateResponse>;
+    beginDelete(resourceGroupName: string, clusterName: string, nodeTypeName: string, options?: NodeTypesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<NodeTypesDeleteResponse>, NodeTypesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, clusterName: string, nodeTypeName: string, options?: NodeTypesDeleteOptionalParams): Promise<NodeTypesDeleteResponse>;
+    beginDeleteNode(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesDeleteNodeOptionalParams): Promise<SimplePollerLike<OperationState<NodeTypesDeleteNodeResponse>, NodeTypesDeleteNodeResponse>>;
+    beginDeleteNodeAndWait(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesDeleteNodeOptionalParams): Promise<NodeTypesDeleteNodeResponse>;
+    beginRedeploy(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesRedeployOptionalParams): Promise<SimplePollerLike<OperationState<NodeTypesRedeployResponse>, NodeTypesRedeployResponse>>;
+    beginRedeployAndWait(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesRedeployOptionalParams): Promise<NodeTypesRedeployResponse>;
+    beginReimage(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesReimageOptionalParams): Promise<SimplePollerLike<OperationState<NodeTypesReimageResponse>, NodeTypesReimageResponse>>;
+    beginReimageAndWait(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesReimageOptionalParams): Promise<NodeTypesReimageResponse>;
+    beginRestart(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesRestartOptionalParams): Promise<SimplePollerLike<OperationState<NodeTypesRestartResponse>, NodeTypesRestartResponse>>;
+    beginRestartAndWait(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesRestartOptionalParams): Promise<NodeTypesRestartResponse>;
+    beginStart(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesStartOptionalParams): Promise<SimplePollerLike<OperationState<NodeTypesStartResponse>, NodeTypesStartResponse>>;
+    beginStartAndWait(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesStartOptionalParams): Promise<NodeTypesStartResponse>;
+    beginStartFaultSimulation(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: FaultSimulationContentUnion, options?: NodeTypesStartFaultSimulationOptionalParams): Promise<SimplePollerLike<OperationState<NodeTypesStartFaultSimulationResponse>, NodeTypesStartFaultSimulationResponse>>;
+    beginStartFaultSimulationAndWait(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: FaultSimulationContentUnion, options?: NodeTypesStartFaultSimulationOptionalParams): Promise<NodeTypesStartFaultSimulationResponse>;
+    beginStopFaultSimulation(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: FaultSimulationIdContent, options?: NodeTypesStopFaultSimulationOptionalParams): Promise<SimplePollerLike<OperationState<NodeTypesStopFaultSimulationResponse>, NodeTypesStopFaultSimulationResponse>>;
+    beginStopFaultSimulationAndWait(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: FaultSimulationIdContent, options?: NodeTypesStopFaultSimulationOptionalParams): Promise<NodeTypesStopFaultSimulationResponse>;
     beginUpdate(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeUpdateParameters, options?: NodeTypesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NodeTypesUpdateResponse>, NodeTypesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeUpdateParameters, options?: NodeTypesUpdateOptionalParams): Promise<NodeTypesUpdateResponse>;
     get(resourceGroupName: string, clusterName: string, nodeTypeName: string, options?: NodeTypesGetOptionalParams): Promise<NodeTypesGetResponse>;
+    getFaultSimulation(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: FaultSimulationIdContent, options?: NodeTypesGetFaultSimulationOptionalParams): Promise<NodeTypesGetFaultSimulationResponse>;
     listByManagedClusters(resourceGroupName: string, clusterName: string, options?: NodeTypesListByManagedClustersOptionalParams): PagedAsyncIterableIterator<NodeType>;
+    listFaultSimulation(resourceGroupName: string, clusterName: string, nodeTypeName: string, options?: NodeTypesListFaultSimulationOptionalParams): PagedAsyncIterableIterator<FaultSimulation>;
 }
 
 // @public
@@ -1259,6 +1451,21 @@ export interface NodeTypesCreateOrUpdateOptionalParams extends coreClient.Operat
 
 // @public
 export type NodeTypesCreateOrUpdateResponse = NodeType;
+
+// @public
+export interface NodeTypesDeallocateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface NodeTypesDeallocateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NodeTypesDeallocateResponse = NodeTypesDeallocateHeaders;
 
 // @public
 export interface NodeTypesDeleteHeaders {
@@ -1279,10 +1486,23 @@ export interface NodeTypesDeleteNodeOptionalParams extends coreClient.OperationO
 }
 
 // @public
+export type NodeTypesDeleteNodeResponse = NodeTypesDeleteNodeHeaders;
+
+// @public
 export interface NodeTypesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type NodeTypesDeleteResponse = NodeTypesDeleteHeaders;
+
+// @public
+export interface NodeTypesGetFaultSimulationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NodeTypesGetFaultSimulationResponse = FaultSimulation;
 
 // @public
 export interface NodeTypesGetOptionalParams extends coreClient.OperationOptions {
@@ -1343,6 +1563,35 @@ export interface NodeTypesListByManagedClustersOptionalParams extends coreClient
 export type NodeTypesListByManagedClustersResponse = NodeTypeListResult;
 
 // @public
+export interface NodeTypesListFaultSimulationNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NodeTypesListFaultSimulationNextResponse = FaultSimulationListResult;
+
+// @public
+export interface NodeTypesListFaultSimulationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NodeTypesListFaultSimulationResponse = FaultSimulationListResult;
+
+// @public
+export interface NodeTypesRedeployHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface NodeTypesRedeployOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NodeTypesRedeployResponse = NodeTypesRedeployHeaders;
+
+// @public
 export interface NodeTypesReimageHeaders {
     azureAsyncOperation?: string;
     location?: string;
@@ -1355,6 +1604,9 @@ export interface NodeTypesReimageOptionalParams extends coreClient.OperationOpti
 }
 
 // @public
+export type NodeTypesReimageResponse = NodeTypesReimageHeaders;
+
+// @public
 export interface NodeTypesRestartHeaders {
     azureAsyncOperation?: string;
     location?: string;
@@ -1365,6 +1617,54 @@ export interface NodeTypesRestartOptionalParams extends coreClient.OperationOpti
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type NodeTypesRestartResponse = NodeTypesRestartHeaders;
+
+// @public
+export interface NodeTypesStartFaultSimulationHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface NodeTypesStartFaultSimulationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NodeTypesStartFaultSimulationResponse = FaultSimulation;
+
+// @public
+export interface NodeTypesStartHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface NodeTypesStartOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NodeTypesStartResponse = NodeTypesStartHeaders;
+
+// @public
+export interface NodeTypesStopFaultSimulationHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface NodeTypesStopFaultSimulationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NodeTypesStopFaultSimulationResponse = FaultSimulation;
 
 // @public
 export interface NodeTypesUpdateHeaders {
@@ -1400,8 +1700,8 @@ export type NsgProtocol = string;
 
 // @public
 export interface OperationListResult {
-    readonly nextLink?: string;
-    value?: OperationResult[];
+    nextLink?: string;
+    value: OperationResult[];
 }
 
 // @public
@@ -1499,15 +1799,7 @@ export type ProbeProtocol = string;
 export type Protocol = string;
 
 // @public
-export interface ProxyResource {
-    readonly id?: string;
-    location?: string;
-    readonly name?: string;
-    readonly systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
+export interface ProxyResource extends Resource {
 }
 
 // @public
@@ -1515,14 +1807,9 @@ export type PublicIPAddressVersion = string;
 
 // @public
 export interface Resource {
-    readonly etag?: string;
     readonly id?: string;
-    location: string;
     readonly name?: string;
     readonly systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
     readonly type?: string;
 }
 
@@ -1671,14 +1958,14 @@ export interface ServicePlacementNonPartiallyPlaceServicePolicy extends ServiceP
 
 // @public
 export interface ServicePlacementPolicy {
-    type: "InvalidDomain" | "NonPartiallyPlaceService" | "PreferredPrimaryDomain" | "RequiredDomain" | "RequiredDomainDistribution";
+    type: "InvalidDomain" | "NonPartiallyPlaceService" | "PreferredPrimaryDomain" | "RequiredDomainDistribution" | "RequiredDomain";
 }
 
 // @public
 export type ServicePlacementPolicyType = string;
 
 // @public (undocumented)
-export type ServicePlacementPolicyUnion = ServicePlacementPolicy | ServicePlacementInvalidDomainPolicy | ServicePlacementNonPartiallyPlaceServicePolicy | ServicePlacementPreferPrimaryDomainPolicy | ServicePlacementRequiredDomainPolicy | ServicePlacementRequireDomainDistributionPolicy;
+export type ServicePlacementPolicyUnion = ServicePlacementPolicy | ServicePlacementInvalidDomainPolicy | ServicePlacementNonPartiallyPlaceServicePolicy | ServicePlacementPreferPrimaryDomainPolicy | ServicePlacementRequireDomainDistributionPolicy | ServicePlacementRequiredDomainPolicy;
 
 // @public
 export interface ServicePlacementPreferPrimaryDomainPolicy extends ServicePlacementPolicy {
@@ -1700,14 +1987,17 @@ export interface ServicePlacementRequireDomainDistributionPolicy extends Service
 
 // @public
 export interface ServiceResource extends ProxyResource {
+    location?: string;
     properties?: ServiceResourcePropertiesUnion;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
 export interface ServiceResourceList {
-    readonly nextLink?: string;
-    // (undocumented)
-    value?: ServiceResource[];
+    nextLink?: string;
+    value: ServiceResource[];
 }
 
 // @public
@@ -1737,8 +2027,8 @@ export type ServiceResourcePropertiesUnion = ServiceResourceProperties | Statefu
 export interface Services {
     beginCreateOrUpdate(resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, parameters: ServiceResource, options?: ServicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ServicesCreateOrUpdateResponse>, ServicesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, parameters: ServiceResource, options?: ServicesCreateOrUpdateOptionalParams): Promise<ServicesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, options?: ServicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, options?: ServicesDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, options?: ServicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ServicesDeleteResponse>, ServicesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, options?: ServicesDeleteOptionalParams): Promise<ServicesDeleteResponse>;
     get(resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, options?: ServicesGetOptionalParams): Promise<ServicesGetResponse>;
     listByApplications(resourceGroupName: string, clusterName: string, applicationName: string, options?: ServicesListByApplicationsOptionalParams): PagedAsyncIterableIterator<ServiceResource>;
     update(resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, parameters: ServiceUpdateParameters, options?: ServicesUpdateOptionalParams): Promise<ServicesUpdateResponse>;
@@ -1776,6 +2066,9 @@ export interface ServicesDeleteOptionalParams extends coreClient.OperationOption
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type ServicesDeleteResponse = ServicesDeleteHeaders;
 
 // @public
 export interface ServicesGetOptionalParams extends coreClient.OperationOptions {
@@ -1832,6 +2125,9 @@ export interface SettingsSectionDescription {
 }
 
 // @public
+export type SfmcOperationStatus = string;
+
+// @public
 export interface SingletonPartitionScheme extends Partition {
     partitionScheme: "Singleton";
 }
@@ -1882,10 +2178,18 @@ export interface SubResource {
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
-    createdByType?: string;
+    createdByType?: CreatedByType;
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
-    lastModifiedByType?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -1900,9 +2204,6 @@ export interface UniformInt64RangePartitionScheme extends Partition {
 export type UpdateType = string;
 
 // @public
-export type UpgradeMode = string;
-
-// @public (undocumented)
 export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
@@ -1980,6 +2281,12 @@ export type VmssExtensionSetupOrder = string;
 
 // @public
 export type ZonalUpdateMode = string;
+
+// @public
+export interface ZoneFaultSimulationContent extends FaultSimulationContent {
+    faultKind: "Zone";
+    zones?: string[];
+}
 
 // (No @packageDocumentation comment for this package)
 

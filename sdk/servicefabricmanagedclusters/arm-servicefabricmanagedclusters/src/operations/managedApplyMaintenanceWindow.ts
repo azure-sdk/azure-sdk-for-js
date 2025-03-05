@@ -30,7 +30,7 @@ export class ManagedApplyMaintenanceWindowImpl
   /**
    * Action to Apply Maintenance window on the Service Fabric Managed Clusters, right now. Any pending
    * update will be applied.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param options The options parameters.
    */
@@ -54,7 +54,7 @@ const postOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],

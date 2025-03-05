@@ -24,10 +24,10 @@ import {
   NodeTypesListByManagedClustersNextOptionalParams,
   NodeTypesListByManagedClustersOptionalParams,
   NodeTypesListByManagedClustersResponse,
-  NodeTypeActionParameters,
-  NodeTypesRestartOptionalParams,
-  NodeTypesReimageOptionalParams,
-  NodeTypesDeleteNodeOptionalParams,
+  FaultSimulation,
+  NodeTypesListFaultSimulationNextOptionalParams,
+  NodeTypesListFaultSimulationOptionalParams,
+  NodeTypesListFaultSimulationResponse,
   NodeTypesGetOptionalParams,
   NodeTypesGetResponse,
   NodeTypesCreateOrUpdateOptionalParams,
@@ -36,7 +36,30 @@ import {
   NodeTypesUpdateOptionalParams,
   NodeTypesUpdateResponse,
   NodeTypesDeleteOptionalParams,
+  NodeTypesDeleteResponse,
+  NodeTypeActionParameters,
+  NodeTypesDeallocateOptionalParams,
+  NodeTypesDeallocateResponse,
+  NodeTypesDeleteNodeOptionalParams,
+  NodeTypesDeleteNodeResponse,
+  FaultSimulationIdContent,
+  NodeTypesGetFaultSimulationOptionalParams,
+  NodeTypesGetFaultSimulationResponse,
+  NodeTypesRedeployOptionalParams,
+  NodeTypesRedeployResponse,
+  NodeTypesReimageOptionalParams,
+  NodeTypesReimageResponse,
+  NodeTypesRestartOptionalParams,
+  NodeTypesRestartResponse,
+  NodeTypesStartOptionalParams,
+  NodeTypesStartResponse,
+  FaultSimulationContentUnion,
+  NodeTypesStartFaultSimulationOptionalParams,
+  NodeTypesStartFaultSimulationResponse,
+  NodeTypesStopFaultSimulationOptionalParams,
+  NodeTypesStopFaultSimulationResponse,
   NodeTypesListByManagedClustersNextResponse,
+  NodeTypesListFaultSimulationNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,7 +77,7 @@ export class NodeTypesImpl implements NodeTypes {
 
   /**
    * Gets all Node types of the specified managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param options The options parameters.
    */
@@ -137,8 +160,101 @@ export class NodeTypesImpl implements NodeTypes {
   }
 
   /**
+   * Gets the list of recent fault simulations for the node type.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param options The options parameters.
+   */
+  public listFaultSimulation(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    options?: NodeTypesListFaultSimulationOptionalParams,
+  ): PagedAsyncIterableIterator<FaultSimulation> {
+    const iter = this.listFaultSimulationPagingAll(
+      resourceGroupName,
+      clusterName,
+      nodeTypeName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listFaultSimulationPagingPage(
+          resourceGroupName,
+          clusterName,
+          nodeTypeName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listFaultSimulationPagingPage(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    options?: NodeTypesListFaultSimulationOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<FaultSimulation[]> {
+    let result: NodeTypesListFaultSimulationResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listFaultSimulation(
+        resourceGroupName,
+        clusterName,
+        nodeTypeName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listFaultSimulationNext(
+        resourceGroupName,
+        clusterName,
+        nodeTypeName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listFaultSimulationPagingAll(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    options?: NodeTypesListFaultSimulationOptionalParams,
+  ): AsyncIterableIterator<FaultSimulation> {
+    for await (const page of this.listFaultSimulationPagingPage(
+      resourceGroupName,
+      clusterName,
+      nodeTypeName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
    * Gets all Node types of the specified managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param options The options parameters.
    */
@@ -154,308 +270,8 @@ export class NodeTypesImpl implements NodeTypes {
   }
 
   /**
-   * Restarts one or more nodes on the node type. It will disable the fabric nodes, trigger a restart on
-   * the VMs and activate the nodes back again.
-   * @param resourceGroupName The name of the resource group.
-   * @param clusterName The name of the cluster resource.
-   * @param nodeTypeName The name of the node type.
-   * @param parameters parameters for restart action.
-   * @param options The options parameters.
-   */
-  async beginRestart(
-    resourceGroupName: string,
-    clusterName: string,
-    nodeTypeName: string,
-    parameters: NodeTypeActionParameters,
-    options?: NodeTypesRestartOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        clusterName,
-        nodeTypeName,
-        parameters,
-        options,
-      },
-      spec: restartOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Restarts one or more nodes on the node type. It will disable the fabric nodes, trigger a restart on
-   * the VMs and activate the nodes back again.
-   * @param resourceGroupName The name of the resource group.
-   * @param clusterName The name of the cluster resource.
-   * @param nodeTypeName The name of the node type.
-   * @param parameters parameters for restart action.
-   * @param options The options parameters.
-   */
-  async beginRestartAndWait(
-    resourceGroupName: string,
-    clusterName: string,
-    nodeTypeName: string,
-    parameters: NodeTypeActionParameters,
-    options?: NodeTypesRestartOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginRestart(
-      resourceGroupName,
-      clusterName,
-      nodeTypeName,
-      parameters,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on
-   * the VMs and activate the nodes back again.
-   * @param resourceGroupName The name of the resource group.
-   * @param clusterName The name of the cluster resource.
-   * @param nodeTypeName The name of the node type.
-   * @param parameters parameters for reimage action.
-   * @param options The options parameters.
-   */
-  async beginReimage(
-    resourceGroupName: string,
-    clusterName: string,
-    nodeTypeName: string,
-    parameters: NodeTypeActionParameters,
-    options?: NodeTypesReimageOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        clusterName,
-        nodeTypeName,
-        parameters,
-        options,
-      },
-      spec: reimageOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on
-   * the VMs and activate the nodes back again.
-   * @param resourceGroupName The name of the resource group.
-   * @param clusterName The name of the cluster resource.
-   * @param nodeTypeName The name of the node type.
-   * @param parameters parameters for reimage action.
-   * @param options The options parameters.
-   */
-  async beginReimageAndWait(
-    resourceGroupName: string,
-    clusterName: string,
-    nodeTypeName: string,
-    parameters: NodeTypeActionParameters,
-    options?: NodeTypesReimageOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginReimage(
-      resourceGroupName,
-      clusterName,
-      nodeTypeName,
-      parameters,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Deletes one or more nodes on the node type. It will disable the fabric nodes, trigger a delete on
-   * the VMs and removes the state from the cluster.
-   * @param resourceGroupName The name of the resource group.
-   * @param clusterName The name of the cluster resource.
-   * @param nodeTypeName The name of the node type.
-   * @param parameters parameters for delete action.
-   * @param options The options parameters.
-   */
-  async beginDeleteNode(
-    resourceGroupName: string,
-    clusterName: string,
-    nodeTypeName: string,
-    parameters: NodeTypeActionParameters,
-    options?: NodeTypesDeleteNodeOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        clusterName,
-        nodeTypeName,
-        parameters,
-        options,
-      },
-      spec: deleteNodeOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Deletes one or more nodes on the node type. It will disable the fabric nodes, trigger a delete on
-   * the VMs and removes the state from the cluster.
-   * @param resourceGroupName The name of the resource group.
-   * @param clusterName The name of the cluster resource.
-   * @param nodeTypeName The name of the node type.
-   * @param parameters parameters for delete action.
-   * @param options The options parameters.
-   */
-  async beginDeleteNodeAndWait(
-    resourceGroupName: string,
-    clusterName: string,
-    nodeTypeName: string,
-    parameters: NodeTypeActionParameters,
-    options?: NodeTypesDeleteNodeOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginDeleteNode(
-      resourceGroupName,
-      clusterName,
-      nodeTypeName,
-      parameters,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
    * Get a Service Fabric node type of a given managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param nodeTypeName The name of the node type.
    * @param options The options parameters.
@@ -474,7 +290,7 @@ export class NodeTypesImpl implements NodeTypes {
 
   /**
    * Create or update a Service Fabric node type of a given managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param nodeTypeName The name of the node type.
    * @param parameters The node type resource.
@@ -555,7 +371,7 @@ export class NodeTypesImpl implements NodeTypes {
 
   /**
    * Create or update a Service Fabric node type of a given managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param nodeTypeName The name of the node type.
    * @param parameters The node type resource.
@@ -580,7 +396,7 @@ export class NodeTypesImpl implements NodeTypes {
 
   /**
    * Update the configuration of a node type of a given managed cluster, only updating tags.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param nodeTypeName The name of the node type.
    * @param parameters The parameters to update the node type configuration.
@@ -661,7 +477,7 @@ export class NodeTypesImpl implements NodeTypes {
 
   /**
    * Update the configuration of a node type of a given managed cluster, only updating tags.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param nodeTypeName The name of the node type.
    * @param parameters The parameters to update the node type configuration.
@@ -686,7 +502,7 @@ export class NodeTypesImpl implements NodeTypes {
 
   /**
    * Delete a Service Fabric node type of a given managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param nodeTypeName The name of the node type.
    * @param options The options parameters.
@@ -696,11 +512,16 @@ export class NodeTypesImpl implements NodeTypes {
     clusterName: string,
     nodeTypeName: string,
     options?: NodeTypesDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NodeTypesDeleteResponse>,
+      NodeTypesDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<NodeTypesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -740,7 +561,10 @@ export class NodeTypesImpl implements NodeTypes {
       args: { resourceGroupName, clusterName, nodeTypeName, options },
       spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      NodeTypesDeleteResponse,
+      OperationState<NodeTypesDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location",
@@ -751,7 +575,7 @@ export class NodeTypesImpl implements NodeTypes {
 
   /**
    * Delete a Service Fabric node type of a given managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param nodeTypeName The name of the node type.
    * @param options The options parameters.
@@ -761,7 +585,7 @@ export class NodeTypesImpl implements NodeTypes {
     clusterName: string,
     nodeTypeName: string,
     options?: NodeTypesDeleteOptionalParams,
-  ): Promise<void> {
+  ): Promise<NodeTypesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
@@ -772,8 +596,908 @@ export class NodeTypesImpl implements NodeTypes {
   }
 
   /**
+   * Deallocates one or more nodes on the node type. It will disable the fabric nodes, trigger a shutdown
+   * on the VMs and release them from the cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters parameters for deallocate action.
+   * @param options The options parameters.
+   */
+  async beginDeallocate(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: NodeTypeActionParameters,
+    options?: NodeTypesDeallocateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NodeTypesDeallocateResponse>,
+      NodeTypesDeallocateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<NodeTypesDeallocateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        clusterName,
+        nodeTypeName,
+        parameters,
+        options,
+      },
+      spec: deallocateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      NodeTypesDeallocateResponse,
+      OperationState<NodeTypesDeallocateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deallocates one or more nodes on the node type. It will disable the fabric nodes, trigger a shutdown
+   * on the VMs and release them from the cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters parameters for deallocate action.
+   * @param options The options parameters.
+   */
+  async beginDeallocateAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: NodeTypeActionParameters,
+    options?: NodeTypesDeallocateOptionalParams,
+  ): Promise<NodeTypesDeallocateResponse> {
+    const poller = await this.beginDeallocate(
+      resourceGroupName,
+      clusterName,
+      nodeTypeName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Deletes one or more nodes on the node type. It will disable the fabric nodes, trigger a delete on
+   * the VMs and removes the state from the cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters parameters for delete action.
+   * @param options The options parameters.
+   */
+  async beginDeleteNode(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: NodeTypeActionParameters,
+    options?: NodeTypesDeleteNodeOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NodeTypesDeleteNodeResponse>,
+      NodeTypesDeleteNodeResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<NodeTypesDeleteNodeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        clusterName,
+        nodeTypeName,
+        parameters,
+        options,
+      },
+      spec: deleteNodeOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      NodeTypesDeleteNodeResponse,
+      OperationState<NodeTypesDeleteNodeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes one or more nodes on the node type. It will disable the fabric nodes, trigger a delete on
+   * the VMs and removes the state from the cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters parameters for delete action.
+   * @param options The options parameters.
+   */
+  async beginDeleteNodeAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: NodeTypeActionParameters,
+    options?: NodeTypesDeleteNodeOptionalParams,
+  ): Promise<NodeTypesDeleteNodeResponse> {
+    const poller = await this.beginDeleteNode(
+      resourceGroupName,
+      clusterName,
+      nodeTypeName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Gets a fault simulation by the simulationId.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters parameter with fault simulation id.
+   * @param options The options parameters.
+   */
+  getFaultSimulation(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: FaultSimulationIdContent,
+    options?: NodeTypesGetFaultSimulationOptionalParams,
+  ): Promise<NodeTypesGetFaultSimulationResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterName, nodeTypeName, parameters, options },
+      getFaultSimulationOperationSpec,
+    );
+  }
+
+  /**
+   * Gets the list of recent fault simulations for the node type.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param options The options parameters.
+   */
+  private _listFaultSimulation(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    options?: NodeTypesListFaultSimulationOptionalParams,
+  ): Promise<NodeTypesListFaultSimulationResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterName, nodeTypeName, options },
+      listFaultSimulationOperationSpec,
+    );
+  }
+
+  /**
+   * Redeploys one or more nodes on the node type. It will disable the fabric nodes, trigger a shut down
+   * on the VMs, move them to a new node, and power them back on.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters parameters for redeploy action.
+   * @param options The options parameters.
+   */
+  async beginRedeploy(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: NodeTypeActionParameters,
+    options?: NodeTypesRedeployOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NodeTypesRedeployResponse>,
+      NodeTypesRedeployResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<NodeTypesRedeployResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        clusterName,
+        nodeTypeName,
+        parameters,
+        options,
+      },
+      spec: redeployOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      NodeTypesRedeployResponse,
+      OperationState<NodeTypesRedeployResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Redeploys one or more nodes on the node type. It will disable the fabric nodes, trigger a shut down
+   * on the VMs, move them to a new node, and power them back on.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters parameters for redeploy action.
+   * @param options The options parameters.
+   */
+  async beginRedeployAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: NodeTypeActionParameters,
+    options?: NodeTypesRedeployOptionalParams,
+  ): Promise<NodeTypesRedeployResponse> {
+    const poller = await this.beginRedeploy(
+      resourceGroupName,
+      clusterName,
+      nodeTypeName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on
+   * the VMs and activate the nodes back again.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters parameters for reimage action.
+   * @param options The options parameters.
+   */
+  async beginReimage(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: NodeTypeActionParameters,
+    options?: NodeTypesReimageOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NodeTypesReimageResponse>,
+      NodeTypesReimageResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<NodeTypesReimageResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        clusterName,
+        nodeTypeName,
+        parameters,
+        options,
+      },
+      spec: reimageOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      NodeTypesReimageResponse,
+      OperationState<NodeTypesReimageResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on
+   * the VMs and activate the nodes back again.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters parameters for reimage action.
+   * @param options The options parameters.
+   */
+  async beginReimageAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: NodeTypeActionParameters,
+    options?: NodeTypesReimageOptionalParams,
+  ): Promise<NodeTypesReimageResponse> {
+    const poller = await this.beginReimage(
+      resourceGroupName,
+      clusterName,
+      nodeTypeName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Restarts one or more nodes on the node type. It will disable the fabric nodes, trigger a restart on
+   * the VMs and activate the nodes back again.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters parameters for restart action.
+   * @param options The options parameters.
+   */
+  async beginRestart(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: NodeTypeActionParameters,
+    options?: NodeTypesRestartOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NodeTypesRestartResponse>,
+      NodeTypesRestartResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<NodeTypesRestartResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        clusterName,
+        nodeTypeName,
+        parameters,
+        options,
+      },
+      spec: restartOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      NodeTypesRestartResponse,
+      OperationState<NodeTypesRestartResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Restarts one or more nodes on the node type. It will disable the fabric nodes, trigger a restart on
+   * the VMs and activate the nodes back again.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters parameters for restart action.
+   * @param options The options parameters.
+   */
+  async beginRestartAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: NodeTypeActionParameters,
+    options?: NodeTypesRestartOptionalParams,
+  ): Promise<NodeTypesRestartResponse> {
+    const poller = await this.beginRestart(
+      resourceGroupName,
+      clusterName,
+      nodeTypeName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Starts one or more nodes on the node type. It will trigger an allocation of the fabric node if
+   * needed and activate them.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters parameters for start action.
+   * @param options The options parameters.
+   */
+  async beginStart(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: NodeTypeActionParameters,
+    options?: NodeTypesStartOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NodeTypesStartResponse>,
+      NodeTypesStartResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<NodeTypesStartResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        clusterName,
+        nodeTypeName,
+        parameters,
+        options,
+      },
+      spec: startOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      NodeTypesStartResponse,
+      OperationState<NodeTypesStartResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Starts one or more nodes on the node type. It will trigger an allocation of the fabric node if
+   * needed and activate them.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters parameters for start action.
+   * @param options The options parameters.
+   */
+  async beginStartAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: NodeTypeActionParameters,
+    options?: NodeTypesStartOptionalParams,
+  ): Promise<NodeTypesStartResponse> {
+    const poller = await this.beginStart(
+      resourceGroupName,
+      clusterName,
+      nodeTypeName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Starts a fault simulation on the node type.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters parameters describing the fault simulation.
+   * @param options The options parameters.
+   */
+  async beginStartFaultSimulation(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: FaultSimulationContentUnion,
+    options?: NodeTypesStartFaultSimulationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NodeTypesStartFaultSimulationResponse>,
+      NodeTypesStartFaultSimulationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<NodeTypesStartFaultSimulationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        clusterName,
+        nodeTypeName,
+        parameters,
+        options,
+      },
+      spec: startFaultSimulationOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      NodeTypesStartFaultSimulationResponse,
+      OperationState<NodeTypesStartFaultSimulationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Starts a fault simulation on the node type.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters parameters describing the fault simulation.
+   * @param options The options parameters.
+   */
+  async beginStartFaultSimulationAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: FaultSimulationContentUnion,
+    options?: NodeTypesStartFaultSimulationOptionalParams,
+  ): Promise<NodeTypesStartFaultSimulationResponse> {
+    const poller = await this.beginStartFaultSimulation(
+      resourceGroupName,
+      clusterName,
+      nodeTypeName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Stops a fault simulation on the node type.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters parameter with fault simulation id.
+   * @param options The options parameters.
+   */
+  async beginStopFaultSimulation(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: FaultSimulationIdContent,
+    options?: NodeTypesStopFaultSimulationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NodeTypesStopFaultSimulationResponse>,
+      NodeTypesStopFaultSimulationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<NodeTypesStopFaultSimulationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        clusterName,
+        nodeTypeName,
+        parameters,
+        options,
+      },
+      spec: stopFaultSimulationOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      NodeTypesStopFaultSimulationResponse,
+      OperationState<NodeTypesStopFaultSimulationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Stops a fault simulation on the node type.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters parameter with fault simulation id.
+   * @param options The options parameters.
+   */
+  async beginStopFaultSimulationAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: FaultSimulationIdContent,
+    options?: NodeTypesStopFaultSimulationOptionalParams,
+  ): Promise<NodeTypesStopFaultSimulationResponse> {
+    const poller = await this.beginStopFaultSimulation(
+      resourceGroupName,
+      clusterName,
+      nodeTypeName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListByManagedClustersNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param nextLink The nextLink from the previous successful call to the ListByManagedClusters method.
    * @param options The options parameters.
@@ -789,6 +1513,27 @@ export class NodeTypesImpl implements NodeTypes {
       listByManagedClustersNextOperationSpec,
     );
   }
+
+  /**
+   * ListFaultSimulationNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param nextLink The nextLink from the previous successful call to the ListFaultSimulation method.
+   * @param options The options parameters.
+   */
+  private _listFaultSimulationNext(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    nextLink: string,
+    options?: NodeTypesListFaultSimulationNextOptionalParams,
+  ): Promise<NodeTypesListFaultSimulationNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterName, nodeTypeName, nextLink, options },
+      listFaultSimulationNextOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -801,7 +1546,7 @@ const listByManagedClustersOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.NodeTypeListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -814,81 +1559,6 @@ const listByManagedClustersOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const restartOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/restart",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorModel,
-    },
-  },
-  requestBody: Parameters.parameters11,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.nodeTypeName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const reimageOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/reimage",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorModel,
-    },
-  },
-  requestBody: Parameters.parameters11,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.nodeTypeName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const deleteNodeOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/deleteNode",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorModel,
-    },
-  },
-  requestBody: Parameters.parameters11,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.nodeTypeName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}",
   httpMethod: "GET",
@@ -897,7 +1567,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.NodeType,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -928,10 +1598,10 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.NodeType,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters12,
+  requestBody: Parameters.parameters13,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -961,10 +1631,10 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.NodeType,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters13,
+  requestBody: Parameters.parameters14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -981,12 +1651,20 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.NodeTypesDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.NodeTypesDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.NodeTypesDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.NodeTypesDeleteHeaders,
+    },
     default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -1000,6 +1678,316 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
+const deallocateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/deallocate",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.NodeTypesDeallocateHeaders,
+    },
+    201: {
+      headersMapper: Mappers.NodeTypesDeallocateHeaders,
+    },
+    202: {
+      headersMapper: Mappers.NodeTypesDeallocateHeaders,
+    },
+    204: {
+      headersMapper: Mappers.NodeTypesDeallocateHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters15,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.nodeTypeName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deleteNodeOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/deleteNode",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.NodeTypesDeleteNodeHeaders,
+    },
+    201: {
+      headersMapper: Mappers.NodeTypesDeleteNodeHeaders,
+    },
+    202: {
+      headersMapper: Mappers.NodeTypesDeleteNodeHeaders,
+    },
+    204: {
+      headersMapper: Mappers.NodeTypesDeleteNodeHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters15,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.nodeTypeName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const getFaultSimulationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/getFaultSimulation",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FaultSimulation,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.nodeTypeName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const listFaultSimulationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/listFaultSimulation",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FaultSimulationListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.nodeTypeName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const redeployOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/redeploy",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.NodeTypesRedeployHeaders,
+    },
+    201: {
+      headersMapper: Mappers.NodeTypesRedeployHeaders,
+    },
+    202: {
+      headersMapper: Mappers.NodeTypesRedeployHeaders,
+    },
+    204: {
+      headersMapper: Mappers.NodeTypesRedeployHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters15,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.nodeTypeName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const reimageOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/reimage",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.NodeTypesReimageHeaders,
+    },
+    201: {
+      headersMapper: Mappers.NodeTypesReimageHeaders,
+    },
+    202: {
+      headersMapper: Mappers.NodeTypesReimageHeaders,
+    },
+    204: {
+      headersMapper: Mappers.NodeTypesReimageHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters15,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.nodeTypeName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const restartOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/restart",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.NodeTypesRestartHeaders,
+    },
+    201: {
+      headersMapper: Mappers.NodeTypesRestartHeaders,
+    },
+    202: {
+      headersMapper: Mappers.NodeTypesRestartHeaders,
+    },
+    204: {
+      headersMapper: Mappers.NodeTypesRestartHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters15,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.nodeTypeName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const startOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/start",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.NodeTypesStartHeaders,
+    },
+    201: {
+      headersMapper: Mappers.NodeTypesStartHeaders,
+    },
+    202: {
+      headersMapper: Mappers.NodeTypesStartHeaders,
+    },
+    204: {
+      headersMapper: Mappers.NodeTypesStartHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters15,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.nodeTypeName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const startFaultSimulationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/startFaultSimulation",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FaultSimulation,
+    },
+    201: {
+      bodyMapper: Mappers.FaultSimulation,
+    },
+    202: {
+      bodyMapper: Mappers.FaultSimulation,
+    },
+    204: {
+      bodyMapper: Mappers.FaultSimulation,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters3,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.nodeTypeName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const stopFaultSimulationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/stopFaultSimulation",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FaultSimulation,
+    },
+    201: {
+      bodyMapper: Mappers.FaultSimulation,
+    },
+    202: {
+      bodyMapper: Mappers.FaultSimulation,
+    },
+    204: {
+      bodyMapper: Mappers.FaultSimulation,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.nodeTypeName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const listByManagedClustersNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -1008,15 +1996,37 @@ const listByManagedClustersNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.NodeTypeListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listFaultSimulationNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FaultSimulationListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
     Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.nodeTypeName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
