@@ -32,6 +32,7 @@ import {
   ApplicationTypesUpdateOptionalParams,
   ApplicationTypesUpdateResponse,
   ApplicationTypesDeleteOptionalParams,
+  ApplicationTypesDeleteResponse,
   ApplicationTypesListNextResponse,
 } from "../models/index.js";
 
@@ -51,7 +52,7 @@ export class ApplicationTypesImpl implements ApplicationTypes {
   /**
    * Gets all application type name resources created or in the process of being created in the Service
    * Fabric managed cluster resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param options The options parameters.
    */
@@ -126,9 +127,27 @@ export class ApplicationTypesImpl implements ApplicationTypes {
   }
 
   /**
+   * Gets all application type name resources created or in the process of being created in the Service
+   * Fabric managed cluster resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ApplicationTypesListOptionalParams,
+  ): Promise<ApplicationTypesListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterName, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
    * Get a Service Fabric application type name resource created or in the process of being created in
    * the Service Fabric managed cluster resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationTypeName The name of the application type name resource.
    * @param options The options parameters.
@@ -147,7 +166,7 @@ export class ApplicationTypesImpl implements ApplicationTypes {
 
   /**
    * Create or update a Service Fabric managed application type name resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationTypeName The name of the application type name resource.
    * @param parameters The application type name resource.
@@ -174,7 +193,7 @@ export class ApplicationTypesImpl implements ApplicationTypes {
 
   /**
    * Updates the tags of an application type resource of a given managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationTypeName The name of the application type name resource.
    * @param parameters The application type resource updated tags.
@@ -201,7 +220,7 @@ export class ApplicationTypesImpl implements ApplicationTypes {
 
   /**
    * Delete a Service Fabric managed application type name resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationTypeName The name of the application type name resource.
    * @param options The options parameters.
@@ -211,11 +230,16 @@ export class ApplicationTypesImpl implements ApplicationTypes {
     clusterName: string,
     applicationTypeName: string,
     options?: ApplicationTypesDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ApplicationTypesDeleteResponse>,
+      ApplicationTypesDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<ApplicationTypesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -255,7 +279,10 @@ export class ApplicationTypesImpl implements ApplicationTypes {
       args: { resourceGroupName, clusterName, applicationTypeName, options },
       spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      ApplicationTypesDeleteResponse,
+      OperationState<ApplicationTypesDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location",
@@ -266,7 +293,7 @@ export class ApplicationTypesImpl implements ApplicationTypes {
 
   /**
    * Delete a Service Fabric managed application type name resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationTypeName The name of the application type name resource.
    * @param options The options parameters.
@@ -276,7 +303,7 @@ export class ApplicationTypesImpl implements ApplicationTypes {
     clusterName: string,
     applicationTypeName: string,
     options?: ApplicationTypesDeleteOptionalParams,
-  ): Promise<void> {
+  ): Promise<ApplicationTypesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
@@ -287,26 +314,8 @@ export class ApplicationTypesImpl implements ApplicationTypes {
   }
 
   /**
-   * Gets all application type name resources created or in the process of being created in the Service
-   * Fabric managed cluster resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param clusterName The name of the cluster resource.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    clusterName: string,
-    options?: ApplicationTypesListOptionalParams,
-  ): Promise<ApplicationTypesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, clusterName, options },
-      listOperationSpec,
-    );
-  }
-
-  /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -326,15 +335,36 @@ export class ApplicationTypesImpl implements ApplicationTypes {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applicationTypes",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplicationTypeResourceList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedclusters/{clusterName}/applicationTypes/{applicationTypeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applicationTypes/{applicationTypeName}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationTypeResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -349,17 +379,17 @@ const getOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedclusters/{clusterName}/applicationTypes/{applicationTypeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applicationTypes/{applicationTypeName}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationTypeResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -373,17 +403,17 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedclusters/{clusterName}/applicationTypes/{applicationTypeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applicationTypes/{applicationTypeName}",
   httpMethod: "PATCH",
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationTypeResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -397,15 +427,23 @@ const updateOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedclusters/{clusterName}/applicationTypes/{applicationTypeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applicationTypes/{applicationTypeName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.ApplicationTypesDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ApplicationTypesDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ApplicationTypesDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ApplicationTypesDeleteHeaders,
+    },
     default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -419,27 +457,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedclusters/{clusterName}/applicationTypes",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApplicationTypeResourceList,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorModel,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -448,15 +465,15 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ApplicationTypeResourceList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

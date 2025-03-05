@@ -156,7 +156,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ManagedVMSizesResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -176,7 +176,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ManagedVMSize,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -197,13 +197,13 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ManagedVMSizesResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.location,
   ],
   headerParameters: [Parameters.accept],

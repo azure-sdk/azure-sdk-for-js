@@ -18,8 +18,8 @@ export type ServicePlacementPolicyUnion =
   | ServicePlacementInvalidDomainPolicy
   | ServicePlacementNonPartiallyPlaceServicePolicy
   | ServicePlacementPreferPrimaryDomainPolicy
-  | ServicePlacementRequiredDomainPolicy
-  | ServicePlacementRequireDomainDistributionPolicy;
+  | ServicePlacementRequireDomainDistributionPolicy
+  | ServicePlacementRequiredDomainPolicy;
 export type ScalingMechanismUnion =
   | ScalingMechanism
   | AddRemoveIncrementalNamedPartitionScalingMechanism
@@ -28,58 +28,126 @@ export type ScalingTriggerUnion =
   | ScalingTrigger
   | AveragePartitionLoadScalingTrigger
   | AverageServiceLoadScalingTrigger;
+export type FaultSimulationContentUnion =
+  | FaultSimulationContent
+  | ZoneFaultSimulationContent;
 export type ServiceResourcePropertiesUnion =
   | ServiceResourceProperties
   | StatefulServiceProperties
   | StatelessServiceProperties;
 
-/** The resource model definition for proxy-only resource. */
-export interface ProxyResource {
+/** Describes the result of the request to list Service Fabric resource provider operations. */
+export interface OperationListResult {
+  /** The OperationResult items on this page */
+  value: OperationResult[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Available operation list result */
+export interface OperationResult {
+  /** The name of the operation. */
+  name?: string;
+  /** Indicates whether the operation is a data action */
+  isDataAction?: boolean;
+  /** The object that represents the operation. */
+  display?: AvailableOperationDisplay;
+  /** Origin result */
+  origin?: string;
+  /** The URL to use for getting the next set of results. */
+  nextLink?: string;
+}
+
+/** Operation supported by the Service Fabric resource provider */
+export interface AvailableOperationDisplay {
+  /** The name of the provider. */
+  provider?: string;
+  /** The resource on which the operation is performed */
+  resource?: string;
+  /** The operation that can be performed. */
+  operation?: string;
+  /** Operation description */
+  description?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
   /**
-   * Azure resource identifier.
+   * The error code.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly id?: string;
+  readonly code?: string;
   /**
-   * Azure resource name.
+   * The error message.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly name?: string;
+  readonly message?: string;
   /**
-   * Azure resource type.
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-  /** Resource location depends on the parent resource. */
-  location?: string;
-  /** Azure resource tags. */
-  tags?: { [propertyName: string]: string };
   /**
-   * Metadata pertaining to creation and last modification of the resource.
+   * The additional info.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly systemData?: SystemData;
+  readonly info?: Record<string, unknown>;
 }
 
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: string;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: string;
-  /** The timestamp of resource last modification (UTC). */
-  lastModifiedAt?: Date;
+/** The result of the Service Fabric runtime versions */
+export interface ManagedClusterCodeVersionResult {
+  /** The identification of the result */
+  id?: string;
+  /** The name of the result */
+  name?: string;
+  /** The result resource type */
+  type?: string;
+  /** The Service Fabric runtime version of the cluster. */
+  clusterCodeVersion?: string;
+  /** The date of expiry of support of the version. */
+  supportExpiryUtc?: Date;
+  /** Cluster operating system, the default will be Windows */
+  osType?: OsType;
 }
 
-/** The structure of the error. */
-export interface ErrorModel {
-  /** The error details. */
+/** Long running operation result. */
+export interface LongRunningOperationResult {
+  /** The name of the operation. */
+  name?: string;
+  /** The start time of the operation. */
+  startTime?: Date;
+  /** The end time of the operation. */
+  endTime?: Date;
+  /** The completion percentage of the operation. */
+  percentComplete?: number;
+  /** The status of the operation. */
+  status?: string;
+  /** The operation error. */
   error?: ErrorModelError;
 }
 
@@ -91,294 +159,52 @@ export interface ErrorModelError {
   message?: string;
 }
 
-/** Application type update request */
-export interface ApplicationTypeUpdateParameters {
-  /** Application type update parameters */
-  tags?: { [propertyName: string]: string };
+/** Describes the result of the request to list Managed VM Sizes for Service Fabric Managed Clusters. */
+export interface ManagedVMSizesResult {
+  /** The ManagedVMSize items on this page */
+  value: ManagedVMSize[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
-/** The list of application type names. */
-export interface ApplicationTypeResourceList {
-  value?: ApplicationTypeResource[];
+/** Describes a VM Sizes. */
+export interface ManagedVMSize {
   /**
-   * URL to get the next set of application type list results if there are any.
+   * VM Size properties.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly nextLink?: string;
-}
-
-/** Application type version update request */
-export interface ApplicationTypeVersionUpdateParameters {
-  /** Application type version update parameters */
-  tags?: { [propertyName: string]: string };
-}
-
-/** The list of application type version resources for the specified application type name resource. */
-export interface ApplicationTypeVersionResourceList {
-  value?: ApplicationTypeVersionResource[];
+  readonly properties?: VMSize;
   /**
-   * URL to get the next set of application type version list results if there are any.
+   * VM Size id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly nextLink?: string;
-}
-
-/** Parameters for Resume Upgrade action. The upgrade domain name must be specified. */
-export interface RuntimeResumeApplicationUpgradeParameters {
-  /** The upgrade domain name. Expected to be the next upgrade domain if the application is upgrading. */
-  upgradeDomainName?: string;
-}
-
-/** Describes the managed identities for an Azure resource. */
-export interface ManagedIdentity {
+  readonly id?: string;
   /**
-   * The principal id of the managed identity. This property will only be provided for a system assigned identity.
+   * VM Size name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly principalId?: string;
+  readonly name?: string;
   /**
-   * The tenant id of the managed identity. This property will only be provided for a system assigned identity.
+   * VM Size type.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly tenantId?: string;
-  /** The type of managed identity for the resource. */
-  type?: ManagedIdentityType;
-  /**
-   * The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form:
-   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-   *
-   */
-  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+  readonly type?: string;
 }
 
-export interface UserAssignedIdentity {
+/** VM Sizes properties. */
+export interface VMSize {
   /**
-   * The principal id of user assigned identity.
+   * VM Size name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly principalId?: string;
-  /**
-   * The client id of user assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clientId?: string;
+  readonly size?: string;
 }
 
-/** Describes the policy for a monitored application upgrade. */
-export interface ApplicationUpgradePolicy {
-  /**
-   * Defines a health policy used to evaluate the health of an application or one of its children entities.
-   *
-   */
-  applicationHealthPolicy?: ApplicationHealthPolicy;
-  /** If true, then processes are forcefully restarted during upgrade even when the code version has not changed (the upgrade only changes configuration or data). */
-  forceRestart?: boolean;
-  /** The policy used for monitoring the application upgrade */
-  rollingUpgradeMonitoringPolicy?: RollingUpgradeMonitoringPolicy;
-  /** Duration in seconds, to wait before a stateless instance is closed, to allow the active requests to drain gracefully. This would be effective when the instance is closing during the application/cluster upgrade, only for those instances which have a non-zero delay duration configured in the service description. */
-  instanceCloseDelayDuration?: number;
-  /** The mode used to monitor health during a rolling upgrade. The values are Monitored, and UnmonitoredAuto. */
-  upgradeMode?: RollingUpgradeMode;
-  /** The maximum amount of time to block processing of an upgrade domain and prevent loss of availability when there are unexpected issues. When this timeout expires, processing of the upgrade domain will proceed regardless of availability loss issues. The timeout is reset at the start of each upgrade domain. Valid values are between 0 and 42949672925 inclusive. (unsigned 32-bit integer). */
-  upgradeReplicaSetCheckTimeout?: number;
-  /** Determines whether the application should be recreated on update. If value=true, the rest of the upgrade policy parameters are not allowed. */
-  recreateApplication?: boolean;
-}
-
-/**
- * Defines a health policy used to evaluate the health of an application or one of its children entities.
- *
- */
-export interface ApplicationHealthPolicy {
-  /** Indicates whether warnings are treated with the same severity as errors. */
-  considerWarningAsError: boolean;
-  /**
-   * The maximum allowed percentage of unhealthy deployed applications. Allowed values are Byte values from zero to 100.
-   * The percentage represents the maximum tolerated percentage of deployed applications that can be unhealthy before the application is considered in error.
-   * This is calculated by dividing the number of unhealthy deployed applications over the number of nodes where the application is currently deployed on in the cluster.
-   * The computation rounds up to tolerate one failure on small numbers of nodes. Default percentage is zero.
-   *
-   */
-  maxPercentUnhealthyDeployedApplications: number;
-  /** The health policy used by default to evaluate the health of a service type. */
-  defaultServiceTypeHealthPolicy?: ServiceTypeHealthPolicy;
-  /** The map with service type health policy per service type name. The map is empty by default. */
-  serviceTypeHealthPolicyMap?: {
-    [propertyName: string]: ServiceTypeHealthPolicy;
-  };
-}
-
-/**
- * Represents the health policy used to evaluate the health of services belonging to a service type.
- *
- */
-export interface ServiceTypeHealthPolicy {
-  /**
-   * The maximum allowed percentage of unhealthy services.
-   *
-   * The percentage represents the maximum tolerated percentage of services that can be unhealthy before the application is considered in error.
-   * If the percentage is respected but there is at least one unhealthy service, the health is evaluated as Warning.
-   * This is calculated by dividing the number of unhealthy services of the specific service type over the total number of services of the specific service type.
-   * The computation rounds up to tolerate one failure on small numbers of services.
-   *
-   */
-  maxPercentUnhealthyServices: number;
-  /**
-   * The maximum allowed percentage of unhealthy partitions per service.
-   *
-   * The percentage represents the maximum tolerated percentage of partitions that can be unhealthy before the service is considered in error.
-   * If the percentage is respected but there is at least one unhealthy partition, the health is evaluated as Warning.
-   * The percentage is calculated by dividing the number of unhealthy partitions over the total number of partitions in the service.
-   * The computation rounds up to tolerate one failure on small numbers of partitions.
-   *
-   */
-  maxPercentUnhealthyPartitionsPerService: number;
-  /**
-   * The maximum allowed percentage of unhealthy replicas per partition.
-   *
-   * The percentage represents the maximum tolerated percentage of replicas that can be unhealthy before the partition is considered in error.
-   * If the percentage is respected but there is at least one unhealthy replica, the health is evaluated as Warning.
-   * The percentage is calculated by dividing the number of unhealthy replicas over the total number of replicas in the partition.
-   * The computation rounds up to tolerate one failure on small numbers of replicas.
-   *
-   */
-  maxPercentUnhealthyReplicasPerPartition: number;
-}
-
-/** The policy used for monitoring the application upgrade */
-export interface RollingUpgradeMonitoringPolicy {
-  /** The compensating action to perform when a Monitored upgrade encounters monitoring policy or health policy violations. Invalid indicates the failure action is invalid. Rollback specifies that the upgrade will start rolling back automatically. Manual indicates that the upgrade will switch to UnmonitoredManual upgrade mode. */
-  failureAction: FailureAction;
-  /** The amount of time to wait after completing an upgrade domain before applying health policies. It is interpreted as a string representing an ISO 8601 duration with following format "hh:mm:ss.fff". */
-  healthCheckWaitDuration: string;
-  /** The amount of time that the application or cluster must remain healthy before the upgrade proceeds to the next upgrade domain. It is interpreted as a string representing an ISO 8601 duration with following format "hh:mm:ss.fff". */
-  healthCheckStableDuration: string;
-  /** The amount of time to retry health evaluation when the application or cluster is unhealthy before FailureAction is executed. It is interpreted as a string representing an ISO 8601 duration with following format "hh:mm:ss.fff". */
-  healthCheckRetryTimeout: string;
-  /** The amount of time the overall upgrade has to complete before FailureAction is executed. Cannot be larger than 12 hours. It is interpreted as a string representing an ISO 8601 duration with following format "hh:mm:ss.fff". */
-  upgradeTimeout: string;
-  /** The amount of time each upgrade domain has to complete before FailureAction is executed. Cannot be larger than 12 hours. It is interpreted as a string representing an ISO 8601 duration with following format "hh:mm:ss.fff". */
-  upgradeDomainTimeout: string;
-}
-
-export interface ApplicationUserAssignedIdentity {
-  /** The friendly name of user assigned identity. */
-  name: string;
-  /** The principal id of user assigned identity. */
-  principalId: string;
-}
-
-/** Application update request */
-export interface ApplicationUpdateParameters {
-  /** Application update parameters */
-  tags?: { [propertyName: string]: string };
-}
-
-/** The list of application resources. */
-export interface ApplicationResourceList {
-  value?: ApplicationResource[];
-  /**
-   * URL to get the next set of application list results if there are any.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Describes how the service is partitioned. */
-export interface Partition {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  partitionScheme: "Named" | "Singleton" | "UniformInt64Range";
-}
-
-/** The common service resource properties. */
-export interface ServiceResourcePropertiesBase {
-  /** The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)". */
-  placementConstraints?: string;
-  /** A list that describes the correlation of the service with other services. */
-  correlationScheme?: ServiceCorrelation[];
-  /** The service load metrics is given as an array of ServiceLoadMetric objects. */
-  serviceLoadMetrics?: ServiceLoadMetric[];
-  /** A list that describes the correlation of the service with other services. */
-  servicePlacementPolicies?: ServicePlacementPolicyUnion[];
-  /** Specifies the move cost for the service. */
-  defaultMoveCost?: MoveCost;
-  /** Scaling policies for this service. */
-  scalingPolicies?: ScalingPolicy[];
-}
-
-/** Creates a particular correlation between services. */
-export interface ServiceCorrelation {
-  /** The ServiceCorrelationScheme which describes the relationship between this service and the service specified via ServiceName. */
-  scheme: ServiceCorrelationScheme;
-  /** The Arm Resource ID of the service that the correlation relationship is established with. */
-  serviceName: string;
-}
-
-/** Specifies a metric to load balance a service during runtime. */
-export interface ServiceLoadMetric {
-  /** The name of the metric. If the service chooses to report load during runtime, the load metric name should match the name that is specified in Name exactly. Note that metric names are case sensitive. */
-  name: string;
-  /** The service load metric relative weight, compared to other metrics configured for this service, as a number. */
-  weight?: ServiceLoadMetricWeight;
-  /** Used only for Stateful services. The default amount of load, as a number, that this service creates for this metric when it is a Primary replica. */
-  primaryDefaultLoad?: number;
-  /** Used only for Stateful services. The default amount of load, as a number, that this service creates for this metric when it is a Secondary replica. */
-  secondaryDefaultLoad?: number;
-  /** Used only for Stateless services. The default amount of load, as a number, that this service creates for this metric. */
-  defaultLoad?: number;
-}
-
-/** Describes the policy to be used for placement of a Service Fabric service. */
-export interface ServicePlacementPolicy {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type:
-    | "InvalidDomain"
-    | "NonPartiallyPlaceService"
-    | "PreferredPrimaryDomain"
-    | "RequiredDomain"
-    | "RequiredDomainDistribution";
-}
-
-/** Specifies a metric to load balance a service during runtime. */
-export interface ScalingPolicy {
-  /** Specifies the mechanism associated with this scaling policy */
-  scalingMechanism: ScalingMechanismUnion;
-  /** Specifies the trigger associated with this scaling policy. */
-  scalingTrigger: ScalingTriggerUnion;
-}
-
-/** Describes the mechanism for performing a scaling operation. */
-export interface ScalingMechanism {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "AddRemoveIncrementalNamedPartition" | "ScalePartitionInstanceCount";
-}
-
-/** Describes the trigger for performing a scaling operation. */
-export interface ScalingTrigger {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "AveragePartitionLoadTrigger" | "AverageServiceLoadTrigger";
-}
-
-/** Service update request */
-export interface ServiceUpdateParameters {
-  /** Service update parameters */
-  tags?: { [propertyName: string]: string };
-}
-
-/** The list of service resources. */
-export interface ServiceResourceList {
-  value?: ServiceResource[];
-  /**
-   * URL to get the next set of service list results if there are any.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Managed Cluster list results */
+/** The response of a ManagedCluster list operation. */
 export interface ManagedClusterListResult {
-  value?: ManagedCluster[];
-  /** The URL to use for getting the next set of results. */
+  /** The ManagedCluster items on this page */
+  value: ManagedCluster[];
+  /** The link to the next page of items */
   nextLink?: string;
 }
 
@@ -521,15 +347,11 @@ export interface ClusterUpgradePolicy {
    * When this timeout expires, processing of the upgrade domain will proceed regardless of availability loss issues.
    * The timeout is reset at the start of each upgrade domain. The timeout can be in either hh:mm:ss or in d.hh:mm:ss.ms format.
    * This value must be between 00:00:00 and 49710.06:28:15 (unsigned 32 bit integer for seconds)
-   *
    */
   upgradeReplicaSetCheckTimeout?: string;
 }
 
-/**
- * Defines a health policy used to evaluate the health of the cluster or of a cluster node.
- *
- */
+/** Defines a health policy used to evaluate the health of the cluster or of a cluster node. */
 export interface ClusterHealthPolicy {
   /**
    * The maximum allowed percentage of unhealthy nodes before reporting an error. For example, to allow 10% of nodes to be unhealthy, this value would be 10.
@@ -540,7 +362,6 @@ export interface ClusterHealthPolicy {
    * The computation rounds up to tolerate one failure on small numbers of nodes. Default percentage is zero.
    *
    * In large clusters, some nodes will always be down or out for repairs, so this percentage should be configured to tolerate that.
-   *
    */
   maxPercentUnhealthyNodes: number;
   /**
@@ -550,7 +371,6 @@ export interface ClusterHealthPolicy {
    * If the percentage is respected but there is at least one unhealthy application, the health is evaluated as Warning.
    * This is calculated by dividing the number of unhealthy applications over the total number of application instances in the cluster, excluding applications of application types that are included in the ApplicationTypeHealthPolicyMap.
    * The computation rounds up to tolerate one failure on small numbers of applications. Default percentage is zero.
-   *
    */
   maxPercentUnhealthyApplications: number;
 }
@@ -561,14 +381,12 @@ export interface ClusterUpgradeDeltaHealthPolicy {
    * The maximum allowed percentage of nodes health degradation allowed during cluster upgrades.
    * The delta is measured between the state of the nodes at the beginning of upgrade and the state of the nodes at the time of the health evaluation.
    * The check is performed after every upgrade domain upgrade completion to make sure the global state of the cluster is within tolerated limits.
-   *
    */
   maxPercentDeltaUnhealthyNodes: number;
   /**
    * The maximum allowed percentage of upgrade domain nodes health degradation allowed during cluster upgrades.
    * The delta is measured between the state of the upgrade domain nodes at the beginning of upgrade and the state of the upgrade domain nodes at the time of the health evaluation.
    * The check is performed after every upgrade domain upgrade completion for all completed upgrade domains to make sure the state of the upgrade domains is within tolerated limits.
-   *
    */
   maxPercentUpgradeDomainDeltaUnhealthyNodes?: number;
   /**
@@ -576,7 +394,6 @@ export interface ClusterUpgradeDeltaHealthPolicy {
    * The delta is measured between the state of the applications at the beginning of upgrade and the state of the applications at the time of the health evaluation.
    * The check is performed after every upgrade domain upgrade completion to make sure the global state of the cluster is within tolerated limits. System services are not included in this.
    * NOTE: This value will overwrite the value specified in properties.UpgradeDescription.HealthPolicy.MaxPercentUnhealthyApplications
-   *
    */
   maxPercentDeltaUnhealthyApplications?: number;
 }
@@ -601,37 +418,44 @@ export interface Sku {
   name: SkuName;
 }
 
-/** The resource model definition. */
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Azure resource identifier.
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
-   * Azure resource name.
+   * The name of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * Azure resource type.
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-  /** Azure resource location. */
-  location: string;
-  /** Azure resource tags. */
-  tags?: { [propertyName: string]: string };
   /**
-   * Azure resource etag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** Managed cluster update request */
@@ -640,39 +464,331 @@ export interface ManagedClusterUpdateParameters {
   tags?: { [propertyName: string]: string };
 }
 
-/** Describes the result of the request to list Managed VM Sizes for Service Fabric Managed Clusters. */
-export interface ManagedAzResiliencyStatus {
-  /** List of Managed VM Sizes for Service Fabric Managed Clusters. */
-  baseResourceStatus?: ResourceAzStatus[];
-  /**
-   * URL to get the next set of Managed VM Sizes if there are any.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isClusterZoneResilient?: boolean;
+/** The list of application type names. */
+export interface ApplicationTypeResourceList {
+  /** The ApplicationTypeResource items on this page */
+  value: ApplicationTypeResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
-/** Describes Az Resiliency status of Base resources */
-export interface ResourceAzStatus {
+/** Application type update request */
+export interface ApplicationTypeUpdateParameters {
+  /** Application type update parameters */
+  tags?: { [propertyName: string]: string };
+}
+
+/** The list of application type version resources for the specified application type name resource. */
+export interface ApplicationTypeVersionResourceList {
+  /** The ApplicationTypeVersionResource items on this page */
+  value: ApplicationTypeVersionResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Application type version update request */
+export interface ApplicationTypeVersionUpdateParameters {
+  /** Application type version update parameters */
+  tags?: { [propertyName: string]: string };
+}
+
+/** The list of application resources. */
+export interface ApplicationResourceList {
+  /** The ApplicationResource items on this page */
+  value: ApplicationResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Describes the policy for a monitored application upgrade. */
+export interface ApplicationUpgradePolicy {
+  /** Defines a health policy used to evaluate the health of an application or one of its children entities. */
+  applicationHealthPolicy?: ApplicationHealthPolicy;
+  /** If true, then processes are forcefully restarted during upgrade even when the code version has not changed (the upgrade only changes configuration or data). */
+  forceRestart?: boolean;
+  /** The policy used for monitoring the application upgrade */
+  rollingUpgradeMonitoringPolicy?: RollingUpgradeMonitoringPolicy;
+  /** Duration in seconds, to wait before a stateless instance is closed, to allow the active requests to drain gracefully. This would be effective when the instance is closing during the application/cluster upgrade, only for those instances which have a non-zero delay duration configured in the service description. */
+  instanceCloseDelayDuration?: number;
+  /** The mode used to monitor health during a rolling upgrade. The values are Monitored, and UnmonitoredAuto. */
+  upgradeMode?: RollingUpgradeMode;
+  /** The maximum amount of time to block processing of an upgrade domain and prevent loss of availability when there are unexpected issues. When this timeout expires, processing of the upgrade domain will proceed regardless of availability loss issues. The timeout is reset at the start of each upgrade domain. Valid values are between 0 and 42949672925 inclusive. (unsigned 32-bit integer). */
+  upgradeReplicaSetCheckTimeout?: number;
+  /** Determines whether the application should be recreated on update. If value=true, the rest of the upgrade policy parameters are not allowed. */
+  recreateApplication?: boolean;
+}
+
+/** Defines a health policy used to evaluate the health of an application or one of its children entities. */
+export interface ApplicationHealthPolicy {
+  /** Indicates whether warnings are treated with the same severity as errors. */
+  considerWarningAsError: boolean;
   /**
-   * VM Size properties.
+   * The maximum allowed percentage of unhealthy deployed applications. Allowed values are Byte values from zero to 100.
+   * The percentage represents the maximum tolerated percentage of deployed applications that can be unhealthy before the application is considered in error.
+   * This is calculated by dividing the number of unhealthy deployed applications over the number of nodes where the application is currently deployed on in the cluster.
+   * The computation rounds up to tolerate one failure on small numbers of nodes. Default percentage is zero.
+   */
+  maxPercentUnhealthyDeployedApplications: number;
+  /** The health policy used by default to evaluate the health of a service type. */
+  defaultServiceTypeHealthPolicy?: ServiceTypeHealthPolicy;
+  /** The map with service type health policy per service type name. The map is empty by default. */
+  serviceTypeHealthPolicyMap?: {
+    [propertyName: string]: ServiceTypeHealthPolicy;
+  };
+}
+
+/** Represents the health policy used to evaluate the health of services belonging to a service type. */
+export interface ServiceTypeHealthPolicy {
+  /**
+   * The maximum allowed percentage of unhealthy services.
+   *
+   * The percentage represents the maximum tolerated percentage of services that can be unhealthy before the application is considered in error.
+   * If the percentage is respected but there is at least one unhealthy service, the health is evaluated as Warning.
+   * This is calculated by dividing the number of unhealthy services of the specific service type over the total number of services of the specific service type.
+   * The computation rounds up to tolerate one failure on small numbers of services.
+   */
+  maxPercentUnhealthyServices: number;
+  /**
+   * The maximum allowed percentage of unhealthy partitions per service.
+   *
+   * The percentage represents the maximum tolerated percentage of partitions that can be unhealthy before the service is considered in error.
+   * If the percentage is respected but there is at least one unhealthy partition, the health is evaluated as Warning.
+   * The percentage is calculated by dividing the number of unhealthy partitions over the total number of partitions in the service.
+   * The computation rounds up to tolerate one failure on small numbers of partitions.
+   */
+  maxPercentUnhealthyPartitionsPerService: number;
+  /**
+   * The maximum allowed percentage of unhealthy replicas per partition.
+   *
+   * The percentage represents the maximum tolerated percentage of replicas that can be unhealthy before the partition is considered in error.
+   * If the percentage is respected but there is at least one unhealthy replica, the health is evaluated as Warning.
+   * The percentage is calculated by dividing the number of unhealthy replicas over the total number of replicas in the partition.
+   * The computation rounds up to tolerate one failure on small numbers of replicas.
+   */
+  maxPercentUnhealthyReplicasPerPartition: number;
+}
+
+/** The policy used for monitoring the application upgrade */
+export interface RollingUpgradeMonitoringPolicy {
+  /** The compensating action to perform when a Monitored upgrade encounters monitoring policy or health policy violations. Invalid indicates the failure action is invalid. Rollback specifies that the upgrade will start rolling back automatically. Manual indicates that the upgrade will switch to UnmonitoredManual upgrade mode. */
+  failureAction: FailureAction;
+  /** The amount of time to wait after completing an upgrade domain before applying health policies. It is interpreted as a string representing an ISO 8601 duration with following format "hh:mm:ss.fff". */
+  healthCheckWaitDuration: string;
+  /** The amount of time that the application or cluster must remain healthy before the upgrade proceeds to the next upgrade domain. It is interpreted as a string representing an ISO 8601 duration with following format "hh:mm:ss.fff". */
+  healthCheckStableDuration: string;
+  /** The amount of time to retry health evaluation when the application or cluster is unhealthy before FailureAction is executed. It is interpreted as a string representing an ISO 8601 duration with following format "hh:mm:ss.fff". */
+  healthCheckRetryTimeout: string;
+  /** The amount of time the overall upgrade has to complete before FailureAction is executed. Cannot be larger than 12 hours. It is interpreted as a string representing an ISO 8601 duration with following format "hh:mm:ss.fff". */
+  upgradeTimeout: string;
+  /** The amount of time each upgrade domain has to complete before FailureAction is executed. Cannot be larger than 12 hours. It is interpreted as a string representing an ISO 8601 duration with following format "hh:mm:ss.fff". */
+  upgradeDomainTimeout: string;
+}
+
+/** User assigned identity for the application. */
+export interface ApplicationUserAssignedIdentity {
+  /** The friendly name of user assigned identity. */
+  name: string;
+  /** The principal id of user assigned identity. */
+  principalId: string;
+}
+
+/** Describes the managed identities for an Azure resource. */
+export interface ManagedIdentity {
+  /**
+   * The principal id of the managed identity. This property will only be provided for a system assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly resourceName?: string;
+  readonly principalId?: string;
   /**
-   * VM Size id.
+   * The tenant id of the managed identity. This property will only be provided for a system assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly resourceType?: string;
+  readonly tenantId?: string;
+  /** The type of managed identity for the resource. */
+  type?: ManagedIdentityType;
   /**
-   * VM Size name.
+   * The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+   */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/** User assigned identity. */
+export interface UserAssignedIdentity {
+  /**
+   * The principal id of user assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly isZoneResilient?: boolean;
+  readonly principalId?: string;
   /**
-   * Zone resiliency status details for the resource.
+   * The client id of user assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly details?: string;
+  readonly clientId?: string;
+}
+
+/** Application update request. */
+export interface ApplicationUpdateParameters {
+  /** Application update parameters */
+  tags?: { [propertyName: string]: string };
+}
+
+/** Parameters for Resume Upgrade action. The upgrade domain name must be specified. */
+export interface RuntimeResumeApplicationUpgradeParameters {
+  /** The upgrade domain name. Expected to be the next upgrade domain if the application is upgrading. */
+  upgradeDomainName?: string;
+}
+
+/** The list of service resources. */
+export interface ServiceResourceList {
+  /** The ServiceResource items on this page */
+  value: ServiceResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Describes how the service is partitioned. */
+export interface Partition {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  partitionScheme: "Named" | "Singleton" | "UniformInt64Range";
+}
+
+/** The common service resource properties. */
+export interface ServiceResourcePropertiesBase {
+  /** The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)". */
+  placementConstraints?: string;
+  /** A list that describes the correlation of the service with other services. */
+  correlationScheme?: ServiceCorrelation[];
+  /** The service load metrics is given as an array of ServiceLoadMetric objects. */
+  serviceLoadMetrics?: ServiceLoadMetric[];
+  /** A list that describes the correlation of the service with other services. */
+  servicePlacementPolicies?: ServicePlacementPolicyUnion[];
+  /** Specifies the move cost for the service. */
+  defaultMoveCost?: MoveCost;
+  /** Scaling policies for this service. */
+  scalingPolicies?: ScalingPolicy[];
+}
+
+/** Creates a particular correlation between services. */
+export interface ServiceCorrelation {
+  /** The ServiceCorrelationScheme which describes the relationship between this service and the service specified via ServiceName. */
+  scheme: ServiceCorrelationScheme;
+  /** The Arm Resource ID of the service that the correlation relationship is established with. */
+  serviceName: string;
+}
+
+/** Specifies a metric to load balance a service during runtime. */
+export interface ServiceLoadMetric {
+  /** The name of the metric. If the service chooses to report load during runtime, the load metric name should match the name that is specified in Name exactly. Note that metric names are case sensitive. */
+  name: string;
+  /** The service load metric relative weight, compared to other metrics configured for this service, as a number. */
+  weight?: ServiceLoadMetricWeight;
+  /** Used only for Stateful services. The default amount of load, as a number, that this service creates for this metric when it is a Primary replica. */
+  primaryDefaultLoad?: number;
+  /** Used only for Stateful services. The default amount of load, as a number, that this service creates for this metric when it is a Secondary replica. */
+  secondaryDefaultLoad?: number;
+  /** Used only for Stateless services. The default amount of load, as a number, that this service creates for this metric. */
+  defaultLoad?: number;
+}
+
+/** Describes the policy to be used for placement of a Service Fabric service. */
+export interface ServicePlacementPolicy {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type:
+    | "InvalidDomain"
+    | "NonPartiallyPlaceService"
+    | "PreferredPrimaryDomain"
+    | "RequiredDomainDistribution"
+    | "RequiredDomain";
+}
+
+/** Specifies a metric to load balance a service during runtime. */
+export interface ScalingPolicy {
+  /** Specifies the mechanism associated with this scaling policy */
+  scalingMechanism: ScalingMechanismUnion;
+  /** Specifies the trigger associated with this scaling policy. */
+  scalingTrigger: ScalingTriggerUnion;
+}
+
+/** Describes the mechanism for performing a scaling operation. */
+export interface ScalingMechanism {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "AddRemoveIncrementalNamedPartition" | "ScalePartitionInstanceCount";
+}
+
+/** Describes the trigger for performing a scaling operation. */
+export interface ScalingTrigger {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "AveragePartitionLoadTrigger" | "AverageServiceLoadTrigger";
+}
+
+/** Service update request */
+export interface ServiceUpdateParameters {
+  /** Service update parameters */
+  tags?: { [propertyName: string]: string };
+}
+
+/** Parameters for Fault Simulation id. */
+export interface FaultSimulationIdContent {
+  /** unique identifier for the fault simulation. */
+  simulationId: string;
+}
+
+/** Fault simulation object with status. */
+export interface FaultSimulation {
+  /** unique identifier for the fault simulation. */
+  simulationId?: string;
+  /** Fault simulation status */
+  status?: FaultSimulationStatus;
+  /** The start time of the fault simulation. */
+  startTime?: Date;
+  /** The end time of the fault simulation. */
+  endTime?: Date;
+  /** Fault simulation details */
+  details?: FaultSimulationDetails;
+}
+
+/** Details for Fault Simulation. */
+export interface FaultSimulationDetails {
+  /** unique identifier for the cluster resource. */
+  clusterId?: string;
+  /** unique identifier for the operation associated with the fault simulation. */
+  operationId?: string;
+  /** List of node type simulations associated with the cluster fault simulation. */
+  nodeTypeFaultSimulation?: NodeTypeFaultSimulation[];
+  /** Fault simulation parameters. */
+  parameters?: FaultSimulationContentUnion;
+}
+
+/** Node type fault simulation object with status. */
+export interface NodeTypeFaultSimulation {
+  /** Node type name. */
+  nodeTypeName?: string;
+  /** Fault simulation status */
+  status?: FaultSimulationStatus;
+  /** Current or latest asynchronous operation identifier on the node type. */
+  operationId?: string;
+  /**
+   * Current or latest asynchronous operation status on the node type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationStatus?: SfmcOperationStatus;
+}
+
+/** Parameters for Fault Simulation action. */
+export interface FaultSimulationContent {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  faultKind: "Zone";
+  /** Force the action to go through without any check on the cluster. */
+  force?: boolean;
+  /** Constraints for Fault Simulation action. */
+  constraints?: FaultSimulationConstraints;
+}
+
+/** Constraints for Fault Simulation action. */
+export interface FaultSimulationConstraints {
+  /** The absolute expiration timestamp (UTC) after which this fault simulation should be stopped if it's still active. */
+  expirationTime?: Date;
 }
 
 /** Describes the maintenance window status of the Service Fabric Managed Cluster. */
@@ -714,124 +830,54 @@ export interface ManagedMaintenanceWindowStatus {
   readonly lastWindowEndTimeUTC?: Date;
 }
 
-/** The result of the Service Fabric runtime versions */
-export interface ManagedClusterCodeVersionResult {
-  /** The identification of the result */
-  id?: string;
-  /** The name of the result */
-  name?: string;
-  /** The result resource type */
-  type?: string;
-  /** The Service Fabric runtime version of the cluster. */
-  clusterCodeVersion?: string;
-  /** The date of expiry of support of the version. */
-  supportExpiryUtc?: string;
-  /** Cluster operating system, the default will be Windows */
-  osType?: OsType;
-}
-
 /** Describes the result of the request to list Managed VM Sizes for Service Fabric Managed Clusters. */
-export interface ManagedVMSizesResult {
+export interface ManagedAzResiliencyStatus {
   /** List of Managed VM Sizes for Service Fabric Managed Clusters. */
-  value?: ManagedVMSize[];
+  baseResourceStatus?: ResourceAzStatus[];
   /**
    * URL to get the next set of Managed VM Sizes if there are any.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly nextLink?: string;
+  readonly isClusterZoneResilient?: boolean;
 }
 
-/** Describes a VM Sizes. */
-export interface ManagedVMSize {
+/** Describes Az Resiliency status of Base resources */
+export interface ResourceAzStatus {
   /**
    * VM Size properties.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly properties?: VMSize;
+  readonly resourceName?: string;
   /**
    * VM Size id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly id?: string;
+  readonly resourceType?: string;
   /**
    * VM Size name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly name?: string;
+  readonly isZoneResilient?: boolean;
   /**
-   * VM Size type.
+   * Zone resiliency status details for the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly type?: string;
+  readonly details?: string;
 }
 
-/** VM Sizes properties. */
-export interface VMSize {
-  /**
-   * VM Size name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly size?: string;
-}
-
-/** Long running operation result. */
-export interface LongRunningOperationResult {
-  /** The name of the operation. */
-  name?: string;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The completion percentage of the operation. */
-  percentComplete?: number;
-  /** The status of the operation. */
-  status?: string;
-  /** The operation error. */
-  error?: ErrorModelError;
-}
-
-/** Describes the result of the request to list Service Fabric resource provider operations. */
-export interface OperationListResult {
-  /** List of operations supported by the Service Fabric resource provider. */
-  value?: OperationResult[];
-  /**
-   * URL to get the next set of operation list results if there are any.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Available operation list result */
-export interface OperationResult {
-  /** The name of the operation. */
-  name?: string;
-  /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
-  /** The object that represents the operation. */
-  display?: AvailableOperationDisplay;
-  /** Origin result */
-  origin?: string;
-  /** The URL to use for getting the next set of results. */
+/** Fault simulation list results */
+export interface FaultSimulationListResult {
+  /** The FaultSimulation items on this page */
+  value: FaultSimulation[];
+  /** The link to the next page of items */
   nextLink?: string;
 }
 
-/** Operation supported by the Service Fabric resource provider */
-export interface AvailableOperationDisplay {
-  /** The name of the provider. */
-  provider?: string;
-  /** The resource on which the operation is performed */
-  resource?: string;
-  /** The operation that can be performed. */
-  operation?: string;
-  /** Operation description */
-  description?: string;
-}
-
-/** Node type list results */
+/** The response of a NodeType list operation. */
 export interface NodeTypeListResult {
-  /** The list of node types. */
-  value?: NodeType[];
-  /** The URL to use for getting the next set of results. */
+  /** The NodeType items on this page */
+  value: NodeType[];
+  /** The link to the next page of items */
   nextLink?: string;
 }
 
@@ -861,7 +907,7 @@ export interface SubResource {
 export interface VaultCertificate {
   /** This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to the Key Vault, see [Add a key or secret to the key vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). */
   certificateUrl: string;
-  /** For Windows VMs, specifies the certificate store on the Virtual Machine to which the certificate should be added. The specified certificate store is implicitly in the LocalMachine account. <br><br>For Linux VMs, the certificate file is placed under the /var/lib/waagent directory, with the file name <UppercaseThumbprint>.crt for the X509 certificate file and <UppercaseThumbprint>.prv for private key. Both of these files are .pem formatted. */
+  /** For Windows VMs, specifies the certificate store on the Virtual Machine to which the certificate should be added. The specified certificate store is implicitly in the LocalMachine account. For Linux VMs, the certificate file is placed under the /var/lib/waagent directory, with the file name {UppercaseThumbprint}.crt for the X509 certificate file and {UppercaseThumbprint}.prv for private key. Both of these files are .pem formatted. */
   certificateStore: string;
 }
 
@@ -906,11 +952,11 @@ export interface VmManagedIdentity {
 export interface FrontendConfiguration {
   /** The IP address type of this frontend configuration. If omitted the default value is IPv4. */
   ipAddressType?: IPAddressType;
-  /** The resource Id of the Load Balancer backend address pool that the VM instances of the node type are associated with. The format of the resource Id is '/subscriptions/<subscriptionId>/resourceGroups/<resourceGroupName>/providers/Microsoft.Network/loadBalancers/<loadBalancerName>/backendAddressPools/<backendAddressPoolName>'. */
+  /** The resource Id of the Load Balancer backend address pool that the VM instances of the node type are associated with. The format of the resource Id is '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendAddressPoolName}'. */
   loadBalancerBackendAddressPoolId?: string;
-  /** The resource Id of the Load Balancer inbound NAT pool that the VM instances of the node type are associated with. The format of the resource Id is '/subscriptions/<subscriptionId>/resourceGroups/<resourceGroupName>/providers/Microsoft.Network/loadBalancers/<loadBalancerName>/inboundNatPools/<inboundNatPoolName>'. */
+  /** The resource Id of the Load Balancer inbound NAT pool that the VM instances of the node type are associated with. The format of the resource Id is '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatPools/{inboundNatPoolName}'. */
   loadBalancerInboundNatPoolId?: string;
-  /** The resource Id of application gateway backend address pool. The format of the resource Id is '/subscriptions/<subscriptionId>/resourceGroups/<resourceGroupName>/providers/Microsoft.Network/applicationGateways/<applicationGatewayName>/backendAddressPools/<backendAddressPoolName>'. */
+  /** The resource Id of application gateway backend address pool. The format of the resource Id is '/subscriptions/<subscriptionId>/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/backendAddressPools/{backendAddressPoolName}'. */
   applicationGatewayBackendAddressPoolId?: string;
 }
 
@@ -936,7 +982,7 @@ export interface NodeTypeNatConfig {
   frontendPortRangeEnd?: number;
 }
 
-/** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use. In the Azure portal, find the marketplace image that you want to use and then click Want to deploy programmatically, Get Started ->. Enter any required information and then click Save. */
+/** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use. In the Azure portal, find the marketplace image that you want to use and then click Want to deploy programmatically, Get Started. Enter any required information and then click Save. */
 export interface VmImagePlan {
   /** The plan ID. */
   name?: string;
@@ -966,7 +1012,7 @@ export interface IpConfiguration {
   name: string;
   /** Specifies an array of references to backend address pools of application gateways. A node type can reference backend address pools of multiple application gateways. Multiple node types cannot use the same application gateway. */
   applicationGatewayBackendAddressPools?: SubResource[];
-  /** Specifies an array of references to backend address pools of load balancers. A node type can reference backend address pools of one public and one internal load balancer. Multiple node types cannot use the same basic sku load balancer.	 */
+  /** Specifies an array of references to backend address pools of load balancers. A node type can reference backend address pools of one public and one internal load balancer. Multiple node types cannot use the same basic sku load balancer. */
   loadBalancerBackendAddressPools?: SubResource[];
   /** Specifies an array of references to inbound Nat pools of the load balancers. A node type can reference inbound nat pools of one public and one internal load balancer. Multiple node types cannot use the same basic sku load balancer. */
   loadBalancerInboundNatPools?: SubResource[];
@@ -1006,38 +1052,20 @@ export interface VmApplication {
 
 /** Describes a node type sku. */
 export interface NodeTypeSku {
-  /** The sku name. <br /><br />Name is internally generated and is used in auto-scale scenarios.<br /> Property does not allow to be changed to other values than generated.<br /> To avoid deployment errors please omit the property. */
+  /** The sku name. Name is internally generated and is used in auto-scale scenarios. Property does not allow to be changed to other values than generated. To avoid deployment errors please omit the property. */
   name?: string;
-  /** Specifies the tier of the node type. <br /><br /> Possible Values:<br /> **Standard** */
+  /** Specifies the tier of the node type. Possible Values: **Standard** */
   tier?: string;
-  /** The number of nodes in the node type.<br /><br />If present in request it will override properties.vmInstanceCount. */
+  /** The number of nodes in the node type. If present in request it will override properties.vmInstanceCount. */
   capacity: number;
 }
 
-/** The resource model definition for proxy-only resource. */
-export interface ManagedProxyResource {
-  /**
-   * Azure resource identifier.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Azure resource name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Azure resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Azure resource tags. */
+/** Node type update request */
+export interface NodeTypeUpdateParameters {
+  /** Node type update parameters */
   tags?: { [propertyName: string]: string };
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
+  /** The node type sku. */
+  sku?: NodeTypeSku;
 }
 
 /** Parameters for Node type action. If nodes are not specified on the parameters, the operation will be performed in all nodes of the node type one upgrade domain at a time. */
@@ -1052,16 +1080,16 @@ export interface NodeTypeActionParameters {
 
 /** Node type available sku list results */
 export interface NodeTypeListSkuResult {
-  /** The list of available node type SKUs. */
-  value?: NodeTypeAvailableSku[];
-  /** The URL to use for getting the next set of results. */
+  /** The NodeTypeAvailableSku items on this page */
+  value: NodeTypeAvailableSku[];
+  /** The link to the next page of items */
   nextLink?: string;
 }
 
 /** Defines the type of sku available for a node type */
 export interface NodeTypeAvailableSku {
   /**
-   * The type of resource the sku applies to.  <br /><br />Value: Microsoft.ServiceFabric/managedClusters/nodeTypes.
+   * The type of resource the sku applies to. Value: Microsoft.ServiceFabric/managedClusters/nodeTypes.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceType?: string;
@@ -1085,7 +1113,7 @@ export interface NodeTypeSupportedSku {
    */
   readonly name?: string;
   /**
-   * Specifies the tier of the node type. <br /><br /> Possible Values:<br /> **Standard**
+   * Specifies the tier of the node type. Possible Values: **Standard**
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tier?: string;
@@ -1115,62 +1143,16 @@ export interface NodeTypeSkuCapacity {
   readonly scaleType?: NodeTypeSkuScaleType;
 }
 
-/** Node type update request */
-export interface NodeTypeUpdateParameters {
-  /** Node type update parameters */
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** The node type sku. */
-  sku?: NodeTypeSku;
+  /** The geo-location where the resource lives */
+  location: string;
 }
 
-/** The application type name resource */
-export interface ApplicationTypeResource extends ProxyResource {
-  /**
-   * The current deployment or provisioning state, which only appears in the response.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-}
-
-/** An application type version resource for the specified application type name resource. */
-export interface ApplicationTypeVersionResource extends ProxyResource {
-  /**
-   * The current deployment or provisioning state, which only appears in the response
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /** The URL to the application package */
-  appPackageUrl?: string;
-}
-
-/** The application resource. */
-export interface ApplicationResource extends ProxyResource {
-  /** Describes the managed identities for an Azure resource. */
-  identity?: ManagedIdentity;
-  /**
-   * The current deployment or provisioning state, which only appears in the response
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /**
-   * The version of the application type as defined in the application manifest.
-   * This name must be the full Arm Resource ID for the referenced application type version.
-   *
-   */
-  version?: string;
-  /** List of application parameters with overridden values from their default values specified in the application manifest. */
-  parameters?: { [propertyName: string]: string };
-  /** Describes the policy for a monitored application upgrade. */
-  upgradePolicy?: ApplicationUpgradePolicy;
-  /** List of user assigned identities for the application, each mapped to a friendly name. */
-  managedIdentities?: ApplicationUserAssignedIdentity[];
-}
-
-/** The service resource. */
-export interface ServiceResource extends ProxyResource {
-  /** The service resource properties. */
-  properties?: ServiceResourcePropertiesUnion;
-}
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
 
 /** Describes the named partition scheme of the service. */
 export interface NamedPartitionScheme extends Partition {
@@ -1180,7 +1162,7 @@ export interface NamedPartitionScheme extends Partition {
   names: string[];
 }
 
-/** SingletonPartitionScheme */
+/** Describes the partition scheme of a singleton-partitioned, or non-partitioned service. */
 export interface SingletonPartitionScheme extends Partition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   partitionScheme: "Singleton";
@@ -1195,13 +1177,11 @@ export interface UniformInt64RangePartitionScheme extends Partition {
   /**
    * The lower bound of the partition key range that
    * should be split between the partition ‘Count’
-   *
    */
   lowKey: number;
   /**
    * The upper bound of the partition key range that
    * should be split between the partition ‘Count’
-   *
    */
   highKey: number;
 }
@@ -1226,7 +1206,6 @@ export interface ServiceResourceProperties
    * Dns name used for the service. If this is specified, then the DNS name can be used to return the IP addresses of service endpoints for application layer protocols (e.g., HTTP).
    * When updating serviceDnsName, old name may be temporarily resolvable. However, rely on new name.
    * When removing serviceDnsName, removed name may temporarily be resolvable. Do not rely on the name being unresolvable.
-   *
    */
   serviceDnsName?: string;
 }
@@ -1240,7 +1219,7 @@ export interface ServicePlacementInvalidDomainPolicy
   domainName: string;
 }
 
-/** ServicePlacementNonPartiallyPlaceServicePolicy */
+/** The type of placement policy for a service fabric service. Following are the possible values. */
 export interface ServicePlacementNonPartiallyPlaceServicePolicy
   extends ServicePlacementPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -1256,21 +1235,11 @@ export interface ServicePlacementNonPartiallyPlaceServicePolicy
  * be located in a particular fault domain, which in geo-distributed scenarios usually aligns with regional
  * or datacenter boundaries. Note that since this is an optimization it is possible that the Primary replica
  * may not end up located in this domain due to failures, capacity limits, or other constraints.
- *
  */
 export interface ServicePlacementPreferPrimaryDomainPolicy
   extends ServicePlacementPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "PreferredPrimaryDomain";
-  /** The name of the domain that should used for placement as per this policy. */
-  domainName: string;
-}
-
-/** Describes the policy to be used for placement of a Service Fabric service where the instances or replicas of that service must be placed in a particular domain. */
-export interface ServicePlacementRequiredDomainPolicy
-  extends ServicePlacementPolicy {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "RequiredDomain";
   /** The name of the domain that should used for placement as per this policy. */
   domainName: string;
 }
@@ -1285,12 +1254,20 @@ export interface ServicePlacementRequiredDomainPolicy
  * In the event that one of the datacenters goes offline, normally the replica that was placed in that
  * datacenter will be packed into one of the remaining datacenters. If this is not desirable then this
  * policy should be set.
- *
  */
 export interface ServicePlacementRequireDomainDistributionPolicy
   extends ServicePlacementPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "RequiredDomainDistribution";
+  /** The name of the domain that should used for placement as per this policy. */
+  domainName: string;
+}
+
+/** Describes the policy to be used for placement of a Service Fabric service where the instances or replicas of that service must be placed in a particular domain. */
+export interface ServicePlacementRequiredDomainPolicy
+  extends ServicePlacementPolicy {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "RequiredDomain";
   /** The name of the domain that should used for placement as per this policy. */
   domainName: string;
 }
@@ -1350,11 +1327,21 @@ export interface AverageServiceLoadScalingTrigger extends ScalingTrigger {
   useOnlyPrimaryLoad: boolean;
 }
 
-/**
- * The managed cluster resource
- *
- */
-export interface ManagedCluster extends Resource {
+/** Parameters for Zone Fault Simulation action. */
+export interface ZoneFaultSimulationContent extends FaultSimulationContent {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  faultKind: "Zone";
+  /** Indicates the zones of the fault simulation. */
+  zones?: string[];
+}
+
+/** The managed cluster resource */
+export interface ManagedCluster extends TrackedResource {
+  /**
+   * If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.",
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
   /** The sku of the managed cluster */
   sku: Sku;
   /** The cluster dns name. */
@@ -1414,10 +1401,7 @@ export interface ManagedCluster extends Resource {
   readonly provisioningState?: ManagedResourceProvisioningState;
   /** The Service Fabric runtime version of the cluster. This property is required when **clusterUpgradeMode** is set to 'Manual'. To get list of available Service Fabric versions for new clusters use [ClusterVersion API](./ClusterVersion.md). To get the list of available version for existing clusters use **availableClusterVersions**. */
   clusterCodeVersion?: string;
-  /**
-   * The upgrade mode of the cluster when new Service Fabric runtime version is available.
-   *
-   */
+  /** The upgrade mode of the cluster when new Service Fabric runtime version is available. */
   clusterUpgradeMode?: ClusterUpgradeMode;
   /** Indicates when new cluster runtime version upgrades will be applied after they are released. By default is Wave0. Only applies when **clusterUpgradeMode** is set to 'Automatic'. */
   clusterUpgradeCadence?: ClusterUpgradeCadence;
@@ -1468,13 +1452,79 @@ export interface ManagedCluster extends Resource {
   allocatedOutboundPorts?: number;
 }
 
+/** The application type name resource */
+export interface ApplicationTypeResource extends ProxyResource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location?: string;
+  /**
+   * The current deployment or provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+}
+
+/** An application type version resource for the specified application type name resource. */
+export interface ApplicationTypeVersionResource extends ProxyResource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location?: string;
+  /**
+   * The current deployment or provisioning state, which only appears in the response
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /** The URL to the application package */
+  appPackageUrl?: string;
+}
+
+/** The application resource. */
+export interface ApplicationResource extends ProxyResource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Describes the managed identities for an Azure resource. */
+  identity?: ManagedIdentity;
+  /** The geo-location where the resource lives */
+  location?: string;
+  /**
+   * The current deployment or provisioning state, which only appears in the response
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * The version of the application type as defined in the application manifest.
+   * This name must be the full Arm Resource ID for the referenced application type version.
+   */
+  version?: string;
+  /** List of application parameters with overridden values from their default values specified in the application manifest. */
+  parameters?: { [propertyName: string]: string };
+  /** Describes the policy for a monitored application upgrade. */
+  upgradePolicy?: ApplicationUpgradePolicy;
+  /** List of user assigned identities for the application, each mapped to a friendly name. */
+  managedIdentities?: ApplicationUserAssignedIdentity[];
+}
+
+/** The service resource. */
+export interface ServiceResource extends ProxyResource {
+  /** The service resource properties. */
+  properties?: ServiceResourcePropertiesUnion;
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location?: string;
+}
+
 /** Describes a node type in the cluster, each node type represents sub set of nodes in the cluster. */
-export interface NodeType extends ManagedProxyResource {
+export interface NodeType extends ProxyResource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
   /** The node type sku. */
   sku?: NodeTypeSku;
   /** Indicates the Service Fabric system services for the cluster will run on this node type. This setting cannot be changed once the node type is created. */
   isPrimary?: boolean;
-  /** The number of nodes in the node type. <br /><br />**Values:** <br />-1 - Use when auto scale rules are configured or sku.capacity is defined <br /> 0 - Not supported <br /> >0 - Use for manual scale. */
+  /** The number of nodes in the node type. **Values:** -1 - Use when auto scale rules are configured or sku.capacity is defined 0 - Not supported >0 - Use for manual scale. */
   vmInstanceCount?: number;
   /** Disk size for the managed disk attached to the vms on the node type in GBs. */
   dataDiskSizeGB?: number;
@@ -1609,153 +1659,607 @@ export interface StatelessServiceProperties extends ServiceResourceProperties {
   minInstancePercentage?: number;
 }
 
-/** Defines headers for ApplicationTypeVersions_createOrUpdate operation. */
-export interface ApplicationTypeVersionsCreateOrUpdateHeaders {
-  /** The URL to get the status of an ongoing long-running operation. */
-  azureAsyncOperation?: string;
-  /** The URL to get the status of a completed long-running operation. */
-  location?: string;
-}
-
-/** Defines headers for ApplicationTypeVersions_delete operation. */
-export interface ApplicationTypeVersionsDeleteHeaders {
-  /** The URL to get the status of an ongoing long-running operation. */
-  azureAsyncOperation?: string;
-  /** The URL to get the status of a completed long-running operation. */
-  location?: string;
-}
-
-/** Defines headers for Applications_readUpgrade operation. */
-export interface ApplicationsReadUpgradeHeaders {
-  /** The URL to get the status of an ongoing long-running operation. */
-  azureAsyncOperation?: string;
-  /** The URL to get the status of a completed long-running operation. */
-  location?: string;
-}
-
-/** Defines headers for Applications_startRollback operation. */
-export interface ApplicationsStartRollbackHeaders {
-  /** The URL to get the status of an ongoing long-running operation. */
-  azureAsyncOperation?: string;
-  /** The URL to get the status of a completed long-running operation. */
-  location?: string;
-}
-
-/** Defines headers for Applications_resumeUpgrade operation. */
-export interface ApplicationsResumeUpgradeHeaders {
-  /** The URL to get the status of an ongoing long-running operation. */
-  azureAsyncOperation?: string;
-  /** The URL to get the status of a completed long-running operation. */
-  location?: string;
-}
-
-/** Defines headers for Applications_createOrUpdate operation. */
-export interface ApplicationsCreateOrUpdateHeaders {
-  /** The URL to get the status of an ongoing long-running operation. */
-  azureAsyncOperation?: string;
-  /** The URL to get the status of a completed long-running operation. */
-  location?: string;
-}
-
-/** Defines headers for Applications_delete operation. */
-export interface ApplicationsDeleteHeaders {
-  /** The URL to get the status of an ongoing long-running operation. */
-  azureAsyncOperation?: string;
-  /** The URL to get the status of a completed long-running operation. */
-  location?: string;
-}
-
-/** Defines headers for Services_createOrUpdate operation. */
-export interface ServicesCreateOrUpdateHeaders {
-  /** The URL to get the status of an ongoing long-running operation. */
-  azureAsyncOperation?: string;
-  /** The URL to get the status of a completed long-running operation. */
-  location?: string;
-}
-
-/** Defines headers for Services_delete operation. */
-export interface ServicesDeleteHeaders {
-  /** The URL to get the status of an ongoing long-running operation. */
-  azureAsyncOperation?: string;
-  /** The URL to get the status of a completed long-running operation. */
+/** Defines headers for OperationResults_get operation. */
+export interface OperationResultsGetHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
 }
 
 /** Defines headers for ManagedClusters_createOrUpdate operation. */
 export interface ManagedClustersCreateOrUpdateHeaders {
-  /** The URL to get the status of an ongoing long-running operation. */
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
-  /** The URL to get the status of a completed long-running operation. */
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
 }
 
 /** Defines headers for ManagedClusters_delete operation. */
 export interface ManagedClustersDeleteHeaders {
-  /** The URL to get the status of an ongoing long-running operation. */
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
-  /** The URL to get the status of a completed long-running operation. */
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
 }
 
-/** Defines headers for OperationResults_get operation. */
-export interface OperationResultsGetHeaders {
-  /** The URL to get the status of a completed long-running operation. */
+/** Defines headers for ManagedClusters_startFaultSimulation operation. */
+export interface ManagedClustersStartFaultSimulationHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
 }
 
-/** Defines headers for NodeTypes_restart operation. */
-export interface NodeTypesRestartHeaders {
-  /** The URL to get the status of an ongoing long-running operation. */
+/** Defines headers for ManagedClusters_stopFaultSimulation operation. */
+export interface ManagedClustersStopFaultSimulationHeaders {
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
-  /** The URL to get the status of a completed long-running operation. */
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
 }
 
-/** Defines headers for NodeTypes_reimage operation. */
-export interface NodeTypesReimageHeaders {
-  /** The URL to get the status of an ongoing long-running operation. */
+/** Defines headers for ApplicationTypes_delete operation. */
+export interface ApplicationTypesDeleteHeaders {
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
-  /** The URL to get the status of a completed long-running operation. */
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
 }
 
-/** Defines headers for NodeTypes_deleteNode operation. */
-export interface NodeTypesDeleteNodeHeaders {
-  /** The URL to get the status of an ongoing long-running operation. */
+/** Defines headers for ApplicationTypeVersions_createOrUpdate operation. */
+export interface ApplicationTypeVersionsCreateOrUpdateHeaders {
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
-  /** The URL to get the status of a completed long-running operation. */
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for ApplicationTypeVersions_delete operation. */
+export interface ApplicationTypeVersionsDeleteHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for Applications_createOrUpdate operation. */
+export interface ApplicationsCreateOrUpdateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for Applications_delete operation. */
+export interface ApplicationsDeleteHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for Applications_readUpgrade operation. */
+export interface ApplicationsReadUpgradeHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for Applications_resumeUpgrade operation. */
+export interface ApplicationsResumeUpgradeHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for Applications_startRollback operation. */
+export interface ApplicationsStartRollbackHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for Services_createOrUpdate operation. */
+export interface ServicesCreateOrUpdateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for Services_delete operation. */
+export interface ServicesDeleteHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
 }
 
 /** Defines headers for NodeTypes_createOrUpdate operation. */
 export interface NodeTypesCreateOrUpdateHeaders {
-  /** The URL to get the status of an ongoing long-running operation. */
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
-  /** The URL to get the status of a completed long-running operation. */
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
 }
 
 /** Defines headers for NodeTypes_update operation. */
 export interface NodeTypesUpdateHeaders {
-  /** The URL to get the status of an ongoing long-running operation. */
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
-  /** The URL to get the status of a completed long-running operation. */
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
 }
 
 /** Defines headers for NodeTypes_delete operation. */
 export interface NodeTypesDeleteHeaders {
-  /** The URL to get the status of an ongoing long-running operation. */
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
-  /** The URL to get the status of a completed long-running operation. */
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
 }
 
+/** Defines headers for NodeTypes_deallocate operation. */
+export interface NodeTypesDeallocateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for NodeTypes_deleteNode operation. */
+export interface NodeTypesDeleteNodeHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for NodeTypes_redeploy operation. */
+export interface NodeTypesRedeployHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for NodeTypes_reimage operation. */
+export interface NodeTypesReimageHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for NodeTypes_restart operation. */
+export interface NodeTypesRestartHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for NodeTypes_start operation. */
+export interface NodeTypesStartHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for NodeTypes_startFaultSimulation operation. */
+export interface NodeTypesStartFaultSimulationHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for NodeTypes_stopFaultSimulation operation. */
+export interface NodeTypesStopFaultSimulationHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Known values of {@link ManagedClusterVersionEnvironment} that the service accepts. */
+export enum KnownManagedClusterVersionEnvironment {
+  /** Indicates os is Windows. */
+  Windows = "Windows",
+}
+
+/**
+ * Defines values for ManagedClusterVersionEnvironment. \
+ * {@link KnownManagedClusterVersionEnvironment} can be used interchangeably with ManagedClusterVersionEnvironment,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Windows**: Indicates os is Windows.
+ */
+export type ManagedClusterVersionEnvironment = string;
+
+/** Known values of {@link OsType} that the service accepts. */
+export enum KnownOsType {
+  /** Indicates os is Windows. */
+  Windows = "Windows",
+}
+
+/**
+ * Defines values for OsType. \
+ * {@link KnownOsType} can be used interchangeably with OsType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Windows**: Indicates os is Windows.
+ */
+export type OsType = string;
+
+/** Known values of {@link ClusterState} that the service accepts. */
+export enum KnownClusterState {
+  /** Indicates that the cluster resource is created and the resource provider is waiting for Service Fabric VM extension to boot up and report to it. */
+  WaitingForNodes = "WaitingForNodes",
+  /** Indicates that the Service Fabric runtime is being installed on the VMs. Cluster resource will be in this state until the cluster boots up and system services are up. */
+  Deploying = "Deploying",
+  /** Indicates that the cluster is upgrading to establishes the cluster version. This upgrade is automatically initiated when the cluster boots up for the first time. */
+  BaselineUpgrade = "BaselineUpgrade",
+  /** Indicates that the cluster is being upgraded with the user provided configuration. */
+  Upgrading = "Upgrading",
+  /** Indicates that the last upgrade for the cluster has failed. */
+  UpgradeFailed = "UpgradeFailed",
+  /** Indicates that the cluster is in a stable state. */
+  Ready = "Ready",
+}
+
+/**
+ * Defines values for ClusterState. \
+ * {@link KnownClusterState} can be used interchangeably with ClusterState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **WaitingForNodes**: Indicates that the cluster resource is created and the resource provider is waiting for Service Fabric VM extension to boot up and report to it. \
+ * **Deploying**: Indicates that the Service Fabric runtime is being installed on the VMs. Cluster resource will be in this state until the cluster boots up and system services are up. \
+ * **BaselineUpgrade**: Indicates that the cluster is upgrading to establishes the cluster version. This upgrade is automatically initiated when the cluster boots up for the first time. \
+ * **Upgrading**: Indicates that the cluster is being upgraded with the user provided configuration. \
+ * **UpgradeFailed**: Indicates that the last upgrade for the cluster has failed. \
+ * **Ready**: Indicates that the cluster is in a stable state.
+ */
+export type ClusterState = string;
+
+/** Known values of {@link Protocol} that the service accepts. */
+export enum KnownProtocol {
+  /** Transport protocol is TCP. */
+  Tcp = "tcp",
+  /** Transport protocol is UDP. */
+  Udp = "udp",
+}
+
+/**
+ * Defines values for Protocol. \
+ * {@link KnownProtocol} can be used interchangeably with Protocol,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **tcp**: Transport protocol is TCP. \
+ * **udp**: Transport protocol is UDP.
+ */
+export type Protocol = string;
+
+/** Known values of {@link ProbeProtocol} that the service accepts. */
+export enum KnownProbeProtocol {
+  /** Probe protocol is TCP. */
+  Tcp = "tcp",
+  /** Probe protocol is HTTP. */
+  Http = "http",
+  /** Probe protocol is HTTPS. */
+  Https = "https",
+}
+
+/**
+ * Defines values for ProbeProtocol. \
+ * {@link KnownProbeProtocol} can be used interchangeably with ProbeProtocol,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **tcp**: Probe protocol is TCP. \
+ * **http**: Probe protocol is HTTP. \
+ * **https**: Probe protocol is HTTPS.
+ */
+export type ProbeProtocol = string;
+
+/** Known values of {@link NsgProtocol} that the service accepts. */
+export enum KnownNsgProtocol {
+  /** Protocol applies to HTTP. */
+  Http = "http",
+  /** Protocol applies to HTTPS. */
+  Https = "https",
+  /** Protocol applies to TCP. */
+  Tcp = "tcp",
+  /** Protocol applies to UDP. */
+  Udp = "udp",
+  /** Protocol applies to ICMP. */
+  Icmp = "icmp",
+  /** Protocol applies to AH. */
+  Ah = "ah",
+  /** Protocol applies to ESP. */
+  Esp = "esp",
+}
+
+/**
+ * Defines values for NsgProtocol. \
+ * {@link KnownNsgProtocol} can be used interchangeably with NsgProtocol,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **http**: Protocol applies to HTTP. \
+ * **https**: Protocol applies to HTTPS. \
+ * **tcp**: Protocol applies to TCP. \
+ * **udp**: Protocol applies to UDP. \
+ * **icmp**: Protocol applies to ICMP. \
+ * **ah**: Protocol applies to AH. \
+ * **esp**: Protocol applies to ESP.
+ */
+export type NsgProtocol = string;
+
+/** Known values of {@link Access} that the service accepts. */
+export enum KnownAccess {
+  /** The network traffic is allowed. */
+  Allow = "allow",
+  /** The network traffic is denied. */
+  Deny = "deny",
+}
+
+/**
+ * Defines values for Access. \
+ * {@link KnownAccess} can be used interchangeably with Access,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **allow**: The network traffic is allowed. \
+ * **deny**: The network traffic is denied.
+ */
+export type Access = string;
+
+/** Known values of {@link Direction} that the service accepts. */
+export enum KnownDirection {
+  /** Inbound direction. */
+  Inbound = "inbound",
+  /** Outbound direction. */
+  Outbound = "outbound",
+}
+
+/**
+ * Defines values for Direction. \
+ * {@link KnownDirection} can be used interchangeably with Direction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **inbound**: Inbound direction. \
+ * **outbound**: Outbound direction.
+ */
+export type Direction = string;
+
+/** Known values of {@link ManagedResourceProvisioningState} that the service accepts. */
+export enum KnownManagedResourceProvisioningState {
+  /** The resource does not have a provisioning state. */
+  None = "None",
+  /** The resource is being created. */
+  Creating = "Creating",
+  /** The resource is created. */
+  Created = "Created",
+  /** The resource is being updated. */
+  Updating = "Updating",
+  /** The resource provisioning has succeeded. */
+  Succeeded = "Succeeded",
+  /** The resource provisioning has failed. */
+  Failed = "Failed",
+  /** The resource provisioning has been canceled. */
+  Canceled = "Canceled",
+  /** The resource is being deleted. */
+  Deleting = "Deleting",
+  /** The resource has been deleted. */
+  Deleted = "Deleted",
+  /** The resource provisioning state is a state other than the previously specified states. */
+  Other = "Other",
+}
+
+/**
+ * Defines values for ManagedResourceProvisioningState. \
+ * {@link KnownManagedResourceProvisioningState} can be used interchangeably with ManagedResourceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: The resource does not have a provisioning state. \
+ * **Creating**: The resource is being created. \
+ * **Created**: The resource is created. \
+ * **Updating**: The resource is being updated. \
+ * **Succeeded**: The resource provisioning has succeeded. \
+ * **Failed**: The resource provisioning has failed. \
+ * **Canceled**: The resource provisioning has been canceled. \
+ * **Deleting**: The resource is being deleted. \
+ * **Deleted**: The resource has been deleted. \
+ * **Other**: The resource provisioning state is a state other than the previously specified states.
+ */
+export type ManagedResourceProvisioningState = string;
+
+/** Known values of {@link ClusterUpgradeMode} that the service accepts. */
+export enum KnownClusterUpgradeMode {
+  /** The cluster will be automatically upgraded to the latest Service Fabric runtime version, **clusterUpgradeCadence** will determine when the upgrade starts after the new version becomes available. */
+  Automatic = "Automatic",
+  /** The cluster will not be automatically upgraded to the latest Service Fabric runtime version. The cluster is upgraded by setting the **clusterCodeVersion** property in the cluster resource. */
+  Manual = "Manual",
+}
+
+/**
+ * Defines values for ClusterUpgradeMode. \
+ * {@link KnownClusterUpgradeMode} can be used interchangeably with ClusterUpgradeMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Automatic**: The cluster will be automatically upgraded to the latest Service Fabric runtime version, **clusterUpgradeCadence** will determine when the upgrade starts after the new version becomes available. \
+ * **Manual**: The cluster will not be automatically upgraded to the latest Service Fabric runtime version. The cluster is upgraded by setting the **clusterCodeVersion** property in the cluster resource.
+ */
+export type ClusterUpgradeMode = string;
+
+/** Known values of {@link ClusterUpgradeCadence} that the service accepts. */
+export enum KnownClusterUpgradeCadence {
+  /** Cluster upgrade starts immediately after a new version is rolled out. Recommended for Test\/Dev clusters. */
+  Wave0 = "Wave0",
+  /** Cluster upgrade starts 7 days after a new version is rolled out. Recommended for Pre-prod clusters. */
+  Wave1 = "Wave1",
+  /** Cluster upgrade starts 14 days after a new version is rolled out. Recommended for Production clusters. */
+  Wave2 = "Wave2",
+}
+
+/**
+ * Defines values for ClusterUpgradeCadence. \
+ * {@link KnownClusterUpgradeCadence} can be used interchangeably with ClusterUpgradeCadence,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Wave0**: Cluster upgrade starts immediately after a new version is rolled out. Recommended for Test\/Dev clusters. \
+ * **Wave1**: Cluster upgrade starts 7 days after a new version is rolled out. Recommended for Pre-prod clusters. \
+ * **Wave2**: Cluster upgrade starts 14 days after a new version is rolled out. Recommended for Production clusters.
+ */
+export type ClusterUpgradeCadence = string;
+
+/** Known values of {@link ManagedClusterAddOnFeature} that the service accepts. */
+export enum KnownManagedClusterAddOnFeature {
+  /** Dns service */
+  DnsService = "DnsService",
+  /** Backup and restore service */
+  BackupRestoreService = "BackupRestoreService",
+  /** Resource monitor service */
+  ResourceMonitorService = "ResourceMonitorService",
+}
+
+/**
+ * Defines values for ManagedClusterAddOnFeature. \
+ * {@link KnownManagedClusterAddOnFeature} can be used interchangeably with ManagedClusterAddOnFeature,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DnsService**: Dns service \
+ * **BackupRestoreService**: Backup and restore service \
+ * **ResourceMonitorService**: Resource monitor service
+ */
+export type ManagedClusterAddOnFeature = string;
+
+/** Known values of {@link PrivateEndpointNetworkPolicies} that the service accepts. */
+export enum KnownPrivateEndpointNetworkPolicies {
+  /** Enable apply network policies on private end point in the subnet. */
+  Enabled = "enabled",
+  /** Disable apply network policies on private end point in the subnet. */
+  Disabled = "disabled",
+}
+
+/**
+ * Defines values for PrivateEndpointNetworkPolicies. \
+ * {@link KnownPrivateEndpointNetworkPolicies} can be used interchangeably with PrivateEndpointNetworkPolicies,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **enabled**: Enable apply network policies on private end point in the subnet. \
+ * **disabled**: Disable apply network policies on private end point in the subnet.
+ */
+export type PrivateEndpointNetworkPolicies = string;
+
+/** Known values of {@link PrivateLinkServiceNetworkPolicies} that the service accepts. */
+export enum KnownPrivateLinkServiceNetworkPolicies {
+  /** Enable apply network policies on private link service in the subnet. */
+  Enabled = "enabled",
+  /** Disable apply network policies on private link service in the subnet. */
+  Disabled = "disabled",
+}
+
+/**
+ * Defines values for PrivateLinkServiceNetworkPolicies. \
+ * {@link KnownPrivateLinkServiceNetworkPolicies} can be used interchangeably with PrivateLinkServiceNetworkPolicies,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **enabled**: Enable apply network policies on private link service in the subnet. \
+ * **disabled**: Disable apply network policies on private link service in the subnet.
+ */
+export type PrivateLinkServiceNetworkPolicies = string;
+
+/** Known values of {@link ZonalUpdateMode} that the service accepts. */
+export enum KnownZonalUpdateMode {
+  /** The cluster will use 5 upgrade domains for Cross Az Node types. */
+  Standard = "Standard",
+  /** The cluster will use a maximum of 3 upgrade domains per zone instead of 5 for Cross Az Node types for faster deployments. */
+  Fast = "Fast",
+}
+
+/**
+ * Defines values for ZonalUpdateMode. \
+ * {@link KnownZonalUpdateMode} can be used interchangeably with ZonalUpdateMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard**: The cluster will use 5 upgrade domains for Cross Az Node types. \
+ * **Fast**: The cluster will use a maximum of 3 upgrade domains per zone instead of 5 for Cross Az Node types for faster deployments.
+ */
+export type ZonalUpdateMode = string;
+
+/** Known values of {@link AutoGeneratedDomainNameLabelScope} that the service accepts. */
+export enum KnownAutoGeneratedDomainNameLabelScope {
+  /** TenantReuse allows for the same hash to be created if the resource is created in the same Tenant with the same resource name. */
+  TenantReuse = "TenantReuse",
+  /** SubscriptionReuse allows for the same hash to be created if the resource is created in the same Subscription with the same resource name. */
+  SubscriptionReuse = "SubscriptionReuse",
+  /** ResourceGroupReuse allows for the same hash to be created if the resource is created in the same Resource Group with the same resource name. */
+  ResourceGroupReuse = "ResourceGroupReuse",
+  /** NoReuse will create a new hash regardless of the Subscription, Resource Group, Tenant and Resource name. */
+  NoReuse = "NoReuse",
+}
+
+/**
+ * Defines values for AutoGeneratedDomainNameLabelScope. \
+ * {@link KnownAutoGeneratedDomainNameLabelScope} can be used interchangeably with AutoGeneratedDomainNameLabelScope,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **TenantReuse**: TenantReuse allows for the same hash to be created if the resource is created in the same Tenant with the same resource name. \
+ * **SubscriptionReuse**: SubscriptionReuse allows for the same hash to be created if the resource is created in the same Subscription with the same resource name. \
+ * **ResourceGroupReuse**: ResourceGroupReuse allows for the same hash to be created if the resource is created in the same Resource Group with the same resource name. \
+ * **NoReuse**: NoReuse will create a new hash regardless of the Subscription, Resource Group, Tenant and Resource name.
+ */
+export type AutoGeneratedDomainNameLabelScope = string;
+
+/** Known values of {@link SkuName} that the service accepts. */
+export enum KnownSkuName {
+  /** Basic requires a minimum of 3 nodes and allows only 1 node type. */
+  Basic = "Basic",
+  /** Requires a minimum of 5 nodes and allows 1 or more node type. */
+  Standard = "Standard",
+}
+
+/**
+ * Defines values for SkuName. \
+ * {@link KnownSkuName} can be used interchangeably with SkuName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic**: Basic requires a minimum of 3 nodes and allows only 1 node type. \
+ * **Standard**: Requires a minimum of 5 nodes and allows 1 or more node type.
+ */
+export type SkuName = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
 /** Known values of {@link FailureAction} that the service accepts. */
 export enum KnownFailureAction {
-  /** The upgrade will start rolling back automatically. The value is 0 */
+  /** Indicates that a rollback of the upgrade will be performed by Service Fabric if the upgrade fails. */
   Rollback = "Rollback",
-  /** The upgrade will switch to UnmonitoredManual upgrade mode. The value is 1 */
+  /** Indicates that a manual repair will need to be performed by the administrator if the upgrade fails. Service Fabric will not proceed to the next upgrade domain automatically. */
   Manual = "Manual",
 }
 
@@ -1764,8 +2268,8 @@ export enum KnownFailureAction {
  * {@link KnownFailureAction} can be used interchangeably with FailureAction,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Rollback**: The upgrade will start rolling back automatically. The value is 0 \
- * **Manual**: The upgrade will switch to UnmonitoredManual upgrade mode. The value is 1
+ * **Rollback**: Indicates that a rollback of the upgrade will be performed by Service Fabric if the upgrade fails. \
+ * **Manual**: Indicates that a manual repair will need to be performed by the administrator if the upgrade fails. Service Fabric will not proceed to the next upgrade domain automatically.
  */
 export type FailureAction = string;
 
@@ -1973,371 +2477,80 @@ export enum KnownServiceScalingTriggerKind {
  */
 export type ServiceScalingTriggerKind = string;
 
-/** Known values of {@link ClusterState} that the service accepts. */
-export enum KnownClusterState {
-  /** Indicates that the cluster resource is created and the resource provider is waiting for Service Fabric VM extension to boot up and report to it. */
-  WaitingForNodes = "WaitingForNodes",
-  /** Indicates that the Service Fabric runtime is being installed on the VMs. Cluster resource will be in this state until the cluster boots up and system services are up. */
-  Deploying = "Deploying",
-  /** Indicates that the cluster is upgrading to establishes the cluster version. This upgrade is automatically initiated when the cluster boots up for the first time. */
-  BaselineUpgrade = "BaselineUpgrade",
-  /** Indicates that the cluster is being upgraded with the user provided configuration. */
-  Upgrading = "Upgrading",
-  /** Indicates that the last upgrade for the cluster has failed. */
-  UpgradeFailed = "UpgradeFailed",
-  /** Indicates that the cluster is in a stable state. */
-  Ready = "Ready",
+/** Known values of {@link FaultSimulationStatus} that the service accepts. */
+export enum KnownFaultSimulationStatus {
+  /** Indicates the fault simulation is starting. The simulation will have this status while the start operation is in progress. */
+  Starting = "Starting",
+  /** Indicates the fault simulation is active. The simulation will have this status after the start operation has completed successfully. */
+  Active = "Active",
+  /** Indicates the fault simulation is stopping. The simulation will have this status while the stop operation is in progress. */
+  Stopping = "Stopping",
+  /** Indicates the fault simulation is done. The simulation will have this status after the stop operation has completed successfully. */
+  Done = "Done",
+  /** Indicates the fault simulation has failed on start. The simulation will have this status after the start operation fails. */
+  StartFailed = "StartFailed",
+  /** Indicates the fault simulation has failed on stop. The simulation will have this status after the stop operation fails. */
+  StopFailed = "StopFailed",
 }
 
 /**
- * Defines values for ClusterState. \
- * {@link KnownClusterState} can be used interchangeably with ClusterState,
+ * Defines values for FaultSimulationStatus. \
+ * {@link KnownFaultSimulationStatus} can be used interchangeably with FaultSimulationStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **WaitingForNodes**: Indicates that the cluster resource is created and the resource provider is waiting for Service Fabric VM extension to boot up and report to it. \
- * **Deploying**: Indicates that the Service Fabric runtime is being installed on the VMs. Cluster resource will be in this state until the cluster boots up and system services are up. \
- * **BaselineUpgrade**: Indicates that the cluster is upgrading to establishes the cluster version. This upgrade is automatically initiated when the cluster boots up for the first time. \
- * **Upgrading**: Indicates that the cluster is being upgraded with the user provided configuration. \
- * **UpgradeFailed**: Indicates that the last upgrade for the cluster has failed. \
- * **Ready**: Indicates that the cluster is in a stable state.
+ * **Starting**: Indicates the fault simulation is starting. The simulation will have this status while the start operation is in progress. \
+ * **Active**: Indicates the fault simulation is active. The simulation will have this status after the start operation has completed successfully. \
+ * **Stopping**: Indicates the fault simulation is stopping. The simulation will have this status while the stop operation is in progress. \
+ * **Done**: Indicates the fault simulation is done. The simulation will have this status after the stop operation has completed successfully. \
+ * **StartFailed**: Indicates the fault simulation has failed on start. The simulation will have this status after the start operation fails. \
+ * **StopFailed**: Indicates the fault simulation has failed on stop. The simulation will have this status after the stop operation fails.
  */
-export type ClusterState = string;
+export type FaultSimulationStatus = string;
 
-/** Known values of {@link Protocol} that the service accepts. */
-export enum KnownProtocol {
-  /** Tcp */
-  Tcp = "tcp",
-  /** Udp */
-  Udp = "udp",
-}
-
-/**
- * Defines values for Protocol. \
- * {@link KnownProtocol} can be used interchangeably with Protocol,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **tcp** \
- * **udp**
- */
-export type Protocol = string;
-
-/** Known values of {@link ProbeProtocol} that the service accepts. */
-export enum KnownProbeProtocol {
-  /** Tcp */
-  Tcp = "tcp",
-  /** Http */
-  Http = "http",
-  /** Https */
-  Https = "https",
-}
-
-/**
- * Defines values for ProbeProtocol. \
- * {@link KnownProbeProtocol} can be used interchangeably with ProbeProtocol,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **tcp** \
- * **http** \
- * **https**
- */
-export type ProbeProtocol = string;
-
-/** Known values of {@link NsgProtocol} that the service accepts. */
-export enum KnownNsgProtocol {
-  /** Http */
-  Http = "http",
-  /** Https */
-  Https = "https",
-  /** Tcp */
-  Tcp = "tcp",
-  /** Udp */
-  Udp = "udp",
-  /** Icmp */
-  Icmp = "icmp",
-  /** Ah */
-  Ah = "ah",
-  /** Esp */
-  Esp = "esp",
-}
-
-/**
- * Defines values for NsgProtocol. \
- * {@link KnownNsgProtocol} can be used interchangeably with NsgProtocol,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **http** \
- * **https** \
- * **tcp** \
- * **udp** \
- * **icmp** \
- * **ah** \
- * **esp**
- */
-export type NsgProtocol = string;
-
-/** Known values of {@link Access} that the service accepts. */
-export enum KnownAccess {
-  /** Allow */
-  Allow = "allow",
-  /** Deny */
-  Deny = "deny",
-}
-
-/**
- * Defines values for Access. \
- * {@link KnownAccess} can be used interchangeably with Access,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **allow** \
- * **deny**
- */
-export type Access = string;
-
-/** Known values of {@link Direction} that the service accepts. */
-export enum KnownDirection {
-  /** Inbound */
-  Inbound = "inbound",
-  /** Outbound */
-  Outbound = "outbound",
-}
-
-/**
- * Defines values for Direction. \
- * {@link KnownDirection} can be used interchangeably with Direction,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **inbound** \
- * **outbound**
- */
-export type Direction = string;
-
-/** Known values of {@link ManagedResourceProvisioningState} that the service accepts. */
-export enum KnownManagedResourceProvisioningState {
-  /** None */
-  None = "None",
-  /** Creating */
-  Creating = "Creating",
-  /** Created */
+/** Known values of {@link SfmcOperationStatus} that the service accepts. */
+export enum KnownSfmcOperationStatus {
+  /** Operation created. */
   Created = "Created",
-  /** Updating */
-  Updating = "Updating",
-  /** Succeeded */
+  /** Operation started. */
+  Started = "Started",
+  /** Operation succeeded. */
   Succeeded = "Succeeded",
-  /** Failed */
+  /** Operation failed. */
   Failed = "Failed",
-  /** Canceled */
+  /** Operation aborted. */
+  Aborted = "Aborted",
+  /** Operation canceled. */
   Canceled = "Canceled",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Deleted */
-  Deleted = "Deleted",
-  /** Other */
-  Other = "Other",
 }
 
 /**
- * Defines values for ManagedResourceProvisioningState. \
- * {@link KnownManagedResourceProvisioningState} can be used interchangeably with ManagedResourceProvisioningState,
+ * Defines values for SfmcOperationStatus. \
+ * {@link KnownSfmcOperationStatus} can be used interchangeably with SfmcOperationStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None** \
- * **Creating** \
- * **Created** \
- * **Updating** \
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Deleting** \
- * **Deleted** \
- * **Other**
+ * **Created**: Operation created. \
+ * **Started**: Operation started. \
+ * **Succeeded**: Operation succeeded. \
+ * **Failed**: Operation failed. \
+ * **Aborted**: Operation aborted. \
+ * **Canceled**: Operation canceled.
  */
-export type ManagedResourceProvisioningState = string;
+export type SfmcOperationStatus = string;
 
-/** Known values of {@link ClusterUpgradeMode} that the service accepts. */
-export enum KnownClusterUpgradeMode {
-  /** The cluster will be automatically upgraded to the latest Service Fabric runtime version, **clusterUpgradeCadence** will determine when the upgrade starts after the new version becomes available. */
-  Automatic = "Automatic",
-  /** The cluster will not be automatically upgraded to the latest Service Fabric runtime version. The cluster is upgraded by setting the **clusterCodeVersion** property in the cluster resource. */
-  Manual = "Manual",
+/** Known values of {@link FaultKind} that the service accepts. */
+export enum KnownFaultKind {
+  /** Simulates an availability zone down. */
+  Zone = "Zone",
 }
 
 /**
- * Defines values for ClusterUpgradeMode. \
- * {@link KnownClusterUpgradeMode} can be used interchangeably with ClusterUpgradeMode,
+ * Defines values for FaultKind. \
+ * {@link KnownFaultKind} can be used interchangeably with FaultKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Automatic**: The cluster will be automatically upgraded to the latest Service Fabric runtime version, **clusterUpgradeCadence** will determine when the upgrade starts after the new version becomes available. \
- * **Manual**: The cluster will not be automatically upgraded to the latest Service Fabric runtime version. The cluster is upgraded by setting the **clusterCodeVersion** property in the cluster resource.
+ * **Zone**: Simulates an availability zone down.
  */
-export type ClusterUpgradeMode = string;
-
-/** Known values of {@link ClusterUpgradeCadence} that the service accepts. */
-export enum KnownClusterUpgradeCadence {
-  /** Cluster upgrade starts immediately after a new version is rolled out. Recommended for Test\/Dev clusters. */
-  Wave0 = "Wave0",
-  /** Cluster upgrade starts 7 days after a new version is rolled out. Recommended for Pre-prod clusters. */
-  Wave1 = "Wave1",
-  /** Cluster upgrade starts 14 days after a new version is rolled out. Recommended for Production clusters. */
-  Wave2 = "Wave2",
-}
-
-/**
- * Defines values for ClusterUpgradeCadence. \
- * {@link KnownClusterUpgradeCadence} can be used interchangeably with ClusterUpgradeCadence,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Wave0**: Cluster upgrade starts immediately after a new version is rolled out. Recommended for Test\/Dev clusters. \
- * **Wave1**: Cluster upgrade starts 7 days after a new version is rolled out. Recommended for Pre-prod clusters. \
- * **Wave2**: Cluster upgrade starts 14 days after a new version is rolled out. Recommended for Production clusters.
- */
-export type ClusterUpgradeCadence = string;
-
-/** Known values of {@link ManagedClusterAddOnFeature} that the service accepts. */
-export enum KnownManagedClusterAddOnFeature {
-  /** Dns service */
-  DnsService = "DnsService",
-  /** Backup and restore service */
-  BackupRestoreService = "BackupRestoreService",
-  /** Resource monitor service */
-  ResourceMonitorService = "ResourceMonitorService",
-}
-
-/**
- * Defines values for ManagedClusterAddOnFeature. \
- * {@link KnownManagedClusterAddOnFeature} can be used interchangeably with ManagedClusterAddOnFeature,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **DnsService**: Dns service \
- * **BackupRestoreService**: Backup and restore service \
- * **ResourceMonitorService**: Resource monitor service
- */
-export type ManagedClusterAddOnFeature = string;
-
-/** Known values of {@link PrivateEndpointNetworkPolicies} that the service accepts. */
-export enum KnownPrivateEndpointNetworkPolicies {
-  /** Enabled */
-  Enabled = "enabled",
-  /** Disabled */
-  Disabled = "disabled",
-}
-
-/**
- * Defines values for PrivateEndpointNetworkPolicies. \
- * {@link KnownPrivateEndpointNetworkPolicies} can be used interchangeably with PrivateEndpointNetworkPolicies,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **enabled** \
- * **disabled**
- */
-export type PrivateEndpointNetworkPolicies = string;
-
-/** Known values of {@link PrivateLinkServiceNetworkPolicies} that the service accepts. */
-export enum KnownPrivateLinkServiceNetworkPolicies {
-  /** Enabled */
-  Enabled = "enabled",
-  /** Disabled */
-  Disabled = "disabled",
-}
-
-/**
- * Defines values for PrivateLinkServiceNetworkPolicies. \
- * {@link KnownPrivateLinkServiceNetworkPolicies} can be used interchangeably with PrivateLinkServiceNetworkPolicies,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **enabled** \
- * **disabled**
- */
-export type PrivateLinkServiceNetworkPolicies = string;
-
-/** Known values of {@link ZonalUpdateMode} that the service accepts. */
-export enum KnownZonalUpdateMode {
-  /** The cluster will use 5 upgrade domains for Cross Az Node types. */
-  Standard = "Standard",
-  /** The cluster will use a maximum of 3 upgrade domains per zone instead of 5 for Cross Az Node types for faster deployments. */
-  Fast = "Fast",
-}
-
-/**
- * Defines values for ZonalUpdateMode. \
- * {@link KnownZonalUpdateMode} can be used interchangeably with ZonalUpdateMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Standard**: The cluster will use 5 upgrade domains for Cross Az Node types. \
- * **Fast**: The cluster will use a maximum of 3 upgrade domains per zone instead of 5 for Cross Az Node types for faster deployments.
- */
-export type ZonalUpdateMode = string;
-
-/** Known values of {@link AutoGeneratedDomainNameLabelScope} that the service accepts. */
-export enum KnownAutoGeneratedDomainNameLabelScope {
-  /** TenantReuse allows for the same hash to be created if the resource is created in the same Tenant with the same resource name. */
-  TenantReuse = "TenantReuse",
-  /** SubscriptionReuse allows for the same hash to be created if the resource is created in the same Subscription with the same resource name. */
-  SubscriptionReuse = "SubscriptionReuse",
-  /** ResourceGroupReuse allows for the same hash to be created if the resource is created in the same Resource Group with the same resource name. */
-  ResourceGroupReuse = "ResourceGroupReuse",
-  /** NoReuse will create a new hash regardless of the Subscription, Resource Group, Tenant and Resource name. */
-  NoReuse = "NoReuse",
-}
-
-/**
- * Defines values for AutoGeneratedDomainNameLabelScope. \
- * {@link KnownAutoGeneratedDomainNameLabelScope} can be used interchangeably with AutoGeneratedDomainNameLabelScope,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **TenantReuse**: TenantReuse allows for the same hash to be created if the resource is created in the same Tenant with the same resource name. \
- * **SubscriptionReuse**: SubscriptionReuse allows for the same hash to be created if the resource is created in the same Subscription with the same resource name. \
- * **ResourceGroupReuse**: ResourceGroupReuse allows for the same hash to be created if the resource is created in the same Resource Group with the same resource name. \
- * **NoReuse**: NoReuse will create a new hash regardless of the Subscription, Resource Group, Tenant and Resource name.
- */
-export type AutoGeneratedDomainNameLabelScope = string;
-
-/** Known values of {@link SkuName} that the service accepts. */
-export enum KnownSkuName {
-  /** Basic requires a minimum of 3 nodes and allows only 1 node type. */
-  Basic = "Basic",
-  /** Requires a minimum of 5 nodes and allows 1 or more node type. */
-  Standard = "Standard",
-}
-
-/**
- * Defines values for SkuName. \
- * {@link KnownSkuName} can be used interchangeably with SkuName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Basic**: Basic requires a minimum of 3 nodes and allows only 1 node type. \
- * **Standard**: Requires a minimum of 5 nodes and allows 1 or more node type.
- */
-export type SkuName = string;
-
-/** Known values of {@link OsType} that the service accepts. */
-export enum KnownOsType {
-  /** Indicates os is Windows. */
-  Windows = "Windows",
-}
-
-/**
- * Defines values for OsType. \
- * {@link KnownOsType} can be used interchangeably with OsType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Windows**: Indicates os is Windows.
- */
-export type OsType = string;
-
-/** Known values of {@link ManagedClusterVersionEnvironment} that the service accepts. */
-export enum KnownManagedClusterVersionEnvironment {
-  /** Windows. */
-  Windows = "Windows",
-}
-
-/**
- * Defines values for ManagedClusterVersionEnvironment. \
- * {@link KnownManagedClusterVersionEnvironment} can be used interchangeably with ManagedClusterVersionEnvironment,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Windows**: Windows.
- */
-export type ManagedClusterVersionEnvironment = string;
+export type FaultKind = string;
 
 /** Known values of {@link DiskType} that the service accepts. */
 export enum KnownDiskType {
@@ -2347,6 +2560,12 @@ export enum KnownDiskType {
   StandardSSDLRS = "StandardSSD_LRS",
   /** Premium SSD locally redundant storage. Best for production and performance sensitive workloads. */
   PremiumLRS = "Premium_LRS",
+  /** Premium SSD V2 locally redundant storage. Best for production and performance sensitive workloads that consistently require low latency and high IOPS and throughput. */
+  PremiumV2LRS = "PremiumV2_LRS",
+  /** Standard SSD zone redundant storage. Best for web servers, lightly used enterprise applications and dev\/test that need storage resiliency against zone failures. */
+  StandardSSDZRS = "StandardSSD_ZRS",
+  /** Premium SSD zone redundant storage. Best for production workloads that need storage resiliency against zone failures. */
+  PremiumZRS = "Premium_ZRS",
 }
 
 /**
@@ -2356,7 +2575,10 @@ export enum KnownDiskType {
  * ### Known values supported by the service
  * **Standard_LRS**: Standard HDD locally redundant storage. Best for backup, non-critical, and infrequent access. \
  * **StandardSSD_LRS**: Standard SSD locally redundant storage. Best for web servers, lightly used enterprise applications and dev\/test. \
- * **Premium_LRS**: Premium SSD locally redundant storage. Best for production and performance sensitive workloads.
+ * **Premium_LRS**: Premium SSD locally redundant storage. Best for production and performance sensitive workloads. \
+ * **PremiumV2_LRS**: Premium SSD V2 locally redundant storage. Best for production and performance sensitive workloads that consistently require low latency and high IOPS and throughput. \
+ * **StandardSSD_ZRS**: Standard SSD zone redundant storage. Best for web servers, lightly used enterprise applications and dev\/test that need storage resiliency against zone failures. \
+ * **Premium_ZRS**: Premium SSD zone redundant storage. Best for production workloads that need storage resiliency against zone failures.
  */
 export type DiskType = string;
 
@@ -2449,9 +2671,9 @@ export type SecurityType = string;
 
 /** Known values of {@link PrivateIPAddressVersion} that the service accepts. */
 export enum KnownPrivateIPAddressVersion {
-  /** IPv4 */
+  /** The IP configuration's private IP is IPv4. */
   IPv4 = "IPv4",
-  /** IPv6 */
+  /** The IP configuration's private IP is IPv6. */
   IPv6 = "IPv6",
 }
 
@@ -2460,16 +2682,16 @@ export enum KnownPrivateIPAddressVersion {
  * {@link KnownPrivateIPAddressVersion} can be used interchangeably with PrivateIPAddressVersion,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **IPv4** \
- * **IPv6**
+ * **IPv4**: The IP configuration's private IP is IPv4. \
+ * **IPv6**: The IP configuration's private IP is IPv6.
  */
 export type PrivateIPAddressVersion = string;
 
 /** Known values of {@link PublicIPAddressVersion} that the service accepts. */
 export enum KnownPublicIPAddressVersion {
-  /** IPv4 */
+  /** The IP configuration's public IP is IPv4. */
   IPv4 = "IPv4",
-  /** IPv6 */
+  /** The IP configuration's public IP is IPv6. */
   IPv6 = "IPv6",
 }
 
@@ -2478,8 +2700,8 @@ export enum KnownPublicIPAddressVersion {
  * {@link KnownPublicIPAddressVersion} can be used interchangeably with PublicIPAddressVersion,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **IPv4** \
- * **IPv6**
+ * **IPv4**: The IP configuration's public IP is IPv4. \
+ * **IPv6**: The IP configuration's public IP is IPv6.
  */
 export type PublicIPAddressVersion = string;
 
@@ -2521,33 +2743,216 @@ export enum KnownNodeTypeSkuScaleType {
  * **Automatic**: Automatic scale is allowed.
  */
 export type NodeTypeSkuScaleType = string;
-
-/** Known values of {@link UpgradeMode} that the service accepts. */
-export enum KnownUpgradeMode {
-  /** The upgrade will proceed automatically without performing any health monitoring. The value is 0 */
-  UnmonitoredAuto = "UnmonitoredAuto",
-  /** The upgrade will stop after completing each upgrade domain, giving the opportunity to manually monitor health before proceeding. The value is 1 */
-  UnmonitoredManual = "UnmonitoredManual",
-  /** The upgrade will stop after completing each upgrade domain and automatically monitor health before proceeding. The value is 2 */
-  Monitored = "Monitored",
-}
-
-/**
- * Defines values for UpgradeMode. \
- * {@link KnownUpgradeMode} can be used interchangeably with UpgradeMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **UnmonitoredAuto**: The upgrade will proceed automatically without performing any health monitoring. The value is 0 \
- * **UnmonitoredManual**: The upgrade will stop after completing each upgrade domain, giving the opportunity to manually monitor health before proceeding. The value is 1 \
- * **Monitored**: The upgrade will stop after completing each upgrade domain and automatically monitor health before proceeding. The value is 2
- */
-export type UpgradeMode = string;
 /** Defines values for ManagedIdentityType. */
 export type ManagedIdentityType =
   | "None"
   | "SystemAssigned"
   | "UserAssigned"
   | "SystemAssigned, UserAssigned";
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface ManagedClusterVersionListByEnvironmentOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByEnvironment operation. */
+export type ManagedClusterVersionListByEnvironmentResponse =
+  ManagedClusterCodeVersionResult[];
+
+/** Optional parameters. */
+export interface ManagedClusterVersionGetByEnvironmentOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByEnvironment operation. */
+export type ManagedClusterVersionGetByEnvironmentResponse =
+  ManagedClusterCodeVersionResult;
+
+/** Optional parameters. */
+export interface ManagedClusterVersionListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ManagedClusterVersionListResponse =
+  ManagedClusterCodeVersionResult[];
+
+/** Optional parameters. */
+export interface ManagedClusterVersionGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ManagedClusterVersionGetResponse = ManagedClusterCodeVersionResult;
+
+/** Optional parameters. */
+export interface OperationResultsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type OperationResultsGetResponse = OperationResultsGetHeaders;
+
+/** Optional parameters. */
+export interface OperationStatusGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type OperationStatusGetResponse = LongRunningOperationResult;
+
+/** Optional parameters. */
+export interface ManagedUnsupportedVMSizesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ManagedUnsupportedVMSizesListResponse = ManagedVMSizesResult;
+
+/** Optional parameters. */
+export interface ManagedUnsupportedVMSizesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ManagedUnsupportedVMSizesGetResponse = ManagedVMSize;
+
+/** Optional parameters. */
+export interface ManagedUnsupportedVMSizesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ManagedUnsupportedVMSizesListNextResponse = ManagedVMSizesResult;
+
+/** Optional parameters. */
+export interface ManagedClustersListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type ManagedClustersListBySubscriptionResponse =
+  ManagedClusterListResult;
+
+/** Optional parameters. */
+export interface ManagedClustersListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type ManagedClustersListByResourceGroupResponse =
+  ManagedClusterListResult;
+
+/** Optional parameters. */
+export interface ManagedClustersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ManagedClustersGetResponse = ManagedCluster;
+
+/** Optional parameters. */
+export interface ManagedClustersCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ManagedClustersCreateOrUpdateResponse = ManagedCluster;
+
+/** Optional parameters. */
+export interface ManagedClustersUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type ManagedClustersUpdateResponse = ManagedCluster;
+
+/** Optional parameters. */
+export interface ManagedClustersDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type ManagedClustersDeleteResponse = ManagedClustersDeleteHeaders;
+
+/** Optional parameters. */
+export interface ManagedClustersGetFaultSimulationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getFaultSimulation operation. */
+export type ManagedClustersGetFaultSimulationResponse = FaultSimulation;
+
+/** Optional parameters. */
+export interface ManagedClustersListFaultSimulationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listFaultSimulation operation. */
+export type ManagedClustersListFaultSimulationResponse =
+  FaultSimulationListResult;
+
+/** Optional parameters. */
+export interface ManagedClustersStartFaultSimulationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the startFaultSimulation operation. */
+export type ManagedClustersStartFaultSimulationResponse = FaultSimulation;
+
+/** Optional parameters. */
+export interface ManagedClustersStopFaultSimulationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the stopFaultSimulation operation. */
+export type ManagedClustersStopFaultSimulationResponse = FaultSimulation;
+
+/** Optional parameters. */
+export interface ManagedClustersListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type ManagedClustersListBySubscriptionNextResponse =
+  ManagedClusterListResult;
+
+/** Optional parameters. */
+export interface ManagedClustersListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type ManagedClustersListByResourceGroupNextResponse =
+  ManagedClusterListResult;
+
+/** Optional parameters. */
+export interface ManagedClustersListFaultSimulationNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listFaultSimulationNext operation. */
+export type ManagedClustersListFaultSimulationNextResponse =
+  FaultSimulationListResult;
+
+/** Optional parameters. */
+export interface ApplicationTypesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ApplicationTypesListResponse = ApplicationTypeResourceList;
 
 /** Optional parameters. */
 export interface ApplicationTypesGetOptionalParams
@@ -2579,12 +2984,8 @@ export interface ApplicationTypesDeleteOptionalParams
   resumeFrom?: string;
 }
 
-/** Optional parameters. */
-export interface ApplicationTypesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ApplicationTypesListResponse = ApplicationTypeResourceList;
+/** Contains response data for the delete operation. */
+export type ApplicationTypesDeleteResponse = ApplicationTypesDeleteHeaders;
 
 /** Optional parameters. */
 export interface ApplicationTypesListNextOptionalParams
@@ -2592,6 +2993,14 @@ export interface ApplicationTypesListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type ApplicationTypesListNextResponse = ApplicationTypeResourceList;
+
+/** Optional parameters. */
+export interface ApplicationTypeVersionsListByApplicationTypesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByApplicationTypes operation. */
+export type ApplicationTypeVersionsListByApplicationTypesResponse =
+  ApplicationTypeVersionResourceList;
 
 /** Optional parameters. */
 export interface ApplicationTypeVersionsGetOptionalParams
@@ -2630,13 +3039,9 @@ export interface ApplicationTypeVersionsDeleteOptionalParams
   resumeFrom?: string;
 }
 
-/** Optional parameters. */
-export interface ApplicationTypeVersionsListByApplicationTypesOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByApplicationTypes operation. */
-export type ApplicationTypeVersionsListByApplicationTypesResponse =
-  ApplicationTypeVersionResourceList;
+/** Contains response data for the delete operation. */
+export type ApplicationTypeVersionsDeleteResponse =
+  ApplicationTypeVersionsDeleteHeaders;
 
 /** Optional parameters. */
 export interface ApplicationTypeVersionsListByApplicationTypesNextOptionalParams
@@ -2647,42 +3052,11 @@ export type ApplicationTypeVersionsListByApplicationTypesNextResponse =
   ApplicationTypeVersionResourceList;
 
 /** Optional parameters. */
-export interface ApplicationsReadUpgradeOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+export interface ApplicationsListOptionalParams
+  extends coreClient.OperationOptions {}
 
-/** Contains response data for the readUpgrade operation. */
-export type ApplicationsReadUpgradeResponse = ApplicationsReadUpgradeHeaders;
-
-/** Optional parameters. */
-export interface ApplicationsStartRollbackOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the startRollback operation. */
-export type ApplicationsStartRollbackResponse =
-  ApplicationsStartRollbackHeaders;
-
-/** Optional parameters. */
-export interface ApplicationsResumeUpgradeOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the resumeUpgrade operation. */
-export type ApplicationsResumeUpgradeResponse =
-  ApplicationsResumeUpgradeHeaders;
+/** Contains response data for the list operation. */
+export type ApplicationsListResponse = ApplicationResourceList;
 
 /** Optional parameters. */
 export interface ApplicationsGetOptionalParams
@@ -2719,12 +3093,46 @@ export interface ApplicationsDeleteOptionalParams
   resumeFrom?: string;
 }
 
-/** Optional parameters. */
-export interface ApplicationsListOptionalParams
-  extends coreClient.OperationOptions {}
+/** Contains response data for the delete operation. */
+export type ApplicationsDeleteResponse = ApplicationsDeleteHeaders;
 
-/** Contains response data for the list operation. */
-export type ApplicationsListResponse = ApplicationResourceList;
+/** Optional parameters. */
+export interface ApplicationsReadUpgradeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the readUpgrade operation. */
+export type ApplicationsReadUpgradeResponse = ApplicationsReadUpgradeHeaders;
+
+/** Optional parameters. */
+export interface ApplicationsResumeUpgradeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the resumeUpgrade operation. */
+export type ApplicationsResumeUpgradeResponse =
+  ApplicationsResumeUpgradeHeaders;
+
+/** Optional parameters. */
+export interface ApplicationsStartRollbackOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the startRollback operation. */
+export type ApplicationsStartRollbackResponse =
+  ApplicationsStartRollbackHeaders;
 
 /** Optional parameters. */
 export interface ApplicationsListNextOptionalParams
@@ -2732,6 +3140,13 @@ export interface ApplicationsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type ApplicationsListNextResponse = ApplicationResourceList;
+
+/** Optional parameters. */
+export interface ServicesListByApplicationsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByApplications operation. */
+export type ServicesListByApplicationsResponse = ServiceResourceList;
 
 /** Optional parameters. */
 export interface ServicesGetOptionalParams
@@ -2768,12 +3183,8 @@ export interface ServicesDeleteOptionalParams
   resumeFrom?: string;
 }
 
-/** Optional parameters. */
-export interface ServicesListByApplicationsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByApplications operation. */
-export type ServicesListByApplicationsResponse = ServiceResourceList;
+/** Contains response data for the delete operation. */
+export type ServicesDeleteResponse = ServicesDeleteHeaders;
 
 /** Optional parameters. */
 export interface ServicesListByApplicationsNextOptionalParams
@@ -2783,78 +3194,8 @@ export interface ServicesListByApplicationsNextOptionalParams
 export type ServicesListByApplicationsNextResponse = ServiceResourceList;
 
 /** Optional parameters. */
-export interface ManagedClustersListByResourceGroupOptionalParams
+export interface ManagedApplyMaintenanceWindowPostOptionalParams
   extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type ManagedClustersListByResourceGroupResponse =
-  ManagedClusterListResult;
-
-/** Optional parameters. */
-export interface ManagedClustersListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscription operation. */
-export type ManagedClustersListBySubscriptionResponse =
-  ManagedClusterListResult;
-
-/** Optional parameters. */
-export interface ManagedClustersGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ManagedClustersGetResponse = ManagedCluster;
-
-/** Optional parameters. */
-export interface ManagedClustersCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type ManagedClustersCreateOrUpdateResponse = ManagedCluster;
-
-/** Optional parameters. */
-export interface ManagedClustersUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type ManagedClustersUpdateResponse = ManagedCluster;
-
-/** Optional parameters. */
-export interface ManagedClustersDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface ManagedClustersListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type ManagedClustersListByResourceGroupNextResponse =
-  ManagedClusterListResult;
-
-/** Optional parameters. */
-export interface ManagedClustersListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type ManagedClustersListBySubscriptionNextResponse =
-  ManagedClusterListResult;
-
-/** Optional parameters. */
-export interface ManagedAzResiliencyStatusGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ManagedAzResiliencyStatusGetResponse = ManagedAzResiliencyStatus;
 
 /** Optional parameters. */
 export interface ManagedMaintenanceWindowStatusGetOptionalParams
@@ -2865,88 +3206,11 @@ export type ManagedMaintenanceWindowStatusGetResponse =
   ManagedMaintenanceWindowStatus;
 
 /** Optional parameters. */
-export interface ManagedApplyMaintenanceWindowPostOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface ManagedClusterVersionGetOptionalParams
+export interface ManagedAzResiliencyStatusGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ManagedClusterVersionGetResponse = ManagedClusterCodeVersionResult;
-
-/** Optional parameters. */
-export interface ManagedClusterVersionGetByEnvironmentOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getByEnvironment operation. */
-export type ManagedClusterVersionGetByEnvironmentResponse =
-  ManagedClusterCodeVersionResult;
-
-/** Optional parameters. */
-export interface ManagedClusterVersionListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ManagedClusterVersionListResponse =
-  ManagedClusterCodeVersionResult[];
-
-/** Optional parameters. */
-export interface ManagedClusterVersionListByEnvironmentOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByEnvironment operation. */
-export type ManagedClusterVersionListByEnvironmentResponse =
-  ManagedClusterCodeVersionResult[];
-
-/** Optional parameters. */
-export interface ManagedUnsupportedVMSizesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ManagedUnsupportedVMSizesListResponse = ManagedVMSizesResult;
-
-/** Optional parameters. */
-export interface ManagedUnsupportedVMSizesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ManagedUnsupportedVMSizesGetResponse = ManagedVMSize;
-
-/** Optional parameters. */
-export interface ManagedUnsupportedVMSizesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ManagedUnsupportedVMSizesListNextResponse = ManagedVMSizesResult;
-
-/** Optional parameters. */
-export interface OperationStatusGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type OperationStatusGetResponse = LongRunningOperationResult;
-
-/** Optional parameters. */
-export interface OperationResultsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type OperationResultsGetResponse = OperationResultsGetHeaders;
-
-/** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type OperationsListResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type OperationsListNextResponse = OperationListResult;
+export type ManagedAzResiliencyStatusGetResponse = ManagedAzResiliencyStatus;
 
 /** Optional parameters. */
 export interface NodeTypesListByManagedClustersOptionalParams
@@ -2954,33 +3218,6 @@ export interface NodeTypesListByManagedClustersOptionalParams
 
 /** Contains response data for the listByManagedClusters operation. */
 export type NodeTypesListByManagedClustersResponse = NodeTypeListResult;
-
-/** Optional parameters. */
-export interface NodeTypesRestartOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface NodeTypesReimageOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface NodeTypesDeleteNodeOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
 
 /** Optional parameters. */
 export interface NodeTypesGetOptionalParams
@@ -3022,12 +3259,133 @@ export interface NodeTypesDeleteOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the delete operation. */
+export type NodeTypesDeleteResponse = NodeTypesDeleteHeaders;
+
+/** Optional parameters. */
+export interface NodeTypesDeallocateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the deallocate operation. */
+export type NodeTypesDeallocateResponse = NodeTypesDeallocateHeaders;
+
+/** Optional parameters. */
+export interface NodeTypesDeleteNodeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the deleteNode operation. */
+export type NodeTypesDeleteNodeResponse = NodeTypesDeleteNodeHeaders;
+
+/** Optional parameters. */
+export interface NodeTypesGetFaultSimulationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getFaultSimulation operation. */
+export type NodeTypesGetFaultSimulationResponse = FaultSimulation;
+
+/** Optional parameters. */
+export interface NodeTypesListFaultSimulationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listFaultSimulation operation. */
+export type NodeTypesListFaultSimulationResponse = FaultSimulationListResult;
+
+/** Optional parameters. */
+export interface NodeTypesRedeployOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the redeploy operation. */
+export type NodeTypesRedeployResponse = NodeTypesRedeployHeaders;
+
+/** Optional parameters. */
+export interface NodeTypesReimageOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the reimage operation. */
+export type NodeTypesReimageResponse = NodeTypesReimageHeaders;
+
+/** Optional parameters. */
+export interface NodeTypesRestartOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the restart operation. */
+export type NodeTypesRestartResponse = NodeTypesRestartHeaders;
+
+/** Optional parameters. */
+export interface NodeTypesStartOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the start operation. */
+export type NodeTypesStartResponse = NodeTypesStartHeaders;
+
+/** Optional parameters. */
+export interface NodeTypesStartFaultSimulationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the startFaultSimulation operation. */
+export type NodeTypesStartFaultSimulationResponse = FaultSimulation;
+
+/** Optional parameters. */
+export interface NodeTypesStopFaultSimulationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the stopFaultSimulation operation. */
+export type NodeTypesStopFaultSimulationResponse = FaultSimulation;
+
 /** Optional parameters. */
 export interface NodeTypesListByManagedClustersNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByManagedClustersNext operation. */
 export type NodeTypesListByManagedClustersNextResponse = NodeTypeListResult;
+
+/** Optional parameters. */
+export interface NodeTypesListFaultSimulationNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listFaultSimulationNext operation. */
+export type NodeTypesListFaultSimulationNextResponse =
+  FaultSimulationListResult;
 
 /** Optional parameters. */
 export interface NodeTypeSkusListOptionalParams

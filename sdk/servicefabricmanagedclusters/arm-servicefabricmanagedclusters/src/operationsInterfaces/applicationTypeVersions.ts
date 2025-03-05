@@ -19,6 +19,7 @@ import {
   ApplicationTypeVersionsUpdateOptionalParams,
   ApplicationTypeVersionsUpdateResponse,
   ApplicationTypeVersionsDeleteOptionalParams,
+  ApplicationTypeVersionsDeleteResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,7 +28,7 @@ export interface ApplicationTypeVersions {
   /**
    * Gets all application type version resources created or in the process of being created in the
    * Service Fabric managed application type name resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationTypeName The name of the application type name resource.
    * @param options The options parameters.
@@ -41,7 +42,7 @@ export interface ApplicationTypeVersions {
   /**
    * Get a Service Fabric managed application type version resource created or in the process of being
    * created in the Service Fabric managed application type name resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationTypeName The name of the application type name resource.
    * @param version The application type version.
@@ -56,7 +57,7 @@ export interface ApplicationTypeVersions {
   ): Promise<ApplicationTypeVersionsGetResponse>;
   /**
    * Create or update a Service Fabric managed application type version resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationTypeName The name of the application type name resource.
    * @param version The application type version.
@@ -78,7 +79,7 @@ export interface ApplicationTypeVersions {
   >;
   /**
    * Create or update a Service Fabric managed application type version resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationTypeName The name of the application type name resource.
    * @param version The application type version.
@@ -95,7 +96,7 @@ export interface ApplicationTypeVersions {
   ): Promise<ApplicationTypeVersionsCreateOrUpdateResponse>;
   /**
    * Updates the tags of an application type version resource of a given managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationTypeName The name of the application type name resource.
    * @param version The application type version.
@@ -112,7 +113,7 @@ export interface ApplicationTypeVersions {
   ): Promise<ApplicationTypeVersionsUpdateResponse>;
   /**
    * Delete a Service Fabric managed application type version resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationTypeName The name of the application type name resource.
    * @param version The application type version.
@@ -124,10 +125,15 @@ export interface ApplicationTypeVersions {
     applicationTypeName: string,
     version: string,
     options?: ApplicationTypeVersionsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ApplicationTypeVersionsDeleteResponse>,
+      ApplicationTypeVersionsDeleteResponse
+    >
+  >;
   /**
    * Delete a Service Fabric managed application type version resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationTypeName The name of the application type name resource.
    * @param version The application type version.
@@ -139,5 +145,5 @@ export interface ApplicationTypeVersions {
     applicationTypeName: string,
     version: string,
     options?: ApplicationTypeVersionsDeleteOptionalParams,
-  ): Promise<void>;
+  ): Promise<ApplicationTypeVersionsDeleteResponse>;
 }

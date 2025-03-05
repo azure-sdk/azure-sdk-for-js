@@ -15,7 +15,7 @@ import {
 export interface OperationStatus {
   /**
    * Get long running operation status.
-   * @param location The location for the cluster code versions. This is different from cluster location.
+   * @param location The name of Azure region.
    * @param operationId operation identifier.
    * @param options The options parameters.
    */

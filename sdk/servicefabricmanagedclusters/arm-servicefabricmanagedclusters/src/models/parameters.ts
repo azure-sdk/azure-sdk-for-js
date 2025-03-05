@@ -12,20 +12,22 @@ import {
   OperationQueryParameter,
 } from "@azure/core-client";
 import {
+  ManagedCluster as ManagedClusterMapper,
+  ManagedClusterUpdateParameters as ManagedClusterUpdateParametersMapper,
+  FaultSimulationIdContent as FaultSimulationIdContentMapper,
+  FaultSimulationContent as FaultSimulationContentMapper,
   ApplicationTypeResource as ApplicationTypeResourceMapper,
   ApplicationTypeUpdateParameters as ApplicationTypeUpdateParametersMapper,
   ApplicationTypeVersionResource as ApplicationTypeVersionResourceMapper,
   ApplicationTypeVersionUpdateParameters as ApplicationTypeVersionUpdateParametersMapper,
-  RuntimeResumeApplicationUpgradeParameters as RuntimeResumeApplicationUpgradeParametersMapper,
   ApplicationResource as ApplicationResourceMapper,
   ApplicationUpdateParameters as ApplicationUpdateParametersMapper,
+  RuntimeResumeApplicationUpgradeParameters as RuntimeResumeApplicationUpgradeParametersMapper,
   ServiceResource as ServiceResourceMapper,
   ServiceUpdateParameters as ServiceUpdateParametersMapper,
-  ManagedCluster as ManagedClusterMapper,
-  ManagedClusterUpdateParameters as ManagedClusterUpdateParametersMapper,
-  NodeTypeActionParameters as NodeTypeActionParametersMapper,
   NodeType as NodeTypeMapper,
   NodeTypeUpdateParameters as NodeTypeUpdateParametersMapper,
+  NodeTypeActionParameters as NodeTypeActionParametersMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -52,10 +54,106 @@ export const $host: OperationURLParameter = {
   skipEncoding: true,
 };
 
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2024-11-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
+    constraints: {
+      MinLength: 1,
+    },
     serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const location: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    serializedName: "location",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const environment: OperationURLParameter = {
+  parameterPath: "environment",
+  mapper: {
+    serializedName: "environment",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const clusterVersion: OperationURLParameter = {
+  parameterPath: "clusterVersion",
+  mapper: {
+    serializedName: "clusterVersion",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const location1: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    constraints: {
+      MinLength: 1,
+    },
+    serializedName: "location",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    serializedName: "operationId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const vmSize: OperationURLParameter = {
+  parameterPath: "vmSize",
+  mapper: {
+    serializedName: "vmSize",
     required: true,
     type: {
       name: "String",
@@ -66,6 +164,10 @@ export const subscriptionId: OperationURLParameter = {
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+    },
     serializedName: "resourceGroupName",
     required: true,
     type: {
@@ -79,29 +181,6 @@ export const clusterName: OperationURLParameter = {
   mapper: {
     serializedName: "clusterName",
     required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const applicationTypeName: OperationURLParameter = {
-  parameterPath: "applicationTypeName",
-  mapper: {
-    serializedName: "applicationTypeName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2024-09-01-preview",
-    isConstant: true,
-    serializedName: "api-version",
     type: {
       name: "String",
     },
@@ -122,24 +201,43 @@ export const contentType: OperationParameter = {
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ApplicationTypeResourceMapper,
+  mapper: ManagedClusterMapper,
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ApplicationTypeUpdateParametersMapper,
+  mapper: ManagedClusterUpdateParametersMapper,
 };
 
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
+export const parameters2: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: FaultSimulationIdContentMapper,
+};
+
+export const parameters3: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: FaultSimulationContentMapper,
+};
+
+export const applicationTypeName: OperationURLParameter = {
+  parameterPath: "applicationTypeName",
   mapper: {
-    serializedName: "nextLink",
+    serializedName: "applicationTypeName",
     required: true,
     type: {
       name: "String",
     },
   },
-  skipEncoding: true,
+};
+
+export const parameters4: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ApplicationTypeResourceMapper,
+};
+
+export const parameters5: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ApplicationTypeUpdateParametersMapper,
 };
 
 export const version: OperationURLParameter = {
@@ -153,12 +251,12 @@ export const version: OperationURLParameter = {
   },
 };
 
-export const parameters2: OperationParameter = {
+export const parameters6: OperationParameter = {
   parameterPath: "parameters",
   mapper: ApplicationTypeVersionResourceMapper,
 };
 
-export const parameters3: OperationParameter = {
+export const parameters7: OperationParameter = {
   parameterPath: "parameters",
   mapper: ApplicationTypeVersionUpdateParametersMapper,
 };
@@ -174,19 +272,19 @@ export const applicationName: OperationURLParameter = {
   },
 };
 
-export const parameters4: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: RuntimeResumeApplicationUpgradeParametersMapper,
-};
-
-export const parameters5: OperationParameter = {
+export const parameters8: OperationParameter = {
   parameterPath: "parameters",
   mapper: ApplicationResourceMapper,
 };
 
-export const parameters6: OperationParameter = {
+export const parameters9: OperationParameter = {
   parameterPath: "parameters",
   mapper: ApplicationUpdateParametersMapper,
+};
+
+export const parameters10: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: RuntimeResumeApplicationUpgradeParametersMapper,
 };
 
 export const serviceName: OperationURLParameter = {
@@ -200,84 +298,14 @@ export const serviceName: OperationURLParameter = {
   },
 };
 
-export const parameters7: OperationParameter = {
+export const parameters11: OperationParameter = {
   parameterPath: "parameters",
   mapper: ServiceResourceMapper,
 };
 
-export const parameters8: OperationParameter = {
+export const parameters12: OperationParameter = {
   parameterPath: "parameters",
   mapper: ServiceUpdateParametersMapper,
-};
-
-export const parameters9: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ManagedClusterMapper,
-};
-
-export const parameters10: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ManagedClusterUpdateParametersMapper,
-};
-
-export const location: OperationURLParameter = {
-  parameterPath: "location",
-  mapper: {
-    serializedName: "location",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const clusterVersion: OperationURLParameter = {
-  parameterPath: "clusterVersion",
-  mapper: {
-    serializedName: "clusterVersion",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const environment: OperationURLParameter = {
-  parameterPath: "environment",
-  mapper: {
-    serializedName: "environment",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const vmSize: OperationURLParameter = {
-  parameterPath: "vmSize",
-  mapper: {
-    serializedName: "vmSize",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const operationId: OperationURLParameter = {
-  parameterPath: "operationId",
-  mapper: {
-    serializedName: "operationId",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const parameters11: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: NodeTypeActionParametersMapper,
 };
 
 export const nodeTypeName: OperationURLParameter = {
@@ -291,12 +319,17 @@ export const nodeTypeName: OperationURLParameter = {
   },
 };
 
-export const parameters12: OperationParameter = {
+export const parameters13: OperationParameter = {
   parameterPath: "parameters",
   mapper: NodeTypeMapper,
 };
 
-export const parameters13: OperationParameter = {
+export const parameters14: OperationParameter = {
   parameterPath: "parameters",
   mapper: NodeTypeUpdateParametersMapper,
+};
+
+export const parameters15: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: NodeTypeActionParametersMapper,
 };

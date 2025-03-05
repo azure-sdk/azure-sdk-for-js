@@ -32,6 +32,7 @@ import {
   ServicesUpdateOptionalParams,
   ServicesUpdateResponse,
   ServicesDeleteOptionalParams,
+  ServicesDeleteResponse,
   ServicesListByApplicationsNextResponse,
 } from "../models/index.js";
 
@@ -51,7 +52,7 @@ export class ServicesImpl implements Services {
   /**
    * Gets all service resources created or in the process of being created in the Service Fabric managed
    * application resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationName The name of the application resource.
    * @param options The options parameters.
@@ -143,9 +144,29 @@ export class ServicesImpl implements Services {
   }
 
   /**
+   * Gets all service resources created or in the process of being created in the Service Fabric managed
+   * application resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param applicationName The name of the application resource.
+   * @param options The options parameters.
+   */
+  private _listByApplications(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    options?: ServicesListByApplicationsOptionalParams,
+  ): Promise<ServicesListByApplicationsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterName, applicationName, options },
+      listByApplicationsOperationSpec,
+    );
+  }
+
+  /**
    * Get a Service Fabric service resource created or in the process of being created in the Service
    * Fabric managed application resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationName The name of the application resource.
    * @param serviceName The name of the service resource in the format of
@@ -167,7 +188,7 @@ export class ServicesImpl implements Services {
 
   /**
    * Create or update a Service Fabric managed service resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationName The name of the application resource.
    * @param serviceName The name of the service resource in the format of
@@ -252,7 +273,7 @@ export class ServicesImpl implements Services {
 
   /**
    * Create or update a Service Fabric managed service resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationName The name of the application resource.
    * @param serviceName The name of the service resource in the format of
@@ -281,7 +302,7 @@ export class ServicesImpl implements Services {
 
   /**
    * Updates the tags of a service resource of a given managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationName The name of the application resource.
    * @param serviceName The name of the service resource in the format of
@@ -312,7 +333,7 @@ export class ServicesImpl implements Services {
 
   /**
    * Delete a Service Fabric managed service resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationName The name of the application resource.
    * @param serviceName The name of the service resource in the format of
@@ -325,11 +346,16 @@ export class ServicesImpl implements Services {
     applicationName: string,
     serviceName: string,
     options?: ServicesDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ServicesDeleteResponse>,
+      ServicesDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<ServicesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -375,7 +401,10 @@ export class ServicesImpl implements Services {
       },
       spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      ServicesDeleteResponse,
+      OperationState<ServicesDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location",
@@ -386,7 +415,7 @@ export class ServicesImpl implements Services {
 
   /**
    * Delete a Service Fabric managed service resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationName The name of the application resource.
    * @param serviceName The name of the service resource in the format of
@@ -399,7 +428,7 @@ export class ServicesImpl implements Services {
     applicationName: string,
     serviceName: string,
     options?: ServicesDeleteOptionalParams,
-  ): Promise<void> {
+  ): Promise<ServicesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
@@ -411,28 +440,8 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Gets all service resources created or in the process of being created in the Service Fabric managed
-   * application resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param clusterName The name of the cluster resource.
-   * @param applicationName The name of the application resource.
-   * @param options The options parameters.
-   */
-  private _listByApplications(
-    resourceGroupName: string,
-    clusterName: string,
-    applicationName: string,
-    options?: ServicesListByApplicationsOptionalParams,
-  ): Promise<ServicesListByApplicationsResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, clusterName, applicationName, options },
-      listByApplicationsOperationSpec,
-    );
-  }
-
-  /**
    * ListByApplicationsNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationName The name of the application resource.
    * @param nextLink The nextLink from the previous successful call to the ListByApplications method.
@@ -454,15 +463,37 @@ export class ServicesImpl implements Services {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByApplicationsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}/services",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ServiceResourceList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.applicationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedclusters/{clusterName}/applications/{applicationName}/services/{serviceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}/services/{serviceName}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.ServiceResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -478,7 +509,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedclusters/{clusterName}/applications/{applicationName}/services/{serviceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}/services/{serviceName}",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -494,10 +525,10 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ServiceResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -512,17 +543,17 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedclusters/{clusterName}/applications/{applicationName}/services/{serviceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}/services/{serviceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
       bodyMapper: Mappers.ServiceResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters8,
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -537,15 +568,23 @@ const updateOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedclusters/{clusterName}/applications/{applicationName}/services/{serviceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}/services/{serviceName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.ServicesDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ServicesDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ServicesDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ServicesDeleteHeaders,
+    },
     default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -560,28 +599,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByApplicationsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedclusters/{clusterName}/applications/{applicationName}/services",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ServiceResourceList,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorModel,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.applicationName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const listByApplicationsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -590,15 +607,15 @@ const listByApplicationsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ServiceResourceList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.nextLink,
     Parameters.applicationName,
   ],
   headerParameters: [Parameters.accept],

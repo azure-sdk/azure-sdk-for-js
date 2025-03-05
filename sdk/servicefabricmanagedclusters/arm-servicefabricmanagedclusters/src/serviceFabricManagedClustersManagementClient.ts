@@ -15,36 +15,36 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  OperationsImpl,
+  ManagedClusterVersionImpl,
+  OperationResultsImpl,
+  OperationStatusImpl,
+  ManagedUnsupportedVMSizesImpl,
+  ManagedClustersImpl,
   ApplicationTypesImpl,
   ApplicationTypeVersionsImpl,
   ApplicationsImpl,
   ServicesImpl,
-  ManagedClustersImpl,
-  ManagedAzResiliencyStatusOperationsImpl,
-  ManagedMaintenanceWindowStatusOperationsImpl,
   ManagedApplyMaintenanceWindowImpl,
-  ManagedClusterVersionImpl,
-  ManagedUnsupportedVMSizesImpl,
-  OperationStatusImpl,
-  OperationResultsImpl,
-  OperationsImpl,
+  ManagedMaintenanceWindowStatusOperationsImpl,
+  ManagedAzResiliencyStatusOperationsImpl,
   NodeTypesImpl,
   NodeTypeSkusImpl,
 } from "./operations/index.js";
 import {
+  Operations,
+  ManagedClusterVersion,
+  OperationResults,
+  OperationStatus,
+  ManagedUnsupportedVMSizes,
+  ManagedClusters,
   ApplicationTypes,
   ApplicationTypeVersions,
   Applications,
   Services,
-  ManagedClusters,
-  ManagedAzResiliencyStatusOperations,
-  ManagedMaintenanceWindowStatusOperations,
   ManagedApplyMaintenanceWindow,
-  ManagedClusterVersion,
-  ManagedUnsupportedVMSizes,
-  OperationStatus,
-  OperationResults,
-  Operations,
+  ManagedMaintenanceWindowStatusOperations,
+  ManagedAzResiliencyStatusOperations,
   NodeTypes,
   NodeTypeSkus,
 } from "./operationsInterfaces/index.js";
@@ -52,13 +52,13 @@ import { ServiceFabricManagedClustersManagementClientOptionalParams } from "./mo
 
 export class ServiceFabricManagedClustersManagementClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
   apiVersion: string;
+  subscriptionId: string;
 
   /**
    * Initializes a new instance of the ServiceFabricManagedClustersManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The customer subscription identifier.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
@@ -83,7 +83,7 @@ export class ServiceFabricManagedClustersManagementClient extends coreClient.Ser
         credential: credentials,
       };
 
-    const packageDetails = `azsdk-js-arm-servicefabricmanagedclusters/1.0.0-beta.3`;
+    const packageDetails = `azsdk-js-arm-servicefabricmanagedclusters/1.0.0-beta.4`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -137,24 +137,24 @@ export class ServiceFabricManagedClustersManagementClient extends coreClient.Ser
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-09-01-preview";
+    this.apiVersion = options.apiVersion || "2024-11-01-preview";
+    this.operations = new OperationsImpl(this);
+    this.managedClusterVersion = new ManagedClusterVersionImpl(this);
+    this.operationResults = new OperationResultsImpl(this);
+    this.operationStatus = new OperationStatusImpl(this);
+    this.managedUnsupportedVMSizes = new ManagedUnsupportedVMSizesImpl(this);
+    this.managedClusters = new ManagedClustersImpl(this);
     this.applicationTypes = new ApplicationTypesImpl(this);
     this.applicationTypeVersions = new ApplicationTypeVersionsImpl(this);
     this.applications = new ApplicationsImpl(this);
     this.services = new ServicesImpl(this);
-    this.managedClusters = new ManagedClustersImpl(this);
-    this.managedAzResiliencyStatusOperations =
-      new ManagedAzResiliencyStatusOperationsImpl(this);
-    this.managedMaintenanceWindowStatusOperations =
-      new ManagedMaintenanceWindowStatusOperationsImpl(this);
     this.managedApplyMaintenanceWindow = new ManagedApplyMaintenanceWindowImpl(
       this,
     );
-    this.managedClusterVersion = new ManagedClusterVersionImpl(this);
-    this.managedUnsupportedVMSizes = new ManagedUnsupportedVMSizesImpl(this);
-    this.operationStatus = new OperationStatusImpl(this);
-    this.operationResults = new OperationResultsImpl(this);
-    this.operations = new OperationsImpl(this);
+    this.managedMaintenanceWindowStatusOperations =
+      new ManagedMaintenanceWindowStatusOperationsImpl(this);
+    this.managedAzResiliencyStatusOperations =
+      new ManagedAzResiliencyStatusOperationsImpl(this);
     this.nodeTypes = new NodeTypesImpl(this);
     this.nodeTypeSkus = new NodeTypeSkusImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
@@ -188,19 +188,19 @@ export class ServiceFabricManagedClustersManagementClient extends coreClient.Ser
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  operations: Operations;
+  managedClusterVersion: ManagedClusterVersion;
+  operationResults: OperationResults;
+  operationStatus: OperationStatus;
+  managedUnsupportedVMSizes: ManagedUnsupportedVMSizes;
+  managedClusters: ManagedClusters;
   applicationTypes: ApplicationTypes;
   applicationTypeVersions: ApplicationTypeVersions;
   applications: Applications;
   services: Services;
-  managedClusters: ManagedClusters;
-  managedAzResiliencyStatusOperations: ManagedAzResiliencyStatusOperations;
-  managedMaintenanceWindowStatusOperations: ManagedMaintenanceWindowStatusOperations;
   managedApplyMaintenanceWindow: ManagedApplyMaintenanceWindow;
-  managedClusterVersion: ManagedClusterVersion;
-  managedUnsupportedVMSizes: ManagedUnsupportedVMSizes;
-  operationStatus: OperationStatus;
-  operationResults: OperationResults;
-  operations: Operations;
+  managedMaintenanceWindowStatusOperations: ManagedMaintenanceWindowStatusOperations;
+  managedAzResiliencyStatusOperations: ManagedAzResiliencyStatusOperations;
   nodeTypes: NodeTypes;
   nodeTypeSkus: NodeTypeSkus;
 }

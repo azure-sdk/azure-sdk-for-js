@@ -17,7 +17,7 @@ import {
 export interface NodeTypeSkus {
   /**
    * Get a Service Fabric node type supported SKUs.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param nodeTypeName The name of the node type.
    * @param options The options parameters.

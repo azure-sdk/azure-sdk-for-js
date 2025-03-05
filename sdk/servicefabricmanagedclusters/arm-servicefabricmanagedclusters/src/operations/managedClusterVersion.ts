@@ -12,15 +12,15 @@ import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ServiceFabricManagedClustersManagementClient } from "../serviceFabricManagedClustersManagementClient.js";
 import {
-  ManagedClusterVersionGetOptionalParams,
-  ManagedClusterVersionGetResponse,
   ManagedClusterVersionEnvironment,
+  ManagedClusterVersionListByEnvironmentOptionalParams,
+  ManagedClusterVersionListByEnvironmentResponse,
   ManagedClusterVersionGetByEnvironmentOptionalParams,
   ManagedClusterVersionGetByEnvironmentResponse,
   ManagedClusterVersionListOptionalParams,
   ManagedClusterVersionListResponse,
-  ManagedClusterVersionListByEnvironmentOptionalParams,
-  ManagedClusterVersionListByEnvironmentResponse,
+  ManagedClusterVersionGetOptionalParams,
+  ManagedClusterVersionGetResponse,
 } from "../models/index.js";
 
 /** Class containing ManagedClusterVersion operations. */
@@ -36,26 +36,26 @@ export class ManagedClusterVersionImpl implements ManagedClusterVersion {
   }
 
   /**
-   * Gets information about an available Service Fabric managed cluster code version.
+   * Gets all available code versions for Service Fabric cluster resources by environment.
    * @param location The location for the cluster code versions. This is different from cluster location.
-   * @param clusterVersion The cluster code version.
+   * @param environment The operating system of the cluster.
    * @param options The options parameters.
    */
-  get(
+  listByEnvironment(
     location: string,
-    clusterVersion: string,
-    options?: ManagedClusterVersionGetOptionalParams,
-  ): Promise<ManagedClusterVersionGetResponse> {
+    environment: ManagedClusterVersionEnvironment,
+    options?: ManagedClusterVersionListByEnvironmentOptionalParams,
+  ): Promise<ManagedClusterVersionListByEnvironmentResponse> {
     return this.client.sendOperationRequest(
-      { location, clusterVersion, options },
-      getOperationSpec,
+      { location, environment, options },
+      listByEnvironmentOperationSpec,
     );
   }
 
   /**
    * Gets information about an available Service Fabric cluster code version by environment.
    * @param location The location for the cluster code versions. This is different from cluster location.
-   * @param environment The operating system of the cluster. The default means all.
+   * @param environment The operating system of the cluster.
    * @param clusterVersion The cluster code version.
    * @param options The options parameters.
    */
@@ -87,34 +87,44 @@ export class ManagedClusterVersionImpl implements ManagedClusterVersion {
   }
 
   /**
-   * Gets all available code versions for Service Fabric cluster resources by environment.
+   * Gets information about an available Service Fabric managed cluster code version.
    * @param location The location for the cluster code versions. This is different from cluster location.
-   * @param environment The operating system of the cluster. The default means all.
+   * @param clusterVersion The cluster code version.
    * @param options The options parameters.
    */
-  listByEnvironment(
+  get(
     location: string,
-    environment: ManagedClusterVersionEnvironment,
-    options?: ManagedClusterVersionListByEnvironmentOptionalParams,
-  ): Promise<ManagedClusterVersionListByEnvironmentResponse> {
+    clusterVersion: string,
+    options?: ManagedClusterVersionGetOptionalParams,
+  ): Promise<ManagedClusterVersionGetResponse> {
     return this.client.sendOperationRequest(
-      { location, environment, options },
-      listByEnvironmentOperationSpec,
+      { location, clusterVersion, options },
+      getOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/locations/{location}/managedClusterVersions/{clusterVersion}",
+const listByEnvironmentOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/locations/{location}/environments/{environment}/managedClusterVersions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedClusterCodeVersionResult,
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedClusterCodeVersionResult",
+            },
+          },
+        },
+      },
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -122,7 +132,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location,
-    Parameters.clusterVersion,
+    Parameters.environment,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -135,7 +145,7 @@ const getByEnvironmentOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ManagedClusterCodeVersionResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -143,8 +153,8 @@ const getByEnvironmentOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location,
-    Parameters.clusterVersion,
     Parameters.environment,
+    Parameters.clusterVersion,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -167,7 +177,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       },
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -179,25 +189,15 @@ const listOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByEnvironmentOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/locations/{location}/environments/{environment}/managedClusterVersions",
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/locations/{location}/managedClusterVersions/{clusterVersion}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: {
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ManagedClusterCodeVersionResult",
-            },
-          },
-        },
-      },
+      bodyMapper: Mappers.ManagedClusterCodeVersionResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -205,7 +205,7 @@ const listByEnvironmentOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location,
-    Parameters.environment,
+    Parameters.clusterVersion,
   ],
   headerParameters: [Parameters.accept],
   serializer,

@@ -10,8 +10,10 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ManagedCluster,
-  ManagedClustersListByResourceGroupOptionalParams,
   ManagedClustersListBySubscriptionOptionalParams,
+  ManagedClustersListByResourceGroupOptionalParams,
+  FaultSimulation,
+  ManagedClustersListFaultSimulationOptionalParams,
   ManagedClustersGetOptionalParams,
   ManagedClustersGetResponse,
   ManagedClustersCreateOrUpdateOptionalParams,
@@ -20,21 +22,20 @@ import {
   ManagedClustersUpdateOptionalParams,
   ManagedClustersUpdateResponse,
   ManagedClustersDeleteOptionalParams,
+  ManagedClustersDeleteResponse,
+  FaultSimulationIdContent,
+  ManagedClustersGetFaultSimulationOptionalParams,
+  ManagedClustersGetFaultSimulationResponse,
+  FaultSimulationContentUnion,
+  ManagedClustersStartFaultSimulationOptionalParams,
+  ManagedClustersStartFaultSimulationResponse,
+  ManagedClustersStopFaultSimulationOptionalParams,
+  ManagedClustersStopFaultSimulationResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedClusters. */
 export interface ManagedClusters {
-  /**
-   * Gets all Service Fabric cluster resources created or in the process of being created in the resource
-   * group.
-   * @param resourceGroupName The name of the resource group.
-   * @param options The options parameters.
-   */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: ManagedClustersListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<ManagedCluster>;
   /**
    * Gets all Service Fabric cluster resources created or in the process of being created in the
    * subscription.
@@ -44,9 +45,30 @@ export interface ManagedClusters {
     options?: ManagedClustersListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ManagedCluster>;
   /**
+   * Gets all Service Fabric cluster resources created or in the process of being created in the resource
+   * group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: ManagedClustersListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<ManagedCluster>;
+  /**
+   * Gets the list of recent fault simulations for the cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param options The options parameters.
+   */
+  listFaultSimulation(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ManagedClustersListFaultSimulationOptionalParams,
+  ): PagedAsyncIterableIterator<FaultSimulation>;
+  /**
    * Get a Service Fabric managed cluster resource created or in the process of being created in the
    * specified resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param options The options parameters.
    */
@@ -57,7 +79,7 @@ export interface ManagedClusters {
   ): Promise<ManagedClustersGetResponse>;
   /**
    * Create or update a Service Fabric managed cluster resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param parameters The cluster resource.
    * @param options The options parameters.
@@ -75,7 +97,7 @@ export interface ManagedClusters {
   >;
   /**
    * Create or update a Service Fabric managed cluster resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param parameters The cluster resource.
    * @param options The options parameters.
@@ -88,7 +110,7 @@ export interface ManagedClusters {
   ): Promise<ManagedClustersCreateOrUpdateResponse>;
   /**
    * Update the tags of of a Service Fabric managed cluster resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param parameters The managed cluster resource updated tags.
    * @param options The options parameters.
@@ -101,7 +123,7 @@ export interface ManagedClusters {
   ): Promise<ManagedClustersUpdateResponse>;
   /**
    * Delete a Service Fabric managed cluster resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param options The options parameters.
    */
@@ -109,10 +131,15 @@ export interface ManagedClusters {
     resourceGroupName: string,
     clusterName: string,
     options?: ManagedClustersDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedClustersDeleteResponse>,
+      ManagedClustersDeleteResponse
+    >
+  >;
   /**
    * Delete a Service Fabric managed cluster resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param options The options parameters.
    */
@@ -120,5 +147,80 @@ export interface ManagedClusters {
     resourceGroupName: string,
     clusterName: string,
     options?: ManagedClustersDeleteOptionalParams,
-  ): Promise<void>;
+  ): Promise<ManagedClustersDeleteResponse>;
+  /**
+   * Gets a fault simulation by the simulationId.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param parameters parameter with fault simulation id.
+   * @param options The options parameters.
+   */
+  getFaultSimulation(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: FaultSimulationIdContent,
+    options?: ManagedClustersGetFaultSimulationOptionalParams,
+  ): Promise<ManagedClustersGetFaultSimulationResponse>;
+  /**
+   * Starts a fault simulation on the cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param parameters parameters describing the fault simulation.
+   * @param options The options parameters.
+   */
+  beginStartFaultSimulation(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: FaultSimulationContentUnion,
+    options?: ManagedClustersStartFaultSimulationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedClustersStartFaultSimulationResponse>,
+      ManagedClustersStartFaultSimulationResponse
+    >
+  >;
+  /**
+   * Starts a fault simulation on the cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param parameters parameters describing the fault simulation.
+   * @param options The options parameters.
+   */
+  beginStartFaultSimulationAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: FaultSimulationContentUnion,
+    options?: ManagedClustersStartFaultSimulationOptionalParams,
+  ): Promise<ManagedClustersStartFaultSimulationResponse>;
+  /**
+   * Stops a fault simulation on the cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param parameters parameter with fault simulation id.
+   * @param options The options parameters.
+   */
+  beginStopFaultSimulation(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: FaultSimulationIdContent,
+    options?: ManagedClustersStopFaultSimulationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedClustersStopFaultSimulationResponse>,
+      ManagedClustersStopFaultSimulationResponse
+    >
+  >;
+  /**
+   * Stops a fault simulation on the cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param parameters parameter with fault simulation id.
+   * @param options The options parameters.
+   */
+  beginStopFaultSimulationAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: FaultSimulationIdContent,
+    options?: ManagedClustersStopFaultSimulationOptionalParams,
+  ): Promise<ManagedClustersStopFaultSimulationResponse>;
 }

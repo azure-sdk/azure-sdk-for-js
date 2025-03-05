@@ -19,6 +19,7 @@ import {
   ApplicationTypesUpdateOptionalParams,
   ApplicationTypesUpdateResponse,
   ApplicationTypesDeleteOptionalParams,
+  ApplicationTypesDeleteResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,7 +28,7 @@ export interface ApplicationTypes {
   /**
    * Gets all application type name resources created or in the process of being created in the Service
    * Fabric managed cluster resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param options The options parameters.
    */
@@ -39,7 +40,7 @@ export interface ApplicationTypes {
   /**
    * Get a Service Fabric application type name resource created or in the process of being created in
    * the Service Fabric managed cluster resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationTypeName The name of the application type name resource.
    * @param options The options parameters.
@@ -52,7 +53,7 @@ export interface ApplicationTypes {
   ): Promise<ApplicationTypesGetResponse>;
   /**
    * Create or update a Service Fabric managed application type name resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationTypeName The name of the application type name resource.
    * @param parameters The application type name resource.
@@ -67,7 +68,7 @@ export interface ApplicationTypes {
   ): Promise<ApplicationTypesCreateOrUpdateResponse>;
   /**
    * Updates the tags of an application type resource of a given managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationTypeName The name of the application type name resource.
    * @param parameters The application type resource updated tags.
@@ -82,7 +83,7 @@ export interface ApplicationTypes {
   ): Promise<ApplicationTypesUpdateResponse>;
   /**
    * Delete a Service Fabric managed application type name resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationTypeName The name of the application type name resource.
    * @param options The options parameters.
@@ -92,10 +93,15 @@ export interface ApplicationTypes {
     clusterName: string,
     applicationTypeName: string,
     options?: ApplicationTypesDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ApplicationTypesDeleteResponse>,
+      ApplicationTypesDeleteResponse
+    >
+  >;
   /**
    * Delete a Service Fabric managed application type name resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationTypeName The name of the application type name resource.
    * @param options The options parameters.
@@ -105,5 +111,5 @@ export interface ApplicationTypes {
     clusterName: string,
     applicationTypeName: string,
     options?: ApplicationTypesDeleteOptionalParams,
-  ): Promise<void>;
+  ): Promise<ApplicationTypesDeleteResponse>;
 }

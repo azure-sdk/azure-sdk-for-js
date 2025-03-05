@@ -19,6 +19,7 @@ import {
   ServicesUpdateOptionalParams,
   ServicesUpdateResponse,
   ServicesDeleteOptionalParams,
+  ServicesDeleteResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,7 +28,7 @@ export interface Services {
   /**
    * Gets all service resources created or in the process of being created in the Service Fabric managed
    * application resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationName The name of the application resource.
    * @param options The options parameters.
@@ -41,7 +42,7 @@ export interface Services {
   /**
    * Get a Service Fabric service resource created or in the process of being created in the Service
    * Fabric managed application resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationName The name of the application resource.
    * @param serviceName The name of the service resource in the format of
@@ -57,7 +58,7 @@ export interface Services {
   ): Promise<ServicesGetResponse>;
   /**
    * Create or update a Service Fabric managed service resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationName The name of the application resource.
    * @param serviceName The name of the service resource in the format of
@@ -80,7 +81,7 @@ export interface Services {
   >;
   /**
    * Create or update a Service Fabric managed service resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationName The name of the application resource.
    * @param serviceName The name of the service resource in the format of
@@ -98,7 +99,7 @@ export interface Services {
   ): Promise<ServicesCreateOrUpdateResponse>;
   /**
    * Updates the tags of a service resource of a given managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationName The name of the application resource.
    * @param serviceName The name of the service resource in the format of
@@ -116,7 +117,7 @@ export interface Services {
   ): Promise<ServicesUpdateResponse>;
   /**
    * Delete a Service Fabric managed service resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationName The name of the application resource.
    * @param serviceName The name of the service resource in the format of
@@ -129,10 +130,15 @@ export interface Services {
     applicationName: string,
     serviceName: string,
     options?: ServicesDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ServicesDeleteResponse>,
+      ServicesDeleteResponse
+    >
+  >;
   /**
    * Delete a Service Fabric managed service resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationName The name of the application resource.
    * @param serviceName The name of the service resource in the format of
@@ -145,5 +151,5 @@ export interface Services {
     applicationName: string,
     serviceName: string,
     options?: ServicesDeleteOptionalParams,
-  ): Promise<void>;
+  ): Promise<ServicesDeleteResponse>;
 }

@@ -16,7 +16,7 @@ export interface ManagedAzResiliencyStatusOperations {
   /**
    * Action to get Az Resiliency Status of all the Base resources constituting Service Fabric Managed
    * Clusters.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param options The options parameters.
    */

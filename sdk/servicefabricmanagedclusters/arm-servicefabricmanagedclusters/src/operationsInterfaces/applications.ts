@@ -11,13 +11,6 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ApplicationResource,
   ApplicationsListOptionalParams,
-  ApplicationsReadUpgradeOptionalParams,
-  ApplicationsReadUpgradeResponse,
-  ApplicationsStartRollbackOptionalParams,
-  ApplicationsStartRollbackResponse,
-  RuntimeResumeApplicationUpgradeParameters,
-  ApplicationsResumeUpgradeOptionalParams,
-  ApplicationsResumeUpgradeResponse,
   ApplicationsGetOptionalParams,
   ApplicationsGetResponse,
   ApplicationsCreateOrUpdateOptionalParams,
@@ -26,6 +19,14 @@ import {
   ApplicationsUpdateOptionalParams,
   ApplicationsUpdateResponse,
   ApplicationsDeleteOptionalParams,
+  ApplicationsDeleteResponse,
+  ApplicationsReadUpgradeOptionalParams,
+  ApplicationsReadUpgradeResponse,
+  RuntimeResumeApplicationUpgradeParameters,
+  ApplicationsResumeUpgradeOptionalParams,
+  ApplicationsResumeUpgradeResponse,
+  ApplicationsStartRollbackOptionalParams,
+  ApplicationsStartRollbackResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +35,7 @@ export interface Applications {
   /**
    * Gets all managed application resources created or in the process of being created in the Service
    * Fabric cluster resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param options The options parameters.
    */
@@ -44,9 +45,104 @@ export interface Applications {
     options?: ApplicationsListOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationResource>;
   /**
+   * Get a Service Fabric managed application resource created or in the process of being created in the
+   * Service Fabric cluster resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param applicationName The name of the application resource.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    options?: ApplicationsGetOptionalParams,
+  ): Promise<ApplicationsGetResponse>;
+  /**
+   * Create or update a Service Fabric managed application resource with the specified name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param applicationName The name of the application resource.
+   * @param parameters The application resource.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    parameters: ApplicationResource,
+    options?: ApplicationsCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ApplicationsCreateOrUpdateResponse>,
+      ApplicationsCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Create or update a Service Fabric managed application resource with the specified name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param applicationName The name of the application resource.
+   * @param parameters The application resource.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    parameters: ApplicationResource,
+    options?: ApplicationsCreateOrUpdateOptionalParams,
+  ): Promise<ApplicationsCreateOrUpdateResponse>;
+  /**
+   * Updates the tags of an application resource of a given managed cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param applicationName The name of the application resource.
+   * @param parameters The application resource updated tags.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    parameters: ApplicationUpdateParameters,
+    options?: ApplicationsUpdateOptionalParams,
+  ): Promise<ApplicationsUpdateResponse>;
+  /**
+   * Delete a Service Fabric managed application resource with the specified name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param applicationName The name of the application resource.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    options?: ApplicationsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ApplicationsDeleteResponse>,
+      ApplicationsDeleteResponse
+    >
+  >;
+  /**
+   * Delete a Service Fabric managed application resource with the specified name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster resource.
+   * @param applicationName The name of the application resource.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    options?: ApplicationsDeleteOptionalParams,
+  ): Promise<ApplicationsDeleteResponse>;
+  /**
    * Get the status of the latest application upgrade. It will query the cluster to find the status of
    * the latest application upgrade.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationName The name of the application resource.
    * @param options The options parameters.
@@ -65,7 +161,7 @@ export interface Applications {
   /**
    * Get the status of the latest application upgrade. It will query the cluster to find the status of
    * the latest application upgrade.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationName The name of the application resource.
    * @param options The options parameters.
@@ -77,42 +173,9 @@ export interface Applications {
     options?: ApplicationsReadUpgradeOptionalParams,
   ): Promise<ApplicationsReadUpgradeResponse>;
   /**
-   * Send a request to start a rollback of the current application upgrade. This will start rolling back
-   * the application to the previous version.
-   * @param resourceGroupName The name of the resource group.
-   * @param clusterName The name of the cluster resource.
-   * @param applicationName The name of the application resource.
-   * @param options The options parameters.
-   */
-  beginStartRollback(
-    resourceGroupName: string,
-    clusterName: string,
-    applicationName: string,
-    options?: ApplicationsStartRollbackOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ApplicationsStartRollbackResponse>,
-      ApplicationsStartRollbackResponse
-    >
-  >;
-  /**
-   * Send a request to start a rollback of the current application upgrade. This will start rolling back
-   * the application to the previous version.
-   * @param resourceGroupName The name of the resource group.
-   * @param clusterName The name of the cluster resource.
-   * @param applicationName The name of the application resource.
-   * @param options The options parameters.
-   */
-  beginStartRollbackAndWait(
-    resourceGroupName: string,
-    clusterName: string,
-    applicationName: string,
-    options?: ApplicationsStartRollbackOptionalParams,
-  ): Promise<ApplicationsStartRollbackResponse>;
-  /**
    * Send a request to resume the current application upgrade. This will resume the application upgrade
    * from where it was paused.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationName The name of the application resource.
    * @param parameters The parameters for resuming an application upgrade.
@@ -133,7 +196,7 @@ export interface Applications {
   /**
    * Send a request to resume the current application upgrade. This will resume the application upgrade
    * from where it was paused.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationName The name of the application resource.
    * @param parameters The parameters for resuming an application upgrade.
@@ -147,93 +210,36 @@ export interface Applications {
     options?: ApplicationsResumeUpgradeOptionalParams,
   ): Promise<ApplicationsResumeUpgradeResponse>;
   /**
-   * Get a Service Fabric managed application resource created or in the process of being created in the
-   * Service Fabric cluster resource.
-   * @param resourceGroupName The name of the resource group.
+   * Send a request to start a rollback of the current application upgrade. This will start rolling back
+   * the application to the previous version.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationName The name of the application resource.
    * @param options The options parameters.
    */
-  get(
+  beginStartRollback(
     resourceGroupName: string,
     clusterName: string,
     applicationName: string,
-    options?: ApplicationsGetOptionalParams,
-  ): Promise<ApplicationsGetResponse>;
-  /**
-   * Create or update a Service Fabric managed application resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
-   * @param clusterName The name of the cluster resource.
-   * @param applicationName The name of the application resource.
-   * @param parameters The application resource.
-   * @param options The options parameters.
-   */
-  beginCreateOrUpdate(
-    resourceGroupName: string,
-    clusterName: string,
-    applicationName: string,
-    parameters: ApplicationResource,
-    options?: ApplicationsCreateOrUpdateOptionalParams,
+    options?: ApplicationsStartRollbackOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ApplicationsCreateOrUpdateResponse>,
-      ApplicationsCreateOrUpdateResponse
+      OperationState<ApplicationsStartRollbackResponse>,
+      ApplicationsStartRollbackResponse
     >
   >;
   /**
-   * Create or update a Service Fabric managed application resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
-   * @param clusterName The name of the cluster resource.
-   * @param applicationName The name of the application resource.
-   * @param parameters The application resource.
-   * @param options The options parameters.
-   */
-  beginCreateOrUpdateAndWait(
-    resourceGroupName: string,
-    clusterName: string,
-    applicationName: string,
-    parameters: ApplicationResource,
-    options?: ApplicationsCreateOrUpdateOptionalParams,
-  ): Promise<ApplicationsCreateOrUpdateResponse>;
-  /**
-   * Updates the tags of an application resource of a given managed cluster.
-   * @param resourceGroupName The name of the resource group.
-   * @param clusterName The name of the cluster resource.
-   * @param applicationName The name of the application resource.
-   * @param parameters The application resource updated tags.
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    clusterName: string,
-    applicationName: string,
-    parameters: ApplicationUpdateParameters,
-    options?: ApplicationsUpdateOptionalParams,
-  ): Promise<ApplicationsUpdateResponse>;
-  /**
-   * Delete a Service Fabric managed application resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
+   * Send a request to start a rollback of the current application upgrade. This will start rolling back
+   * the application to the previous version.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param applicationName The name of the application resource.
    * @param options The options parameters.
    */
-  beginDelete(
+  beginStartRollbackAndWait(
     resourceGroupName: string,
     clusterName: string,
     applicationName: string,
-    options?: ApplicationsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Delete a Service Fabric managed application resource with the specified name.
-   * @param resourceGroupName The name of the resource group.
-   * @param clusterName The name of the cluster resource.
-   * @param applicationName The name of the application resource.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceGroupName: string,
-    clusterName: string,
-    applicationName: string,
-    options?: ApplicationsDeleteOptionalParams,
-  ): Promise<void>;
+    options?: ApplicationsStartRollbackOptionalParams,
+  ): Promise<ApplicationsStartRollbackResponse>;
 }

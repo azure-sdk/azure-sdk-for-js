@@ -7,34 +7,34 @@
  */
 
 import {
-  ManagedClusterVersionGetOptionalParams,
-  ManagedClusterVersionGetResponse,
   ManagedClusterVersionEnvironment,
+  ManagedClusterVersionListByEnvironmentOptionalParams,
+  ManagedClusterVersionListByEnvironmentResponse,
   ManagedClusterVersionGetByEnvironmentOptionalParams,
   ManagedClusterVersionGetByEnvironmentResponse,
   ManagedClusterVersionListOptionalParams,
   ManagedClusterVersionListResponse,
-  ManagedClusterVersionListByEnvironmentOptionalParams,
-  ManagedClusterVersionListByEnvironmentResponse,
+  ManagedClusterVersionGetOptionalParams,
+  ManagedClusterVersionGetResponse,
 } from "../models/index.js";
 
 /** Interface representing a ManagedClusterVersion. */
 export interface ManagedClusterVersion {
   /**
-   * Gets information about an available Service Fabric managed cluster code version.
+   * Gets all available code versions for Service Fabric cluster resources by environment.
    * @param location The location for the cluster code versions. This is different from cluster location.
-   * @param clusterVersion The cluster code version.
+   * @param environment The operating system of the cluster.
    * @param options The options parameters.
    */
-  get(
+  listByEnvironment(
     location: string,
-    clusterVersion: string,
-    options?: ManagedClusterVersionGetOptionalParams,
-  ): Promise<ManagedClusterVersionGetResponse>;
+    environment: ManagedClusterVersionEnvironment,
+    options?: ManagedClusterVersionListByEnvironmentOptionalParams,
+  ): Promise<ManagedClusterVersionListByEnvironmentResponse>;
   /**
    * Gets information about an available Service Fabric cluster code version by environment.
    * @param location The location for the cluster code versions. This is different from cluster location.
-   * @param environment The operating system of the cluster. The default means all.
+   * @param environment The operating system of the cluster.
    * @param clusterVersion The cluster code version.
    * @param options The options parameters.
    */
@@ -54,14 +54,14 @@ export interface ManagedClusterVersion {
     options?: ManagedClusterVersionListOptionalParams,
   ): Promise<ManagedClusterVersionListResponse>;
   /**
-   * Gets all available code versions for Service Fabric cluster resources by environment.
+   * Gets information about an available Service Fabric managed cluster code version.
    * @param location The location for the cluster code versions. This is different from cluster location.
-   * @param environment The operating system of the cluster. The default means all.
+   * @param clusterVersion The cluster code version.
    * @param options The options parameters.
    */
-  listByEnvironment(
+  get(
     location: string,
-    environment: ManagedClusterVersionEnvironment,
-    options?: ManagedClusterVersionListByEnvironmentOptionalParams,
-  ): Promise<ManagedClusterVersionListByEnvironmentResponse>;
+    clusterVersion: string,
+    options?: ManagedClusterVersionGetOptionalParams,
+  ): Promise<ManagedClusterVersionGetResponse>;
 }

@@ -32,7 +32,7 @@ export class ManagedMaintenanceWindowStatusOperationsImpl
 
   /**
    * Action to get Maintenance Window Status of the Service Fabric Managed Clusters.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster resource.
    * @param options The options parameters.
    */
@@ -58,7 +58,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ManagedMaintenanceWindowStatus,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],

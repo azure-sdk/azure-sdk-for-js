@@ -30,7 +30,7 @@ export class OperationStatusImpl implements OperationStatus {
 
   /**
    * Get long running operation status.
-   * @param location The location for the cluster code versions. This is different from cluster location.
+   * @param location The name of Azure region.
    * @param operationId operation identifier.
    * @param options The options parameters.
    */
@@ -56,14 +56,14 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.LongRunningOperationResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location,
+    Parameters.location1,
     Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
