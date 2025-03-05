@@ -16,6 +16,8 @@ import {
   ElasticSanUpdate as ElasticSanUpdateMapper,
   VolumeGroup as VolumeGroupMapper,
   VolumeGroupUpdate as VolumeGroupUpdateMapper,
+  VolumeNameList as VolumeNameListMapper,
+  DiskSnapshotList as DiskSnapshotListMapper,
   Volume as VolumeMapper,
   VolumeUpdate as VolumeUpdateMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
@@ -49,7 +51,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-06-01-preview",
+    defaultValue: "2025-03-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -175,6 +177,16 @@ export const parameters3: OperationParameter = {
 
 export const parameters4: OperationParameter = {
   parameterPath: "parameters",
+  mapper: VolumeNameListMapper,
+};
+
+export const parameters5: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DiskSnapshotListMapper,
+};
+
+export const parameters6: OperationParameter = {
+  parameterPath: "parameters",
   mapper: VolumeMapper,
 };
 
@@ -194,7 +206,7 @@ export const volumeName: OperationURLParameter = {
   },
 };
 
-export const parameters5: OperationParameter = {
+export const parameters7: OperationParameter = {
   parameterPath: "parameters",
   mapper: VolumeUpdateMapper,
 };
@@ -219,7 +231,7 @@ export const xMsForceDelete: OperationParameter = {
   },
 };
 
-export const parameters6: OperationParameter = {
+export const parameters8: OperationParameter = {
   parameterPath: "parameters",
   mapper: PrivateEndpointConnectionMapper,
 };
@@ -235,7 +247,7 @@ export const privateEndpointConnectionName: OperationURLParameter = {
   },
 };
 
-export const parameters7: OperationParameter = {
+export const parameters9: OperationParameter = {
   parameterPath: "parameters",
   mapper: SnapshotMapper,
 };
