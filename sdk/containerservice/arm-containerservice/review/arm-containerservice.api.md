@@ -1250,7 +1250,7 @@ export interface ManagedClusterListResult {
 export interface ManagedClusterLoadBalancerProfile {
     allocatedOutboundPorts?: number;
     backendPoolType?: BackendPoolType;
-    effectiveOutboundIPs?: ResourceReference[];
+    readonly effectiveOutboundIPs?: ResourceReference[];
     enableMultipleStandardLoadBalancers?: boolean;
     idleTimeoutInMinutes?: number;
     managedOutboundIPs?: ManagedClusterLoadBalancerProfileManagedOutboundIPs;
@@ -1286,7 +1286,7 @@ export interface ManagedClusterMetricsProfile {
 
 // @public
 export interface ManagedClusterNATGatewayProfile {
-    effectiveOutboundIPs?: ResourceReference[];
+    readonly effectiveOutboundIPs?: ResourceReference[];
     idleTimeoutInMinutes?: number;
     managedOutboundIPProfile?: ManagedClusterManagedOutboundIPProfile;
 }
