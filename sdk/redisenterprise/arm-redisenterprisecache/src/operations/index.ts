@@ -10,6 +10,5 @@ export * from "./operations.js";
 export * from "./operationsStatus.js";
 export * from "./redisEnterprise.js";
 export * from "./databases.js";
-export * from "./accessPolicyAssignmentOperations.js";
 export * from "./privateEndpointConnections.js";
 export * from "./privateLinkResources.js";

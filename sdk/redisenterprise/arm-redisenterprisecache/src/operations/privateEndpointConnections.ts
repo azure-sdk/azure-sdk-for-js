@@ -45,9 +45,11 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Lists all the private endpoint connections associated with the Redis Enterprise cluster.
+   * Lists all the private endpoint connections associated with the RedisEnterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param options The options parameters.
    */
   public list(
@@ -103,9 +105,11 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Lists all the private endpoint connections associated with the Redis Enterprise cluster.
+   * Lists all the private endpoint connections associated with the RedisEnterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param options The options parameters.
    */
   private _list(
@@ -120,9 +124,11 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Gets the specified private endpoint connection associated with the Redis Enterprise cluster.
+   * Gets the specified private endpoint connection associated with the RedisEnterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
    *                                      Azure resource
    * @param options The options parameters.
@@ -145,10 +151,12 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Updates the state of the specified private endpoint connection associated with the Redis Enterprise
+   * Updates the state of the specified private endpoint connection associated with the RedisEnterprise
    * cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
    *                                      Azure resource
    * @param properties The private endpoint connection properties.
@@ -227,10 +235,12 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Updates the state of the specified private endpoint connection associated with the Redis Enterprise
+   * Updates the state of the specified private endpoint connection associated with the RedisEnterprise
    * cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
    *                                      Azure resource
    * @param properties The private endpoint connection properties.
@@ -254,9 +264,11 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Deletes the specified private endpoint connection associated with the Redis Enterprise cluster.
+   * Deletes the specified private endpoint connection associated with the RedisEnterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
    *                                      Azure resource
    * @param options The options parameters.
@@ -325,9 +337,11 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Deletes the specified private endpoint connection associated with the Redis Enterprise cluster.
+   * Deletes the specified private endpoint connection associated with the RedisEnterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
    *                                      Azure resource
    * @param options The options parameters.
