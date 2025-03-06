@@ -2657,6 +2657,51 @@ export const SiteDnsConfig: coreClient.CompositeMapper = {
   },
 };
 
+export const OutboundVnetRouting: coreClient.CompositeMapper = {
+  serializedName: "OutboundVnetRouting",
+  type: {
+    name: "Composite",
+    className: "OutboundVnetRouting",
+    modelProperties: {
+      allTraffic: {
+        serializedName: "allTraffic",
+        xmlName: "allTraffic",
+        type: {
+          name: "Boolean",
+        },
+      },
+      applicationTraffic: {
+        serializedName: "applicationTraffic",
+        xmlName: "applicationTraffic",
+        type: {
+          name: "Boolean",
+        },
+      },
+      contentShareTraffic: {
+        serializedName: "contentShareTraffic",
+        xmlName: "contentShareTraffic",
+        type: {
+          name: "Boolean",
+        },
+      },
+      imagePullTraffic: {
+        serializedName: "imagePullTraffic",
+        xmlName: "imagePullTraffic",
+        type: {
+          name: "Boolean",
+        },
+      },
+      backupRestoreTraffic: {
+        serializedName: "backupRestoreTraffic",
+        xmlName: "backupRestoreTraffic",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
 export const SiteConfig: coreClient.CompositeMapper = {
   serializedName: "SiteConfig",
   type: {
@@ -15130,6 +15175,44 @@ export const AppserviceGithubTokenRequest: coreClient.CompositeMapper = {
   },
 };
 
+export const ErrorPage: coreClient.CompositeMapper = {
+  serializedName: "ErrorPage",
+  type: {
+    name: "Composite",
+    className: "ErrorPage",
+    modelProperties: {
+      statusCode: {
+        serializedName: "statusCode",
+        xmlName: "statusCode",
+        type: {
+          name: "Number",
+        },
+      },
+      content: {
+        serializedName: "content",
+        xmlName: "content",
+        type: {
+          name: "String",
+        },
+      },
+      contentType: {
+        serializedName: "contentType",
+        xmlName: "contentType",
+        type: {
+          name: "String",
+        },
+      },
+      alwaysUse: {
+        serializedName: "alwaysUse",
+        xmlName: "alwaysUse",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
 export const WorkflowFilter: coreClient.CompositeMapper = {
   serializedName: "WorkflowFilter",
   type: {
@@ -16044,32 +16127,12 @@ export const Site: coreClient.CompositeMapper = {
           className: "SiteDnsConfig",
         },
       },
-      vnetRouteAllEnabled: {
-        serializedName: "properties.vnetRouteAllEnabled",
-        xmlName: "properties.vnetRouteAllEnabled",
+      outboundVnetRouting: {
+        serializedName: "properties.outboundVnetRouting",
+        xmlName: "properties.outboundVnetRouting",
         type: {
-          name: "Boolean",
-        },
-      },
-      vnetImagePullEnabled: {
-        serializedName: "properties.vnetImagePullEnabled",
-        xmlName: "properties.vnetImagePullEnabled",
-        type: {
-          name: "Boolean",
-        },
-      },
-      vnetContentShareEnabled: {
-        serializedName: "properties.vnetContentShareEnabled",
-        xmlName: "properties.vnetContentShareEnabled",
-        type: {
-          name: "Boolean",
-        },
-      },
-      vnetBackupRestoreEnabled: {
-        serializedName: "properties.vnetBackupRestoreEnabled",
-        xmlName: "properties.vnetBackupRestoreEnabled",
-        type: {
-          name: "Boolean",
+          name: "Composite",
+          className: "OutboundVnetRouting",
         },
       },
       siteConfig: {
@@ -16189,6 +16252,13 @@ export const Site: coreClient.CompositeMapper = {
       endToEndEncryptionEnabled: {
         serializedName: "properties.endToEndEncryptionEnabled",
         xmlName: "properties.endToEndEncryptionEnabled",
+        type: {
+          name: "Boolean",
+        },
+      },
+      sshEnabled: {
+        serializedName: "properties.sshEnabled",
+        xmlName: "properties.sshEnabled",
         type: {
           name: "Boolean",
         },
@@ -16585,6 +16655,13 @@ export const AppServicePlan: coreClient.CompositeMapper = {
         defaultValue: false,
         serializedName: "properties.zoneRedundant",
         xmlName: "properties.zoneRedundant",
+        type: {
+          name: "Boolean",
+        },
+      },
+      asyncScalingEnabled: {
+        serializedName: "properties.asyncScalingEnabled",
+        xmlName: "properties.asyncScalingEnabled",
         type: {
           name: "Boolean",
         },
@@ -25271,6 +25348,13 @@ export const SiteContainer: coreClient.CompositeMapper = {
               className: "VolumeMount",
             },
           },
+        },
+      },
+      inheritAppSettingsAndConnectionStrings: {
+        serializedName: "properties.inheritAppSettingsAndConnectionStrings",
+        xmlName: "properties.inheritAppSettingsAndConnectionStrings",
+        type: {
+          name: "Boolean",
         },
       },
       environmentVariables: {
