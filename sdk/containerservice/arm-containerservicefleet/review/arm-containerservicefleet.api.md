@@ -27,6 +27,9 @@ export interface APIServerAccessProfile {
 }
 
 // @public
+export type AutoUpgradeLastTriggerStatus = string;
+
+// @public
 export interface AutoUpgradeNodeImageSelection {
     type: AutoUpgradeNodeImageSelectionType;
 }
@@ -36,6 +39,7 @@ export type AutoUpgradeNodeImageSelectionType = string;
 
 // @public
 export interface AutoUpgradeProfile extends ProxyResource {
+    autoUpgradeProfileStatus?: AutoUpgradeProfileStatus;
     channel?: UpgradeChannel;
     disabled?: boolean;
     readonly eTag?: string;
@@ -49,6 +53,28 @@ export interface AutoUpgradeProfileListResult {
     nextLink?: string;
     value: AutoUpgradeProfile[];
 }
+
+// @public
+export interface AutoUpgradeProfileOperations {
+    beginGenerateUpdateRun(resourceGroupName: string, fleetName: string, autoUpgradeProfileName: string, options?: AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams): Promise<SimplePollerLike<OperationState<AutoUpgradeProfileOperationsGenerateUpdateRunResponse>, AutoUpgradeProfileOperationsGenerateUpdateRunResponse>>;
+    beginGenerateUpdateRunAndWait(resourceGroupName: string, fleetName: string, autoUpgradeProfileName: string, options?: AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams): Promise<AutoUpgradeProfileOperationsGenerateUpdateRunResponse>;
+}
+
+// @public
+export interface AutoUpgradeProfileOperationsGenerateUpdateRunHeaders {
+    azureAsyncOperation?: string;
+    ifMatch?: string;
+    location?: string;
+}
+
+// @public
+export interface AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AutoUpgradeProfileOperationsGenerateUpdateRunResponse = GenerateResponse;
 
 // @public
 export type AutoUpgradeProfileProvisioningState = string;
@@ -117,6 +143,14 @@ export interface AutoUpgradeProfilesListByFleetOptionalParams extends coreClient
 // @public
 export type AutoUpgradeProfilesListByFleetResponse = AutoUpgradeProfileListResult;
 
+// @public
+export interface AutoUpgradeProfileStatus {
+    readonly lastTriggeredAt?: Date;
+    readonly lastTriggerError?: ErrorDetail;
+    readonly lastTriggerStatus?: AutoUpgradeLastTriggerStatus;
+    readonly lastTriggerUpgradeVersions?: string[];
+}
+
 // @public (undocumented)
 export class ContainerServiceFleetClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -124,6 +158,8 @@ export class ContainerServiceFleetClient extends coreClient.ServiceClient {
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ContainerServiceFleetClientOptionalParams);
     // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    autoUpgradeProfileOperations: AutoUpgradeProfileOperations;
     // (undocumented)
     autoUpgradeProfiles: AutoUpgradeProfiles;
     // (undocumented)
@@ -176,6 +212,7 @@ export interface Fleet extends TrackedResource {
     hubProfile?: FleetHubProfile;
     identity?: ManagedServiceIdentity;
     readonly provisioningState?: FleetProvisioningState;
+    readonly status?: FleetStatus;
 }
 
 // @public
@@ -211,6 +248,7 @@ export interface FleetMember extends ProxyResource {
     readonly eTag?: string;
     group?: string;
     readonly provisioningState?: FleetMemberProvisioningState;
+    readonly status?: FleetMemberStatus;
 }
 
 // @public
@@ -283,6 +321,12 @@ export interface FleetMembersListByFleetOptionalParams extends coreClient.Operat
 
 // @public
 export type FleetMembersListByFleetResponse = FleetMemberListResult;
+
+// @public
+export interface FleetMemberStatus {
+    readonly lastOperationError?: ErrorDetail;
+    readonly lastOperationId?: string;
+}
 
 // @public
 export interface FleetMembersUpdateHeaders {
@@ -402,6 +446,12 @@ export interface FleetsListCredentialsOptionalParams extends coreClient.Operatio
 export type FleetsListCredentialsResponse = FleetCredentialResults;
 
 // @public
+export interface FleetStatus {
+    readonly lastOperationError?: ErrorDetail;
+    readonly lastOperationId?: string;
+}
+
+// @public
 export interface FleetsUpdateHeaders {
     location?: string;
     retryAfter?: number;
@@ -494,11 +544,22 @@ export interface FleetUpdateStrategyListResult {
 export type FleetUpdateStrategyProvisioningState = string;
 
 // @public
+export interface GenerateResponse {
+    id: string;
+}
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownAutoUpgradeLastTriggerStatus {
+    Failed = "Failed",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -770,6 +831,7 @@ export interface UpdateGroupStatus {
 
 // @public
 export interface UpdateRun extends ProxyResource {
+    readonly autoUpgradeProfileId?: string;
     readonly eTag?: string;
     managedClusterUpdate?: ManagedClusterUpdate;
     readonly provisioningState?: UpdateRunProvisioningState;

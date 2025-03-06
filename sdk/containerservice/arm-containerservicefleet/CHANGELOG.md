@@ -1,15 +1,50 @@
 # Release History
-
-## 1.2.0-beta.2 (Unreleased)
-
+    
+## 1.2.0 (2025-03-06)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group AutoUpgradeProfileOperations
+  - Added operation group AutoUpgradeProfiles
+  - Added Interface AutoUpgradeNodeImageSelection
+  - Added Interface AutoUpgradeProfile
+  - Added Interface AutoUpgradeProfileListResult
+  - Added Interface AutoUpgradeProfileOperationsGenerateUpdateRunHeaders
+  - Added Interface AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams
+  - Added Interface AutoUpgradeProfilesCreateOrUpdateHeaders
+  - Added Interface AutoUpgradeProfilesCreateOrUpdateOptionalParams
+  - Added Interface AutoUpgradeProfilesDeleteHeaders
+  - Added Interface AutoUpgradeProfilesDeleteOptionalParams
+  - Added Interface AutoUpgradeProfilesGetOptionalParams
+  - Added Interface AutoUpgradeProfilesListByFleetNextOptionalParams
+  - Added Interface AutoUpgradeProfilesListByFleetOptionalParams
+  - Added Interface AutoUpgradeProfileStatus
+  - Added Interface FleetMemberStatus
+  - Added Interface FleetStatus
+  - Added Interface GenerateResponse
+  - Added Type Alias AutoUpgradeLastTriggerStatus
+  - Added Type Alias AutoUpgradeNodeImageSelectionType
+  - Added Type Alias AutoUpgradeProfileOperationsGenerateUpdateRunResponse
+  - Added Type Alias AutoUpgradeProfileProvisioningState
+  - Added Type Alias AutoUpgradeProfilesCreateOrUpdateResponse
+  - Added Type Alias AutoUpgradeProfilesDeleteResponse
+  - Added Type Alias AutoUpgradeProfilesGetResponse
+  - Added Type Alias AutoUpgradeProfilesListByFleetNextResponse
+  - Added Type Alias AutoUpgradeProfilesListByFleetResponse
+  - Added Type Alias UpgradeChannel
+  - Interface APIServerAccessProfile has a new optional parameter enableVnetIntegration
+  - Interface APIServerAccessProfile has a new optional parameter subnetId
+  - Interface Fleet has a new optional parameter status
+  - Interface FleetMember has a new optional parameter status
+  - Interface NodeImageSelection has a new optional parameter customNodeImageVersions
+  - Interface UpdateRun has a new optional parameter autoUpgradeProfileId
+  - Added Enum KnownAutoUpgradeLastTriggerStatus
+  - Added Enum KnownAutoUpgradeNodeImageSelectionType
+  - Added Enum KnownAutoUpgradeProfileProvisioningState
+  - Added Enum KnownUpgradeChannel
+  - Enum KnownNodeImageSelectionType has a new value Custom
+    
+    
 ## 1.2.0-beta.1 (2024-10-15)
 Compared with version 1.1.0
     
