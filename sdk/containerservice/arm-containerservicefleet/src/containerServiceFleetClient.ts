@@ -118,7 +118,7 @@ export class ContainerServiceFleetClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-05-02-preview";
+    this.apiVersion = options.apiVersion || "2025-04-01-preview";
     this.operations = new OperationsImpl(this);
     this.fleets = new FleetsImpl(this);
     this.autoUpgradeProfiles = new AutoUpgradeProfilesImpl(this);
