@@ -27,7 +27,9 @@ export interface AddonArcProperties extends AddonProperties {
 // @public
 export interface AddonHcxProperties extends AddonProperties {
     addonType: "HCX";
+    managementNetwork?: string;
     offer: string;
+    uplinkNetwork?: string;
 }
 
 // @public
@@ -117,6 +119,7 @@ export type AddonType = string;
 // @public
 export interface AddonVrProperties extends AddonProperties {
     addonType: "VR";
+    replicationNetwork?: string;
     vrsCount: number;
 }
 
@@ -226,6 +229,8 @@ export class AzureVMwareSolutionAPI extends coreClient.ServiceClient {
     // (undocumented)
     hcxEnterpriseSites: HcxEnterpriseSites;
     // (undocumented)
+    hosts: Hosts;
+    // (undocumented)
     iscsiPaths: IscsiPaths;
     // (undocumented)
     locations: Locations;
@@ -236,11 +241,17 @@ export class AzureVMwareSolutionAPI extends coreClient.ServiceClient {
     // (undocumented)
     privateClouds: PrivateClouds;
     // (undocumented)
+    provisionedNetworks: ProvisionedNetworks;
+    // (undocumented)
+    pureStoragePolicies: PureStoragePolicies;
+    // (undocumented)
     scriptCmdlets: ScriptCmdlets;
     // (undocumented)
     scriptExecutions: ScriptExecutions;
     // (undocumented)
     scriptPackages: ScriptPackages;
+    // (undocumented)
+    skus: Skus;
     // (undocumented)
     subscriptionId: string;
     // (undocumented)
@@ -468,6 +479,7 @@ export interface Datastore extends ProxyResource {
     elasticSanVolume?: ElasticSanVolume;
     netAppVolume?: NetAppVolume;
     readonly provisioningState?: DatastoreProvisioningState;
+    pureStorageVolume?: PureStorageVolume;
     readonly status?: DatastoreStatus;
 }
 
@@ -638,6 +650,11 @@ export interface ExpressRouteAuthorizationList {
 export type ExpressRouteAuthorizationProvisioningState = string;
 
 // @public
+export interface GeneralHostProperties extends HostProperties {
+    kind: "General";
+}
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
@@ -777,6 +794,75 @@ export type HcxEnterpriseSitesListResponse = HcxEnterpriseSiteList;
 
 // @public
 export type HcxEnterpriseSiteStatus = string;
+
+// @public
+export interface Host extends ProxyResource {
+    displayName?: string;
+    readonly faultDomain?: string;
+    readonly fqdn?: string;
+    kind?: HostKind;
+    maintenance?: HostMaintenance;
+    readonly moRefId?: string;
+    readonly provisioningState?: HostProvisioningState;
+    sku?: Sku;
+    zones?: string[];
+}
+
+// @public
+export type HostKind = string;
+
+// @public
+export interface HostListResult {
+    nextLink?: string;
+    value: Host[];
+}
+
+// @public
+export type HostMaintenance = string;
+
+// @public
+export interface HostProperties {
+    displayName?: string;
+    readonly faultDomain?: string;
+    readonly fqdn?: string;
+    kind: "General" | "Specialized";
+    maintenance?: HostMaintenance;
+    readonly moRefId?: string;
+    readonly provisioningState?: HostProvisioningState;
+}
+
+// @public (undocumented)
+export type HostPropertiesUnion = HostProperties | GeneralHostProperties | SpecializedHostProperties;
+
+// @public
+export type HostProvisioningState = string;
+
+// @public
+export interface Hosts {
+    get(resourceGroupName: string, privateCloudName: string, clusterName: string, hostId: string, options?: HostsGetOptionalParams): Promise<HostsGetResponse>;
+    list(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: HostsListOptionalParams): PagedAsyncIterableIterator<Host>;
+}
+
+// @public
+export interface HostsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HostsGetResponse = Host;
+
+// @public
+export interface HostsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HostsListNextResponse = HostListResult;
+
+// @public
+export interface HostsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HostsListResponse = HostListResult;
 
 // @public
 export interface IdentitySource {
@@ -1056,6 +1142,25 @@ export enum KnownHcxEnterpriseSiteStatus {
 }
 
 // @public
+export enum KnownHostKind {
+    General = "General",
+    Specialized = "Specialized"
+}
+
+// @public
+export enum KnownHostMaintenance {
+    Replacement = "Replacement",
+    Upgrade = "Upgrade"
+}
+
+// @public
+export enum KnownHostProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownInternetEnum {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -1145,6 +1250,33 @@ export enum KnownPrivateCloudProvisioningState {
 }
 
 // @public
+export enum KnownProvisionedNetworkProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownProvisionedNetworkTypes {
+    EsxManagement = "esxManagement",
+    EsxReplication = "esxReplication",
+    HcxManagement = "hcxManagement",
+    HcxUplink = "hcxUplink",
+    VcenterManagement = "vcenterManagement",
+    Vmotion = "vmotion",
+    Vsan = "vsan"
+}
+
+// @public
+export enum KnownPureStoragePolicyProvisioningState {
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownQuotaEnabled {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -1154,6 +1286,24 @@ export enum KnownQuotaEnabled {
 export enum KnownResourceIdentityType {
     None = "None",
     SystemAssigned = "SystemAssigned"
+}
+
+// @public
+export enum KnownResourceSkuResourceType {
+    PrivateClouds = "privateClouds",
+    PrivateCloudsClusters = "privateClouds/clusters"
+}
+
+// @public
+export enum KnownResourceSkuRestrictionsReasonCode {
+    NotAvailableForSubscription = "NotAvailableForSubscription",
+    QuotaId = "QuotaId"
+}
+
+// @public
+export enum KnownResourceSkuRestrictionsType {
+    Location = "Location",
+    Zone = "Zone"
 }
 
 // @public
@@ -1434,6 +1584,12 @@ export type OptionalParamEnum = string;
 export type Origin = string;
 
 // @public
+export interface PagedResourceSku {
+    nextLink?: string;
+    value: ResourceSku[];
+}
+
+// @public
 export interface PlacementPolicies {
     beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, placementPolicy: PlacementPolicy, options?: PlacementPoliciesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PlacementPoliciesCreateOrUpdateResponse>, PlacementPoliciesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, placementPolicy: PlacementPolicy, options?: PlacementPoliciesCreateOrUpdateOptionalParams): Promise<PlacementPoliciesCreateOrUpdateResponse>;
@@ -1579,6 +1735,7 @@ export interface PrivateCloud extends TrackedResource {
     vcenterPassword?: string;
     virtualNetworkId?: string;
     readonly vmotionNetwork?: string;
+    zones?: string[];
 }
 
 // @public
@@ -1745,6 +1902,52 @@ export interface PrivateCloudUpdate {
 }
 
 // @public
+export interface ProvisionedNetwork extends ProxyResource {
+    readonly addressPrefix?: string;
+    readonly networkType?: ProvisionedNetworkTypes;
+    readonly provisioningState?: ProvisionedNetworkProvisioningState;
+}
+
+// @public
+export interface ProvisionedNetworkListResult {
+    nextLink?: string;
+    value: ProvisionedNetwork[];
+}
+
+// @public
+export type ProvisionedNetworkProvisioningState = string;
+
+// @public
+export interface ProvisionedNetworks {
+    get(resourceGroupName: string, privateCloudName: string, provisionedNetworkName: string, options?: ProvisionedNetworksGetOptionalParams): Promise<ProvisionedNetworksGetResponse>;
+    list(resourceGroupName: string, privateCloudName: string, options?: ProvisionedNetworksListOptionalParams): PagedAsyncIterableIterator<ProvisionedNetwork>;
+}
+
+// @public
+export interface ProvisionedNetworksGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProvisionedNetworksGetResponse = ProvisionedNetwork;
+
+// @public
+export interface ProvisionedNetworksListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProvisionedNetworksListNextResponse = ProvisionedNetworkListResult;
+
+// @public
+export interface ProvisionedNetworksListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProvisionedNetworksListResponse = ProvisionedNetworkListResult;
+
+// @public
+export type ProvisionedNetworkTypes = string;
+
+// @public
 export interface ProxyResource extends Resource {
 }
 
@@ -1753,6 +1956,89 @@ export interface PSCredentialExecutionParameter extends ScriptExecutionParameter
     password?: string;
     type: "Credential";
     username?: string;
+}
+
+// @public
+export interface PureStoragePolicies {
+    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, storagePolicyName: string, resource: PureStoragePolicy, options?: PureStoragePoliciesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PureStoragePoliciesCreateOrUpdateResponse>, PureStoragePoliciesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, privateCloudName: string, storagePolicyName: string, resource: PureStoragePolicy, options?: PureStoragePoliciesCreateOrUpdateOptionalParams): Promise<PureStoragePoliciesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, privateCloudName: string, storagePolicyName: string, options?: PureStoragePoliciesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<PureStoragePoliciesDeleteResponse>, PureStoragePoliciesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, privateCloudName: string, storagePolicyName: string, options?: PureStoragePoliciesDeleteOptionalParams): Promise<PureStoragePoliciesDeleteResponse>;
+    get(resourceGroupName: string, privateCloudName: string, storagePolicyName: string, options?: PureStoragePoliciesGetOptionalParams): Promise<PureStoragePoliciesGetResponse>;
+    list(resourceGroupName: string, privateCloudName: string, options?: PureStoragePoliciesListOptionalParams): PagedAsyncIterableIterator<PureStoragePolicy>;
+}
+
+// @public
+export interface PureStoragePoliciesCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface PureStoragePoliciesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PureStoragePoliciesCreateOrUpdateResponse = PureStoragePolicy;
+
+// @public
+export interface PureStoragePoliciesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface PureStoragePoliciesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PureStoragePoliciesDeleteResponse = PureStoragePoliciesDeleteHeaders;
+
+// @public
+export interface PureStoragePoliciesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PureStoragePoliciesGetResponse = PureStoragePolicy;
+
+// @public
+export interface PureStoragePoliciesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PureStoragePoliciesListNextResponse = PureStoragePolicyListResult;
+
+// @public
+export interface PureStoragePoliciesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PureStoragePoliciesListResponse = PureStoragePolicyListResult;
+
+// @public
+export interface PureStoragePolicy extends ProxyResource {
+    readonly provisioningState?: PureStoragePolicyProvisioningState;
+    storagePolicyDefinition?: string;
+    storagePoolId?: string;
+}
+
+// @public
+export interface PureStoragePolicyListResult {
+    nextLink?: string;
+    value: PureStoragePolicy[];
+}
+
+// @public
+export type PureStoragePolicyProvisioningState = string;
+
+// @public
+export interface PureStorageVolume {
+    sizeGb: number;
+    storagePoolId: string;
 }
 
 // @public
@@ -1776,6 +2062,61 @@ export interface Resource {
 
 // @public
 export type ResourceIdentityType = string;
+
+// @public
+export interface ResourceSku {
+    capabilities?: ResourceSkuCapabilities[];
+    family?: string;
+    locationInfo: ResourceSkuLocationInfo[];
+    locations: string[];
+    name: string;
+    resourceType: ResourceSkuResourceType;
+    restrictions: ResourceSkuRestrictions[];
+    size?: string;
+    tier?: string;
+}
+
+// @public
+export interface ResourceSkuCapabilities {
+    name: string;
+    value: string;
+}
+
+// @public
+export interface ResourceSkuLocationInfo {
+    location: string;
+    zoneDetails: ResourceSkuZoneDetails[];
+    zones: string[];
+}
+
+// @public
+export type ResourceSkuResourceType = string;
+
+// @public
+export interface ResourceSkuRestrictionInfo {
+    locations?: string[];
+    zones?: string[];
+}
+
+// @public
+export interface ResourceSkuRestrictions {
+    reasonCode?: ResourceSkuRestrictionsReasonCode;
+    restrictionInfo: ResourceSkuRestrictionInfo;
+    type?: ResourceSkuRestrictionsType;
+    values: string[];
+}
+
+// @public
+export type ResourceSkuRestrictionsReasonCode = string;
+
+// @public
+export type ResourceSkuRestrictionsType = string;
+
+// @public
+export interface ResourceSkuZoneDetails {
+    capabilities: ResourceSkuCapabilities[];
+    name: string[];
+}
 
 // @public
 export interface ScriptCmdlet extends ProxyResource {
@@ -2018,7 +2359,31 @@ export interface Sku {
 }
 
 // @public
+export interface Skus {
+    list(options?: SkusListOptionalParams): PagedAsyncIterableIterator<ResourceSku>;
+}
+
+// @public
+export interface SkusListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SkusListNextResponse = PagedResourceSku;
+
+// @public
+export interface SkusListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SkusListResponse = PagedResourceSku;
+
+// @public
 export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
+
+// @public
+export interface SpecializedHostProperties extends HostProperties {
+    kind: "Specialized";
+}
 
 // @public
 export type SslEnum = string;
