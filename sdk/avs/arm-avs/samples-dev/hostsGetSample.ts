@@ -5,25 +5,26 @@ import { AzureVMwareSolutionAPIClient } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to list HcxEnterpriseSite resources by PrivateCloud
+ * This sample demonstrates how to get a Host
  *
- * @summary list HcxEnterpriseSite resources by PrivateCloud
- * x-ms-original-file: 2024-09-01/HcxEnterpriseSites_List.json
+ * @summary get a Host
+ * x-ms-original-file: 2024-09-01/Hosts_Get.json
  */
-async function hcxEnterpriseSitesList(): Promise<void> {
+async function hostsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzureVMwareSolutionAPIClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.hcxEnterpriseSites.list("group1", "cloud1")) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  const result = await client.hosts.get(
+    "group1",
+    "cloud1",
+    "cluster1",
+    "host-209",
+  );
+  console.log(result);
 }
 
 async function main(): Promise<void> {
-  await hcxEnterpriseSitesList();
+  await hostsGet();
 }
 
 main().catch(console.error);
