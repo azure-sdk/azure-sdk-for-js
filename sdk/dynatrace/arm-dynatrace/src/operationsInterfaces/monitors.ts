@@ -37,7 +37,7 @@ import {
   MonitorsGetMetricStatusOptionalParams,
   MonitorsGetMetricStatusResponse,
   MonitorsGetSSODetailsOptionalParams,
-  MonitorsGetSSODetailsResponse
+  MonitorsGetSSODetailsResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,14 +52,14 @@ export interface Monitors {
   listMonitoredResources(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsListMonitoredResourcesOptionalParams
+    options?: MonitorsListMonitoredResourcesOptionalParams,
   ): PagedAsyncIterableIterator<MonitoredResource>;
   /**
    * List all MonitorResource by subscriptionId
    * @param options The options parameters.
    */
   listBySubscriptionId(
-    options?: MonitorsListBySubscriptionIdOptionalParams
+    options?: MonitorsListBySubscriptionIdOptionalParams,
   ): PagedAsyncIterableIterator<MonitorResource>;
   /**
    * List MonitorResource resources by resource group
@@ -68,7 +68,7 @@ export interface Monitors {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: MonitorsListByResourceGroupOptionalParams
+    options?: MonitorsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<MonitorResource>;
   /**
    * List the VM/VMSS resources currently being monitored by the Dynatrace resource.
@@ -79,7 +79,7 @@ export interface Monitors {
   listHosts(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsListHostsOptionalParams
+    options?: MonitorsListHostsOptionalParams,
   ): PagedAsyncIterableIterator<VMInfo>;
   /**
    * Gets list of App Services with Dynatrace PaaS OneAgent enabled
@@ -90,7 +90,7 @@ export interface Monitors {
   listAppServices(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsListAppServicesOptionalParams
+    options?: MonitorsListAppServicesOptionalParams,
   ): PagedAsyncIterableIterator<AppServiceInfo>;
   /**
    * Gets all the Dynatrace environments that a user can link a azure resource to
@@ -103,7 +103,7 @@ export interface Monitors {
     resourceGroupName: string,
     monitorName: string,
     request: LinkableEnvironmentRequest,
-    options?: MonitorsListLinkableEnvironmentsOptionalParams
+    options?: MonitorsListLinkableEnvironmentsOptionalParams,
   ): PagedAsyncIterableIterator<LinkableEnvironmentResponse>;
   /**
    * Returns the payload that needs to be passed in the request body for installing Dynatrace agent on a
@@ -115,7 +115,7 @@ export interface Monitors {
   getVMHostPayload(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsGetVMHostPayloadOptionalParams
+    options?: MonitorsGetVMHostPayloadOptionalParams,
   ): Promise<MonitorsGetVMHostPayloadResponse>;
   /**
    * Get a MonitorResource
@@ -126,7 +126,7 @@ export interface Monitors {
   get(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsGetOptionalParams
+    options?: MonitorsGetOptionalParams,
   ): Promise<MonitorsGetResponse>;
   /**
    * Create a MonitorResource
@@ -139,7 +139,7 @@ export interface Monitors {
     resourceGroupName: string,
     monitorName: string,
     resource: MonitorResource,
-    options?: MonitorsCreateOrUpdateOptionalParams
+    options?: MonitorsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MonitorsCreateOrUpdateResponse>,
@@ -157,7 +157,7 @@ export interface Monitors {
     resourceGroupName: string,
     monitorName: string,
     resource: MonitorResource,
-    options?: MonitorsCreateOrUpdateOptionalParams
+    options?: MonitorsCreateOrUpdateOptionalParams,
   ): Promise<MonitorsCreateOrUpdateResponse>;
   /**
    * Update a MonitorResource
@@ -170,7 +170,7 @@ export interface Monitors {
     resourceGroupName: string,
     monitorName: string,
     resource: MonitorResourceUpdate,
-    options?: MonitorsUpdateOptionalParams
+    options?: MonitorsUpdateOptionalParams,
   ): Promise<MonitorsUpdateResponse>;
   /**
    * Delete a MonitorResource
@@ -181,7 +181,7 @@ export interface Monitors {
   beginDelete(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsDeleteOptionalParams
+    options?: MonitorsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a MonitorResource
@@ -192,7 +192,7 @@ export interface Monitors {
   beginDeleteAndWait(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsDeleteOptionalParams
+    options?: MonitorsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get Marketplace SaaS resource details of a tenant under a specific subscription
@@ -201,7 +201,7 @@ export interface Monitors {
    */
   getMarketplaceSaaSResourceDetails(
     request: MarketplaceSaaSResourceDetailsRequest,
-    options?: MonitorsGetMarketplaceSaaSResourceDetailsOptionalParams
+    options?: MonitorsGetMarketplaceSaaSResourceDetailsOptionalParams,
   ): Promise<MonitorsGetMarketplaceSaaSResourceDetailsResponse>;
   /**
    * Get metric status
@@ -212,7 +212,7 @@ export interface Monitors {
   getMetricStatus(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsGetMetricStatusOptionalParams
+    options?: MonitorsGetMetricStatusOptionalParams,
   ): Promise<MonitorsGetMetricStatusResponse>;
   /**
    * Gets the SSO configuration details from the partner.
@@ -223,6 +223,6 @@ export interface Monitors {
   getSSODetails(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsGetSSODetailsOptionalParams
+    options?: MonitorsGetSSODetailsOptionalParams,
   ): Promise<MonitorsGetSSODetailsResponse>;
 }

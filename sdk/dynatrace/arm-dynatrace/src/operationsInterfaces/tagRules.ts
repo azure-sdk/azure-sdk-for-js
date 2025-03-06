@@ -15,7 +15,7 @@ import {
   TagRulesGetResponse,
   TagRulesCreateOrUpdateOptionalParams,
   TagRulesCreateOrUpdateResponse,
-  TagRulesDeleteOptionalParams
+  TagRulesDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface TagRules {
   list(
     resourceGroupName: string,
     monitorName: string,
-    options?: TagRulesListOptionalParams
+    options?: TagRulesListOptionalParams,
   ): PagedAsyncIterableIterator<TagRule>;
   /**
    * Get a TagRule
@@ -43,7 +43,7 @@ export interface TagRules {
     resourceGroupName: string,
     monitorName: string,
     ruleSetName: string,
-    options?: TagRulesGetOptionalParams
+    options?: TagRulesGetOptionalParams,
   ): Promise<TagRulesGetResponse>;
   /**
    * Create a TagRule
@@ -58,7 +58,7 @@ export interface TagRules {
     monitorName: string,
     ruleSetName: string,
     resource: TagRule,
-    options?: TagRulesCreateOrUpdateOptionalParams
+    options?: TagRulesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TagRulesCreateOrUpdateResponse>,
@@ -78,7 +78,7 @@ export interface TagRules {
     monitorName: string,
     ruleSetName: string,
     resource: TagRule,
-    options?: TagRulesCreateOrUpdateOptionalParams
+    options?: TagRulesCreateOrUpdateOptionalParams,
   ): Promise<TagRulesCreateOrUpdateResponse>;
   /**
    * Delete a TagRule
@@ -91,7 +91,7 @@ export interface TagRules {
     resourceGroupName: string,
     monitorName: string,
     ruleSetName: string,
-    options?: TagRulesDeleteOptionalParams
+    options?: TagRulesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a TagRule
@@ -104,6 +104,6 @@ export interface TagRules {
     resourceGroupName: string,
     monitorName: string,
     ruleSetName: string,
-    options?: TagRulesDeleteOptionalParams
+    options?: TagRulesDeleteOptionalParams,
   ): Promise<void>;
 }

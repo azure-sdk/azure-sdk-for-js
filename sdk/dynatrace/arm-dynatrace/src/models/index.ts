@@ -572,7 +572,7 @@ export enum KnownSendingMetricsStatus {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -590,7 +590,7 @@ export enum KnownSendingLogsStatus {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -608,7 +608,7 @@ export enum KnownMonitoringStatus {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -626,7 +626,7 @@ export enum KnownMarketplaceSubscriptionStatus {
   /** Active */
   Active = "Active",
   /** Suspended */
-  Suspended = "Suspended"
+  Suspended = "Suspended",
 }
 
 /**
@@ -648,7 +648,7 @@ export enum KnownSingleSignOnStates {
   /** Disable */
   Disable = "Disable",
   /** Existing */
-  Existing = "Existing"
+  Existing = "Existing",
 }
 
 /**
@@ -682,7 +682,7 @@ export enum KnownProvisioningState {
   /** Deleted */
   Deleted = "Deleted",
   /** NotSpecified */
-  NotSpecified = "NotSpecified"
+  NotSpecified = "NotSpecified",
 }
 
 /**
@@ -707,7 +707,7 @@ export enum KnownLiftrResourceCategories {
   /** Unknown */
   Unknown = "Unknown",
   /** MonitorLogs */
-  MonitorLogs = "MonitorLogs"
+  MonitorLogs = "MonitorLogs",
 }
 
 /**
@@ -729,7 +729,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -751,7 +751,7 @@ export enum KnownManagedIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAndUserAssigned */
-  SystemAndUserAssigned = "SystemAndUserAssigned"
+  SystemAndUserAssigned = "SystemAndUserAssigned",
 }
 
 /**
@@ -772,7 +772,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -789,7 +789,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -806,7 +806,7 @@ export enum KnownSendAadLogsStatus {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -824,7 +824,7 @@ export enum KnownSendSubscriptionLogsStatus {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -842,7 +842,7 @@ export enum KnownSendActivityLogsStatus {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -860,7 +860,7 @@ export enum KnownTagAction {
   /** Include */
   Include = "Include",
   /** Exclude */
-  Exclude = "Exclude"
+  Exclude = "Exclude",
 }
 
 /**
@@ -878,7 +878,7 @@ export enum KnownMonitoringType {
   /** CloudInfrastructure */
   CloudInfrastructure = "CLOUD_INFRASTRUCTURE",
   /** FullStack */
-  FullStack = "FULL_STACK"
+  FullStack = "FULL_STACK",
 }
 
 /**
@@ -896,7 +896,7 @@ export enum KnownAutoUpdateSetting {
   /** Enabled */
   Enabled = "ENABLED",
   /** Disabled */
-  Disabled = "DISABLED"
+  Disabled = "DISABLED",
 }
 
 /**
@@ -928,7 +928,7 @@ export enum KnownUpdateStatus {
   /** UpdatePending */
   UpdatePending = "UPDATE_PENDING",
   /** UpdateProblem */
-  UpdateProblem = "UPDATE_PROBLEM"
+  UpdateProblem = "UPDATE_PROBLEM",
 }
 
 /**
@@ -965,7 +965,7 @@ export enum KnownAvailabilityState {
   /** Unknown */
   Unknown = "UNKNOWN",
   /** Unmonitored */
-  Unmonitored = "UNMONITORED"
+  Unmonitored = "UNMONITORED",
 }
 
 /**
@@ -989,7 +989,7 @@ export enum KnownLogModule {
   /** Enabled */
   Enabled = "ENABLED",
   /** Disabled */
-  Disabled = "DISABLED"
+  Disabled = "DISABLED",
 }
 
 /**
@@ -1007,7 +1007,7 @@ export enum KnownSSOStatus {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -1025,7 +1025,8 @@ export interface MonitorsListMonitoredResourcesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMonitoredResources operation. */
-export type MonitorsListMonitoredResourcesResponse = MonitoredResourceListResponse;
+export type MonitorsListMonitoredResourcesResponse =
+  MonitoredResourceListResponse;
 
 /** Optional parameters. */
 export interface MonitorsGetVMHostPayloadOptionalParams
@@ -1088,7 +1089,8 @@ export interface MonitorsGetMarketplaceSaaSResourceDetailsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getMarketplaceSaaSResourceDetails operation. */
-export type MonitorsGetMarketplaceSaaSResourceDetailsResponse = MarketplaceSaaSResourceDetailsResponse;
+export type MonitorsGetMarketplaceSaaSResourceDetailsResponse =
+  MarketplaceSaaSResourceDetailsResponse;
 
 /** Optional parameters. */
 export interface MonitorsListHostsOptionalParams
@@ -1126,21 +1128,24 @@ export interface MonitorsListLinkableEnvironmentsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listLinkableEnvironments operation. */
-export type MonitorsListLinkableEnvironmentsResponse = LinkableEnvironmentListResponse;
+export type MonitorsListLinkableEnvironmentsResponse =
+  LinkableEnvironmentListResponse;
 
 /** Optional parameters. */
 export interface MonitorsListMonitoredResourcesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMonitoredResourcesNext operation. */
-export type MonitorsListMonitoredResourcesNextResponse = MonitoredResourceListResponse;
+export type MonitorsListMonitoredResourcesNextResponse =
+  MonitoredResourceListResponse;
 
 /** Optional parameters. */
 export interface MonitorsListBySubscriptionIdNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionIdNext operation. */
-export type MonitorsListBySubscriptionIdNextResponse = MonitorResourceListResult;
+export type MonitorsListBySubscriptionIdNextResponse =
+  MonitorResourceListResult;
 
 /** Optional parameters. */
 export interface MonitorsListByResourceGroupNextOptionalParams
@@ -1168,7 +1173,8 @@ export interface MonitorsListLinkableEnvironmentsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listLinkableEnvironmentsNext operation. */
-export type MonitorsListLinkableEnvironmentsNextResponse = LinkableEnvironmentListResponse;
+export type MonitorsListLinkableEnvironmentsNextResponse =
+  LinkableEnvironmentListResponse;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -1257,7 +1263,8 @@ export interface SingleSignOnListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type SingleSignOnListNextResponse = DynatraceSingleSignOnResourceListResult;
+export type SingleSignOnListNextResponse =
+  DynatraceSingleSignOnResourceListResult;
 
 /** Optional parameters. */
 export interface DynatraceObservabilityOptionalParams
