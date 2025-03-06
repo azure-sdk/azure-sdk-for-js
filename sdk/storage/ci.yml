@@ -46,3 +46,5 @@ extends:
         safeName: azurestoragequeue
       - name: azure-storage-blob-changefeed
         safeName: azurestorageblobchangefeed
+      - name: azure-rest-azure-storage-blob-rest
+        safeName: azurerestazurestorageblobrest
