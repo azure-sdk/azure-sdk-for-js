@@ -137,185 +137,6 @@ export interface AgentProperties {
 export type Architecture = string;
 
 // @public
-export interface Archive extends ProxyResource {
-    packageSource?: ArchivePackageSourceProperties;
-    readonly provisioningState?: ProvisioningState;
-    publishedVersion?: string;
-    readonly repositoryEndpoint?: string;
-    // (undocumented)
-    repositoryEndpointPrefix?: string;
-}
-
-// @public
-export interface ArchiveListResult {
-    nextLink?: string;
-    value?: Archive[];
-}
-
-// @public
-export interface ArchivePackageSourceProperties {
-    type?: PackageSourceType;
-    url?: string;
-}
-
-// @public
-export interface ArchiveProperties {
-    packageSource?: ArchivePackageSourceProperties;
-    readonly provisioningState?: ProvisioningState;
-    publishedVersion?: string;
-    readonly repositoryEndpoint?: string;
-    // (undocumented)
-    repositoryEndpointPrefix?: string;
-}
-
-// @public
-export interface Archives {
-    beginCreate(resourceGroupName: string, registryName: string, packageType: string, archiveName: string, archiveCreateParameters: Archive, options?: ArchivesCreateOptionalParams): Promise<SimplePollerLike<OperationState<ArchivesCreateResponse>, ArchivesCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, registryName: string, packageType: string, archiveName: string, archiveCreateParameters: Archive, options?: ArchivesCreateOptionalParams): Promise<ArchivesCreateResponse>;
-    beginDelete(resourceGroupName: string, registryName: string, packageType: string, archiveName: string, options?: ArchivesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ArchivesDeleteResponse>, ArchivesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, registryName: string, packageType: string, archiveName: string, options?: ArchivesDeleteOptionalParams): Promise<ArchivesDeleteResponse>;
-    get(resourceGroupName: string, registryName: string, packageType: string, archiveName: string, options?: ArchivesGetOptionalParams): Promise<ArchivesGetResponse>;
-    list(resourceGroupName: string, registryName: string, packageType: string, options?: ArchivesListOptionalParams): PagedAsyncIterableIterator<Archive>;
-    update(resourceGroupName: string, registryName: string, packageType: string, archiveName: string, archiveUpdateParameters: ArchiveUpdateParameters, options?: ArchivesUpdateOptionalParams): Promise<ArchivesUpdateResponse>;
-}
-
-// @public
-export interface ArchivesCreateHeaders {
-    // (undocumented)
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface ArchivesCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ArchivesCreateResponse = Archive;
-
-// @public
-export interface ArchivesDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface ArchivesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ArchivesDeleteResponse = ArchivesDeleteHeaders;
-
-// @public
-export interface ArchivesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ArchivesGetResponse = Archive;
-
-// @public
-export interface ArchivesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ArchivesListNextResponse = ArchiveListResult;
-
-// @public
-export interface ArchivesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ArchivesListResponse = ArchiveListResult;
-
-// @public
-export interface ArchivesUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ArchivesUpdateResponse = Archive;
-
-// @public
-export interface ArchiveUpdateParameters {
-    publishedVersion?: string;
-}
-
-// @public
-export interface ArchiveVersion extends ProxyResource {
-    archiveVersionErrorMessage?: string;
-    readonly provisioningState?: ProvisioningState;
-}
-
-// @public
-export interface ArchiveVersionListResult {
-    nextLink?: string;
-    value?: ArchiveVersion[];
-}
-
-// @public
-export interface ArchiveVersions {
-    beginCreate(resourceGroupName: string, registryName: string, packageType: string, archiveName: string, archiveVersionName: string, options?: ArchiveVersionsCreateOptionalParams): Promise<SimplePollerLike<OperationState<ArchiveVersionsCreateResponse>, ArchiveVersionsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, registryName: string, packageType: string, archiveName: string, archiveVersionName: string, options?: ArchiveVersionsCreateOptionalParams): Promise<ArchiveVersionsCreateResponse>;
-    beginDelete(resourceGroupName: string, registryName: string, packageType: string, archiveName: string, archiveVersionName: string, options?: ArchiveVersionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ArchiveVersionsDeleteResponse>, ArchiveVersionsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, registryName: string, packageType: string, archiveName: string, archiveVersionName: string, options?: ArchiveVersionsDeleteOptionalParams): Promise<ArchiveVersionsDeleteResponse>;
-    get(resourceGroupName: string, registryName: string, packageType: string, archiveName: string, archiveVersionName: string, options?: ArchiveVersionsGetOptionalParams): Promise<ArchiveVersionsGetResponse>;
-    list(resourceGroupName: string, registryName: string, packageType: string, archiveName: string, options?: ArchiveVersionsListOptionalParams): PagedAsyncIterableIterator<ArchiveVersion>;
-}
-
-// @public
-export interface ArchiveVersionsCreateHeaders {
-    // (undocumented)
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface ArchiveVersionsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ArchiveVersionsCreateResponse = ArchiveVersion;
-
-// @public
-export interface ArchiveVersionsDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface ArchiveVersionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ArchiveVersionsDeleteResponse = ArchiveVersionsDeleteHeaders;
-
-// @public
-export interface ArchiveVersionsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ArchiveVersionsGetResponse = ArchiveVersion;
-
-// @public
-export interface ArchiveVersionsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ArchiveVersionsListNextResponse = ArchiveVersionListResult;
-
-// @public
-export interface ArchiveVersionsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ArchiveVersionsListResponse = ArchiveVersionListResult;
-
-// @public
 export interface Argument {
     isSecret?: boolean;
     name: string;
@@ -350,9 +171,6 @@ export interface AuthInfoUpdateParameters {
     token?: string;
     tokenType?: TokenType;
 }
-
-// @public
-export type AutoGeneratedDomainNameLabelScope = string;
 
 // @public
 export interface AzureADAuthenticationAsArmPolicy {
@@ -596,7 +414,7 @@ export type ConnectedRegistriesUpdateResponse = ConnectedRegistry;
 
 // @public
 export interface ConnectedRegistry extends ProxyResource {
-    readonly activation?: ActivationProperties;
+    readonly activation?: ConnectedRegistryPropertiesActivation;
     clientTokenIds?: string[];
     readonly connectionState?: ConnectionState;
     garbageCollection?: GarbageCollectionProperties;
@@ -620,8 +438,46 @@ export interface ConnectedRegistryListResult {
 // @public
 export type ConnectedRegistryMode = string;
 
+// @public (undocumented)
+export interface ConnectedRegistryProperties extends ConnectedRegistryPropertiesAutoGenerated {
+}
+
+// @public (undocumented)
+export interface ConnectedRegistryPropertiesActivation extends ActivationProperties {
+}
+
+// @public
+export interface ConnectedRegistryPropertiesAutoGenerated {
+    readonly activation?: ConnectedRegistryPropertiesActivation;
+    clientTokenIds?: string[];
+    readonly connectionState?: ConnectionState;
+    garbageCollection?: GarbageCollectionProperties;
+    readonly lastActivityTime?: Date;
+    logging?: LoggingProperties;
+    loginServer?: LoginServerProperties;
+    mode: ConnectedRegistryMode;
+    notificationsList?: string[];
+    parent: ParentProperties;
+    readonly provisioningState?: ProvisioningState;
+    readonly statusDetails?: StatusDetailProperties[];
+    readonly version?: string;
+}
+
 // @public
 export interface ConnectedRegistryUpdateParameters {
+    clientTokenIds?: string[];
+    garbageCollection?: GarbageCollectionProperties;
+    logging?: LoggingProperties;
+    notificationsList?: string[];
+    syncProperties?: SyncUpdateProperties;
+}
+
+// @public (undocumented)
+export interface ConnectedRegistryUpdateParametersProperties extends ConnectedRegistryUpdateProperties {
+}
+
+// @public
+export interface ConnectedRegistryUpdateProperties {
     clientTokenIds?: string[];
     garbageCollection?: GarbageCollectionProperties;
     logging?: LoggingProperties;
@@ -643,23 +499,13 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
     // (undocumented)
     agentPools: AgentPools;
     // (undocumented)
-    archives: Archives;
-    // (undocumented)
-    archiveVersions: ArchiveVersions;
-    // (undocumented)
     cacheRules: CacheRules;
     // (undocumented)
     connectedRegistries: ConnectedRegistries;
     // (undocumented)
     credentialSets: CredentialSets;
     // (undocumented)
-    exportPipelines: ExportPipelines;
-    // (undocumented)
-    importPipelines: ImportPipelines;
-    // (undocumented)
     operations: Operations;
-    // (undocumented)
-    pipelineRuns: PipelineRuns;
     // (undocumented)
     privateEndpointConnections: PrivateEndpointConnections;
     // (undocumented)
@@ -816,16 +662,6 @@ export interface CustomRegistryCredentials {
     identity?: string;
     password?: SecretObject;
     userName?: SecretObject;
-}
-
-// @public
-export interface DebianArchivePackageSourceProperties extends ArchivePackageSourceProperties {
-    distributionName?: string;
-}
-
-// @public
-export interface DebianArchiveProperties extends ArchiveProperties {
-    distributionName?: string;
 }
 
 // @public
@@ -992,86 +828,6 @@ export interface EventResponseMessage {
 }
 
 // @public
-export interface ExportPipeline extends ProxyResource {
-    identity?: IdentityProperties;
-    location?: string;
-    options?: PipelineOptions[];
-    readonly provisioningState?: ProvisioningState;
-    target?: ExportPipelineTargetProperties;
-}
-
-// @public
-export interface ExportPipelineListResult {
-    nextLink?: string;
-    value?: ExportPipeline[];
-}
-
-// @public
-export interface ExportPipelines {
-    beginCreate(resourceGroupName: string, registryName: string, exportPipelineName: string, exportPipelineCreateParameters: ExportPipeline, options?: ExportPipelinesCreateOptionalParams): Promise<SimplePollerLike<OperationState<ExportPipelinesCreateResponse>, ExportPipelinesCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, registryName: string, exportPipelineName: string, exportPipelineCreateParameters: ExportPipeline, options?: ExportPipelinesCreateOptionalParams): Promise<ExportPipelinesCreateResponse>;
-    beginDelete(resourceGroupName: string, registryName: string, exportPipelineName: string, options?: ExportPipelinesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, registryName: string, exportPipelineName: string, options?: ExportPipelinesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, registryName: string, exportPipelineName: string, options?: ExportPipelinesGetOptionalParams): Promise<ExportPipelinesGetResponse>;
-    list(resourceGroupName: string, registryName: string, options?: ExportPipelinesListOptionalParams): PagedAsyncIterableIterator<ExportPipeline>;
-}
-
-// @public
-export interface ExportPipelinesCreateHeaders {
-    // (undocumented)
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface ExportPipelinesCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ExportPipelinesCreateResponse = ExportPipeline;
-
-// @public
-export interface ExportPipelinesDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface ExportPipelinesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ExportPipelinesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ExportPipelinesGetResponse = ExportPipeline;
-
-// @public
-export interface ExportPipelinesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ExportPipelinesListNextResponse = ExportPipelineListResult;
-
-// @public
-export interface ExportPipelinesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ExportPipelinesListResponse = ExportPipelineListResult;
-
-// @public
-export interface ExportPipelineTargetProperties {
-    keyVaultUri: string;
-    type?: string;
-    uri?: string;
-}
-
-// @public
 export interface ExportPolicy {
     status?: ExportPolicyStatus;
 }
@@ -1166,87 +922,6 @@ export interface ImportImageParameters {
 // @public
 export type ImportMode = string;
 
-// @public
-export interface ImportPipeline extends ProxyResource {
-    identity?: IdentityProperties;
-    location?: string;
-    options?: PipelineOptions[];
-    readonly provisioningState?: ProvisioningState;
-    source?: ImportPipelineSourceProperties;
-    trigger?: PipelineTriggerProperties;
-}
-
-// @public
-export interface ImportPipelineListResult {
-    nextLink?: string;
-    value?: ImportPipeline[];
-}
-
-// @public
-export interface ImportPipelines {
-    beginCreate(resourceGroupName: string, registryName: string, importPipelineName: string, importPipelineCreateParameters: ImportPipeline, options?: ImportPipelinesCreateOptionalParams): Promise<SimplePollerLike<OperationState<ImportPipelinesCreateResponse>, ImportPipelinesCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, registryName: string, importPipelineName: string, importPipelineCreateParameters: ImportPipeline, options?: ImportPipelinesCreateOptionalParams): Promise<ImportPipelinesCreateResponse>;
-    beginDelete(resourceGroupName: string, registryName: string, importPipelineName: string, options?: ImportPipelinesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, registryName: string, importPipelineName: string, options?: ImportPipelinesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, registryName: string, importPipelineName: string, options?: ImportPipelinesGetOptionalParams): Promise<ImportPipelinesGetResponse>;
-    list(resourceGroupName: string, registryName: string, options?: ImportPipelinesListOptionalParams): PagedAsyncIterableIterator<ImportPipeline>;
-}
-
-// @public
-export interface ImportPipelinesCreateHeaders {
-    // (undocumented)
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface ImportPipelinesCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ImportPipelinesCreateResponse = ImportPipeline;
-
-// @public
-export interface ImportPipelinesDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface ImportPipelinesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ImportPipelinesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ImportPipelinesGetResponse = ImportPipeline;
-
-// @public
-export interface ImportPipelinesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ImportPipelinesListNextResponse = ImportPipelineListResult;
-
-// @public
-export interface ImportPipelinesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ImportPipelinesListResponse = ImportPipelineListResult;
-
-// @public
-export interface ImportPipelineSourceProperties {
-    keyVaultUri: string;
-    type?: PipelineSourceType;
-    uri?: string;
-}
-
 // @public (undocumented)
 export interface ImportSource {
     credentials?: ImportSourceCredentials;
@@ -1313,15 +988,6 @@ export enum KnownArchitecture {
 export enum KnownAuditLogStatus {
     Disabled = "Disabled",
     Enabled = "Enabled"
-}
-
-// @public
-export enum KnownAutoGeneratedDomainNameLabelScope {
-    NoReuse = "NoReuse",
-    ResourceGroupReuse = "ResourceGroupReuse",
-    SubscriptionReuse = "SubscriptionReuse",
-    TenantReuse = "TenantReuse",
-    Unsecure = "Unsecure"
 }
 
 // @public
@@ -1432,12 +1098,6 @@ export enum KnownLogLevel {
 }
 
 // @public
-export enum KnownMetadataSearch {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
-}
-
-// @public
 export enum KnownNetworkRuleBypassOptions {
     AzureServices = "AzureServices",
     None = "None"
@@ -1447,34 +1107,6 @@ export enum KnownNetworkRuleBypassOptions {
 export enum KnownOS {
     Linux = "Linux",
     Windows = "Windows"
-}
-
-// @public
-export enum KnownPackageSourceType {
-    Remote = "remote"
-}
-
-// @public
-export enum KnownPipelineOptions {
-    ContinueOnErrors = "ContinueOnErrors",
-    DeleteSourceBlobOnSuccess = "DeleteSourceBlobOnSuccess",
-    OverwriteBlobs = "OverwriteBlobs",
-    OverwriteTags = "OverwriteTags"
-}
-
-// @public
-export enum KnownPipelineRunSourceType {
-    AzureStorageBlob = "AzureStorageBlob"
-}
-
-// @public
-export enum KnownPipelineRunTargetType {
-    AzureStorageBlob = "AzureStorageBlob"
-}
-
-// @public
-export enum KnownPipelineSourceType {
-    AzureStorageBlobContainer = "AzureStorageBlobContainer"
 }
 
 // @public
@@ -1665,14 +1297,15 @@ export interface LoggingProperties {
 // @public
 export interface LoginServerProperties {
     readonly host?: string;
-    readonly tls?: TlsProperties;
+    readonly tls?: LoginServerPropertiesTls;
+}
+
+// @public (undocumented)
+export interface LoginServerPropertiesTls extends TlsProperties {
 }
 
 // @public
 export type LogLevel = string;
-
-// @public
-export type MetadataSearch = string;
 
 // @public
 export type NetworkRuleBypassOptions = string;
@@ -1762,9 +1395,6 @@ export interface OverrideTaskStepProperties {
 }
 
 // @public
-export type PackageSourceType = string;
-
-// @public
 export interface PackageType {
     readonly endpoint?: string;
     name?: string;
@@ -1778,145 +1408,6 @@ export interface ParentProperties {
 
 // @public
 export type PasswordName = "password" | "password2";
-
-// @public
-export type PipelineOptions = string;
-
-// @public
-export interface PipelineRun extends ProxyResource {
-    forceUpdateTag?: string;
-    readonly provisioningState?: ProvisioningState;
-    request?: PipelineRunRequest;
-    readonly response?: PipelineRunResponse;
-}
-
-// @public
-export interface PipelineRunListResult {
-    nextLink?: string;
-    value?: PipelineRun[];
-}
-
-// @public
-export interface PipelineRunRequest {
-    artifacts?: string[];
-    catalogDigest?: string;
-    pipelineResourceId?: string;
-    source?: PipelineRunSourceProperties;
-    target?: PipelineRunTargetProperties;
-}
-
-// @public
-export interface PipelineRunResponse {
-    catalogDigest?: string;
-    finishTime?: Date;
-    importedArtifacts?: string[];
-    pipelineRunErrorMessage?: string;
-    progress?: ProgressProperties;
-    source?: ImportPipelineSourceProperties;
-    startTime?: Date;
-    status?: string;
-    target?: ExportPipelineTargetProperties;
-    trigger?: PipelineTriggerDescriptor;
-}
-
-// @public
-export interface PipelineRuns {
-    beginCreate(resourceGroupName: string, registryName: string, pipelineRunName: string, pipelineRunCreateParameters: PipelineRun, options?: PipelineRunsCreateOptionalParams): Promise<SimplePollerLike<OperationState<PipelineRunsCreateResponse>, PipelineRunsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, registryName: string, pipelineRunName: string, pipelineRunCreateParameters: PipelineRun, options?: PipelineRunsCreateOptionalParams): Promise<PipelineRunsCreateResponse>;
-    beginDelete(resourceGroupName: string, registryName: string, pipelineRunName: string, options?: PipelineRunsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, registryName: string, pipelineRunName: string, options?: PipelineRunsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, registryName: string, pipelineRunName: string, options?: PipelineRunsGetOptionalParams): Promise<PipelineRunsGetResponse>;
-    list(resourceGroupName: string, registryName: string, options?: PipelineRunsListOptionalParams): PagedAsyncIterableIterator<PipelineRun>;
-}
-
-// @public
-export interface PipelineRunsCreateHeaders {
-    // (undocumented)
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface PipelineRunsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type PipelineRunsCreateResponse = PipelineRun;
-
-// @public
-export interface PipelineRunsDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface PipelineRunsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PipelineRunsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PipelineRunsGetResponse = PipelineRun;
-
-// @public
-export interface PipelineRunsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PipelineRunsListNextResponse = PipelineRunListResult;
-
-// @public
-export interface PipelineRunsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PipelineRunsListResponse = PipelineRunListResult;
-
-// @public (undocumented)
-export interface PipelineRunSourceProperties {
-    name?: string;
-    type?: PipelineRunSourceType;
-}
-
-// @public
-export type PipelineRunSourceType = string;
-
-// @public (undocumented)
-export interface PipelineRunTargetProperties {
-    name?: string;
-    type?: PipelineRunTargetType;
-}
-
-// @public
-export type PipelineRunTargetType = string;
-
-// @public (undocumented)
-export interface PipelineSourceTriggerDescriptor {
-    timestamp?: Date;
-}
-
-// @public (undocumented)
-export interface PipelineSourceTriggerProperties {
-    status: TriggerStatus;
-}
-
-// @public
-export type PipelineSourceType = string;
-
-// @public (undocumented)
-export interface PipelineTriggerDescriptor {
-    sourceTrigger?: PipelineSourceTriggerDescriptor;
-}
-
-// @public (undocumented)
-export interface PipelineTriggerProperties {
-    sourceTrigger?: PipelineSourceTriggerProperties;
-}
 
 // @public
 export interface PlatformProperties {
@@ -1938,7 +1429,6 @@ export interface Policies {
     exportPolicy?: ExportPolicy;
     quarantinePolicy?: QuarantinePolicy;
     retentionPolicy?: RetentionPolicy;
-    softDeletePolicy?: SoftDeletePolicy;
     trustPolicy?: TrustPolicy;
 }
 
@@ -2042,11 +1532,6 @@ export interface PrivateLinkServiceConnectionState {
     actionsRequired?: ActionsRequired;
     description?: string;
     status?: ConnectionStatus;
-}
-
-// @public (undocumented)
-export interface ProgressProperties {
-    percentage?: string;
 }
 
 // @public
@@ -2272,14 +1757,12 @@ export type RegistriesUpdateResponse = Registry;
 export interface Registry extends Resource {
     adminUserEnabled?: boolean;
     anonymousPullEnabled?: boolean;
-    autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
     readonly creationDate?: Date;
     dataEndpointEnabled?: boolean;
     readonly dataEndpointHostNames?: string[];
     encryption?: EncryptionProperty;
     identity?: IdentityProperties;
     readonly loginServer?: string;
-    metadataSearch?: MetadataSearch;
     networkRuleBypassOptions?: NetworkRuleBypassOptions;
     networkRuleSet?: NetworkRuleSet;
     policies?: Policies;
@@ -2305,15 +1788,12 @@ export interface RegistryListResult {
 
 // @public
 export interface RegistryNameCheckRequest {
-    autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
     name: string;
-    resourceGroupName?: string;
     type: "Microsoft.ContainerRegistry/registries";
 }
 
 // @public
 export interface RegistryNameStatus {
-    availableLoginServerName?: string;
     message?: string;
     nameAvailable?: boolean;
     reason?: string;
@@ -2332,7 +1812,6 @@ export interface RegistryUpdateParameters {
     dataEndpointEnabled?: boolean;
     encryption?: EncryptionProperty;
     identity?: IdentityProperties;
-    metadataSearch?: MetadataSearch;
     networkRuleBypassOptions?: NetworkRuleBypassOptions;
     networkRuleSet?: NetworkRuleSet;
     policies?: Policies;
@@ -2742,13 +2221,6 @@ export type SkuName = string;
 export type SkuTier = string;
 
 // @public
-export interface SoftDeletePolicy {
-    readonly lastUpdatedTime?: Date;
-    retentionDays?: number;
-    status?: PolicyStatus;
-}
-
-// @public
 export interface Source {
     addr?: string;
     instanceID?: string;
@@ -3137,8 +2609,12 @@ export interface TlsCertificateProperties {
 
 // @public
 export interface TlsProperties {
-    readonly certificate?: TlsCertificateProperties;
+    readonly certificate?: TlsPropertiesCertificate;
     readonly status?: TlsStatus;
+}
+
+// @public (undocumented)
+export interface TlsPropertiesCertificate extends TlsCertificateProperties {
 }
 
 // @public
