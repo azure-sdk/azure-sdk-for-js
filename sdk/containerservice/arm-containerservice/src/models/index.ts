@@ -288,11 +288,13 @@ export interface ManagedClusterAgentPoolProfileProperties {
   windowsProfile?: AgentPoolWindowsProfile;
   /** The security settings of an agent pool. */
   securityProfile?: AgentPoolSecurityProfile;
+  /** GPU settings for the Agent Pool. */
+  gpuProfile?: GPUProfile;
 }
 
 /** Settings for upgrading an agentpool */
 export interface AgentPoolUpgradeSettings {
-  /** This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 1. For more information, including best practices, see: https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade */
+  /** This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 10%. For more information, including best practices, see: https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade */
   maxSurge?: string;
   /** The amount of time (in minutes) to wait on eviction of pods and graceful termination per node. This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. If not specified, the default is 30 minutes. */
   drainTimeoutInMinutes?: number;
@@ -444,6 +446,12 @@ export interface AgentPoolSecurityProfile {
   enableVtpm?: boolean;
   /** Secure Boot is a feature of Trusted Launch which ensures that only signed operating systems and drivers can boot. For more details, see aka.ms/aks/trustedlaunch.  If not specified, the default is false. */
   enableSecureBoot?: boolean;
+}
+
+/** GPU settings for the Agent Pool. */
+export interface GPUProfile {
+  /** Whether to install GPU drivers. When it's not specified, default is Install. */
+  driver?: GPUDriver;
 }
 
 /** Profile for Linux VMs in the container service cluster. */
@@ -668,8 +676,11 @@ export interface ManagedClusterLoadBalancerProfile {
   outboundIPPrefixes?: ManagedClusterLoadBalancerProfileOutboundIPPrefixes;
   /** Desired outbound IP resources for the cluster load balancer. */
   outboundIPs?: ManagedClusterLoadBalancerProfileOutboundIPs;
-  /** The effective outbound IP resources of the cluster load balancer. */
-  effectiveOutboundIPs?: ResourceReference[];
+  /**
+   * The effective outbound IP resources of the cluster load balancer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly effectiveOutboundIPs?: ResourceReference[];
   /** The desired number of allocated SNAT ports per VM. Allowed values are in the range of 0 to 64000 (inclusive). The default value is 0 which results in Azure dynamically allocating ports. */
   allocatedOutboundPorts?: number;
   /** Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120 (inclusive). The default value is 30 minutes. */
@@ -710,8 +721,11 @@ export interface ManagedClusterLoadBalancerProfileOutboundIPs {
 export interface ManagedClusterNATGatewayProfile {
   /** Profile of the managed outbound IP resources of the cluster NAT gateway. */
   managedOutboundIPProfile?: ManagedClusterManagedOutboundIPProfile;
-  /** The effective outbound IP resources of the cluster NAT gateway. */
-  effectiveOutboundIPs?: ResourceReference[];
+  /**
+   * The effective outbound IP resources of the cluster NAT gateway.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly effectiveOutboundIPs?: ResourceReference[];
   /** Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120 (inclusive). The default value is 4 minutes. */
   idleTimeoutInMinutes?: number;
 }
@@ -861,6 +875,8 @@ export interface ManagedClusterSecurityProfile {
   workloadIdentity?: ManagedClusterSecurityProfileWorkloadIdentity;
   /** Image Cleaner settings for the security profile. */
   imageCleaner?: ManagedClusterSecurityProfileImageCleaner;
+  /** A list of up to 10 base64 encoded CAs that will be added to the trust store on all nodes in the cluster. For more information see [Custom CA Trust Certificates](https://learn.microsoft.com/en-us/azure/aks/custom-certificate-authority). */
+  customCATrustCertificates?: Uint8Array[];
 }
 
 /** Microsoft Defender settings for the security profile. */
@@ -1070,6 +1086,14 @@ export interface ManagedClusterMetricsProfile {
 export interface ManagedClusterCostAnalysis {
   /** The Managed Cluster sku.tier must be set to 'Standard' or 'Premium' to enable this feature. Enabling this will add Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. If not specified, the default is false. For more information see aka.ms/aks/docs/cost-analysis. */
   enabled?: boolean;
+}
+
+/** The bootstrap profile. */
+export interface ManagedClusterBootstrapProfile {
+  /** The source where the artifacts are downloaded from. */
+  artifactSource?: ArtifactSource;
+  /** The resource Id of Azure Container Registry. The registry must have private network access, premium SKU and zone redundancy. */
+  containerRegistryId?: string;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -1904,6 +1928,8 @@ export interface AgentPool extends SubResource {
   windowsProfile?: AgentPoolWindowsProfile;
   /** The security settings of an agent pool. */
   securityProfile?: AgentPoolSecurityProfile;
+  /** GPU settings for the Agent Pool. */
+  gpuProfile?: GPUProfile;
 }
 
 /** A machine. Contains details about the underlying virtual machine. A machine may be visible here but not in kubectl get nodes; if so it may be because the machine has not been registered with the Kubernetes API Server yet. */
@@ -2039,6 +2065,8 @@ export interface ManagedCluster extends TrackedResource {
   readonly resourceUID?: string;
   /** Optional cluster metrics configuration. */
   metricsProfile?: ManagedClusterMetricsProfile;
+  /** Profile of the cluster bootstrap configuration. */
+  bootstrapProfile?: ManagedClusterBootstrapProfile;
 }
 
 /** Managed cluster Access Profile. */
@@ -2511,6 +2539,24 @@ export enum KnownProtocol {
  */
 export type Protocol = string;
 
+/** Known values of {@link GPUDriver} that the service accepts. */
+export enum KnownGPUDriver {
+  /** Install driver. */
+  Install = "Install",
+  /** Skip driver install. */
+  None = "None",
+}
+
+/**
+ * Defines values for GPUDriver. \
+ * {@link KnownGPUDriver} can be used interchangeably with GPUDriver,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Install**: Install driver. \
+ * **None**: Skip driver install.
+ */
+export type GPUDriver = string;
+
 /** Known values of {@link LicenseType} that the service accepts. */
 export enum KnownLicenseType {
   /** No additional licensing is applied. */
@@ -2683,6 +2729,8 @@ export enum KnownOutboundType {
   ManagedNATGateway = "managedNATGateway",
   /** The user-assigned NAT gateway associated to the cluster subnet is used for egress. This is an advanced scenario and requires proper network configuration. */
   UserAssignedNATGateway = "userAssignedNATGateway",
+  /** The AKS cluster is not set with any outbound-type. All AKS nodes follows Azure VM default outbound behavior. Please refer to https:\//azure.microsoft.com\/en-us\/updates\/default-outbound-access-for-vms-in-azure-will-be-retired-transition-to-a-new-method-of-internet-access\/ */
+  None = "none",
 }
 
 /**
@@ -2693,7 +2741,8 @@ export enum KnownOutboundType {
  * **loadBalancer**: The load balancer is used for egress through an AKS assigned public IP. This supports Kubernetes services of type 'loadBalancer'. For more information see [outbound type loadbalancer](https:\/\/docs.microsoft.com\/azure\/aks\/egress-outboundtype#outbound-type-of-loadbalancer). \
  * **userDefinedRouting**: Egress paths must be defined by the user. This is an advanced scenario and requires proper network configuration. For more information see [outbound type userDefinedRouting](https:\/\/docs.microsoft.com\/azure\/aks\/egress-outboundtype#outbound-type-of-userdefinedrouting). \
  * **managedNATGateway**: The AKS-managed NAT gateway is used for egress. \
- * **userAssignedNATGateway**: The user-assigned NAT gateway associated to the cluster subnet is used for egress. This is an advanced scenario and requires proper network configuration.
+ * **userAssignedNATGateway**: The user-assigned NAT gateway associated to the cluster subnet is used for egress. This is an advanced scenario and requires proper network configuration. \
+ * **none**: The AKS cluster is not set with any outbound-type. All AKS nodes follows Azure VM default outbound behavior. Please refer to https:\/\/azure.microsoft.com\/en-us\/updates\/default-outbound-access-for-vms-in-azure-will-be-retired-transition-to-a-new-method-of-internet-access\/
  */
 export type OutboundType = string;
 
@@ -2897,6 +2946,24 @@ export enum KnownIstioIngressGatewayMode {
  * **Internal**: The ingress gateway is assigned an internal IP address and cannot is accessed publicly.
  */
 export type IstioIngressGatewayMode = string;
+
+/** Known values of {@link ArtifactSource} that the service accepts. */
+export enum KnownArtifactSource {
+  /** pull images from Azure Container Registry with cache */
+  Cache = "Cache",
+  /** pull images from Microsoft Artifact Registry */
+  Direct = "Direct",
+}
+
+/**
+ * Defines values for ArtifactSource. \
+ * {@link KnownArtifactSource} can be used interchangeably with ArtifactSource,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Cache**: pull images from Azure Container Registry with cache \
+ * **Direct**: pull images from Microsoft Artifact Registry
+ */
+export type ArtifactSource = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
