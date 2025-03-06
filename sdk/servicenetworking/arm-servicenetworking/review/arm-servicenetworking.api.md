@@ -66,7 +66,7 @@ export interface AssociationSubnet {
 
 // @public
 export interface AssociationSubnetUpdate {
-    id: string;
+    id?: string;
 }
 
 // @public
@@ -121,6 +121,7 @@ export interface Frontend extends TrackedResource {
 export interface FrontendProperties {
     readonly fqdn?: string;
     readonly provisioningState?: ProvisioningState;
+    securityPolicyConfigurations?: SecurityPolicyConfigurations;
 }
 
 // @public
@@ -156,7 +157,34 @@ export interface FrontendsInterfaceUpdateOptionalParams extends OperationOptions
 
 // @public
 export interface FrontendUpdate {
+    properties?: FrontendUpdateProperties;
     tags?: Record<string, string>;
+}
+
+// @public
+export interface FrontendUpdateProperties {
+    securityPolicyConfigurations?: SecurityPolicyConfigurations;
+}
+
+// @public
+export interface IpAccessRule {
+    action: IpAccessRuleAction;
+    name: string;
+    priority: number;
+    sourceAddressPrefixes: string[];
+}
+
+// @public
+export type IpAccessRuleAction = string;
+
+// @public
+export interface IpAccessRulesPolicy {
+    rules?: IpAccessRule[];
+}
+
+// @public
+export interface IpAccessRulesSecurityPolicy {
+    id: string;
 }
 
 // @public
@@ -166,7 +194,7 @@ export enum KnownActionType {
 
 // @public
 export enum KnownAssociationType {
-    Subnets = "subnets"
+    subnets = "subnets"
 }
 
 // @public
@@ -178,14 +206,21 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownIpAccessRuleAction {
+    Allow = "allow",
+    Deny = "deny"
+}
+
+// @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
 export enum KnownPolicyType {
+    IpAccessRules = "ipAccessRules",
     WAF = "waf"
 }
 
@@ -202,8 +237,10 @@ export enum KnownProvisioningState {
 
 // @public
 export enum KnownVersions {
-    V2023_11_01 = "2023-11-01",
-    V2025_05_01 = "2025-01-01"
+    v2023_11_01 = "2023-11-01",
+    v2024_05_01_preview = "2024-05-01-preview",
+    v2025_03_01_preview = "2025-03-01-preview",
+    v2025_05_01 = "2025-01-01"
 }
 
 // @public
@@ -314,11 +351,13 @@ export interface SecurityPolicy extends TrackedResource {
 
 // @public
 export interface SecurityPolicyConfigurations {
+    ipAccessRulesSecurityPolicy?: IpAccessRulesSecurityPolicy;
     wafSecurityPolicy?: WafSecurityPolicy;
 }
 
 // @public
 export interface SecurityPolicyProperties {
+    ipAccessRulesPolicy?: IpAccessRulesPolicy;
     readonly policyType?: PolicyType;
     readonly provisioningState?: ProvisioningState;
     wafPolicy?: WafPolicy;
@@ -332,6 +371,7 @@ export interface SecurityPolicyUpdate {
 
 // @public
 export interface SecurityPolicyUpdateProperties {
+    ipAccessRulesPolicy?: IpAccessRulesPolicy;
     wafPolicy?: WafPolicy;
 }
 
