@@ -13,10 +13,10 @@ import { Operation, OperationsListOptionalParams } from "../models/index.js";
 /** Interface representing a Operations. */
 export interface Operations {
   /**
-   * Gets the operations.
+   * List the operations for the provider
    * @param options The options parameters.
    */
   list(
-    options?: OperationsListOptionalParams
+    options?: OperationsListOptionalParams,
   ): PagedAsyncIterableIterator<Operation>;
 }
