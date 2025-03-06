@@ -83,12 +83,20 @@ import {
   NetworkProfile as NetworkProfileMapper,
   NetworkSecurityGroup as NetworkSecurityGroupMapper,
   SecurityRule as SecurityRuleMapper,
+  NetworkSecurityPerimeter as NetworkSecurityPerimeterMapper,
+  UpdateTagsRequest as UpdateTagsRequestMapper,
+  NspProfile as NspProfileMapper,
+  NspAccessRule as NspAccessRuleMapper,
+  NspAssociation as NspAssociationMapper,
+  NspLink as NspLinkMapper,
+  NspLoggingConfiguration as NspLoggingConfigurationMapper,
   ReachabilityAnalysisIntent as ReachabilityAnalysisIntentMapper,
   ReachabilityAnalysisRun as ReachabilityAnalysisRunMapper,
   VerifierWorkspace as VerifierWorkspaceMapper,
   VerifierWorkspaceUpdate as VerifierWorkspaceUpdateMapper,
   NetworkVirtualAppliance as NetworkVirtualApplianceMapper,
   NetworkVirtualApplianceInstanceIds as NetworkVirtualApplianceInstanceIdsMapper,
+  NetworkVirtualApplianceBootDiagnosticParameters as NetworkVirtualApplianceBootDiagnosticParametersMapper,
   VirtualApplianceSite as VirtualApplianceSiteMapper,
   InboundSecurityRule as InboundSecurityRuleMapper,
   NetworkWatcher as NetworkWatcherMapper,
@@ -133,6 +141,7 @@ import {
   VpnPacketCaptureStopParameters as VpnPacketCaptureStopParametersMapper,
   ExpressRouteFailoverStopApiParameters as ExpressRouteFailoverStopApiParametersMapper,
   P2SVpnConnectionRequest as P2SVpnConnectionRequestMapper,
+  VirtualNetworkGatewayMigrationParameters as VirtualNetworkGatewayMigrationParametersMapper,
   VirtualNetworkGatewayConnection as VirtualNetworkGatewayConnectionMapper,
   ConnectionSharedKey as ConnectionSharedKeyMapper,
   ConnectionResetSharedKey as ConnectionResetSharedKeyMapper,
@@ -223,7 +232,7 @@ export const applicationGatewayName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-05-01",
+    defaultValue: "2024-07-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -1224,11 +1233,39 @@ export const loadBalancingRuleName: OperationURLParameter = {
   },
 };
 
+export const groupName2: OperationURLParameter = {
+  parameterPath: "groupName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9_.-]*$"),
+    },
+    serializedName: "groupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const loadBalancerName2: OperationURLParameter = {
+  parameterPath: "loadBalancerName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9_.-]*$"),
+    },
+    serializedName: "loadBalancerName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const loadBalancingRuleName1: OperationURLParameter = {
   parameterPath: "loadBalancingRuleName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-z][a-z0-9]*$"),
+      Pattern: new RegExp("^[a-zA-Z0-9_.-]*$"),
     },
     serializedName: "loadBalancingRuleName",
     required: true,
@@ -1630,6 +1667,183 @@ export const defaultSecurityRuleName: OperationURLParameter = {
   },
 };
 
+export const networkSecurityPerimeterName: OperationURLParameter = {
+  parameterPath: "networkSecurityPerimeterName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "(^[a-zA-Z0-9]+[a-zA-Z0-9_.-]*[a-zA-Z0-9_]+$)|(^[a-zA-Z0-9]$)",
+      ),
+      MaxLength: 80,
+    },
+    serializedName: "networkSecurityPerimeterName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters44: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: NetworkSecurityPerimeterMapper,
+};
+
+export const parameters45: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: UpdateTagsRequestMapper,
+};
+
+export const profileName: OperationURLParameter = {
+  parameterPath: "profileName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "(^[a-zA-Z0-9]+[a-zA-Z0-9_.-]*[a-zA-Z0-9_]+$)|(^[a-zA-Z0-9]$)",
+      ),
+      MaxLength: 80,
+    },
+    serializedName: "profileName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters46: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: NspProfileMapper,
+};
+
+export const accessRuleName: OperationURLParameter = {
+  parameterPath: "accessRuleName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "(^[a-zA-Z0-9]+[a-zA-Z0-9_.-]*[a-zA-Z0-9_]+$)|(^[a-zA-Z0-9]$)",
+      ),
+      MaxLength: 80,
+    },
+    serializedName: "accessRuleName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters47: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: NspAccessRuleMapper,
+};
+
+export const parameters48: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: {
+    serializedName: "parameters",
+    required: true,
+    type: {
+      name: "Dictionary",
+      value: { type: { name: "any" } },
+    },
+  },
+};
+
+export const associationName: OperationURLParameter = {
+  parameterPath: "associationName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "(^[a-zA-Z0-9]+[a-zA-Z0-9_.-]*[a-zA-Z0-9_]+$)|(^[a-zA-Z0-9]$)",
+      ),
+      MaxLength: 80,
+    },
+    serializedName: "associationName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters49: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: NspAssociationMapper,
+};
+
+export const linkName1: OperationURLParameter = {
+  parameterPath: "linkName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "(^[a-zA-Z0-9]+[a-zA-Z0-9_.-]*[a-zA-Z0-9_]+$)|(^[a-zA-Z0-9]$)",
+      ),
+      MaxLength: 80,
+    },
+    serializedName: "linkName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters50: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: NspLinkMapper,
+};
+
+export const linkReferenceName: OperationURLParameter = {
+  parameterPath: "linkReferenceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "(^[a-zA-Z0-9]+[a-zA-Z0-9_.-]*[a-zA-Z0-9_]+$)|(^[a-zA-Z0-9]$)",
+      ),
+      MaxLength: 80,
+    },
+    serializedName: "linkReferenceName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const loggingConfigurationName: OperationURLParameter = {
+  parameterPath: "loggingConfigurationName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "(^[a-zA-Z0-9]+[a-zA-Z0-9_.-]*[a-zA-Z0-9_]+$)|(^[a-zA-Z0-9]$)",
+      ),
+      MaxLength: 80,
+    },
+    serializedName: "loggingConfigurationName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters51: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: NspLoggingConfigurationMapper,
+};
+
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    serializedName: "operationId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const workspaceName: OperationURLParameter = {
   parameterPath: "workspaceName",
   mapper: {
@@ -1703,7 +1917,7 @@ export const networkVirtualApplianceName: OperationURLParameter = {
   },
 };
 
-export const parameters44: OperationParameter = {
+export const parameters52: OperationParameter = {
   parameterPath: "parameters",
   mapper: NetworkVirtualApplianceMapper,
 };
@@ -1711,6 +1925,25 @@ export const parameters44: OperationParameter = {
 export const networkVirtualApplianceInstanceIds: OperationParameter = {
   parameterPath: ["options", "networkVirtualApplianceInstanceIds"],
   mapper: NetworkVirtualApplianceInstanceIdsMapper,
+};
+
+export const networkVirtualApplianceName1: OperationURLParameter = {
+  parameterPath: "networkVirtualApplianceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9_]+"),
+    },
+    serializedName: "networkVirtualApplianceName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const request1: OperationParameter = {
+  parameterPath: "request",
+  mapper: NetworkVirtualApplianceBootDiagnosticParametersMapper,
 };
 
 export const siteName: OperationURLParameter = {
@@ -1724,7 +1957,7 @@ export const siteName: OperationURLParameter = {
   },
 };
 
-export const parameters45: OperationParameter = {
+export const parameters53: OperationParameter = {
   parameterPath: "parameters",
   mapper: VirtualApplianceSiteMapper,
 };
@@ -1740,12 +1973,12 @@ export const skuName: OperationURLParameter = {
   },
 };
 
-export const parameters46: OperationParameter = {
+export const parameters54: OperationParameter = {
   parameterPath: "parameters",
   mapper: InboundSecurityRuleMapper,
 };
 
-export const parameters47: OperationParameter = {
+export const parameters55: OperationParameter = {
   parameterPath: "parameters",
   mapper: NetworkWatcherMapper,
 };
@@ -1761,67 +1994,67 @@ export const networkWatcherName: OperationURLParameter = {
   },
 };
 
-export const parameters48: OperationParameter = {
+export const parameters56: OperationParameter = {
   parameterPath: "parameters",
   mapper: TopologyParametersMapper,
 };
 
-export const parameters49: OperationParameter = {
+export const parameters57: OperationParameter = {
   parameterPath: "parameters",
   mapper: VerificationIPFlowParametersMapper,
 };
 
-export const parameters50: OperationParameter = {
+export const parameters58: OperationParameter = {
   parameterPath: "parameters",
   mapper: NextHopParametersMapper,
 };
 
-export const parameters51: OperationParameter = {
+export const parameters59: OperationParameter = {
   parameterPath: "parameters",
   mapper: SecurityGroupViewParametersMapper,
 };
 
-export const parameters52: OperationParameter = {
+export const parameters60: OperationParameter = {
   parameterPath: "parameters",
   mapper: TroubleshootingParametersMapper,
 };
 
-export const parameters53: OperationParameter = {
+export const parameters61: OperationParameter = {
   parameterPath: "parameters",
   mapper: QueryTroubleshootingParametersMapper,
 };
 
-export const parameters54: OperationParameter = {
+export const parameters62: OperationParameter = {
   parameterPath: "parameters",
   mapper: FlowLogInformationMapper,
 };
 
-export const parameters55: OperationParameter = {
+export const parameters63: OperationParameter = {
   parameterPath: "parameters",
   mapper: FlowLogStatusParametersMapper,
 };
 
-export const parameters56: OperationParameter = {
+export const parameters64: OperationParameter = {
   parameterPath: "parameters",
   mapper: ConnectivityParametersMapper,
 };
 
-export const parameters57: OperationParameter = {
+export const parameters65: OperationParameter = {
   parameterPath: "parameters",
   mapper: AzureReachabilityReportParametersMapper,
 };
 
-export const parameters58: OperationParameter = {
+export const parameters66: OperationParameter = {
   parameterPath: "parameters",
   mapper: AvailableProvidersListParametersMapper,
 };
 
-export const parameters59: OperationParameter = {
+export const parameters67: OperationParameter = {
   parameterPath: "parameters",
   mapper: NetworkConfigurationDiagnosticParametersMapper,
 };
 
-export const parameters60: OperationParameter = {
+export const parameters68: OperationParameter = {
   parameterPath: "parameters",
   mapper: PacketCaptureMapper,
 };
@@ -1837,7 +2070,7 @@ export const packetCaptureName: OperationURLParameter = {
   },
 };
 
-export const parameters61: OperationParameter = {
+export const parameters69: OperationParameter = {
   parameterPath: "parameters",
   mapper: ConnectionMonitorMapper,
 };
@@ -1863,7 +2096,7 @@ export const migrate: OperationQueryParameter = {
   },
 };
 
-export const parameters62: OperationParameter = {
+export const parameters70: OperationParameter = {
   parameterPath: "parameters",
   mapper: FlowLogMapper,
 };
@@ -1890,7 +2123,7 @@ export const privateEndpointName: OperationURLParameter = {
   },
 };
 
-export const parameters63: OperationParameter = {
+export const parameters71: OperationParameter = {
   parameterPath: "parameters",
   mapper: PrivateEndpointMapper,
 };
@@ -1906,7 +2139,7 @@ export const privateDnsZoneGroupName: OperationURLParameter = {
   },
 };
 
-export const parameters64: OperationParameter = {
+export const parameters72: OperationParameter = {
   parameterPath: "parameters",
   mapper: PrivateDnsZoneGroupMapper,
 };
@@ -1922,7 +2155,7 @@ export const serviceName: OperationURLParameter = {
   },
 };
 
-export const parameters65: OperationParameter = {
+export const parameters73: OperationParameter = {
   parameterPath: "parameters",
   mapper: PrivateLinkServiceMapper,
 };
@@ -1938,12 +2171,12 @@ export const peConnectionName: OperationURLParameter = {
   },
 };
 
-export const parameters66: OperationParameter = {
+export const parameters74: OperationParameter = {
   parameterPath: "parameters",
   mapper: PrivateEndpointConnectionMapper,
 };
 
-export const parameters67: OperationParameter = {
+export const parameters75: OperationParameter = {
   parameterPath: "parameters",
   mapper: CheckPrivateLinkServiceVisibilityRequestMapper,
 };
@@ -1959,7 +2192,7 @@ export const publicIpPrefixName: OperationURLParameter = {
   },
 };
 
-export const parameters68: OperationParameter = {
+export const parameters76: OperationParameter = {
   parameterPath: "parameters",
   mapper: PublicIPPrefixMapper,
 };
@@ -1996,7 +2229,7 @@ export const routeTableName: OperationURLParameter = {
   },
 };
 
-export const parameters69: OperationParameter = {
+export const parameters77: OperationParameter = {
   parameterPath: "parameters",
   mapper: RouteTableMapper,
 };
@@ -2028,7 +2261,7 @@ export const securityPartnerProviderName: OperationURLParameter = {
   },
 };
 
-export const parameters70: OperationParameter = {
+export const parameters78: OperationParameter = {
   parameterPath: "parameters",
   mapper: SecurityPartnerProviderMapper,
 };
@@ -2044,7 +2277,7 @@ export const serviceEndpointPolicyName: OperationURLParameter = {
   },
 };
 
-export const parameters71: OperationParameter = {
+export const parameters79: OperationParameter = {
   parameterPath: "parameters",
   mapper: ServiceEndpointPolicyMapper,
 };
@@ -2099,7 +2332,7 @@ export const location1: OperationURLParameter = {
   },
 };
 
-export const parameters72: OperationParameter = {
+export const parameters80: OperationParameter = {
   parameterPath: "parameters",
   mapper: VirtualNetworkMapper,
 };
@@ -2177,7 +2410,7 @@ export const syncRemoteAddressSpace: OperationQueryParameter = {
   },
 };
 
-export const parameters73: OperationParameter = {
+export const parameters81: OperationParameter = {
   parameterPath: "parameters",
   mapper: VirtualNetworkGatewayMapper,
 };
@@ -2203,7 +2436,7 @@ export const gatewayVip: OperationQueryParameter = {
   },
 };
 
-export const parameters74: OperationParameter = {
+export const parameters82: OperationParameter = {
   parameterPath: "parameters",
   mapper: VpnClientParametersMapper,
 };
@@ -2229,12 +2462,22 @@ export const peer1: OperationQueryParameter = {
   },
 };
 
+export const attemptRefresh: OperationQueryParameter = {
+  parameterPath: ["options", "attemptRefresh"],
+  mapper: {
+    serializedName: "attemptRefresh",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
 export const vpnclientIpsecParams: OperationParameter = {
   parameterPath: "vpnclientIpsecParams",
   mapper: VpnClientIPsecParametersMapper,
 };
 
-export const parameters75: OperationParameter = {
+export const parameters83: OperationParameter = {
   parameterPath: "parameters",
   mapper: VpnDeviceScriptParametersMapper,
 };
@@ -2250,12 +2493,12 @@ export const virtualNetworkGatewayConnectionName: OperationURLParameter = {
   },
 };
 
-export const parameters76: OperationParameter = {
+export const parameters84: OperationParameter = {
   parameterPath: ["options", "parameters"],
   mapper: VpnPacketCaptureStartParametersMapper,
 };
 
-export const parameters77: OperationParameter = {
+export const parameters85: OperationParameter = {
   parameterPath: "parameters",
   mapper: VpnPacketCaptureStopParametersMapper,
 };
@@ -2309,27 +2552,32 @@ export const stopParameters: OperationParameter = {
   mapper: ExpressRouteFailoverStopApiParametersMapper,
 };
 
-export const request1: OperationParameter = {
+export const request2: OperationParameter = {
   parameterPath: "request",
   mapper: P2SVpnConnectionRequestMapper,
 };
 
-export const parameters78: OperationParameter = {
+export const migrationParams: OperationParameter = {
+  parameterPath: "migrationParams",
+  mapper: VirtualNetworkGatewayMigrationParametersMapper,
+};
+
+export const parameters86: OperationParameter = {
   parameterPath: "parameters",
   mapper: VirtualNetworkGatewayConnectionMapper,
 };
 
-export const parameters79: OperationParameter = {
+export const parameters87: OperationParameter = {
   parameterPath: "parameters",
   mapper: ConnectionSharedKeyMapper,
 };
 
-export const parameters80: OperationParameter = {
+export const parameters88: OperationParameter = {
   parameterPath: "parameters",
   mapper: ConnectionResetSharedKeyMapper,
 };
 
-export const parameters81: OperationParameter = {
+export const parameters89: OperationParameter = {
   parameterPath: "parameters",
   mapper: LocalNetworkGatewayMapper,
 };
@@ -2375,7 +2623,7 @@ export const tapName: OperationURLParameter = {
   },
 };
 
-export const parameters82: OperationParameter = {
+export const parameters90: OperationParameter = {
   parameterPath: "parameters",
   mapper: VirtualNetworkTapMapper,
 };
@@ -2396,12 +2644,12 @@ export const virtualRouterName: OperationURLParameter = {
   },
 };
 
-export const parameters83: OperationParameter = {
+export const parameters91: OperationParameter = {
   parameterPath: "parameters",
   mapper: VirtualRouterMapper,
 };
 
-export const parameters84: OperationParameter = {
+export const parameters92: OperationParameter = {
   parameterPath: "parameters",
   mapper: VirtualRouterPeeringMapper,
 };
@@ -2459,7 +2707,7 @@ export const vpnSiteLinkName: OperationURLParameter = {
   },
 };
 
-export const request2: OperationParameter = {
+export const request3: OperationParameter = {
   parameterPath: "request",
   mapper: GetVpnSitesConfigurationRequestMapper,
 };
@@ -2589,12 +2837,12 @@ export const ipConfigurationId: OperationQueryParameter = {
   },
 };
 
-export const parameters85: OperationParameter = {
+export const parameters93: OperationParameter = {
   parameterPath: ["options", "parameters"],
   mapper: VpnGatewayPacketCaptureStartParametersMapper,
 };
 
-export const parameters86: OperationParameter = {
+export const parameters94: OperationParameter = {
   parameterPath: ["options", "parameters"],
   mapper: VpnGatewayPacketCaptureStopParametersMapper,
 };
@@ -2620,7 +2868,7 @@ export const vpnConnectionParameters: OperationParameter = {
   mapper: VpnConnectionMapper,
 };
 
-export const parameters87: OperationParameter = {
+export const parameters95: OperationParameter = {
   parameterPath: ["options", "parameters"],
   mapper: VpnConnectionPacketCaptureStartParametersMapper,
 };
@@ -2636,7 +2884,7 @@ export const vpnConnectionName: OperationURLParameter = {
   },
 };
 
-export const parameters88: OperationParameter = {
+export const parameters96: OperationParameter = {
   parameterPath: ["options", "parameters"],
   mapper: VpnConnectionPacketCaptureStopParametersMapper,
 };
@@ -2656,12 +2904,12 @@ export const p2SVpnGatewayParameters1: OperationParameter = {
   mapper: TagsObjectMapper,
 };
 
-export const parameters89: OperationParameter = {
+export const parameters97: OperationParameter = {
   parameterPath: "parameters",
   mapper: P2SVpnProfileParametersMapper,
 };
 
-export const request3: OperationParameter = {
+export const request4: OperationParameter = {
   parameterPath: "request",
   mapper: P2SVpnConnectionHealthRequestMapper,
 };
@@ -2713,20 +2961,6 @@ export const networkVirtualApplianceConnectionParameters: OperationParameter = {
   mapper: NetworkVirtualApplianceConnectionMapper,
 };
 
-export const networkVirtualApplianceName1: OperationURLParameter = {
-  parameterPath: "networkVirtualApplianceName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[A-Za-z0-9_]+"),
-    },
-    serializedName: "networkVirtualApplianceName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
 export const connectionName1: OperationURLParameter = {
   parameterPath: "connectionName",
   mapper: {
@@ -2741,7 +2975,7 @@ export const connectionName1: OperationURLParameter = {
   },
 };
 
-export const parameters90: OperationParameter = {
+export const parameters98: OperationParameter = {
   parameterPath: "parameters",
   mapper: BgpConnectionMapper,
 };
@@ -2768,7 +3002,7 @@ export const ipConfigName: OperationURLParameter = {
   },
 };
 
-export const parameters91: OperationParameter = {
+export const parameters99: OperationParameter = {
   parameterPath: "parameters",
   mapper: HubIpConfigurationMapper,
 };
@@ -2808,7 +3042,7 @@ export const policyName: OperationURLParameter = {
   },
 };
 
-export const parameters92: OperationParameter = {
+export const parameters100: OperationParameter = {
   parameterPath: "parameters",
   mapper: WebApplicationFirewallPolicyMapper,
 };
