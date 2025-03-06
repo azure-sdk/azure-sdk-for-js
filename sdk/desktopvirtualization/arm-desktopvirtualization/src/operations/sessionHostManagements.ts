@@ -8,32 +8,32 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { SessionHosts } from "../operationsInterfaces/index.js";
+import { SessionHostManagements } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { DesktopVirtualizationAPIClient } from "../desktopVirtualizationAPIClient.js";
 import {
-  SessionHost,
-  SessionHostsListNextOptionalParams,
-  SessionHostsListOptionalParams,
-  SessionHostsListResponse,
-  SessionHostsGetOptionalParams,
-  SessionHostsGetResponse,
-  SessionHostsUpdateOptionalParams,
-  SessionHostsUpdateResponse,
-  SessionHostsDeleteOptionalParams,
-  SessionHostsRetryProvisioningOptionalParams,
-  SessionHostsListNextResponse,
+  SessionHostManagement,
+  SessionHostManagementsListByHostPoolNextOptionalParams,
+  SessionHostManagementsListByHostPoolOptionalParams,
+  SessionHostManagementsListByHostPoolResponse,
+  SessionHostManagementsGetOptionalParams,
+  SessionHostManagementsGetResponse,
+  SessionHostManagementsCreateOrUpdateOptionalParams,
+  SessionHostManagementsCreateOrUpdateResponse,
+  SessionHostManagementsUpdateOptionalParams,
+  SessionHostManagementsUpdateResponse,
+  SessionHostManagementsListByHostPoolNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing SessionHosts operations. */
-export class SessionHostsImpl implements SessionHosts {
+/** Class containing SessionHostManagements operations. */
+export class SessionHostManagementsImpl implements SessionHostManagements {
   private readonly client: DesktopVirtualizationAPIClient;
 
   /**
-   * Initialize a new instance of the class SessionHosts class.
+   * Initialize a new instance of the class SessionHostManagements class.
    * @param client Reference to the service client
    */
   constructor(client: DesktopVirtualizationAPIClient) {
@@ -41,17 +41,21 @@ export class SessionHostsImpl implements SessionHosts {
   }
 
   /**
-   * List sessionHosts.
+   * List SessionHostManagements.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
    * @param options The options parameters.
    */
-  public list(
+  public listByHostPool(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: SessionHostsListOptionalParams,
-  ): PagedAsyncIterableIterator<SessionHost> {
-    const iter = this.listPagingAll(resourceGroupName, hostPoolName, options);
+    options?: SessionHostManagementsListByHostPoolOptionalParams,
+  ): PagedAsyncIterableIterator<SessionHostManagement> {
+    const iter = this.listByHostPoolPagingAll(
+      resourceGroupName,
+      hostPoolName,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -63,7 +67,7 @@ export class SessionHostsImpl implements SessionHosts {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
+        return this.listByHostPoolPagingPage(
           resourceGroupName,
           hostPoolName,
           options,
@@ -73,23 +77,27 @@ export class SessionHostsImpl implements SessionHosts {
     };
   }
 
-  private async *listPagingPage(
+  private async *listByHostPoolPagingPage(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: SessionHostsListOptionalParams,
+    options?: SessionHostManagementsListByHostPoolOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<SessionHost[]> {
-    let result: SessionHostsListResponse;
+  ): AsyncIterableIterator<SessionHostManagement[]> {
+    let result: SessionHostManagementsListByHostPoolResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, hostPoolName, options);
+      result = await this._listByHostPool(
+        resourceGroupName,
+        hostPoolName,
+        options,
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
+      result = await this._listByHostPoolNext(
         resourceGroupName,
         hostPoolName,
         continuationToken,
@@ -102,12 +110,12 @@ export class SessionHostsImpl implements SessionHosts {
     }
   }
 
-  private async *listPagingAll(
+  private async *listByHostPoolPagingAll(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: SessionHostsListOptionalParams,
-  ): AsyncIterableIterator<SessionHost> {
-    for await (const page of this.listPagingPage(
+    options?: SessionHostManagementsListByHostPoolOptionalParams,
+  ): AsyncIterableIterator<SessionHostManagement> {
+    for await (const page of this.listByHostPoolPagingPage(
       resourceGroupName,
       hostPoolName,
       options,
@@ -117,138 +125,109 @@ export class SessionHostsImpl implements SessionHosts {
   }
 
   /**
-   * List sessionHosts.
+   * List SessionHostManagements.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
    * @param options The options parameters.
    */
-  private _list(
+  private _listByHostPool(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: SessionHostsListOptionalParams,
-  ): Promise<SessionHostsListResponse> {
+    options?: SessionHostManagementsListByHostPoolOptionalParams,
+  ): Promise<SessionHostManagementsListByHostPoolResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, hostPoolName, options },
-      listOperationSpec,
+      listByHostPoolOperationSpec,
     );
   }
 
   /**
-   * Get a session host.
+   * Get a SessionHostManagement.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param sessionHostName The name of the session host within the specified host pool
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     hostPoolName: string,
-    sessionHostName: string,
-    options?: SessionHostsGetOptionalParams,
-  ): Promise<SessionHostsGetResponse> {
+    options?: SessionHostManagementsGetOptionalParams,
+  ): Promise<SessionHostManagementsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, hostPoolName, sessionHostName, options },
+      { resourceGroupName, hostPoolName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Update a session host.
+   * Create or update a SessionHostManagement.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param sessionHostName The name of the session host within the specified host pool
+   * @param sessionHostManagement Resource create parameters.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    hostPoolName: string,
+    sessionHostManagement: SessionHostManagement,
+    options?: SessionHostManagementsCreateOrUpdateOptionalParams,
+  ): Promise<SessionHostManagementsCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, hostPoolName, sessionHostManagement, options },
+      createOrUpdateOperationSpec,
+    );
+  }
+
+  /**
+   * Update a SessionHostManagement.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param hostPoolName The name of the host pool within the specified resource group
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     hostPoolName: string,
-    sessionHostName: string,
-    options?: SessionHostsUpdateOptionalParams,
-  ): Promise<SessionHostsUpdateResponse> {
+    options?: SessionHostManagementsUpdateOptionalParams,
+  ): Promise<SessionHostManagementsUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, hostPoolName, sessionHostName, options },
+      { resourceGroupName, hostPoolName, options },
       updateOperationSpec,
     );
   }
 
   /**
-   * Remove a SessionHost.
+   * ListByHostPoolNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param sessionHostName The name of the session host within the specified host pool
+   * @param nextLink The nextLink from the previous successful call to the ListByHostPool method.
    * @param options The options parameters.
    */
-  delete(
-    resourceGroupName: string,
-    hostPoolName: string,
-    sessionHostName: string,
-    options?: SessionHostsDeleteOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, hostPoolName, sessionHostName, options },
-      deleteOperationSpec,
-    );
-  }
-
-  /**
-   * A synchronous resource action that returns no content.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
-   * @param sessionHostName The name of the session host within the specified host pool
-   * @param options The options parameters.
-   */
-  retryProvisioning(
-    resourceGroupName: string,
-    hostPoolName: string,
-    sessionHostName: string,
-    options?: SessionHostsRetryProvisioningOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, hostPoolName, sessionHostName, options },
-      retryProvisioningOperationSpec,
-    );
-  }
-
-  /**
-   * ListNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
+  private _listByHostPoolNext(
     resourceGroupName: string,
     hostPoolName: string,
     nextLink: string,
-    options?: SessionHostsListNextOptionalParams,
-  ): Promise<SessionHostsListNextResponse> {
+    options?: SessionHostManagementsListByHostPoolNextOptionalParams,
+  ): Promise<SessionHostManagementsListByHostPoolNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, hostPoolName, nextLink, options },
-      listNextOperationSpec,
+      listByHostPoolNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHosts",
+const listByHostPoolOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHostManagements",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SessionHostList,
+      bodyMapper: Mappers.SessionHostManagementList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.pageSize,
-    Parameters.isDescending,
-    Parameters.initialSkip,
-    Parameters.vmPath,
-  ],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -259,11 +238,11 @@ const listOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHosts/{sessionHostName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHostManagements/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SessionHost,
+      bodyMapper: Mappers.SessionHostManagement,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -275,82 +254,65 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.hostPoolName,
-    Parameters.sessionHostName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHosts/{sessionHostName}",
-  httpMethod: "PATCH",
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHostManagements/default",
+  httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SessionHost,
+      bodyMapper: Mappers.SessionHostManagement,
+    },
+    201: {
+      bodyMapper: Mappers.SessionHostManagement,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.sessionHost,
-  queryParameters: [Parameters.apiVersion, Parameters.force],
+  requestBody: Parameters.sessionHostManagement,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.hostPoolName,
-    Parameters.sessionHostName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHosts/{sessionHostName}",
-  httpMethod: "DELETE",
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHostManagements/default",
+  httpMethod: "PATCH",
   responses: {
-    200: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.SessionHostManagement,
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.force],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.hostPoolName,
-    Parameters.sessionHostName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const retryProvisioningOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHosts/{sessionHostName}/retryProvisioning",
-  httpMethod: "POST",
-  responses: {
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
+  requestBody: Parameters.sessionHostManagement1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.hostPoolName,
-    Parameters.sessionHostName,
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
+const listByHostPoolNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SessionHostList,
+      bodyMapper: Mappers.SessionHostManagementList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

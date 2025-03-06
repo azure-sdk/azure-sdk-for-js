@@ -15,14 +15,14 @@ import * as Parameters from "../models/parameters.js";
 import { DesktopVirtualizationAPIClient } from "../desktopVirtualizationAPIClient.js";
 import {
   PrivateLinkResource,
-  PrivateLinkResourcesListByWorkspaceNextOptionalParams,
-  PrivateLinkResourcesListByWorkspaceOptionalParams,
-  PrivateLinkResourcesListByWorkspaceResponse,
   PrivateLinkResourcesListByHostPoolNextOptionalParams,
   PrivateLinkResourcesListByHostPoolOptionalParams,
   PrivateLinkResourcesListByHostPoolResponse,
-  PrivateLinkResourcesListByWorkspaceNextResponse,
+  PrivateLinkResourcesListByWorkspaceNextOptionalParams,
+  PrivateLinkResourcesListByWorkspaceOptionalParams,
+  PrivateLinkResourcesListByWorkspaceResponse,
   PrivateLinkResourcesListByHostPoolNextResponse,
+  PrivateLinkResourcesListByWorkspaceNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,90 +36,6 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
    */
   constructor(client: DesktopVirtualizationAPIClient) {
     this.client = client;
-  }
-
-  /**
-   * List the private link resources available for this workspace.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
-   * @param options The options parameters.
-   */
-  public listByWorkspace(
-    resourceGroupName: string,
-    workspaceName: string,
-    options?: PrivateLinkResourcesListByWorkspaceOptionalParams,
-  ): PagedAsyncIterableIterator<PrivateLinkResource> {
-    const iter = this.listByWorkspacePagingAll(
-      resourceGroupName,
-      workspaceName,
-      options,
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByWorkspacePagingPage(
-          resourceGroupName,
-          workspaceName,
-          options,
-          settings,
-        );
-      },
-    };
-  }
-
-  private async *listByWorkspacePagingPage(
-    resourceGroupName: string,
-    workspaceName: string,
-    options?: PrivateLinkResourcesListByWorkspaceOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<PrivateLinkResource[]> {
-    let result: PrivateLinkResourcesListByWorkspaceResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByWorkspace(
-        resourceGroupName,
-        workspaceName,
-        options,
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listByWorkspaceNext(
-        resourceGroupName,
-        workspaceName,
-        continuationToken,
-        options,
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listByWorkspacePagingAll(
-    resourceGroupName: string,
-    workspaceName: string,
-    options?: PrivateLinkResourcesListByWorkspaceOptionalParams,
-  ): AsyncIterableIterator<PrivateLinkResource> {
-    for await (const page of this.listByWorkspacePagingPage(
-      resourceGroupName,
-      workspaceName,
-      options,
-    )) {
-      yield* page;
-    }
   }
 
   /**
@@ -212,15 +128,82 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
    * @param workspaceName The name of the workspace
    * @param options The options parameters.
    */
-  private _listByWorkspace(
+  public listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
     options?: PrivateLinkResourcesListByWorkspaceOptionalParams,
-  ): Promise<PrivateLinkResourcesListByWorkspaceResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, options },
-      listByWorkspaceOperationSpec,
+  ): PagedAsyncIterableIterator<PrivateLinkResource> {
+    const iter = this.listByWorkspacePagingAll(
+      resourceGroupName,
+      workspaceName,
+      options,
     );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByWorkspacePagingPage(
+          resourceGroupName,
+          workspaceName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listByWorkspacePagingPage(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: PrivateLinkResourcesListByWorkspaceOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<PrivateLinkResource[]> {
+    let result: PrivateLinkResourcesListByWorkspaceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByWorkspace(
+        resourceGroupName,
+        workspaceName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByWorkspaceNext(
+        resourceGroupName,
+        workspaceName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByWorkspacePagingAll(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: PrivateLinkResourcesListByWorkspaceOptionalParams,
+  ): AsyncIterableIterator<PrivateLinkResource> {
+    for await (const page of this.listByWorkspacePagingPage(
+      resourceGroupName,
+      workspaceName,
+      options,
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -241,21 +224,19 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   }
 
   /**
-   * ListByWorkspaceNext
+   * List the private link resources available for this workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
-   * @param nextLink The nextLink from the previous successful call to the ListByWorkspace method.
    * @param options The options parameters.
    */
-  private _listByWorkspaceNext(
+  private _listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    nextLink: string,
-    options?: PrivateLinkResourcesListByWorkspaceNextOptionalParams,
-  ): Promise<PrivateLinkResourcesListByWorkspaceNextResponse> {
+    options?: PrivateLinkResourcesListByWorkspaceOptionalParams,
+  ): Promise<PrivateLinkResourcesListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, nextLink, options },
-      listByWorkspaceNextOperationSpec,
+      { resourceGroupName, workspaceName, options },
+      listByWorkspaceOperationSpec,
     );
   }
 
@@ -277,36 +258,29 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
       listByHostPoolNextOperationSpec,
     );
   }
+
+  /**
+   * ListByWorkspaceNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param nextLink The nextLink from the previous successful call to the ListByWorkspace method.
+   * @param options The options parameters.
+   */
+  private _listByWorkspaceNext(
+    resourceGroupName: string,
+    workspaceName: string,
+    nextLink: string,
+    options?: PrivateLinkResourcesListByWorkspaceNextOptionalParams,
+  ): Promise<PrivateLinkResourcesListByWorkspaceNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, nextLink, options },
+      listByWorkspaceNextOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces/{workspaceName}/privateLinkResources",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.pageSize,
-    Parameters.isDescending,
-    Parameters.initialSkip,
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const listByHostPoolOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/privateLinkResources",
   httpMethod: "GET",
@@ -315,7 +289,7 @@ const listByHostPoolOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PrivateLinkResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [
@@ -333,20 +307,25 @@ const listByHostPoolOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
+const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces/{workspaceName}/privateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.PrivateLinkResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.pageSize,
+    Parameters.isDescending,
+    Parameters.initialSkip,
+  ],
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
@@ -362,7 +341,7 @@ const listByHostPoolNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PrivateLinkResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
@@ -371,6 +350,27 @@ const listByHostPoolNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.hostPoolName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateLinkResourceListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
