@@ -54,7 +54,7 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the AzureStackHCIClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
@@ -146,7 +146,7 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-04-01";
+    this.apiVersion = options.apiVersion || "2024-02-15-preview";
     this.arcSettings = new ArcSettingsImpl(this);
     this.clusters = new ClustersImpl(this);
     this.deploymentSettings = new DeploymentSettingsImpl(this);
