@@ -404,7 +404,7 @@ export interface ProtectionIntent {
 
 /** Base for all lists of resources. */
 export interface ResourceList {
-  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string;
 }
 
@@ -2372,66 +2372,88 @@ export interface AzureWorkloadContainerAutoProtectionIntent
 export interface ProtectionIntentResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectionIntentResource[];
+  /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
+  nextLink?: string;
 }
 
 /** List of RecoveryPoint resources */
 export interface RecoveryPointResourceList extends ResourceList {
   /** List of resources. */
   value?: RecoveryPointResource[];
+  /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
+  nextLink?: string;
 }
 
 /** List of ProtectionPolicy resources */
 export interface ProtectionPolicyResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectionPolicyResource[];
+  /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
+  nextLink?: string;
 }
 
 /** List of Job resources */
 export interface JobResourceList extends ResourceList {
   /** List of resources. */
   value?: JobResource[];
+  /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
+  nextLink?: string;
 }
 
 /** List of ProtectedItem resources */
 export interface ProtectedItemResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectedItemResource[];
+  /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
+  nextLink?: string;
 }
 
 /** List of BackupEngineBase resources */
 export interface BackupEngineBaseResourceList extends ResourceList {
   /** List of resources. */
   value?: BackupEngineBaseResource[];
+  /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
+  nextLink?: string;
 }
 
 /** List of ProtectableContainer resources */
 export interface ProtectableContainerResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectableContainerResource[];
+  /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
+  nextLink?: string;
 }
 
 /** List of WorkloadItem resources */
 export interface WorkloadItemResourceList extends ResourceList {
   /** List of resources. */
   value?: WorkloadItemResource[];
+  /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
+  nextLink?: string;
 }
 
 /** List of WorkloadProtectableItem resources */
 export interface WorkloadProtectableItemResourceList extends ResourceList {
   /** List of resources. */
   value?: WorkloadProtectableItemResource[];
+  /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
+  nextLink?: string;
 }
 
 /** List of ProtectionContainer resources */
 export interface ProtectionContainerResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectionContainerResource[];
+  /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
+  nextLink?: string;
 }
 
 /** List of ResourceGuardProxyBase resources */
 export interface ResourceGuardProxyBaseResourceList extends ResourceList {
   /** List of resources. */
   value?: ResourceGuardProxyBaseResource[];
+  /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
+  nextLink?: string;
 }
 
 export interface BackupResourceEncryptionConfigExtended
@@ -3262,6 +3284,8 @@ export interface AzureStorageContainer extends ProtectionContainer {
   protectedItemCount?: number;
   /** Whether storage account lock is to be acquired for this container or not. */
   acquireStorageAccountLock?: AcquireStorageAccountLock;
+  /** Re-Do Operation */
+  operationType?: OperationType;
 }
 
 /** Base class for generic container of backup items */
@@ -5393,6 +5417,8 @@ export enum KnownOperationType {
   Register = "Register",
   /** Reregister */
   Reregister = "Reregister",
+  /** Rehydrate */
+  Rehydrate = "Rehydrate",
 }
 
 /**
@@ -5402,7 +5428,8 @@ export enum KnownOperationType {
  * ### Known values supported by the service
  * **Invalid** \
  * **Register** \
- * **Reregister**
+ * **Reregister** \
+ * **Rehydrate**
  */
 export type OperationType = string;
 
