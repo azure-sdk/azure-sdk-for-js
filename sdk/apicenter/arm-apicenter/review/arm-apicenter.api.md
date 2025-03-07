@@ -14,26 +14,143 @@ import { SimplePollerLike } from '@azure/core-lro';
 export type ActionType = string;
 
 // @public
+export interface AnalyzerConfig extends ProxyResource {
+    analyzerType?: AnalyzerType;
+    description?: string;
+    filter?: AnalyzerFilter;
+    readonly state?: AnalyzerRulesetState;
+    title?: string;
+}
+
+// @public
+export interface AnalyzerConfigListResult {
+    readonly nextLink?: string;
+    readonly value: AnalyzerConfig[];
+}
+
+// @public
+export interface AnalyzerConfigs {
+    beginExportRuleset(resourceGroupName: string, serviceName: string, workspaceName: string, analyzerConfigName: string, options?: AnalyzerConfigsExportRulesetOptionalParams): Promise<SimplePollerLike<OperationState<AnalyzerConfigsExportRulesetResponse>, AnalyzerConfigsExportRulesetResponse>>;
+    beginExportRulesetAndWait(resourceGroupName: string, serviceName: string, workspaceName: string, analyzerConfigName: string, options?: AnalyzerConfigsExportRulesetOptionalParams): Promise<AnalyzerConfigsExportRulesetResponse>;
+    beginImportRuleset(resourceGroupName: string, serviceName: string, workspaceName: string, analyzerConfigName: string, body: RulesetImportRequest, options?: AnalyzerConfigsImportRulesetOptionalParams): Promise<SimplePollerLike<OperationState<AnalyzerConfigsImportRulesetResponse>, AnalyzerConfigsImportRulesetResponse>>;
+    beginImportRulesetAndWait(resourceGroupName: string, serviceName: string, workspaceName: string, analyzerConfigName: string, body: RulesetImportRequest, options?: AnalyzerConfigsImportRulesetOptionalParams): Promise<AnalyzerConfigsImportRulesetResponse>;
+    createOrUpdate(resourceGroupName: string, serviceName: string, workspaceName: string, analyzerConfigName: string, resource: AnalyzerConfig, options?: AnalyzerConfigsCreateOrUpdateOptionalParams): Promise<AnalyzerConfigsCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, serviceName: string, workspaceName: string, analyzerConfigName: string, options?: AnalyzerConfigsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, serviceName: string, workspaceName: string, analyzerConfigName: string, options?: AnalyzerConfigsGetOptionalParams): Promise<AnalyzerConfigsGetResponse>;
+    list(resourceGroupName: string, serviceName: string, workspaceName: string, options?: AnalyzerConfigsListOptionalParams): PagedAsyncIterableIterator<AnalyzerConfig>;
+}
+
+// @public
+export interface AnalyzerConfigsCreateOrUpdateHeaders {
+    eTag?: string;
+}
+
+// @public
+export interface AnalyzerConfigsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AnalyzerConfigsCreateOrUpdateResponse = AnalyzerConfigsCreateOrUpdateHeaders & AnalyzerConfig;
+
+// @public
+export interface AnalyzerConfigsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface AnalyzerConfigsExportRulesetHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface AnalyzerConfigsExportRulesetOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AnalyzerConfigsExportRulesetResponse = RulesetExportResult;
+
+// @public
+export interface AnalyzerConfigsGetHeaders {
+    eTag?: string;
+}
+
+// @public
+export interface AnalyzerConfigsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AnalyzerConfigsGetResponse = AnalyzerConfigsGetHeaders & AnalyzerConfig;
+
+// @public
+export interface AnalyzerConfigsImportRulesetHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface AnalyzerConfigsImportRulesetOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AnalyzerConfigsImportRulesetResponse = OperationStatusResult;
+
+// @public
+export interface AnalyzerConfigsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AnalyzerConfigsListNextResponse = AnalyzerConfigListResult;
+
+// @public
+export interface AnalyzerConfigsListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type AnalyzerConfigsListResponse = AnalyzerConfigListResult;
+
+// @public
+export interface AnalyzerFilter {
+    apiDefinitions: Record<string, unknown>[];
+    apis: Record<string, unknown>[];
+    apiVersions: Record<string, unknown>[];
+}
+
+// @public
+export type AnalyzerRulesetState = string;
+
+// @public
+export type AnalyzerType = string;
+
+// @public
 export interface Api extends ProxyResource {
-    properties?: ApiProperties;
+    contacts?: Contact[];
+    customProperties?: Record<string, unknown>;
+    description?: string;
+    externalDocumentation?: ExternalDocumentation[];
+    kind?: ApiKind;
+    license?: License;
+    readonly lifecycleStage?: LifecycleStage;
+    summary?: string;
+    termsOfService?: TermsOfService;
+    title?: string;
 }
 
 // @public
 export interface ApiDefinition extends ProxyResource {
-    properties?: ApiDefinitionProperties;
+    description?: string;
+    readonly specification?: ApiDefinitionPropertiesSpecification;
+    title?: string;
 }
 
 // @public
 export interface ApiDefinitionListResult {
     readonly nextLink?: string;
     readonly value: ApiDefinition[];
-}
-
-// @public
-export interface ApiDefinitionProperties {
-    description?: string;
-    readonly specification?: ApiDefinitionPropertiesSpecification;
-    title: string;
 }
 
 // @public
@@ -144,20 +261,6 @@ export interface ApiListResult {
 }
 
 // @public
-export interface ApiProperties {
-    contacts?: Contact[];
-    customProperties?: Record<string, unknown>;
-    description?: string;
-    externalDocumentation?: ExternalDocumentation[];
-    kind: ApiKind;
-    license?: License;
-    readonly lifecycleStage?: LifecycleStage;
-    summary?: string;
-    termsOfService?: TermsOfService;
-    title: string;
-}
-
-// @public
 export interface Apis {
     createOrUpdate(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, resource: Api, options?: ApisCreateOrUpdateOptionalParams): Promise<ApisCreateOrUpdateResponse>;
     delete(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, options?: ApisDeleteOptionalParams): Promise<void>;
@@ -219,6 +322,85 @@ export interface ApisListOptionalParams extends coreClient.OperationOptions {
 export type ApisListResponse = ApiListResult;
 
 // @public
+export interface ApiSource extends ProxyResource {
+    azureApiManagementSource?: AzureApiManagementSource;
+    importSpecification?: ImportSpecificationOptions;
+    readonly linkState?: LinkState;
+    targetEnvironmentId?: string;
+    targetLifecycleStage?: LifecycleStage;
+}
+
+// @public
+export type ApiSourceLinkState = string;
+
+// @public
+export interface ApiSourceListResult {
+    readonly nextLink?: string;
+    readonly value: ApiSource[];
+}
+
+// @public
+export interface ApiSources {
+    createOrUpdate(resourceGroupName: string, serviceName: string, workspaceName: string, apiSourceName: string, resource: ApiSource, options?: ApiSourcesCreateOrUpdateOptionalParams): Promise<ApiSourcesCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, serviceName: string, workspaceName: string, apiSourceName: string, options?: ApiSourcesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, serviceName: string, workspaceName: string, apiSourceName: string, options?: ApiSourcesGetOptionalParams): Promise<ApiSourcesGetResponse>;
+    head(resourceGroupName: string, serviceName: string, workspaceName: string, apiSourceName: string, options?: ApiSourcesHeadOptionalParams): Promise<ApiSourcesHeadResponse>;
+    list(resourceGroupName: string, serviceName: string, workspaceName: string, options?: ApiSourcesListOptionalParams): PagedAsyncIterableIterator<ApiSource>;
+}
+
+// @public
+export interface ApiSourcesCreateOrUpdateHeaders {
+    eTag?: string;
+}
+
+// @public
+export interface ApiSourcesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApiSourcesCreateOrUpdateResponse = ApiSourcesCreateOrUpdateHeaders & ApiSource;
+
+// @public
+export interface ApiSourcesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ApiSourcesGetHeaders {
+    eTag?: string;
+}
+
+// @public
+export interface ApiSourcesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApiSourcesGetResponse = ApiSourcesGetHeaders & ApiSource;
+
+// @public
+export interface ApiSourcesHeadOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApiSourcesHeadResponse = {
+    body: boolean;
+};
+
+// @public
+export interface ApiSourcesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApiSourcesListNextResponse = ApiSourceListResult;
+
+// @public
+export interface ApiSourcesListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type ApiSourcesListResponse = ApiSourceListResult;
+
+// @public
 export interface ApiSpecExportResult {
     format?: ApiSpecExportResultFormat;
     value?: string;
@@ -245,19 +427,14 @@ export type ApiSpecImportSourceFormat = string;
 
 // @public
 export interface ApiVersion extends ProxyResource {
-    properties?: ApiVersionProperties;
+    lifecycleStage?: LifecycleStage;
+    title?: string;
 }
 
 // @public
 export interface ApiVersionListResult {
     readonly nextLink?: string;
     readonly value: ApiVersion[];
-}
-
-// @public
-export interface ApiVersionProperties {
-    lifecycleStage: LifecycleStage;
-    title: string;
 }
 
 // @public
@@ -327,13 +504,19 @@ export class AzureAPICenter extends coreClient.ServiceClient {
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureAPICenterOptionalParams);
     // (undocumented)
+    analyzerConfigs: AnalyzerConfigs;
+    // (undocumented)
     apiDefinitions: ApiDefinitions;
     // (undocumented)
     apis: Apis;
     // (undocumented)
+    apiSources: ApiSources;
+    // (undocumented)
     apiVersion: string;
     // (undocumented)
     apiVersions: ApiVersions;
+    // (undocumented)
+    deletedServices: DeletedServices;
     // (undocumented)
     deployments: Deployments;
     // (undocumented)
@@ -358,6 +541,12 @@ export interface AzureAPICenterOptionalParams extends coreClient.ServiceClientOp
 }
 
 // @public
+export interface AzureApiManagementSource {
+    msiResourceId?: string;
+    resourceId: string;
+}
+
+// @public
 export interface Contact {
     email?: string;
     name?: string;
@@ -368,18 +557,72 @@ export interface Contact {
 export type CreatedByType = string;
 
 // @public
-export interface Deployment extends ProxyResource {
-    properties?: DeploymentProperties;
+export interface DeletedService extends ProxyResource {
+    scheduledPurgeDate?: Date;
+    softDeletionDate?: Date;
 }
 
 // @public
-export interface DeploymentListResult {
+export interface DeletedServiceListResult {
     readonly nextLink?: string;
-    readonly value: Deployment[];
+    readonly value: DeletedService[];
 }
 
 // @public
-export interface DeploymentProperties {
+export interface DeletedServices {
+    delete(resourceGroupName: string, deletedServiceName: string, options?: DeletedServicesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, deletedServiceName: string, options?: DeletedServicesGetOptionalParams): Promise<DeletedServicesGetResponse>;
+    list(resourceGroupName: string, options?: DeletedServicesListOptionalParams): PagedAsyncIterableIterator<DeletedService>;
+    listBySubscription(options?: DeletedServicesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<DeletedService>;
+}
+
+// @public
+export interface DeletedServicesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface DeletedServicesGetHeaders {
+    eTag?: string;
+}
+
+// @public
+export interface DeletedServicesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DeletedServicesGetResponse = DeletedServicesGetHeaders & DeletedService;
+
+// @public
+export interface DeletedServicesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DeletedServicesListBySubscriptionNextResponse = DeletedServiceListResult;
+
+// @public
+export interface DeletedServicesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DeletedServicesListBySubscriptionResponse = DeletedServiceListResult;
+
+// @public
+export interface DeletedServicesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DeletedServicesListNextResponse = DeletedServiceListResult;
+
+// @public
+export interface DeletedServicesListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type DeletedServicesListResponse = DeletedServiceListResult;
+
+// @public
+export interface Deployment extends ProxyResource {
     customProperties?: Record<string, unknown>;
     definitionId?: string;
     description?: string;
@@ -387,6 +630,12 @@ export interface DeploymentProperties {
     server?: DeploymentServer;
     state?: DeploymentState;
     title?: string;
+}
+
+// @public
+export interface DeploymentListResult {
+    readonly nextLink?: string;
+    readonly value: Deployment[];
 }
 
 // @public
@@ -460,7 +709,12 @@ export type DeploymentState = string;
 
 // @public
 export interface Environment extends ProxyResource {
-    properties?: EnvironmentProperties;
+    customProperties?: Record<string, unknown>;
+    description?: string;
+    kind?: EnvironmentKind;
+    onboarding?: Onboarding;
+    server?: EnvironmentServer;
+    title?: string;
 }
 
 // @public
@@ -470,16 +724,6 @@ export type EnvironmentKind = string;
 export interface EnvironmentListResult {
     readonly nextLink?: string;
     readonly value: Environment[];
-}
-
-// @public
-export interface EnvironmentProperties {
-    customProperties?: Record<string, unknown>;
-    description?: string;
-    kind: EnvironmentKind;
-    onboarding?: Onboarding;
-    server?: EnvironmentServer;
-    title: string;
 }
 
 // @public
@@ -583,8 +827,23 @@ export interface ExternalDocumentation {
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
+export type ImportSpecificationOptions = string;
+
+// @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownAnalyzerRulesetState {
+    Active = "active",
+    Inactive = "inactive",
+    Suspended = "suspended"
+}
+
+// @public
+export enum KnownAnalyzerType {
+    Spectral = "spectral"
 }
 
 // @public
@@ -595,6 +854,14 @@ export enum KnownApiKind {
     Soap = "soap",
     Webhook = "webhook",
     Websocket = "websocket"
+}
+
+// @public
+export enum KnownApiSourceLinkState {
+    Deleting = "deleting",
+    Error = "error",
+    Initializing = "initializing",
+    Syncing = "syncing"
 }
 
 // @public
@@ -640,6 +907,13 @@ export enum KnownEnvironmentServerType {
     KongAPIGateway = "Kong API Gateway",
     Kubernetes = "Kubernetes",
     MuleSoftAPIManagement = "MuleSoft API Management"
+}
+
+// @public
+export enum KnownImportSpecificationOptions {
+    Always = "always",
+    Never = "never",
+    OnDemand = "ondemand"
 }
 
 // @public
@@ -689,8 +963,19 @@ export enum KnownProvisioningState {
 }
 
 // @public
-export enum KnownVersions {
-    V20240301 = "2024-03-01"
+export enum KnownRulesetExportResultFormat {
+    InlineJson = "inline-json",
+    InlineYaml = "inline-yaml",
+    InlineZip = "inline-zip",
+    LinkZip = "link-zip"
+}
+
+// @public
+export enum KnownRulesetImportSourceFormat {
+    InlineJson = "inline-json",
+    InlineYaml = "inline-yaml",
+    InlineZip = "inline-zip",
+    LinkZip = "link-zip"
 }
 
 // @public
@@ -702,6 +987,13 @@ export interface License {
 
 // @public
 export type LifecycleStage = string;
+
+// @public
+export interface LinkState {
+    lastUpdatedOn: Date;
+    message?: string;
+    state?: ApiSourceLinkState;
+}
 
 // @public
 export interface ManagedServiceIdentity {
@@ -728,7 +1020,8 @@ export type MetadataAssignmentEntity = string;
 
 // @public
 export interface MetadataSchema extends ProxyResource {
-    properties?: MetadataSchemaProperties;
+    assignedTo?: MetadataAssignment[];
+    schema?: string;
 }
 
 // @public
@@ -749,12 +1042,6 @@ export interface MetadataSchemaExportResult {
 export interface MetadataSchemaListResult {
     readonly nextLink?: string;
     readonly value: MetadataSchema[];
-}
-
-// @public
-export interface MetadataSchemaProperties {
-    assignedTo?: MetadataAssignment[];
-    schema: string;
 }
 
 // @public
@@ -867,6 +1154,19 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
+export interface OperationStatusResult {
+    endTime?: Date;
+    error?: ErrorDetail;
+    id?: string;
+    name?: string;
+    operations?: OperationStatusResult[];
+    percentComplete?: number;
+    readonly resourceId?: string;
+    startTime?: Date;
+    status: string;
+}
+
+// @public
 export type Origin = string;
 
 // @public
@@ -885,20 +1185,34 @@ export interface Resource {
 }
 
 // @public
+export interface RulesetExportResult {
+    format?: RulesetExportResultFormat;
+    value?: string;
+}
+
+// @public
+export type RulesetExportResultFormat = string;
+
+// @public
+export interface RulesetImportRequest {
+    format?: RulesetImportSourceFormat;
+    value?: string;
+}
+
+// @public
+export type RulesetImportSourceFormat = string;
+
+// @public
 export interface Service extends TrackedResource {
     identity?: ManagedServiceIdentity;
-    properties?: ServiceProperties;
+    readonly provisioningState?: ProvisioningState;
+    restore?: boolean;
 }
 
 // @public
 export interface ServiceListResult {
     readonly nextLink?: string;
     readonly value: Service[];
-}
-
-// @public
-export interface ServiceProperties {
-    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -984,6 +1298,7 @@ export type ServicesUpdateResponse = Service;
 // @public
 export interface ServiceUpdate {
     identity?: ManagedServiceIdentity;
+    restore?: boolean;
     tags?: {
         [propertyName: string]: string;
     };
@@ -1019,23 +1334,15 @@ export interface UserAssignedIdentity {
 }
 
 // @public
-export type Versions = string;
-
-// @public
 export interface Workspace extends ProxyResource {
-    properties?: WorkspaceProperties;
+    description?: string;
+    title?: string;
 }
 
 // @public
 export interface WorkspaceListResult {
     readonly nextLink?: string;
     readonly value: Workspace[];
-}
-
-// @public
-export interface WorkspaceProperties {
-    description?: string;
-    title: string;
 }
 
 // @public

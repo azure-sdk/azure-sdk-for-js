@@ -17,6 +17,9 @@ import {
   MetadataSchemaExportRequest as MetadataSchemaExportRequestMapper,
   MetadataSchema as MetadataSchemaMapper,
   Workspace as WorkspaceMapper,
+  AnalyzerConfig as AnalyzerConfigMapper,
+  RulesetImportRequest as RulesetImportRequestMapper,
+  ApiSource as ApiSourceMapper,
   Api as ApiMapper,
   Deployment as DeploymentMapper,
   ApiVersion as ApiVersionMapper,
@@ -52,7 +55,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-03-01",
+    defaultValue: "2024-12-15-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -92,6 +95,32 @@ export const resourceGroupName: OperationURLParameter = {
       MinLength: 1,
     },
     serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    serializedName: "$filter",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const deletedServiceName: OperationURLParameter = {
+  parameterPath: "deletedServiceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,90}$"),
+      MaxLength: 90,
+      MinLength: 1,
+    },
+    serializedName: "deletedServiceName",
     required: true,
     type: {
       name: "String",
@@ -142,16 +171,6 @@ export const body: OperationParameter = {
   mapper: MetadataSchemaExportRequestMapper,
 };
 
-export const filter: OperationQueryParameter = {
-  parameterPath: ["options", "filter"],
-  mapper: {
-    serializedName: "$filter",
-    type: {
-      name: "String",
-    },
-  },
-};
-
 export const metadataSchemaName: OperationURLParameter = {
   parameterPath: "metadataSchemaName",
   mapper: {
@@ -194,6 +213,53 @@ export const resource2: OperationParameter = {
   mapper: WorkspaceMapper,
 };
 
+export const analyzerConfigName: OperationURLParameter = {
+  parameterPath: "analyzerConfigName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,90}$"),
+      MaxLength: 90,
+      MinLength: 1,
+    },
+    serializedName: "analyzerConfigName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource3: OperationParameter = {
+  parameterPath: "resource",
+  mapper: AnalyzerConfigMapper,
+};
+
+export const body1: OperationParameter = {
+  parameterPath: "body",
+  mapper: RulesetImportRequestMapper,
+};
+
+export const apiSourceName: OperationURLParameter = {
+  parameterPath: "apiSourceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,90}$"),
+      MaxLength: 90,
+      MinLength: 1,
+    },
+    serializedName: "apiSourceName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource4: OperationParameter = {
+  parameterPath: "resource",
+  mapper: ApiSourceMapper,
+};
+
 export const apiName: OperationURLParameter = {
   parameterPath: "apiName",
   mapper: {
@@ -210,7 +276,7 @@ export const apiName: OperationURLParameter = {
   },
 };
 
-export const resource3: OperationParameter = {
+export const resource5: OperationParameter = {
   parameterPath: "resource",
   mapper: ApiMapper,
 };
@@ -231,7 +297,7 @@ export const deploymentName: OperationURLParameter = {
   },
 };
 
-export const resource4: OperationParameter = {
+export const resource6: OperationParameter = {
   parameterPath: "resource",
   mapper: DeploymentMapper,
 };
@@ -252,7 +318,7 @@ export const versionName: OperationURLParameter = {
   },
 };
 
-export const resource5: OperationParameter = {
+export const resource7: OperationParameter = {
   parameterPath: "resource",
   mapper: ApiVersionMapper,
 };
@@ -273,12 +339,12 @@ export const definitionName: OperationURLParameter = {
   },
 };
 
-export const resource6: OperationParameter = {
+export const resource8: OperationParameter = {
   parameterPath: "resource",
   mapper: ApiDefinitionMapper,
 };
 
-export const body1: OperationParameter = {
+export const body2: OperationParameter = {
   parameterPath: "body",
   mapper: ApiSpecImportRequestMapper,
 };
@@ -299,7 +365,7 @@ export const environmentName: OperationURLParameter = {
   },
 };
 
-export const resource7: OperationParameter = {
+export const resource9: OperationParameter = {
   parameterPath: "resource",
   mapper: EnvironmentMapper,
 };
