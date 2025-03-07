@@ -22,9 +22,9 @@ import {
   ApplicationsGetResponse,
   ApplicationsCreateOrUpdateOptionalParams,
   ApplicationsCreateOrUpdateResponse,
-  ApplicationsDeleteOptionalParams,
   ApplicationsUpdateOptionalParams,
   ApplicationsUpdateResponse,
+  ApplicationsDeleteOptionalParams,
   ApplicationsListNextResponse,
 } from "../models/index.js";
 
@@ -126,6 +126,23 @@ export class ApplicationsImpl implements Applications {
   }
 
   /**
+   * List applications.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applicationGroupName The name of the application group
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    applicationGroupName: string,
+    options?: ApplicationsListOptionalParams,
+  ): Promise<ApplicationsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, applicationGroupName, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
    * Get an application.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param applicationGroupName The name of the application group
@@ -172,25 +189,6 @@ export class ApplicationsImpl implements Applications {
   }
 
   /**
-   * Remove an application.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param applicationGroupName The name of the application group
-   * @param applicationName The name of the application within the specified application group
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    applicationGroupName: string,
-    applicationName: string,
-    options?: ApplicationsDeleteOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, applicationGroupName, applicationName, options },
-      deleteOperationSpec,
-    );
-  }
-
-  /**
    * Update an application.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param applicationGroupName The name of the application group
@@ -210,19 +208,21 @@ export class ApplicationsImpl implements Applications {
   }
 
   /**
-   * List applications.
+   * Remove an application.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param applicationGroupName The name of the application group
+   * @param applicationName The name of the application within the specified application group
    * @param options The options parameters.
    */
-  private _list(
+  delete(
     resourceGroupName: string,
     applicationGroupName: string,
-    options?: ApplicationsListOptionalParams,
-  ): Promise<ApplicationsListResponse> {
+    applicationName: string,
+    options?: ApplicationsDeleteOptionalParams,
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, applicationGroupName, options },
-      listOperationSpec,
+      { resourceGroupName, applicationGroupName, applicationName, options },
+      deleteOperationSpec,
     );
   }
 
@@ -248,6 +248,32 @@ export class ApplicationsImpl implements Applications {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/applications",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplicationList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.pageSize,
+    Parameters.isDescending,
+    Parameters.initialSkip,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.applicationGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/applications/{applicationName}",
   httpMethod: "GET",
@@ -256,7 +282,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Application,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -281,10 +307,34 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Application,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.application,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.applicationGroupName,
+    Parameters.applicationName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/applications/{applicationName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Application,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.application1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -304,7 +354,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -314,56 +364,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.applicationGroupName,
     Parameters.applicationName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/applications/{applicationName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Application,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  requestBody: Parameters.application1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.applicationGroupName,
-    Parameters.applicationName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/applications",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApplicationList,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.pageSize,
-    Parameters.isDescending,
-    Parameters.initialSkip,
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.applicationGroupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -376,7 +376,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ApplicationList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
