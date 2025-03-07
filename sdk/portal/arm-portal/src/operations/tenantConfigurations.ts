@@ -18,13 +18,12 @@ import {
   TenantConfigurationsListNextOptionalParams,
   TenantConfigurationsListOptionalParams,
   TenantConfigurationsListResponse,
-  ConfigurationName,
   TenantConfigurationsGetOptionalParams,
   TenantConfigurationsGetResponse,
   TenantConfigurationsCreateOptionalParams,
   TenantConfigurationsCreateResponse,
   TenantConfigurationsDeleteOptionalParams,
-  TenantConfigurationsListNextResponse
+  TenantConfigurationsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,7 +44,7 @@ export class TenantConfigurationsImpl implements TenantConfigurations {
    * @param options The options parameters.
    */
   public list(
-    options?: TenantConfigurationsListOptionalParams
+    options?: TenantConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<Configuration> {
     const iter = this.listPagingAll(options);
     return {
@@ -60,13 +59,13 @@ export class TenantConfigurationsImpl implements TenantConfigurations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: TenantConfigurationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Configuration[]> {
     let result: TenantConfigurationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -87,7 +86,7 @@ export class TenantConfigurationsImpl implements TenantConfigurations {
   }
 
   private async *listPagingAll(
-    options?: TenantConfigurationsListOptionalParams
+    options?: TenantConfigurationsListOptionalParams,
   ): AsyncIterableIterator<Configuration> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -99,56 +98,56 @@ export class TenantConfigurationsImpl implements TenantConfigurations {
    * @param options The options parameters.
    */
   private _list(
-    options?: TenantConfigurationsListOptionalParams
+    options?: TenantConfigurationsListOptionalParams,
   ): Promise<TenantConfigurationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
    * Gets the tenant configuration.
-   * @param configurationName The configuration name. Value must be 'default'
+   * @param configurationName The name of the Configuration
    * @param options The options parameters.
    */
   get(
-    configurationName: ConfigurationName,
-    options?: TenantConfigurationsGetOptionalParams
+    configurationName: string,
+    options?: TenantConfigurationsGetOptionalParams,
   ): Promise<TenantConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       { configurationName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
    * Create the tenant configuration. If configuration already exists - update it. User has to be a
    * Tenant Admin for this operation.
-   * @param configurationName The configuration name. Value must be 'default'
-   * @param tenantConfiguration The parameters required to create or update tenant configuration.
+   * @param configurationName The name of the Configuration
+   * @param resource The parameters required to create or update tenant configuration.
    * @param options The options parameters.
    */
   create(
-    configurationName: ConfigurationName,
-    tenantConfiguration: Configuration,
-    options?: TenantConfigurationsCreateOptionalParams
+    configurationName: string,
+    resource: Configuration,
+    options?: TenantConfigurationsCreateOptionalParams,
   ): Promise<TenantConfigurationsCreateResponse> {
     return this.client.sendOperationRequest(
-      { configurationName, tenantConfiguration, options },
-      createOperationSpec
+      { configurationName, resource, options },
+      createOperationSpec,
     );
   }
 
   /**
    * Delete the tenant configuration. User has to be a Tenant Admin for this operation.
-   * @param configurationName The configuration name. Value must be 'default'
+   * @param configurationName The name of the Configuration
    * @param options The options parameters.
    */
   delete(
-    configurationName: ConfigurationName,
-    options?: TenantConfigurationsDeleteOptionalParams
+    configurationName: string,
+    options?: TenantConfigurationsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { configurationName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -159,11 +158,11 @@ export class TenantConfigurationsImpl implements TenantConfigurations {
    */
   private _listNext(
     nextLink: string,
-    options?: TenantConfigurationsListNextOptionalParams
+    options?: TenantConfigurationsListNextOptionalParams,
   ): Promise<TenantConfigurationsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -175,54 +174,53 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationList
+      bodyMapper: Mappers.ConfigurationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Portal/tenantConfigurations/{configurationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Configuration
+      bodyMapper: Mappers.Configuration,
     },
-    404: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.configurationName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Portal/tenantConfigurations/{configurationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Configuration
+      bodyMapper: Mappers.Configuration,
     },
     201: {
-      bodyMapper: Mappers.Configuration
+      bodyMapper: Mappers.Configuration,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.tenantConfiguration,
+  requestBody: Parameters.resource1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.configurationName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Portal/tenantConfigurations/{configurationName}",
@@ -231,26 +229,26 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.configurationName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationList
+      bodyMapper: Mappers.ConfigurationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

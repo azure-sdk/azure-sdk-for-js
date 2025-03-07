@@ -8,5 +8,5 @@
 
 export * from "./operations.js";
 export * from "./dashboards.js";
-export * from "./tenantConfigurations.js";
 export * from "./listTenantConfigurationViolations.js";
+export * from "./tenantConfigurations.js";
