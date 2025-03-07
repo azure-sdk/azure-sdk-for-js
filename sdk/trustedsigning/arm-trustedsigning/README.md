@@ -4,8 +4,10 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 
 Code Signing resource provider api.
 
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/trustedsigning/arm-trustedsigning) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-trustedsigning) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-trustedsigning?view=azure-node-preview) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-trustedsigning) |
+[Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
 
@@ -28,7 +30,7 @@ Install the Azure CodeSigningManagement client library for JavaScript with `npm`
 npm install @azure/arm-trustedsigning
 ```
 
-### Create and authenticate a `CodeSigningClient`
+### Create and authenticate a `CodeSigningManagementClient`
 
 To create a client object to access the Azure CodeSigningManagement API, you will need the `endpoint` of your Azure CodeSigningManagement resource and a `credential`. The Azure CodeSigningManagement client can use Azure Active Directory credentials to authenticate.
 You can find the endpoint for your Azure CodeSigningManagement resource in the [Azure Portal][azure_portal].
@@ -42,43 +44,40 @@ npm install @azure/identity
 ```
 
 You will also need to **register a new AAD application and grant access to Azure CodeSigningManagement** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
-Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
 ```ts snippet:ReadmeSampleCreateClient_Node
-import { CodeSigningClient } from "@azure/arm-trustedsigning";
+import { CodeSigningManagementClient } from "@azure/arm-trustedsigning";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new CodeSigningClient(new DefaultAzureCredential(), subscriptionId);
+const client = new CodeSigningManagementClient(new DefaultAzureCredential(), subscriptionId);
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
 ```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
-import { CodeSigningClient } from "@azure/arm-trustedsigning";
+import { CodeSigningManagementClient } from "@azure/arm-trustedsigning";
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
-  clientId: "<YOUR_CLIENT_ID>",
-});
-const client = new CodeSigningClient(credential, subscriptionId);
+  clientId: "<YOUR_CLIENT_ID>"
+ });
+const client = new CodeSigningManagementClient(credential, subscriptionId);
 ```
 
 ### JavaScript Bundle
-
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
 
-### CodeSigningClient
+### CodeSigningManagementClient
 
-`CodeSigningClient` is the primary interface for developers using the Azure CodeSigningManagement client library. Explore the methods on this client object to understand the different features of the Azure CodeSigningManagement service that you can access.
+`CodeSigningManagementClient` is the primary interface for developers using the Azure CodeSigningManagement client library. Explore the methods on this client object to understand the different features of the Azure CodeSigningManagement service that you can access.
 
 ## Troubleshooting
 
@@ -94,6 +93,10 @@ setLogLevel("info");
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
+## Next steps
+
+Please take a look at the [samples](https://github.com/Azure-Samples/azure-samples-js-management) directory for detailed examples on how to use this library.
+
 ## Contributing
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
@@ -102,6 +105,10 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Ftrustedsigning%2Farm-trustedsigning%2FREADME.png)
+
+[azure_cli]: https://learn.microsoft.com/cli/azure
+[azure_sub]: https://azure.microsoft.com/free/
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
