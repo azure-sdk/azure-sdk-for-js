@@ -121,61 +121,18 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** The response of a Service list operation. */
-export interface ServiceListResult {
+/** The response of a DeletedService list operation. */
+export interface DeletedServiceListResult {
   /**
-   * The Service items on this page
+   * The DeletedService items on this page
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value: Service[];
+  readonly value: DeletedService[];
   /**
    * The link to the next page of items
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
-}
-
-/** The properties of the service. */
-export interface ServiceProperties {
-  /**
-   * Provisioning state of the service.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-}
-
-/** Managed service identity (system assigned and/or user assigned identities) */
-export interface ManagedServiceIdentity {
-  /**
-   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
-  type: ManagedServiceIdentityType;
-  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: {
-    [propertyName: string]: UserAssignedIdentity | null;
-  };
-}
-
-/** User assigned identity properties */
-export interface UserAssignedIdentity {
-  /**
-   * The principal ID of the assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The client ID of the assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clientId?: string;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -218,12 +175,62 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
+/** The response of a Service list operation. */
+export interface ServiceListResult {
+  /**
+   * The Service items on this page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value: Service[];
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /**
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentity | null;
+  };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
 /** The type used for update operations of the Service. */
 export interface ServiceUpdate {
   /** The managed service identities assigned to this resource. */
   identity?: ManagedServiceIdentity;
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
+  /** Flag used to restore soft-deleted API Center service. If specified and set to 'true' all other properties will be ignored. */
+  restore?: boolean;
 }
 
 /** The metadata schema export request. */
@@ -254,14 +261,6 @@ export interface MetadataSchemaListResult {
   readonly nextLink?: string;
 }
 
-/** Metadata schema properties. */
-export interface MetadataSchemaProperties {
-  /** The schema defining the type. */
-  schema: string;
-  /** The assignees */
-  assignedTo?: MetadataAssignment[];
-}
-
 /** Assignment metadata */
 export interface MetadataAssignment {
   /** The entities this metadata schema component gets applied to. */
@@ -286,12 +285,101 @@ export interface WorkspaceListResult {
   readonly nextLink?: string;
 }
 
-/** Workspace properties. */
-export interface WorkspaceProperties {
-  /** Workspace title. */
-  title: string;
-  /** Workspace description. */
-  description?: string;
+/** The response of a AnalyzerConfig list operation. */
+export interface AnalyzerConfigListResult {
+  /**
+   * The AnalyzerConfig items on this page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value: AnalyzerConfig[];
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The API analyzer filter, used to select API definitions for static analysis. All the conditions get applied with the logical AND operator. */
+export interface AnalyzerFilter {
+  /** API filter conditions. */
+  apis: Record<string, unknown>[];
+  /** APi version filter conditions. */
+  apiVersions: Record<string, unknown>[];
+  /** Api definition filter conditions. */
+  apiDefinitions: Record<string, unknown>[];
+}
+
+/** The ruleset export result. */
+export interface RulesetExportResult {
+  /** The format of ruleset export result. */
+  format?: RulesetExportResultFormat;
+  /** The result of the export operation. */
+  value?: string;
+}
+
+/** The API analyzer ruleset import request. */
+export interface RulesetImportRequest {
+  /** Value of the ruleset source. */
+  value?: string;
+  /** Format of the ruleset source. */
+  format?: RulesetImportSourceFormat;
+}
+
+/** The current status of an async operation. */
+export interface OperationStatusResult {
+  /** Fully qualified ID for the async operation. */
+  id?: string;
+  /**
+   * Fully qualified ID of the resource against which the original async operation was started.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceId?: string;
+  /** Name of the async operation. */
+  name?: string;
+  /** Operation status. */
+  status: string;
+  /** Percent of the operation that is complete. */
+  percentComplete?: number;
+  /** The start time of the operation. */
+  startTime?: Date;
+  /** The end time of the operation. */
+  endTime?: Date;
+  /** The operations list. */
+  operations?: OperationStatusResult[];
+  /** If present, details of the operation error. */
+  error?: ErrorDetail;
+}
+
+/** The response of a ApiSource list operation. */
+export interface ApiSourceListResult {
+  /**
+   * The ApiSource items on this page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value: ApiSource[];
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** API source configuration for Azure API Management. */
+export interface AzureApiManagementSource {
+  /** API Management service resource ID. */
+  resourceId: string;
+  /** The resource ID of the managed identity that has access to the API Management instance. */
+  msiResourceId?: string;
+}
+
+/** The link state. */
+export interface LinkState {
+  /** The state of the link. */
+  state?: ApiSourceLinkState;
+  /** The state message. */
+  message?: string;
+  /** The timestamp of the last update of the link state. */
+  lastUpdatedOn: Date;
 }
 
 /** The response of a Api list operation. */
@@ -306,33 +394,6 @@ export interface ApiListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
-}
-
-/** API properties. */
-export interface ApiProperties {
-  /** API title. */
-  title: string;
-  /** Kind of API. For example, REST or GraphQL. */
-  kind: ApiKind;
-  /** Description of the API. */
-  description?: string;
-  /** Short description of the API. */
-  summary?: string;
-  /**
-   * Current lifecycle stage of the API.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lifecycleStage?: LifecycleStage;
-  /** Terms of service for the API. */
-  termsOfService?: TermsOfService;
-  /** The set of external documentation */
-  externalDocumentation?: ExternalDocumentation[];
-  /** The set of contacts */
-  contacts?: Contact[];
-  /** The license information for the API. */
-  license?: License;
-  /** The custom metadata defined for API catalog entities. */
-  customProperties?: Record<string, unknown>;
 }
 
 /** Terms of service for the API. */
@@ -391,24 +452,6 @@ export interface DeploymentListResult {
   readonly nextLink?: string;
 }
 
-/** API deployment entity properties. */
-export interface DeploymentProperties {
-  /** API deployment title */
-  title?: string;
-  /** Description of the deployment. */
-  description?: string;
-  /** API center-scoped environment resource ID. */
-  environmentId?: string;
-  /** API center-scoped definition resource ID. */
-  definitionId?: string;
-  /** State of API deployment. */
-  state?: DeploymentState;
-  /** The deployment server */
-  server?: DeploymentServer;
-  /** The custom metadata defined for API catalog entities. */
-  customProperties?: Record<string, unknown>;
-}
-
 /** Server */
 export interface DeploymentServer {
   /** Base runtime URLs for this deployment. */
@@ -429,14 +472,6 @@ export interface ApiVersionListResult {
   readonly nextLink?: string;
 }
 
-/** API version properties entity. */
-export interface ApiVersionProperties {
-  /** API version title. */
-  title: string;
-  /** Current lifecycle stage of the API. */
-  lifecycleStage: LifecycleStage;
-}
-
 /** The response of a ApiDefinition list operation. */
 export interface ApiDefinitionListResult {
   /**
@@ -449,19 +484,6 @@ export interface ApiDefinitionListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
-}
-
-/** API definition properties entity. */
-export interface ApiDefinitionProperties {
-  /** API definition title. */
-  title: string;
-  /** API definition description. */
-  description?: string;
-  /**
-   * API specification details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly specification?: ApiDefinitionPropertiesSpecification;
 }
 
 /** API specification details. */
@@ -512,22 +534,6 @@ export interface EnvironmentListResult {
   readonly nextLink?: string;
 }
 
-/** Environment properties entity. */
-export interface EnvironmentProperties {
-  /** Environment title. */
-  title: string;
-  /** The environment description. */
-  description?: string;
-  /** Environment kind. */
-  kind: EnvironmentKind;
-  /** Server information of the environment. */
-  server?: EnvironmentServer;
-  /** Environment onboarding information */
-  onboarding?: Onboarding;
-  /** The custom metadata defined for API catalog entities. */
-  customProperties?: Record<string, unknown>;
-}
-
 /** Server information of the environment. */
 export interface EnvironmentServer {
   /** Type of the server that represents the environment. */
@@ -544,6 +550,9 @@ export interface Onboarding {
   developerPortalUri?: string[];
 }
 
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
   /** Resource tags. */
@@ -552,65 +561,171 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
-
-/** The service entity. */
-export interface Service extends TrackedResource {
-  /** The resource-specific properties for this resource. */
-  properties?: ServiceProperties;
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentity;
+/** Soft-deleted service entity. */
+export interface DeletedService extends ProxyResource {
+  /** UTC date and time when the service will be automatically purged. The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard. */
+  scheduledPurgeDate?: Date;
+  /** UTC date and time when the service was soft-deleted. The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard. */
+  softDeletionDate?: Date;
 }
 
 /** Metadata schema entity. Used to define metadata for the entities in API catalog. */
 export interface MetadataSchema extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: MetadataSchemaProperties;
+  /** The schema defining the type. */
+  schema?: string;
+  /** The assignees */
+  assignedTo?: MetadataAssignment[];
 }
 
 /** Workspace entity. */
 export interface Workspace extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: WorkspaceProperties;
+  /** Workspace title. */
+  title?: string;
+  /** Workspace description. */
+  description?: string;
+}
+
+/** API analyzer configuration. */
+export interface AnalyzerConfig extends ProxyResource {
+  /** The title of the analyzer configuration, e.g. "Spectral (OpenAPI)". */
+  title?: string;
+  /** The description of the analyzer configuration. */
+  description?: string;
+  /** The type of API analyzer. */
+  analyzerType?: AnalyzerType;
+  /**
+   * The state of the API analyzer ruleset.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: AnalyzerRulesetState;
+  /** The API analyzer filter. */
+  filter?: AnalyzerFilter;
+}
+
+/** API source entity. */
+export interface ApiSource extends ProxyResource {
+  /** Indicates if the specification should be imported along with metadata. */
+  importSpecification?: ImportSpecificationOptions;
+  /** API source configuration for Azure API Management. */
+  azureApiManagementSource?: AzureApiManagementSource;
+  /** The target environment resource ID. */
+  targetEnvironmentId?: string;
+  /** The target lifecycle stage. */
+  targetLifecycleStage?: LifecycleStage;
+  /**
+   * The state of the API source link
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly linkState?: LinkState;
 }
 
 /** API entity. */
 export interface Api extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: ApiProperties;
+  /** API title. */
+  title?: string;
+  /** Kind of API. For example, REST or GraphQL. */
+  kind?: ApiKind;
+  /** Description of the API. */
+  description?: string;
+  /** Short description of the API. */
+  summary?: string;
+  /**
+   * Current lifecycle stage of the API.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lifecycleStage?: LifecycleStage;
+  /** Terms of service for the API. */
+  termsOfService?: TermsOfService;
+  /** The set of external documentation */
+  externalDocumentation?: ExternalDocumentation[];
+  /** The set of contacts */
+  contacts?: Contact[];
+  /** The license information for the API. */
+  license?: License;
+  /** The custom metadata defined for API catalog entities. */
+  customProperties?: Record<string, unknown>;
 }
 
 /** API deployment entity. */
 export interface Deployment extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: DeploymentProperties;
+  /** API deployment title */
+  title?: string;
+  /** Description of the deployment. */
+  description?: string;
+  /** API center-scoped environment resource ID. */
+  environmentId?: string;
+  /** API center-scoped definition resource ID. */
+  definitionId?: string;
+  /** State of API deployment. */
+  state?: DeploymentState;
+  /** The deployment server */
+  server?: DeploymentServer;
+  /** The custom metadata defined for API catalog entities. */
+  customProperties?: Record<string, unknown>;
 }
 
 /** API version entity. */
 export interface ApiVersion extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: ApiVersionProperties;
+  /** API version title. */
+  title?: string;
+  /** Current lifecycle stage of the API. */
+  lifecycleStage?: LifecycleStage;
 }
 
 /** API definition entity. */
 export interface ApiDefinition extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: ApiDefinitionProperties;
+  /** API definition title. */
+  title?: string;
+  /** API definition description. */
+  description?: string;
+  /**
+   * API specification details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly specification?: ApiDefinitionPropertiesSpecification;
 }
 
 /** Environment entity. */
 export interface Environment extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: EnvironmentProperties;
+  /** Environment title. */
+  title?: string;
+  /** The environment description. */
+  description?: string;
+  /** Environment kind. */
+  kind?: EnvironmentKind;
+  /** Server information of the environment. */
+  server?: EnvironmentServer;
+  /** Environment onboarding information */
+  onboarding?: Onboarding;
+  /** The custom metadata defined for API catalog entities. */
+  customProperties?: Record<string, unknown>;
+}
+
+/** The service entity. */
+export interface Service extends TrackedResource {
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
+  /**
+   * Provisioning state of the service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Flag used to restore soft-deleted API Center service. If specified and set to 'true' all other properties will be ignored. */
+  restore?: boolean;
+}
+
+/** Defines headers for DeletedServices_get operation. */
+export interface DeletedServicesGetHeaders {
+  /** The entity tag for the response. */
+  eTag?: string;
 }
 
 /** Defines headers for Services_exportMetadataSchema operation. */
 export interface ServicesExportMetadataSchemaHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for MetadataSchemas_get operation. */
@@ -633,6 +748,46 @@ export interface WorkspacesGetHeaders {
 
 /** Defines headers for Workspaces_createOrUpdate operation. */
 export interface WorkspacesCreateOrUpdateHeaders {
+  /** The entity tag for the response. */
+  eTag?: string;
+}
+
+/** Defines headers for AnalyzerConfigs_get operation. */
+export interface AnalyzerConfigsGetHeaders {
+  /** The entity tag for the response. */
+  eTag?: string;
+}
+
+/** Defines headers for AnalyzerConfigs_createOrUpdate operation. */
+export interface AnalyzerConfigsCreateOrUpdateHeaders {
+  /** The entity tag for the response. */
+  eTag?: string;
+}
+
+/** Defines headers for AnalyzerConfigs_exportRuleset operation. */
+export interface AnalyzerConfigsExportRulesetHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for AnalyzerConfigs_importRuleset operation. */
+export interface AnalyzerConfigsImportRulesetHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for ApiSources_get operation. */
+export interface ApiSourcesGetHeaders {
+  /** The entity tag for the response. */
+  eTag?: string;
+}
+
+/** Defines headers for ApiSources_createOrUpdate operation. */
+export interface ApiSourcesCreateOrUpdateHeaders {
   /** The entity tag for the response. */
   eTag?: string;
 }
@@ -687,18 +842,18 @@ export interface ApiDefinitionsCreateOrUpdateHeaders {
 
 /** Defines headers for ApiDefinitions_exportSpecification operation. */
 export interface ApiDefinitionsExportSpecificationHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for ApiDefinitions_importSpecification operation. */
 export interface ApiDefinitionsImportSpecificationHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for Environments_get operation. */
@@ -749,6 +904,30 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
   /** Resource has been created. */
@@ -794,30 +973,6 @@ export enum KnownManagedServiceIdentityType {
  */
 export type ManagedServiceIdentityType = string;
 
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key",
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
-
 /** Known values of {@link MetadataAssignmentEntity} that the service accepts. */
 export enum KnownMetadataAssignmentEntity {
   /** Assigned to API */
@@ -857,35 +1012,110 @@ export enum KnownMetadataSchemaExportFormat {
  */
 export type MetadataSchemaExportFormat = string;
 
-/** Known values of {@link ApiKind} that the service accepts. */
-export enum KnownApiKind {
-  /** A Representational State Transfer Api */
-  Rest = "rest",
-  /** A Graph query language Api */
-  Graphql = "graphql",
-  /** A gRPC Api */
-  Grpc = "grpc",
-  /** A SOAP Api */
-  Soap = "soap",
-  /** Web Hook */
-  Webhook = "webhook",
-  /** Web Socket */
-  Websocket = "websocket",
+/** Known values of {@link AnalyzerType} that the service accepts. */
+export enum KnownAnalyzerType {
+  /** The Spectral analyzer. */
+  Spectral = "spectral",
 }
 
 /**
- * Defines values for ApiKind. \
- * {@link KnownApiKind} can be used interchangeably with ApiKind,
+ * Defines values for AnalyzerType. \
+ * {@link KnownAnalyzerType} can be used interchangeably with AnalyzerType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **rest**: A Representational State Transfer Api \
- * **graphql**: A Graph query language Api \
- * **grpc**: A gRPC Api \
- * **soap**: A SOAP Api \
- * **webhook**: Web Hook \
- * **websocket**: Web Socket
+ * **spectral**: The Spectral analyzer.
  */
-export type ApiKind = string;
+export type AnalyzerType = string;
+
+/** Known values of {@link AnalyzerRulesetState} that the service accepts. */
+export enum KnownAnalyzerRulesetState {
+  /** The ruleset is active and analysis is running. */
+  Active = "active",
+  /** The ruleset is inactive because ruleset wasn't uploaded. */
+  Inactive = "inactive",
+  /** The ruleset is suspended until the next analysis period because the number of analysis runs in the current period has exceeded the limit. */
+  Suspended = "suspended",
+}
+
+/**
+ * Defines values for AnalyzerRulesetState. \
+ * {@link KnownAnalyzerRulesetState} can be used interchangeably with AnalyzerRulesetState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **active**: The ruleset is active and analysis is running. \
+ * **inactive**: The ruleset is inactive because ruleset wasn't uploaded. \
+ * **suspended**: The ruleset is suspended until the next analysis period because the number of analysis runs in the current period has exceeded the limit.
+ */
+export type AnalyzerRulesetState = string;
+
+/** Known values of {@link RulesetExportResultFormat} that the service accepts. */
+export enum KnownRulesetExportResultFormat {
+  /** The inlined ruleset package. */
+  InlineZip = "inline-zip",
+  /** The link to the ruleset package. The URL is valid for 5 minutes. */
+  LinkZip = "link-zip",
+  /** The inlined ruleset JSON document. */
+  InlineJson = "inline-json",
+  /** The inlined ruleset YAML document. */
+  InlineYaml = "inline-yaml",
+}
+
+/**
+ * Defines values for RulesetExportResultFormat. \
+ * {@link KnownRulesetExportResultFormat} can be used interchangeably with RulesetExportResultFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **inline-zip**: The inlined ruleset package. \
+ * **link-zip**: The link to the ruleset package. The URL is valid for 5 minutes. \
+ * **inline-json**: The inlined ruleset JSON document. \
+ * **inline-yaml**: The inlined ruleset YAML document.
+ */
+export type RulesetExportResultFormat = string;
+
+/** Known values of {@link RulesetImportSourceFormat} that the service accepts. */
+export enum KnownRulesetImportSourceFormat {
+  /** The inlined ruleset package. */
+  InlineZip = "inline-zip",
+  /** The link to a ruleset package hosted on a publicly accessible internet address. */
+  LinkZip = "link-zip",
+  /** The inlined ruleset JSON document. */
+  InlineJson = "inline-json",
+  /** The inlined ruleset YAML document. */
+  InlineYaml = "inline-yaml",
+}
+
+/**
+ * Defines values for RulesetImportSourceFormat. \
+ * {@link KnownRulesetImportSourceFormat} can be used interchangeably with RulesetImportSourceFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **inline-zip**: The inlined ruleset package. \
+ * **link-zip**: The link to a ruleset package hosted on a publicly accessible internet address. \
+ * **inline-json**: The inlined ruleset JSON document. \
+ * **inline-yaml**: The inlined ruleset YAML document.
+ */
+export type RulesetImportSourceFormat = string;
+
+/** Known values of {@link ImportSpecificationOptions} that the service accepts. */
+export enum KnownImportSpecificationOptions {
+  /** Indicates that the specification should be never be imported. */
+  Never = "never",
+  /** Indicates that the specification should be imported only by request. */
+  OnDemand = "ondemand",
+  /** Indicates that the specification should always be imported along with metadata. */
+  Always = "always",
+}
+
+/**
+ * Defines values for ImportSpecificationOptions. \
+ * {@link KnownImportSpecificationOptions} can be used interchangeably with ImportSpecificationOptions,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **never**: Indicates that the specification should be never be imported. \
+ * **ondemand**: Indicates that the specification should be imported only by request. \
+ * **always**: Indicates that the specification should always be imported along with metadata.
+ */
+export type ImportSpecificationOptions = string;
 
 /** Known values of {@link LifecycleStage} that the service accepts. */
 export enum KnownLifecycleStage {
@@ -919,6 +1149,64 @@ export enum KnownLifecycleStage {
  * **retired**: Retired stage
  */
 export type LifecycleStage = string;
+
+/** Known values of {@link ApiSourceLinkState} that the service accepts. */
+export enum KnownApiSourceLinkState {
+  /** The API source link is initializing. */
+  Initializing = "initializing",
+  /**
+   * *
+   * The API source is syncing.
+   */
+  Syncing = "syncing",
+  /** The API source sync is blocked due to an error. */
+  Error = "error",
+  /** The API source is being deleted. */
+  Deleting = "deleting",
+}
+
+/**
+ * Defines values for ApiSourceLinkState. \
+ * {@link KnownApiSourceLinkState} can be used interchangeably with ApiSourceLinkState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **initializing**: The API source link is initializing. \
+ * **syncing**: *
+ * The API source is syncing. \
+ * **error**: The API source sync is blocked due to an error. \
+ * **deleting**: The API source is being deleted.
+ */
+export type ApiSourceLinkState = string;
+
+/** Known values of {@link ApiKind} that the service accepts. */
+export enum KnownApiKind {
+  /** A Representational State Transfer Api */
+  Rest = "rest",
+  /** A Graph query language Api */
+  Graphql = "graphql",
+  /** A gRPC Api */
+  Grpc = "grpc",
+  /** A SOAP Api */
+  Soap = "soap",
+  /** Web Hook */
+  Webhook = "webhook",
+  /** Web Socket */
+  Websocket = "websocket",
+}
+
+/**
+ * Defines values for ApiKind. \
+ * {@link KnownApiKind} can be used interchangeably with ApiKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **rest**: A Representational State Transfer Api \
+ * **graphql**: A Graph query language Api \
+ * **grpc**: A gRPC Api \
+ * **soap**: A SOAP Api \
+ * **webhook**: Web Hook \
+ * **websocket**: Web Socket
+ */
+export type ApiKind = string;
 
 /** Known values of {@link DeploymentState} that the service accepts. */
 export enum KnownDeploymentState {
@@ -1035,21 +1323,6 @@ export enum KnownEnvironmentServerType {
  */
 export type EnvironmentServerType = string;
 
-/** Known values of {@link Versions} that the service accepts. */
-export enum KnownVersions {
-  /** The initial service version */
-  V20240301 = "2024-03-01",
-}
-
-/**
- * Defines values for Versions. \
- * {@link KnownVersions} can be used interchangeably with Versions,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **2024-03-01**: The initial service version
- */
-export type Versions = string;
-
 /** Optional parameters. */
 export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
@@ -1063,6 +1336,51 @@ export interface OperationsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface DeletedServicesListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type DeletedServicesListBySubscriptionResponse =
+  DeletedServiceListResult;
+
+/** Optional parameters. */
+export interface DeletedServicesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter parameter. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type DeletedServicesListResponse = DeletedServiceListResult;
+
+/** Optional parameters. */
+export interface DeletedServicesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DeletedServicesGetResponse = DeletedServicesGetHeaders &
+  DeletedService;
+
+/** Optional parameters. */
+export interface DeletedServicesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface DeletedServicesListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type DeletedServicesListBySubscriptionNextResponse =
+  DeletedServiceListResult;
+
+/** Optional parameters. */
+export interface DeletedServicesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type DeletedServicesListNextResponse = DeletedServiceListResult;
 
 /** Optional parameters. */
 export interface ServicesListBySubscriptionOptionalParams
@@ -1219,6 +1537,112 @@ export interface WorkspacesListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type WorkspacesListNextResponse = WorkspaceListResult;
+
+/** Optional parameters. */
+export interface AnalyzerConfigsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter parameter. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type AnalyzerConfigsListResponse = AnalyzerConfigListResult;
+
+/** Optional parameters. */
+export interface AnalyzerConfigsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AnalyzerConfigsGetResponse = AnalyzerConfigsGetHeaders &
+  AnalyzerConfig;
+
+/** Optional parameters. */
+export interface AnalyzerConfigsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type AnalyzerConfigsCreateOrUpdateResponse =
+  AnalyzerConfigsCreateOrUpdateHeaders & AnalyzerConfig;
+
+/** Optional parameters. */
+export interface AnalyzerConfigsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AnalyzerConfigsExportRulesetOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the exportRuleset operation. */
+export type AnalyzerConfigsExportRulesetResponse = RulesetExportResult;
+
+/** Optional parameters. */
+export interface AnalyzerConfigsImportRulesetOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the importRuleset operation. */
+export type AnalyzerConfigsImportRulesetResponse = OperationStatusResult;
+
+/** Optional parameters. */
+export interface AnalyzerConfigsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type AnalyzerConfigsListNextResponse = AnalyzerConfigListResult;
+
+/** Optional parameters. */
+export interface ApiSourcesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter parameter. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type ApiSourcesListResponse = ApiSourceListResult;
+
+/** Optional parameters. */
+export interface ApiSourcesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ApiSourcesGetResponse = ApiSourcesGetHeaders & ApiSource;
+
+/** Optional parameters. */
+export interface ApiSourcesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ApiSourcesCreateOrUpdateResponse = ApiSourcesCreateOrUpdateHeaders &
+  ApiSource;
+
+/** Optional parameters. */
+export interface ApiSourcesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ApiSourcesHeadOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the head operation. */
+export type ApiSourcesHeadResponse = {
+  body: boolean;
+};
+
+/** Optional parameters. */
+export interface ApiSourcesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ApiSourcesListNextResponse = ApiSourceListResult;
 
 /** Optional parameters. */
 export interface ApisListOptionalParams extends coreClient.OperationOptions {
