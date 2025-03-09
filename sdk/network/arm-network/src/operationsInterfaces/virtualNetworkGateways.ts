@@ -39,6 +39,10 @@ import {
   VirtualNetworkGatewaysGetLearnedRoutesResponse,
   VirtualNetworkGatewaysGetAdvertisedRoutesOptionalParams,
   VirtualNetworkGatewaysGetAdvertisedRoutesResponse,
+  VirtualNetworkGatewaysGetResiliencyInformationOptionalParams,
+  VirtualNetworkGatewaysGetResiliencyInformationResponse,
+  VirtualNetworkGatewaysGetRoutesInformationOptionalParams,
+  VirtualNetworkGatewaysGetRoutesInformationResponse,
   VpnClientIPsecParameters,
   VirtualNetworkGatewaysSetVpnclientIpsecParametersOptionalParams,
   VirtualNetworkGatewaysSetVpnclientIpsecParametersResponse,
@@ -433,6 +437,64 @@ export interface VirtualNetworkGateways {
     peer: string,
     options?: VirtualNetworkGatewaysGetAdvertisedRoutesOptionalParams,
   ): Promise<VirtualNetworkGatewaysGetAdvertisedRoutesResponse>;
+  /**
+   * This operation retrieves the resiliency information for an Express Route Gateway, including the
+   * gateway's current resiliency score and recommendations to further improve the score
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param options The options parameters.
+   */
+  beginGetResiliencyInformation(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    options?: VirtualNetworkGatewaysGetResiliencyInformationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysGetResiliencyInformationResponse>,
+      VirtualNetworkGatewaysGetResiliencyInformationResponse
+    >
+  >;
+  /**
+   * This operation retrieves the resiliency information for an Express Route Gateway, including the
+   * gateway's current resiliency score and recommendations to further improve the score
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param options The options parameters.
+   */
+  beginGetResiliencyInformationAndWait(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    options?: VirtualNetworkGatewaysGetResiliencyInformationOptionalParams,
+  ): Promise<VirtualNetworkGatewaysGetResiliencyInformationResponse>;
+  /**
+   * This operation retrieves the route set information for an Express Route Gateway based on their
+   * resiliency
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param options The options parameters.
+   */
+  beginGetRoutesInformation(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    options?: VirtualNetworkGatewaysGetRoutesInformationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysGetRoutesInformationResponse>,
+      VirtualNetworkGatewaysGetRoutesInformationResponse
+    >
+  >;
+  /**
+   * This operation retrieves the route set information for an Express Route Gateway based on their
+   * resiliency
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param options The options parameters.
+   */
+  beginGetRoutesInformationAndWait(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    options?: VirtualNetworkGatewaysGetRoutesInformationOptionalParams,
+  ): Promise<VirtualNetworkGatewaysGetRoutesInformationResponse>;
   /**
    * The Set VpnclientIpsecParameters operation sets the vpnclient ipsec policy for P2S client of virtual
    * network gateway in the specified resource group through Network resource provider.
