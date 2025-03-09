@@ -1309,10 +1309,6 @@ packages:
     resolution: {integrity: sha512-+BsxHcFzJH28hMAsyI+bbAYVw79d12WagttmFvoidXXq76/5KpNCA2NWTGSV0AlJ+QaCF6+7I7P91PRYnJsr+w==}
     engines: {node: '>=14.0.0'}
 
-  '@azure/arm-resources@5.2.0':
-    resolution: {integrity: sha512-wQyuhL8WQsLkW/KMdik8bLJIJCz3Z6mg/+AKm0KedgK73SKhicSqYP+ed3t+43tLlRFltcrmGKMcHLQ+Jhv/6A==}
-    engines: {node: '>=14.0.0'}
-
   '@azure/communication-signaling@1.0.0-beta.29':
     resolution: {integrity: sha512-bTNxJaS000wjtbLlH/nju3Off9uSybYeRVLvx1Y5k3ajb1rqVGUcsIduSEz1JBf+dRQx9pHRDCAEAXs/hOvzpg==}
     engines: {node: '>=8.0.0'}
@@ -2540,7 +2536,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-inference@file:projects/ai-inference.tgz':
-    resolution: {integrity: sha512-jy3iCFAJq8qZFdMN0GEK8XNPi3lTfEIQEOM4jNCqE850gODahI+XXRqHMbrGUJd2tjmZMm0cKc6CQbjVxFsi/Q==, tarball: file:projects/ai-inference.tgz}
+    resolution: {integrity: sha512-3F/JVas1qHmWihXHHGxX6EUigHTNsftXBjspS6BMU6/lu/xDNMxKAY30DJMK90KyhH5UxZ+ZRwWlWbhKWW+2ow==, tarball: file:projects/ai-inference.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-language-conversations@file:projects/ai-language-conversations.tgz':
@@ -2560,7 +2556,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
-    resolution: {integrity: sha512-olWaOR+lScYd4KfOBFDagJ6zLA728vt+08hSgNDsM182EdAAAYN2c5dqJ7BsN/1rv7I6rb6lywdCSQ5gK9pABQ==, tarball: file:projects/ai-projects.tgz}
+    resolution: {integrity: sha512-rbzbhwz+05oHf7CC83pshBtWypNW2LVlSpfOOwkX3BmqB4MiHah+CmjehPDEKqpnn0vgU4GzdM0BeD4HoI9J1w==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
@@ -2716,7 +2712,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-changes@file:projects/arm-changes.tgz':
-    resolution: {integrity: sha512-aFEPV6Y49qrYjbZQMWgL8aDFShdSoMb6QKIlCrBMNRKhWjEaMD+HfAQ0tHiiwzjY2Crvcj0AHGi6UslVpPT5Nw==, tarball: file:projects/arm-changes.tgz}
+    resolution: {integrity: sha512-3PkTJm3Ndo48M06wR5Rr4L7GJkKsp+IYuV7LOAngBYF+cwTp0HzXwFUfbBWvSwttfvMWteYDOshAPGTGVNpeug==, tarball: file:projects/arm-changes.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-chaos@file:projects/arm-chaos.tgz':
@@ -2832,7 +2828,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-databoundaries@file:projects/arm-databoundaries.tgz':
-    resolution: {integrity: sha512-ItqSxMC9OYnKnBBA2gLnpQ+fFb6LlU5fZtdTiJ0h6Nb8H4oMmMfJo5x33rPQU9hTwHObNAVC8WmpzTqH748lWg==, tarball: file:projects/arm-databoundaries.tgz}
+    resolution: {integrity: sha512-dyc60HlFLwrlEZNL5KurJ4lUyokW76sljXB/Dl9jajBhdw+uyR9bpOqgvTvXEuCOeE5WcWdcCtewYCwWWJj/HA==, tarball: file:projects/arm-databoundaries.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-databox@file:projects/arm-databox.tgz':
@@ -2980,7 +2976,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-features@file:projects/arm-features.tgz':
-    resolution: {integrity: sha512-pE7eAt/UvSYEVzapZNtFeXNxDaOhdyVfuTLkAPMhwdAUG5IIl7r8R82ihB9vTF3sCP9cgznf1TU0jOj2rLsmpA==, tarball: file:projects/arm-features.tgz}
+    resolution: {integrity: sha512-746jLHKFTbFa+TgNY1Hbrar5WUNsukn+HyJOskC08KWq7WMPDf7UDqXxS5eJhKHNrCVsolqwhaFkeMMR4xTYkA==, tarball: file:projects/arm-features.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-fluidrelay@file:projects/arm-fluidrelay.tgz':
@@ -3104,7 +3100,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-links@file:projects/arm-links.tgz':
-    resolution: {integrity: sha512-tSa84E7+WLZGnGgrcKrd/gNNNFRaQhzABEkApaEjoYp9rONdsaZTxhvorV+fcuK+EyGoXM5l3p1hLNxUvxeb9Q==, tarball: file:projects/arm-links.tgz}
+    resolution: {integrity: sha512-EqJ2bttqKGaU1qqKFaI6FeG0Zt9QU1FhmB2YmVqj1NbXOak9mM4+zV25FlRxdq2JjW+uuN/7r3G3WdcxNDCGsQ==, tarball: file:projects/arm-links.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-loadtesting@file:projects/arm-loadtesting.tgz':
@@ -3116,7 +3112,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-locks@file:projects/arm-locks.tgz':
-    resolution: {integrity: sha512-3bqeDztydylqUmaXYJoFgFKMol1d5cx8R1xd6xkl8s4slIjjc/xENBop7u7o9ckUo7it/PA7elpFq2OzdmIRKA==, tarball: file:projects/arm-locks.tgz}
+    resolution: {integrity: sha512-upWVkCsGy9AzYTQ966jQtUWjbD2syeR6LRZVSimPkJjBN3nWtzYMncY9yquwW6+C4MXptJPLAeBi1aw6JaNLXQ==, tarball: file:projects/arm-locks.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-logic@file:projects/arm-logic.tgz':
@@ -3140,7 +3136,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-managedapplications@file:projects/arm-managedapplications.tgz':
-    resolution: {integrity: sha512-4b19pm7u7fOa5XSDBf0ZTku9WpOZUkWwKtXyQAFfzaxHPkXR4i3IrqTG8o/rDLnUtfttcZb33FiZ77/INpWu0Q==, tarball: file:projects/arm-managedapplications.tgz}
+    resolution: {integrity: sha512-mEDvb/XmeMsJQ/WmYSj4iSREEumDNaP77MayD9UODpG5FvRqh9ilwCgkZq9d0zpcGz2rR+3GMBMBuSGmmJWW+w==, tarball: file:projects/arm-managedapplications.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-managednetworkfabric@file:projects/arm-managednetworkfabric.tgz':
@@ -3292,7 +3288,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-policy@file:projects/arm-policy.tgz':
-    resolution: {integrity: sha512-JHsF5y5vYVCkUgSJ+WWbhdXbn7W2QVUUxbsuNfE7+qpr1MxTLF3/CJKPaR3y1snMbyGM6tO06uXh1tCaE8juLQ==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-mAg4/00DekYzFauvXOosdwY4sX9tT2DTtLH1sujRZXklXUNGTO7j0DQ+kQ4Sa8BYAWdJOHOEwDWLV+DEmJBuIQ==, tarball: file:projects/arm-policy.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-policyinsights@file:projects/arm-policyinsights.tgz':
@@ -3396,15 +3392,15 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-resources-subscriptions@file:projects/arm-resources-subscriptions.tgz':
-    resolution: {integrity: sha512-HHUK2IejN1JF5EY2gAgt+lDIEkeBTTkB8S3C+5birDOa/AfPzFnvmJQFiqNgKjdUmNPM+RhyfEZZeTstGZAlow==, tarball: file:projects/arm-resources-subscriptions.tgz}
+    resolution: {integrity: sha512-5hjxvthRqbapyzGNSUr1yTrqhnjA6MQppnKb5s0Sr/GecjI1ikvSAnJjn4j9OEyVBildoUq1ZtpUMHZiVbwYRA==, tarball: file:projects/arm-resources-subscriptions.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-resources@file:projects/arm-resources.tgz':
-    resolution: {integrity: sha512-Ejjx1UiwlYJRmaeyOxYAPK1dbhs5ONB2yw0BchMOvIWx19kIjlFiEb7tPIGEY2++eQduC2dFGfrBZ1XSWoggDQ==, tarball: file:projects/arm-resources.tgz}
+    resolution: {integrity: sha512-/WhT8H5O/apVy1vYLfmKurzHr/KQJhBxiNRdp6J3kZnhzWgvd6J74rUuchcWkr8VGb6Of4eyWUYUj+Z1HRX7fw==, tarball: file:projects/arm-resources.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-resourcesdeploymentstacks@file:projects/arm-resourcesdeploymentstacks.tgz':
-    resolution: {integrity: sha512-GUG7TjUluuHAbLXuKz7p8gH9V1+/qGw25McjJtPVoPfHU6/l3iit39GdiafGuTWuxpLBbo0kQa7xo8Kf0JcJ/A==, tarball: file:projects/arm-resourcesdeploymentstacks.tgz}
+    resolution: {integrity: sha512-wKYpR4Zwl1RrbQRKxMPYQ7ZFufl4EpcZdCrDUpB6YXSCgDM4X46v2DQ8y5cakjWDTr9e2rPtLOK8cftZH9PVvg==, tarball: file:projects/arm-resourcesdeploymentstacks.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-scvmm@file:projects/arm-scvmm.tgz':
@@ -3548,7 +3544,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-templatespecs@file:projects/arm-templatespecs.tgz':
-    resolution: {integrity: sha512-V+F3i6f+7n+UAD8CZoc056iSdNmV/jkwnIprZep9DjsIQn7FRjSYcnGGK3/Zmc5J+C4E6t2DdnuzMMtdXz0Aiw==, tarball: file:projects/arm-templatespecs.tgz}
+    resolution: {integrity: sha512-OmcS5uhR45r1H90n+l8jxBHwHDXZ01u6lr2H7LOuIyDmkPu+WOBE2qepPabQwcPZIBMyD5UEVEtNIRTpJKb8XA==, tarball: file:projects/arm-templatespecs.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-terraform@file:projects/arm-terraform.tgz':
@@ -3648,7 +3644,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/communication-rooms@file:projects/communication-rooms.tgz':
-    resolution: {integrity: sha512-K/mZVvKYYhjrrQDbShm4Ce+SuL1L8OaN6eeLfdQoSnsM2RNwvFOE7Tu/khStZuiAKvNDV038ct8fpPIhJ1sAiw==, tarball: file:projects/communication-rooms.tgz}
+    resolution: {integrity: sha512-wcpWrS8VO0FKg6DaO+xs5VO3UNA/6+conA2cUSEMv+4WFvyxnkdr5IOlR8u0Svky3hGVa1SIZvc5jBbbqATlag==, tarball: file:projects/communication-rooms.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-short-codes@file:projects/communication-short-codes.tgz':
@@ -3884,7 +3880,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/mixed-reality-remote-rendering@file:projects/mixed-reality-remote-rendering.tgz':
-    resolution: {integrity: sha512-4Wx6KxuTYKmgYWfmzLs2BW2MkwATk98Fdx88WL7/sa632gevVbfOCT5WWUUsqW2OtLN36jpr8Vi6UfKrxEON0g==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
+    resolution: {integrity: sha512-TN6cq8PIrYAy/tJ4mQIkcRn1Wkr5lBxnDY8UeSvQP9D61ZN0iESKb4j+wnXPJp2RNKa9tBpg8NcOt5Jc7qhwaQ==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
     version: 0.0.0
 
   '@rush-temp/mock-hub@file:projects/mock-hub.tgz':
@@ -3900,11 +3896,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/monitor-opentelemetry@file:projects/monitor-opentelemetry.tgz':
-    resolution: {integrity: sha512-1K08pDS3mRgyqyPHPU/PS/Kwhn10bdtrh9sU9itLgfy+cj+Rn/KkMG0Y0ZIAqhPRYc1/LUdXBVR1LZ/l3gx0Iw==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-HH9DSuPu9Flo0w2YXzGUnayl/lDLcTwcGEhht0VdjPe7ZwhakhOH8/VoxrZKQTdgseCZMpYDmWgB2BaKkUr/Mg==, tarball: file:projects/monitor-opentelemetry.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-query@file:projects/monitor-query.tgz':
-    resolution: {integrity: sha512-FfDHQlhugBYGKJAG+Qvo0eA9RxpyaY0LHrPOjcmIyF8gy3hxeJf0+Z9/XSfi3jDrCdv+l1K3as1cbuiY48Or4Q==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-bQ0lyAnF/GBcL7pwA66f/U6sjezndhPmHkMCjdmz1MD93PYpaQvasNEGspFvjrnt8Xwcg0CmdnzeWbHE6obY1w==, tarball: file:projects/monitor-query.tgz}
     version: 0.0.0
 
   '@rush-temp/notification-hubs@file:projects/notification-hubs.tgz':
@@ -3912,7 +3908,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/openai@file:projects/openai.tgz':
-    resolution: {integrity: sha512-QnN8rZhPnF3/GYsh3cLlyCb6JgnWdpPVrjGoau5jvxZQWcBIWb108P7yNZwXptJcPti/jGYJPFQuwRWW7CxgvA==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-EB6z+wWho8coz2hCDFUcYTJ+Jw5CfJ20yzKpIZeNk4OxpglGY7XTSiWxsuCHa++eVGTTXRHMwG/gdOtAv9mZkw==, tarball: file:projects/openai.tgz}
     version: 0.0.0
 
   '@rush-temp/opentelemetry-instrumentation-azure-sdk@file:projects/opentelemetry-instrumentation-azure-sdk.tgz':
@@ -3980,7 +3976,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-monitor-opentelemetry@file:projects/perf-monitor-opentelemetry.tgz':
-    resolution: {integrity: sha512-dwzpNIZPU6i3RcqjhLVipjyiz3ZZMtjs7dOuCSH4TtaOyj5vgqVvQC61FbEsnQrI5coVWW0NEOmbNYbzkih1Yw==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-B6GNjGVtP+BWESkV/d2t2Kg4FhgyWAibL4khmjnhduwd14Cjtqf/Aoz7B71usfgEXEUE9KvkL3VUg2IVm+MLSw==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-monitor-query@file:projects/perf-monitor-query.tgz':
@@ -4056,7 +4052,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/service-bus@file:projects/service-bus.tgz':
-    resolution: {integrity: sha512-ICttr5Vkcza3Jpy5WP+rciaUvO8NRkplh7TEOk7RWExZR9GFF0hXTNbH11Id8/OSZ17v/vuWtwt+9GFLBeDsZw==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-CEMwNWHdlbtYASoZFKNN3dzVF8Uno0LED5f7xmGV7kjawCq6iJuwxz4UhBDpDDdYYdG+cAIIcMZfUEj+cdcQsA==, tarball: file:projects/service-bus.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-blob-changefeed@file:projects/storage-blob-changefeed.tgz':
@@ -6991,8 +6987,18 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
+  playwright-core@1.51.0:
+    resolution: {integrity: sha512-x47yPE3Zwhlil7wlNU/iktF7t2r/URR3VLbH6EknJd/04Qc/PSJ0EY3CMXipmglLG+zyRxW6HNo2EGbKLHPWMg==}
+    engines: {node: '>=18'}
+    hasBin: true
+
   playwright@1.50.1:
     resolution: {integrity: sha512-G8rwsOQJ63XG6BbKj2w5rHeavFjy5zynBA9zsJMMtBoe/Uf757oG12NXz6e6OirF7RCrTVAKFXbLmn1RbL7Qaw==}
+    engines: {node: '>=18'}
+    hasBin: true
+
+  playwright@1.51.0:
+    resolution: {integrity: sha512-442pTfGM0xxfCYxuBa/Pu6B2OqxqqaYq39JS8QDMGThUvIOCd6s0ANDog3uwA0cHavVlnTQzGCN7Id2YekDSXA==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -8344,18 +8350,6 @@ snapshots:
       - supports-color
 
   '@azure/arm-recoveryservices@5.4.0':
-    dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.9.0
-      '@azure/core-client': 1.9.2
-      '@azure/core-lro': 2.7.2
-      '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.19.0
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - supports-color
-
-  '@azure/arm-resources@5.2.0':
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.9.0
@@ -11525,11 +11519,12 @@ snapshots:
   '@rush-temp/arm-changes@file:projects/arm-changes.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@types/node': 18.19.76
-      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.51.0)(typescript@5.6.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
       '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
-      playwright: 1.50.1
+      dotenv: 16.4.7
+      playwright: 1.51.0
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.6(@types/debug@4.1.12)(@types/node@18.19.76)(@vitest/browser@3.0.6)(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -12539,12 +12534,12 @@ snapshots:
   '@rush-temp/arm-databoundaries@file:projects/arm-databoundaries.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@types/node': 18.19.76
-      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.51.0)(typescript@5.6.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
       '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
       dotenv: 16.4.7
-      playwright: 1.50.1
+      playwright: 1.51.0
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.6(@types/debug@4.1.12)(@types/node@18.19.76)(@vitest/browser@3.0.6)(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -13825,11 +13820,12 @@ snapshots:
   '@rush-temp/arm-features@file:projects/arm-features.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@types/node': 18.19.76
-      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.51.0)(typescript@5.6.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
       '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
-      playwright: 1.50.1
+      dotenv: 16.4.7
+      playwright: 1.51.0
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.6(@types/debug@4.1.12)(@types/node@18.19.76)(@vitest/browser@3.0.6)(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -14903,13 +14899,13 @@ snapshots:
 
   '@rush-temp/arm-links@file:projects/arm-links.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
-      '@azure/arm-resources': 5.2.0
       '@types/node': 18.19.76
-      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.51.0)(typescript@5.6.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
       '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
-      playwright: 1.50.1
+      dotenv: 16.4.7
+      playwright: 1.51.0
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.6(@types/debug@4.1.12)(@types/node@18.19.76)(@vitest/browser@3.0.6)(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -15007,11 +15003,12 @@ snapshots:
   '@rush-temp/arm-locks@file:projects/arm-locks.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@types/node': 18.19.76
-      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.51.0)(typescript@5.6.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
       '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
-      playwright: 1.50.1
+      dotenv: 16.4.7
+      playwright: 1.51.0
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.6(@types/debug@4.1.12)(@types/node@18.19.76)(@vitest/browser@3.0.6)(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -15213,12 +15210,12 @@ snapshots:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.76
-      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.51.0)(typescript@5.6.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
       '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
       dotenv: 16.4.7
-      playwright: 1.50.1
+      playwright: 1.51.0
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.6(@types/debug@4.1.12)(@types/node@18.19.76)(@vitest/browser@3.0.6)(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -16528,13 +16525,14 @@ snapshots:
 
   '@rush-temp/arm-policy@file:projects/arm-policy.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@azure/core-lro': 2.7.2
       '@types/node': 18.19.76
-      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.51.0)(typescript@5.6.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
       '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
       dotenv: 16.4.7
-      playwright: 1.50.1
+      playwright: 1.51.0
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.6(@types/debug@4.1.12)(@types/node@18.19.76)(@vitest/browser@3.0.6)(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -17433,12 +17431,12 @@ snapshots:
   '@rush-temp/arm-resources-subscriptions@file:projects/arm-resources-subscriptions.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@types/node': 18.19.76
-      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.51.0)(typescript@5.6.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
       '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
       dotenv: 16.4.7
-      playwright: 1.50.1
+      playwright: 1.51.0
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.6(@types/debug@4.1.12)(@types/node@18.19.76)(@vitest/browser@3.0.6)(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -17468,12 +17466,12 @@ snapshots:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.76
-      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.51.0)(typescript@5.6.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
       '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
       dotenv: 16.4.7
-      playwright: 1.50.1
+      playwright: 1.51.0
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.6(@types/debug@4.1.12)(@types/node@18.19.76)(@vitest/browser@3.0.6)(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -17503,12 +17501,12 @@ snapshots:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.76
-      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.51.0)(typescript@5.6.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
       '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
       dotenv: 16.4.7
-      playwright: 1.50.1
+      playwright: 1.51.0
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.6(@types/debug@4.1.12)(@types/node@18.19.76)(@vitest/browser@3.0.6)(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -18755,11 +18753,12 @@ snapshots:
   '@rush-temp/arm-templatespecs@file:projects/arm-templatespecs.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@types/node': 18.19.76
-      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.51.0)(typescript@5.6.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
       '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
-      playwright: 1.50.1
+      dotenv: 16.4.7
+      playwright: 1.51.0
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.6(@types/debug@4.1.12)(@types/node@18.19.76)(@vitest/browser@3.0.6)(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -23879,7 +23878,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.0.1
 
   '@types/chai-as-promised@8.0.1':
     dependencies:
@@ -24246,6 +24245,27 @@ snapshots:
       - utf-8-validate
       - vite
 
+  '@vitest/browser@3.0.6(@types/node@18.19.76)(playwright@1.51.0)(typescript@5.6.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)':
+    dependencies:
+      '@testing-library/dom': 10.4.0
+      '@testing-library/user-event': 14.6.1(@testing-library/dom@10.4.0)
+      '@vitest/mocker': 3.0.6(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))
+      '@vitest/utils': 3.0.6
+      magic-string: 0.30.17
+      msw: 2.7.2(@types/node@18.19.76)(typescript@5.6.3)
+      sirv: 3.0.1
+      tinyrainbow: 2.0.0
+      vitest: 3.0.6(@types/debug@4.1.12)(@types/node@22.7.9)(@vitest/browser@3.0.6)(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
+      ws: 8.18.1
+    optionalDependencies:
+      playwright: 1.51.0
+    transitivePeerDependencies:
+      - '@types/node'
+      - bufferutil
+      - typescript
+      - utf-8-validate
+      - vite
+
   '@vitest/browser@3.0.6(@types/node@22.7.9)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)':
     dependencies:
       '@testing-library/dom': 10.4.0
@@ -24267,7 +24287,7 @@ snapshots:
       - utf-8-validate
       - vite
 
-  '@vitest/browser@3.0.6(@types/node@22.7.9)(playwright@1.50.1)(typescript@5.8.2)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)':
+  '@vitest/browser@3.0.6(@types/node@22.7.9)(playwright@1.51.0)(typescript@5.8.2)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)':
     dependencies:
       '@testing-library/dom': 10.4.0
       '@testing-library/user-event': 14.6.1(@testing-library/dom@10.4.0)
@@ -24280,7 +24300,7 @@ snapshots:
       vitest: 3.0.6(@types/debug@4.1.12)(@types/node@22.7.9)(@vitest/browser@3.0.6)(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
       ws: 8.18.1
     optionalDependencies:
-      playwright: 1.50.1
+      playwright: 1.51.0
     transitivePeerDependencies:
       - '@types/node'
       - bufferutil
@@ -27044,9 +27064,17 @@ snapshots:
 
   playwright-core@1.50.1: {}
 
+  playwright-core@1.51.0: {}
+
   playwright@1.50.1:
     dependencies:
       playwright-core: 1.50.1
+    optionalDependencies:
+      fsevents: 2.3.2
+
+  playwright@1.51.0:
+    dependencies:
+      playwright-core: 1.51.0
     optionalDependencies:
       fsevents: 2.3.2
 
@@ -27933,7 +27961,7 @@ snapshots:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.7.3
+      typescript: 5.8.2
       walk-up-path: 3.0.1
 
   tslib@2.8.1: {}
@@ -28210,7 +28238,7 @@ snapshots:
     optionalDependencies:
       '@types/debug': 4.1.12
       '@types/node': 18.19.76
-      '@vitest/browser': 3.0.6(@types/node@22.7.9)(playwright@1.50.1)(typescript@5.8.2)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/browser': 3.0.6(@types/node@22.7.9)(playwright@1.51.0)(typescript@5.8.2)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
     transitivePeerDependencies:
       - jiti
       - less
@@ -28250,7 +28278,7 @@ snapshots:
     optionalDependencies:
       '@types/debug': 4.1.12
       '@types/node': 20.17.19
-      '@vitest/browser': 3.0.6(@types/node@22.7.9)(playwright@1.50.1)(typescript@5.8.2)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/browser': 3.0.6(@types/node@22.7.9)(playwright@1.51.0)(typescript@5.8.2)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
     transitivePeerDependencies:
       - jiti
       - less
@@ -28290,7 +28318,7 @@ snapshots:
     optionalDependencies:
       '@types/debug': 4.1.12
       '@types/node': 22.7.9
-      '@vitest/browser': 3.0.6(@types/node@22.7.9)(playwright@1.50.1)(typescript@5.8.2)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/browser': 3.0.6(@types/node@22.7.9)(playwright@1.51.0)(typescript@5.8.2)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
     transitivePeerDependencies:
       - jiti
       - less
