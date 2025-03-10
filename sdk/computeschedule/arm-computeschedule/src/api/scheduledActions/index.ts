@@ -18,6 +18,7 @@ import {
   submitDeallocateRequestSerializer,
   DeallocateResourceOperationResponse,
   deallocateResourceOperationResponseDeserializer,
+  errorResponseDeserializer,
   SubmitHibernateRequest,
   submitHibernateRequestSerializer,
   HibernateResourceOperationResponse,
@@ -45,6 +46,7 @@ import {
   GetOperationErrorsResponse,
   getOperationErrorsResponseDeserializer,
 } from "../../models/models.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -52,7 +54,7 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
-export function _virtualMachinesGetOperationErrorsSend(
+export function _scheduledActionsVirtualMachinesGetOperationErrorsSend(
   context: Client,
   locationparameter: string,
   requestBody: GetOperationErrorsRequest,
@@ -60,37 +62,43 @@ export function _virtualMachinesGetOperationErrorsSend(
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesGetOperationErrors",
-      context.subscriptionId,
-      locationparameter,
-    )
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-      body: getOperationErrorsRequestSerializer(requestBody),
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesGetOperationErrors{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      locationparameter: locationparameter,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: getOperationErrorsRequestSerializer(requestBody),
+  });
 }
 
-export async function _virtualMachinesGetOperationErrorsDeserialize(
+export async function _scheduledActionsVirtualMachinesGetOperationErrorsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<GetOperationErrorsResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return getOperationErrorsResponseDeserializer(result.body);
 }
 
 /** VirtualMachinesGetOperationErrors: Get error details on operation errors (like transient errors encountered, additional logs) if they exist. */
-export async function virtualMachinesGetOperationErrors(
+export async function scheduledActionsVirtualMachinesGetOperationErrors(
   context: Client,
   locationparameter: string,
   requestBody: GetOperationErrorsRequest,
@@ -98,16 +106,16 @@ export async function virtualMachinesGetOperationErrors(
     requestOptions: {},
   },
 ): Promise<GetOperationErrorsResponse> {
-  const result = await _virtualMachinesGetOperationErrorsSend(
+  const result = await _scheduledActionsVirtualMachinesGetOperationErrorsSend(
     context,
     locationparameter,
     requestBody,
     options,
   );
-  return _virtualMachinesGetOperationErrorsDeserialize(result);
+  return _scheduledActionsVirtualMachinesGetOperationErrorsDeserialize(result);
 }
 
-export function _virtualMachinesCancelOperationsSend(
+export function _scheduledActionsVirtualMachinesCancelOperationsSend(
   context: Client,
   locationparameter: string,
   requestBody: CancelOperationsRequest,
@@ -115,37 +123,43 @@ export function _virtualMachinesCancelOperationsSend(
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesCancelOperations",
-      context.subscriptionId,
-      locationparameter,
-    )
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-      body: cancelOperationsRequestSerializer(requestBody),
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesCancelOperations{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      locationparameter: locationparameter,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: cancelOperationsRequestSerializer(requestBody),
+  });
 }
 
-export async function _virtualMachinesCancelOperationsDeserialize(
+export async function _scheduledActionsVirtualMachinesCancelOperationsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<CancelOperationsResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return cancelOperationsResponseDeserializer(result.body);
 }
 
 /** VirtualMachinesCancelOperations: Cancel a previously submitted (start/deallocate/hibernate) request */
-export async function virtualMachinesCancelOperations(
+export async function scheduledActionsVirtualMachinesCancelOperations(
   context: Client,
   locationparameter: string,
   requestBody: CancelOperationsRequest,
@@ -153,16 +167,16 @@ export async function virtualMachinesCancelOperations(
     requestOptions: {},
   },
 ): Promise<CancelOperationsResponse> {
-  const result = await _virtualMachinesCancelOperationsSend(
+  const result = await _scheduledActionsVirtualMachinesCancelOperationsSend(
     context,
     locationparameter,
     requestBody,
     options,
   );
-  return _virtualMachinesCancelOperationsDeserialize(result);
+  return _scheduledActionsVirtualMachinesCancelOperationsDeserialize(result);
 }
 
-export function _virtualMachinesGetOperationStatusSend(
+export function _scheduledActionsVirtualMachinesGetOperationStatusSend(
   context: Client,
   locationparameter: string,
   requestBody: GetOperationStatusRequest,
@@ -170,37 +184,43 @@ export function _virtualMachinesGetOperationStatusSend(
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesGetOperationStatus",
-      context.subscriptionId,
-      locationparameter,
-    )
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-      body: getOperationStatusRequestSerializer(requestBody),
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesGetOperationStatus{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      locationparameter: locationparameter,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: getOperationStatusRequestSerializer(requestBody),
+  });
 }
 
-export async function _virtualMachinesGetOperationStatusDeserialize(
+export async function _scheduledActionsVirtualMachinesGetOperationStatusDeserialize(
   result: PathUncheckedResponse,
 ): Promise<GetOperationStatusResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return getOperationStatusResponseDeserializer(result.body);
 }
 
 /** VirtualMachinesGetOperationStatus: Polling endpoint to read status of operations performed on virtual machines */
-export async function virtualMachinesGetOperationStatus(
+export async function scheduledActionsVirtualMachinesGetOperationStatus(
   context: Client,
   locationparameter: string,
   requestBody: GetOperationStatusRequest,
@@ -208,16 +228,16 @@ export async function virtualMachinesGetOperationStatus(
     requestOptions: {},
   },
 ): Promise<GetOperationStatusResponse> {
-  const result = await _virtualMachinesGetOperationStatusSend(
+  const result = await _scheduledActionsVirtualMachinesGetOperationStatusSend(
     context,
     locationparameter,
     requestBody,
     options,
   );
-  return _virtualMachinesGetOperationStatusDeserialize(result);
+  return _scheduledActionsVirtualMachinesGetOperationStatusDeserialize(result);
 }
 
-export function _virtualMachinesExecuteStartSend(
+export function _scheduledActionsVirtualMachinesExecuteStartSend(
   context: Client,
   locationparameter: string,
   requestBody: ExecuteStartRequest,
@@ -225,37 +245,43 @@ export function _virtualMachinesExecuteStartSend(
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesExecuteStart",
-      context.subscriptionId,
-      locationparameter,
-    )
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-      body: executeStartRequestSerializer(requestBody),
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesExecuteStart{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      locationparameter: locationparameter,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: executeStartRequestSerializer(requestBody),
+  });
 }
 
-export async function _virtualMachinesExecuteStartDeserialize(
+export async function _scheduledActionsVirtualMachinesExecuteStartDeserialize(
   result: PathUncheckedResponse,
 ): Promise<StartResourceOperationResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return startResourceOperationResponseDeserializer(result.body);
 }
 
 /** VirtualMachinesExecuteStart: Execute start operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
-export async function virtualMachinesExecuteStart(
+export async function scheduledActionsVirtualMachinesExecuteStart(
   context: Client,
   locationparameter: string,
   requestBody: ExecuteStartRequest,
@@ -263,16 +289,16 @@ export async function virtualMachinesExecuteStart(
     requestOptions: {},
   },
 ): Promise<StartResourceOperationResponse> {
-  const result = await _virtualMachinesExecuteStartSend(
+  const result = await _scheduledActionsVirtualMachinesExecuteStartSend(
     context,
     locationparameter,
     requestBody,
     options,
   );
-  return _virtualMachinesExecuteStartDeserialize(result);
+  return _scheduledActionsVirtualMachinesExecuteStartDeserialize(result);
 }
 
-export function _virtualMachinesExecuteHibernateSend(
+export function _scheduledActionsVirtualMachinesExecuteHibernateSend(
   context: Client,
   locationparameter: string,
   requestBody: ExecuteHibernateRequest,
@@ -280,37 +306,43 @@ export function _virtualMachinesExecuteHibernateSend(
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesExecuteHibernate",
-      context.subscriptionId,
-      locationparameter,
-    )
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-      body: executeHibernateRequestSerializer(requestBody),
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesExecuteHibernate{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      locationparameter: locationparameter,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: executeHibernateRequestSerializer(requestBody),
+  });
 }
 
-export async function _virtualMachinesExecuteHibernateDeserialize(
+export async function _scheduledActionsVirtualMachinesExecuteHibernateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<HibernateResourceOperationResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return hibernateResourceOperationResponseDeserializer(result.body);
 }
 
 /** VirtualMachinesExecuteHibernate: Execute hibernate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
-export async function virtualMachinesExecuteHibernate(
+export async function scheduledActionsVirtualMachinesExecuteHibernate(
   context: Client,
   locationparameter: string,
   requestBody: ExecuteHibernateRequest,
@@ -318,16 +350,16 @@ export async function virtualMachinesExecuteHibernate(
     requestOptions: {},
   },
 ): Promise<HibernateResourceOperationResponse> {
-  const result = await _virtualMachinesExecuteHibernateSend(
+  const result = await _scheduledActionsVirtualMachinesExecuteHibernateSend(
     context,
     locationparameter,
     requestBody,
     options,
   );
-  return _virtualMachinesExecuteHibernateDeserialize(result);
+  return _scheduledActionsVirtualMachinesExecuteHibernateDeserialize(result);
 }
 
-export function _virtualMachinesExecuteDeallocateSend(
+export function _scheduledActionsVirtualMachinesExecuteDeallocateSend(
   context: Client,
   locationparameter: string,
   requestBody: ExecuteDeallocateRequest,
@@ -335,37 +367,43 @@ export function _virtualMachinesExecuteDeallocateSend(
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesExecuteDeallocate",
-      context.subscriptionId,
-      locationparameter,
-    )
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-      body: executeDeallocateRequestSerializer(requestBody),
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesExecuteDeallocate{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      locationparameter: locationparameter,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: executeDeallocateRequestSerializer(requestBody),
+  });
 }
 
-export async function _virtualMachinesExecuteDeallocateDeserialize(
+export async function _scheduledActionsVirtualMachinesExecuteDeallocateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<DeallocateResourceOperationResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return deallocateResourceOperationResponseDeserializer(result.body);
 }
 
 /** VirtualMachinesExecuteDeallocate: Execute deallocate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
-export async function virtualMachinesExecuteDeallocate(
+export async function scheduledActionsVirtualMachinesExecuteDeallocate(
   context: Client,
   locationparameter: string,
   requestBody: ExecuteDeallocateRequest,
@@ -373,16 +411,16 @@ export async function virtualMachinesExecuteDeallocate(
     requestOptions: {},
   },
 ): Promise<DeallocateResourceOperationResponse> {
-  const result = await _virtualMachinesExecuteDeallocateSend(
+  const result = await _scheduledActionsVirtualMachinesExecuteDeallocateSend(
     context,
     locationparameter,
     requestBody,
     options,
   );
-  return _virtualMachinesExecuteDeallocateDeserialize(result);
+  return _scheduledActionsVirtualMachinesExecuteDeallocateDeserialize(result);
 }
 
-export function _virtualMachinesSubmitStartSend(
+export function _scheduledActionsVirtualMachinesSubmitStartSend(
   context: Client,
   locationparameter: string,
   requestBody: SubmitStartRequest,
@@ -390,37 +428,43 @@ export function _virtualMachinesSubmitStartSend(
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesSubmitStart",
-      context.subscriptionId,
-      locationparameter,
-    )
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-      body: submitStartRequestSerializer(requestBody),
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesSubmitStart{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      locationparameter: locationparameter,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: submitStartRequestSerializer(requestBody),
+  });
 }
 
-export async function _virtualMachinesSubmitStartDeserialize(
+export async function _scheduledActionsVirtualMachinesSubmitStartDeserialize(
   result: PathUncheckedResponse,
 ): Promise<StartResourceOperationResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return startResourceOperationResponseDeserializer(result.body);
 }
 
 /** VirtualMachinesSubmitStart: Schedule start operation for a batch of virtual machines at datetime in future. */
-export async function virtualMachinesSubmitStart(
+export async function scheduledActionsVirtualMachinesSubmitStart(
   context: Client,
   locationparameter: string,
   requestBody: SubmitStartRequest,
@@ -428,16 +472,16 @@ export async function virtualMachinesSubmitStart(
     requestOptions: {},
   },
 ): Promise<StartResourceOperationResponse> {
-  const result = await _virtualMachinesSubmitStartSend(
+  const result = await _scheduledActionsVirtualMachinesSubmitStartSend(
     context,
     locationparameter,
     requestBody,
     options,
   );
-  return _virtualMachinesSubmitStartDeserialize(result);
+  return _scheduledActionsVirtualMachinesSubmitStartDeserialize(result);
 }
 
-export function _virtualMachinesSubmitHibernateSend(
+export function _scheduledActionsVirtualMachinesSubmitHibernateSend(
   context: Client,
   locationparameter: string,
   requestBody: SubmitHibernateRequest,
@@ -445,37 +489,43 @@ export function _virtualMachinesSubmitHibernateSend(
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesSubmitHibernate",
-      context.subscriptionId,
-      locationparameter,
-    )
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-      body: submitHibernateRequestSerializer(requestBody),
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesSubmitHibernate{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      locationparameter: locationparameter,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: submitHibernateRequestSerializer(requestBody),
+  });
 }
 
-export async function _virtualMachinesSubmitHibernateDeserialize(
+export async function _scheduledActionsVirtualMachinesSubmitHibernateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<HibernateResourceOperationResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return hibernateResourceOperationResponseDeserializer(result.body);
 }
 
 /** VirtualMachinesSubmitHibernate: Schedule hibernate operation for a batch of virtual machines at datetime in future. */
-export async function virtualMachinesSubmitHibernate(
+export async function scheduledActionsVirtualMachinesSubmitHibernate(
   context: Client,
   locationparameter: string,
   requestBody: SubmitHibernateRequest,
@@ -483,16 +533,16 @@ export async function virtualMachinesSubmitHibernate(
     requestOptions: {},
   },
 ): Promise<HibernateResourceOperationResponse> {
-  const result = await _virtualMachinesSubmitHibernateSend(
+  const result = await _scheduledActionsVirtualMachinesSubmitHibernateSend(
     context,
     locationparameter,
     requestBody,
     options,
   );
-  return _virtualMachinesSubmitHibernateDeserialize(result);
+  return _scheduledActionsVirtualMachinesSubmitHibernateDeserialize(result);
 }
 
-export function _virtualMachinesSubmitDeallocateSend(
+export function _scheduledActionsVirtualMachinesSubmitDeallocateSend(
   context: Client,
   locationparameter: string,
   requestBody: SubmitDeallocateRequest,
@@ -500,37 +550,43 @@ export function _virtualMachinesSubmitDeallocateSend(
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesSubmitDeallocate",
-      context.subscriptionId,
-      locationparameter,
-    )
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-      body: submitDeallocateRequestSerializer(requestBody),
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesSubmitDeallocate{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      locationparameter: locationparameter,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: submitDeallocateRequestSerializer(requestBody),
+  });
 }
 
-export async function _virtualMachinesSubmitDeallocateDeserialize(
+export async function _scheduledActionsVirtualMachinesSubmitDeallocateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<DeallocateResourceOperationResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return deallocateResourceOperationResponseDeserializer(result.body);
 }
 
 /** VirtualMachinesSubmitDeallocate: Schedule deallocate operation for a batch of virtual machines at datetime in future. */
-export async function virtualMachinesSubmitDeallocate(
+export async function scheduledActionsVirtualMachinesSubmitDeallocate(
   context: Client,
   locationparameter: string,
   requestBody: SubmitDeallocateRequest,
@@ -538,11 +594,11 @@ export async function virtualMachinesSubmitDeallocate(
     requestOptions: {},
   },
 ): Promise<DeallocateResourceOperationResponse> {
-  const result = await _virtualMachinesSubmitDeallocateSend(
+  const result = await _scheduledActionsVirtualMachinesSubmitDeallocateSend(
     context,
     locationparameter,
     requestBody,
     options,
   );
-  return _virtualMachinesSubmitDeallocateDeserialize(result);
+  return _scheduledActionsVirtualMachinesSubmitDeallocateDeserialize(result);
 }
