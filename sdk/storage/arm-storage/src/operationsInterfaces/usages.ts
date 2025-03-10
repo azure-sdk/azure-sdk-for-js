@@ -6,19 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Usage, UsagesListByLocationOptionalParams } from "../models/index.js";
+import {
+  UsagesListByLocationOptionalParams,
+  UsagesListByLocationResponse,
+} from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a Usages. */
 export interface Usages {
   /**
    * Gets the current usage count and the limit for the resources of the location under the subscription.
-   * @param location The location of the Azure Storage resource.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   listByLocation(
     location: string,
     options?: UsagesListByLocationOptionalParams,
-  ): PagedAsyncIterableIterator<Usage>;
+  ): Promise<UsagesListByLocationResponse>;
 }

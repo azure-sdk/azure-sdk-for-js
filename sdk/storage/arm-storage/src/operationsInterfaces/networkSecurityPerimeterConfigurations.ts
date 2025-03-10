@@ -22,8 +22,7 @@ import {
 export interface NetworkSecurityPerimeterConfigurations {
   /**
    * Gets list of effective NetworkSecurityPerimeterConfiguration for storage account
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -36,8 +35,7 @@ export interface NetworkSecurityPerimeterConfigurations {
   ): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
   /**
    * Gets effective NetworkSecurityPerimeterConfiguration for association
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -53,8 +51,7 @@ export interface NetworkSecurityPerimeterConfigurations {
   ): Promise<NetworkSecurityPerimeterConfigurationsGetResponse>;
   /**
    * Refreshes any information about the association.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -75,8 +72,7 @@ export interface NetworkSecurityPerimeterConfigurations {
   >;
   /**
    * Refreshes any information about the association.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.

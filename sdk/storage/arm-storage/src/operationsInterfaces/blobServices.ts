@@ -6,23 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  BlobServiceProperties,
   BlobServicesListOptionalParams,
-  BlobServicesSetServicePropertiesOptionalParams,
-  BlobServicesSetServicePropertiesResponse,
+  BlobServicesListResponse,
   BlobServicesGetServicePropertiesOptionalParams,
   BlobServicesGetServicePropertiesResponse,
+  BlobServiceProperties,
+  BlobServicesSetServicePropertiesOptionalParams,
+  BlobServicesSetServicePropertiesResponse,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a BlobServices. */
 export interface BlobServices {
   /**
    * List blob services of storage account. It returns a collection of one object named default.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -32,12 +30,25 @@ export interface BlobServices {
     resourceGroupName: string,
     accountName: string,
     options?: BlobServicesListOptionalParams,
-  ): PagedAsyncIterableIterator<BlobServiceProperties>;
+  ): Promise<BlobServicesListResponse>;
+  /**
+   * Gets the properties of a storage account’s Blob service, including properties for Storage Analytics
+   * and CORS (Cross-Origin Resource Sharing) rules.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param options The options parameters.
+   */
+  getServiceProperties(
+    resourceGroupName: string,
+    accountName: string,
+    options?: BlobServicesGetServicePropertiesOptionalParams,
+  ): Promise<BlobServicesGetServicePropertiesResponse>;
   /**
    * Sets the properties of a storage account’s Blob service, including properties for Storage Analytics
    * and CORS (Cross-Origin Resource Sharing) rules.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -51,19 +62,4 @@ export interface BlobServices {
     parameters: BlobServiceProperties,
     options?: BlobServicesSetServicePropertiesOptionalParams,
   ): Promise<BlobServicesSetServicePropertiesResponse>;
-  /**
-   * Gets the properties of a storage account’s Blob service, including properties for Storage Analytics
-   * and CORS (Cross-Origin Resource Sharing) rules.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param options The options parameters.
-   */
-  getServiceProperties(
-    resourceGroupName: string,
-    accountName: string,
-    options?: BlobServicesGetServicePropertiesOptionalParams,
-  ): Promise<BlobServicesGetServicePropertiesResponse>;
 }

@@ -6,24 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ObjectReplicationPoliciesOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { StorageManagementClient } from "../storageManagementClient.js";
 import {
-  ObjectReplicationPolicy,
   ObjectReplicationPoliciesListOptionalParams,
   ObjectReplicationPoliciesListResponse,
   ObjectReplicationPoliciesGetOptionalParams,
   ObjectReplicationPoliciesGetResponse,
+  ObjectReplicationPolicy,
   ObjectReplicationPoliciesCreateOrUpdateOptionalParams,
   ObjectReplicationPoliciesCreateOrUpdateResponse,
   ObjectReplicationPoliciesDeleteOptionalParams,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Class containing ObjectReplicationPoliciesOperations operations. */
 export class ObjectReplicationPoliciesOperationsImpl
   implements ObjectReplicationPoliciesOperations
@@ -40,75 +38,13 @@ export class ObjectReplicationPoliciesOperationsImpl
 
   /**
    * List the object replication policies associated with the storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
    * @param options The options parameters.
    */
-  public list(
-    resourceGroupName: string,
-    accountName: string,
-    options?: ObjectReplicationPoliciesListOptionalParams,
-  ): PagedAsyncIterableIterator<ObjectReplicationPolicy> {
-    const iter = this.listPagingAll(resourceGroupName, accountName, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(
-          resourceGroupName,
-          accountName,
-          options,
-          settings,
-        );
-      },
-    };
-  }
-
-  private async *listPagingPage(
-    resourceGroupName: string,
-    accountName: string,
-    options?: ObjectReplicationPoliciesListOptionalParams,
-    _settings?: PageSettings,
-  ): AsyncIterableIterator<ObjectReplicationPolicy[]> {
-    let result: ObjectReplicationPoliciesListResponse;
-    result = await this._list(resourceGroupName, accountName, options);
-    yield result.value || [];
-  }
-
-  private async *listPagingAll(
-    resourceGroupName: string,
-    accountName: string,
-    options?: ObjectReplicationPoliciesListOptionalParams,
-  ): AsyncIterableIterator<ObjectReplicationPolicy> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      accountName,
-      options,
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * List the object replication policies associated with the storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param options The options parameters.
-   */
-  private _list(
+  list(
     resourceGroupName: string,
     accountName: string,
     options?: ObjectReplicationPoliciesListOptionalParams,
@@ -121,8 +57,7 @@ export class ObjectReplicationPoliciesOperationsImpl
 
   /**
    * Get the object replication policy of the storage account by policy ID.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -146,8 +81,7 @@ export class ObjectReplicationPoliciesOperationsImpl
 
   /**
    * Create or update the object replication policy of the storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -180,8 +114,7 @@ export class ObjectReplicationPoliciesOperationsImpl
 
   /**
    * Deletes the object replication policy associated with the specified storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -220,9 +153,9 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -241,9 +174,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.objectReplicationPolicyId,
   ],
   headerParameters: [Parameters.accept],
@@ -264,9 +197,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.objectReplicationPolicyId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -286,9 +219,9 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.objectReplicationPolicyId,
   ],
   headerParameters: [Parameters.accept],
