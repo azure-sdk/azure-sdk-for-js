@@ -3,14 +3,14 @@
 
 import { CodeSigningClient } from "./codeSigningClient.js";
 import {
-  _createDeserialize,
-  _updateDeserialize,
-  _$deleteDeserialize,
-} from "./api/codeSigningAccounts/index.js";
-import {
-  _createDeserialize as _createDeserializeCertificateProfiles,
-  _$deleteDeserialize as _$deleteDeserializeCertificateProfiles,
+  _certificateProfilesDeleteDeserialize,
+  _certificateProfilesCreateDeserialize,
 } from "./api/certificateProfiles/index.js";
+import {
+  _codeSigningAccountsDeleteDeserialize,
+  _codeSigningAccountsUpdateDeserialize,
+  _codeSigningAccountsCreateDeserialize,
+} from "./api/codeSigningAccounts/index.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -84,24 +84,30 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}":
-    { deserializer: _createDeserialize, expectedStatuses: ["200", "201"] },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}":
-    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}/certificateProfiles/{profileName}":
     {
-      deserializer: _$deleteDeserialize,
+      deserializer: _certificateProfilesDeleteDeserialize,
       expectedStatuses: ["202", "204", "200"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}/certificateProfiles/{profileName}":
     {
-      deserializer: _createDeserializeCertificateProfiles,
+      deserializer: _certificateProfilesCreateDeserialize,
       expectedStatuses: ["200", "201"],
     },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}/certificateProfiles/{profileName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}":
     {
-      deserializer: _$deleteDeserializeCertificateProfiles,
+      deserializer: _codeSigningAccountsDeleteDeserialize,
       expectedStatuses: ["202", "204", "200"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}":
+    {
+      deserializer: _codeSigningAccountsUpdateDeserialize,
+      expectedStatuses: ["200", "202"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}":
+    {
+      deserializer: _codeSigningAccountsCreateDeserialize,
+      expectedStatuses: ["200", "201"],
     },
 };
 
