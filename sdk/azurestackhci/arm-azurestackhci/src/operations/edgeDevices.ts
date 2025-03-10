@@ -466,7 +466,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
-    Parameters.edgeDeviceName,
+    Parameters.edgeDeviceName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -491,12 +491,12 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.resource1,
+  requestBody: Parameters.resource2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
-    Parameters.edgeDeviceName,
+    Parameters.edgeDeviceName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -526,7 +526,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
-    Parameters.edgeDeviceName,
+    Parameters.edgeDeviceName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -556,7 +556,7 @@ const validateOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
-    Parameters.edgeDeviceName,
+    Parameters.edgeDeviceName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
