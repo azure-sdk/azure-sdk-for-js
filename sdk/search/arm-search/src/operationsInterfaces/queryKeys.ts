@@ -19,11 +19,11 @@ import {
 /** Interface representing a QueryKeys. */
 export interface QueryKeys {
   /**
-   * Returns the list of query API keys for the given Azure AI Search service.
+   * Returns the list of query API keys for the given search service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure AI Search service associated with the specified
-   *                          resource group.
+   * @param searchServiceName The name of the search service associated with the specified resource
+   *                          group.
    * @param options The options parameters.
    */
   listBySearchService(
@@ -36,8 +36,8 @@ export interface QueryKeys {
    * service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure AI Search service associated with the specified
-   *                          resource group.
+   * @param searchServiceName The name of the search service associated with the specified resource
+   *                          group.
    * @param name The name of the new query API key.
    * @param options The options parameters.
    */
@@ -52,8 +52,8 @@ export interface QueryKeys {
    * regenerating a query key is to delete and then recreate it.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure AI Search service associated with the specified
-   *                          resource group.
+   * @param searchServiceName The name of the search service associated with the specified resource
+   *                          group.
    * @param key The query key to be deleted. Query keys are identified by value, not by name.
    * @param options The options parameters.
    */

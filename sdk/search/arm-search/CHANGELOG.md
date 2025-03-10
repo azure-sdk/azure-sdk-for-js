@@ -1,15 +1,20 @@
 # Release History
-
-## 4.0.0-beta.2 (Unreleased)
-
+    
+## 3.3.0 (2025-03-10)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation Services.beginUpgrade
+  - Added operation Services.beginUpgradeAndWait
+  - Added Interface ServicesUpgradeHeaders
+  - Added Interface ServicesUpgradeOptionalParams
+  - Added Type Alias ServicesUpgradeResponse
+  - Interface SearchService has a new optional parameter serviceUpgradeDate
+  - Interface SearchService has a new optional parameter upgradeAvailable
+  - Interface SearchServiceUpdate has a new optional parameter serviceUpgradeDate
+  - Interface SearchServiceUpdate has a new optional parameter upgradeAvailable
+    
+    
 ## 4.0.0-beta.1 (2024-07-25)
 Compared with version 3.2.0
     
