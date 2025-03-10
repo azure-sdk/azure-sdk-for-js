@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   MonitorResource as MonitorResourceMapper,
@@ -18,7 +18,7 @@ import {
   SSODetailsRequest as SSODetailsRequestMapper,
   LinkableEnvironmentRequest as LinkableEnvironmentRequestMapper,
   TagRule as TagRuleMapper,
-  DynatraceSingleSignOnResource as DynatraceSingleSignOnResourceMapper
+  DynatraceSingleSignOnResource as DynatraceSingleSignOnResourceMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -28,9 +28,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -39,10 +39,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -52,23 +52,23 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -76,14 +76,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const monitorName: OperationURLParameter = {
@@ -92,9 +92,9 @@ export const monitorName: OperationURLParameter = {
     serializedName: "monitorName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -104,34 +104,34 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resource: OperationParameter = {
   parameterPath: "resource",
-  mapper: MonitorResourceMapper
+  mapper: MonitorResourceMapper,
 };
 
 export const resource1: OperationParameter = {
   parameterPath: "resource",
-  mapper: MonitorResourceUpdateMapper
+  mapper: MonitorResourceUpdateMapper,
 };
 
 export const request: OperationParameter = {
   parameterPath: "request",
-  mapper: MarketplaceSaaSResourceDetailsRequestMapper
+  mapper: MarketplaceSaaSResourceDetailsRequestMapper,
 };
 
 export const request1: OperationParameter = {
   parameterPath: ["options", "request"],
-  mapper: SSODetailsRequestMapper
+  mapper: SSODetailsRequestMapper,
 };
 
 export const request2: OperationParameter = {
   parameterPath: "request",
-  mapper: LinkableEnvironmentRequestMapper
+  mapper: LinkableEnvironmentRequestMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -140,10 +140,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const ruleSetName: OperationURLParameter = {
@@ -152,19 +152,19 @@ export const ruleSetName: OperationURLParameter = {
     serializedName: "ruleSetName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resource2: OperationParameter = {
   parameterPath: "resource",
-  mapper: TagRuleMapper
+  mapper: TagRuleMapper,
 };
 
 export const resource3: OperationParameter = {
   parameterPath: "resource",
-  mapper: DynatraceSingleSignOnResourceMapper
+  mapper: DynatraceSingleSignOnResourceMapper,
 };
 
 export const configurationName: OperationURLParameter = {
@@ -173,7 +173,7 @@ export const configurationName: OperationURLParameter = {
     serializedName: "configurationName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
