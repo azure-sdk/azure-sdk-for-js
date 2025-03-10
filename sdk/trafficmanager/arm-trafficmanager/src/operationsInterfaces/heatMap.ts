@@ -19,6 +19,6 @@ export interface HeatMap {
   get(
     resourceGroupName: string,
     profileName: string,
-    options?: HeatMapGetOptionalParams
+    options?: HeatMapGetOptionalParams,
   ): Promise<HeatMapGetResponse>;
 }

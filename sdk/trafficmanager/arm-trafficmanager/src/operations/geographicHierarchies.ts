@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters.js";
 import { TrafficManagerManagementClient } from "../trafficManagerManagementClient.js";
 import {
   GeographicHierarchiesGetDefaultOptionalParams,
-  GeographicHierarchiesGetDefaultResponse
+  GeographicHierarchiesGetDefaultResponse,
 } from "../models/index.js";
 
 /** Class containing GeographicHierarchies operations. */
@@ -33,11 +33,11 @@ export class GeographicHierarchiesImpl implements GeographicHierarchies {
    * @param options The options parameters.
    */
   getDefault(
-    options?: GeographicHierarchiesGetDefaultOptionalParams
+    options?: GeographicHierarchiesGetDefaultOptionalParams,
   ): Promise<GeographicHierarchiesGetDefaultResponse> {
     return this.client.sendOperationRequest(
       { options },
-      getDefaultOperationSpec
+      getDefaultOperationSpec,
     );
   }
 }
@@ -45,19 +45,18 @@ export class GeographicHierarchiesImpl implements GeographicHierarchies {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getDefaultOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Network/trafficManagerGeographicHierarchies/default",
+  path: "/providers/Microsoft.Network/trafficManagerGeographicHierarchies/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TrafficManagerGeographicHierarchy
+      bodyMapper: Mappers.TrafficManagerGeographicHierarchy,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
