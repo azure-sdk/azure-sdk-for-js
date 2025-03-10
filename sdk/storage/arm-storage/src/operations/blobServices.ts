@@ -6,23 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { BlobServices } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { StorageManagementClient } from "../storageManagementClient.js";
 import {
-  BlobServiceProperties,
   BlobServicesListOptionalParams,
   BlobServicesListResponse,
-  BlobServicesSetServicePropertiesOptionalParams,
-  BlobServicesSetServicePropertiesResponse,
   BlobServicesGetServicePropertiesOptionalParams,
   BlobServicesGetServicePropertiesResponse,
+  BlobServiceProperties,
+  BlobServicesSetServicePropertiesOptionalParams,
+  BlobServicesSetServicePropertiesResponse,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Class containing BlobServices operations. */
 export class BlobServicesImpl implements BlobServices {
   private readonly client: StorageManagementClient;
@@ -37,75 +35,13 @@ export class BlobServicesImpl implements BlobServices {
 
   /**
    * List blob services of storage account. It returns a collection of one object named default.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
    * @param options The options parameters.
    */
-  public list(
-    resourceGroupName: string,
-    accountName: string,
-    options?: BlobServicesListOptionalParams,
-  ): PagedAsyncIterableIterator<BlobServiceProperties> {
-    const iter = this.listPagingAll(resourceGroupName, accountName, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(
-          resourceGroupName,
-          accountName,
-          options,
-          settings,
-        );
-      },
-    };
-  }
-
-  private async *listPagingPage(
-    resourceGroupName: string,
-    accountName: string,
-    options?: BlobServicesListOptionalParams,
-    _settings?: PageSettings,
-  ): AsyncIterableIterator<BlobServiceProperties[]> {
-    let result: BlobServicesListResponse;
-    result = await this._list(resourceGroupName, accountName, options);
-    yield result.value || [];
-  }
-
-  private async *listPagingAll(
-    resourceGroupName: string,
-    accountName: string,
-    options?: BlobServicesListOptionalParams,
-  ): AsyncIterableIterator<BlobServiceProperties> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      accountName,
-      options,
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * List blob services of storage account. It returns a collection of one object named default.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param options The options parameters.
-   */
-  private _list(
+  list(
     resourceGroupName: string,
     accountName: string,
     options?: BlobServicesListOptionalParams,
@@ -117,10 +53,29 @@ export class BlobServicesImpl implements BlobServices {
   }
 
   /**
+   * Gets the properties of a storage account’s Blob service, including properties for Storage Analytics
+   * and CORS (Cross-Origin Resource Sharing) rules.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param options The options parameters.
+   */
+  getServiceProperties(
+    resourceGroupName: string,
+    accountName: string,
+    options?: BlobServicesGetServicePropertiesOptionalParams,
+  ): Promise<BlobServicesGetServicePropertiesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, options },
+      getServicePropertiesOperationSpec,
+    );
+  }
+
+  /**
    * Sets the properties of a storage account’s Blob service, including properties for Storage Analytics
    * and CORS (Cross-Origin Resource Sharing) rules.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -139,27 +94,6 @@ export class BlobServicesImpl implements BlobServices {
       setServicePropertiesOperationSpec,
     );
   }
-
-  /**
-   * Gets the properties of a storage account’s Blob service, including properties for Storage Analytics
-   * and CORS (Cross-Origin Resource Sharing) rules.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param options The options parameters.
-   */
-  getServiceProperties(
-    resourceGroupName: string,
-    accountName: string,
-    options?: BlobServicesGetServicePropertiesOptionalParams,
-  ): Promise<BlobServicesGetServicePropertiesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, options },
-      getServicePropertiesOperationSpec,
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -171,54 +105,61 @@ const listOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.BlobServiceItems,
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const setServicePropertiesOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/{BlobServicesName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BlobServiceProperties,
-    },
-  },
-  requestBody: Parameters.parameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
-    Parameters.blobServicesName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
 const getServicePropertiesOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/{BlobServicesName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.BlobServiceProperties,
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.blobServicesName,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept],
+  serializer,
+};
+const setServicePropertiesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BlobServiceProperties,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters6,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };

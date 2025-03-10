@@ -14,11 +14,11 @@ import { StorageManagementClient } from "../storageManagementClient.js";
 import {
   QueueServicesListOptionalParams,
   QueueServicesListResponse,
+  QueueServicesGetServicePropertiesOptionalParams,
+  QueueServicesGetServicePropertiesResponse,
   QueueServiceProperties,
   QueueServicesSetServicePropertiesOptionalParams,
   QueueServicesSetServicePropertiesResponse,
-  QueueServicesGetServicePropertiesOptionalParams,
-  QueueServicesGetServicePropertiesResponse,
 } from "../models/index.js";
 
 /** Class containing QueueServices operations. */
@@ -35,8 +35,7 @@ export class QueueServicesImpl implements QueueServices {
 
   /**
    * List all queue services for the storage account
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -54,10 +53,29 @@ export class QueueServicesImpl implements QueueServices {
   }
 
   /**
+   * Gets the properties of a storage account’s Queue service, including properties for Storage Analytics
+   * and CORS (Cross-Origin Resource Sharing) rules.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param options The options parameters.
+   */
+  getServiceProperties(
+    resourceGroupName: string,
+    accountName: string,
+    options?: QueueServicesGetServicePropertiesOptionalParams,
+  ): Promise<QueueServicesGetServicePropertiesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, options },
+      getServicePropertiesOperationSpec,
+    );
+  }
+
+  /**
    * Sets the properties of a storage account’s Queue service, including properties for Storage Analytics
    * and CORS (Cross-Origin Resource Sharing) rules.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -76,27 +94,6 @@ export class QueueServicesImpl implements QueueServices {
       setServicePropertiesOperationSpec,
     );
   }
-
-  /**
-   * Gets the properties of a storage account’s Queue service, including properties for Storage Analytics
-   * and CORS (Cross-Origin Resource Sharing) rules.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param options The options parameters.
-   */
-  getServiceProperties(
-    resourceGroupName: string,
-    accountName: string,
-    options?: QueueServicesGetServicePropertiesOptionalParams,
-  ): Promise<QueueServicesGetServicePropertiesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, options },
-      getServicePropertiesOperationSpec,
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -109,62 +106,60 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ListQueueServices,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const setServicePropertiesOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/{queueServiceName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.QueueServiceProperties,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  requestBody: Parameters.parameters5,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
-    Parameters.queueServiceName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
 const getServicePropertiesOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/{queueServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.QueueServiceProperties,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.queueServiceName,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept],
+  serializer,
+};
+const setServicePropertiesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.QueueServiceProperties,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters12,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };

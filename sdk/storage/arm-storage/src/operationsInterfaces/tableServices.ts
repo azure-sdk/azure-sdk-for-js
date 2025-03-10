@@ -9,19 +9,18 @@
 import {
   TableServicesListOptionalParams,
   TableServicesListResponse,
+  TableServicesGetServicePropertiesOptionalParams,
+  TableServicesGetServicePropertiesResponse,
   TableServiceProperties,
   TableServicesSetServicePropertiesOptionalParams,
   TableServicesSetServicePropertiesResponse,
-  TableServicesGetServicePropertiesOptionalParams,
-  TableServicesGetServicePropertiesResponse,
 } from "../models/index.js";
 
 /** Interface representing a TableServices. */
 export interface TableServices {
   /**
    * List all table services for the storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -33,10 +32,23 @@ export interface TableServices {
     options?: TableServicesListOptionalParams,
   ): Promise<TableServicesListResponse>;
   /**
+   * Gets the properties of a storage account’s Table service, including properties for Storage Analytics
+   * and CORS (Cross-Origin Resource Sharing) rules.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param options The options parameters.
+   */
+  getServiceProperties(
+    resourceGroupName: string,
+    accountName: string,
+    options?: TableServicesGetServicePropertiesOptionalParams,
+  ): Promise<TableServicesGetServicePropertiesResponse>;
+  /**
    * Sets the properties of a storage account’s Table service, including properties for Storage Analytics
    * and CORS (Cross-Origin Resource Sharing) rules.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -50,19 +62,4 @@ export interface TableServices {
     parameters: TableServiceProperties,
     options?: TableServicesSetServicePropertiesOptionalParams,
   ): Promise<TableServicesSetServicePropertiesResponse>;
-  /**
-   * Gets the properties of a storage account’s Table service, including properties for Storage Analytics
-   * and CORS (Cross-Origin Resource Sharing) rules.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param options The options parameters.
-   */
-  getServiceProperties(
-    resourceGroupName: string,
-    accountName: string,
-    options?: TableServicesGetServicePropertiesOptionalParams,
-  ): Promise<TableServicesGetServicePropertiesResponse>;
 }
