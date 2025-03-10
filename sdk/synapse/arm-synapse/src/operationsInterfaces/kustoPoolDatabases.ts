@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DatabaseUnion,
   KustoPoolDatabasesListByKustoPoolOptionalParams,
@@ -17,7 +17,7 @@ import {
   KustoPoolDatabasesCreateOrUpdateResponse,
   KustoPoolDatabasesUpdateOptionalParams,
   KustoPoolDatabasesUpdateResponse,
-  KustoPoolDatabasesDeleteOptionalParams
+  KustoPoolDatabasesDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface KustoPoolDatabases {
     resourceGroupName: string,
     workspaceName: string,
     kustoPoolName: string,
-    options?: KustoPoolDatabasesListByKustoPoolOptionalParams
+    options?: KustoPoolDatabasesListByKustoPoolOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseUnion>;
   /**
    * Returns a database.
@@ -49,7 +49,7 @@ export interface KustoPoolDatabases {
     workspaceName: string,
     kustoPoolName: string,
     databaseName: string,
-    options?: KustoPoolDatabasesGetOptionalParams
+    options?: KustoPoolDatabasesGetOptionalParams,
   ): Promise<KustoPoolDatabasesGetResponse>;
   /**
    * Creates or updates a database.
@@ -66,10 +66,10 @@ export interface KustoPoolDatabases {
     kustoPoolName: string,
     databaseName: string,
     parameters: DatabaseUnion,
-    options?: KustoPoolDatabasesCreateOrUpdateOptionalParams
+    options?: KustoPoolDatabasesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<KustoPoolDatabasesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<KustoPoolDatabasesCreateOrUpdateResponse>,
       KustoPoolDatabasesCreateOrUpdateResponse
     >
   >;
@@ -88,7 +88,7 @@ export interface KustoPoolDatabases {
     kustoPoolName: string,
     databaseName: string,
     parameters: DatabaseUnion,
-    options?: KustoPoolDatabasesCreateOrUpdateOptionalParams
+    options?: KustoPoolDatabasesCreateOrUpdateOptionalParams,
   ): Promise<KustoPoolDatabasesCreateOrUpdateResponse>;
   /**
    * Updates a database.
@@ -105,10 +105,10 @@ export interface KustoPoolDatabases {
     kustoPoolName: string,
     databaseName: string,
     parameters: DatabaseUnion,
-    options?: KustoPoolDatabasesUpdateOptionalParams
+    options?: KustoPoolDatabasesUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<KustoPoolDatabasesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<KustoPoolDatabasesUpdateResponse>,
       KustoPoolDatabasesUpdateResponse
     >
   >;
@@ -127,7 +127,7 @@ export interface KustoPoolDatabases {
     kustoPoolName: string,
     databaseName: string,
     parameters: DatabaseUnion,
-    options?: KustoPoolDatabasesUpdateOptionalParams
+    options?: KustoPoolDatabasesUpdateOptionalParams,
   ): Promise<KustoPoolDatabasesUpdateResponse>;
   /**
    * Deletes the database with the given name.
@@ -142,8 +142,8 @@ export interface KustoPoolDatabases {
     workspaceName: string,
     kustoPoolName: string,
     databaseName: string,
-    options?: KustoPoolDatabasesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: KustoPoolDatabasesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the database with the given name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -157,6 +157,6 @@ export interface KustoPoolDatabases {
     workspaceName: string,
     kustoPoolName: string,
     databaseName: string,
-    options?: KustoPoolDatabasesDeleteOptionalParams
+    options?: KustoPoolDatabasesDeleteOptionalParams,
   ): Promise<void>;
 }

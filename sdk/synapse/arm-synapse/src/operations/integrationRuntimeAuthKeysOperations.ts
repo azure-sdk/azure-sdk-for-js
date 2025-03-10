@@ -16,12 +16,13 @@ import {
   IntegrationRuntimeAuthKeysRegenerateOptionalParams,
   IntegrationRuntimeAuthKeysRegenerateResponse,
   IntegrationRuntimeAuthKeysListOptionalParams,
-  IntegrationRuntimeAuthKeysListResponse
+  IntegrationRuntimeAuthKeysListResponse,
 } from "../models/index.js";
 
 /** Class containing IntegrationRuntimeAuthKeysOperations operations. */
 export class IntegrationRuntimeAuthKeysOperationsImpl
-  implements IntegrationRuntimeAuthKeysOperations {
+  implements IntegrationRuntimeAuthKeysOperations
+{
   private readonly client: SynapseManagementClient;
 
   /**
@@ -46,7 +47,7 @@ export class IntegrationRuntimeAuthKeysOperationsImpl
     workspaceName: string,
     integrationRuntimeName: string,
     regenerateKeyParameters: IntegrationRuntimeRegenerateKeyParameters,
-    options?: IntegrationRuntimeAuthKeysRegenerateOptionalParams
+    options?: IntegrationRuntimeAuthKeysRegenerateOptionalParams,
   ): Promise<IntegrationRuntimeAuthKeysRegenerateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -54,9 +55,9 @@ export class IntegrationRuntimeAuthKeysOperationsImpl
         workspaceName,
         integrationRuntimeName,
         regenerateKeyParameters,
-        options
+        options,
       },
-      regenerateOperationSpec
+      regenerateOperationSpec,
     );
   }
 
@@ -71,11 +72,11 @@ export class IntegrationRuntimeAuthKeysOperationsImpl
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimeAuthKeysListOptionalParams
+    options?: IntegrationRuntimeAuthKeysListOptionalParams,
   ): Promise<IntegrationRuntimeAuthKeysListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, integrationRuntimeName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -83,16 +84,15 @@ export class IntegrationRuntimeAuthKeysOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const regenerateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/regenerateAuthKey",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/regenerateAuthKey",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeAuthKeys
+      bodyMapper: Mappers.IntegrationRuntimeAuthKeys,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.regenerateKeyParameters,
   queryParameters: [Parameters.apiVersion1],
@@ -101,23 +101,22 @@ const regenerateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.integrationRuntimeName
+    Parameters.integrationRuntimeName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/listAuthKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/listAuthKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeAuthKeys
+      bodyMapper: Mappers.IntegrationRuntimeAuthKeys,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -125,8 +124,8 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.integrationRuntimeName
+    Parameters.integrationRuntimeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

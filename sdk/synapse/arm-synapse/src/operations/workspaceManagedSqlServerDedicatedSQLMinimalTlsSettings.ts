@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SynapseManagementClient } from "../synapseManagementClient.js";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   DedicatedSQLminimalTlsSettings,
   WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListNextOptionalParams,
@@ -25,13 +29,14 @@ import {
   WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse,
   WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsGetOptionalParams,
   WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsGetResponse,
-  WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListNextResponse
+  WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings operations. */
 export class WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsImpl
-  implements WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings {
+  implements WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings
+{
   private readonly client: SynapseManagementClient;
 
   /**
@@ -51,7 +56,7 @@ export class WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsImpl
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListOptionalParams
+    options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListOptionalParams,
   ): PagedAsyncIterableIterator<DedicatedSQLminimalTlsSettings> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
@@ -69,9 +74,9 @@ export class WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsImpl
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -79,7 +84,7 @@ export class WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsImpl
     resourceGroupName: string,
     workspaceName: string,
     options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DedicatedSQLminimalTlsSettings[]> {
     let result: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -95,7 +100,7 @@ export class WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsImpl
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -107,12 +112,12 @@ export class WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListOptionalParams
+    options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListOptionalParams,
   ): AsyncIterableIterator<DedicatedSQLminimalTlsSettings> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -131,32 +136,29 @@ export class WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsImpl
     workspaceName: string,
     dedicatedSQLminimalTlsSettingsName: DedicatedSQLMinimalTlsSettingsName,
     parameters: DedicatedSQLminimalTlsSettings,
-    options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateOptionalParams
+    options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse
-      >,
+    SimplePollerLike<
+      OperationState<WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse>,
       WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -165,8 +167,8 @@ export class WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -174,25 +176,28 @@ export class WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         dedicatedSQLminimalTlsSettingsName,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse,
+      OperationState<WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -211,16 +216,14 @@ export class WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsImpl
     workspaceName: string,
     dedicatedSQLminimalTlsSettingsName: DedicatedSQLMinimalTlsSettingsName,
     parameters: DedicatedSQLminimalTlsSettings,
-    options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateOptionalParams
-  ): Promise<
-    WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse
-  > {
+    options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateOptionalParams,
+  ): Promise<WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       workspaceName,
       dedicatedSQLminimalTlsSettingsName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -236,18 +239,16 @@ export class WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsImpl
     resourceGroupName: string,
     workspaceName: string,
     dedicatedSQLminimalTlsSettingsName: string,
-    options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsGetOptionalParams
-  ): Promise<
-    WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsGetResponse
-  > {
+    options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsGetOptionalParams,
+  ): Promise<WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         workspaceName,
         dedicatedSQLminimalTlsSettingsName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -260,13 +261,11 @@ export class WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsImpl
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListOptionalParams
-  ): Promise<
-    WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListResponse
-  > {
+    options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListOptionalParams,
+  ): Promise<WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -281,13 +280,11 @@ export class WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsImpl
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListNextOptionalParams
-  ): Promise<
-    WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListNextResponse
-  > {
+    options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListNextOptionalParams,
+  ): Promise<WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -295,50 +292,48 @@ export class WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/dedicatedSQLminimalTlsSettings/{dedicatedSQLminimalTlsSettingsName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/dedicatedSQLminimalTlsSettings/{dedicatedSQLminimalTlsSettingsName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DedicatedSQLminimalTlsSettings
+      bodyMapper: Mappers.DedicatedSQLminimalTlsSettings,
     },
     201: {
-      bodyMapper: Mappers.DedicatedSQLminimalTlsSettings
+      bodyMapper: Mappers.DedicatedSQLminimalTlsSettings,
     },
     202: {
-      bodyMapper: Mappers.DedicatedSQLminimalTlsSettings
+      bodyMapper: Mappers.DedicatedSQLminimalTlsSettings,
     },
     204: {
-      bodyMapper: Mappers.DedicatedSQLminimalTlsSettings
+      bodyMapper: Mappers.DedicatedSQLminimalTlsSettings,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters22,
+  requestBody: Parameters.parameters21,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.dedicatedSQLminimalTlsSettingsName
+    Parameters.dedicatedSQLminimalTlsSettingsName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/dedicatedSQLminimalTlsSettings/{dedicatedSQLminimalTlsSettingsName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/dedicatedSQLminimalTlsSettings/{dedicatedSQLminimalTlsSettingsName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DedicatedSQLminimalTlsSettings
+      bodyMapper: Mappers.DedicatedSQLminimalTlsSettings,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -346,51 +341,50 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.dedicatedSQLminimalTlsSettingsName1
+    Parameters.dedicatedSQLminimalTlsSettingsName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/dedicatedSQLminimalTlsSettings",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/dedicatedSQLminimalTlsSettings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DedicatedSQLminimalTlsSettingsListResult
+      bodyMapper: Mappers.DedicatedSQLminimalTlsSettingsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DedicatedSQLminimalTlsSettingsListResult
+      bodyMapper: Mappers.DedicatedSQLminimalTlsSettingsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

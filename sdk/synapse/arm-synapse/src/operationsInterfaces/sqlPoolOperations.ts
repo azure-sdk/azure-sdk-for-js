@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   SqlPoolOperation,
-  SqlPoolOperationsListOptionalParams
+  SqlPoolOperationsListOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,6 +26,6 @@ export interface SqlPoolOperations {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolOperationsListOptionalParams
+    options?: SqlPoolOperationsListOptionalParams,
   ): PagedAsyncIterableIterator<SqlPoolOperation>;
 }

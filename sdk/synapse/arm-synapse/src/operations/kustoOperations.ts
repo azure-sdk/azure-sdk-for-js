@@ -18,7 +18,7 @@ import {
   KustoOperationsListNextOptionalParams,
   KustoOperationsListOptionalParams,
   KustoOperationsListResponse,
-  KustoOperationsListNextResponse
+  KustoOperationsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export class KustoOperationsImpl implements KustoOperations {
    * @param options The options parameters.
    */
   public list(
-    options?: KustoOperationsListOptionalParams
+    options?: KustoOperationsListOptionalParams,
   ): PagedAsyncIterableIterator<Operation> {
     const iter = this.listPagingAll(options);
     return {
@@ -54,13 +54,13 @@ export class KustoOperationsImpl implements KustoOperations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: KustoOperationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Operation[]> {
     let result: KustoOperationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -81,7 +81,7 @@ export class KustoOperationsImpl implements KustoOperations {
   }
 
   private async *listPagingAll(
-    options?: KustoOperationsListOptionalParams
+    options?: KustoOperationsListOptionalParams,
   ): AsyncIterableIterator<Operation> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -93,7 +93,7 @@ export class KustoOperationsImpl implements KustoOperations {
    * @param options The options parameters.
    */
   private _list(
-    options?: KustoOperationsListOptionalParams
+    options?: KustoOperationsListOptionalParams,
   ): Promise<KustoOperationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -105,11 +105,11 @@ export class KustoOperationsImpl implements KustoOperations {
    */
   private _listNext(
     nextLink: string,
-    options?: KustoOperationsListNextOptionalParams
+    options?: KustoOperationsListNextOptionalParams,
   ): Promise<KustoOperationsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -121,29 +121,29 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.OperationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.OperationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

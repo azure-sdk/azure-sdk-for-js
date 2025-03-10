@@ -12,7 +12,7 @@ import {
   UpdateIntegrationRuntimeNodeRequest,
   IntegrationRuntimeNodesUpdateOptionalParams,
   IntegrationRuntimeNodesUpdateResponse,
-  IntegrationRuntimeNodesDeleteOptionalParams
+  IntegrationRuntimeNodesDeleteOptionalParams,
 } from "../models/index.js";
 
 /** Interface representing a IntegrationRuntimeNodes. */
@@ -30,7 +30,7 @@ export interface IntegrationRuntimeNodes {
     workspaceName: string,
     integrationRuntimeName: string,
     nodeName: string,
-    options?: IntegrationRuntimeNodesGetOptionalParams
+    options?: IntegrationRuntimeNodesGetOptionalParams,
   ): Promise<IntegrationRuntimeNodesGetResponse>;
   /**
    * Create an integration runtime node
@@ -47,7 +47,7 @@ export interface IntegrationRuntimeNodes {
     integrationRuntimeName: string,
     nodeName: string,
     updateIntegrationRuntimeNodeRequest: UpdateIntegrationRuntimeNodeRequest,
-    options?: IntegrationRuntimeNodesUpdateOptionalParams
+    options?: IntegrationRuntimeNodesUpdateOptionalParams,
   ): Promise<IntegrationRuntimeNodesUpdateResponse>;
   /**
    * Delete an integration runtime node
@@ -62,6 +62,6 @@ export interface IntegrationRuntimeNodes {
     workspaceName: string,
     integrationRuntimeName: string,
     nodeName: string,
-    options?: IntegrationRuntimeNodesDeleteOptionalParams
+    options?: IntegrationRuntimeNodesDeleteOptionalParams,
   ): Promise<void>;
 }

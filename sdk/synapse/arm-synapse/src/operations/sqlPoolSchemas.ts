@@ -20,7 +20,7 @@ import {
   SqlPoolSchemasListResponse,
   SqlPoolSchemasGetOptionalParams,
   SqlPoolSchemasGetResponse,
-  SqlPoolSchemasListNextResponse
+  SqlPoolSchemasListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,13 +47,13 @@ export class SqlPoolSchemasImpl implements SqlPoolSchemas {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolSchemasListOptionalParams
+    options?: SqlPoolSchemasListOptionalParams,
   ): PagedAsyncIterableIterator<SqlPoolSchema> {
     const iter = this.listPagingAll(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     );
     return {
       next() {
@@ -71,9 +71,9 @@ export class SqlPoolSchemasImpl implements SqlPoolSchemas {
           workspaceName,
           sqlPoolName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +82,7 @@ export class SqlPoolSchemasImpl implements SqlPoolSchemas {
     workspaceName: string,
     sqlPoolName: string,
     options?: SqlPoolSchemasListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SqlPoolSchema[]> {
     let result: SqlPoolSchemasListResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +91,7 @@ export class SqlPoolSchemasImpl implements SqlPoolSchemas {
         resourceGroupName,
         workspaceName,
         sqlPoolName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -104,7 +104,7 @@ export class SqlPoolSchemasImpl implements SqlPoolSchemas {
         workspaceName,
         sqlPoolName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,13 +117,13 @@ export class SqlPoolSchemasImpl implements SqlPoolSchemas {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolSchemasListOptionalParams
+    options?: SqlPoolSchemasListOptionalParams,
   ): AsyncIterableIterator<SqlPoolSchema> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,11 +140,11 @@ export class SqlPoolSchemasImpl implements SqlPoolSchemas {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolSchemasListOptionalParams
+    options?: SqlPoolSchemasListOptionalParams,
   ): Promise<SqlPoolSchemasListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -161,11 +161,11 @@ export class SqlPoolSchemasImpl implements SqlPoolSchemas {
     workspaceName: string,
     sqlPoolName: string,
     schemaName: string,
-    options?: SqlPoolSchemasGetOptionalParams
+    options?: SqlPoolSchemasGetOptionalParams,
   ): Promise<SqlPoolSchemasGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, schemaName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -182,11 +182,11 @@ export class SqlPoolSchemasImpl implements SqlPoolSchemas {
     workspaceName: string,
     sqlPoolName: string,
     nextLink: string,
-    options?: SqlPoolSchemasListNextOptionalParams
+    options?: SqlPoolSchemasListNextOptionalParams,
   ): Promise<SqlPoolSchemasListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -194,14 +194,13 @@ export class SqlPoolSchemasImpl implements SqlPoolSchemas {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlPoolSchemaListResult
+      bodyMapper: Mappers.SqlPoolSchemaListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
@@ -209,20 +208,19 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas/{schemaName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas/{schemaName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlPoolSchema
+      bodyMapper: Mappers.SqlPoolSchema,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -231,19 +229,19 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName,
-    Parameters.schemaName
+    Parameters.schemaName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlPoolSchemaListResult
+      bodyMapper: Mappers.SqlPoolSchemaListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -251,8 +249,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.nextLink,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
