@@ -5,21 +5,24 @@ import { DevOpsInfrastructureClient } from "@azure/arm-devopsinfrastructure";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to update a Pool
+ * This sample demonstrates how to checks that the pool name is valid and is not already in use.
  *
- * @summary update a Pool
- * x-ms-original-file: 2024-10-19/UpdatePool.json
+ * @summary checks that the pool name is valid and is not already in use.
+ * x-ms-original-file: 2025-01-21/Pools_CheckNameAvailability.json
  */
-async function poolsUpdate(): Promise<void> {
+async function poolsCheckNameAvailability(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "a2e95d27-c161-4b61-bda4-11512c14c2c2";
   const client = new DevOpsInfrastructureClient(credential, subscriptionId);
-  const result = await client.pools.update("rg", "pool", {});
+  const result = await client.pools.checkNameAvailability({
+    name: "mydevopspool",
+    type: "Microsoft.DevOpsInfrastructure/pools",
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  poolsUpdate();
+  await poolsCheckNameAvailability();
 }
 
 main().catch(console.error);
