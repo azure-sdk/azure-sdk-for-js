@@ -5,17 +5,19 @@ import { ImpactClient } from "@azure/arm-impactreporting";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to list Insight resources by workloadImpactName
+ * This sample demonstrates how to list ImpactCategory resources by subscription
  *
- * @summary list Insight resources by workloadImpactName
- * x-ms-original-file: 2024-05-01-preview/Insights_ListBySubscription.json
+ * @summary list ImpactCategory resources by subscription
+ * x-ms-original-file: 2024-05-01-preview/ImpactCategories_ListBySubscription.json
  */
-async function listInsightResourcesByWorkloadImpactName(): Promise<void> {
+async function getImpactCategoriesListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.insights.listBySubscription("impactid22")) {
+  for await (const item of client.impactCategories.listBySubscription(
+    "microsoft.compute/virtualmachines",
+  )) {
     resArray.push(item);
   }
 
@@ -23,7 +25,7 @@ async function listInsightResourcesByWorkloadImpactName(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await listInsightResourcesByWorkloadImpactName();
+  await getImpactCategoriesListBySubscription();
 }
 
 main().catch(console.error);
