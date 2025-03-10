@@ -39,6 +39,7 @@ import {
   ProfileUpdateParameters as ProfileUpdateParametersMapper,
   CanMigrateParameters as CanMigrateParametersMapper,
   MigrationParameters as MigrationParametersMapper,
+  CdnMigrationToAfdParameters as CdnMigrationToAfdParametersMapper,
   Endpoint as EndpointMapper,
   EndpointUpdateParameters as EndpointUpdateParametersMapper,
   PurgeParameters as PurgeParametersMapper,
@@ -124,7 +125,7 @@ export const resourceGroupName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-02-01",
+    defaultValue: "2024-09-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -151,17 +152,6 @@ export const profileName: OperationURLParameter = {
       MaxLength: 260,
       MinLength: 1,
     },
-    serializedName: "profileName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const profileName1: OperationURLParameter = {
-  parameterPath: "profileName",
-  mapper: {
     serializedName: "profileName",
     required: true,
     type: {
@@ -667,6 +657,17 @@ export const rankings1: OperationQueryParameter = {
   collectionFormat: "Multi",
 };
 
+export const profileName1: OperationURLParameter = {
+  parameterPath: "profileName",
+  mapper: {
+    serializedName: "profileName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const profile: OperationParameter = {
   parameterPath: "profile",
   mapper: ProfileMapper,
@@ -685,6 +686,26 @@ export const canMigrateParameters: OperationParameter = {
 export const migrationParameters: OperationParameter = {
   parameterPath: "migrationParameters",
   mapper: MigrationParametersMapper,
+};
+
+export const resourceGroupName1: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const migrationParameters1: OperationParameter = {
+  parameterPath: "migrationParameters",
+  mapper: CdnMigrationToAfdParametersMapper,
 };
 
 export const endpoint1: OperationParameter = {
@@ -737,7 +758,7 @@ export const customDomainHttpsParameters: OperationParameter = {
   mapper: CustomDomainHttpsParametersMapper,
 };
 
-export const resourceGroupName1: OperationURLParameter = {
+export const resourceGroupName2: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
     constraints: {
