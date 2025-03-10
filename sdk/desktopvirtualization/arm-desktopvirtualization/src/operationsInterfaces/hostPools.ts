@@ -9,24 +9,31 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   HostPool,
-  HostPoolsListByResourceGroupOptionalParams,
   HostPoolsListOptionalParams,
+  HostPoolsListByResourceGroupOptionalParams,
   HostPoolsGetOptionalParams,
   HostPoolsGetResponse,
   HostPoolsCreateOrUpdateOptionalParams,
   HostPoolsCreateOrUpdateResponse,
-  HostPoolsDeleteOptionalParams,
   HostPoolsUpdateOptionalParams,
   HostPoolsUpdateResponse,
-  HostPoolsRetrieveRegistrationTokenOptionalParams,
-  HostPoolsRetrieveRegistrationTokenResponse,
+  HostPoolsDeleteOptionalParams,
   HostPoolsListRegistrationTokensOptionalParams,
   HostPoolsListRegistrationTokensResponse,
+  HostPoolsRetrieveRegistrationTokenOptionalParams,
+  HostPoolsRetrieveRegistrationTokenResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a HostPools. */
 export interface HostPools {
+  /**
+   * List hostPools in subscription.
+   * @param options The options parameters.
+   */
+  list(
+    options?: HostPoolsListOptionalParams,
+  ): PagedAsyncIterableIterator<HostPool>;
   /**
    * List hostPools.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -35,13 +42,6 @@ export interface HostPools {
   listByResourceGroup(
     resourceGroupName: string,
     options?: HostPoolsListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<HostPool>;
-  /**
-   * List hostPools in subscription.
-   * @param options The options parameters.
-   */
-  list(
-    options?: HostPoolsListOptionalParams,
   ): PagedAsyncIterableIterator<HostPool>;
   /**
    * Get a host pool.
@@ -68,17 +68,6 @@ export interface HostPools {
     options?: HostPoolsCreateOrUpdateOptionalParams,
   ): Promise<HostPoolsCreateOrUpdateResponse>;
   /**
-   * Remove a host pool.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    hostPoolName: string,
-    options?: HostPoolsDeleteOptionalParams,
-  ): Promise<void>;
-  /**
    * Update a host pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
@@ -90,16 +79,16 @@ export interface HostPools {
     options?: HostPoolsUpdateOptionalParams,
   ): Promise<HostPoolsUpdateResponse>;
   /**
-   * Registration token of the host pool.
+   * Remove a host pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
    * @param options The options parameters.
    */
-  retrieveRegistrationToken(
+  delete(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: HostPoolsRetrieveRegistrationTokenOptionalParams,
-  ): Promise<HostPoolsRetrieveRegistrationTokenResponse>;
+    options?: HostPoolsDeleteOptionalParams,
+  ): Promise<void>;
   /**
    * Operation to list the RegistrationTokens associated with the HostPool
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -111,4 +100,15 @@ export interface HostPools {
     hostPoolName: string,
     options?: HostPoolsListRegistrationTokensOptionalParams,
   ): Promise<HostPoolsListRegistrationTokensResponse>;
+  /**
+   * Registration token of the host pool.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param hostPoolName The name of the host pool within the specified resource group
+   * @param options The options parameters.
+   */
+  retrieveRegistrationToken(
+    resourceGroupName: string,
+    hostPoolName: string,
+    options?: HostPoolsRetrieveRegistrationTokenOptionalParams,
+  ): Promise<HostPoolsRetrieveRegistrationTokenResponse>;
 }

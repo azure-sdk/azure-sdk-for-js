@@ -6,7 +6,76 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { SimplePollerLike } from '@azure/core-lro';
+
+// @public
+export interface ActiveDirectoryInfoPatchProperties {
+    domainCredentials?: KeyVaultCredentialsPatchProperties;
+}
+
+// @public
+export interface ActiveDirectoryInfoProperties {
+    domainCredentials: KeyVaultCredentialsProperties;
+    domainName?: string;
+    ouPath: string;
+}
+
+// @public
+export interface ActiveSessionHostConfiguration extends ProxyResource {
+    availabilityZones?: number[];
+    bootDiagnosticsInfo?: BootDiagnosticsInfoProperties;
+    customConfigurationScriptUrl?: string;
+    diskInfo: DiskInfoProperties;
+    domainInfo: DomainInfoProperties;
+    friendlyName?: string;
+    imageInfo: ImageInfoProperties;
+    networkInfo: NetworkInfoProperties;
+    securityInfo?: SecurityInfoProperties;
+    readonly version?: Date;
+    vmAdminCredentials: KeyVaultCredentialsProperties;
+    vmLocation?: string;
+    vmNamePrefix: string;
+    vmResourceGroup?: string;
+    vmSizeId: string;
+    vmTags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface ActiveSessionHostConfigurationList {
+    nextLink?: string;
+    value: ActiveSessionHostConfiguration[];
+}
+
+// @public
+export interface ActiveSessionHostConfigurations {
+    get(resourceGroupName: string, hostPoolName: string, options?: ActiveSessionHostConfigurationsGetOptionalParams): Promise<ActiveSessionHostConfigurationsGetResponse>;
+    listByHostPool(resourceGroupName: string, hostPoolName: string, options?: ActiveSessionHostConfigurationsListByHostPoolOptionalParams): PagedAsyncIterableIterator<ActiveSessionHostConfiguration>;
+}
+
+// @public
+export interface ActiveSessionHostConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ActiveSessionHostConfigurationsGetResponse = ActiveSessionHostConfiguration;
+
+// @public
+export interface ActiveSessionHostConfigurationsListByHostPoolNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ActiveSessionHostConfigurationsListByHostPoolNextResponse = ActiveSessionHostConfigurationList;
+
+// @public
+export interface ActiveSessionHostConfigurationsListByHostPoolOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ActiveSessionHostConfigurationsListByHostPoolResponse = ActiveSessionHostConfigurationList;
 
 // @public
 export interface AgentUpdatePatchProperties {
@@ -26,7 +95,14 @@ export interface AgentUpdateProperties {
 
 // @public
 export interface AppAttachPackage extends TrackedResource {
-    properties: AppAttachPackageProperties;
+    customData?: string;
+    failHealthCheckOnStagingFailure?: FailHealthCheckOnStagingFailure;
+    hostPoolReferences?: string[];
+    image?: AppAttachPackageInfoProperties;
+    keyVaultURL?: string;
+    packageLookbackUrl?: string;
+    packageOwnerName?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -41,6 +117,7 @@ export type AppAttachPackageCreateOrUpdateResponse = AppAttachPackage;
 
 // @public
 export interface AppAttachPackageDeleteOptionalParams extends coreClient.OperationOptions {
+    force?: boolean;
 }
 
 // @public
@@ -91,8 +168,8 @@ export interface AppAttachPackageInfoProperties {
 
 // @public
 export interface AppAttachPackageList {
-    readonly nextLink?: string;
-    value?: AppAttachPackage[];
+    nextLink?: string;
+    value: AppAttachPackage[];
 }
 
 // @public
@@ -138,23 +215,19 @@ export interface AppAttachPackageOperations {
 // @public
 export interface AppAttachPackagePatch extends Resource {
     properties?: AppAttachPackagePatchProperties;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
 export interface AppAttachPackagePatchProperties {
+    customData?: string;
     failHealthCheckOnStagingFailure?: FailHealthCheckOnStagingFailure;
     hostPoolReferences?: string[];
     image?: AppAttachPackageInfoProperties;
     keyVaultURL?: string;
-}
-
-// @public
-export interface AppAttachPackageProperties {
-    failHealthCheckOnStagingFailure?: FailHealthCheckOnStagingFailure;
-    hostPoolReferences?: string[];
-    image?: AppAttachPackageInfoProperties;
-    keyVaultURL?: string;
-    readonly provisioningState?: ProvisioningState;
+    packageLookbackUrl?: string;
 }
 
 // @public
@@ -166,7 +239,7 @@ export interface AppAttachPackageUpdateOptionalParams extends coreClient.Operati
 export type AppAttachPackageUpdateResponse = AppAttachPackage;
 
 // @public
-export interface Application extends Resource {
+export interface Application extends ProxyResource {
     applicationType?: RemoteApplicationType;
     commandLineArguments?: string;
     commandLineSetting: CommandLineSetting;
@@ -184,31 +257,42 @@ export interface Application extends Resource {
 }
 
 // @public
-export interface ApplicationGroup extends ResourceModelWithAllowedPropertySet {
+export interface ApplicationGroup extends TrackedResource {
     applicationGroupType: ApplicationGroupType;
     readonly cloudPcResource?: boolean;
     description?: string;
+    readonly etag?: string;
     friendlyName?: string;
     hostPoolArmPath: string;
+    identity?: ManagedServiceIdentity;
+    kind?: string;
+    managedBy?: string;
     readonly objectId?: string;
+    plan?: Plan;
     showInFeed?: boolean;
+    sku?: Sku;
     readonly workspaceArmPath?: string;
 }
 
 // @public
 export interface ApplicationGroupList {
-    readonly nextLink?: string;
-    value?: ApplicationGroup[];
+    nextLink?: string;
+    value: ApplicationGroup[];
 }
 
 // @public
 export interface ApplicationGroupPatch extends Resource {
-    description?: string;
-    friendlyName?: string;
-    showInFeed?: boolean;
+    properties?: ApplicationGroupPatchProperties;
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface ApplicationGroupPatchProperties {
+    description?: string;
+    friendlyName?: string;
+    showInFeed?: boolean;
 }
 
 // @public
@@ -285,12 +369,17 @@ export type ApplicationGroupType = string;
 
 // @public
 export interface ApplicationList {
-    readonly nextLink?: string;
-    value?: Application[];
+    nextLink?: string;
+    value: Application[];
 }
 
 // @public
 export interface ApplicationPatch {
+    properties?: ApplicationPatchProperties;
+}
+
+// @public
+export interface ApplicationPatchProperties {
     applicationType?: RemoteApplicationType;
     commandLineArguments?: string;
     commandLineSetting?: CommandLineSetting;
@@ -302,9 +391,6 @@ export interface ApplicationPatch {
     msixPackageApplicationId?: string;
     msixPackageFamilyName?: string;
     showInPortal?: boolean;
-    tags?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public
@@ -363,27 +449,64 @@ export type ApplicationsUpdateResponse = Application;
 export type ApplicationType = string;
 
 // @public
-export interface CloudError {
-    error?: CloudErrorProperties;
+export interface AzureActiveDirectoryInfoProperties {
+    mdmProviderGuid: string;
 }
 
 // @public
-export interface CloudErrorProperties {
-    code?: string;
-    message?: string;
+export interface BootDiagnosticsInfoPatchProperties {
+    enabled?: boolean;
+    storageUri?: string;
+}
+
+// @public
+export interface BootDiagnosticsInfoProperties {
+    enabled?: boolean;
+    storageUri?: string;
 }
 
 // @public
 export type CommandLineSetting = string;
 
 // @public
+export interface ControlSessionHostUpdate {
+    beginPost(resourceGroupName: string, hostPoolName: string, hostPoolUpdateControlParameter: HostPoolUpdateControlParameter, options?: ControlSessionHostUpdatePostOptionalParams): Promise<SimplePollerLike<OperationState<ControlSessionHostUpdatePostResponse>, ControlSessionHostUpdatePostResponse>>;
+    beginPostAndWait(resourceGroupName: string, hostPoolName: string, hostPoolUpdateControlParameter: HostPoolUpdateControlParameter, options?: ControlSessionHostUpdatePostOptionalParams): Promise<ControlSessionHostUpdatePostResponse>;
+}
+
+// @public
+export interface ControlSessionHostUpdatePostHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ControlSessionHostUpdatePostOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ControlSessionHostUpdatePostResponse = ControlSessionHostUpdatePostHeaders;
+
+// @public
 export type CreatedByType = string;
+
+// @public
+export interface CustomInfoPatchProperties {
+    resourceId?: string;
+}
+
+// @public
+export interface CustomInfoProperties {
+    resourceId: string;
+}
 
 // @public
 export type DayOfWeek = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
 
 // @public
-export interface Desktop extends Resource {
+export interface Desktop extends ProxyResource {
     description?: string;
     friendlyName?: string;
     readonly iconContent?: Uint8Array;
@@ -393,17 +516,19 @@ export interface Desktop extends Resource {
 
 // @public
 export interface DesktopList {
-    readonly nextLink?: string;
-    value?: Desktop[];
+    nextLink?: string;
+    value: Desktop[];
 }
 
 // @public
 export interface DesktopPatch {
+    properties?: DesktopPatchProperties;
+}
+
+// @public
+export interface DesktopPatchProperties {
     description?: string;
     friendlyName?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public
@@ -451,6 +576,8 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DesktopVirtualizationAPIClientOptionalParams);
     // (undocumented)
+    activeSessionHostConfigurations: ActiveSessionHostConfigurations;
+    // (undocumented)
     apiVersion: string;
     // (undocumented)
     appAttachPackageInfo: AppAttachPackageInfo;
@@ -461,9 +588,13 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
     // (undocumented)
     applications: Applications;
     // (undocumented)
+    controlSessionHostUpdate: ControlSessionHostUpdate;
+    // (undocumented)
     desktops: Desktops;
     // (undocumented)
     hostPools: HostPools;
+    // (undocumented)
+    initiateSessionHostUpdate: InitiateSessionHostUpdate;
     // (undocumented)
     msixImages: MsixImages;
     // (undocumented)
@@ -480,6 +611,12 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
     scalingPlanPooledSchedules: ScalingPlanPooledSchedules;
     // (undocumented)
     scalingPlans: ScalingPlans;
+    // (undocumented)
+    sessionHostConfigurations: SessionHostConfigurations;
+    // (undocumented)
+    sessionHostManagements: SessionHostManagements;
+    // (undocumented)
+    sessionHostManagementsUpdateStatus: SessionHostManagementsUpdateStatus;
     // (undocumented)
     sessionHosts: SessionHosts;
     // (undocumented)
@@ -498,6 +635,34 @@ export interface DesktopVirtualizationAPIClientOptionalParams extends coreClient
     apiVersion?: string;
     endpoint?: string;
 }
+
+// @public
+export type DirectUDP = string;
+
+// @public
+export interface DiskInfoPatchProperties {
+    type?: VirtualMachineDiskType;
+}
+
+// @public
+export interface DiskInfoProperties {
+    type: VirtualMachineDiskType;
+}
+
+// @public
+export interface DomainInfoPatchProperties {
+    activeDirectoryInfo?: ActiveDirectoryInfoPatchProperties;
+}
+
+// @public
+export interface DomainInfoProperties {
+    activeDirectoryInfo?: ActiveDirectoryInfoProperties;
+    azureActiveDirectoryInfo?: AzureActiveDirectoryInfoProperties;
+    joinType: DomainJoinType;
+}
+
+// @public
+export type DomainJoinType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -521,6 +686,17 @@ export interface ErrorResponse {
 
 // @public
 export interface ExpandMsixImage extends Resource {
+    properties?: ExpandMsixImageProperties;
+}
+
+// @public
+export interface ExpandMsixImageList {
+    nextLink?: string;
+    value: ExpandMsixImage[];
+}
+
+// @public
+export interface ExpandMsixImageProperties {
     certificateExpiry?: Date;
     certificateName?: string;
     displayName?: string;
@@ -539,12 +715,6 @@ export interface ExpandMsixImage extends Resource {
 }
 
 // @public
-export interface ExpandMsixImageList {
-    readonly nextLink?: string;
-    value?: ExpandMsixImage[];
-}
-
-// @public
 export type FailHealthCheckOnStagingFailure = string;
 
 // @public
@@ -557,24 +727,35 @@ export type HealthCheckName = string;
 export type HealthCheckResult = string;
 
 // @public
-export interface HostPool extends ResourceModelWithAllowedPropertySet {
+export interface HostPool extends TrackedResource {
     agentUpdate?: AgentUpdateProperties;
     readonly appAttachPackageReferences?: string[];
     readonly applicationGroupReferences?: string[];
     readonly cloudPcResource?: boolean;
     customRdpProperty?: string;
     description?: string;
+    directUDP?: DirectUDP;
+    readonly etag?: string;
     friendlyName?: string;
     hostPoolType: HostPoolType;
+    identity?: ManagedServiceIdentity;
+    kind?: string;
     loadBalancerType: LoadBalancerType;
+    managedBy?: string;
+    managedPrivateUDP?: ManagedPrivateUDP;
+    managementType?: ManagementType;
     maxSessionLimit?: number;
     readonly objectId?: string;
     personalDesktopAssignmentType?: PersonalDesktopAssignmentType;
+    plan?: Plan;
     preferredAppGroupType: PreferredAppGroupType;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     publicNetworkAccess?: HostpoolPublicNetworkAccess;
+    publicUDP?: PublicUDP;
     registrationInfo?: RegistrationInfo;
+    relayUDP?: RelayUDP;
     ring?: number;
+    sku?: Sku;
     ssoadfsAuthority?: string;
     ssoClientId?: string;
     ssoClientSecretKeyVaultPath?: string;
@@ -586,31 +767,40 @@ export interface HostPool extends ResourceModelWithAllowedPropertySet {
 
 // @public
 export interface HostPoolList {
-    readonly nextLink?: string;
-    value?: HostPool[];
+    nextLink?: string;
+    value: HostPool[];
 }
 
 // @public
 export interface HostPoolPatch extends Resource {
+    properties?: HostPoolPatchProperties;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface HostPoolPatchProperties {
     agentUpdate?: AgentUpdatePatchProperties;
     customRdpProperty?: string;
     description?: string;
+    directUDP?: DirectUDP;
     friendlyName?: string;
     loadBalancerType?: LoadBalancerType;
+    managedPrivateUDP?: ManagedPrivateUDP;
     maxSessionLimit?: number;
     personalDesktopAssignmentType?: PersonalDesktopAssignmentType;
     preferredAppGroupType?: PreferredAppGroupType;
     publicNetworkAccess?: HostpoolPublicNetworkAccess;
+    publicUDP?: PublicUDP;
     registrationInfo?: RegistrationInfoPatch;
+    relayUDP?: RelayUDP;
     ring?: number;
     ssoadfsAuthority?: string;
     ssoClientId?: string;
     ssoClientSecretKeyVaultPath?: string;
     ssoSecretType?: SSOSecretType;
     startVMOnConnect?: boolean;
-    tags?: {
-        [propertyName: string]: string;
-    };
     validationEnvironment?: boolean;
     vmTemplate?: string;
 }
@@ -709,16 +899,70 @@ export type HostPoolsUpdateResponse = HostPool;
 export type HostPoolType = string;
 
 // @public
-export interface Identity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type?: "SystemAssigned";
+export type HostPoolUpdateAction = string;
+
+// @public
+export interface HostPoolUpdateConfigurationPatchProperties {
+    deleteOriginalVm?: boolean;
+    logOffDelayMinutes?: number;
+    logOffMessage?: string;
+    maxVmsRemoved?: number;
+}
+
+// @public
+export interface HostPoolUpdateConfigurationProperties {
+    deleteOriginalVm?: boolean;
+    logOffDelayMinutes: number;
+    logOffMessage?: string;
+    maxVmsRemoved: number;
+}
+
+// @public
+export interface HostPoolUpdateControlParameter {
+    action: HostPoolUpdateAction;
+    cancelMessage?: string;
+}
+
+// @public
+export interface ImageInfoPatchProperties {
+    customInfo?: CustomInfoPatchProperties;
+    marketplaceInfo?: MarketplaceInfoPatchProperties;
+    type?: Type;
+}
+
+// @public
+export interface ImageInfoProperties {
+    customInfo?: CustomInfoProperties;
+    marketplaceInfo?: MarketplaceInfoProperties;
+    type: Type;
 }
 
 // @public
 export interface ImportPackageInfoRequest {
     packageArchitecture?: AppAttachPackageArchitectures;
     path?: string;
+}
+
+// @public
+export interface InitiateSessionHostUpdate {
+    post(resourceGroupName: string, hostPoolName: string, options?: InitiateSessionHostUpdatePostOptionalParams): Promise<void>;
+}
+
+// @public
+export interface InitiateSessionHostUpdatePostOptionalParams extends coreClient.OperationOptions {
+    updateSessionHostsRequestBody?: UpdateSessionHostsRequestBody;
+}
+
+// @public
+export interface KeyVaultCredentialsPatchProperties {
+    passwordKeyVaultSecretUri?: string;
+    usernameKeyVaultSecretUri?: string;
+}
+
+// @public
+export interface KeyVaultCredentialsProperties {
+    passwordKeyVaultSecretUri: string;
+    usernameKeyVaultSecretUri: string;
 }
 
 // @public
@@ -757,6 +1001,19 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownDirectUDP {
+    Default = "Default",
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownDomainJoinType {
+    ActiveDirectory = "ActiveDirectory",
+    AzureActiveDirectory = "AzureActiveDirectory"
 }
 
 // @public
@@ -805,10 +1062,41 @@ export enum KnownHostPoolType {
 }
 
 // @public
+export enum KnownHostPoolUpdateAction {
+    Cancel = "Cancel",
+    Pause = "Pause",
+    Resume = "Resume",
+    Retry = "Retry",
+    Start = "Start"
+}
+
+// @public
 export enum KnownLoadBalancerType {
     BreadthFirst = "BreadthFirst",
     DepthFirst = "DepthFirst",
+    MultiplePersistent = "MultiplePersistent",
     Persistent = "Persistent"
+}
+
+// @public
+export enum KnownManagedPrivateUDP {
+    Default = "Default",
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownManagementType {
+    Automated = "Automated",
+    Standard = "Standard"
 }
 
 // @public
@@ -854,7 +1142,22 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownProvisioningStateSHC {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Provisioning = "Provisioning",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownPublicNetworkAccess {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownPublicUDP {
+    Default = "Default",
     Disabled = "Disabled",
     Enabled = "Enabled"
 }
@@ -867,6 +1170,13 @@ export enum KnownRegistrationTokenOperation {
 }
 
 // @public
+export enum KnownRelayUDP {
+    Default = "Default",
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownRemoteApplicationType {
     InBuilt = "InBuilt",
     MsixApplication = "MsixApplication"
@@ -874,18 +1184,8 @@ export enum KnownRemoteApplicationType {
 
 // @public
 export enum KnownScalingHostPoolType {
+    Personal = "Personal",
     Pooled = "Pooled"
-}
-
-// @public
-export enum KnownScalingScheduleDaysOfWeekItem {
-    Friday = "Friday",
-    Monday = "Monday",
-    Saturday = "Saturday",
-    Sunday = "Sunday",
-    Thursday = "Thursday",
-    Tuesday = "Tuesday",
-    Wednesday = "Wednesday"
 }
 
 // @public
@@ -905,6 +1205,20 @@ export enum KnownSessionHostComponentUpdateType {
 export enum KnownSessionHostLoadBalancingAlgorithm {
     BreadthFirst = "BreadthFirst",
     DepthFirst = "DepthFirst"
+}
+
+// @public
+export enum KnownSessionHostManagementUpdateOperationStatus {
+    Cancelled = "Cancelled",
+    Cancelling = "Cancelling",
+    Error = "Error",
+    Failed = "Failed",
+    Paused = "Paused",
+    Pausing = "Pausing",
+    Scheduled = "Scheduled",
+    Succeeded = "Succeeded",
+    UpdatingSessionHosts = "UpdatingSessionHosts",
+    ValidatingSessionHostUpdate = "ValidatingSessionHostUpdate"
 }
 
 // @public
@@ -961,12 +1275,32 @@ export enum KnownStopHostsWhen {
 }
 
 // @public
+export enum KnownType {
+    Custom = "Custom",
+    Marketplace = "Marketplace"
+}
+
+// @public
 export enum KnownUpdateState {
     Failed = "Failed",
     Initial = "Initial",
     Pending = "Pending",
     Started = "Started",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownVirtualMachineDiskType {
+    PremiumLRS = "Premium_LRS",
+    StandardLRS = "Standard_LRS",
+    StandardSSDLRS = "StandardSSD_LRS"
+}
+
+// @public
+export enum KnownVirtualMachineSecurityType {
+    ConfidentialVM = "ConfidentialVM",
+    Standard = "Standard",
+    TrustedLaunch = "TrustedLaunch"
 }
 
 // @public
@@ -989,6 +1323,41 @@ export interface MaintenanceWindowPatchProperties {
 export interface MaintenanceWindowProperties {
     dayOfWeek?: DayOfWeek;
     hour?: number;
+}
+
+// @public
+export type ManagedPrivateUDP = string;
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity | null;
+    };
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
+
+// @public
+export type ManagementType = string;
+
+// @public
+export interface MarketplaceInfoPatchProperties {
+    exactVersion?: string;
+    offer?: string;
+    publisher?: string;
+    sku?: string;
+}
+
+// @public
+export interface MarketplaceInfoProperties {
+    exactVersion: string;
+    offer: string;
+    publisher: string;
+    sku: string;
 }
 
 // @public
@@ -1016,7 +1385,7 @@ export interface MsixImageURI {
 }
 
 // @public
-export interface MsixPackage extends Resource {
+export interface MsixPackage extends ProxyResource {
     displayName?: string;
     imagePath?: string;
     isActive?: boolean;
@@ -1050,12 +1419,17 @@ export interface MsixPackageDependencies {
 
 // @public
 export interface MsixPackageList {
-    readonly nextLink?: string;
-    value?: MsixPackage[];
+    nextLink?: string;
+    value: MsixPackage[];
 }
 
 // @public
 export interface MsixPackagePatch extends Resource {
+    properties?: MsixPackagePatchProperties;
+}
+
+// @public
+export interface MsixPackagePatchProperties {
     displayName?: string;
     isActive?: boolean;
     isRegularRegistration?: boolean;
@@ -1067,7 +1441,7 @@ export interface MsixPackages {
     delete(resourceGroupName: string, hostPoolName: string, msixPackageFullName: string, options?: MsixPackagesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, hostPoolName: string, msixPackageFullName: string, options?: MsixPackagesGetOptionalParams): Promise<MsixPackagesGetResponse>;
     list(resourceGroupName: string, hostPoolName: string, options?: MsixPackagesListOptionalParams): PagedAsyncIterableIterator<MsixPackage>;
-    update(resourceGroupName: string, hostPoolName: string, msixPackageFullName: string, options?: MsixPackagesUpdateOptionalParams): Promise<MsixPackagesUpdateResponse>;
+    update(resourceGroupName: string, hostPoolName: string, msixPackageFullName: string, msixPackage: MsixPackagePatch, options?: MsixPackagesUpdateOptionalParams): Promise<MsixPackagesUpdateResponse>;
 }
 
 // @public
@@ -1107,11 +1481,22 @@ export type MsixPackagesListResponse = MsixPackageList;
 
 // @public
 export interface MsixPackagesUpdateOptionalParams extends coreClient.OperationOptions {
-    msixPackage?: MsixPackagePatch;
 }
 
 // @public
 export type MsixPackagesUpdateResponse = MsixPackage;
+
+// @public
+export interface NetworkInfoPatchProperties {
+    securityGroupId?: string;
+    subnetId?: string;
+}
+
+// @public
+export interface NetworkInfoProperties {
+    securityGroupId?: string;
+    subnetId: string;
+}
 
 // @public
 export interface OperationProperties {
@@ -1128,14 +1513,14 @@ export interface OperationsListNextOptionalParams extends coreClient.OperationOp
 }
 
 // @public
-export type OperationsListNextResponse = ResourceProviderOperationList;
+export type OperationsListNextResponse = ResourceProviderOperationListResult;
 
 // @public
 export interface OperationsListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type OperationsListResponse = ResourceProviderOperationList;
+export type OperationsListResponse = ResourceProviderOperationListResult;
 
 // @public
 export type PackageTimestamped = string;
@@ -1162,16 +1547,21 @@ export interface PrivateEndpoint {
 
 // @public
 export interface PrivateEndpointConnection extends Resource {
-    readonly groupIds?: string[];
-    privateEndpoint?: PrivateEndpoint;
-    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+    properties?: PrivateEndpointConnectionProperties;
 }
 
 // @public
 export interface PrivateEndpointConnectionListResultWithSystemData {
-    readonly nextLink?: string;
-    value?: PrivateEndpointConnectionWithSystemData[];
+    nextLink?: string;
+    value: PrivateEndpointConnectionWithSystemData[];
+}
+
+// @public
+export interface PrivateEndpointConnectionProperties {
+    readonly groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 // @public
@@ -1185,8 +1575,8 @@ export interface PrivateEndpointConnections {
     getByWorkspace(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetByWorkspaceOptionalParams): Promise<PrivateEndpointConnectionsGetByWorkspaceResponse>;
     listByHostPool(resourceGroupName: string, hostPoolName: string, options?: PrivateEndpointConnectionsListByHostPoolOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnectionWithSystemData>;
     listByWorkspace(resourceGroupName: string, workspaceName: string, options?: PrivateEndpointConnectionsListByWorkspaceOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnectionWithSystemData>;
-    updateByHostPool(resourceGroupName: string, hostPoolName: string, privateEndpointConnectionName: string, connection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateByHostPoolOptionalParams): Promise<PrivateEndpointConnectionsUpdateByHostPoolResponse>;
-    updateByWorkspace(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, connection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateByWorkspaceOptionalParams): Promise<PrivateEndpointConnectionsUpdateByWorkspaceResponse>;
+    updateByHostPool(resourceGroupName: string, hostPoolName: string, privateEndpointConnectionName: string, connection: PrivateEndpointConnectionWithSystemData, options?: PrivateEndpointConnectionsUpdateByHostPoolOptionalParams): Promise<PrivateEndpointConnectionsUpdateByHostPoolResponse>;
+    updateByWorkspace(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, connection: PrivateEndpointConnectionWithSystemData, options?: PrivateEndpointConnectionsUpdateByWorkspaceOptionalParams): Promise<PrivateEndpointConnectionsUpdateByWorkspaceResponse>;
 }
 
 // @public
@@ -1257,7 +1647,11 @@ export interface PrivateEndpointConnectionsUpdateByWorkspaceOptionalParams exten
 export type PrivateEndpointConnectionsUpdateByWorkspaceResponse = PrivateEndpointConnectionWithSystemData;
 
 // @public
-export interface PrivateEndpointConnectionWithSystemData extends PrivateEndpointConnection {
+export interface PrivateEndpointConnectionWithSystemData extends ProxyResource {
+    readonly groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 // @public
@@ -1265,15 +1659,20 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
 export interface PrivateLinkResource extends Resource {
-    readonly groupId?: string;
-    readonly requiredMembers?: string[];
-    requiredZoneNames?: string[];
+    properties?: PrivateLinkResourceProperties;
 }
 
 // @public
 export interface PrivateLinkResourceListResult {
-    readonly nextLink?: string;
-    value?: PrivateLinkResource[];
+    nextLink?: string;
+    value: PrivateLinkResource[];
+}
+
+// @public
+export interface PrivateLinkResourceProperties {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
 }
 
 // @public
@@ -1327,11 +1726,17 @@ export interface PrivateLinkServiceConnectionState {
 export type ProvisioningState = string;
 
 // @public
+export type ProvisioningStateSHC = string;
+
+// @public
 export interface ProxyResource extends Resource {
 }
 
 // @public
 export type PublicNetworkAccess = string;
+
+// @public
+export type PublicUDP = string;
 
 // @public
 export interface RegistrationInfo {
@@ -1362,6 +1767,9 @@ export interface RegistrationTokenMinimal {
 export type RegistrationTokenOperation = string;
 
 // @public
+export type RelayUDP = string;
+
+// @public
 export type RemoteApplicationType = string;
 
 // @public
@@ -1370,31 +1778,6 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
-}
-
-// @public
-export interface ResourceModelWithAllowedPropertySet extends TrackedResource {
-    readonly etag?: string;
-    // (undocumented)
-    identity?: ResourceModelWithAllowedPropertySetIdentity;
-    kind?: string;
-    managedBy?: string;
-    // (undocumented)
-    plan?: ResourceModelWithAllowedPropertySetPlan;
-    // (undocumented)
-    sku?: ResourceModelWithAllowedPropertySetSku;
-}
-
-// @public (undocumented)
-export interface ResourceModelWithAllowedPropertySetIdentity extends Identity {
-}
-
-// @public (undocumented)
-export interface ResourceModelWithAllowedPropertySetPlan extends Plan {
-}
-
-// @public (undocumented)
-export interface ResourceModelWithAllowedPropertySetSku extends Sku {
 }
 
 // @public
@@ -1414,9 +1797,9 @@ export interface ResourceProviderOperationDisplay {
 }
 
 // @public
-export interface ResourceProviderOperationList {
-    readonly nextLink?: string;
-    value?: ResourceProviderOperation[];
+export interface ResourceProviderOperationListResult {
+    nextLink?: string;
+    value: ResourceProviderOperation[];
 }
 
 // @public
@@ -1429,74 +1812,90 @@ export interface ScalingHostPoolReference {
 export type ScalingHostPoolType = string;
 
 // @public
-export interface ScalingPlan extends ResourceModelWithAllowedPropertySet {
+export interface ScalingPlan extends TrackedResource {
     description?: string;
+    readonly etag?: string;
     exclusionTag?: string;
     friendlyName?: string;
     hostPoolReferences?: ScalingHostPoolReference[];
     hostPoolType?: ScalingHostPoolType;
+    identity?: ManagedServiceIdentity;
+    kind?: string;
+    managedBy?: string;
     readonly objectId?: string;
+    plan?: Plan;
     schedules?: ScalingSchedule[];
+    sku?: Sku;
     timeZone: string;
 }
 
 // @public
 export interface ScalingPlanList {
-    readonly nextLink?: string;
-    value?: ScalingPlan[];
+    nextLink?: string;
+    value: ScalingPlan[];
 }
 
 // @public
 export interface ScalingPlanPatch {
+    properties?: ScalingPlanPatchProperties;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface ScalingPlanPatchProperties {
     description?: string;
     exclusionTag?: string;
     friendlyName?: string;
     hostPoolReferences?: ScalingHostPoolReference[];
     schedules?: ScalingSchedule[];
-    tags?: {
-        [propertyName: string]: string;
-    };
     timeZone?: string;
 }
 
 // @public
 export interface ScalingPlanPersonalSchedule extends ProxyResource {
-    daysOfWeek?: DayOfWeek[];
+    daysOfWeek: DayOfWeek[];
     offPeakActionOnDisconnect?: SessionHandlingOperation;
     offPeakActionOnLogoff?: SessionHandlingOperation;
     offPeakMinutesToWaitOnDisconnect?: number;
     offPeakMinutesToWaitOnLogoff?: number;
-    offPeakStartTime?: Time;
+    offPeakStartTime: Time;
     offPeakStartVMOnConnect?: SetStartVMOnConnect;
     peakActionOnDisconnect?: SessionHandlingOperation;
     peakActionOnLogoff?: SessionHandlingOperation;
     peakMinutesToWaitOnDisconnect?: number;
     peakMinutesToWaitOnLogoff?: number;
-    peakStartTime?: Time;
+    peakStartTime: Time;
     peakStartVMOnConnect?: SetStartVMOnConnect;
     rampDownActionOnDisconnect?: SessionHandlingOperation;
     rampDownActionOnLogoff?: SessionHandlingOperation;
     rampDownMinutesToWaitOnDisconnect?: number;
     rampDownMinutesToWaitOnLogoff?: number;
-    rampDownStartTime?: Time;
+    rampDownStartTime: Time;
     rampDownStartVMOnConnect?: SetStartVMOnConnect;
     rampUpActionOnDisconnect?: SessionHandlingOperation;
     rampUpActionOnLogoff?: SessionHandlingOperation;
     rampUpAutoStartHosts?: StartupBehavior;
     rampUpMinutesToWaitOnDisconnect?: number;
     rampUpMinutesToWaitOnLogoff?: number;
-    rampUpStartTime?: Time;
+    rampUpStartTime: Time;
     rampUpStartVMOnConnect?: SetStartVMOnConnect;
 }
 
 // @public
 export interface ScalingPlanPersonalScheduleList {
-    readonly nextLink?: string;
-    value?: ScalingPlanPersonalSchedule[];
+    nextLink?: string;
+    value: ScalingPlanPersonalSchedule[];
 }
 
 // @public
 export interface ScalingPlanPersonalSchedulePatch {
+    properties?: ScalingPlanPersonalSchedulePatchProperties;
+}
+
+// @public
+export interface ScalingPlanPersonalSchedulePatchProperties {
     daysOfWeek?: DayOfWeek[];
     offPeakActionOnDisconnect?: SessionHandlingOperation;
     offPeakActionOnLogoff?: SessionHandlingOperation;
@@ -1578,35 +1977,42 @@ export interface ScalingPlanPersonalSchedulesUpdateOptionalParams extends coreCl
 export type ScalingPlanPersonalSchedulesUpdateResponse = ScalingPlanPersonalSchedule;
 
 // @public
-export interface ScalingPlanPooledSchedule extends Resource {
-    daysOfWeek?: DayOfWeek[];
+export interface ScalingPlanPooledSchedule extends ProxyResource {
+    daysOfWeek: DayOfWeek[];
+    namePropertiesName?: string;
     offPeakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
-    offPeakStartTime?: Time;
+    offPeakStartTime: Time;
     peakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
-    peakStartTime?: Time;
-    rampDownCapacityThresholdPct?: number;
+    peakStartTime: Time;
+    rampDownCapacityThresholdPct: number;
     rampDownForceLogoffUsers?: boolean;
     rampDownLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
     rampDownMinimumHostsPct?: number;
     rampDownNotificationMessage?: string;
-    rampDownStartTime?: Time;
+    rampDownStartTime: Time;
     rampDownStopHostsWhen?: StopHostsWhen;
     rampDownWaitTimeMinutes?: number;
-    rampUpCapacityThresholdPct?: number;
+    rampUpCapacityThresholdPct: number;
     rampUpLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
     rampUpMinimumHostsPct?: number;
-    rampUpStartTime?: Time;
+    rampUpStartTime: Time;
 }
 
 // @public
 export interface ScalingPlanPooledScheduleList {
-    readonly nextLink?: string;
-    value?: ScalingPlanPooledSchedule[];
+    nextLink?: string;
+    value: ScalingPlanPooledSchedule[];
 }
 
 // @public
 export interface ScalingPlanPooledSchedulePatch extends Resource {
+    properties?: ScalingPlanPooledSchedulePatchProperties;
+}
+
+// @public
+export interface ScalingPlanPooledSchedulePatchProperties {
     daysOfWeek?: DayOfWeek[];
+    name?: string;
     offPeakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
     offPeakStartTime?: Time;
     peakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
@@ -1767,7 +2173,7 @@ export type ScalingPlansUpdateResponse = ScalingPlan;
 
 // @public
 export interface ScalingSchedule {
-    daysOfWeek?: ScalingScheduleDaysOfWeekItem[];
+    daysOfWeek?: DayOfWeek[];
     name?: string;
     offPeakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
     offPeakStartTime?: Time;
@@ -1788,7 +2194,18 @@ export interface ScalingSchedule {
 }
 
 // @public
-export type ScalingScheduleDaysOfWeekItem = string;
+export interface SecurityInfoPatchProperties {
+    secureBootEnabled?: boolean;
+    type?: VirtualMachineSecurityType;
+    vTpmEnabled?: boolean;
+}
+
+// @public
+export interface SecurityInfoProperties {
+    secureBootEnabled?: boolean;
+    type?: VirtualMachineSecurityType;
+    vTpmEnabled?: boolean;
+}
 
 // @public
 export interface SendMessage {
@@ -1805,28 +2222,147 @@ export interface ServiceSpecification {
 export type SessionHandlingOperation = string;
 
 // @public
-export interface SessionHost extends Resource {
+export interface SessionHost extends ProxyResource {
     agentVersion?: string;
     allowNewSession?: boolean;
     assignedUser?: string;
     friendlyName?: string;
     lastHeartBeat?: Date;
+    readonly lastSessionHostUpdateTime?: Date;
     readonly lastUpdateTime?: Date;
     readonly objectId?: string;
     osVersion?: string;
     readonly resourceId?: string;
+    readonly sessionHostConfiguration?: string;
     readonly sessionHostHealthCheckResults?: SessionHostHealthCheckReport[];
     sessions?: number;
     status?: Status;
     readonly statusTimestamp?: Date;
     sxSStackVersion?: string;
     updateErrorMessage?: string;
-    updateState?: UpdateState;
+    readonly updateState?: UpdateState;
     readonly virtualMachineId?: string;
 }
 
 // @public
 export type SessionHostComponentUpdateType = string;
+
+// @public
+export interface SessionHostConfiguration extends ProxyResource {
+    availabilityZones?: number[];
+    bootDiagnosticsInfo?: BootDiagnosticsInfoProperties;
+    customConfigurationScriptUrl?: string;
+    diskInfo: DiskInfoProperties;
+    domainInfo: DomainInfoProperties;
+    friendlyName?: string;
+    imageInfo: ImageInfoProperties;
+    networkInfo: NetworkInfoProperties;
+    readonly provisioningState?: ProvisioningStateSHC;
+    securityInfo?: SecurityInfoProperties;
+    readonly version?: Date;
+    vmAdminCredentials: KeyVaultCredentialsProperties;
+    vmLocation?: string;
+    vmNamePrefix: string;
+    vmResourceGroup?: string;
+    vmSizeId: string;
+    vmTags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface SessionHostConfigurationList {
+    nextLink?: string;
+    value: SessionHostConfiguration[];
+}
+
+// @public
+export interface SessionHostConfigurationPatch {
+    properties?: SessionHostConfigurationPatchProperties;
+}
+
+// @public
+export interface SessionHostConfigurationPatchProperties {
+    availabilityZones?: number[];
+    bootDiagnosticsInfo?: BootDiagnosticsInfoPatchProperties;
+    customConfigurationScriptUrl?: string;
+    diskInfo?: DiskInfoPatchProperties;
+    domainInfo?: DomainInfoPatchProperties;
+    friendlyName?: string;
+    imageInfo?: ImageInfoPatchProperties;
+    networkInfo?: NetworkInfoPatchProperties;
+    securityInfo?: SecurityInfoPatchProperties;
+    vmAdminCredentials?: KeyVaultCredentialsPatchProperties;
+    vmLocation?: string;
+    vmNamePrefix?: string;
+    vmResourceGroup?: string;
+    vmSizeId?: string;
+    vmTags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface SessionHostConfigurations {
+    beginCreateOrUpdate(resourceGroupName: string, hostPoolName: string, sessionHostConfiguration: SessionHostConfiguration, options?: SessionHostConfigurationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SessionHostConfigurationsCreateOrUpdateResponse>, SessionHostConfigurationsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, hostPoolName: string, sessionHostConfiguration: SessionHostConfiguration, options?: SessionHostConfigurationsCreateOrUpdateOptionalParams): Promise<SessionHostConfigurationsCreateOrUpdateResponse>;
+    beginUpdate(resourceGroupName: string, hostPoolName: string, options?: SessionHostConfigurationsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SessionHostConfigurationsUpdateResponse>, SessionHostConfigurationsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, hostPoolName: string, options?: SessionHostConfigurationsUpdateOptionalParams): Promise<SessionHostConfigurationsUpdateResponse>;
+    get(resourceGroupName: string, hostPoolName: string, options?: SessionHostConfigurationsGetOptionalParams): Promise<SessionHostConfigurationsGetResponse>;
+    listByHostPool(resourceGroupName: string, hostPoolName: string, options?: SessionHostConfigurationsListByHostPoolOptionalParams): PagedAsyncIterableIterator<SessionHostConfiguration>;
+}
+
+// @public
+export interface SessionHostConfigurationsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface SessionHostConfigurationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SessionHostConfigurationsCreateOrUpdateResponse = SessionHostConfiguration;
+
+// @public
+export interface SessionHostConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SessionHostConfigurationsGetResponse = SessionHostConfiguration;
+
+// @public
+export interface SessionHostConfigurationsListByHostPoolNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SessionHostConfigurationsListByHostPoolNextResponse = SessionHostConfigurationList;
+
+// @public
+export interface SessionHostConfigurationsListByHostPoolOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SessionHostConfigurationsListByHostPoolResponse = SessionHostConfigurationList;
+
+// @public
+export interface SessionHostConfigurationsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface SessionHostConfigurationsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    sessionHostConfiguration?: SessionHostConfigurationPatch;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SessionHostConfigurationsUpdateResponse = SessionHostConfiguration;
 
 // @public
 export interface SessionHostHealthCheckFailureDetails {
@@ -1844,15 +2380,131 @@ export interface SessionHostHealthCheckReport {
 
 // @public
 export interface SessionHostList {
-    readonly nextLink?: string;
-    value?: SessionHost[];
+    nextLink?: string;
+    value: SessionHost[];
 }
 
 // @public
 export type SessionHostLoadBalancingAlgorithm = string;
 
 // @public
+export interface SessionHostManagement extends ProxyResource {
+    scheduledDateTimeZone: string;
+    update: HostPoolUpdateConfigurationProperties;
+}
+
+// @public
+export interface SessionHostManagementList {
+    nextLink?: string;
+    value: SessionHostManagement[];
+}
+
+// @public
+export interface SessionHostManagementOperationProgress {
+    executionStartTime?: Date;
+    sessionHostsCompleted?: number;
+    sessionHostsInProgress?: number;
+    sessionHostsRollbackFailed?: number;
+    totalSessionHosts?: number;
+}
+
+// @public
+export interface SessionHostManagementPatch {
+    properties?: SessionHostManagementPatchProperties;
+}
+
+// @public
+export interface SessionHostManagementPatchProperties {
+    scheduledDateTimeZone?: string;
+    update?: HostPoolUpdateConfigurationPatchProperties;
+}
+
+// @public
+export interface SessionHostManagements {
+    createOrUpdate(resourceGroupName: string, hostPoolName: string, sessionHostManagement: SessionHostManagement, options?: SessionHostManagementsCreateOrUpdateOptionalParams): Promise<SessionHostManagementsCreateOrUpdateResponse>;
+    get(resourceGroupName: string, hostPoolName: string, options?: SessionHostManagementsGetOptionalParams): Promise<SessionHostManagementsGetResponse>;
+    listByHostPool(resourceGroupName: string, hostPoolName: string, options?: SessionHostManagementsListByHostPoolOptionalParams): PagedAsyncIterableIterator<SessionHostManagement>;
+    update(resourceGroupName: string, hostPoolName: string, options?: SessionHostManagementsUpdateOptionalParams): Promise<SessionHostManagementsUpdateResponse>;
+}
+
+// @public
+export interface SessionHostManagementsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SessionHostManagementsCreateOrUpdateResponse = SessionHostManagement;
+
+// @public
+export interface SessionHostManagementsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SessionHostManagementsGetResponse = SessionHostManagement;
+
+// @public
+export interface SessionHostManagementsListByHostPoolNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SessionHostManagementsListByHostPoolNextResponse = SessionHostManagementList;
+
+// @public
+export interface SessionHostManagementsListByHostPoolOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SessionHostManagementsListByHostPoolResponse = SessionHostManagementList;
+
+// @public
+export interface SessionHostManagementsUpdateOptionalParams extends coreClient.OperationOptions {
+    sessionHostManagement?: SessionHostManagementPatch;
+}
+
+// @public
+export type SessionHostManagementsUpdateResponse = SessionHostManagement;
+
+// @public
+export interface SessionHostManagementsUpdateStatus {
+    get(resourceGroupName: string, hostPoolName: string, options?: SessionHostManagementsUpdateStatusGetOptionalParams): Promise<SessionHostManagementsUpdateStatusGetResponse>;
+}
+
+// @public
+export interface SessionHostManagementsUpdateStatusGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SessionHostManagementsUpdateStatusGetResponse = SessionHostManagementUpdateStatus;
+
+// @public
+export type SessionHostManagementUpdateOperationStatus = string;
+
+// @public
+export interface SessionHostManagementUpdateStatus {
+    endTime?: Date;
+    error?: ErrorDetail;
+    id?: string;
+    name?: string;
+    percentComplete?: number;
+    properties?: SessionHostManagementUpdateStatusProperties;
+    startTime?: Date;
+    readonly status: SessionHostManagementUpdateOperationStatus;
+}
+
+// @public
+export interface SessionHostManagementUpdateStatusProperties {
+    correlationId?: string;
+    progress?: SessionHostManagementOperationProgress;
+    scheduledDateTime?: Date;
+    sessionHostManagement?: SessionHostManagement;
+}
+
+// @public
 export interface SessionHostPatch extends Resource {
+    properties?: SessionHostPatchProperties;
+}
+
+// @public
+export interface SessionHostPatchProperties {
     allowNewSession?: boolean;
     assignedUser?: string;
     friendlyName?: string;
@@ -1863,6 +2515,7 @@ export interface SessionHosts {
     delete(resourceGroupName: string, hostPoolName: string, sessionHostName: string, options?: SessionHostsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, hostPoolName: string, sessionHostName: string, options?: SessionHostsGetOptionalParams): Promise<SessionHostsGetResponse>;
     list(resourceGroupName: string, hostPoolName: string, options?: SessionHostsListOptionalParams): PagedAsyncIterableIterator<SessionHost>;
+    retryProvisioning(resourceGroupName: string, hostPoolName: string, sessionHostName: string, options?: SessionHostsRetryProvisioningOptionalParams): Promise<void>;
     update(resourceGroupName: string, hostPoolName: string, sessionHostName: string, options?: SessionHostsUpdateOptionalParams): Promise<SessionHostsUpdateResponse>;
 }
 
@@ -1890,10 +2543,15 @@ export interface SessionHostsListOptionalParams extends coreClient.OperationOpti
     initialSkip?: number;
     isDescending?: boolean;
     pageSize?: number;
+    vmPath?: string;
 }
 
 // @public
 export type SessionHostsListResponse = SessionHostList;
+
+// @public
+export interface SessionHostsRetryProvisioningOptionalParams extends coreClient.OperationOptions {
+}
 
 // @public
 export interface SessionHostsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -1927,17 +2585,22 @@ export type SSOSecretType = string;
 
 // @public
 export interface StartMenuItem extends Resource {
+    properties?: StartMenuItemProperties;
+}
+
+// @public
+export interface StartMenuItemList {
+    nextLink?: string;
+    value: StartMenuItem[];
+}
+
+// @public
+export interface StartMenuItemProperties {
     appAlias?: string;
     commandLineArguments?: string;
     filePath?: string;
     iconIndex?: number;
     iconPath?: string;
-}
-
-// @public
-export interface StartMenuItemList {
-    readonly nextLink?: string;
-    value?: StartMenuItem[];
 }
 
 // @public
@@ -1996,10 +2659,26 @@ export interface TrackedResource extends Resource {
 }
 
 // @public
+export type Type = string;
+
+// @public
+export interface UpdateSessionHostsRequestBody {
+    scheduledDateTime?: Date;
+    scheduledDateTimeZone?: string;
+    update?: HostPoolUpdateConfigurationPatchProperties;
+}
+
+// @public
 export type UpdateState = string;
 
 // @public
-export interface UserSession extends Resource {
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
+
+// @public
+export interface UserSession extends ProxyResource {
     activeDirectoryUserName?: string;
     applicationType?: ApplicationType;
     createTime?: Date;
@@ -2010,8 +2689,8 @@ export interface UserSession extends Resource {
 
 // @public
 export interface UserSessionList {
-    readonly nextLink?: string;
-    value?: UserSession[];
+    nextLink?: string;
+    value: UserSession[];
 }
 
 // @public
@@ -2081,31 +2760,48 @@ export interface UserSessionsSendMessageOptionalParams extends coreClient.Operat
 }
 
 // @public
-export interface Workspace extends ResourceModelWithAllowedPropertySet {
+export type VirtualMachineDiskType = string;
+
+// @public
+export type VirtualMachineSecurityType = string;
+
+// @public
+export interface Workspace extends TrackedResource {
     applicationGroupReferences?: string[];
     readonly cloudPcResource?: boolean;
     description?: string;
+    readonly etag?: string;
     friendlyName?: string;
+    identity?: ManagedServiceIdentity;
+    kind?: string;
+    managedBy?: string;
     readonly objectId?: string;
+    plan?: Plan;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     publicNetworkAccess?: PublicNetworkAccess;
+    sku?: Sku;
 }
 
 // @public
 export interface WorkspaceList {
-    readonly nextLink?: string;
-    value?: Workspace[];
+    nextLink?: string;
+    value: Workspace[];
 }
 
 // @public
 export interface WorkspacePatch {
+    properties?: WorkspacePatchProperties;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface WorkspacePatchProperties {
     applicationGroupReferences?: string[];
     description?: string;
     friendlyName?: string;
     publicNetworkAccess?: PublicNetworkAccess;
-    tags?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public

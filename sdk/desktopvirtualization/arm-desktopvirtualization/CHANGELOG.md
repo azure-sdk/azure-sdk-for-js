@@ -1,15 +1,360 @@
 # Release History
-
-## 1.2.1 (Unreleased)
-
+    
+## 2.0.0-beta.1 (2025-03-10)
+Compared with version 1.2.0
+    
 ### Features Added
+
+  - Added operation group ActiveSessionHostConfigurations
+  - Added operation group ControlSessionHostUpdate
+  - Added operation group InitiateSessionHostUpdate
+  - Added operation group SessionHostConfigurations
+  - Added operation group SessionHostManagements
+  - Added operation group SessionHostManagementsUpdateStatus
+  - Added operation SessionHosts.retryProvisioning
+  - Added Interface ActiveDirectoryInfoPatchProperties
+  - Added Interface ActiveDirectoryInfoProperties
+  - Added Interface ActiveSessionHostConfiguration
+  - Added Interface ActiveSessionHostConfigurationList
+  - Added Interface ActiveSessionHostConfigurationsGetOptionalParams
+  - Added Interface ActiveSessionHostConfigurationsListByHostPoolNextOptionalParams
+  - Added Interface ActiveSessionHostConfigurationsListByHostPoolOptionalParams
+  - Added Interface ApplicationGroupPatchProperties
+  - Added Interface ApplicationPatchProperties
+  - Added Interface AzureActiveDirectoryInfoProperties
+  - Added Interface BootDiagnosticsInfoPatchProperties
+  - Added Interface BootDiagnosticsInfoProperties
+  - Added Interface ControlSessionHostUpdatePostHeaders
+  - Added Interface ControlSessionHostUpdatePostOptionalParams
+  - Added Interface CustomInfoPatchProperties
+  - Added Interface CustomInfoProperties
+  - Added Interface DesktopPatchProperties
+  - Added Interface DiskInfoPatchProperties
+  - Added Interface DiskInfoProperties
+  - Added Interface DomainInfoPatchProperties
+  - Added Interface DomainInfoProperties
+  - Added Interface ExpandMsixImageProperties
+  - Added Interface HostPoolPatchProperties
+  - Added Interface HostPoolUpdateConfigurationPatchProperties
+  - Added Interface HostPoolUpdateConfigurationProperties
+  - Added Interface HostPoolUpdateControlParameter
+  - Added Interface ImageInfoPatchProperties
+  - Added Interface ImageInfoProperties
+  - Added Interface InitiateSessionHostUpdatePostOptionalParams
+  - Added Interface KeyVaultCredentialsPatchProperties
+  - Added Interface KeyVaultCredentialsProperties
+  - Added Interface ManagedServiceIdentity
+  - Added Interface MarketplaceInfoPatchProperties
+  - Added Interface MarketplaceInfoProperties
+  - Added Interface MsixPackagePatchProperties
+  - Added Interface NetworkInfoPatchProperties
+  - Added Interface NetworkInfoProperties
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface ResourceProviderOperationListResult
+  - Added Interface ScalingPlanPatchProperties
+  - Added Interface ScalingPlanPersonalSchedulePatchProperties
+  - Added Interface ScalingPlanPooledSchedulePatchProperties
+  - Added Interface SecurityInfoPatchProperties
+  - Added Interface SecurityInfoProperties
+  - Added Interface SessionHostConfiguration
+  - Added Interface SessionHostConfigurationList
+  - Added Interface SessionHostConfigurationPatch
+  - Added Interface SessionHostConfigurationPatchProperties
+  - Added Interface SessionHostConfigurationsCreateOrUpdateHeaders
+  - Added Interface SessionHostConfigurationsCreateOrUpdateOptionalParams
+  - Added Interface SessionHostConfigurationsGetOptionalParams
+  - Added Interface SessionHostConfigurationsListByHostPoolNextOptionalParams
+  - Added Interface SessionHostConfigurationsListByHostPoolOptionalParams
+  - Added Interface SessionHostConfigurationsUpdateHeaders
+  - Added Interface SessionHostConfigurationsUpdateOptionalParams
+  - Added Interface SessionHostManagement
+  - Added Interface SessionHostManagementList
+  - Added Interface SessionHostManagementOperationProgress
+  - Added Interface SessionHostManagementPatch
+  - Added Interface SessionHostManagementPatchProperties
+  - Added Interface SessionHostManagementsCreateOrUpdateOptionalParams
+  - Added Interface SessionHostManagementsGetOptionalParams
+  - Added Interface SessionHostManagementsListByHostPoolNextOptionalParams
+  - Added Interface SessionHostManagementsListByHostPoolOptionalParams
+  - Added Interface SessionHostManagementsUpdateOptionalParams
+  - Added Interface SessionHostManagementsUpdateStatusGetOptionalParams
+  - Added Interface SessionHostManagementUpdateStatus
+  - Added Interface SessionHostManagementUpdateStatusProperties
+  - Added Interface SessionHostPatchProperties
+  - Added Interface SessionHostsRetryProvisioningOptionalParams
+  - Added Interface StartMenuItemProperties
+  - Added Interface UpdateSessionHostsRequestBody
+  - Added Interface UserAssignedIdentity
+  - Added Interface WorkspacePatchProperties
+  - Added Type Alias ActiveSessionHostConfigurationsGetResponse
+  - Added Type Alias ActiveSessionHostConfigurationsListByHostPoolNextResponse
+  - Added Type Alias ActiveSessionHostConfigurationsListByHostPoolResponse
+  - Added Type Alias ControlSessionHostUpdatePostResponse
+  - Added Type Alias DirectUDP
+  - Added Type Alias DomainJoinType
+  - Added Type Alias HostPoolUpdateAction
+  - Added Type Alias ManagedPrivateUDP
+  - Added Type Alias ManagedServiceIdentityType
+  - Added Type Alias ManagementType
+  - Added Type Alias ProvisioningStateSHC
+  - Added Type Alias PublicUDP
+  - Added Type Alias RelayUDP
+  - Added Type Alias SessionHostConfigurationsCreateOrUpdateResponse
+  - Added Type Alias SessionHostConfigurationsGetResponse
+  - Added Type Alias SessionHostConfigurationsListByHostPoolNextResponse
+  - Added Type Alias SessionHostConfigurationsListByHostPoolResponse
+  - Added Type Alias SessionHostConfigurationsUpdateResponse
+  - Added Type Alias SessionHostManagementsCreateOrUpdateResponse
+  - Added Type Alias SessionHostManagementsGetResponse
+  - Added Type Alias SessionHostManagementsListByHostPoolNextResponse
+  - Added Type Alias SessionHostManagementsListByHostPoolResponse
+  - Added Type Alias SessionHostManagementsUpdateResponse
+  - Added Type Alias SessionHostManagementsUpdateStatusGetResponse
+  - Added Type Alias SessionHostManagementUpdateOperationStatus
+  - Added Type Alias Type
+  - Added Type Alias VirtualMachineDiskType
+  - Added Type Alias VirtualMachineSecurityType
+  - Interface AppAttachPackage has a new optional parameter customData
+  - Interface AppAttachPackage has a new optional parameter failHealthCheckOnStagingFailure
+  - Interface AppAttachPackage has a new optional parameter hostPoolReferences
+  - Interface AppAttachPackage has a new optional parameter image
+  - Interface AppAttachPackage has a new optional parameter keyVaultURL
+  - Interface AppAttachPackage has a new optional parameter packageLookbackUrl
+  - Interface AppAttachPackage has a new optional parameter packageOwnerName
+  - Interface AppAttachPackage has a new optional parameter provisioningState
+  - Interface AppAttachPackageDeleteOptionalParams has a new optional parameter force
+  - Interface AppAttachPackagePatch has a new optional parameter tags
+  - Interface AppAttachPackagePatchProperties has a new optional parameter customData
+  - Interface AppAttachPackagePatchProperties has a new optional parameter packageLookbackUrl
+  - Interface ApplicationGroup has a new optional parameter etag
+  - Interface ApplicationGroup has a new optional parameter identity
+  - Interface ApplicationGroup has a new optional parameter kind
+  - Interface ApplicationGroup has a new optional parameter managedBy
+  - Interface ApplicationGroup has a new optional parameter plan
+  - Interface ApplicationGroup has a new optional parameter sku
+  - Interface ApplicationGroupPatch has a new optional parameter properties
+  - Interface ApplicationPatch has a new optional parameter properties
+  - Interface DesktopPatch has a new optional parameter properties
+  - Interface ExpandMsixImage has a new optional parameter properties
+  - Interface HostPool has a new optional parameter directUDP
+  - Interface HostPool has a new optional parameter etag
+  - Interface HostPool has a new optional parameter identity
+  - Interface HostPool has a new optional parameter kind
+  - Interface HostPool has a new optional parameter managedBy
+  - Interface HostPool has a new optional parameter managedPrivateUDP
+  - Interface HostPool has a new optional parameter managementType
+  - Interface HostPool has a new optional parameter plan
+  - Interface HostPool has a new optional parameter publicUDP
+  - Interface HostPool has a new optional parameter relayUDP
+  - Interface HostPool has a new optional parameter sku
+  - Interface HostPoolPatch has a new optional parameter properties
+  - Interface MsixPackagePatch has a new optional parameter properties
+  - Interface PrivateEndpointConnection has a new optional parameter properties
+  - Interface PrivateEndpointConnectionWithSystemData has a new optional parameter groupIds
+  - Interface PrivateEndpointConnectionWithSystemData has a new optional parameter privateEndpoint
+  - Interface PrivateEndpointConnectionWithSystemData has a new optional parameter privateLinkServiceConnectionState
+  - Interface PrivateEndpointConnectionWithSystemData has a new optional parameter provisioningState
+  - Interface PrivateLinkResource has a new optional parameter properties
+  - Interface ScalingPlan has a new optional parameter etag
+  - Interface ScalingPlan has a new optional parameter identity
+  - Interface ScalingPlan has a new optional parameter kind
+  - Interface ScalingPlan has a new optional parameter managedBy
+  - Interface ScalingPlan has a new optional parameter plan
+  - Interface ScalingPlan has a new optional parameter sku
+  - Interface ScalingPlanPatch has a new optional parameter properties
+  - Interface ScalingPlanPersonalSchedulePatch has a new optional parameter properties
+  - Interface ScalingPlanPooledSchedule has a new optional parameter namePropertiesName
+  - Interface ScalingPlanPooledSchedulePatch has a new optional parameter properties
+  - Interface SessionHost has a new optional parameter lastSessionHostUpdateTime
+  - Interface SessionHost has a new optional parameter sessionHostConfiguration
+  - Interface SessionHostPatch has a new optional parameter properties
+  - Interface SessionHostsListOptionalParams has a new optional parameter vmPath
+  - Interface StartMenuItem has a new optional parameter properties
+  - Interface Workspace has a new optional parameter etag
+  - Interface Workspace has a new optional parameter identity
+  - Interface Workspace has a new optional parameter kind
+  - Interface Workspace has a new optional parameter managedBy
+  - Interface Workspace has a new optional parameter plan
+  - Interface Workspace has a new optional parameter sku
+  - Interface WorkspacePatch has a new optional parameter properties
+  - Added Enum KnownDirectUDP
+  - Added Enum KnownDomainJoinType
+  - Added Enum KnownHostPoolUpdateAction
+  - Added Enum KnownManagedPrivateUDP
+  - Added Enum KnownManagedServiceIdentityType
+  - Added Enum KnownManagementType
+  - Added Enum KnownProvisioningStateSHC
+  - Added Enum KnownPublicUDP
+  - Added Enum KnownRelayUDP
+  - Added Enum KnownSessionHostManagementUpdateOperationStatus
+  - Added Enum KnownType
+  - Added Enum KnownVirtualMachineDiskType
+  - Added Enum KnownVirtualMachineSecurityType
+  - Enum KnownLoadBalancerType has a new value MultiplePersistent
+  - Enum KnownScalingHostPoolType has a new value Personal
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Operation MsixPackages.update has a new signature
+  - Operation PrivateEndpointConnections.updateByHostPool has a new signature
+  - Operation PrivateEndpointConnections.updateByWorkspace has a new signature
+  - Interface AppAttachPackage no longer has parameter properties
+  - Interface ApplicationGroupPatch no longer has parameter description
+  - Interface ApplicationGroupPatch no longer has parameter friendlyName
+  - Interface ApplicationGroupPatch no longer has parameter showInFeed
+  - Interface ApplicationPatch no longer has parameter applicationType
+  - Interface ApplicationPatch no longer has parameter commandLineArguments
+  - Interface ApplicationPatch no longer has parameter commandLineSetting
+  - Interface ApplicationPatch no longer has parameter description
+  - Interface ApplicationPatch no longer has parameter filePath
+  - Interface ApplicationPatch no longer has parameter friendlyName
+  - Interface ApplicationPatch no longer has parameter iconIndex
+  - Interface ApplicationPatch no longer has parameter iconPath
+  - Interface ApplicationPatch no longer has parameter msixPackageApplicationId
+  - Interface ApplicationPatch no longer has parameter msixPackageFamilyName
+  - Interface ApplicationPatch no longer has parameter showInPortal
+  - Interface ApplicationPatch no longer has parameter tags
+  - Interface DesktopPatch no longer has parameter description
+  - Interface DesktopPatch no longer has parameter friendlyName
+  - Interface DesktopPatch no longer has parameter tags
+  - Interface ExpandMsixImage no longer has parameter certificateExpiry
+  - Interface ExpandMsixImage no longer has parameter certificateName
+  - Interface ExpandMsixImage no longer has parameter displayName
+  - Interface ExpandMsixImage no longer has parameter imagePath
+  - Interface ExpandMsixImage no longer has parameter isActive
+  - Interface ExpandMsixImage no longer has parameter isRegularRegistration
+  - Interface ExpandMsixImage no longer has parameter lastUpdated
+  - Interface ExpandMsixImage no longer has parameter packageAlias
+  - Interface ExpandMsixImage no longer has parameter packageApplications
+  - Interface ExpandMsixImage no longer has parameter packageDependencies
+  - Interface ExpandMsixImage no longer has parameter packageFamilyName
+  - Interface ExpandMsixImage no longer has parameter packageFullName
+  - Interface ExpandMsixImage no longer has parameter packageName
+  - Interface ExpandMsixImage no longer has parameter packageRelativePath
+  - Interface ExpandMsixImage no longer has parameter version
+  - Interface HostPoolPatch no longer has parameter agentUpdate
+  - Interface HostPoolPatch no longer has parameter customRdpProperty
+  - Interface HostPoolPatch no longer has parameter description
+  - Interface HostPoolPatch no longer has parameter friendlyName
+  - Interface HostPoolPatch no longer has parameter loadBalancerType
+  - Interface HostPoolPatch no longer has parameter maxSessionLimit
+  - Interface HostPoolPatch no longer has parameter personalDesktopAssignmentType
+  - Interface HostPoolPatch no longer has parameter preferredAppGroupType
+  - Interface HostPoolPatch no longer has parameter publicNetworkAccess
+  - Interface HostPoolPatch no longer has parameter registrationInfo
+  - Interface HostPoolPatch no longer has parameter ring
+  - Interface HostPoolPatch no longer has parameter ssoadfsAuthority
+  - Interface HostPoolPatch no longer has parameter ssoClientId
+  - Interface HostPoolPatch no longer has parameter ssoClientSecretKeyVaultPath
+  - Interface HostPoolPatch no longer has parameter ssoSecretType
+  - Interface HostPoolPatch no longer has parameter startVMOnConnect
+  - Interface HostPoolPatch no longer has parameter validationEnvironment
+  - Interface HostPoolPatch no longer has parameter vmTemplate
+  - Interface MsixPackagePatch no longer has parameter displayName
+  - Interface MsixPackagePatch no longer has parameter isActive
+  - Interface MsixPackagePatch no longer has parameter isRegularRegistration
+  - Interface MsixPackagesUpdateOptionalParams no longer has parameter msixPackage
+  - Interface PrivateEndpointConnection no longer has parameter groupIds
+  - Interface PrivateEndpointConnection no longer has parameter privateEndpoint
+  - Interface PrivateEndpointConnection no longer has parameter privateLinkServiceConnectionState
+  - Interface PrivateEndpointConnection no longer has parameter provisioningState
+  - Interface PrivateLinkResource no longer has parameter groupId
+  - Interface PrivateLinkResource no longer has parameter requiredMembers
+  - Interface PrivateLinkResource no longer has parameter requiredZoneNames
+  - Interface ScalingPlanPatch no longer has parameter description
+  - Interface ScalingPlanPatch no longer has parameter exclusionTag
+  - Interface ScalingPlanPatch no longer has parameter friendlyName
+  - Interface ScalingPlanPatch no longer has parameter hostPoolReferences
+  - Interface ScalingPlanPatch no longer has parameter schedules
+  - Interface ScalingPlanPatch no longer has parameter timeZone
+  - Interface ScalingPlanPersonalSchedulePatch no longer has parameter daysOfWeek
+  - Interface ScalingPlanPersonalSchedulePatch no longer has parameter offPeakActionOnDisconnect
+  - Interface ScalingPlanPersonalSchedulePatch no longer has parameter offPeakActionOnLogoff
+  - Interface ScalingPlanPersonalSchedulePatch no longer has parameter offPeakMinutesToWaitOnDisconnect
+  - Interface ScalingPlanPersonalSchedulePatch no longer has parameter offPeakMinutesToWaitOnLogoff
+  - Interface ScalingPlanPersonalSchedulePatch no longer has parameter offPeakStartTime
+  - Interface ScalingPlanPersonalSchedulePatch no longer has parameter offPeakStartVMOnConnect
+  - Interface ScalingPlanPersonalSchedulePatch no longer has parameter peakActionOnDisconnect
+  - Interface ScalingPlanPersonalSchedulePatch no longer has parameter peakActionOnLogoff
+  - Interface ScalingPlanPersonalSchedulePatch no longer has parameter peakMinutesToWaitOnDisconnect
+  - Interface ScalingPlanPersonalSchedulePatch no longer has parameter peakMinutesToWaitOnLogoff
+  - Interface ScalingPlanPersonalSchedulePatch no longer has parameter peakStartTime
+  - Interface ScalingPlanPersonalSchedulePatch no longer has parameter peakStartVMOnConnect
+  - Interface ScalingPlanPersonalSchedulePatch no longer has parameter rampDownActionOnDisconnect
+  - Interface ScalingPlanPersonalSchedulePatch no longer has parameter rampDownActionOnLogoff
+  - Interface ScalingPlanPersonalSchedulePatch no longer has parameter rampDownMinutesToWaitOnDisconnect
+  - Interface ScalingPlanPersonalSchedulePatch no longer has parameter rampDownMinutesToWaitOnLogoff
+  - Interface ScalingPlanPersonalSchedulePatch no longer has parameter rampDownStartTime
+  - Interface ScalingPlanPersonalSchedulePatch no longer has parameter rampDownStartVMOnConnect
+  - Interface ScalingPlanPersonalSchedulePatch no longer has parameter rampUpActionOnDisconnect
+  - Interface ScalingPlanPersonalSchedulePatch no longer has parameter rampUpActionOnLogoff
+  - Interface ScalingPlanPersonalSchedulePatch no longer has parameter rampUpAutoStartHosts
+  - Interface ScalingPlanPersonalSchedulePatch no longer has parameter rampUpMinutesToWaitOnDisconnect
+  - Interface ScalingPlanPersonalSchedulePatch no longer has parameter rampUpMinutesToWaitOnLogoff
+  - Interface ScalingPlanPersonalSchedulePatch no longer has parameter rampUpStartTime
+  - Interface ScalingPlanPersonalSchedulePatch no longer has parameter rampUpStartVMOnConnect
+  - Interface ScalingPlanPooledSchedulePatch no longer has parameter daysOfWeek
+  - Interface ScalingPlanPooledSchedulePatch no longer has parameter offPeakLoadBalancingAlgorithm
+  - Interface ScalingPlanPooledSchedulePatch no longer has parameter offPeakStartTime
+  - Interface ScalingPlanPooledSchedulePatch no longer has parameter peakLoadBalancingAlgorithm
+  - Interface ScalingPlanPooledSchedulePatch no longer has parameter peakStartTime
+  - Interface ScalingPlanPooledSchedulePatch no longer has parameter rampDownCapacityThresholdPct
+  - Interface ScalingPlanPooledSchedulePatch no longer has parameter rampDownForceLogoffUsers
+  - Interface ScalingPlanPooledSchedulePatch no longer has parameter rampDownLoadBalancingAlgorithm
+  - Interface ScalingPlanPooledSchedulePatch no longer has parameter rampDownMinimumHostsPct
+  - Interface ScalingPlanPooledSchedulePatch no longer has parameter rampDownNotificationMessage
+  - Interface ScalingPlanPooledSchedulePatch no longer has parameter rampDownStartTime
+  - Interface ScalingPlanPooledSchedulePatch no longer has parameter rampDownStopHostsWhen
+  - Interface ScalingPlanPooledSchedulePatch no longer has parameter rampDownWaitTimeMinutes
+  - Interface ScalingPlanPooledSchedulePatch no longer has parameter rampUpCapacityThresholdPct
+  - Interface ScalingPlanPooledSchedulePatch no longer has parameter rampUpLoadBalancingAlgorithm
+  - Interface ScalingPlanPooledSchedulePatch no longer has parameter rampUpMinimumHostsPct
+  - Interface ScalingPlanPooledSchedulePatch no longer has parameter rampUpStartTime
+  - Interface SessionHostPatch no longer has parameter allowNewSession
+  - Interface SessionHostPatch no longer has parameter assignedUser
+  - Interface SessionHostPatch no longer has parameter friendlyName
+  - Interface StartMenuItem no longer has parameter appAlias
+  - Interface StartMenuItem no longer has parameter commandLineArguments
+  - Interface StartMenuItem no longer has parameter filePath
+  - Interface StartMenuItem no longer has parameter iconIndex
+  - Interface StartMenuItem no longer has parameter iconPath
+  - Interface WorkspacePatch no longer has parameter applicationGroupReferences
+  - Interface WorkspacePatch no longer has parameter description
+  - Interface WorkspacePatch no longer has parameter friendlyName
+  - Interface WorkspacePatch no longer has parameter publicNetworkAccess
+  - Parameter value of interface AppAttachPackageList is now required
+  - Parameter value of interface ApplicationGroupList is now required
+  - Parameter value of interface ApplicationList is now required
+  - Parameter value of interface DesktopList is now required
+  - Parameter value of interface ExpandMsixImageList is now required
+  - Parameter value of interface HostPoolList is now required
+  - Parameter value of interface MsixPackageList is now required
+  - Parameter value of interface PrivateEndpointConnectionListResultWithSystemData is now required
+  - Parameter value of interface PrivateLinkResourceListResult is now required
+  - Parameter value of interface ScalingPlanList is now required
+  - Parameter daysOfWeek of interface ScalingPlanPersonalSchedule is now required
+  - Parameter offPeakStartTime of interface ScalingPlanPersonalSchedule is now required
+  - Parameter peakStartTime of interface ScalingPlanPersonalSchedule is now required
+  - Parameter rampDownStartTime of interface ScalingPlanPersonalSchedule is now required
+  - Parameter rampUpStartTime of interface ScalingPlanPersonalSchedule is now required
+  - Parameter value of interface ScalingPlanPersonalScheduleList is now required
+  - Parameter daysOfWeek of interface ScalingPlanPooledSchedule is now required
+  - Parameter offPeakStartTime of interface ScalingPlanPooledSchedule is now required
+  - Parameter peakStartTime of interface ScalingPlanPooledSchedule is now required
+  - Parameter rampDownCapacityThresholdPct of interface ScalingPlanPooledSchedule is now required
+  - Parameter rampDownStartTime of interface ScalingPlanPooledSchedule is now required
+  - Parameter rampUpCapacityThresholdPct of interface ScalingPlanPooledSchedule is now required
+  - Parameter rampUpStartTime of interface ScalingPlanPooledSchedule is now required
+  - Parameter value of interface ScalingPlanPooledScheduleList is now required
+  - Parameter value of interface SessionHostList is now required
+  - Parameter value of interface StartMenuItemList is now required
+  - Parameter value of interface UserSessionList is now required
+  - Parameter value of interface WorkspaceList is now required
+  - Type of parameter daysOfWeek of interface ScalingSchedule is changed from ScalingScheduleDaysOfWeekItem[] to DayOfWeek[]
+  - Removed Enum KnownScalingScheduleDaysOfWeekItem
+    
+    
 ## 1.2.0 (2024-09-11)
     
 ### Features Added
