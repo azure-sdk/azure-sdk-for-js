@@ -2311,7 +2311,6 @@ export type UsagesListNextResponse = UsageListResult;
 
 // @public
 export interface UsagesListOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public

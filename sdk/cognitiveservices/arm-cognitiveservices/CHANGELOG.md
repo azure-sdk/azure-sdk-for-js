@@ -1,5 +1,12 @@
 # Release History
     
+## 8.0.0 (2025-03-10)
+    
+### Breaking Changes
+
+  - Interface UsagesListOptionalParams no longer has parameter filter
+    
+    
 ## 7.6.0 (2024-12-20)
     
 ### Features Added
