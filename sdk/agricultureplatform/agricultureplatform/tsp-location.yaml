@@ -1,0 +1,4 @@
+directory: specification/agricultureplatform/AgriculturePlatform.DataPlane
+commit: 82c8d15cd51d564fe08df2e48f2f406a5e08af2b
+repo: /mnt/vss/_work/1/s/azure-rest-api-specs
+additionalDirectories: 
