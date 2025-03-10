@@ -12,10 +12,10 @@ import type {
 } from "@azure/core-lro";
 import { createHttpPoller } from "@azure/core-lro";
 import type {
-  CreateJob200Response,
-  CreateJob201Response,
-  CreateJobDefaultResponse,
-  CreateJobLogicalResponse,
+  DeidentifyDocuments200Response,
+  DeidentifyDocuments201Response,
+  DeidentifyDocumentsDefaultResponse,
+  DeidentifyDocumentsLogicalResponse,
 } from "./responses.js";
 
 /**
@@ -92,10 +92,13 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
  * @returns - A poller object to poll for operation state updates and eventually get the final response.
  */
 export async function getLongRunningPoller<
-  TResult extends CreateJobLogicalResponse | CreateJobDefaultResponse,
+  TResult extends DeidentifyDocumentsLogicalResponse | DeidentifyDocumentsDefaultResponse,
 >(
   client: Client,
-  initialResponse: CreateJob200Response | CreateJob201Response | CreateJobDefaultResponse,
+  initialResponse:
+    | DeidentifyDocuments200Response
+    | DeidentifyDocuments201Response
+    | DeidentifyDocumentsDefaultResponse,
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<TResult extends HttpResponse>(
