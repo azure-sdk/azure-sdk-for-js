@@ -40,7 +40,7 @@ async function getAssetEndpointProfileWithSyncStatus(): Promise<void> {
 
 async function main(): Promise<void> {
   await getAssetEndpointProfile();
-  getAssetEndpointProfileWithSyncStatus();
+  await getAssetEndpointProfileWithSyncStatus();
 }
 
 main().catch(console.error);

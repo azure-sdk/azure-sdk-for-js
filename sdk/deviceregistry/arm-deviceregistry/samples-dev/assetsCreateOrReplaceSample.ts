@@ -309,9 +309,9 @@ async function createAssetWithoutExternalAssetId(): Promise<void> {
 
 async function main(): Promise<void> {
   await createAssetWithDiscoveredAssetRefs();
-  createAssetWithExternalAssetId();
-  createAssetWithoutDisplayName();
-  createAssetWithoutExternalAssetId();
+  await createAssetWithExternalAssetId();
+  await createAssetWithoutDisplayName();
+  await createAssetWithoutExternalAssetId();
 }
 
 main().catch(console.error);

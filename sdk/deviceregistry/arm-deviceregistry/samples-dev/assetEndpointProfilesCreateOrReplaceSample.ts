@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { DeviceRegistryManagementClient } = require("@azure/arm-deviceregistry");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { DeviceRegistryManagementClient } from "@azure/arm-deviceregistry";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to create a AssetEndpointProfile
@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * @summary create a AssetEndpointProfile
  * x-ms-original-file: 2024-11-01/Create_AssetEndpointProfile.json
  */
-async function createAssetEndpointProfile() {
+async function createAssetEndpointProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -40,7 +40,7 @@ async function createAssetEndpointProfile() {
  * @summary create a AssetEndpointProfile
  * x-ms-original-file: 2024-11-01/Create_AssetEndpointProfile_With_DiscoveredAepRef.json
  */
-async function createAssetEndpointProfileWithDiscoveredAepRef() {
+async function createAssetEndpointProfileWithDiscoveredAepRef(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -65,9 +65,9 @@ async function createAssetEndpointProfileWithDiscoveredAepRef() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createAssetEndpointProfile();
-  createAssetEndpointProfileWithDiscoveredAepRef();
+  await createAssetEndpointProfileWithDiscoveredAepRef();
 }
 
 main().catch(console.error);
