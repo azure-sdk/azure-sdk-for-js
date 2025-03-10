@@ -6583,6 +6583,29 @@ export const TeradataPartitionSettings: coreClient.CompositeMapper = {
   },
 };
 
+export const ImportSettings: coreClient.CompositeMapper = {
+  serializedName: "ImportSettings",
+  type: {
+    name: "Composite",
+    className: "ImportSettings",
+    uberParent: "ImportSettings",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type",
+    },
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const MongoDbCursorMethodsProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -6688,29 +6711,6 @@ export const ExportSettings: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ExportSettings",
     uberParent: "ExportSettings",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: {
-      serializedName: "type",
-      clientName: "type",
-    },
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const ImportSettings: coreClient.CompositeMapper = {
-  serializedName: "ImportSettings",
-  type: {
-    name: "Composite",
-    className: "ImportSettings",
-    uberParent: "ImportSettings",
     additionalProperties: { type: { name: "Object" } },
     polymorphicDiscriminator: {
       serializedName: "type",
@@ -6955,6 +6955,18 @@ export const TypeConversionSettings: coreClient.CompositeMapper = {
       },
       timeSpanFormat: {
         serializedName: "timeSpanFormat",
+        type: {
+          name: "any",
+        },
+      },
+      timeFormat: {
+        serializedName: "timeFormat",
+        type: {
+          name: "any",
+        },
+      },
+      dateFormat: {
+        serializedName: "dateFormat",
         type: {
           name: "any",
         },
@@ -10924,7 +10936,24 @@ export const OracleLinkedService: coreClient.CompositeMapper = {
       ...LinkedService.type.modelProperties,
       connectionString: {
         serializedName: "typeProperties.connectionString",
-        required: true,
+        type: {
+          name: "any",
+        },
+      },
+      server: {
+        serializedName: "typeProperties.server",
+        type: {
+          name: "any",
+        },
+      },
+      authenticationType: {
+        serializedName: "typeProperties.authenticationType",
+        type: {
+          name: "String",
+        },
+      },
+      username: {
+        serializedName: "typeProperties.username",
         type: {
           name: "any",
         },
@@ -10934,6 +10963,72 @@ export const OracleLinkedService: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "AzureKeyVaultSecretReference",
+        },
+      },
+      encryptionClient: {
+        serializedName: "typeProperties.encryptionClient",
+        type: {
+          name: "any",
+        },
+      },
+      encryptionTypesClient: {
+        serializedName: "typeProperties.encryptionTypesClient",
+        type: {
+          name: "any",
+        },
+      },
+      cryptoChecksumClient: {
+        serializedName: "typeProperties.cryptoChecksumClient",
+        type: {
+          name: "any",
+        },
+      },
+      cryptoChecksumTypesClient: {
+        serializedName: "typeProperties.cryptoChecksumTypesClient",
+        type: {
+          name: "any",
+        },
+      },
+      initialLobFetchSize: {
+        serializedName: "typeProperties.initialLobFetchSize",
+        type: {
+          name: "any",
+        },
+      },
+      fetchSize: {
+        serializedName: "typeProperties.fetchSize",
+        type: {
+          name: "any",
+        },
+      },
+      statementCacheSize: {
+        serializedName: "typeProperties.statementCacheSize",
+        type: {
+          name: "any",
+        },
+      },
+      initializationString: {
+        serializedName: "typeProperties.initializationString",
+        type: {
+          name: "any",
+        },
+      },
+      enableBulkLoad: {
+        serializedName: "typeProperties.enableBulkLoad",
+        type: {
+          name: "any",
+        },
+      },
+      supportV1DataTypes: {
+        serializedName: "typeProperties.supportV1DataTypes",
+        type: {
+          name: "any",
+        },
+      },
+      fetchTswtzAsTimestamp: {
+        serializedName: "typeProperties.fetchTswtzAsTimestamp",
+        type: {
+          name: "any",
         },
       },
       encryptedCredential: {
@@ -11472,6 +11567,42 @@ export const TeradataLinkedService: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SecretBase",
+        },
+      },
+      sslMode: {
+        serializedName: "typeProperties.sslMode",
+        type: {
+          name: "any",
+        },
+      },
+      portNumber: {
+        serializedName: "typeProperties.portNumber",
+        type: {
+          name: "any",
+        },
+      },
+      httpsPortNumber: {
+        serializedName: "typeProperties.httpsPortNumber",
+        type: {
+          name: "any",
+        },
+      },
+      useDataEncryption: {
+        serializedName: "typeProperties.useDataEncryption",
+        type: {
+          name: "any",
+        },
+      },
+      characterSet: {
+        serializedName: "typeProperties.characterSet",
+        type: {
+          name: "any",
+        },
+      },
+      maxRespSize: {
+        serializedName: "typeProperties.maxRespSize",
+        type: {
+          name: "any",
         },
       },
       encryptedCredential: {
@@ -13897,6 +14028,58 @@ export const AzurePostgreSqlLinkedService: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      servicePrincipalId: {
+        serializedName: "typeProperties.servicePrincipalId",
+        type: {
+          name: "any",
+        },
+      },
+      servicePrincipalKey: {
+        serializedName: "typeProperties.servicePrincipalKey",
+        type: {
+          name: "Composite",
+          className: "SecretBase",
+        },
+      },
+      servicePrincipalCredentialType: {
+        serializedName: "typeProperties.servicePrincipalCredentialType",
+        type: {
+          name: "any",
+        },
+      },
+      servicePrincipalEmbeddedCert: {
+        serializedName: "typeProperties.servicePrincipalEmbeddedCert",
+        type: {
+          name: "Composite",
+          className: "SecretBase",
+        },
+      },
+      servicePrincipalEmbeddedCertPassword: {
+        serializedName: "typeProperties.servicePrincipalEmbeddedCertPassword",
+        type: {
+          name: "Composite",
+          className: "SecretBase",
+        },
+      },
+      tenant: {
+        serializedName: "typeProperties.tenant",
+        type: {
+          name: "any",
+        },
+      },
+      azureCloudType: {
+        serializedName: "typeProperties.azureCloudType",
+        type: {
+          name: "any",
+        },
+      },
+      credential: {
+        serializedName: "typeProperties.credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference",
+        },
+      },
     },
   },
 };
@@ -14269,6 +14452,61 @@ export const GreenplumLinkedService: coreClient.CompositeMapper = {
         serializedName: "typeProperties.encryptedCredential",
         type: {
           name: "String",
+        },
+      },
+      authenticationType: {
+        serializedName: "typeProperties.authenticationType",
+        type: {
+          name: "String",
+        },
+      },
+      host: {
+        serializedName: "typeProperties.host",
+        type: {
+          name: "any",
+        },
+      },
+      port: {
+        serializedName: "typeProperties.port",
+        type: {
+          name: "any",
+        },
+      },
+      username: {
+        serializedName: "typeProperties.username",
+        type: {
+          name: "any",
+        },
+      },
+      database: {
+        serializedName: "typeProperties.database",
+        type: {
+          name: "any",
+        },
+      },
+      sslMode: {
+        serializedName: "typeProperties.sslMode",
+        type: {
+          name: "any",
+        },
+      },
+      connectionTimeout: {
+        serializedName: "typeProperties.connectionTimeout",
+        type: {
+          name: "any",
+        },
+      },
+      commandTimeout: {
+        serializedName: "typeProperties.commandTimeout",
+        type: {
+          name: "any",
+        },
+      },
+      password: {
+        serializedName: "typeProperties.password",
+        type: {
+          name: "Composite",
+          className: "SecretBase",
         },
       },
     },
@@ -15077,7 +15315,6 @@ export const PrestoLinkedService: coreClient.CompositeMapper = {
       },
       serverVersion: {
         serializedName: "typeProperties.serverVersion",
-        required: true,
         type: {
           name: "any",
         },
@@ -15117,6 +15354,12 @@ export const PrestoLinkedService: coreClient.CompositeMapper = {
       },
       enableSsl: {
         serializedName: "typeProperties.enableSsl",
+        type: {
+          name: "any",
+        },
+      },
+      enableServerCertificateValidation: {
+        serializedName: "typeProperties.enableServerCertificateValidation",
         type: {
           name: "any",
         },
@@ -17044,7 +17287,7 @@ export const AzureSynapseArtifactsLinkedService: coreClient.CompositeMapper = {
 };
 
 export const LakeHouseLinkedService: coreClient.CompositeMapper = {
-  serializedName: "LakeHouse",
+  serializedName: "Lakehouse",
   type: {
     name: "Composite",
     className: "LakeHouseLinkedService",
@@ -20072,7 +20315,7 @@ export const AzureDatabricksDeltaLakeDataset: coreClient.CompositeMapper = {
 };
 
 export const LakeHouseTableDataset: coreClient.CompositeMapper = {
-  serializedName: "LakeHouseTable",
+  serializedName: "LakehouseTable",
   type: {
     name: "Composite",
     className: "LakeHouseTableDataset",
@@ -20190,6 +20433,12 @@ export const ServiceNowV2ObjectDataset: coreClient.CompositeMapper = {
         serializedName: "typeProperties.tableName",
         type: {
           name: "any",
+        },
+      },
+      valueType: {
+        serializedName: "typeProperties.valueType",
+        type: {
+          name: "String",
         },
       },
     },
@@ -24893,6 +25142,27 @@ export const RestSink: coreClient.CompositeMapper = {
   },
 };
 
+export const TeradataSink: coreClient.CompositeMapper = {
+  serializedName: "TeradataSink",
+  type: {
+    name: "Composite",
+    className: "TeradataSink",
+    uberParent: "CopySink",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: CopySink.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...CopySink.type.modelProperties,
+      importSettings: {
+        serializedName: "importSettings",
+        type: {
+          name: "Composite",
+          className: "TeradataImportCommand",
+        },
+      },
+    },
+  },
+};
+
 export const AzurePostgreSqlSink: coreClient.CompositeMapper = {
   serializedName: "AzurePostgreSqlSink",
   type: {
@@ -25892,6 +26162,18 @@ export const DynamicsSink: coreClient.CompositeMapper = {
           name: "any",
         },
       },
+      bypassBusinessLogicExecution: {
+        serializedName: "bypassBusinessLogicExecution",
+        type: {
+          name: "any",
+        },
+      },
+      bypassPowerAutomateFlows: {
+        serializedName: "bypassPowerAutomateFlows",
+        type: {
+          name: "any",
+        },
+      },
     },
   },
 };
@@ -25925,6 +26207,18 @@ export const DynamicsCrmSink: coreClient.CompositeMapper = {
           name: "any",
         },
       },
+      bypassBusinessLogicExecution: {
+        serializedName: "bypassBusinessLogicExecution",
+        type: {
+          name: "any",
+        },
+      },
+      bypassPowerAutomateFlows: {
+        serializedName: "bypassPowerAutomateFlows",
+        type: {
+          name: "any",
+        },
+      },
     },
   },
 };
@@ -25954,6 +26248,18 @@ export const CommonDataServiceForAppsSink: coreClient.CompositeMapper = {
       },
       alternateKeyName: {
         serializedName: "alternateKeyName",
+        type: {
+          name: "any",
+        },
+      },
+      bypassBusinessLogicExecution: {
+        serializedName: "bypassBusinessLogicExecution",
+        type: {
+          name: "any",
+        },
+      },
+      bypassPowerAutomateFlows: {
+        serializedName: "bypassPowerAutomateFlows",
         type: {
           name: "any",
         },
@@ -26214,32 +26520,18 @@ export const SalesforceServiceCloudV2Sink: coreClient.CompositeMapper = {
   },
 };
 
-export const SnowflakeExportCopyCommand: coreClient.CompositeMapper = {
-  serializedName: "SnowflakeExportCopyCommand",
+export const TeradataImportCommand: coreClient.CompositeMapper = {
+  serializedName: "TeradataImportCommand",
   type: {
     name: "Composite",
-    className: "SnowflakeExportCopyCommand",
-    uberParent: "ExportSettings",
+    className: "TeradataImportCommand",
+    uberParent: "ImportSettings",
     additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: ExportSettings.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: ImportSettings.type.polymorphicDiscriminator,
     modelProperties: {
-      ...ExportSettings.type.modelProperties,
-      additionalCopyOptions: {
-        serializedName: "additionalCopyOptions",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } },
-        },
-      },
+      ...ImportSettings.type.modelProperties,
       additionalFormatOptions: {
         serializedName: "additionalFormatOptions",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } },
-        },
-      },
-      storageIntegration: {
-        serializedName: "storageIntegration",
         type: {
           name: "any",
         },
@@ -26247,33 +26539,6 @@ export const SnowflakeExportCopyCommand: coreClient.CompositeMapper = {
     },
   },
 };
-
-export const AzureDatabricksDeltaLakeExportCommand: coreClient.CompositeMapper =
-  {
-    serializedName: "AzureDatabricksDeltaLakeExportCommand",
-    type: {
-      name: "Composite",
-      className: "AzureDatabricksDeltaLakeExportCommand",
-      uberParent: "ExportSettings",
-      additionalProperties: { type: { name: "Object" } },
-      polymorphicDiscriminator: ExportSettings.type.polymorphicDiscriminator,
-      modelProperties: {
-        ...ExportSettings.type.modelProperties,
-        dateFormat: {
-          serializedName: "dateFormat",
-          type: {
-            name: "any",
-          },
-        },
-        timestampFormat: {
-          serializedName: "timestampFormat",
-          type: {
-            name: "any",
-          },
-        },
-      },
-    },
-  };
 
 export const AzureDatabricksDeltaLakeImportCommand: coreClient.CompositeMapper =
   {
@@ -26335,6 +26600,67 @@ export const SnowflakeImportCopyCommand: coreClient.CompositeMapper = {
     },
   },
 };
+
+export const SnowflakeExportCopyCommand: coreClient.CompositeMapper = {
+  serializedName: "SnowflakeExportCopyCommand",
+  type: {
+    name: "Composite",
+    className: "SnowflakeExportCopyCommand",
+    uberParent: "ExportSettings",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: ExportSettings.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ExportSettings.type.modelProperties,
+      additionalCopyOptions: {
+        serializedName: "additionalCopyOptions",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
+      },
+      additionalFormatOptions: {
+        serializedName: "additionalFormatOptions",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
+      },
+      storageIntegration: {
+        serializedName: "storageIntegration",
+        type: {
+          name: "any",
+        },
+      },
+    },
+  },
+};
+
+export const AzureDatabricksDeltaLakeExportCommand: coreClient.CompositeMapper =
+  {
+    serializedName: "AzureDatabricksDeltaLakeExportCommand",
+    type: {
+      name: "Composite",
+      className: "AzureDatabricksDeltaLakeExportCommand",
+      uberParent: "ExportSettings",
+      additionalProperties: { type: { name: "Object" } },
+      polymorphicDiscriminator: ExportSettings.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ExportSettings.type.modelProperties,
+        dateFormat: {
+          serializedName: "dateFormat",
+          type: {
+            name: "any",
+          },
+        },
+        timestampFormat: {
+          serializedName: "timestampFormat",
+          type: {
+            name: "any",
+          },
+        },
+      },
+    },
+  };
 
 export const TabularTranslator: coreClient.CompositeMapper = {
   serializedName: "TabularTranslator",
@@ -28446,6 +28772,12 @@ export const ScriptActivity: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ScriptActivityTypePropertiesLogSettings",
+        },
+      },
+      returnMultistatementResult: {
+        serializedName: "typeProperties.returnMultistatementResult",
+        type: {
+          name: "any",
         },
       },
     },
@@ -30670,8 +31002,8 @@ export let discriminators = {
   FormatWriteSettings: FormatWriteSettings,
   CopySource: CopySource,
   CopySink: CopySink,
-  ExportSettings: ExportSettings,
   ImportSettings: ImportSettings,
+  ExportSettings: ExportSettings,
   CopyTranslator: CopyTranslator,
   DependencyReference: DependencyReference,
   "FactoryRepoConfiguration.FactoryVSTSConfiguration": FactoryVstsConfiguration,
@@ -30804,7 +31136,7 @@ export let discriminators = {
   "LinkedService.SnowflakeV2": SnowflakeV2LinkedService,
   "LinkedService.SharePointOnlineList": SharePointOnlineListLinkedService,
   "LinkedService.AzureSynapseArtifacts": AzureSynapseArtifactsLinkedService,
-  "LinkedService.LakeHouse": LakeHouseLinkedService,
+  "LinkedService.Lakehouse": LakeHouseLinkedService,
   "LinkedService.SalesforceV2": SalesforceV2LinkedService,
   "LinkedService.SalesforceServiceCloudV2":
     SalesforceServiceCloudV2LinkedService,
@@ -30912,7 +31244,7 @@ export let discriminators = {
   "Dataset.SnowflakeV2Table": SnowflakeV2Dataset,
   "Dataset.SharePointOnlineListResource": SharePointOnlineListResourceDataset,
   "Dataset.AzureDatabricksDeltaLakeDataset": AzureDatabricksDeltaLakeDataset,
-  "Dataset.LakeHouseTable": LakeHouseTableDataset,
+  "Dataset.LakehouseTable": LakeHouseTableDataset,
   "Dataset.SalesforceV2Object": SalesforceV2ObjectDataset,
   "Dataset.SalesforceServiceCloudV2Object":
     SalesforceServiceCloudV2ObjectDataset,
@@ -31050,6 +31382,7 @@ export let discriminators = {
   "CopySink.JsonSink": JsonSink,
   "CopySink.OrcSink": OrcSink,
   "CopySink.RestSink": RestSink,
+  "CopySink.TeradataSink": TeradataSink,
   "CopySink.AzurePostgreSqlSink": AzurePostgreSqlSink,
   "CopySink.AzureMySqlSink": AzureMySqlSink,
   "CopySink.AzureDatabricksDeltaLakeSink": AzureDatabricksDeltaLakeSink,
@@ -31091,12 +31424,13 @@ export let discriminators = {
   "CopySink.LakeHouseTableSink": LakeHouseTableSink,
   "CopySink.SalesforceV2Sink": SalesforceV2Sink,
   "CopySink.SalesforceServiceCloudV2Sink": SalesforceServiceCloudV2Sink,
-  "ExportSettings.SnowflakeExportCopyCommand": SnowflakeExportCopyCommand,
-  "ExportSettings.AzureDatabricksDeltaLakeExportCommand":
-    AzureDatabricksDeltaLakeExportCommand,
+  "ImportSettings.TeradataImportCommand": TeradataImportCommand,
   "ImportSettings.AzureDatabricksDeltaLakeImportCommand":
     AzureDatabricksDeltaLakeImportCommand,
   "ImportSettings.SnowflakeImportCopyCommand": SnowflakeImportCopyCommand,
+  "ExportSettings.SnowflakeExportCopyCommand": SnowflakeExportCopyCommand,
+  "ExportSettings.AzureDatabricksDeltaLakeExportCommand":
+    AzureDatabricksDeltaLakeExportCommand,
   "CopyTranslator.TabularTranslator": TabularTranslator,
   "DependencyReference.TriggerDependencyReference": TriggerDependencyReference,
   "DependencyReference.SelfDependencyTumblingWindowTriggerReference":
