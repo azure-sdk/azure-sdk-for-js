@@ -895,8 +895,8 @@ export enum KnownProtocol {
  * ### Known values supported by the service
  * **TCP**: When communication protocol is TCP \
  * **UDP**: When communication protocol is UDP \
- * **Http**: When communication protocol is HTTP \
- * **Https**: When communication protocol is HTTPS \
+ * **HTTP**: When communication protocol is HTTP \
+ * **HTTPS**: When communication protocol is HTTPS \
  * **RDP**: When communication protocol is RDP \
  * **FTP**: When communication protocol is FTP \
  * **SSH**: When communication protocol is SSH \
@@ -1190,9 +1190,9 @@ export enum KnownOrigin {
  * {@link KnownOrigin} can be used interchangeably with Origin,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **User**: Indicates the operation is initiated by a user. \
- * **System**: Indicates the operation is initiated by a system. \
- * **UserSystem**: Indicates the operation is initiated by a user or system.
+ * **user**: Indicates the operation is initiated by a user. \
+ * **system**: Indicates the operation is initiated by a system. \
+ * **user,system**: Indicates the operation is initiated by a user or system.
  */
 export type Origin = string;
 
