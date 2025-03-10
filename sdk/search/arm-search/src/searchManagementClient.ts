@@ -23,7 +23,6 @@ import {
   PrivateEndpointConnectionsImpl,
   SharedPrivateLinkResourcesImpl,
   UsagesImpl,
-  NetworkSecurityPerimeterConfigurationsImpl,
 } from "./operations/index.js";
 import {
   Operations,
@@ -34,7 +33,6 @@ import {
   PrivateEndpointConnections,
   SharedPrivateLinkResources,
   Usages,
-  NetworkSecurityPerimeterConfigurations,
 } from "./operationsInterfaces/index.js";
 import * as Parameters from "./models/parameters.js";
 import * as Mappers from "./models/mappers.js";
@@ -53,7 +51,7 @@ export class SearchManagementClient extends coreClient.ServiceClient {
    * Initializes a new instance of the SearchManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The unique identifier for a Microsoft Azure subscription. You can obtain this
-   *                       value from the Azure Resource Manager API or the portal.
+   *                       value from the Azure Resource Manager API, command line tools, or the portal.
    * @param options The parameter options
    */
   constructor(
@@ -77,7 +75,7 @@ export class SearchManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-search/4.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-search/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -131,7 +129,7 @@ export class SearchManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-06-01-preview";
+    this.apiVersion = options.apiVersion || "2025-05-01";
     this.operations = new OperationsImpl(this);
     this.adminKeys = new AdminKeysImpl(this);
     this.queryKeys = new QueryKeysImpl(this);
@@ -140,8 +138,6 @@ export class SearchManagementClient extends coreClient.ServiceClient {
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.sharedPrivateLinkResources = new SharedPrivateLinkResourcesImpl(this);
     this.usages = new UsagesImpl(this);
-    this.networkSecurityPerimeterConfigurations =
-      new NetworkSecurityPerimeterConfigurationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -174,7 +170,7 @@ export class SearchManagementClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Gets the quota usage for a search sku in the given subscription.
+   * Gets the quota usage for a search SKU in the given subscription.
    * @param location The unique location name for a Microsoft Azure geographic region.
    * @param skuName The unique SKU name that identifies a billable tier.
    * @param options The options parameters.
@@ -198,7 +194,6 @@ export class SearchManagementClient extends coreClient.ServiceClient {
   privateEndpointConnections: PrivateEndpointConnections;
   sharedPrivateLinkResources: SharedPrivateLinkResources;
   usages: Usages;
-  networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
