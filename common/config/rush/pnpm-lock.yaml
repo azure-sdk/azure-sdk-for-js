@@ -2796,7 +2796,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-containerservice-1@file:projects/arm-containerservice-1.tgz':
-    resolution: {integrity: sha512-+YaxjagnIDZ0i6eppousHV69r9ess4dAQqvm9z+W49bZxAdxbtxSKNQsg0ugY5pCp8mQyfLfeurQtlfPwRtnMA==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-5oKVqODcIcSFr89mNj0oeJ31/ho4e7rPTiMg3GKm0m52zjICSoYl91xgb3VgHhZ1dww9gG4MXNYTpojkYEfvXA==, tarball: file:projects/arm-containerservice-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-containerservice@file:projects/arm-containerservice.tgz':
