@@ -23,13 +23,14 @@ import {
   SqlPoolTransparentDataEncryptionsGetResponse,
   SqlPoolTransparentDataEncryptionsCreateOrUpdateOptionalParams,
   SqlPoolTransparentDataEncryptionsCreateOrUpdateResponse,
-  SqlPoolTransparentDataEncryptionsListNextResponse
+  SqlPoolTransparentDataEncryptionsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SqlPoolTransparentDataEncryptions operations. */
 export class SqlPoolTransparentDataEncryptionsImpl
-  implements SqlPoolTransparentDataEncryptions {
+  implements SqlPoolTransparentDataEncryptions
+{
   private readonly client: SynapseManagementClient;
 
   /**
@@ -51,13 +52,13 @@ export class SqlPoolTransparentDataEncryptionsImpl
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolTransparentDataEncryptionsListOptionalParams
+    options?: SqlPoolTransparentDataEncryptionsListOptionalParams,
   ): PagedAsyncIterableIterator<TransparentDataEncryption> {
     const iter = this.listPagingAll(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     );
     return {
       next() {
@@ -75,9 +76,9 @@ export class SqlPoolTransparentDataEncryptionsImpl
           workspaceName,
           sqlPoolName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +87,7 @@ export class SqlPoolTransparentDataEncryptionsImpl
     workspaceName: string,
     sqlPoolName: string,
     options?: SqlPoolTransparentDataEncryptionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<TransparentDataEncryption[]> {
     let result: SqlPoolTransparentDataEncryptionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -95,7 +96,7 @@ export class SqlPoolTransparentDataEncryptionsImpl
         resourceGroupName,
         workspaceName,
         sqlPoolName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -108,7 +109,7 @@ export class SqlPoolTransparentDataEncryptionsImpl
         workspaceName,
         sqlPoolName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -121,13 +122,13 @@ export class SqlPoolTransparentDataEncryptionsImpl
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolTransparentDataEncryptionsListOptionalParams
+    options?: SqlPoolTransparentDataEncryptionsListOptionalParams,
   ): AsyncIterableIterator<TransparentDataEncryption> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -146,7 +147,7 @@ export class SqlPoolTransparentDataEncryptionsImpl
     workspaceName: string,
     sqlPoolName: string,
     transparentDataEncryptionName: TransparentDataEncryptionName,
-    options?: SqlPoolTransparentDataEncryptionsGetOptionalParams
+    options?: SqlPoolTransparentDataEncryptionsGetOptionalParams,
   ): Promise<SqlPoolTransparentDataEncryptionsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -154,9 +155,9 @@ export class SqlPoolTransparentDataEncryptionsImpl
         workspaceName,
         sqlPoolName,
         transparentDataEncryptionName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -175,7 +176,7 @@ export class SqlPoolTransparentDataEncryptionsImpl
     sqlPoolName: string,
     transparentDataEncryptionName: TransparentDataEncryptionName,
     parameters: TransparentDataEncryption,
-    options?: SqlPoolTransparentDataEncryptionsCreateOrUpdateOptionalParams
+    options?: SqlPoolTransparentDataEncryptionsCreateOrUpdateOptionalParams,
   ): Promise<SqlPoolTransparentDataEncryptionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -184,9 +185,9 @@ export class SqlPoolTransparentDataEncryptionsImpl
         sqlPoolName,
         transparentDataEncryptionName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -201,11 +202,11 @@ export class SqlPoolTransparentDataEncryptionsImpl
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolTransparentDataEncryptionsListOptionalParams
+    options?: SqlPoolTransparentDataEncryptionsListOptionalParams,
   ): Promise<SqlPoolTransparentDataEncryptionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -222,11 +223,11 @@ export class SqlPoolTransparentDataEncryptionsImpl
     workspaceName: string,
     sqlPoolName: string,
     nextLink: string,
-    options?: SqlPoolTransparentDataEncryptionsListNextOptionalParams
+    options?: SqlPoolTransparentDataEncryptionsListNextOptionalParams,
   ): Promise<SqlPoolTransparentDataEncryptionsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -234,16 +235,15 @@ export class SqlPoolTransparentDataEncryptionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/transparentDataEncryption/{transparentDataEncryptionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/transparentDataEncryption/{transparentDataEncryptionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TransparentDataEncryption
+      bodyMapper: Mappers.TransparentDataEncryption,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -252,27 +252,26 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName,
-    Parameters.transparentDataEncryptionName
+    Parameters.transparentDataEncryptionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/transparentDataEncryption/{transparentDataEncryptionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/transparentDataEncryption/{transparentDataEncryptionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.TransparentDataEncryption
+      bodyMapper: Mappers.TransparentDataEncryption,
     },
     201: {
-      bodyMapper: Mappers.TransparentDataEncryption
+      bodyMapper: Mappers.TransparentDataEncryption,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -280,21 +279,20 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName,
-    Parameters.transparentDataEncryptionName
+    Parameters.transparentDataEncryptionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/transparentDataEncryption",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/transparentDataEncryption",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TransparentDataEncryptionListResult
+      bodyMapper: Mappers.TransparentDataEncryptionListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -302,19 +300,19 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TransparentDataEncryptionListResult
+      bodyMapper: Mappers.TransparentDataEncryptionListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -322,8 +320,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.nextLink,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

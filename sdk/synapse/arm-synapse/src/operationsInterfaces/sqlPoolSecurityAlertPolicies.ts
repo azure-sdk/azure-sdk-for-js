@@ -14,7 +14,7 @@ import {
   SqlPoolSecurityAlertPoliciesGetOptionalParams,
   SqlPoolSecurityAlertPoliciesGetResponse,
   SqlPoolSecurityAlertPoliciesCreateOrUpdateOptionalParams,
-  SqlPoolSecurityAlertPoliciesCreateOrUpdateResponse
+  SqlPoolSecurityAlertPoliciesCreateOrUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface SqlPoolSecurityAlertPolicies {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolSecurityAlertPoliciesListOptionalParams
+    options?: SqlPoolSecurityAlertPoliciesListOptionalParams,
   ): PagedAsyncIterableIterator<SqlPoolSecurityAlertPolicy>;
   /**
    * Get a Sql pool's security alert policy.
@@ -46,7 +46,7 @@ export interface SqlPoolSecurityAlertPolicies {
     workspaceName: string,
     sqlPoolName: string,
     securityAlertPolicyName: SecurityAlertPolicyName,
-    options?: SqlPoolSecurityAlertPoliciesGetOptionalParams
+    options?: SqlPoolSecurityAlertPoliciesGetOptionalParams,
   ): Promise<SqlPoolSecurityAlertPoliciesGetResponse>;
   /**
    * Create or update a Sql pool's security alert policy.
@@ -63,6 +63,6 @@ export interface SqlPoolSecurityAlertPolicies {
     sqlPoolName: string,
     securityAlertPolicyName: SecurityAlertPolicyName,
     parameters: SqlPoolSecurityAlertPolicy,
-    options?: SqlPoolSecurityAlertPoliciesCreateOrUpdateOptionalParams
+    options?: SqlPoolSecurityAlertPoliciesCreateOrUpdateOptionalParams,
   ): Promise<SqlPoolSecurityAlertPoliciesCreateOrUpdateResponse>;
 }

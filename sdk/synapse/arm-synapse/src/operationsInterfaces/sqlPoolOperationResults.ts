@@ -6,10 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   SqlPoolOperationResultsGetLocationHeaderResultOptionalParams,
-  SqlPoolOperationResultsGetLocationHeaderResultResponse
+  SqlPoolOperationResultsGetLocationHeaderResultResponse,
 } from "../models/index.js";
 
 /** Interface representing a SqlPoolOperationResults. */
@@ -22,33 +21,11 @@ export interface SqlPoolOperationResults {
    * @param operationId Operation ID
    * @param options The options parameters.
    */
-  beginGetLocationHeaderResult(
+  getLocationHeaderResult(
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
     operationId: string,
-    options?: SqlPoolOperationResultsGetLocationHeaderResultOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<
-        SqlPoolOperationResultsGetLocationHeaderResultResponse
-      >,
-      SqlPoolOperationResultsGetLocationHeaderResultResponse
-    >
-  >;
-  /**
-   * Get the status of a SQL pool operation
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param sqlPoolName SQL pool name
-   * @param operationId Operation ID
-   * @param options The options parameters.
-   */
-  beginGetLocationHeaderResultAndWait(
-    resourceGroupName: string,
-    workspaceName: string,
-    sqlPoolName: string,
-    operationId: string,
-    options?: SqlPoolOperationResultsGetLocationHeaderResultOptionalParams
+    options?: SqlPoolOperationResultsGetLocationHeaderResultOptionalParams,
   ): Promise<SqlPoolOperationResultsGetLocationHeaderResultResponse>;
 }

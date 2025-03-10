@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SynapseManagementClient } from "../synapseManagementClient.js";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   PrivateLinkHub,
   PrivateLinkHubsListByResourceGroupNextOptionalParams,
@@ -32,7 +36,7 @@ import {
   PrivateLinkHubsCreateOrUpdateResponse,
   PrivateLinkHubsDeleteOptionalParams,
   PrivateLinkHubsListByResourceGroupNextResponse,
-  PrivateLinkHubsListNextResponse
+  PrivateLinkHubsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -55,7 +59,7 @@ export class PrivateLinkHubsImpl implements PrivateLinkHubs {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: PrivateLinkHubsListByResourceGroupOptionalParams
+    options?: PrivateLinkHubsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkHub> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -72,16 +76,16 @@ export class PrivateLinkHubsImpl implements PrivateLinkHubs {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: PrivateLinkHubsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PrivateLinkHub[]> {
     let result: PrivateLinkHubsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -96,7 +100,7 @@ export class PrivateLinkHubsImpl implements PrivateLinkHubs {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -107,11 +111,11 @@ export class PrivateLinkHubsImpl implements PrivateLinkHubs {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: PrivateLinkHubsListByResourceGroupOptionalParams
+    options?: PrivateLinkHubsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<PrivateLinkHub> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -122,7 +126,7 @@ export class PrivateLinkHubsImpl implements PrivateLinkHubs {
    * @param options The options parameters.
    */
   public list(
-    options?: PrivateLinkHubsListOptionalParams
+    options?: PrivateLinkHubsListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkHub> {
     const iter = this.listPagingAll(options);
     return {
@@ -137,13 +141,13 @@ export class PrivateLinkHubsImpl implements PrivateLinkHubs {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: PrivateLinkHubsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PrivateLinkHub[]> {
     let result: PrivateLinkHubsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -164,7 +168,7 @@ export class PrivateLinkHubsImpl implements PrivateLinkHubs {
   }
 
   private async *listPagingAll(
-    options?: PrivateLinkHubsListOptionalParams
+    options?: PrivateLinkHubsListOptionalParams,
   ): AsyncIterableIterator<PrivateLinkHub> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -178,11 +182,11 @@ export class PrivateLinkHubsImpl implements PrivateLinkHubs {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: PrivateLinkHubsListByResourceGroupOptionalParams
+    options?: PrivateLinkHubsListByResourceGroupOptionalParams,
   ): Promise<PrivateLinkHubsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -195,11 +199,11 @@ export class PrivateLinkHubsImpl implements PrivateLinkHubs {
   get(
     resourceGroupName: string,
     privateLinkHubName: string,
-    options?: PrivateLinkHubsGetOptionalParams
+    options?: PrivateLinkHubsGetOptionalParams,
   ): Promise<PrivateLinkHubsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateLinkHubName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -214,16 +218,16 @@ export class PrivateLinkHubsImpl implements PrivateLinkHubs {
     resourceGroupName: string,
     privateLinkHubName: string,
     privateLinkHubPatchInfo: PrivateLinkHubPatchInfo,
-    options?: PrivateLinkHubsUpdateOptionalParams
+    options?: PrivateLinkHubsUpdateOptionalParams,
   ): Promise<PrivateLinkHubsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         privateLinkHubName,
         privateLinkHubPatchInfo,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -238,11 +242,11 @@ export class PrivateLinkHubsImpl implements PrivateLinkHubs {
     resourceGroupName: string,
     privateLinkHubName: string,
     privateLinkHubInfo: PrivateLinkHub,
-    options?: PrivateLinkHubsCreateOrUpdateOptionalParams
+    options?: PrivateLinkHubsCreateOrUpdateOptionalParams,
   ): Promise<PrivateLinkHubsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateLinkHubName, privateLinkHubInfo, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -255,25 +259,24 @@ export class PrivateLinkHubsImpl implements PrivateLinkHubs {
   async beginDelete(
     resourceGroupName: string,
     privateLinkHubName: string,
-    options?: PrivateLinkHubsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: PrivateLinkHubsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -282,8 +285,8 @@ export class PrivateLinkHubsImpl implements PrivateLinkHubs {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -291,19 +294,20 @@ export class PrivateLinkHubsImpl implements PrivateLinkHubs {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, privateLinkHubName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, privateLinkHubName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -318,12 +322,12 @@ export class PrivateLinkHubsImpl implements PrivateLinkHubs {
   async beginDeleteAndWait(
     resourceGroupName: string,
     privateLinkHubName: string,
-    options?: PrivateLinkHubsDeleteOptionalParams
+    options?: PrivateLinkHubsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       privateLinkHubName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -333,7 +337,7 @@ export class PrivateLinkHubsImpl implements PrivateLinkHubs {
    * @param options The options parameters.
    */
   private _list(
-    options?: PrivateLinkHubsListOptionalParams
+    options?: PrivateLinkHubsListOptionalParams,
   ): Promise<PrivateLinkHubsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -347,11 +351,11 @@ export class PrivateLinkHubsImpl implements PrivateLinkHubs {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: PrivateLinkHubsListByResourceGroupNextOptionalParams
+    options?: PrivateLinkHubsListByResourceGroupNextOptionalParams,
   ): Promise<PrivateLinkHubsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -362,11 +366,11 @@ export class PrivateLinkHubsImpl implements PrivateLinkHubs {
    */
   private _listNext(
     nextLink: string,
-    options?: PrivateLinkHubsListNextOptionalParams
+    options?: PrivateLinkHubsListNextOptionalParams,
   ): Promise<PrivateLinkHubsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -374,62 +378,59 @@ export class PrivateLinkHubsImpl implements PrivateLinkHubs {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHubs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHubs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkHubInfoListResult
+      bodyMapper: Mappers.PrivateLinkHubInfoListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHubs/{privateLinkHubName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PrivateLinkHub
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateLinkHubName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHubs/{privateLinkHubName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateLinkHub,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateLinkHubName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHubs/{privateLinkHubName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHubs/{privateLinkHubName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkHub
+      bodyMapper: Mappers.PrivateLinkHub,
     },
     201: {
-      bodyMapper: Mappers.PrivateLinkHub
+      bodyMapper: Mappers.PrivateLinkHub,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.privateLinkHubPatchInfo,
   queryParameters: [Parameters.apiVersion],
@@ -437,26 +438,25 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateLinkHubName
+    Parameters.privateLinkHubName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHubs/{privateLinkHubName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHubs/{privateLinkHubName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkHub
+      bodyMapper: Mappers.PrivateLinkHub,
     },
     201: {
-      bodyMapper: Mappers.PrivateLinkHub
+      bodyMapper: Mappers.PrivateLinkHub,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.privateLinkHubInfo,
   queryParameters: [Parameters.apiVersion],
@@ -464,15 +464,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateLinkHubName
+    Parameters.privateLinkHubName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHubs/{privateLinkHubName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHubs/{privateLinkHubName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -480,72 +479,71 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateLinkHubName
+    Parameters.privateLinkHubName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Synapse/privateLinkHubs",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Synapse/privateLinkHubs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkHubInfoListResult
+      bodyMapper: Mappers.PrivateLinkHubInfoListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkHubInfoListResult
+      bodyMapper: Mappers.PrivateLinkHubInfoListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkHubInfoListResult
+      bodyMapper: Mappers.PrivateLinkHubInfoListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -12,7 +12,7 @@ import {
   GetIntegrationRuntimeStopOptionalParams,
   GetIntegrationRuntimeStopResponse,
   GetIntegrationRuntimeEnableInteractivequeryOptionalParams,
-  GetIntegrationRuntimeEnableInteractivequeryResponse
+  GetIntegrationRuntimeEnableInteractivequeryResponse,
 } from "../models/index.js";
 
 /** Interface representing a Get. */
@@ -30,7 +30,7 @@ export interface Get {
     workspaceName: string,
     integrationRuntimeName: string,
     integrationRuntimeOperationId: string,
-    options?: GetIntegrationRuntimeStartOptionalParams
+    options?: GetIntegrationRuntimeStartOptionalParams,
   ): Promise<GetIntegrationRuntimeStartResponse>;
   /**
    * Get an integration runtime stop operation status
@@ -45,7 +45,7 @@ export interface Get {
     workspaceName: string,
     integrationRuntimeName: string,
     integrationRuntimeOperationId: string,
-    options?: GetIntegrationRuntimeStopOptionalParams
+    options?: GetIntegrationRuntimeStopOptionalParams,
   ): Promise<GetIntegrationRuntimeStopResponse>;
   /**
    * Get an integration runtime enable interactivequery operation status
@@ -60,6 +60,6 @@ export interface Get {
     workspaceName: string,
     integrationRuntimeName: string,
     integrationRuntimeOperationId: string,
-    options?: GetIntegrationRuntimeEnableInteractivequeryOptionalParams
+    options?: GetIntegrationRuntimeEnableInteractivequeryOptionalParams,
   ): Promise<GetIntegrationRuntimeEnableInteractivequeryResponse>;
 }

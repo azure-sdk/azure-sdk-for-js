@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SynapseManagementClient } from "../synapseManagementClient.js";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   IntegrationRuntimeResource,
   IntegrationRuntimesListByWorkspaceNextOptionalParams,
@@ -36,7 +40,7 @@ import {
   IntegrationRuntimesListOutboundNetworkDependenciesEndpointsResponse,
   IntegrationRuntimesEnableInteractiveQueryOptionalParams,
   IntegrationRuntimesDisableInteractiveQueryOptionalParams,
-  IntegrationRuntimesListByWorkspaceNextResponse
+  IntegrationRuntimesListByWorkspaceNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -61,12 +65,12 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
   public listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: IntegrationRuntimesListByWorkspaceOptionalParams
+    options?: IntegrationRuntimesListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<IntegrationRuntimeResource> {
     const iter = this.listByWorkspacePagingAll(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -83,9 +87,9 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -93,7 +97,7 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     workspaceName: string,
     options?: IntegrationRuntimesListByWorkspaceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<IntegrationRuntimeResource[]> {
     let result: IntegrationRuntimesListByWorkspaceResponse;
     let continuationToken = settings?.continuationToken;
@@ -101,7 +105,7 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
       result = await this._listByWorkspace(
         resourceGroupName,
         workspaceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -113,7 +117,7 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -125,12 +129,12 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
   private async *listByWorkspacePagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: IntegrationRuntimesListByWorkspaceOptionalParams
+    options?: IntegrationRuntimesListByWorkspaceOptionalParams,
   ): AsyncIterableIterator<IntegrationRuntimeResource> {
     for await (const page of this.listByWorkspacePagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -149,7 +153,7 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     workspaceName: string,
     integrationRuntimeName: string,
     updateIntegrationRuntimeRequest: UpdateIntegrationRuntimeRequest,
-    options?: IntegrationRuntimesUpdateOptionalParams
+    options?: IntegrationRuntimesUpdateOptionalParams,
   ): Promise<IntegrationRuntimesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -157,9 +161,9 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
         workspaceName,
         integrationRuntimeName,
         updateIntegrationRuntimeRequest,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -174,11 +178,11 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesGetOptionalParams
+    options?: IntegrationRuntimesGetOptionalParams,
   ): Promise<IntegrationRuntimesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, integrationRuntimeName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -195,30 +199,29 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     workspaceName: string,
     integrationRuntimeName: string,
     integrationRuntime: IntegrationRuntimeResource,
-    options?: IntegrationRuntimesCreateOptionalParams
+    options?: IntegrationRuntimesCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<IntegrationRuntimesCreateResponse>,
+    SimplePollerLike<
+      OperationState<IntegrationRuntimesCreateResponse>,
       IntegrationRuntimesCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<IntegrationRuntimesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -227,8 +230,8 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -236,25 +239,28 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         integrationRuntimeName,
         integrationRuntime,
-        options
+        options,
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      IntegrationRuntimesCreateResponse,
+      OperationState<IntegrationRuntimesCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -273,14 +279,14 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     workspaceName: string,
     integrationRuntimeName: string,
     integrationRuntime: IntegrationRuntimeResource,
-    options?: IntegrationRuntimesCreateOptionalParams
+    options?: IntegrationRuntimesCreateOptionalParams,
   ): Promise<IntegrationRuntimesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       workspaceName,
       integrationRuntimeName,
       integrationRuntime,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -296,25 +302,24 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: IntegrationRuntimesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -323,8 +328,8 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -332,19 +337,24 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, integrationRuntimeName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        workspaceName,
+        integrationRuntimeName,
+        options,
+      },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -361,13 +371,13 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesDeleteOptionalParams
+    options?: IntegrationRuntimesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       workspaceName,
       integrationRuntimeName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -383,11 +393,11 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesUpgradeOptionalParams
+    options?: IntegrationRuntimesUpgradeOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, integrationRuntimeName, options },
-      upgradeOperationSpec
+      upgradeOperationSpec,
     );
   }
 
@@ -400,11 +410,11 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
   private _listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: IntegrationRuntimesListByWorkspaceOptionalParams
+    options?: IntegrationRuntimesListByWorkspaceOptionalParams,
   ): Promise<IntegrationRuntimesListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listByWorkspaceOperationSpec
+      listByWorkspaceOperationSpec,
     );
   }
 
@@ -419,30 +429,29 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesStartOptionalParams
+    options?: IntegrationRuntimesStartOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<IntegrationRuntimesStartResponse>,
+    SimplePollerLike<
+      OperationState<IntegrationRuntimesStartResponse>,
       IntegrationRuntimesStartResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<IntegrationRuntimesStartResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -451,8 +460,8 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -460,20 +469,28 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, integrationRuntimeName, options },
-      startOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        workspaceName,
+        integrationRuntimeName,
+        options,
+      },
+      spec: startOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      IntegrationRuntimesStartResponse,
+      OperationState<IntegrationRuntimesStartResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -490,13 +507,13 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesStartOptionalParams
+    options?: IntegrationRuntimesStartOptionalParams,
   ): Promise<IntegrationRuntimesStartResponse> {
     const poller = await this.beginStart(
       resourceGroupName,
       workspaceName,
       integrationRuntimeName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -512,25 +529,24 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: IntegrationRuntimesStopOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -539,8 +555,8 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -548,19 +564,24 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, integrationRuntimeName, options },
-      stopOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        workspaceName,
+        integrationRuntimeName,
+        options,
+      },
+      spec: stopOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -577,13 +598,13 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesStopOptionalParams
+    options?: IntegrationRuntimesStopOptionalParams,
   ): Promise<void> {
     const poller = await this.beginStop(
       resourceGroupName,
       workspaceName,
       integrationRuntimeName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -599,13 +620,11 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesListOutboundNetworkDependenciesEndpointsOptionalParams
-  ): Promise<
-    IntegrationRuntimesListOutboundNetworkDependenciesEndpointsResponse
-  > {
+    options?: IntegrationRuntimesListOutboundNetworkDependenciesEndpointsOptionalParams,
+  ): Promise<IntegrationRuntimesListOutboundNetworkDependenciesEndpointsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, integrationRuntimeName, options },
-      listOutboundNetworkDependenciesEndpointsOperationSpec
+      listOutboundNetworkDependenciesEndpointsOperationSpec,
     );
   }
 
@@ -620,25 +639,24 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesEnableInteractiveQueryOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: IntegrationRuntimesEnableInteractiveQueryOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -647,8 +665,8 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -656,19 +674,24 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, integrationRuntimeName, options },
-      enableInteractiveQueryOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        workspaceName,
+        integrationRuntimeName,
+        options,
+      },
+      spec: enableInteractiveQueryOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -685,13 +708,13 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesEnableInteractiveQueryOptionalParams
+    options?: IntegrationRuntimesEnableInteractiveQueryOptionalParams,
   ): Promise<void> {
     const poller = await this.beginEnableInteractiveQuery(
       resourceGroupName,
       workspaceName,
       integrationRuntimeName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -707,25 +730,24 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesDisableInteractiveQueryOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: IntegrationRuntimesDisableInteractiveQueryOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -734,8 +756,8 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -743,19 +765,24 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, integrationRuntimeName, options },
-      disableInteractiveQueryOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        workspaceName,
+        integrationRuntimeName,
+        options,
+      },
+      spec: disableInteractiveQueryOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -772,13 +799,13 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesDisableInteractiveQueryOptionalParams
+    options?: IntegrationRuntimesDisableInteractiveQueryOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDisableInteractiveQuery(
       resourceGroupName,
       workspaceName,
       integrationRuntimeName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -794,11 +821,11 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: IntegrationRuntimesListByWorkspaceNextOptionalParams
+    options?: IntegrationRuntimesListByWorkspaceNextOptionalParams,
   ): Promise<IntegrationRuntimesListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listByWorkspaceNextOperationSpec
+      listByWorkspaceNextOperationSpec,
     );
   }
 }
@@ -806,16 +833,15 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeResource
+      bodyMapper: Mappers.IntegrationRuntimeResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.updateIntegrationRuntimeRequest,
   queryParameters: [Parameters.apiVersion1],
@@ -824,24 +850,23 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.integrationRuntimeName
+    Parameters.integrationRuntimeName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeResource
+      bodyMapper: Mappers.IntegrationRuntimeResource,
     },
     304: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -849,31 +874,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.integrationRuntimeName
+    Parameters.integrationRuntimeName,
   ],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeResource
+      bodyMapper: Mappers.IntegrationRuntimeResource,
     },
     201: {
-      bodyMapper: Mappers.IntegrationRuntimeResource
+      bodyMapper: Mappers.IntegrationRuntimeResource,
     },
     202: {
-      bodyMapper: Mappers.IntegrationRuntimeResource
+      bodyMapper: Mappers.IntegrationRuntimeResource,
     },
     204: {
-      bodyMapper: Mappers.IntegrationRuntimeResource
+      bodyMapper: Mappers.IntegrationRuntimeResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.integrationRuntime,
   queryParameters: [Parameters.apiVersion1],
@@ -882,19 +906,18 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.integrationRuntimeName
+    Parameters.integrationRuntimeName,
   ],
   headerParameters: [
     Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -902,8 +925,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -911,20 +934,19 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.integrationRuntimeName
+    Parameters.integrationRuntimeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const upgradeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/upgrade",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/upgrade",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -932,53 +954,51 @@ const upgradeOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.integrationRuntimeName
+    Parameters.integrationRuntimeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeListResponse
+      bodyMapper: Mappers.IntegrationRuntimeListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const startOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/start",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/start",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeStatusResponse
+      bodyMapper: Mappers.IntegrationRuntimeStatusResponse,
     },
     201: {
-      bodyMapper: Mappers.IntegrationRuntimeStatusResponse
+      bodyMapper: Mappers.IntegrationRuntimeStatusResponse,
     },
     202: {
-      bodyMapper: Mappers.IntegrationRuntimeStatusResponse
+      bodyMapper: Mappers.IntegrationRuntimeStatusResponse,
     },
     204: {
-      bodyMapper: Mappers.IntegrationRuntimeStatusResponse
+      bodyMapper: Mappers.IntegrationRuntimeStatusResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -986,14 +1006,13 @@ const startOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.integrationRuntimeName
+    Parameters.integrationRuntimeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const stopOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/stop",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/stop",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1001,32 +1020,8 @@ const stopOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.integrationRuntimeName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/outboundNetworkDependenciesEndpoints",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper:
-        Mappers.IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -1034,14 +1029,37 @@ const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.Operatio
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.integrationRuntimeName
+    Parameters.integrationRuntimeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
+const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/outboundNetworkDependenciesEndpoints",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper:
+          Mappers.IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
+    },
+    queryParameters: [Parameters.apiVersion1],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.workspaceName,
+      Parameters.integrationRuntimeName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const enableInteractiveQueryOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/enableInteractiveQuery",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/enableInteractiveQuery",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1049,8 +1067,8 @@ const enableInteractiveQueryOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -1058,14 +1076,13 @@ const enableInteractiveQueryOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.integrationRuntimeName
+    Parameters.integrationRuntimeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const disableInteractiveQueryOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/disableInteractiveQuery",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/disableInteractiveQuery",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1073,8 +1090,8 @@ const disableInteractiveQueryOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -1082,29 +1099,29 @@ const disableInteractiveQueryOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.integrationRuntimeName
+    Parameters.integrationRuntimeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeListResponse
+      bodyMapper: Mappers.IntegrationRuntimeListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
