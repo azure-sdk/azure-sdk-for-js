@@ -46,7 +46,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-06-01-preview",
+    defaultValue: "2025-05-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -69,9 +69,6 @@ export const resourceGroupName: OperationURLParameter = {
 export const searchServiceName: OperationURLParameter = {
   parameterPath: "searchServiceName",
   mapper: {
-    constraints: {
-      Pattern: new RegExp("^(?=.{2,60}$)[a-z0-9][a-z0-9]+(-[a-z0-9]+)*$"),
-    },
     serializedName: "searchServiceName",
     required: true,
     type: {
@@ -168,17 +165,6 @@ export const service: OperationParameter = {
   mapper: SearchServiceMapper,
 };
 
-export const searchServiceName1: OperationURLParameter = {
-  parameterPath: "searchServiceName",
-  mapper: {
-    serializedName: "searchServiceName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
 export const service1: OperationParameter = {
   parameterPath: "service",
   mapper: SearchServiceUpdateMapper,
@@ -241,24 +227,6 @@ export const skuName: OperationURLParameter = {
   parameterPath: "skuName",
   mapper: {
     serializedName: "skuName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const nspConfigName: OperationURLParameter = {
-  parameterPath: "nspConfigName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp(
-        "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}\\.[a-z][a-z0-9]*$",
-      ),
-      MaxLength: 100,
-      MinLength: 38,
-    },
-    serializedName: "nspConfigName",
     required: true,
     type: {
       name: "String",
