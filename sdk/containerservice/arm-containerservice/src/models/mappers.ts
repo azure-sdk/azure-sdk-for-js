@@ -1928,6 +1928,7 @@ export const ManagedClusterLoadBalancerProfile: coreClient.CompositeMapper = {
       },
       effectiveOutboundIPs: {
         serializedName: "effectiveOutboundIPs",
+        readOnly: true,
         type: {
           name: "Sequence",
           element: {
@@ -2082,6 +2083,7 @@ export const ManagedClusterNATGatewayProfile: coreClient.CompositeMapper = {
       },
       effectiveOutboundIPs: {
         serializedName: "effectiveOutboundIPs",
+        readOnly: true,
         type: {
           name: "Sequence",
           element: {
