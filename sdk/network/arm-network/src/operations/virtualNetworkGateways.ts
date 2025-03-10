@@ -54,6 +54,10 @@ import {
   VirtualNetworkGatewaysGetLearnedRoutesResponse,
   VirtualNetworkGatewaysGetAdvertisedRoutesOptionalParams,
   VirtualNetworkGatewaysGetAdvertisedRoutesResponse,
+  VirtualNetworkGatewaysGetResiliencyInformationOptionalParams,
+  VirtualNetworkGatewaysGetResiliencyInformationResponse,
+  VirtualNetworkGatewaysGetRoutesInformationOptionalParams,
+  VirtualNetworkGatewaysGetRoutesInformationResponse,
   VpnClientIPsecParameters,
   VirtualNetworkGatewaysSetVpnclientIpsecParametersOptionalParams,
   VirtualNetworkGatewaysSetVpnclientIpsecParametersResponse,
@@ -1343,6 +1347,190 @@ export class VirtualNetworkGatewaysImpl implements VirtualNetworkGateways {
   }
 
   /**
+   * This operation retrieves the resiliency information for an Express Route Gateway, including the
+   * gateway's current resiliency score and recommendations to further improve the score
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param options The options parameters.
+   */
+  async beginGetResiliencyInformation(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    options?: VirtualNetworkGatewaysGetResiliencyInformationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysGetResiliencyInformationResponse>,
+      VirtualNetworkGatewaysGetResiliencyInformationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<VirtualNetworkGatewaysGetResiliencyInformationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, virtualNetworkGatewayName, options },
+      spec: getResiliencyInformationOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      VirtualNetworkGatewaysGetResiliencyInformationResponse,
+      OperationState<VirtualNetworkGatewaysGetResiliencyInformationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * This operation retrieves the resiliency information for an Express Route Gateway, including the
+   * gateway's current resiliency score and recommendations to further improve the score
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param options The options parameters.
+   */
+  async beginGetResiliencyInformationAndWait(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    options?: VirtualNetworkGatewaysGetResiliencyInformationOptionalParams,
+  ): Promise<VirtualNetworkGatewaysGetResiliencyInformationResponse> {
+    const poller = await this.beginGetResiliencyInformation(
+      resourceGroupName,
+      virtualNetworkGatewayName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * This operation retrieves the route set information for an Express Route Gateway based on their
+   * resiliency
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param options The options parameters.
+   */
+  async beginGetRoutesInformation(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    options?: VirtualNetworkGatewaysGetRoutesInformationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysGetRoutesInformationResponse>,
+      VirtualNetworkGatewaysGetRoutesInformationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<VirtualNetworkGatewaysGetRoutesInformationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, virtualNetworkGatewayName, options },
+      spec: getRoutesInformationOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      VirtualNetworkGatewaysGetRoutesInformationResponse,
+      OperationState<VirtualNetworkGatewaysGetRoutesInformationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * This operation retrieves the route set information for an Express Route Gateway based on their
+   * resiliency
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param options The options parameters.
+   */
+  async beginGetRoutesInformationAndWait(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    options?: VirtualNetworkGatewaysGetRoutesInformationOptionalParams,
+  ): Promise<VirtualNetworkGatewaysGetRoutesInformationResponse> {
+    const poller = await this.beginGetRoutesInformation(
+      resourceGroupName,
+      virtualNetworkGatewayName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * The Set VpnclientIpsecParameters operation sets the vpnclient ipsec policy for P2S client of virtual
    * network gateway in the specified resource group through Network resource provider.
    * @param resourceGroupName The name of the resource group.
@@ -2414,7 +2602,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters73,
+  requestBody: Parameters.parameters81,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2614,7 +2802,7 @@ const generatevpnclientpackageOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters74,
+  requestBody: Parameters.parameters82,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2646,7 +2834,7 @@ const generateVpnProfileOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters74,
+  requestBody: Parameters.parameters82,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2799,6 +2987,66 @@ const getAdvertisedRoutesOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
+const getResiliencyInformationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getResiliencyInformation",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GatewayResiliencyInformation,
+    },
+    201: {
+      bodyMapper: Mappers.GatewayResiliencyInformation,
+    },
+    202: {
+      bodyMapper: Mappers.GatewayResiliencyInformation,
+    },
+    204: {
+      bodyMapper: Mappers.GatewayResiliencyInformation,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.attemptRefresh],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.virtualNetworkGatewayName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getRoutesInformationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getRoutesInformation",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GatewayRouteSetsInformation,
+    },
+    201: {
+      bodyMapper: Mappers.GatewayRouteSetsInformation,
+    },
+    202: {
+      bodyMapper: Mappers.GatewayRouteSetsInformation,
+    },
+    204: {
+      bodyMapper: Mappers.GatewayRouteSetsInformation,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.attemptRefresh],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.virtualNetworkGatewayName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const setVpnclientIpsecParametersOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/setvpnclientipsecparameters",
   httpMethod: "POST",
@@ -2872,7 +3120,7 @@ const vpnDeviceConfigurationScriptOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters75,
+  requestBody: Parameters.parameters83,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2904,7 +3152,7 @@ const startPacketCaptureOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel,
     },
   },
-  requestBody: Parameters.parameters76,
+  requestBody: Parameters.parameters84,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2936,7 +3184,7 @@ const stopPacketCaptureOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel,
     },
   },
-  requestBody: Parameters.parameters77,
+  requestBody: Parameters.parameters85,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -3203,7 +3451,7 @@ const disconnectVirtualNetworkGatewayVpnConnectionsOperationSpec: coreClient.Ope
         bodyMapper: Mappers.CloudError,
       },
     },
-    requestBody: Parameters.request1,
+    requestBody: Parameters.request2,
     queryParameters: [Parameters.apiVersion],
     urlParameters: [
       Parameters.$host,
