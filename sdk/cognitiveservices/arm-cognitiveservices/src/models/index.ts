@@ -2481,10 +2481,7 @@ export interface ResourceSkusListNextOptionalParams
 export type ResourceSkusListNextResponse = ResourceSkuListResult;
 
 /** Optional parameters. */
-export interface UsagesListOptionalParams extends coreClient.OperationOptions {
-  /** An OData filter expression that describes a subset of usages to return. The supported parameter is name.value (name of the metric, can have an or of multiple names). */
-  filter?: string;
-}
+export interface UsagesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type UsagesListResponse = UsageListResult;
