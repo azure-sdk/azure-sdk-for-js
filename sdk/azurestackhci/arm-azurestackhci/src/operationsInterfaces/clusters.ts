@@ -20,6 +20,9 @@ import {
   ClustersUpdateOptionalParams,
   ClustersUpdateResponse,
   ClustersDeleteOptionalParams,
+  SecretsLocationsChangeRequest,
+  ClustersUpdateSecretsLocationsOptionalParams,
+  ClustersUpdateSecretsLocationsResponse,
   UploadCertificateRequest,
   ClustersUploadCertificateOptionalParams,
   ClustersCreateIdentityOptionalParams,
@@ -113,6 +116,37 @@ export interface Clusters {
     clusterName: string,
     options?: ClustersDeleteOptionalParams,
   ): Promise<void>;
+  /**
+   * Update cluster secrets locations.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  beginUpdateSecretsLocations(
+    resourceGroupName: string,
+    clusterName: string,
+    body: SecretsLocationsChangeRequest,
+    options?: ClustersUpdateSecretsLocationsOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ClustersUpdateSecretsLocationsResponse>,
+      ClustersUpdateSecretsLocationsResponse
+    >
+  >;
+  /**
+   * Update cluster secrets locations.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  beginUpdateSecretsLocationsAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    body: SecretsLocationsChangeRequest,
+    options?: ClustersUpdateSecretsLocationsOptionalParams,
+  ): Promise<ClustersUpdateSecretsLocationsResponse>;
   /**
    * Upload certificate.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
