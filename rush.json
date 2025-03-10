@@ -2331,6 +2331,11 @@
       "packageName": "@azure/arm-databasewatcher",
       "projectFolder": "sdk/databasewatcher/arm-databasewatcher",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/azure-apicenter-rest",
+      "projectFolder": "sdk/apicenter/azure-apicenter-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
