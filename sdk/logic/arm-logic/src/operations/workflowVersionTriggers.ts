@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters.js";
 import { LogicManagementClient } from "../logicManagementClient.js";
 import {
   WorkflowVersionTriggersListCallbackUrlOptionalParams,
-  WorkflowVersionTriggersListCallbackUrlResponse
+  WorkflowVersionTriggersListCallbackUrlResponse,
 } from "../models/index.js";
 
 /** Class containing WorkflowVersionTriggers operations. */
@@ -30,7 +30,7 @@ export class WorkflowVersionTriggersImpl implements WorkflowVersionTriggers {
 
   /**
    * Get the callback url for a trigger of a workflow version.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param versionId The workflow versionId.
    * @param triggerName The workflow trigger name.
@@ -41,11 +41,11 @@ export class WorkflowVersionTriggersImpl implements WorkflowVersionTriggers {
     workflowName: string,
     versionId: string,
     triggerName: string,
-    options?: WorkflowVersionTriggersListCallbackUrlOptionalParams
+    options?: WorkflowVersionTriggersListCallbackUrlOptionalParams,
   ): Promise<WorkflowVersionTriggersListCallbackUrlResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, versionId, triggerName, options },
-      listCallbackUrlOperationSpec
+      listCallbackUrlOperationSpec,
     );
   }
 }
@@ -53,28 +53,27 @@ export class WorkflowVersionTriggersImpl implements WorkflowVersionTriggers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listCallbackUrlOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/versions/{versionId}/triggers/{triggerName}/listCallbackUrl",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/versions/{versionId}/{triggerName}/listCallbackUrl",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowTriggerCallbackUrl
+      bodyMapper: Mappers.WorkflowTriggerCallbackUrl,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workflowName,
+    Parameters.triggerName,
     Parameters.versionId,
-    Parameters.triggerName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

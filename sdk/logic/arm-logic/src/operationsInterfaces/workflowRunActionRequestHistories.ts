@@ -11,7 +11,7 @@ import {
   RequestHistory,
   WorkflowRunActionRequestHistoriesListOptionalParams,
   WorkflowRunActionRequestHistoriesGetOptionalParams,
-  WorkflowRunActionRequestHistoriesGetResponse
+  WorkflowRunActionRequestHistoriesGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -19,10 +19,10 @@ import {
 export interface WorkflowRunActionRequestHistories {
   /**
    * List a workflow run request history.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param runName The workflow run name.
-   * @param actionName The workflow action name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The name of the Workflow
+   * @param runName The name of the WorkflowRun
+   * @param actionName The name of the WorkflowRunAction
    * @param options The options parameters.
    */
   list(
@@ -30,15 +30,15 @@ export interface WorkflowRunActionRequestHistories {
     workflowName: string,
     runName: string,
     actionName: string,
-    options?: WorkflowRunActionRequestHistoriesListOptionalParams
+    options?: WorkflowRunActionRequestHistoriesListOptionalParams,
   ): PagedAsyncIterableIterator<RequestHistory>;
   /**
    * Gets a workflow run request history.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param runName The workflow run name.
-   * @param actionName The workflow action name.
-   * @param requestHistoryName The request history name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The name of the Workflow
+   * @param runName The name of the WorkflowRun
+   * @param actionName The name of the WorkflowRunAction
+   * @param requestHistoryName The name of the RequestHistory
    * @param options The options parameters.
    */
   get(
@@ -47,6 +47,6 @@ export interface WorkflowRunActionRequestHistories {
     runName: string,
     actionName: string,
     requestHistoryName: string,
-    options?: WorkflowRunActionRequestHistoriesGetOptionalParams
+    options?: WorkflowRunActionRequestHistoriesGetOptionalParams,
   ): Promise<WorkflowRunActionRequestHistoriesGetResponse>;
 }

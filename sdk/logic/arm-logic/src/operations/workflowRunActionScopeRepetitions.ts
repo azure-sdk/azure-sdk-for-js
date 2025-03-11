@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
 import { WorkflowRunActionScopeRepetitions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
@@ -14,16 +15,19 @@ import * as Parameters from "../models/parameters.js";
 import { LogicManagementClient } from "../logicManagementClient.js";
 import {
   WorkflowRunActionRepetitionDefinition,
+  WorkflowRunActionScopeRepetitionsListNextOptionalParams,
   WorkflowRunActionScopeRepetitionsListOptionalParams,
   WorkflowRunActionScopeRepetitionsListResponse,
   WorkflowRunActionScopeRepetitionsGetOptionalParams,
-  WorkflowRunActionScopeRepetitionsGetResponse
+  WorkflowRunActionScopeRepetitionsGetResponse,
+  WorkflowRunActionScopeRepetitionsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WorkflowRunActionScopeRepetitions operations. */
 export class WorkflowRunActionScopeRepetitionsImpl
-  implements WorkflowRunActionScopeRepetitions {
+  implements WorkflowRunActionScopeRepetitions
+{
   private readonly client: LogicManagementClient;
 
   /**
@@ -36,10 +40,10 @@ export class WorkflowRunActionScopeRepetitionsImpl
 
   /**
    * List the workflow run action scoped repetitions.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param runName The workflow run name.
-   * @param actionName The workflow action name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The name of the Workflow
+   * @param runName The name of the WorkflowRun
+   * @param actionName The name of the WorkflowRunAction
    * @param options The options parameters.
    */
   public list(
@@ -47,14 +51,14 @@ export class WorkflowRunActionScopeRepetitionsImpl
     workflowName: string,
     runName: string,
     actionName: string,
-    options?: WorkflowRunActionScopeRepetitionsListOptionalParams
+    options?: WorkflowRunActionScopeRepetitionsListOptionalParams,
   ): PagedAsyncIterableIterator<WorkflowRunActionRepetitionDefinition> {
     const iter = this.listPagingAll(
       resourceGroupName,
       workflowName,
       runName,
       actionName,
-      options
+      options,
     );
     return {
       next() {
@@ -73,9 +77,9 @@ export class WorkflowRunActionScopeRepetitionsImpl
           runName,
           actionName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,17 +89,37 @@ export class WorkflowRunActionScopeRepetitionsImpl
     runName: string,
     actionName: string,
     options?: WorkflowRunActionScopeRepetitionsListOptionalParams,
-    _settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<WorkflowRunActionRepetitionDefinition[]> {
     let result: WorkflowRunActionScopeRepetitionsListResponse;
-    result = await this._list(
-      resourceGroupName,
-      workflowName,
-      runName,
-      actionName,
-      options
-    );
-    yield result.value || [];
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        workflowName,
+        runName,
+        actionName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(
+        resourceGroupName,
+        workflowName,
+        runName,
+        actionName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
   private async *listPagingAll(
@@ -103,14 +127,14 @@ export class WorkflowRunActionScopeRepetitionsImpl
     workflowName: string,
     runName: string,
     actionName: string,
-    options?: WorkflowRunActionScopeRepetitionsListOptionalParams
+    options?: WorkflowRunActionScopeRepetitionsListOptionalParams,
   ): AsyncIterableIterator<WorkflowRunActionRepetitionDefinition> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workflowName,
       runName,
       actionName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -118,10 +142,10 @@ export class WorkflowRunActionScopeRepetitionsImpl
 
   /**
    * List the workflow run action scoped repetitions.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param runName The workflow run name.
-   * @param actionName The workflow action name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The name of the Workflow
+   * @param runName The name of the WorkflowRun
+   * @param actionName The name of the WorkflowRunAction
    * @param options The options parameters.
    */
   private _list(
@@ -129,21 +153,21 @@ export class WorkflowRunActionScopeRepetitionsImpl
     workflowName: string,
     runName: string,
     actionName: string,
-    options?: WorkflowRunActionScopeRepetitionsListOptionalParams
+    options?: WorkflowRunActionScopeRepetitionsListOptionalParams,
   ): Promise<WorkflowRunActionScopeRepetitionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, runName, actionName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
    * Get a workflow run action scoped repetition.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param runName The workflow run name.
-   * @param actionName The workflow action name.
-   * @param repetitionName The workflow repetition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The name of the Workflow
+   * @param runName The name of the WorkflowRun
+   * @param actionName The name of the WorkflowRunAction
+   * @param repetitionName The name of the WorkflowRunActionRepetitionDefinition
    * @param options The options parameters.
    */
   get(
@@ -152,7 +176,7 @@ export class WorkflowRunActionScopeRepetitionsImpl
     runName: string,
     actionName: string,
     repetitionName: string,
-    options?: WorkflowRunActionScopeRepetitionsGetOptionalParams
+    options?: WorkflowRunActionScopeRepetitionsGetOptionalParams,
   ): Promise<WorkflowRunActionScopeRepetitionsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -161,9 +185,39 @@ export class WorkflowRunActionScopeRepetitionsImpl
         runName,
         actionName,
         repetitionName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * ListNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The name of the Workflow
+   * @param runName The name of the WorkflowRun
+   * @param actionName The name of the WorkflowRunAction
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    resourceGroupName: string,
+    workflowName: string,
+    runName: string,
+    actionName: string,
+    nextLink: string,
+    options?: WorkflowRunActionScopeRepetitionsListNextOptionalParams,
+  ): Promise<WorkflowRunActionScopeRepetitionsListNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        workflowName,
+        runName,
+        actionName,
+        nextLink,
+        options,
+      },
+      listNextOperationSpec,
     );
   }
 }
@@ -171,40 +225,15 @@ export class WorkflowRunActionScopeRepetitionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/scopeRepetitions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/repetitions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowRunActionRepetitionDefinitionCollection
+      bodyMapper: Mappers.WorkflowRunActionRepetitionDefinitionCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workflowName,
-    Parameters.runName,
-    Parameters.actionName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/scopeRepetitions/{repetitionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkflowRunActionRepetitionDefinition
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -214,8 +243,54 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.workflowName,
     Parameters.runName,
     Parameters.actionName,
-    Parameters.repetitionName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/scopeRepetitions/{repetitionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkflowRunActionRepetitionDefinition,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workflowName,
+    Parameters.runName,
+    Parameters.actionName,
+    Parameters.repetitionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkflowRunActionRepetitionDefinitionCollection,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workflowName,
+    Parameters.runName,
+    Parameters.actionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

@@ -6,58 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  WorkflowRunActionRepetitionDefinition,
-  WorkflowRunActionRepetitionsListOptionalParams,
-  ExpressionRoot,
-  WorkflowRunActionRepetitionsListExpressionTracesOptionalParams,
   WorkflowRunActionRepetitionsGetOptionalParams,
-  WorkflowRunActionRepetitionsGetResponse
+  WorkflowRunActionRepetitionsGetResponse,
+  WorkflowRunActionRepetitionsListExpressionTracesOptionalParams,
+  WorkflowRunActionRepetitionsListExpressionTracesResponse,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a WorkflowRunActionRepetitions. */
 export interface WorkflowRunActionRepetitions {
   /**
-   * Get all of a workflow run action repetitions.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param runName The workflow run name.
-   * @param actionName The workflow action name.
-   * @param options The options parameters.
-   */
-  list(
-    resourceGroupName: string,
-    workflowName: string,
-    runName: string,
-    actionName: string,
-    options?: WorkflowRunActionRepetitionsListOptionalParams
-  ): PagedAsyncIterableIterator<WorkflowRunActionRepetitionDefinition>;
-  /**
-   * Lists a workflow run expression trace.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param runName The workflow run name.
-   * @param actionName The workflow action name.
-   * @param repetitionName The workflow repetition.
-   * @param options The options parameters.
-   */
-  listExpressionTraces(
-    resourceGroupName: string,
-    workflowName: string,
-    runName: string,
-    actionName: string,
-    repetitionName: string,
-    options?: WorkflowRunActionRepetitionsListExpressionTracesOptionalParams
-  ): PagedAsyncIterableIterator<ExpressionRoot>;
-  /**
    * Get a workflow run action repetition.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param runName The workflow run name.
-   * @param actionName The workflow action name.
-   * @param repetitionName The workflow repetition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The name of the Workflow
+   * @param runName The name of the WorkflowRun
+   * @param actionName The name of the WorkflowRunAction
+   * @param repetitionName The name of the WorkflowRunActionRepetitionDefinition
    * @param options The options parameters.
    */
   get(
@@ -66,6 +30,23 @@ export interface WorkflowRunActionRepetitions {
     runName: string,
     actionName: string,
     repetitionName: string,
-    options?: WorkflowRunActionRepetitionsGetOptionalParams
+    options?: WorkflowRunActionRepetitionsGetOptionalParams,
   ): Promise<WorkflowRunActionRepetitionsGetResponse>;
+  /**
+   * Lists a workflow run expression trace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The name of the Workflow
+   * @param runName The name of the WorkflowRun
+   * @param actionName The name of the WorkflowRunAction
+   * @param repetitionName The name of the WorkflowRunActionRepetitionDefinition
+   * @param options The options parameters.
+   */
+  listExpressionTraces(
+    resourceGroupName: string,
+    workflowName: string,
+    runName: string,
+    actionName: string,
+    repetitionName: string,
+    options?: WorkflowRunActionRepetitionsListExpressionTracesOptionalParams,
+  ): Promise<WorkflowRunActionRepetitionsListExpressionTracesResponse>;
 }

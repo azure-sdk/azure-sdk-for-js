@@ -17,7 +17,7 @@ import {
   IntegrationAccountPartnersDeleteOptionalParams,
   GetCallbackUrlParameters,
   IntegrationAccountPartnersListContentCallbackUrlOptionalParams,
-  IntegrationAccountPartnersListContentCallbackUrlResponse
+  IntegrationAccountPartnersListContentCallbackUrlResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -25,18 +25,18 @@ import {
 export interface IntegrationAccountPartners {
   /**
    * Gets a list of integration account partners.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountPartnersListOptionalParams
+    options?: IntegrationAccountPartnersListOptionalParams,
   ): PagedAsyncIterableIterator<IntegrationAccountPartner>;
   /**
    * Gets an integration account partner.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param partnerName The integration account partner name.
    * @param options The options parameters.
@@ -45,26 +45,26 @@ export interface IntegrationAccountPartners {
     resourceGroupName: string,
     integrationAccountName: string,
     partnerName: string,
-    options?: IntegrationAccountPartnersGetOptionalParams
+    options?: IntegrationAccountPartnersGetOptionalParams,
   ): Promise<IntegrationAccountPartnersGetResponse>;
   /**
    * Creates or updates an integration account partner.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param partnerName The integration account partner name.
-   * @param partner The integration account partner.
+   * @param resource The integration account partner.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     integrationAccountName: string,
     partnerName: string,
-    partner: IntegrationAccountPartner,
-    options?: IntegrationAccountPartnersCreateOrUpdateOptionalParams
+    resource: IntegrationAccountPartner,
+    options?: IntegrationAccountPartnersCreateOrUpdateOptionalParams,
   ): Promise<IntegrationAccountPartnersCreateOrUpdateResponse>;
   /**
    * Deletes an integration account partner.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param partnerName The integration account partner name.
    * @param options The options parameters.
@@ -73,21 +73,21 @@ export interface IntegrationAccountPartners {
     resourceGroupName: string,
     integrationAccountName: string,
     partnerName: string,
-    options?: IntegrationAccountPartnersDeleteOptionalParams
+    options?: IntegrationAccountPartnersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get the content callback url.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param partnerName The integration account partner name.
-   * @param listContentCallbackUrl The callback url parameters.
+   * @param body The callback url parameters.
    * @param options The options parameters.
    */
   listContentCallbackUrl(
     resourceGroupName: string,
     integrationAccountName: string,
     partnerName: string,
-    listContentCallbackUrl: GetCallbackUrlParameters,
-    options?: IntegrationAccountPartnersListContentCallbackUrlOptionalParams
+    body: GetCallbackUrlParameters,
+    options?: IntegrationAccountPartnersListContentCallbackUrlOptionalParams,
   ): Promise<IntegrationAccountPartnersListContentCallbackUrlResponse>;
 }

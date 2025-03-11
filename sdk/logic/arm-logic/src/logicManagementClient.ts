@@ -11,84 +11,84 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  OperationsImpl,
+  IntegrationAccountsImpl,
+  IntegrationServiceEnvironmentsImpl,
+  IntegrationServiceEnvironmentManagedApisImpl,
+  ApiOperationsImpl,
+  IntegrationServiceEnvironmentNetworkHealthOperationsImpl,
+  IntegrationServiceEnvironmentSkusImpl,
   WorkflowsImpl,
-  WorkflowVersionsImpl,
-  WorkflowTriggersImpl,
-  WorkflowVersionTriggersImpl,
-  WorkflowTriggerHistoriesImpl,
+  IntegrationAccountAgreementsImpl,
+  IntegrationAccountAssembliesImpl,
+  IntegrationAccountBatchConfigurationsImpl,
+  IntegrationAccountCertificatesImpl,
+  IntegrationAccountMapsImpl,
+  IntegrationAccountPartnersImpl,
+  IntegrationAccountSchemasImpl,
+  IntegrationAccountSessionsImpl,
   WorkflowRunsImpl,
   WorkflowRunActionsImpl,
+  WorkflowRunActionScopeRepetitionsImpl,
   WorkflowRunActionRepetitionsImpl,
   WorkflowRunActionRepetitionsRequestHistoriesImpl,
   WorkflowRunActionRequestHistoriesImpl,
-  WorkflowRunActionScopeRepetitionsImpl,
   WorkflowRunOperationsImpl,
-  IntegrationAccountsImpl,
-  IntegrationAccountAssembliesImpl,
-  IntegrationAccountBatchConfigurationsImpl,
-  IntegrationAccountSchemasImpl,
-  IntegrationAccountMapsImpl,
-  IntegrationAccountPartnersImpl,
-  IntegrationAccountAgreementsImpl,
-  IntegrationAccountCertificatesImpl,
-  IntegrationAccountSessionsImpl,
-  IntegrationServiceEnvironmentsImpl,
-  IntegrationServiceEnvironmentSkusImpl,
-  IntegrationServiceEnvironmentNetworkHealthImpl,
-  IntegrationServiceEnvironmentManagedApisImpl,
-  IntegrationServiceEnvironmentManagedApiOperationsImpl,
-  OperationsImpl
+  WorkflowTriggersImpl,
+  WorkflowTriggerHistoriesImpl,
+  WorkflowVersionsImpl,
+  WorkflowVersionTriggersImpl,
 } from "./operations/index.js";
 import {
+  Operations,
+  IntegrationAccounts,
+  IntegrationServiceEnvironments,
+  IntegrationServiceEnvironmentManagedApis,
+  ApiOperations,
+  IntegrationServiceEnvironmentNetworkHealthOperations,
+  IntegrationServiceEnvironmentSkus,
   Workflows,
-  WorkflowVersions,
-  WorkflowTriggers,
-  WorkflowVersionTriggers,
-  WorkflowTriggerHistories,
+  IntegrationAccountAgreements,
+  IntegrationAccountAssemblies,
+  IntegrationAccountBatchConfigurations,
+  IntegrationAccountCertificates,
+  IntegrationAccountMaps,
+  IntegrationAccountPartners,
+  IntegrationAccountSchemas,
+  IntegrationAccountSessions,
   WorkflowRuns,
   WorkflowRunActions,
+  WorkflowRunActionScopeRepetitions,
   WorkflowRunActionRepetitions,
   WorkflowRunActionRepetitionsRequestHistories,
   WorkflowRunActionRequestHistories,
-  WorkflowRunActionScopeRepetitions,
   WorkflowRunOperations,
-  IntegrationAccounts,
-  IntegrationAccountAssemblies,
-  IntegrationAccountBatchConfigurations,
-  IntegrationAccountSchemas,
-  IntegrationAccountMaps,
-  IntegrationAccountPartners,
-  IntegrationAccountAgreements,
-  IntegrationAccountCertificates,
-  IntegrationAccountSessions,
-  IntegrationServiceEnvironments,
-  IntegrationServiceEnvironmentSkus,
-  IntegrationServiceEnvironmentNetworkHealth,
-  IntegrationServiceEnvironmentManagedApis,
-  IntegrationServiceEnvironmentManagedApiOperations,
-  Operations
+  WorkflowTriggers,
+  WorkflowTriggerHistories,
+  WorkflowVersions,
+  WorkflowVersionTriggers,
 } from "./operationsInterfaces/index.js";
 import { LogicManagementClientOptionalParams } from "./models/index.js";
 
 export class LogicManagementClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
   apiVersion: string;
+  subscriptionId: string;
 
   /**
    * Initializes a new instance of the LogicManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The subscription id.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: LogicManagementClientOptionalParams
+    options?: LogicManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -103,10 +103,10 @@ export class LogicManagementClient extends coreClient.ServiceClient {
     }
     const defaults: LogicManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-logic/8.2.1`;
+    const packageDetails = `azsdk-js-arm-logic/9.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -116,20 +116,21 @@ export class LogicManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -139,7 +140,7 @@ export class LogicManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -149,9 +150,9 @@ export class LogicManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -160,59 +161,48 @@ export class LogicManagementClient extends coreClient.ServiceClient {
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
     this.apiVersion = options.apiVersion || "2019-05-01";
-    this.workflows = new WorkflowsImpl(this);
-    this.workflowVersions = new WorkflowVersionsImpl(this);
-    this.workflowTriggers = new WorkflowTriggersImpl(this);
-    this.workflowVersionTriggers = new WorkflowVersionTriggersImpl(this);
-    this.workflowTriggerHistories = new WorkflowTriggerHistoriesImpl(this);
-    this.workflowRuns = new WorkflowRunsImpl(this);
-    this.workflowRunActions = new WorkflowRunActionsImpl(this);
-    this.workflowRunActionRepetitions = new WorkflowRunActionRepetitionsImpl(
-      this
-    );
-    this.workflowRunActionRepetitionsRequestHistories = new WorkflowRunActionRepetitionsRequestHistoriesImpl(
-      this
-    );
-    this.workflowRunActionRequestHistories = new WorkflowRunActionRequestHistoriesImpl(
-      this
-    );
-    this.workflowRunActionScopeRepetitions = new WorkflowRunActionScopeRepetitionsImpl(
-      this
-    );
-    this.workflowRunOperations = new WorkflowRunOperationsImpl(this);
+    this.operations = new OperationsImpl(this);
     this.integrationAccounts = new IntegrationAccountsImpl(this);
+    this.integrationServiceEnvironments =
+      new IntegrationServiceEnvironmentsImpl(this);
+    this.integrationServiceEnvironmentManagedApis =
+      new IntegrationServiceEnvironmentManagedApisImpl(this);
+    this.apiOperations = new ApiOperationsImpl(this);
+    this.integrationServiceEnvironmentNetworkHealthOperations =
+      new IntegrationServiceEnvironmentNetworkHealthOperationsImpl(this);
+    this.integrationServiceEnvironmentSkus =
+      new IntegrationServiceEnvironmentSkusImpl(this);
+    this.workflows = new WorkflowsImpl(this);
+    this.integrationAccountAgreements = new IntegrationAccountAgreementsImpl(
+      this,
+    );
     this.integrationAccountAssemblies = new IntegrationAccountAssembliesImpl(
-      this
+      this,
     );
-    this.integrationAccountBatchConfigurations = new IntegrationAccountBatchConfigurationsImpl(
-      this
-    );
-    this.integrationAccountSchemas = new IntegrationAccountSchemasImpl(this);
+    this.integrationAccountBatchConfigurations =
+      new IntegrationAccountBatchConfigurationsImpl(this);
+    this.integrationAccountCertificates =
+      new IntegrationAccountCertificatesImpl(this);
     this.integrationAccountMaps = new IntegrationAccountMapsImpl(this);
     this.integrationAccountPartners = new IntegrationAccountPartnersImpl(this);
-    this.integrationAccountAgreements = new IntegrationAccountAgreementsImpl(
-      this
-    );
-    this.integrationAccountCertificates = new IntegrationAccountCertificatesImpl(
-      this
-    );
+    this.integrationAccountSchemas = new IntegrationAccountSchemasImpl(this);
     this.integrationAccountSessions = new IntegrationAccountSessionsImpl(this);
-    this.integrationServiceEnvironments = new IntegrationServiceEnvironmentsImpl(
-      this
+    this.workflowRuns = new WorkflowRunsImpl(this);
+    this.workflowRunActions = new WorkflowRunActionsImpl(this);
+    this.workflowRunActionScopeRepetitions =
+      new WorkflowRunActionScopeRepetitionsImpl(this);
+    this.workflowRunActionRepetitions = new WorkflowRunActionRepetitionsImpl(
+      this,
     );
-    this.integrationServiceEnvironmentSkus = new IntegrationServiceEnvironmentSkusImpl(
-      this
-    );
-    this.integrationServiceEnvironmentNetworkHealth = new IntegrationServiceEnvironmentNetworkHealthImpl(
-      this
-    );
-    this.integrationServiceEnvironmentManagedApis = new IntegrationServiceEnvironmentManagedApisImpl(
-      this
-    );
-    this.integrationServiceEnvironmentManagedApiOperations = new IntegrationServiceEnvironmentManagedApiOperationsImpl(
-      this
-    );
-    this.operations = new OperationsImpl(this);
+    this.workflowRunActionRepetitionsRequestHistories =
+      new WorkflowRunActionRepetitionsRequestHistoriesImpl(this);
+    this.workflowRunActionRequestHistories =
+      new WorkflowRunActionRequestHistoriesImpl(this);
+    this.workflowRunOperations = new WorkflowRunOperationsImpl(this);
+    this.workflowTriggers = new WorkflowTriggersImpl(this);
+    this.workflowTriggerHistories = new WorkflowTriggerHistoriesImpl(this);
+    this.workflowVersions = new WorkflowVersionsImpl(this);
+    this.workflowVersionTriggers = new WorkflowVersionTriggersImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -225,7 +215,7 @@ export class LogicManagementClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -239,36 +229,36 @@ export class LogicManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  operations: Operations;
+  integrationAccounts: IntegrationAccounts;
+  integrationServiceEnvironments: IntegrationServiceEnvironments;
+  integrationServiceEnvironmentManagedApis: IntegrationServiceEnvironmentManagedApis;
+  apiOperations: ApiOperations;
+  integrationServiceEnvironmentNetworkHealthOperations: IntegrationServiceEnvironmentNetworkHealthOperations;
+  integrationServiceEnvironmentSkus: IntegrationServiceEnvironmentSkus;
   workflows: Workflows;
-  workflowVersions: WorkflowVersions;
-  workflowTriggers: WorkflowTriggers;
-  workflowVersionTriggers: WorkflowVersionTriggers;
-  workflowTriggerHistories: WorkflowTriggerHistories;
+  integrationAccountAgreements: IntegrationAccountAgreements;
+  integrationAccountAssemblies: IntegrationAccountAssemblies;
+  integrationAccountBatchConfigurations: IntegrationAccountBatchConfigurations;
+  integrationAccountCertificates: IntegrationAccountCertificates;
+  integrationAccountMaps: IntegrationAccountMaps;
+  integrationAccountPartners: IntegrationAccountPartners;
+  integrationAccountSchemas: IntegrationAccountSchemas;
+  integrationAccountSessions: IntegrationAccountSessions;
   workflowRuns: WorkflowRuns;
   workflowRunActions: WorkflowRunActions;
+  workflowRunActionScopeRepetitions: WorkflowRunActionScopeRepetitions;
   workflowRunActionRepetitions: WorkflowRunActionRepetitions;
   workflowRunActionRepetitionsRequestHistories: WorkflowRunActionRepetitionsRequestHistories;
   workflowRunActionRequestHistories: WorkflowRunActionRequestHistories;
-  workflowRunActionScopeRepetitions: WorkflowRunActionScopeRepetitions;
   workflowRunOperations: WorkflowRunOperations;
-  integrationAccounts: IntegrationAccounts;
-  integrationAccountAssemblies: IntegrationAccountAssemblies;
-  integrationAccountBatchConfigurations: IntegrationAccountBatchConfigurations;
-  integrationAccountSchemas: IntegrationAccountSchemas;
-  integrationAccountMaps: IntegrationAccountMaps;
-  integrationAccountPartners: IntegrationAccountPartners;
-  integrationAccountAgreements: IntegrationAccountAgreements;
-  integrationAccountCertificates: IntegrationAccountCertificates;
-  integrationAccountSessions: IntegrationAccountSessions;
-  integrationServiceEnvironments: IntegrationServiceEnvironments;
-  integrationServiceEnvironmentSkus: IntegrationServiceEnvironmentSkus;
-  integrationServiceEnvironmentNetworkHealth: IntegrationServiceEnvironmentNetworkHealth;
-  integrationServiceEnvironmentManagedApis: IntegrationServiceEnvironmentManagedApis;
-  integrationServiceEnvironmentManagedApiOperations: IntegrationServiceEnvironmentManagedApiOperations;
-  operations: Operations;
+  workflowTriggers: WorkflowTriggers;
+  workflowTriggerHistories: WorkflowTriggerHistories;
+  workflowVersions: WorkflowVersions;
+  workflowVersionTriggers: WorkflowVersionTriggers;
 }

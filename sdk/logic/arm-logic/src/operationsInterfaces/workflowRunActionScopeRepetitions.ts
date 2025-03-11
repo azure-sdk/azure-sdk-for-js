@@ -11,7 +11,7 @@ import {
   WorkflowRunActionRepetitionDefinition,
   WorkflowRunActionScopeRepetitionsListOptionalParams,
   WorkflowRunActionScopeRepetitionsGetOptionalParams,
-  WorkflowRunActionScopeRepetitionsGetResponse
+  WorkflowRunActionScopeRepetitionsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -19,10 +19,10 @@ import {
 export interface WorkflowRunActionScopeRepetitions {
   /**
    * List the workflow run action scoped repetitions.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param runName The workflow run name.
-   * @param actionName The workflow action name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The name of the Workflow
+   * @param runName The name of the WorkflowRun
+   * @param actionName The name of the WorkflowRunAction
    * @param options The options parameters.
    */
   list(
@@ -30,15 +30,15 @@ export interface WorkflowRunActionScopeRepetitions {
     workflowName: string,
     runName: string,
     actionName: string,
-    options?: WorkflowRunActionScopeRepetitionsListOptionalParams
+    options?: WorkflowRunActionScopeRepetitionsListOptionalParams,
   ): PagedAsyncIterableIterator<WorkflowRunActionRepetitionDefinition>;
   /**
    * Get a workflow run action scoped repetition.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param runName The workflow run name.
-   * @param actionName The workflow action name.
-   * @param repetitionName The workflow repetition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The name of the Workflow
+   * @param runName The name of the WorkflowRun
+   * @param actionName The name of the WorkflowRunAction
+   * @param repetitionName The name of the WorkflowRunActionRepetitionDefinition
    * @param options The options parameters.
    */
   get(
@@ -47,6 +47,6 @@ export interface WorkflowRunActionScopeRepetitions {
     runName: string,
     actionName: string,
     repetitionName: string,
-    options?: WorkflowRunActionScopeRepetitionsGetOptionalParams
+    options?: WorkflowRunActionScopeRepetitionsGetOptionalParams,
   ): Promise<WorkflowRunActionScopeRepetitionsGetResponse>;
 }

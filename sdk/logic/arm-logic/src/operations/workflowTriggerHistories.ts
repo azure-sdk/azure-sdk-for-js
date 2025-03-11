@@ -14,6 +14,12 @@ import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { LogicManagementClient } from "../logicManagementClient.js";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
+import {
   WorkflowTriggerHistory,
   WorkflowTriggerHistoriesListNextOptionalParams,
   WorkflowTriggerHistoriesListOptionalParams,
@@ -21,7 +27,8 @@ import {
   WorkflowTriggerHistoriesGetOptionalParams,
   WorkflowTriggerHistoriesGetResponse,
   WorkflowTriggerHistoriesResubmitOptionalParams,
-  WorkflowTriggerHistoriesListNextResponse
+  WorkflowTriggerHistoriesResubmitResponse,
+  WorkflowTriggerHistoriesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +46,7 @@ export class WorkflowTriggerHistoriesImpl implements WorkflowTriggerHistories {
 
   /**
    * Gets a list of workflow trigger histories.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param triggerName The workflow trigger name.
    * @param options The options parameters.
@@ -48,13 +55,13 @@ export class WorkflowTriggerHistoriesImpl implements WorkflowTriggerHistories {
     resourceGroupName: string,
     workflowName: string,
     triggerName: string,
-    options?: WorkflowTriggerHistoriesListOptionalParams
+    options?: WorkflowTriggerHistoriesListOptionalParams,
   ): PagedAsyncIterableIterator<WorkflowTriggerHistory> {
     const iter = this.listPagingAll(
       resourceGroupName,
       workflowName,
       triggerName,
-      options
+      options,
     );
     return {
       next() {
@@ -72,9 +79,9 @@ export class WorkflowTriggerHistoriesImpl implements WorkflowTriggerHistories {
           workflowName,
           triggerName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -83,7 +90,7 @@ export class WorkflowTriggerHistoriesImpl implements WorkflowTriggerHistories {
     workflowName: string,
     triggerName: string,
     options?: WorkflowTriggerHistoriesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<WorkflowTriggerHistory[]> {
     let result: WorkflowTriggerHistoriesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +99,7 @@ export class WorkflowTriggerHistoriesImpl implements WorkflowTriggerHistories {
         resourceGroupName,
         workflowName,
         triggerName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -105,7 +112,7 @@ export class WorkflowTriggerHistoriesImpl implements WorkflowTriggerHistories {
         workflowName,
         triggerName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -118,13 +125,13 @@ export class WorkflowTriggerHistoriesImpl implements WorkflowTriggerHistories {
     resourceGroupName: string,
     workflowName: string,
     triggerName: string,
-    options?: WorkflowTriggerHistoriesListOptionalParams
+    options?: WorkflowTriggerHistoriesListOptionalParams,
   ): AsyncIterableIterator<WorkflowTriggerHistory> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workflowName,
       triggerName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -132,7 +139,7 @@ export class WorkflowTriggerHistoriesImpl implements WorkflowTriggerHistories {
 
   /**
    * Gets a list of workflow trigger histories.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param triggerName The workflow trigger name.
    * @param options The options parameters.
@@ -141,17 +148,17 @@ export class WorkflowTriggerHistoriesImpl implements WorkflowTriggerHistories {
     resourceGroupName: string,
     workflowName: string,
     triggerName: string,
-    options?: WorkflowTriggerHistoriesListOptionalParams
+    options?: WorkflowTriggerHistoriesListOptionalParams,
   ): Promise<WorkflowTriggerHistoriesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, triggerName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
    * Gets a workflow trigger history.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param triggerName The workflow trigger name.
    * @param historyName The workflow trigger history name. Corresponds to the run name for triggers that
@@ -163,39 +170,125 @@ export class WorkflowTriggerHistoriesImpl implements WorkflowTriggerHistories {
     workflowName: string,
     triggerName: string,
     historyName: string,
-    options?: WorkflowTriggerHistoriesGetOptionalParams
+    options?: WorkflowTriggerHistoriesGetOptionalParams,
   ): Promise<WorkflowTriggerHistoriesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, triggerName, historyName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
    * Resubmits a workflow run based on the trigger history.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param triggerName The workflow trigger name.
    * @param historyName The workflow trigger history name. Corresponds to the run name for triggers that
    *                    resulted in a run.
    * @param options The options parameters.
    */
-  resubmit(
+  async beginResubmit(
     resourceGroupName: string,
     workflowName: string,
     triggerName: string,
     historyName: string,
-    options?: WorkflowTriggerHistoriesResubmitOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workflowName, triggerName, historyName, options },
-      resubmitOperationSpec
+    options?: WorkflowTriggerHistoriesResubmitOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WorkflowTriggerHistoriesResubmitResponse>,
+      WorkflowTriggerHistoriesResubmitResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<WorkflowTriggerHistoriesResubmitResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        workflowName,
+        triggerName,
+        historyName,
+        options,
+      },
+      spec: resubmitOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      WorkflowTriggerHistoriesResubmitResponse,
+      OperationState<WorkflowTriggerHistoriesResubmitResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Resubmits a workflow run based on the trigger history.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The workflow name.
+   * @param triggerName The workflow trigger name.
+   * @param historyName The workflow trigger history name. Corresponds to the run name for triggers that
+   *                    resulted in a run.
+   * @param options The options parameters.
+   */
+  async beginResubmitAndWait(
+    resourceGroupName: string,
+    workflowName: string,
+    triggerName: string,
+    historyName: string,
+    options?: WorkflowTriggerHistoriesResubmitOptionalParams,
+  ): Promise<WorkflowTriggerHistoriesResubmitResponse> {
+    const poller = await this.beginResubmit(
+      resourceGroupName,
+      workflowName,
+      triggerName,
+      historyName,
+      options,
     );
+    return poller.pollUntilDone();
   }
 
   /**
    * ListNext
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param triggerName The workflow trigger name.
    * @param nextLink The nextLink from the previous successful call to the List method.
@@ -206,11 +299,11 @@ export class WorkflowTriggerHistoriesImpl implements WorkflowTriggerHistories {
     workflowName: string,
     triggerName: string,
     nextLink: string,
-    options?: WorkflowTriggerHistoriesListNextOptionalParams
+    options?: WorkflowTriggerHistoriesListNextOptionalParams,
   ): Promise<WorkflowTriggerHistoriesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, triggerName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -218,16 +311,15 @@ export class WorkflowTriggerHistoriesImpl implements WorkflowTriggerHistories {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers/{triggerName}/histories",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers/{triggerName}/histories",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowTriggerHistoryListResult
+      bodyMapper: Mappers.WorkflowTriggerHistoryListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.filter],
   urlParameters: [
@@ -235,22 +327,21 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workflowName,
-    Parameters.triggerName
+    Parameters.triggerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers/{triggerName}/histories/{historyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers/{triggerName}/histories/{historyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowTriggerHistory
+      bodyMapper: Mappers.WorkflowTriggerHistory,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -259,20 +350,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workflowName,
     Parameters.triggerName,
-    Parameters.historyName
+    Parameters.historyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const resubmitOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers/{triggerName}/histories/{historyName}/resubmit",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers/{triggerName}/histories/{historyName}/resubmit",
   httpMethod: "POST",
   responses: {
-    202: {},
+    200: {
+      headersMapper: Mappers.WorkflowTriggerHistoriesResubmitHeaders,
+    },
+    201: {
+      headersMapper: Mappers.WorkflowTriggerHistoriesResubmitHeaders,
+    },
+    202: {
+      headersMapper: Mappers.WorkflowTriggerHistoriesResubmitHeaders,
+    },
+    204: {
+      headersMapper: Mappers.WorkflowTriggerHistoriesResubmitHeaders,
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -281,30 +382,30 @@ const resubmitOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workflowName,
     Parameters.triggerName,
-    Parameters.historyName
+    Parameters.historyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowTriggerHistoryListResult
+      bodyMapper: Mappers.WorkflowTriggerHistoryListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workflowName,
-    Parameters.nextLink,
-    Parameters.triggerName
+    Parameters.triggerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

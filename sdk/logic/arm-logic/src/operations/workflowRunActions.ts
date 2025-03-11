@@ -18,12 +18,11 @@ import {
   WorkflowRunActionsListNextOptionalParams,
   WorkflowRunActionsListOptionalParams,
   WorkflowRunActionsListResponse,
-  ExpressionRoot,
-  WorkflowRunActionsListExpressionTracesOptionalParams,
-  WorkflowRunActionsListExpressionTracesResponse,
   WorkflowRunActionsGetOptionalParams,
   WorkflowRunActionsGetResponse,
-  WorkflowRunActionsListNextResponse
+  WorkflowRunActionsListExpressionTracesOptionalParams,
+  WorkflowRunActionsListExpressionTracesResponse,
+  WorkflowRunActionsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +40,7 @@ export class WorkflowRunActionsImpl implements WorkflowRunActions {
 
   /**
    * Gets a list of workflow run actions.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param runName The workflow run name.
    * @param options The options parameters.
@@ -50,13 +49,13 @@ export class WorkflowRunActionsImpl implements WorkflowRunActions {
     resourceGroupName: string,
     workflowName: string,
     runName: string,
-    options?: WorkflowRunActionsListOptionalParams
+    options?: WorkflowRunActionsListOptionalParams,
   ): PagedAsyncIterableIterator<WorkflowRunAction> {
     const iter = this.listPagingAll(
       resourceGroupName,
       workflowName,
       runName,
-      options
+      options,
     );
     return {
       next() {
@@ -74,9 +73,9 @@ export class WorkflowRunActionsImpl implements WorkflowRunActions {
           workflowName,
           runName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +84,7 @@ export class WorkflowRunActionsImpl implements WorkflowRunActions {
     workflowName: string,
     runName: string,
     options?: WorkflowRunActionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<WorkflowRunAction[]> {
     let result: WorkflowRunActionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +93,7 @@ export class WorkflowRunActionsImpl implements WorkflowRunActions {
         resourceGroupName,
         workflowName,
         runName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -107,7 +106,7 @@ export class WorkflowRunActionsImpl implements WorkflowRunActions {
         workflowName,
         runName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -120,95 +119,13 @@ export class WorkflowRunActionsImpl implements WorkflowRunActions {
     resourceGroupName: string,
     workflowName: string,
     runName: string,
-    options?: WorkflowRunActionsListOptionalParams
+    options?: WorkflowRunActionsListOptionalParams,
   ): AsyncIterableIterator<WorkflowRunAction> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workflowName,
       runName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Lists a workflow run expression trace.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param runName The workflow run name.
-   * @param actionName The workflow action name.
-   * @param options The options parameters.
-   */
-  public listExpressionTraces(
-    resourceGroupName: string,
-    workflowName: string,
-    runName: string,
-    actionName: string,
-    options?: WorkflowRunActionsListExpressionTracesOptionalParams
-  ): PagedAsyncIterableIterator<ExpressionRoot> {
-    const iter = this.listExpressionTracesPagingAll(
-      resourceGroupName,
-      workflowName,
-      runName,
-      actionName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listExpressionTracesPagingPage(
-          resourceGroupName,
-          workflowName,
-          runName,
-          actionName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listExpressionTracesPagingPage(
-    resourceGroupName: string,
-    workflowName: string,
-    runName: string,
-    actionName: string,
-    options?: WorkflowRunActionsListExpressionTracesOptionalParams,
-    _settings?: PageSettings
-  ): AsyncIterableIterator<ExpressionRoot[]> {
-    let result: WorkflowRunActionsListExpressionTracesResponse;
-    result = await this._listExpressionTraces(
-      resourceGroupName,
-      workflowName,
-      runName,
-      actionName,
-      options
-    );
-    yield result.inputs || [];
-  }
-
-  private async *listExpressionTracesPagingAll(
-    resourceGroupName: string,
-    workflowName: string,
-    runName: string,
-    actionName: string,
-    options?: WorkflowRunActionsListExpressionTracesOptionalParams
-  ): AsyncIterableIterator<ExpressionRoot> {
-    for await (const page of this.listExpressionTracesPagingPage(
-      resourceGroupName,
-      workflowName,
-      runName,
-      actionName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -216,7 +133,7 @@ export class WorkflowRunActionsImpl implements WorkflowRunActions {
 
   /**
    * Gets a list of workflow run actions.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param runName The workflow run name.
    * @param options The options parameters.
@@ -225,17 +142,17 @@ export class WorkflowRunActionsImpl implements WorkflowRunActions {
     resourceGroupName: string,
     workflowName: string,
     runName: string,
-    options?: WorkflowRunActionsListOptionalParams
+    options?: WorkflowRunActionsListOptionalParams,
   ): Promise<WorkflowRunActionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, runName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
    * Gets a workflow run action.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param runName The workflow run name.
    * @param actionName The workflow action name.
@@ -246,38 +163,38 @@ export class WorkflowRunActionsImpl implements WorkflowRunActions {
     workflowName: string,
     runName: string,
     actionName: string,
-    options?: WorkflowRunActionsGetOptionalParams
+    options?: WorkflowRunActionsGetOptionalParams,
   ): Promise<WorkflowRunActionsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, runName, actionName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
    * Lists a workflow run expression trace.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param runName The workflow run name.
    * @param actionName The workflow action name.
    * @param options The options parameters.
    */
-  private _listExpressionTraces(
+  listExpressionTraces(
     resourceGroupName: string,
     workflowName: string,
     runName: string,
     actionName: string,
-    options?: WorkflowRunActionsListExpressionTracesOptionalParams
+    options?: WorkflowRunActionsListExpressionTracesOptionalParams,
   ): Promise<WorkflowRunActionsListExpressionTracesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, runName, actionName, options },
-      listExpressionTracesOperationSpec
+      listExpressionTracesOperationSpec,
     );
   }
 
   /**
    * ListNext
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param runName The workflow run name.
    * @param nextLink The nextLink from the previous successful call to the List method.
@@ -288,11 +205,11 @@ export class WorkflowRunActionsImpl implements WorkflowRunActions {
     workflowName: string,
     runName: string,
     nextLink: string,
-    options?: WorkflowRunActionsListNextOptionalParams
+    options?: WorkflowRunActionsListNextOptionalParams,
   ): Promise<WorkflowRunActionsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, runName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -300,16 +217,15 @@ export class WorkflowRunActionsImpl implements WorkflowRunActions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowRunActionListResult
+      bodyMapper: Mappers.WorkflowRunActionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.filter],
   urlParameters: [
@@ -317,22 +233,21 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workflowName,
-    Parameters.runName
+    Parameters.runName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowRunAction
+      bodyMapper: Mappers.WorkflowRunAction,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -341,22 +256,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workflowName,
     Parameters.runName,
-    Parameters.actionName
+    Parameters.actionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listExpressionTracesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/listExpressionTraces",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/listExpressionTraces",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ExpressionTraces
+      bodyMapper: Mappers.ExpressionTraces,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -365,30 +279,30 @@ const listExpressionTracesOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workflowName,
     Parameters.runName,
-    Parameters.actionName
+    Parameters.actionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowRunActionListResult
+      bodyMapper: Mappers.WorkflowRunActionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workflowName,
-    Parameters.nextLink,
-    Parameters.runName
+    Parameters.runName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

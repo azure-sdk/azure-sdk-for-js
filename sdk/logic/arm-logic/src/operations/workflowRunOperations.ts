@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters.js";
 import { LogicManagementClient } from "../logicManagementClient.js";
 import {
   WorkflowRunOperationsGetOptionalParams,
-  WorkflowRunOperationsGetResponse
+  WorkflowRunOperationsGetResponse,
 } from "../models/index.js";
 
 /** Class containing WorkflowRunOperations operations. */
@@ -30,10 +30,10 @@ export class WorkflowRunOperationsImpl implements WorkflowRunOperations {
 
   /**
    * Gets an operation for a run.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param runName The workflow run name.
-   * @param operationId The workflow operation id.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The name of the Workflow
+   * @param runName The name of the WorkflowRun
+   * @param operationId The name of the WorkflowRun
    * @param options The options parameters.
    */
   get(
@@ -41,11 +41,11 @@ export class WorkflowRunOperationsImpl implements WorkflowRunOperations {
     workflowName: string,
     runName: string,
     operationId: string,
-    options?: WorkflowRunOperationsGetOptionalParams
+    options?: WorkflowRunOperationsGetOptionalParams,
   ): Promise<WorkflowRunOperationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, runName, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -53,16 +53,15 @@ export class WorkflowRunOperationsImpl implements WorkflowRunOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/operations/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/operations/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowRun
+      bodyMapper: Mappers.WorkflowRun,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -71,8 +70,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workflowName,
     Parameters.runName,
-    Parameters.operationId
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

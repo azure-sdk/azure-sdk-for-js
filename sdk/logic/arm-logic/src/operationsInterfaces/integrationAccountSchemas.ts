@@ -17,7 +17,7 @@ import {
   IntegrationAccountSchemasDeleteOptionalParams,
   GetCallbackUrlParameters,
   IntegrationAccountSchemasListContentCallbackUrlOptionalParams,
-  IntegrationAccountSchemasListContentCallbackUrlResponse
+  IntegrationAccountSchemasListContentCallbackUrlResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -25,18 +25,18 @@ import {
 export interface IntegrationAccountSchemas {
   /**
    * Gets a list of integration account schemas.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountSchemasListOptionalParams
+    options?: IntegrationAccountSchemasListOptionalParams,
   ): PagedAsyncIterableIterator<IntegrationAccountSchema>;
   /**
    * Gets an integration account schema.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param schemaName The integration account schema name.
    * @param options The options parameters.
@@ -45,26 +45,26 @@ export interface IntegrationAccountSchemas {
     resourceGroupName: string,
     integrationAccountName: string,
     schemaName: string,
-    options?: IntegrationAccountSchemasGetOptionalParams
+    options?: IntegrationAccountSchemasGetOptionalParams,
   ): Promise<IntegrationAccountSchemasGetResponse>;
   /**
    * Creates or updates an integration account schema.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param schemaName The integration account schema name.
-   * @param schema The integration account schema.
+   * @param resource The integration account schema.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     integrationAccountName: string,
     schemaName: string,
-    schema: IntegrationAccountSchema,
-    options?: IntegrationAccountSchemasCreateOrUpdateOptionalParams
+    resource: IntegrationAccountSchema,
+    options?: IntegrationAccountSchemasCreateOrUpdateOptionalParams,
   ): Promise<IntegrationAccountSchemasCreateOrUpdateResponse>;
   /**
    * Deletes an integration account schema.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param schemaName The integration account schema name.
    * @param options The options parameters.
@@ -73,21 +73,21 @@ export interface IntegrationAccountSchemas {
     resourceGroupName: string,
     integrationAccountName: string,
     schemaName: string,
-    options?: IntegrationAccountSchemasDeleteOptionalParams
+    options?: IntegrationAccountSchemasDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get the content callback url.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param schemaName The integration account schema name.
-   * @param listContentCallbackUrl The callback url parameters.
+   * @param body The callback url parameters.
    * @param options The options parameters.
    */
   listContentCallbackUrl(
     resourceGroupName: string,
     integrationAccountName: string,
     schemaName: string,
-    listContentCallbackUrl: GetCallbackUrlParameters,
-    options?: IntegrationAccountSchemasListContentCallbackUrlOptionalParams
+    body: GetCallbackUrlParameters,
+    options?: IntegrationAccountSchemasListContentCallbackUrlOptionalParams,
   ): Promise<IntegrationAccountSchemasListContentCallbackUrlResponse>;
 }
