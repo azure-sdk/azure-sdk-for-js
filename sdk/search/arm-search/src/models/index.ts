@@ -11,7 +11,7 @@ import * as coreClient from "@azure/core-client";
 /** The result of the request to list REST API operations. It contains a list of operations and a URL to get the next set of results. */
 export interface OperationListResult {
   /**
-   * The list of operations by Azure AI Search, some supported by the resource provider and others by data plane APIs.
+   * The list of operations supported by the resource provider.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly value?: Operation[];
@@ -34,21 +34,6 @@ export interface Operation {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly display?: OperationDisplay;
-  /**
-   * Describes if the specified operation is a data plane API operation. Operations where this value is not true are supported directly by the resource provider.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isDataAction?: boolean;
-  /**
-   * Describes which originating entities are allowed to invoke this operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly origin?: string;
-  /**
-   * Describes additional properties for this operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly properties?: OperationProperties;
 }
 
 /** The object that describes the operation. */
@@ -75,121 +60,10 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
-/** Describes additional properties for this operation. */
-export interface OperationProperties {
-  /**
-   * Specifications of the service for this operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serviceSpecification?: OperationServiceSpecification;
-}
-
-/** Specifications of the service for this operation. */
-export interface OperationServiceSpecification {
-  /**
-   * Specifications of metrics for this operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly metricSpecifications?: OperationMetricsSpecification[];
-  /**
-   * Specifications of logs for this operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly logSpecifications?: OperationLogsSpecification[];
-}
-
-/** Specifications of one type of metric for this operation. */
-export interface OperationMetricsSpecification {
-  /**
-   * The name of the metric specification.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The display name of the metric specification.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-  /**
-   * The display description of the metric specification.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayDescription?: string;
-  /**
-   * The unit for the metric specification.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly unit?: string;
-  /**
-   * The type of aggregation for the metric specification.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly aggregationType?: string;
-  /**
-   * Dimensions for the metric specification.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dimensions?: OperationMetricDimension[];
-  /**
-   * Availabilities for the metric specification.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly availabilities?: OperationAvailability[];
-}
-
-/** Describes a particular dimension for the metric specification. */
-export interface OperationMetricDimension {
-  /**
-   * The name of the dimension.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The display name of the dimension.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-}
-
-/** Describes a particular availability for the metric specification. */
-export interface OperationAvailability {
-  /**
-   * The time grain for the dimension.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timeGrain?: string;
-  /**
-   * The blob duration for the dimension.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly blobDuration?: string;
-}
-
-/** Specifications of one type of log for this operation. */
-export interface OperationLogsSpecification {
-  /**
-   * The name of the log specification.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The display name of the log specification.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-  /**
-   * The blob duration for the log specification.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly blobDuration?: string;
-}
-
 /** Contains information about an API error. */
 export interface CloudError {
   /** Describes a particular API error with an error code and a message. */
   error?: CloudErrorBody;
-  /** A brief description of the error that hints at what went wrong (for details/debugging information refer to the 'error.message' property). */
-  message?: string;
 }
 
 /** Describes a particular API error with an error code and a message. */
@@ -204,7 +78,7 @@ export interface CloudErrorBody {
   details?: CloudErrorBody[];
 }
 
-/** Response containing the primary and secondary admin API keys for a given Azure AI Search service. */
+/** Response containing the primary and secondary admin API keys for a given search service. */
 export interface AdminKeyResult {
   /**
    * The primary admin API key of the search service.
@@ -218,10 +92,10 @@ export interface AdminKeyResult {
   readonly secondaryKey?: string;
 }
 
-/** Describes an API key for a given Azure AI Search service that conveys read-only permissions on the docs collection of an index. */
+/** Describes an API key for a given search service that has permissions for query operations only. */
 export interface QueryKey {
   /**
-   * The name of the query API key. Query names are optional, but assigning a name can help you remember how it's used.
+   * The name of the query API key; may be empty.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
@@ -232,10 +106,10 @@ export interface QueryKey {
   readonly key?: string;
 }
 
-/** Response containing the query API keys for a given Azure AI Search service. */
+/** Response containing the query API keys for a given search service. */
 export interface ListQueryKeysResult {
   /**
-   * The query keys for the Azure AI Search service.
+   * The query keys for the search service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly value?: QueryKey[];
@@ -246,26 +120,24 @@ export interface ListQueryKeysResult {
   readonly nextLink?: string;
 }
 
-/** Network specific rules that determine how the Azure AI Search service may be reached. */
+/** Network-specific rules that determine how the search service can be reached. */
 export interface NetworkRuleSet {
-  /** A list of IP restriction rules that defines the inbound network(s) with allowing access to the search service endpoint. At the meantime, all other public IP networks are blocked by the firewall. These restriction rules are applied only when the 'publicNetworkAccess' of the search service is 'enabled'; otherwise, traffic over public interface is not allowed even with any public IP rules, and private endpoint connections would be the exclusive access method. */
+  /** A list of IP restriction rules used for an IP firewall. Any IPs that do not match the rules are blocked by the firewall. These rules are only applied when the 'publicNetworkAccess' of the search service is 'enabled'. */
   ipRules?: IpRule[];
-  /** Possible origins of inbound traffic that can bypass the rules defined in the 'ipRules' section. */
-  bypass?: SearchBypass;
 }
 
-/** The IP restriction rule of the Azure AI Search service. */
+/** The IP restriction rule of the search service. */
 export interface IpRule {
-  /** Value corresponding to a single IPv4 address (eg., 123.1.2.3) or an IP range in CIDR format (eg., 123.1.2.3/24) to be allowed. */
+  /** Value corresponding to a single IPv4 address (for example, 123.1.2.3) or an IP range in CIDR format (for example, 123.1.2.3/24) to be allowed. */
   value?: string;
 }
 
-/** Describes a policy that determines how resources within the search service are to be encrypted with customer managed keys. */
+/** Describes a policy that determines how resources within the search service are to be encrypted with customer=managed keys. */
 export interface EncryptionWithCmk {
-  /** Describes how a search service should enforce compliance if it finds objects that aren't encrypted with the customer-managed key. */
+  /** Describes how a search service should enforce having one or more non-customer-encrypted resources. */
   enforcement?: SearchEncryptionWithCmk;
   /**
-   * Returns the status of search service compliance with respect to non-CMK-encrypted objects. If a service has more than one unencrypted object, and enforcement is enabled, the service is marked as noncompliant.
+   * Describes whether the search service is compliant or not with respect to having non-customer-encrypted resources. If a service has more than one non-customer-encrypted resource and 'Enforcement' is 'enabled' then the service will be marked as 'nonCompliant'.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly encryptionComplianceStatus?: SearchEncryptionComplianceStatus;
@@ -285,25 +157,25 @@ export interface DataPlaneAadOrApiKeyAuthOption {
   aadAuthFailureMode?: AadAuthFailureMode;
 }
 
-/** Describes the properties of an existing private endpoint connection to the search service. */
+/** Describes the properties of an existing Private Endpoint connection to the search service. */
 export interface PrivateEndpointConnectionProperties {
   /** The private endpoint resource from Microsoft.Network provider. */
   privateEndpoint?: PrivateEndpointConnectionPropertiesPrivateEndpoint;
-  /** Describes the current state of an existing Azure Private Link service connection to the private endpoint. */
+  /** Describes the current state of an existing Private Link Service connection to the Azure Private Endpoint. */
   privateLinkServiceConnectionState?: PrivateEndpointConnectionPropertiesPrivateLinkServiceConnectionState;
-  /** The group ID of the Azure resource for which the private link service is for. */
+  /** The group id from the provider of resource the private link service connection is for. */
   groupId?: string;
-  /** The provisioning state of the private link service connection. Valid values are Updating, Deleting, Failed, Succeeded, Incomplete, or Canceled. */
+  /** The provisioning state of the private link service connection. Valid values are Updating, Deleting, Failed, Succeeded, or Incomplete */
   provisioningState?: PrivateLinkServiceConnectionProvisioningState;
 }
 
 /** The private endpoint resource from Microsoft.Network provider. */
 export interface PrivateEndpointConnectionPropertiesPrivateEndpoint {
-  /** The resource ID of the private endpoint resource from Microsoft.Network provider. */
+  /** The resource id of the private endpoint resource from Microsoft.Network provider. */
   id?: string;
 }
 
-/** Describes the current state of an existing Azure Private Link service connection to the private endpoint. */
+/** Describes the current state of an existing Private Link Service connection to the Azure Private Endpoint. */
 export interface PrivateEndpointConnectionPropertiesPrivateLinkServiceConnectionState {
   /** Status of the the private link service connection. Valid values are Pending, Approved, Rejected, or Disconnected. */
   status?: PrivateLinkServiceConnectionStatus;
@@ -332,15 +204,15 @@ export interface Resource {
   readonly type?: string;
 }
 
-/** Describes the properties of an existing shared private link resource managed by the Azure AI Search service. */
+/** Describes the properties of an existing Shared Private Link Resource managed by the search service. */
 export interface SharedPrivateLinkResourceProperties {
-  /** The resource ID of the resource the shared private link resource is for. */
+  /** The resource id of the resource the shared private link resource is for. */
   privateLinkResourceId?: string;
-  /** The group ID from the provider of resource the shared private link resource is for. */
+  /** The group id from the provider of resource the shared private link resource is for. */
   groupId?: string;
-  /** The message for requesting approval of the shared private link resource. */
+  /** The request message for requesting approval of the shared private link resource. */
   requestMessage?: string;
-  /** Optional. Can be used to specify the Azure Resource Manager location of the resource for which a shared private link is being created. This is only required for those resources whose DNS configuration are regional (such as Azure Kubernetes Service). */
+  /** Optional. Can be used to specify the Azure Resource Manager location of the resource to which a shared private link is to be created. This is only required for those resources whose DNS configuration are regional (such as Azure Kubernetes Service). */
   resourceRegion?: string;
   /** Status of the shared private link resource. Valid values are Pending, Approved, Rejected or Disconnected. */
   status?: SharedPrivateLinkResourceStatus;
@@ -354,7 +226,7 @@ export interface Sku {
   name?: SkuName;
 }
 
-/** Details about the search service identity. A null value indicates that the search service has no identity assigned. */
+/** Identity for the resource. */
 export interface Identity {
   /**
    * The principal ID of the system-assigned identity of the search service.
@@ -366,29 +238,27 @@ export interface Identity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
-  /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an identity created by the system and a set of user assigned identities. The type 'None' will remove all identities from the service. */
+  /** The identity type. */
   type: IdentityType;
-  /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: {
-    [propertyName: string]: UserAssignedManagedIdentity;
-  };
 }
 
-/** The details of the user assigned managed identity assigned to the search service. */
-export interface UserAssignedManagedIdentity {
-  /**
-   * The principal ID of user assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The client ID of user assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clientId?: string;
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
-/** Response containing a list of Azure AI Search services. */
+/** Response containing a list of search services. */
 export interface SearchServiceListResult {
   /**
    * The list of search services.
@@ -411,7 +281,7 @@ export interface PrivateLinkResourcesResult {
   readonly value?: PrivateLinkResource[];
 }
 
-/** Describes the properties of a supported private link resource for the Azure AI Search service. For a given API version, this represents the 'supported' groupIds when creating a shared private link resource. */
+/** Describes the properties of a supported private link resource for the search service. For a given API version, this represents the 'supported' groupIds when creating a shared private link resource. */
 export interface PrivateLinkResourceProperties {
   /**
    * The group ID of the private link resource.
@@ -429,49 +299,49 @@ export interface PrivateLinkResourceProperties {
    */
   readonly requiredZoneNames?: string[];
   /**
-   * The list of resources that are onboarded to private link service, that are supported by Azure AI Search.
+   * The list of resources that are onboarded to private link service and that are supported by search.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly shareablePrivateLinkResourceTypes?: ShareablePrivateLinkResourceType[];
 }
 
-/** Describes an resource type that has been onboarded to private link service, supported by Azure AI Search. */
+/** Describes a resource type that has been onboarded to private link service and that's supported by search. */
 export interface ShareablePrivateLinkResourceType {
   /**
-   * The name of the resource type that has been onboarded to private link service, supported by Azure AI Search.
+   * The name of the resource type that has been onboarded to private link service and that's supported by search.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * Describes the properties of a resource type that has been onboarded to private link service, supported by Azure AI Search.
+   * Describes the properties of a resource type that has been onboarded to private link service and that's supported by search.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly properties?: ShareablePrivateLinkResourceProperties;
 }
 
-/** Describes the properties of a resource type that has been onboarded to private link service, supported by Azure AI Search. */
+/** Describes the properties of a resource type that has been onboarded to private link service and that's supported by search. */
 export interface ShareablePrivateLinkResourceProperties {
   /**
-   * The resource provider type for the resource that has been onboarded to private link service, supported by Azure AI Search.
+   * The resource provider type for the resource that has been onboarded to private link service and that's supported by search.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
   /**
-   * The resource provider group id for the resource that has been onboarded to private link service, supported by Azure AI Search.
+   * The resource provider group id for the resource that has been onboarded to private link service and that's supported by search.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly groupId?: string;
   /**
-   * The description of the resource type that has been onboarded to private link service, supported by Azure AI Search.
+   * The description of the resource type that has been onboarded to private link service and that's supported by search.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly description?: string;
 }
 
-/** Response containing a list of private endpoint connections. */
+/** Response containing a list of Private Endpoint connections. */
 export interface PrivateEndpointConnectionListResult {
   /**
-   * The list of private endpoint connections.
+   * The list of Private Endpoint connections.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly value?: PrivateEndpointConnection[];
@@ -482,10 +352,10 @@ export interface PrivateEndpointConnectionListResult {
   readonly nextLink?: string;
 }
 
-/** Response containing a list of shared private link resources. */
+/** Response containing a list of Shared Private Link Resources. */
 export interface SharedPrivateLinkResourceListResult {
   /**
-   * The list of shared private link resources.
+   * The list of Shared Private Link Resources.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly value?: SharedPrivateLinkResource[];
@@ -559,94 +429,21 @@ export interface QuotaUsageResultName {
   localizedValue?: string;
 }
 
-/** A list of network security perimeter configurations for a server. */
-export interface NetworkSecurityPerimeterConfigurationListResult {
-  /**
-   * Array of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: NetworkSecurityPerimeterConfiguration[];
-  /**
-   * Link to retrieve next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** The perimeter for a network security perimeter configuration. */
-export interface NSPConfigPerimeter {
-  id?: string;
-  perimeterGuid?: string;
-  location?: string;
-}
-
-/** The resource association for the network security perimeter. */
-export interface NSPConfigAssociation {
-  name?: string;
-  accessMode?: string;
-}
-
-/** The profile for a network security perimeter configuration. */
-export interface NSPConfigProfile {
-  name?: string;
-  accessRulesVersion?: string;
-  accessRules?: NSPConfigAccessRule[];
-}
-
-/** An access rule for a network security perimeter configuration. */
-export interface NSPConfigAccessRule {
-  name?: string;
-  /** The properties for the access rules in a network security perimeter configuration. */
-  properties?: NSPConfigAccessRuleProperties;
-}
-
-/** The properties for the access rules in a network security perimeter configuration. */
-export interface NSPConfigAccessRuleProperties {
-  direction?: string;
-  addressPrefixes?: string[];
-  fullyQualifiedDomainNames?: string[];
-  subscriptions?: string[];
-  networkSecurityPerimeters?: NSPConfigNetworkSecurityPerimeterRule[];
-}
-
-/** The network security perimeter properties present in a configuration rule. */
-export interface NSPConfigNetworkSecurityPerimeterRule {
-  id?: string;
-  perimeterGuid?: string;
-  location?: string;
-}
-
-/** An object to describe any issues with provisioning network security perimeters to a search service. */
-export interface NSPProvisioningIssue {
-  name?: string;
-  /** The properties to describe any issues with provisioning network security perimeters to a search service. */
-  properties?: NSPProvisioningIssueProperties;
-}
-
-/** The properties to describe any issues with provisioning network security perimeters to a search service. */
-export interface NSPProvisioningIssueProperties {
-  issueType?: string;
-  severity?: string;
-  description?: string;
-  suggestedResourceIds?: string[];
-  suggestedAccessRules?: string[];
-}
-
-/** The details of a long running asynchronous shared private link resource operation. */
+/** The details of a long running asynchronous shared private link resource operation */
 export interface AsyncOperationResult {
   /** The current status of the long running asynchronous shared private link resource operation. */
   status?: SharedPrivateLinkResourceAsyncOperationResult;
 }
 
-/** Describes an existing private endpoint connection to the Azure AI Search service. */
+/** Describes an existing private endpoint connection to the search service. */
 export interface PrivateEndpointConnection extends Resource {
-  /** Describes the properties of an existing private endpoint connection to the Azure AI Search service. */
+  /** Describes the properties of an existing private endpoint connection to the search service. */
   properties?: PrivateEndpointConnectionProperties;
 }
 
-/** Describes a shared private link resource managed by the Azure AI Search service. */
+/** Describes a Shared Private Link Resource managed by the search service. */
 export interface SharedPrivateLinkResource extends Resource {
-  /** Describes the properties of a shared private link resource managed by the Azure AI Search service. */
+  /** Describes the properties of a Shared Private Link Resource managed by the search service. */
   properties?: SharedPrivateLinkResourceProperties;
 }
 
@@ -658,84 +455,14 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-/** The parameters used to update an Azure AI Search service. */
+/** The parameters used to update a search service. */
 export interface SearchServiceUpdate extends Resource {
-  /** The SKU of the search service, which determines price tier and capacity limits. This property is required when creating a new search service. */
+  /** The SKU of the search service, which determines the billing rate and capacity limits. This property is required when creating a new search service. */
   sku?: Sku;
   /** The geographic location of the resource. This must be one of the supported and registered Azure geo regions (for example, West US, East US, Southeast Asia, and so forth). This property is required when creating a new resource. */
   location?: string;
   /** Tags to help categorize the resource in the Azure portal. */
   tags?: { [propertyName: string]: string };
-  /** Details about the search service identity. A null value indicates that the search service has no identity assigned. */
-  identity?: Identity;
-  /** The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU. */
-  replicaCount?: number;
-  /** The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1 and 3. */
-  partitionCount?: number;
-  /** Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'. */
-  hostingMode?: HostingMode;
-  /** This value can be set to 'enabled' to avoid breaking changes on existing customer resources and templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method. */
-  publicNetworkAccess?: PublicNetworkAccess;
-  /**
-   * The status of the search service. Possible values include: 'running': The search service is running and no provisioning operations are underway. 'provisioning': The search service is being provisioned or scaled up or down. 'deleting': The search service is being deleted. 'degraded': The search service is degraded. This can occur when the underlying search units are not healthy. The search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The search service is disabled. In this state, the service will reject all API requests. 'error': The search service is in an error state. 'stopped': The search service is in a subscription that's disabled. If your service is in the degraded, disabled, or error states, it means the Azure AI Search team is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: SearchServiceStatus;
-  /**
-   * The details of the search service status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly statusDetails?: string;
-  /**
-   * The state of the last provisioning operation performed on the search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either 'Succeeded' or 'Failed'. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as 'Succeeded' directly in the call to Create search service. This is because the free service uses capacity that is already set up.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** Network specific rules that determine how the Azure AI Search service may be reached. */
-  networkRuleSet?: NetworkRuleSet;
-  /** A list of data exfiltration scenarios that are explicitly disallowed for the search service. Currently, the only supported value is 'All' to disable all possible data export scenarios with more fine grained controls planned for the future. */
-  disabledDataExfiltrationOptions?: SearchDisabledDataExfiltrationOption[];
-  /** Specifies any policy regarding encryption of resources (such as indexes) using customer manager keys within a search service. */
-  encryptionWithCmk?: EncryptionWithCmk;
-  /** When set to true, calls to the search service will not be permitted to utilize API keys for authentication. This cannot be set to true if 'dataPlaneAuthOptions' are defined. */
-  disableLocalAuth?: boolean;
-  /** Defines the options for how the data plane API of a search service authenticates requests. This cannot be set if 'disableLocalAuth' is set to true. */
-  authOptions?: DataPlaneAuthOptions;
-  /** Sets options that control the availability of semantic search. This configuration is only possible for certain Azure AI Search SKUs in certain locations. */
-  semanticSearch?: SearchSemanticSearch;
-  /**
-   * The list of private endpoint connections to the Azure AI Search service.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
-  /**
-   * The list of shared private link resources managed by the Azure AI Search service.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
-  /**
-   * A system generated property representing the service's etag that can be for optimistic concurrency control during updates.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly eTag?: string;
-}
-
-/** Describes a supported private link resource for the Azure AI Search service. */
-export interface PrivateLinkResource extends Resource {
-  /**
-   * Describes the properties of a supported private link resource for the Azure AI Search service.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly properties?: PrivateLinkResourceProperties;
-}
-
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
-
-/** Describes an Azure AI Search service and its current state. */
-export interface SearchService extends TrackedResource {
-  /** The SKU of the search service, which determines price tier and capacity limits. This property is required when creating a new search service. */
-  sku?: Sku;
   /** The identity of the resource. */
   identity?: Identity;
   /** The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU. */
@@ -744,10 +471,12 @@ export interface SearchService extends TrackedResource {
   partitionCount?: number;
   /** Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'. */
   hostingMode?: HostingMode;
+  /** Configure this property to support the search service using either the default compute or Azure Confidential Compute. */
+  computeType?: ComputeType;
   /** This value can be set to 'enabled' to avoid breaking changes on existing customer resources and templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method. */
   publicNetworkAccess?: PublicNetworkAccess;
   /**
-   * The status of the search service. Possible values include: 'running': The search service is running and no provisioning operations are underway. 'provisioning': The search service is being provisioned or scaled up or down. 'deleting': The search service is being deleted. 'degraded': The search service is degraded. This can occur when the underlying search units are not healthy. The search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The search service is disabled. In this state, the service will reject all API requests. 'error': The search service is in an error state. 'stopped': The search service is in a subscription that's disabled. If your service is in the degraded, disabled, or error states, it means the Azure AI Search team is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned.
+   * The status of the search service. Possible values include: 'running': The search service is running and no provisioning operations are underway. 'provisioning': The search service is being provisioned or scaled up or down. 'deleting': The search service is being deleted. 'degraded': The search service is degraded. This can occur when the underlying search units are not healthy. The search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The search service is disabled. In this state, the service will reject all API requests. 'error': The search service is in an error state. If your service is in the degraded, disabled, or error states, Microsoft is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: SearchServiceStatus;
@@ -757,54 +486,121 @@ export interface SearchService extends TrackedResource {
    */
   readonly statusDetails?: string;
   /**
-   * The state of the last provisioning operation performed on the search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either 'Succeeded' or 'Failed'. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as 'Succeeded' directly in the call to Create search service. This is because the free service uses capacity that is already set up.
+   * The state of the last provisioning operation performed on the search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either 'succeeded' or 'failed'. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as 'succeeded' directly in the call to Create search service. This is because the free service uses capacity that is already set up.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-  /** Network specific rules that determine how the Azure AI Search service may be reached. */
+  /** Network-specific rules that determine how the search service may be reached. */
   networkRuleSet?: NetworkRuleSet;
-  /** A list of data exfiltration scenarios that are explicitly disallowed for the search service. Currently, the only supported value is 'All' to disable all possible data export scenarios with more fine grained controls planned for the future. */
-  disabledDataExfiltrationOptions?: SearchDisabledDataExfiltrationOption[];
   /** Specifies any policy regarding encryption of resources (such as indexes) using customer manager keys within a search service. */
   encryptionWithCmk?: EncryptionWithCmk;
   /** When set to true, calls to the search service will not be permitted to utilize API keys for authentication. This cannot be set to true if 'dataPlaneAuthOptions' are defined. */
   disableLocalAuth?: boolean;
   /** Defines the options for how the data plane API of a search service authenticates requests. This cannot be set if 'disableLocalAuth' is set to true. */
   authOptions?: DataPlaneAuthOptions;
-  /** Sets options that control the availability of semantic search. This configuration is only possible for certain Azure AI Search SKUs in certain locations. */
-  semanticSearch?: SearchSemanticSearch;
   /**
-   * The list of private endpoint connections to the Azure AI Search service.
+   * The list of private endpoint connections to the search service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** Sets options that control the availability of semantic search. This configuration is only possible for certain search SKUs in certain locations. */
+  semanticSearch?: SearchSemanticSearch;
   /**
-   * The list of shared private link resources managed by the Azure AI Search service.
+   * The list of shared private link resources managed by the search service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
   /**
-   * A system generated property representing the service's etag that can be for optimistic concurrency control during updates.
+   * Indicates whether or not the search service has an upgrade available.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly eTag?: string;
+  readonly upgradeAvailable?: boolean;
+  /**
+   * The date and time the search service was last upgraded. This field will be null until the service gets upgraded for the first time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceUpgradeDate?: Date;
 }
 
-/** Network security perimeter configuration for a server. */
-export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly provisioningState?: string;
-  /** The perimeter for a network security perimeter configuration. */
-  networkSecurityPerimeter?: NSPConfigPerimeter;
-  /** The resource association for the network security perimeter. */
-  resourceAssociation?: NSPConfigAssociation;
-  /** The profile for a network security perimeter configuration. */
-  profile?: NSPConfigProfile;
-  provisioningIssues?: NSPProvisioningIssue[];
+/** Describes a supported private link resource for the search service. */
+export interface PrivateLinkResource extends Resource {
+  /**
+   * Describes the properties of a supported private link resource for the search service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly properties?: PrivateLinkResourceProperties;
 }
 
-/** Defines headers for NetworkSecurityPerimeterConfigurations_reconcile operation. */
-export interface NetworkSecurityPerimeterConfigurationsReconcileHeaders {
+/** Describes a search service and its current state. */
+export interface SearchService extends TrackedResource {
+  /** The SKU of the search service, which determines billing rate and capacity limits. This property is required when creating a new search service. */
+  sku?: Sku;
+  /** The identity of the resource. */
+  identity?: Identity;
+  /**
+   * Azure Resource Manager metadata of the search service containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU. */
+  replicaCount?: number;
+  /** The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1 and 3. */
+  partitionCount?: number;
+  /** Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'. */
+  hostingMode?: HostingMode;
+  /** Configure this property to support the search service using either the default compute or Azure Confidential Compute. */
+  computeType?: ComputeType;
+  /** This value can be set to 'enabled' to avoid breaking changes on existing customer resources and templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method. */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * The status of the search service. Possible values include: 'running': The search service is running and no provisioning operations are underway. 'provisioning': The search service is being provisioned or scaled up or down. 'deleting': The search service is being deleted. 'degraded': The search service is degraded. This can occur when the underlying search units are not healthy. The search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The search service is disabled. In this state, the service will reject all API requests. 'error': The search service is in an error state. If your service is in the degraded, disabled, or error states, Microsoft is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: SearchServiceStatus;
+  /**
+   * The details of the search service status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statusDetails?: string;
+  /**
+   * The state of the last provisioning operation performed on the search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either 'succeeded' or 'failed'. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as 'succeeded' directly in the call to Create search service. This is because the free service uses capacity that is already set up.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Network-specific rules that determine how the search service may be reached. */
+  networkRuleSet?: NetworkRuleSet;
+  /** Specifies any policy regarding encryption of resources (such as indexes) using customer manager keys within a search service. */
+  encryptionWithCmk?: EncryptionWithCmk;
+  /** When set to true, calls to the search service will not be permitted to utilize API keys for authentication. This cannot be set to true if 'dataPlaneAuthOptions' are defined. */
+  disableLocalAuth?: boolean;
+  /** Defines the options for how the data plane API of a search service authenticates requests. This cannot be set if 'disableLocalAuth' is set to true. */
+  authOptions?: DataPlaneAuthOptions;
+  /**
+   * The list of private endpoint connections to the search service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** Sets options that control the availability of semantic search. This configuration is only possible for certain search SKUs in certain locations. */
+  semanticSearch?: SearchSemanticSearch;
+  /**
+   * The list of shared private link resources managed by the search service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
+  /**
+   * Indicates whether or not the search service has an upgrade available.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly upgradeAvailable?: boolean;
+  /**
+   * The date and time the search service was last upgraded. This field will be null until the service gets upgraded for the first time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceUpgradeDate?: Date;
+}
+
+/** Defines headers for Services_upgrade operation. */
+export interface ServicesUpgradeHeaders {
   location?: string;
 }
 
@@ -814,80 +610,23 @@ export interface SearchManagementRequestOptions {
   clientRequestId?: string;
 }
 
-/** Known values of {@link PublicNetworkAccess} that the service accepts. */
-export enum KnownPublicNetworkAccess {
-  /** The search service is accessible from traffic originating from the public internet. */
-  Enabled = "enabled",
-  /** The search service is not accessible from traffic originating from the public internet. Access is only permitted over approved private endpoint connections. */
-  Disabled = "disabled",
+/** Known values of {@link ComputeType} that the service accepts. */
+export enum KnownComputeType {
+  /** Create the service with the default compute. */
+  Default = "default",
+  /** Create the service with Azure Confidential Compute. */
+  Confidential = "confidential",
 }
 
 /**
- * Defines values for PublicNetworkAccess. \
- * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
+ * Defines values for ComputeType. \
+ * {@link KnownComputeType} can be used interchangeably with ComputeType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **enabled**: The search service is accessible from traffic originating from the public internet. \
- * **disabled**: The search service is not accessible from traffic originating from the public internet. Access is only permitted over approved private endpoint connections.
+ * **default**: Create the service with the default compute. \
+ * **confidential**: Create the service with Azure Confidential Compute.
  */
-export type PublicNetworkAccess = string;
-
-/** Known values of {@link SearchBypass} that the service accepts. */
-export enum KnownSearchBypass {
-  /** Indicates that no origin can bypass the rules defined in the 'ipRules' section. This is the default. */
-  None = "None",
-  /** Indicates that requests originating from the Azure portal can bypass the rules defined in the 'ipRules' section. */
-  AzurePortal = "AzurePortal",
-  /** Indicates that requests originating from Azure trusted services can bypass the rules defined in the 'ipRules' section. */
-  AzureServices = "AzureServices",
-}
-
-/**
- * Defines values for SearchBypass. \
- * {@link KnownSearchBypass} can be used interchangeably with SearchBypass,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None**: Indicates that no origin can bypass the rules defined in the 'ipRules' section. This is the default. \
- * **AzurePortal**: Indicates that requests originating from the Azure portal can bypass the rules defined in the 'ipRules' section. \
- * **AzureServices**: Indicates that requests originating from Azure trusted services can bypass the rules defined in the 'ipRules' section.
- */
-export type SearchBypass = string;
-
-/** Known values of {@link SearchDisabledDataExfiltrationOption} that the service accepts. */
-export enum KnownSearchDisabledDataExfiltrationOption {
-  /** Indicates that all data exfiltration scenarios are disabled. */
-  All = "All",
-}
-
-/**
- * Defines values for SearchDisabledDataExfiltrationOption. \
- * {@link KnownSearchDisabledDataExfiltrationOption} can be used interchangeably with SearchDisabledDataExfiltrationOption,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **All**: Indicates that all data exfiltration scenarios are disabled.
- */
-export type SearchDisabledDataExfiltrationOption = string;
-
-/** Known values of {@link SearchSemanticSearch} that the service accepts. */
-export enum KnownSearchSemanticSearch {
-  /** Indicates that semantic reranker is disabled for the search service. This is the default. */
-  Disabled = "disabled",
-  /** Enables semantic reranker on a search service and indicates that it is to be used within the limits of the free plan. The free plan would cap the volume of semantic ranking requests and is offered at no extra charge. This is the default for newly provisioned search services. */
-  Free = "free",
-  /** Enables semantic reranker on a search service as a billable feature, with higher throughput and volume of semantically reranked queries. */
-  Standard = "standard",
-}
-
-/**
- * Defines values for SearchSemanticSearch. \
- * {@link KnownSearchSemanticSearch} can be used interchangeably with SearchSemanticSearch,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **disabled**: Indicates that semantic reranker is disabled for the search service. This is the default. \
- * **free**: Enables semantic reranker on a search service and indicates that it is to be used within the limits of the free plan. The free plan would cap the volume of semantic ranking requests and is offered at no extra charge. This is the default for newly provisioned search services. \
- * **standard**: Enables semantic reranker on a search service as a billable feature, with higher throughput and volume of semantically reranked queries.
- */
-export type SearchSemanticSearch = string;
+export type ComputeType = string;
 
 /** Known values of {@link PrivateLinkServiceConnectionProvisioningState} that the service accepts. */
 export enum KnownPrivateLinkServiceConnectionProvisioningState {
@@ -901,7 +640,7 @@ export enum KnownPrivateLinkServiceConnectionProvisioningState {
   Succeeded = "Succeeded",
   /** Provisioning request for the private link service connection resource has been accepted but the process of creation has not commenced yet. */
   Incomplete = "Incomplete",
-  /** Provisioning request for the private link service connection resource has been canceled. */
+  /** Provisioning request for the private link service connection resource has been canceled */
   Canceled = "Canceled",
 }
 
@@ -915,121 +654,58 @@ export enum KnownPrivateLinkServiceConnectionProvisioningState {
  * **Failed**: The private link service connection has failed to be provisioned or deleted. \
  * **Succeeded**: The private link service connection has finished provisioning and is ready for approval. \
  * **Incomplete**: Provisioning request for the private link service connection resource has been accepted but the process of creation has not commenced yet. \
- * **Canceled**: Provisioning request for the private link service connection resource has been canceled.
+ * **Canceled**: Provisioning request for the private link service connection resource has been canceled
  */
 export type PrivateLinkServiceConnectionProvisioningState = string;
 
-/** Known values of {@link SharedPrivateLinkResourceStatus} that the service accepts. */
-export enum KnownSharedPrivateLinkResourceStatus {
-  /** The shared private link resource has been created and is pending approval. */
-  Pending = "Pending",
-  /** The shared private link resource is approved and is ready for use. */
-  Approved = "Approved",
-  /** The shared private link resource has been rejected and cannot be used. */
-  Rejected = "Rejected",
-  /** The shared private link resource has been removed from the service. */
-  Disconnected = "Disconnected",
-}
-
-/**
- * Defines values for SharedPrivateLinkResourceStatus. \
- * {@link KnownSharedPrivateLinkResourceStatus} can be used interchangeably with SharedPrivateLinkResourceStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Pending**: The shared private link resource has been created and is pending approval. \
- * **Approved**: The shared private link resource is approved and is ready for use. \
- * **Rejected**: The shared private link resource has been rejected and cannot be used. \
- * **Disconnected**: The shared private link resource has been removed from the service.
- */
-export type SharedPrivateLinkResourceStatus = string;
-
-/** Known values of {@link SharedPrivateLinkResourceProvisioningState} that the service accepts. */
-export enum KnownSharedPrivateLinkResourceProvisioningState {
-  /** The shared private link resource is in the process of being created along with other resources for it to be fully functional. */
-  Updating = "Updating",
-  /** The shared private link resource is in the process of being deleted. */
-  Deleting = "Deleting",
-  /** The shared private link resource has failed to be provisioned or deleted. */
-  Failed = "Failed",
-  /** The shared private link resource has finished provisioning and is ready for approval. */
-  Succeeded = "Succeeded",
-  /** Provisioning request for the shared private link resource has been accepted but the process of creation has not commenced yet. */
-  Incomplete = "Incomplete",
-}
-
-/**
- * Defines values for SharedPrivateLinkResourceProvisioningState. \
- * {@link KnownSharedPrivateLinkResourceProvisioningState} can be used interchangeably with SharedPrivateLinkResourceProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Updating**: The shared private link resource is in the process of being created along with other resources for it to be fully functional. \
- * **Deleting**: The shared private link resource is in the process of being deleted. \
- * **Failed**: The shared private link resource has failed to be provisioned or deleted. \
- * **Succeeded**: The shared private link resource has finished provisioning and is ready for approval. \
- * **Incomplete**: Provisioning request for the shared private link resource has been accepted but the process of creation has not commenced yet.
- */
-export type SharedPrivateLinkResourceProvisioningState = string;
-
-/** Known values of {@link SkuName} that the service accepts. */
-export enum KnownSkuName {
-  /** Free tier, with no SLA guarantees and a subset of the features offered on billable tiers. */
+/** Known values of {@link SearchSemanticSearch} that the service accepts. */
+export enum KnownSearchSemanticSearch {
+  /** Indicates that semantic ranking is disabled for the search service. */
+  Disabled = "disabled",
+  /** Enables semantic ranking on a search service and indicates that it is to be used within the limits of the free tier. This would cap the volume of semantic ranking requests and is offered at no extra charge. This is the default for newly provisioned search services. */
   Free = "free",
-  /** Billable tier for a dedicated service having up to 3 replicas. */
-  Basic = "basic",
-  /** Billable tier for a dedicated service having up to 12 partitions and 12 replicas. */
+  /** Enables semantic ranking on a search service as a billable feature, with higher throughput and volume of semantic ranking requests. */
   Standard = "standard",
-  /** Similar to 'standard', but with more capacity per search unit. */
-  Standard2 = "standard2",
-  /**  The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). */
-  Standard3 = "standard3",
-  /** Billable tier for a dedicated service that supports 1TB per partition, up to 12 partitions. */
-  StorageOptimizedL1 = "storage_optimized_l1",
-  /** Billable tier for a dedicated service that supports 2TB per partition, up to 12 partitions. */
-  StorageOptimizedL2 = "storage_optimized_l2",
 }
 
 /**
- * Defines values for SkuName. \
- * {@link KnownSkuName} can be used interchangeably with SkuName,
+ * Defines values for SearchSemanticSearch. \
+ * {@link KnownSearchSemanticSearch} can be used interchangeably with SearchSemanticSearch,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **free**: Free tier, with no SLA guarantees and a subset of the features offered on billable tiers. \
- * **basic**: Billable tier for a dedicated service having up to 3 replicas. \
- * **standard**: Billable tier for a dedicated service having up to 12 partitions and 12 replicas. \
- * **standard2**: Similar to 'standard', but with more capacity per search unit. \
- * **standard3**:  The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). \
- * **storage_optimized_l1**: Billable tier for a dedicated service that supports 1TB per partition, up to 12 partitions. \
- * **storage_optimized_l2**: Billable tier for a dedicated service that supports 2TB per partition, up to 12 partitions.
+ * **disabled**: Indicates that semantic ranking is disabled for the search service. \
+ * **free**: Enables semantic ranking on a search service and indicates that it is to be used within the limits of the free tier. This would cap the volume of semantic ranking requests and is offered at no extra charge. This is the default for newly provisioned search services. \
+ * **standard**: Enables semantic ranking on a search service as a billable feature, with higher throughput and volume of semantic ranking requests.
  */
-export type SkuName = string;
+export type SearchSemanticSearch = string;
 
-/** Known values of {@link IdentityType} that the service accepts. */
-export enum KnownIdentityType {
-  /** Indicates that any identity associated with the search service needs to be removed. */
-  None = "None",
-  /** Indicates that system-assigned identity for the search service will be enabled. */
-  SystemAssigned = "SystemAssigned",
-  /** Indicates that one or more user assigned identities will be assigned to the search service. */
-  UserAssigned = "UserAssigned",
-  /** Indicates that system-assigned identity for the search service will be enabled along with the assignment of one or more user assigned identities. */
-  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
 }
 
 /**
- * Defines values for IdentityType. \
- * {@link KnownIdentityType} can be used interchangeably with IdentityType,
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None**: Indicates that any identity associated with the search service needs to be removed. \
- * **SystemAssigned**: Indicates that system-assigned identity for the search service will be enabled. \
- * **UserAssigned**: Indicates that one or more user assigned identities will be assigned to the search service. \
- * **SystemAssigned, UserAssigned**: Indicates that system-assigned identity for the search service will be enabled along with the assignment of one or more user assigned identities.
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
  */
-export type IdentityType = string;
+export type CreatedByType = string;
 
 /** Known values of {@link UnavailableNameReason} that the service accepts. */
 export enum KnownUnavailableNameReason {
-  /** The search service name doesn't match naming requirements. */
+  /** The search service name does not match naming requirements. */
   Invalid = "Invalid",
   /** The search service name is already assigned to a different search service. */
   AlreadyExists = "AlreadyExists",
@@ -1040,7 +716,7 @@ export enum KnownUnavailableNameReason {
  * {@link KnownUnavailableNameReason} can be used interchangeably with UnavailableNameReason,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Invalid**: The search service name doesn't match naming requirements. \
+ * **Invalid**: The search service name does not match naming requirements. \
  * **AlreadyExists**: The search service name is already assigned to a different search service.
  */
 export type UnavailableNameReason = string;
@@ -1069,6 +745,8 @@ export type SharedPrivateLinkResourceAsyncOperationResult = string;
 export type AdminKeyKind = "primary" | "secondary";
 /** Defines values for HostingMode. */
 export type HostingMode = "default" | "highDensity";
+/** Defines values for PublicNetworkAccess. */
+export type PublicNetworkAccess = "enabled" | "disabled";
 /** Defines values for SearchServiceStatus. */
 export type SearchServiceStatus =
   | "running"
@@ -1076,10 +754,9 @@ export type SearchServiceStatus =
   | "deleting"
   | "degraded"
   | "disabled"
-  | "error"
-  | "stopped";
+  | "error";
 /** Defines values for ProvisioningState. */
-export type ProvisioningState = "Succeeded" | "Provisioning" | "Failed";
+export type ProvisioningState = "succeeded" | "provisioning" | "failed";
 /** Defines values for SearchEncryptionWithCmk. */
 export type SearchEncryptionWithCmk = "Disabled" | "Enabled" | "Unspecified";
 /** Defines values for SearchEncryptionComplianceStatus. */
@@ -1092,6 +769,30 @@ export type PrivateLinkServiceConnectionStatus =
   | "Approved"
   | "Rejected"
   | "Disconnected";
+/** Defines values for SharedPrivateLinkResourceStatus. */
+export type SharedPrivateLinkResourceStatus =
+  | "Pending"
+  | "Approved"
+  | "Rejected"
+  | "Disconnected";
+/** Defines values for SharedPrivateLinkResourceProvisioningState. */
+export type SharedPrivateLinkResourceProvisioningState =
+  | "Updating"
+  | "Deleting"
+  | "Failed"
+  | "Succeeded"
+  | "Incomplete";
+/** Defines values for SkuName. */
+export type SkuName =
+  | "free"
+  | "basic"
+  | "standard"
+  | "standard2"
+  | "standard3"
+  | "storage_optimized_l1"
+  | "storage_optimized_l2";
+/** Defines values for IdentityType. */
+export type IdentityType = "None" | "SystemAssigned";
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -1196,6 +897,18 @@ export interface ServicesDeleteOptionalParams
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
+
+/** Optional parameters. */
+export interface ServicesUpgradeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the upgrade operation. */
+export type ServicesUpgradeResponse = SearchService;
 
 /** Optional parameters. */
 export interface ServicesListByResourceGroupOptionalParams
@@ -1399,43 +1112,6 @@ export interface UsageBySubscriptionSkuOptionalParams
 
 /** Contains response data for the usageBySubscriptionSku operation. */
 export type UsageBySubscriptionSkuResponse = QuotaUsageResult;
-
-/** Optional parameters. */
-export interface NetworkSecurityPerimeterConfigurationsListByServiceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByService operation. */
-export type NetworkSecurityPerimeterConfigurationsListByServiceResponse =
-  NetworkSecurityPerimeterConfigurationListResult;
-
-/** Optional parameters. */
-export interface NetworkSecurityPerimeterConfigurationsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type NetworkSecurityPerimeterConfigurationsGetResponse =
-  NetworkSecurityPerimeterConfiguration;
-
-/** Optional parameters. */
-export interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the reconcile operation. */
-export type NetworkSecurityPerimeterConfigurationsReconcileResponse =
-  NetworkSecurityPerimeterConfigurationsReconcileHeaders;
-
-/** Optional parameters. */
-export interface NetworkSecurityPerimeterConfigurationsListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByServiceNext operation. */
-export type NetworkSecurityPerimeterConfigurationsListByServiceNextResponse =
-  NetworkSecurityPerimeterConfigurationListResult;
 
 /** Optional parameters. */
 export interface SearchManagementClientOptionalParams

@@ -25,8 +25,8 @@ export interface SharedPrivateLinkResources {
    * Gets a list of all shared private link resources managed by the given service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure AI Search service associated with the specified
-   *                          resource group.
+   * @param searchServiceName The name of the search service associated with the specified resource
+   *                          group.
    * @param options The options parameters.
    */
   listByService(
@@ -39,10 +39,10 @@ export interface SharedPrivateLinkResources {
    * the given resource group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure AI Search service associated with the specified
-   *                          resource group.
+   * @param searchServiceName The name of the search service associated with the specified resource
+   *                          group.
    * @param sharedPrivateLinkResourceName The name of the shared private link resource managed by the
-   *                                      Azure AI Search service within the specified resource group.
+   *                                      search service within the specified resource group.
    * @param sharedPrivateLinkResource The definition of the shared private link resource to create or
    *                                  update.
    * @param options The options parameters.
@@ -64,10 +64,10 @@ export interface SharedPrivateLinkResources {
    * the given resource group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure AI Search service associated with the specified
-   *                          resource group.
+   * @param searchServiceName The name of the search service associated with the specified resource
+   *                          group.
    * @param sharedPrivateLinkResourceName The name of the shared private link resource managed by the
-   *                                      Azure AI Search service within the specified resource group.
+   *                                      search service within the specified resource group.
    * @param sharedPrivateLinkResource The definition of the shared private link resource to create or
    *                                  update.
    * @param options The options parameters.
@@ -84,10 +84,10 @@ export interface SharedPrivateLinkResources {
    * resource group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure AI Search service associated with the specified
-   *                          resource group.
+   * @param searchServiceName The name of the search service associated with the specified resource
+   *                          group.
    * @param sharedPrivateLinkResourceName The name of the shared private link resource managed by the
-   *                                      Azure AI Search service within the specified resource group.
+   *                                      search service within the specified resource group.
    * @param options The options parameters.
    */
   get(
@@ -100,10 +100,10 @@ export interface SharedPrivateLinkResources {
    * Initiates the deletion of the shared private link resource from the search service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure AI Search service associated with the specified
-   *                          resource group.
+   * @param searchServiceName The name of the search service associated with the specified resource
+   *                          group.
    * @param sharedPrivateLinkResourceName The name of the shared private link resource managed by the
-   *                                      Azure AI Search service within the specified resource group.
+   *                                      search service within the specified resource group.
    * @param options The options parameters.
    */
   beginDelete(
@@ -116,10 +116,10 @@ export interface SharedPrivateLinkResources {
    * Initiates the deletion of the shared private link resource from the search service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure AI Search service associated with the specified
-   *                          resource group.
+   * @param searchServiceName The name of the search service associated with the specified resource
+   *                          group.
    * @param sharedPrivateLinkResourceName The name of the shared private link resource managed by the
-   *                                      Azure AI Search service within the specified resource group.
+   *                                      search service within the specified resource group.
    * @param options The options parameters.
    */
   beginDeleteAndWait(

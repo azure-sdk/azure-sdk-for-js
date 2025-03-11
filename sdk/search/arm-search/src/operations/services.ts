@@ -35,6 +35,8 @@ import {
   ServicesGetOptionalParams,
   ServicesGetResponse,
   ServicesDeleteOptionalParams,
+  ServicesUpgradeOptionalParams,
+  ServicesUpgradeResponse,
   ServicesCheckNameAvailabilityOptionalParams,
   ServicesCheckNameAvailabilityResponse,
   ServicesListByResourceGroupNextResponse,
@@ -183,10 +185,10 @@ export class ServicesImpl implements Services {
    * exists, all properties will be updated with the given values.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure AI Search service to create or update. Search service
-   *                          names must only contain lowercase letters, digits or dashes, cannot use dash as the first two or
-   *                          last one characters, cannot contain consecutive dashes, and must be between 2 and 60 characters in
-   *                          length. Search service names must be globally unique since they are part of the service URI
+   * @param searchServiceName The name of the search service to create or update. Search service names
+   *                          must only contain lowercase letters, digits or dashes, cannot use dash as the first two or last one
+   *                          characters, cannot contain consecutive dashes, and must be between 2 and 60 characters in length.
+   *                          Search service names must be globally unique since they are part of the service URI
    *                          (https://<name>.search.windows.net). You cannot change the service name after the service is
    *                          created.
    * @param service The definition of the search service to create or update.
@@ -262,10 +264,10 @@ export class ServicesImpl implements Services {
    * exists, all properties will be updated with the given values.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure AI Search service to create or update. Search service
-   *                          names must only contain lowercase letters, digits or dashes, cannot use dash as the first two or
-   *                          last one characters, cannot contain consecutive dashes, and must be between 2 and 60 characters in
-   *                          length. Search service names must be globally unique since they are part of the service URI
+   * @param searchServiceName The name of the search service to create or update. Search service names
+   *                          must only contain lowercase letters, digits or dashes, cannot use dash as the first two or last one
+   *                          characters, cannot contain consecutive dashes, and must be between 2 and 60 characters in length.
+   *                          Search service names must be globally unique since they are part of the service URI
    *                          (https://<name>.search.windows.net). You cannot change the service name after the service is
    *                          created.
    * @param service The definition of the search service to create or update.
@@ -290,7 +292,7 @@ export class ServicesImpl implements Services {
    * Updates an existing search service in the given resource group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure AI Search service to update.
+   * @param searchServiceName The name of the search service to update.
    * @param service The definition of the search service to update.
    * @param options The options parameters.
    */
@@ -310,8 +312,8 @@ export class ServicesImpl implements Services {
    * Gets the search service with the given name in the given resource group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure AI Search service associated with the specified
-   *                          resource group.
+   * @param searchServiceName The name of the search service associated with the specified resource
+   *                          group.
    * @param options The options parameters.
    */
   get(
@@ -329,8 +331,8 @@ export class ServicesImpl implements Services {
    * Deletes a search service in the given resource group, along with its associated resources.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure AI Search service associated with the specified
-   *                          resource group.
+   * @param searchServiceName The name of the search service associated with the specified resource
+   *                          group.
    * @param options The options parameters.
    */
   delete(
@@ -342,6 +344,100 @@ export class ServicesImpl implements Services {
       { resourceGroupName, searchServiceName, options },
       deleteOperationSpec,
     );
+  }
+
+  /**
+   * Upgrades the Azure AI Search service to the latest version available.
+   * @param resourceGroupName The name of the resource group within the current subscription. You can
+   *                          obtain this value from the Azure Resource Manager API or the portal.
+   * @param searchServiceName The name of the search service associated with the specified resource
+   *                          group.
+   * @param options The options parameters.
+   */
+  async beginUpgrade(
+    resourceGroupName: string,
+    searchServiceName: string,
+    options?: ServicesUpgradeOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ServicesUpgradeResponse>,
+      ServicesUpgradeResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ServicesUpgradeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, searchServiceName, options },
+      spec: upgradeOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ServicesUpgradeResponse,
+      OperationState<ServicesUpgradeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Upgrades the Azure AI Search service to the latest version available.
+   * @param resourceGroupName The name of the resource group within the current subscription. You can
+   *                          obtain this value from the Azure Resource Manager API or the portal.
+   * @param searchServiceName The name of the search service associated with the specified resource
+   *                          group.
+   * @param options The options parameters.
+   */
+  async beginUpgradeAndWait(
+    resourceGroupName: string,
+    searchServiceName: string,
+    options?: ServicesUpgradeOptionalParams,
+  ): Promise<ServicesUpgradeResponse> {
+    const poller = await this.beginUpgrade(
+      resourceGroupName,
+      searchServiceName,
+      options,
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -452,8 +548,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.searchServiceName,
     Parameters.subscriptionId,
-    Parameters.searchServiceName1,
   ],
   headerParameters: [
     Parameters.accept,
@@ -479,8 +575,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.searchServiceName,
     Parameters.subscriptionId,
-    Parameters.searchServiceName1,
   ],
   headerParameters: [
     Parameters.accept,
@@ -530,6 +626,36 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
+  serializer,
+};
+const upgradeOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/upgrade",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SearchService,
+    },
+    201: {
+      bodyMapper: Mappers.SearchService,
+    },
+    202: {
+      bodyMapper: Mappers.SearchService,
+    },
+    204: {
+      bodyMapper: Mappers.SearchService,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.searchServiceName,
+    Parameters.subscriptionId,
+  ],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
