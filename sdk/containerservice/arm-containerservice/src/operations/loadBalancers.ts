@@ -8,33 +8,38 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { MaintenanceConfigurations } from "../operationsInterfaces/index.js";
+import { LoadBalancers } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ContainerServiceClient } from "../containerServiceClient.js";
 import {
-  MaintenanceConfiguration,
-  MaintenanceConfigurationsListByManagedClusterNextOptionalParams,
-  MaintenanceConfigurationsListByManagedClusterOptionalParams,
-  MaintenanceConfigurationsListByManagedClusterResponse,
-  MaintenanceConfigurationsGetOptionalParams,
-  MaintenanceConfigurationsGetResponse,
-  MaintenanceConfigurationsCreateOrUpdateOptionalParams,
-  MaintenanceConfigurationsCreateOrUpdateResponse,
-  MaintenanceConfigurationsDeleteOptionalParams,
-  MaintenanceConfigurationsListByManagedClusterNextResponse,
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
+import {
+  LoadBalancer,
+  LoadBalancersListByManagedClusterNextOptionalParams,
+  LoadBalancersListByManagedClusterOptionalParams,
+  LoadBalancersListByManagedClusterResponse,
+  LoadBalancersGetOptionalParams,
+  LoadBalancersGetResponse,
+  LoadBalancersCreateOrUpdateOptionalParams,
+  LoadBalancersCreateOrUpdateResponse,
+  LoadBalancersDeleteOptionalParams,
+  LoadBalancersDeleteResponse,
+  LoadBalancersListByManagedClusterNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing MaintenanceConfigurations operations. */
-export class MaintenanceConfigurationsImpl
-  implements MaintenanceConfigurations
-{
+/** Class containing LoadBalancers operations. */
+export class LoadBalancersImpl implements LoadBalancers {
   private readonly client: ContainerServiceClient;
 
   /**
-   * Initialize a new instance of the class MaintenanceConfigurations class.
+   * Initialize a new instance of the class LoadBalancers class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerServiceClient) {
@@ -42,7 +47,7 @@ export class MaintenanceConfigurationsImpl
   }
 
   /**
-   * Gets a list of maintenance configurations in the specified managed cluster.
+   * Gets a list of load balancers in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
@@ -50,8 +55,8 @@ export class MaintenanceConfigurationsImpl
   public listByManagedCluster(
     resourceGroupName: string,
     resourceName: string,
-    options?: MaintenanceConfigurationsListByManagedClusterOptionalParams,
-  ): PagedAsyncIterableIterator<MaintenanceConfiguration> {
+    options?: LoadBalancersListByManagedClusterOptionalParams,
+  ): PagedAsyncIterableIterator<LoadBalancer> {
     const iter = this.listByManagedClusterPagingAll(
       resourceGroupName,
       resourceName,
@@ -81,10 +86,10 @@ export class MaintenanceConfigurationsImpl
   private async *listByManagedClusterPagingPage(
     resourceGroupName: string,
     resourceName: string,
-    options?: MaintenanceConfigurationsListByManagedClusterOptionalParams,
+    options?: LoadBalancersListByManagedClusterOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<MaintenanceConfiguration[]> {
-    let result: MaintenanceConfigurationsListByManagedClusterResponse;
+  ): AsyncIterableIterator<LoadBalancer[]> {
+    let result: LoadBalancersListByManagedClusterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByManagedCluster(
@@ -114,8 +119,8 @@ export class MaintenanceConfigurationsImpl
   private async *listByManagedClusterPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: MaintenanceConfigurationsListByManagedClusterOptionalParams,
-  ): AsyncIterableIterator<MaintenanceConfiguration> {
+    options?: LoadBalancersListByManagedClusterOptionalParams,
+  ): AsyncIterableIterator<LoadBalancer> {
     for await (const page of this.listByManagedClusterPagingPage(
       resourceGroupName,
       resourceName,
@@ -126,7 +131,7 @@ export class MaintenanceConfigurationsImpl
   }
 
   /**
-   * Gets a list of maintenance configurations in the specified managed cluster.
+   * Gets a list of load balancers in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
@@ -134,8 +139,8 @@ export class MaintenanceConfigurationsImpl
   private _listByManagedCluster(
     resourceGroupName: string,
     resourceName: string,
-    options?: MaintenanceConfigurationsListByManagedClusterOptionalParams,
-  ): Promise<MaintenanceConfigurationsListByManagedClusterResponse> {
+    options?: LoadBalancersListByManagedClusterOptionalParams,
+  ): Promise<LoadBalancersListByManagedClusterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
       listByManagedClusterOperationSpec,
@@ -143,62 +148,135 @@ export class MaintenanceConfigurationsImpl
   }
 
   /**
-   * Gets the specified maintenance configuration of a managed cluster.
+   * Gets the specified load balancer.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param configName The name of the maintenance configuration.
+   * @param loadBalancerName The name of the load balancer.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     resourceName: string,
-    configName: string,
-    options?: MaintenanceConfigurationsGetOptionalParams,
-  ): Promise<MaintenanceConfigurationsGetResponse> {
+    loadBalancerName: string,
+    options?: LoadBalancersGetOptionalParams,
+  ): Promise<LoadBalancersGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, configName, options },
+      { resourceGroupName, resourceName, loadBalancerName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates or updates a maintenance configuration in the specified managed cluster.
+   * Creates or updates a load balancer in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param configName The name of the maintenance configuration.
-   * @param parameters The maintenance configuration to create or update.
+   * @param loadBalancerName The name of the load balancer.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     resourceName: string,
-    configName: string,
-    parameters: MaintenanceConfiguration,
-    options?: MaintenanceConfigurationsCreateOrUpdateOptionalParams,
-  ): Promise<MaintenanceConfigurationsCreateOrUpdateResponse> {
+    loadBalancerName: string,
+    options?: LoadBalancersCreateOrUpdateOptionalParams,
+  ): Promise<LoadBalancersCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, configName, parameters, options },
+      { resourceGroupName, resourceName, loadBalancerName, options },
       createOrUpdateOperationSpec,
     );
   }
 
   /**
-   * Deletes a maintenance configuration.
+   * Deletes a load balancer in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param configName The name of the maintenance configuration.
+   * @param loadBalancerName The name of the load balancer.
    * @param options The options parameters.
    */
-  delete(
+  async beginDelete(
     resourceGroupName: string,
     resourceName: string,
-    configName: string,
-    options?: MaintenanceConfigurationsDeleteOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, configName, options },
-      deleteOperationSpec,
+    loadBalancerName: string,
+    options?: LoadBalancersDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<LoadBalancersDeleteResponse>,
+      LoadBalancersDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<LoadBalancersDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, loadBalancerName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      LoadBalancersDeleteResponse,
+      OperationState<LoadBalancersDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes a load balancer in the specified managed cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param loadBalancerName The name of the load balancer.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    loadBalancerName: string,
+    options?: LoadBalancersDeleteOptionalParams,
+  ): Promise<LoadBalancersDeleteResponse> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      resourceName,
+      loadBalancerName,
+      options,
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -212,8 +290,8 @@ export class MaintenanceConfigurationsImpl
     resourceGroupName: string,
     resourceName: string,
     nextLink: string,
-    options?: MaintenanceConfigurationsListByManagedClusterNextOptionalParams,
-  ): Promise<MaintenanceConfigurationsListByManagedClusterNextResponse> {
+    options?: LoadBalancersListByManagedClusterNextOptionalParams,
+  ): Promise<LoadBalancersListByManagedClusterNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, nextLink, options },
       listByManagedClusterNextOperationSpec,
@@ -224,11 +302,11 @@ export class MaintenanceConfigurationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByManagedClusterOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/loadBalancers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MaintenanceConfigurationListResult,
+      bodyMapper: Mappers.LoadBalancerListResult,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -245,11 +323,11 @@ const listByManagedClusterOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations/{configName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/loadBalancers/{loadBalancerName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MaintenanceConfiguration,
+      bodyMapper: Mappers.LoadBalancer,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -261,46 +339,66 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.configName,
+    Parameters.loadBalancerName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations/{configName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/loadBalancers/{loadBalancerName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MaintenanceConfiguration,
+      bodyMapper: Mappers.LoadBalancer,
     },
     201: {
-      bodyMapper: Mappers.MaintenanceConfiguration,
+      bodyMapper: Mappers.LoadBalancer,
     },
     default: {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters5,
+  requestBody: {
+    parameterPath: {
+      name: ["options", "name"],
+      primaryAgentPoolName: ["options", "primaryAgentPoolName"],
+      allowServicePlacement: ["options", "allowServicePlacement"],
+      serviceLabelSelector: ["options", "serviceLabelSelector"],
+      serviceNamespaceSelector: ["options", "serviceNamespaceSelector"],
+      nodeSelector: ["options", "nodeSelector"],
+    },
+    mapper: { ...Mappers.LoadBalancer, required: true },
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.configName,
+    Parameters.loadBalancerName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations/{configName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/loadBalancers/{loadBalancerName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.LoadBalancersDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.LoadBalancersDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.LoadBalancersDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.LoadBalancersDeleteHeaders,
+    },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -309,7 +407,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.configName,
+    Parameters.loadBalancerName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -319,7 +417,7 @@ const listByManagedClusterNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MaintenanceConfigurationListResult,
+      bodyMapper: Mappers.LoadBalancerListResult,
     },
     default: {
       bodyMapper: Mappers.CloudError,
