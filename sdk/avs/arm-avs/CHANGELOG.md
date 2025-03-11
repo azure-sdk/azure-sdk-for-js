@@ -1,15 +1,83 @@
 # Release History
-
-## 6.0.1 (Unreleased)
-
+    
+## 6.1.0 (2025-03-11)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group Hosts
+  - Added operation group ProvisionedNetworks
+  - Added operation group PureStoragePolicies
+  - Added operation group Skus
+  - Added Interface GeneralHostProperties
+  - Added Interface Host
+  - Added Interface HostListResult
+  - Added Interface HostProperties
+  - Added Interface HostsGetOptionalParams
+  - Added Interface HostsListNextOptionalParams
+  - Added Interface HostsListOptionalParams
+  - Added Interface PagedResourceSku
+  - Added Interface ProvisionedNetwork
+  - Added Interface ProvisionedNetworkListResult
+  - Added Interface ProvisionedNetworksGetOptionalParams
+  - Added Interface ProvisionedNetworksListNextOptionalParams
+  - Added Interface ProvisionedNetworksListOptionalParams
+  - Added Interface PureStoragePoliciesCreateOrUpdateHeaders
+  - Added Interface PureStoragePoliciesCreateOrUpdateOptionalParams
+  - Added Interface PureStoragePoliciesDeleteHeaders
+  - Added Interface PureStoragePoliciesDeleteOptionalParams
+  - Added Interface PureStoragePoliciesGetOptionalParams
+  - Added Interface PureStoragePoliciesListNextOptionalParams
+  - Added Interface PureStoragePoliciesListOptionalParams
+  - Added Interface PureStoragePolicy
+  - Added Interface PureStoragePolicyListResult
+  - Added Interface PureStorageVolume
+  - Added Interface ResourceSku
+  - Added Interface ResourceSkuCapabilities
+  - Added Interface ResourceSkuLocationInfo
+  - Added Interface ResourceSkuRestrictionInfo
+  - Added Interface ResourceSkuRestrictions
+  - Added Interface ResourceSkuZoneDetails
+  - Added Interface SkusListNextOptionalParams
+  - Added Interface SkusListOptionalParams
+  - Added Interface SpecializedHostProperties
+  - Added Type Alias HostKind
+  - Added Type Alias HostMaintenance
+  - Added Type Alias HostPropertiesUnion
+  - Added Type Alias HostProvisioningState
+  - Added Type Alias HostsGetResponse
+  - Added Type Alias HostsListNextResponse
+  - Added Type Alias HostsListResponse
+  - Added Type Alias ProvisionedNetworkProvisioningState
+  - Added Type Alias ProvisionedNetworksGetResponse
+  - Added Type Alias ProvisionedNetworksListNextResponse
+  - Added Type Alias ProvisionedNetworksListResponse
+  - Added Type Alias ProvisionedNetworkTypes
+  - Added Type Alias PureStoragePoliciesCreateOrUpdateResponse
+  - Added Type Alias PureStoragePoliciesDeleteResponse
+  - Added Type Alias PureStoragePoliciesGetResponse
+  - Added Type Alias PureStoragePoliciesListNextResponse
+  - Added Type Alias PureStoragePoliciesListResponse
+  - Added Type Alias PureStoragePolicyProvisioningState
+  - Added Type Alias ResourceSkuResourceType
+  - Added Type Alias ResourceSkuRestrictionsReasonCode
+  - Added Type Alias ResourceSkuRestrictionsType
+  - Added Type Alias SkusListNextResponse
+  - Added Type Alias SkusListResponse
+  - Interface AddonHcxProperties has a new optional parameter managementNetwork
+  - Interface AddonHcxProperties has a new optional parameter uplinkNetwork
+  - Interface Datastore has a new optional parameter pureStorageVolume
+  - Interface PrivateCloud has a new optional parameter zones
+  - Added Enum KnownHostKind
+  - Added Enum KnownHostMaintenance
+  - Added Enum KnownHostProvisioningState
+  - Added Enum KnownProvisionedNetworkProvisioningState
+  - Added Enum KnownProvisionedNetworkTypes
+  - Added Enum KnownPureStoragePolicyProvisioningState
+  - Added Enum KnownResourceSkuResourceType
+  - Added Enum KnownResourceSkuRestrictionsReasonCode
+  - Added Enum KnownResourceSkuRestrictionsType
+    
+    
 ## 6.0.0 (2024-09-19)
     
 ### Features Added
