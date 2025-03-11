@@ -17,11 +17,11 @@ import {
 /** Interface representing a AdminKeys. */
 export interface AdminKeys {
   /**
-   * Gets the primary and secondary admin API keys for the specified Azure AI Search service.
+   * Gets the primary and secondary admin API keys for the specified search service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure AI Search service associated with the specified
-   *                          resource group.
+   * @param searchServiceName The name of the search service associated with the specified resource
+   *                          group.
    * @param options The options parameters.
    */
   get(
@@ -34,8 +34,8 @@ export interface AdminKeys {
    * time.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure AI Search service associated with the specified
-   *                          resource group.
+   * @param searchServiceName The name of the search service associated with the specified resource
+   *                          group.
    * @param keyKind Specifies which key to regenerate. Valid values include 'primary' and 'secondary'.
    * @param options The options parameters.
    */
