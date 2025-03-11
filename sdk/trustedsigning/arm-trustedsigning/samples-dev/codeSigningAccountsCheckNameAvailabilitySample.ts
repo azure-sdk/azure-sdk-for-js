@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to checks that the trusted signing account name is valid and is not already in use.
  *
  * @summary checks that the trusted signing account name is valid and is not already in use.
- * x-ms-original-file: 2024-02-05-preview/CodeSigningAccounts_CheckNameAvailability.json
+ * x-ms-original-file: 2025-03-30/CodeSigningAccounts_CheckNameAvailability.json
  */
 async function checksThatTheTrustedSigningAccountNameIsAvailable(): Promise<void> {
   const credential = new DefaultAzureCredential();
