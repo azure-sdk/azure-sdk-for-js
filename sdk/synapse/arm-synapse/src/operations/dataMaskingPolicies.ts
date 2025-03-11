@@ -16,7 +16,7 @@ import {
   DataMaskingPoliciesCreateOrUpdateOptionalParams,
   DataMaskingPoliciesCreateOrUpdateResponse,
   DataMaskingPoliciesGetOptionalParams,
-  DataMaskingPoliciesGetResponse
+  DataMaskingPoliciesGetResponse,
 } from "../models/index.js";
 
 /** Class containing DataMaskingPolicies operations. */
@@ -44,11 +44,11 @@ export class DataMaskingPoliciesImpl implements DataMaskingPolicies {
     workspaceName: string,
     sqlPoolName: string,
     parameters: DataMaskingPolicy,
-    options?: DataMaskingPoliciesCreateOrUpdateOptionalParams
+    options?: DataMaskingPoliciesCreateOrUpdateOptionalParams,
   ): Promise<DataMaskingPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -63,11 +63,11 @@ export class DataMaskingPoliciesImpl implements DataMaskingPolicies {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: DataMaskingPoliciesGetOptionalParams
+    options?: DataMaskingPoliciesGetOptionalParams,
   ): Promise<DataMaskingPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -75,18 +75,17 @@ export class DataMaskingPoliciesImpl implements DataMaskingPolicies {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/dataMaskingPolicies/{dataMaskingPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/dataMaskingPolicies/{dataMaskingPolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DataMaskingPolicy
+      bodyMapper: Mappers.DataMaskingPolicy,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters13,
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -94,23 +93,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName,
-    Parameters.dataMaskingPolicyName
+    Parameters.dataMaskingPolicyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/dataMaskingPolicies/{dataMaskingPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/dataMaskingPolicies/{dataMaskingPolicyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataMaskingPolicy
+      bodyMapper: Mappers.DataMaskingPolicy,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -119,8 +117,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName,
-    Parameters.dataMaskingPolicyName
+    Parameters.dataMaskingPolicyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -23,6 +23,6 @@ export interface SqlPoolUsages {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolUsagesListOptionalParams
+    options?: SqlPoolUsagesListOptionalParams,
   ): PagedAsyncIterableIterator<SqlPoolUsage>;
 }

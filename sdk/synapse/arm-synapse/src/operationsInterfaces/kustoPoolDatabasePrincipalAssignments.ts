@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DatabasePrincipalAssignment,
   KustoPoolDatabasePrincipalAssignmentsListOptionalParams,
@@ -18,7 +18,7 @@ import {
   KustoPoolDatabasePrincipalAssignmentsGetResponse,
   KustoPoolDatabasePrincipalAssignmentsCreateOrUpdateOptionalParams,
   KustoPoolDatabasePrincipalAssignmentsCreateOrUpdateResponse,
-  KustoPoolDatabasePrincipalAssignmentsDeleteOptionalParams
+  KustoPoolDatabasePrincipalAssignmentsDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,7 +37,7 @@ export interface KustoPoolDatabasePrincipalAssignments {
     kustoPoolName: string,
     databaseName: string,
     resourceGroupName: string,
-    options?: KustoPoolDatabasePrincipalAssignmentsListOptionalParams
+    options?: KustoPoolDatabasePrincipalAssignmentsListOptionalParams,
   ): PagedAsyncIterableIterator<DatabasePrincipalAssignment>;
   /**
    * Checks that the database principal assignment is valid and is not already in use.
@@ -54,10 +54,8 @@ export interface KustoPoolDatabasePrincipalAssignments {
     databaseName: string,
     resourceGroupName: string,
     principalAssignmentName: DatabasePrincipalAssignmentCheckNameRequest,
-    options?: KustoPoolDatabasePrincipalAssignmentsCheckNameAvailabilityOptionalParams
-  ): Promise<
-    KustoPoolDatabasePrincipalAssignmentsCheckNameAvailabilityResponse
-  >;
+    options?: KustoPoolDatabasePrincipalAssignmentsCheckNameAvailabilityOptionalParams,
+  ): Promise<KustoPoolDatabasePrincipalAssignmentsCheckNameAvailabilityResponse>;
   /**
    * Gets a Kusto pool database principalAssignment.
    * @param workspaceName The name of the workspace.
@@ -73,7 +71,7 @@ export interface KustoPoolDatabasePrincipalAssignments {
     databaseName: string,
     principalAssignmentName: string,
     resourceGroupName: string,
-    options?: KustoPoolDatabasePrincipalAssignmentsGetOptionalParams
+    options?: KustoPoolDatabasePrincipalAssignmentsGetOptionalParams,
   ): Promise<KustoPoolDatabasePrincipalAssignmentsGetResponse>;
   /**
    * Creates a Kusto pool database principalAssignment.
@@ -92,12 +90,10 @@ export interface KustoPoolDatabasePrincipalAssignments {
     principalAssignmentName: string,
     resourceGroupName: string,
     parameters: DatabasePrincipalAssignment,
-    options?: KustoPoolDatabasePrincipalAssignmentsCreateOrUpdateOptionalParams
+    options?: KustoPoolDatabasePrincipalAssignmentsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        KustoPoolDatabasePrincipalAssignmentsCreateOrUpdateResponse
-      >,
+    SimplePollerLike<
+      OperationState<KustoPoolDatabasePrincipalAssignmentsCreateOrUpdateResponse>,
       KustoPoolDatabasePrincipalAssignmentsCreateOrUpdateResponse
     >
   >;
@@ -118,7 +114,7 @@ export interface KustoPoolDatabasePrincipalAssignments {
     principalAssignmentName: string,
     resourceGroupName: string,
     parameters: DatabasePrincipalAssignment,
-    options?: KustoPoolDatabasePrincipalAssignmentsCreateOrUpdateOptionalParams
+    options?: KustoPoolDatabasePrincipalAssignmentsCreateOrUpdateOptionalParams,
   ): Promise<KustoPoolDatabasePrincipalAssignmentsCreateOrUpdateResponse>;
   /**
    * Deletes a Kusto pool principalAssignment.
@@ -135,8 +131,8 @@ export interface KustoPoolDatabasePrincipalAssignments {
     databaseName: string,
     principalAssignmentName: string,
     resourceGroupName: string,
-    options?: KustoPoolDatabasePrincipalAssignmentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: KustoPoolDatabasePrincipalAssignmentsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Kusto pool principalAssignment.
    * @param workspaceName The name of the workspace.
@@ -152,6 +148,6 @@ export interface KustoPoolDatabasePrincipalAssignments {
     databaseName: string,
     principalAssignmentName: string,
     resourceGroupName: string,
-    options?: KustoPoolDatabasePrincipalAssignmentsDeleteOptionalParams
+    options?: KustoPoolDatabasePrincipalAssignmentsDeleteOptionalParams,
   ): Promise<void>;
 }

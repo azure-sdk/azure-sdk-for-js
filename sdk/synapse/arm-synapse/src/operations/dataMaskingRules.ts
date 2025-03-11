@@ -19,7 +19,7 @@ import {
   DataMaskingRulesCreateOrUpdateOptionalParams,
   DataMaskingRulesCreateOrUpdateResponse,
   DataMaskingRulesGetOptionalParams,
-  DataMaskingRulesGetResponse
+  DataMaskingRulesGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,13 +46,13 @@ export class DataMaskingRulesImpl implements DataMaskingRules {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: DataMaskingRulesListBySqlPoolOptionalParams
+    options?: DataMaskingRulesListBySqlPoolOptionalParams,
   ): PagedAsyncIterableIterator<DataMaskingRule> {
     const iter = this.listBySqlPoolPagingAll(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     );
     return {
       next() {
@@ -70,9 +70,9 @@ export class DataMaskingRulesImpl implements DataMaskingRules {
           workspaceName,
           sqlPoolName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -81,14 +81,14 @@ export class DataMaskingRulesImpl implements DataMaskingRules {
     workspaceName: string,
     sqlPoolName: string,
     options?: DataMaskingRulesListBySqlPoolOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<DataMaskingRule[]> {
     let result: DataMaskingRulesListBySqlPoolResponse;
     result = await this._listBySqlPool(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -97,13 +97,13 @@ export class DataMaskingRulesImpl implements DataMaskingRules {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: DataMaskingRulesListBySqlPoolOptionalParams
+    options?: DataMaskingRulesListBySqlPoolOptionalParams,
   ): AsyncIterableIterator<DataMaskingRule> {
     for await (const page of this.listBySqlPoolPagingPage(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -124,7 +124,7 @@ export class DataMaskingRulesImpl implements DataMaskingRules {
     sqlPoolName: string,
     dataMaskingRuleName: string,
     parameters: DataMaskingRule,
-    options?: DataMaskingRulesCreateOrUpdateOptionalParams
+    options?: DataMaskingRulesCreateOrUpdateOptionalParams,
   ): Promise<DataMaskingRulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -133,9 +133,9 @@ export class DataMaskingRulesImpl implements DataMaskingRules {
         sqlPoolName,
         dataMaskingRuleName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -152,7 +152,7 @@ export class DataMaskingRulesImpl implements DataMaskingRules {
     workspaceName: string,
     sqlPoolName: string,
     dataMaskingRuleName: string,
-    options?: DataMaskingRulesGetOptionalParams
+    options?: DataMaskingRulesGetOptionalParams,
   ): Promise<DataMaskingRulesGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -160,9 +160,9 @@ export class DataMaskingRulesImpl implements DataMaskingRules {
         workspaceName,
         sqlPoolName,
         dataMaskingRuleName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -177,11 +177,11 @@ export class DataMaskingRulesImpl implements DataMaskingRules {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: DataMaskingRulesListBySqlPoolOptionalParams
+    options?: DataMaskingRulesListBySqlPoolOptionalParams,
   ): Promise<DataMaskingRulesListBySqlPoolResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, options },
-      listBySqlPoolOperationSpec
+      listBySqlPoolOperationSpec,
     );
   }
 }
@@ -189,21 +189,20 @@ export class DataMaskingRulesImpl implements DataMaskingRules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/dataMaskingPolicies/{dataMaskingPolicyName}/rules/{dataMaskingRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/dataMaskingPolicies/{dataMaskingPolicyName}/rules/{dataMaskingRuleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DataMaskingRule
+      bodyMapper: Mappers.DataMaskingRule,
     },
     201: {
-      bodyMapper: Mappers.DataMaskingRule
+      bodyMapper: Mappers.DataMaskingRule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters14,
+  requestBody: Parameters.parameters13,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -212,23 +211,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.workspaceName,
     Parameters.sqlPoolName,
     Parameters.dataMaskingPolicyName,
-    Parameters.dataMaskingRuleName
+    Parameters.dataMaskingRuleName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/dataMaskingPolicies/{dataMaskingPolicyName}/rules/{dataMaskingRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/dataMaskingPolicies/{dataMaskingPolicyName}/rules/{dataMaskingRuleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataMaskingRule
+      bodyMapper: Mappers.DataMaskingRule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -238,22 +236,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.workspaceName,
     Parameters.sqlPoolName,
     Parameters.dataMaskingPolicyName,
-    Parameters.dataMaskingRuleName
+    Parameters.dataMaskingRuleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySqlPoolOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/dataMaskingPolicies/{dataMaskingPolicyName}/rules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/dataMaskingPolicies/{dataMaskingPolicyName}/rules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataMaskingRuleListResult
+      bodyMapper: Mappers.DataMaskingRuleListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -262,8 +259,8 @@ const listBySqlPoolOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName,
-    Parameters.dataMaskingPolicyName
+    Parameters.dataMaskingPolicyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

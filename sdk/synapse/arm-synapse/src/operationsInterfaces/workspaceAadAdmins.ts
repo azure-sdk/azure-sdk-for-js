@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   WorkspaceAadAdminsGetOptionalParams,
   WorkspaceAadAdminsGetResponse,
   WorkspaceAadAdminInfo,
   WorkspaceAadAdminsCreateOrUpdateOptionalParams,
   WorkspaceAadAdminsCreateOrUpdateResponse,
-  WorkspaceAadAdminsDeleteOptionalParams
+  WorkspaceAadAdminsDeleteOptionalParams,
 } from "../models/index.js";
 
 /** Interface representing a WorkspaceAadAdmins. */
@@ -27,7 +27,7 @@ export interface WorkspaceAadAdmins {
   get(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceAadAdminsGetOptionalParams
+    options?: WorkspaceAadAdminsGetOptionalParams,
   ): Promise<WorkspaceAadAdminsGetResponse>;
   /**
    * Creates or updates a workspace active directory admin
@@ -40,10 +40,10 @@ export interface WorkspaceAadAdmins {
     resourceGroupName: string,
     workspaceName: string,
     aadAdminInfo: WorkspaceAadAdminInfo,
-    options?: WorkspaceAadAdminsCreateOrUpdateOptionalParams
+    options?: WorkspaceAadAdminsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkspaceAadAdminsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WorkspaceAadAdminsCreateOrUpdateResponse>,
       WorkspaceAadAdminsCreateOrUpdateResponse
     >
   >;
@@ -58,7 +58,7 @@ export interface WorkspaceAadAdmins {
     resourceGroupName: string,
     workspaceName: string,
     aadAdminInfo: WorkspaceAadAdminInfo,
-    options?: WorkspaceAadAdminsCreateOrUpdateOptionalParams
+    options?: WorkspaceAadAdminsCreateOrUpdateOptionalParams,
   ): Promise<WorkspaceAadAdminsCreateOrUpdateResponse>;
   /**
    * Deletes a workspace active directory admin
@@ -69,8 +69,8 @@ export interface WorkspaceAadAdmins {
   beginDelete(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceAadAdminsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: WorkspaceAadAdminsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a workspace active directory admin
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -80,6 +80,6 @@ export interface WorkspaceAadAdmins {
   beginDeleteAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceAadAdminsDeleteOptionalParams
+    options?: WorkspaceAadAdminsDeleteOptionalParams,
   ): Promise<void>;
 }

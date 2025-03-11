@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters.js";
 import { SynapseManagementClient } from "../synapseManagementClient.js";
 import {
   IntegrationRuntimeMonitoringDataListOptionalParams,
-  IntegrationRuntimeMonitoringDataListResponse
+  IntegrationRuntimeMonitoringDataListResponse,
 } from "../models/index.js";
 
 /** Class containing IntegrationRuntimeMonitoringDataOperations operations. */
 export class IntegrationRuntimeMonitoringDataOperationsImpl
-  implements IntegrationRuntimeMonitoringDataOperations {
+  implements IntegrationRuntimeMonitoringDataOperations
+{
   private readonly client: SynapseManagementClient;
 
   /**
@@ -40,11 +41,11 @@ export class IntegrationRuntimeMonitoringDataOperationsImpl
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimeMonitoringDataListOptionalParams
+    options?: IntegrationRuntimeMonitoringDataListOptionalParams,
   ): Promise<IntegrationRuntimeMonitoringDataListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, integrationRuntimeName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -52,16 +53,15 @@ export class IntegrationRuntimeMonitoringDataOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/monitoringData",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/monitoringData",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeMonitoringData
+      bodyMapper: Mappers.IntegrationRuntimeMonitoringData,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -69,8 +69,8 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.integrationRuntimeName
+    Parameters.integrationRuntimeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

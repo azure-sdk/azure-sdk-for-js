@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   WorkloadGroup,
   SqlPoolWorkloadGroupListOptionalParams,
@@ -15,7 +15,7 @@ import {
   SqlPoolWorkloadGroupGetResponse,
   SqlPoolWorkloadGroupCreateOrUpdateOptionalParams,
   SqlPoolWorkloadGroupCreateOrUpdateResponse,
-  SqlPoolWorkloadGroupDeleteOptionalParams
+  SqlPoolWorkloadGroupDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface SqlPoolWorkloadGroup {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolWorkloadGroupListOptionalParams
+    options?: SqlPoolWorkloadGroupListOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadGroup>;
   /**
    * Get a Sql pool's workload group.
@@ -47,7 +47,7 @@ export interface SqlPoolWorkloadGroup {
     workspaceName: string,
     sqlPoolName: string,
     workloadGroupName: string,
-    options?: SqlPoolWorkloadGroupGetOptionalParams
+    options?: SqlPoolWorkloadGroupGetOptionalParams,
   ): Promise<SqlPoolWorkloadGroupGetResponse>;
   /**
    * Create Or Update a Sql pool's workload group.
@@ -64,10 +64,10 @@ export interface SqlPoolWorkloadGroup {
     sqlPoolName: string,
     workloadGroupName: string,
     parameters: WorkloadGroup,
-    options?: SqlPoolWorkloadGroupCreateOrUpdateOptionalParams
+    options?: SqlPoolWorkloadGroupCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlPoolWorkloadGroupCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SqlPoolWorkloadGroupCreateOrUpdateResponse>,
       SqlPoolWorkloadGroupCreateOrUpdateResponse
     >
   >;
@@ -86,7 +86,7 @@ export interface SqlPoolWorkloadGroup {
     sqlPoolName: string,
     workloadGroupName: string,
     parameters: WorkloadGroup,
-    options?: SqlPoolWorkloadGroupCreateOrUpdateOptionalParams
+    options?: SqlPoolWorkloadGroupCreateOrUpdateOptionalParams,
   ): Promise<SqlPoolWorkloadGroupCreateOrUpdateResponse>;
   /**
    * Remove Sql pool's workload group.
@@ -101,8 +101,8 @@ export interface SqlPoolWorkloadGroup {
     workspaceName: string,
     sqlPoolName: string,
     workloadGroupName: string,
-    options?: SqlPoolWorkloadGroupDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: SqlPoolWorkloadGroupDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Remove Sql pool's workload group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -116,6 +116,6 @@ export interface SqlPoolWorkloadGroup {
     workspaceName: string,
     sqlPoolName: string,
     workloadGroupName: string,
-    options?: SqlPoolWorkloadGroupDeleteOptionalParams
+    options?: SqlPoolWorkloadGroupDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -18,7 +18,7 @@ import {
   LibrariesListByWorkspaceNextOptionalParams,
   LibrariesListByWorkspaceOptionalParams,
   LibrariesListByWorkspaceResponse,
-  LibrariesListByWorkspaceNextResponse
+  LibrariesListByWorkspaceNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,12 +43,12 @@ export class LibrariesImpl implements Libraries {
   public listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: LibrariesListByWorkspaceOptionalParams
+    options?: LibrariesListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<LibraryResource> {
     const iter = this.listByWorkspacePagingAll(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -65,9 +65,9 @@ export class LibrariesImpl implements Libraries {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -75,7 +75,7 @@ export class LibrariesImpl implements Libraries {
     resourceGroupName: string,
     workspaceName: string,
     options?: LibrariesListByWorkspaceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<LibraryResource[]> {
     let result: LibrariesListByWorkspaceResponse;
     let continuationToken = settings?.continuationToken;
@@ -83,7 +83,7 @@ export class LibrariesImpl implements Libraries {
       result = await this._listByWorkspace(
         resourceGroupName,
         workspaceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -95,7 +95,7 @@ export class LibrariesImpl implements Libraries {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -107,12 +107,12 @@ export class LibrariesImpl implements Libraries {
   private async *listByWorkspacePagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: LibrariesListByWorkspaceOptionalParams
+    options?: LibrariesListByWorkspaceOptionalParams,
   ): AsyncIterableIterator<LibraryResource> {
     for await (const page of this.listByWorkspacePagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -127,11 +127,11 @@ export class LibrariesImpl implements Libraries {
   private _listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: LibrariesListByWorkspaceOptionalParams
+    options?: LibrariesListByWorkspaceOptionalParams,
   ): Promise<LibrariesListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listByWorkspaceOperationSpec
+      listByWorkspaceOperationSpec,
     );
   }
 
@@ -146,11 +146,11 @@ export class LibrariesImpl implements Libraries {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: LibrariesListByWorkspaceNextOptionalParams
+    options?: LibrariesListByWorkspaceNextOptionalParams,
   ): Promise<LibrariesListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listByWorkspaceNextOperationSpec
+      listByWorkspaceNextOperationSpec,
     );
   }
 }
@@ -158,45 +158,44 @@ export class LibrariesImpl implements Libraries {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/libraries",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/libraries",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LibraryListResponse
+      bodyMapper: Mappers.LibraryListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LibraryListResponse
+      bodyMapper: Mappers.LibraryListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

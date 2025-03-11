@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   EncryptionProtector,
   WorkspaceManagedSqlServerEncryptionProtectorListOptionalParams,
@@ -16,7 +16,7 @@ import {
   WorkspaceManagedSqlServerEncryptionProtectorGetResponse,
   WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateOptionalParams,
   WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateResponse,
-  WorkspaceManagedSqlServerEncryptionProtectorRevalidateOptionalParams
+  WorkspaceManagedSqlServerEncryptionProtectorRevalidateOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface WorkspaceManagedSqlServerEncryptionProtector {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceManagedSqlServerEncryptionProtectorListOptionalParams
+    options?: WorkspaceManagedSqlServerEncryptionProtectorListOptionalParams,
   ): PagedAsyncIterableIterator<EncryptionProtector>;
   /**
    * Get workspace managed sql server's encryption protector.
@@ -44,7 +44,7 @@ export interface WorkspaceManagedSqlServerEncryptionProtector {
     resourceGroupName: string,
     workspaceName: string,
     encryptionProtectorName: EncryptionProtectorName,
-    options?: WorkspaceManagedSqlServerEncryptionProtectorGetOptionalParams
+    options?: WorkspaceManagedSqlServerEncryptionProtectorGetOptionalParams,
   ): Promise<WorkspaceManagedSqlServerEncryptionProtectorGetResponse>;
   /**
    * Updates workspace managed sql server's encryption protector.
@@ -59,12 +59,10 @@ export interface WorkspaceManagedSqlServerEncryptionProtector {
     workspaceName: string,
     encryptionProtectorName: EncryptionProtectorName,
     parameters: EncryptionProtector,
-    options?: WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateOptionalParams
+    options?: WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateResponse
-      >,
+    SimplePollerLike<
+      OperationState<WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateResponse>,
       WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateResponse
     >
   >;
@@ -81,10 +79,8 @@ export interface WorkspaceManagedSqlServerEncryptionProtector {
     workspaceName: string,
     encryptionProtectorName: EncryptionProtectorName,
     parameters: EncryptionProtector,
-    options?: WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateOptionalParams
-  ): Promise<
-    WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateResponse
-  >;
+    options?: WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateOptionalParams,
+  ): Promise<WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateResponse>;
   /**
    * Revalidates workspace managed sql server's existing encryption protector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -96,8 +92,8 @@ export interface WorkspaceManagedSqlServerEncryptionProtector {
     resourceGroupName: string,
     workspaceName: string,
     encryptionProtectorName: EncryptionProtectorName,
-    options?: WorkspaceManagedSqlServerEncryptionProtectorRevalidateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: WorkspaceManagedSqlServerEncryptionProtectorRevalidateOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Revalidates workspace managed sql server's existing encryption protector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -109,6 +105,6 @@ export interface WorkspaceManagedSqlServerEncryptionProtector {
     resourceGroupName: string,
     workspaceName: string,
     encryptionProtectorName: EncryptionProtectorName,
-    options?: WorkspaceManagedSqlServerEncryptionProtectorRevalidateOptionalParams
+    options?: WorkspaceManagedSqlServerEncryptionProtectorRevalidateOptionalParams,
   ): Promise<void>;
 }

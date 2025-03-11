@@ -9,7 +9,7 @@
 import {
   DatabaseCheckNameRequest,
   KustoPoolChildResourceCheckNameAvailabilityOptionalParams,
-  KustoPoolChildResourceCheckNameAvailabilityResponse
+  KustoPoolChildResourceCheckNameAvailabilityResponse,
 } from "../models/index.js";
 
 /** Interface representing a KustoPoolChildResource. */
@@ -27,6 +27,6 @@ export interface KustoPoolChildResource {
     kustoPoolName: string,
     resourceGroupName: string,
     resourceName: DatabaseCheckNameRequest,
-    options?: KustoPoolChildResourceCheckNameAvailabilityOptionalParams
+    options?: KustoPoolChildResourceCheckNameAvailabilityOptionalParams,
   ): Promise<KustoPoolChildResourceCheckNameAvailabilityResponse>;
 }

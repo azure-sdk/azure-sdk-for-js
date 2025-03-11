@@ -11,15 +11,19 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SynapseManagementClient } from "../synapseManagementClient.js";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   WorkspaceAadAdminsGetOptionalParams,
   WorkspaceAadAdminsGetResponse,
   WorkspaceAadAdminInfo,
   WorkspaceAadAdminsCreateOrUpdateOptionalParams,
   WorkspaceAadAdminsCreateOrUpdateResponse,
-  WorkspaceAadAdminsDeleteOptionalParams
+  WorkspaceAadAdminsDeleteOptionalParams,
 } from "../models/index.js";
 
 /** Class containing WorkspaceAadAdmins operations. */
@@ -43,11 +47,11 @@ export class WorkspaceAadAdminsImpl implements WorkspaceAadAdmins {
   get(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceAadAdminsGetOptionalParams
+    options?: WorkspaceAadAdminsGetOptionalParams,
   ): Promise<WorkspaceAadAdminsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -62,30 +66,29 @@ export class WorkspaceAadAdminsImpl implements WorkspaceAadAdmins {
     resourceGroupName: string,
     workspaceName: string,
     aadAdminInfo: WorkspaceAadAdminInfo,
-    options?: WorkspaceAadAdminsCreateOrUpdateOptionalParams
+    options?: WorkspaceAadAdminsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkspaceAadAdminsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WorkspaceAadAdminsCreateOrUpdateResponse>,
       WorkspaceAadAdminsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<WorkspaceAadAdminsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -94,8 +97,8 @@ export class WorkspaceAadAdminsImpl implements WorkspaceAadAdmins {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -103,20 +106,23 @@ export class WorkspaceAadAdminsImpl implements WorkspaceAadAdmins {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, aadAdminInfo, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, aadAdminInfo, options },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      WorkspaceAadAdminsCreateOrUpdateResponse,
+      OperationState<WorkspaceAadAdminsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -133,13 +139,13 @@ export class WorkspaceAadAdminsImpl implements WorkspaceAadAdmins {
     resourceGroupName: string,
     workspaceName: string,
     aadAdminInfo: WorkspaceAadAdminInfo,
-    options?: WorkspaceAadAdminsCreateOrUpdateOptionalParams
+    options?: WorkspaceAadAdminsCreateOrUpdateOptionalParams,
   ): Promise<WorkspaceAadAdminsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       workspaceName,
       aadAdminInfo,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -153,25 +159,24 @@ export class WorkspaceAadAdminsImpl implements WorkspaceAadAdmins {
   async beginDelete(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceAadAdminsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: WorkspaceAadAdminsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -180,8 +185,8 @@ export class WorkspaceAadAdminsImpl implements WorkspaceAadAdmins {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -189,20 +194,20 @@ export class WorkspaceAadAdminsImpl implements WorkspaceAadAdmins {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -217,12 +222,12 @@ export class WorkspaceAadAdminsImpl implements WorkspaceAadAdmins {
   async beginDeleteAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceAadAdminsDeleteOptionalParams
+    options?: WorkspaceAadAdminsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -231,47 +236,45 @@ export class WorkspaceAadAdminsImpl implements WorkspaceAadAdmins {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/administrators/activeDirectory",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/administrators/activeDirectory",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceAadAdminInfo
+      bodyMapper: Mappers.WorkspaceAadAdminInfo,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/administrators/activeDirectory",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/administrators/activeDirectory",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceAadAdminInfo
+      bodyMapper: Mappers.WorkspaceAadAdminInfo,
     },
     201: {
-      bodyMapper: Mappers.WorkspaceAadAdminInfo
+      bodyMapper: Mappers.WorkspaceAadAdminInfo,
     },
     202: {
-      bodyMapper: Mappers.WorkspaceAadAdminInfo
+      bodyMapper: Mappers.WorkspaceAadAdminInfo,
     },
     204: {
-      bodyMapper: Mappers.WorkspaceAadAdminInfo
+      bodyMapper: Mappers.WorkspaceAadAdminInfo,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.aadAdminInfo,
   queryParameters: [Parameters.apiVersion],
@@ -279,15 +282,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/administrators/activeDirectory",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/administrators/activeDirectory",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -295,16 +297,16 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

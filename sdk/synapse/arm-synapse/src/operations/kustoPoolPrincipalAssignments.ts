@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SynapseManagementClient } from "../synapseManagementClient.js";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   ClusterPrincipalAssignment,
   KustoPoolPrincipalAssignmentsListOptionalParams,
@@ -25,13 +29,14 @@ import {
   KustoPoolPrincipalAssignmentsGetResponse,
   KustoPoolPrincipalAssignmentsCreateOrUpdateOptionalParams,
   KustoPoolPrincipalAssignmentsCreateOrUpdateResponse,
-  KustoPoolPrincipalAssignmentsDeleteOptionalParams
+  KustoPoolPrincipalAssignmentsDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing KustoPoolPrincipalAssignments operations. */
 export class KustoPoolPrincipalAssignmentsImpl
-  implements KustoPoolPrincipalAssignments {
+  implements KustoPoolPrincipalAssignments
+{
   private readonly client: SynapseManagementClient;
 
   /**
@@ -53,13 +58,13 @@ export class KustoPoolPrincipalAssignmentsImpl
     workspaceName: string,
     kustoPoolName: string,
     resourceGroupName: string,
-    options?: KustoPoolPrincipalAssignmentsListOptionalParams
+    options?: KustoPoolPrincipalAssignmentsListOptionalParams,
   ): PagedAsyncIterableIterator<ClusterPrincipalAssignment> {
     const iter = this.listPagingAll(
       workspaceName,
       kustoPoolName,
       resourceGroupName,
-      options
+      options,
     );
     return {
       next() {
@@ -77,9 +82,9 @@ export class KustoPoolPrincipalAssignmentsImpl
           kustoPoolName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -88,14 +93,14 @@ export class KustoPoolPrincipalAssignmentsImpl
     kustoPoolName: string,
     resourceGroupName: string,
     options?: KustoPoolPrincipalAssignmentsListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ClusterPrincipalAssignment[]> {
     let result: KustoPoolPrincipalAssignmentsListResponse;
     result = await this._list(
       workspaceName,
       kustoPoolName,
       resourceGroupName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -104,13 +109,13 @@ export class KustoPoolPrincipalAssignmentsImpl
     workspaceName: string,
     kustoPoolName: string,
     resourceGroupName: string,
-    options?: KustoPoolPrincipalAssignmentsListOptionalParams
+    options?: KustoPoolPrincipalAssignmentsListOptionalParams,
   ): AsyncIterableIterator<ClusterPrincipalAssignment> {
     for await (const page of this.listPagingPage(
       workspaceName,
       kustoPoolName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -129,7 +134,7 @@ export class KustoPoolPrincipalAssignmentsImpl
     kustoPoolName: string,
     resourceGroupName: string,
     principalAssignmentName: ClusterPrincipalAssignmentCheckNameRequest,
-    options?: KustoPoolPrincipalAssignmentsCheckNameAvailabilityOptionalParams
+    options?: KustoPoolPrincipalAssignmentsCheckNameAvailabilityOptionalParams,
   ): Promise<KustoPoolPrincipalAssignmentsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
@@ -137,9 +142,9 @@ export class KustoPoolPrincipalAssignmentsImpl
         kustoPoolName,
         resourceGroupName,
         principalAssignmentName,
-        options
+        options,
       },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 
@@ -154,11 +159,11 @@ export class KustoPoolPrincipalAssignmentsImpl
     workspaceName: string,
     kustoPoolName: string,
     resourceGroupName: string,
-    options?: KustoPoolPrincipalAssignmentsListOptionalParams
+    options?: KustoPoolPrincipalAssignmentsListOptionalParams,
   ): Promise<KustoPoolPrincipalAssignmentsListResponse> {
     return this.client.sendOperationRequest(
       { workspaceName, kustoPoolName, resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -175,7 +180,7 @@ export class KustoPoolPrincipalAssignmentsImpl
     kustoPoolName: string,
     principalAssignmentName: string,
     resourceGroupName: string,
-    options?: KustoPoolPrincipalAssignmentsGetOptionalParams
+    options?: KustoPoolPrincipalAssignmentsGetOptionalParams,
   ): Promise<KustoPoolPrincipalAssignmentsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -183,9 +188,9 @@ export class KustoPoolPrincipalAssignmentsImpl
         kustoPoolName,
         principalAssignmentName,
         resourceGroupName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -204,30 +209,29 @@ export class KustoPoolPrincipalAssignmentsImpl
     principalAssignmentName: string,
     resourceGroupName: string,
     parameters: ClusterPrincipalAssignment,
-    options?: KustoPoolPrincipalAssignmentsCreateOrUpdateOptionalParams
+    options?: KustoPoolPrincipalAssignmentsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<KustoPoolPrincipalAssignmentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<KustoPoolPrincipalAssignmentsCreateOrUpdateResponse>,
       KustoPoolPrincipalAssignmentsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<KustoPoolPrincipalAssignmentsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -236,8 +240,8 @@ export class KustoPoolPrincipalAssignmentsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -245,26 +249,29 @@ export class KustoPoolPrincipalAssignmentsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         workspaceName,
         kustoPoolName,
         principalAssignmentName,
         resourceGroupName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      KustoPoolPrincipalAssignmentsCreateOrUpdateResponse,
+      OperationState<KustoPoolPrincipalAssignmentsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -285,7 +292,7 @@ export class KustoPoolPrincipalAssignmentsImpl
     principalAssignmentName: string,
     resourceGroupName: string,
     parameters: ClusterPrincipalAssignment,
-    options?: KustoPoolPrincipalAssignmentsCreateOrUpdateOptionalParams
+    options?: KustoPoolPrincipalAssignmentsCreateOrUpdateOptionalParams,
   ): Promise<KustoPoolPrincipalAssignmentsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       workspaceName,
@@ -293,7 +300,7 @@ export class KustoPoolPrincipalAssignmentsImpl
       principalAssignmentName,
       resourceGroupName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -311,25 +318,24 @@ export class KustoPoolPrincipalAssignmentsImpl
     kustoPoolName: string,
     principalAssignmentName: string,
     resourceGroupName: string,
-    options?: KustoPoolPrincipalAssignmentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: KustoPoolPrincipalAssignmentsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -338,8 +344,8 @@ export class KustoPoolPrincipalAssignmentsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -347,25 +353,25 @@ export class KustoPoolPrincipalAssignmentsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         workspaceName,
         kustoPoolName,
         principalAssignmentName,
         resourceGroupName,
-        options
+        options,
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -384,14 +390,14 @@ export class KustoPoolPrincipalAssignmentsImpl
     kustoPoolName: string,
     principalAssignmentName: string,
     resourceGroupName: string,
-    options?: KustoPoolPrincipalAssignmentsDeleteOptionalParams
+    options?: KustoPoolPrincipalAssignmentsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       workspaceName,
       kustoPoolName,
       principalAssignmentName,
       resourceGroupName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -400,16 +406,15 @@ export class KustoPoolPrincipalAssignmentsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/kustoPools/{kustoPoolName}/checkPrincipalAssignmentNameAvailability",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/kustoPools/{kustoPoolName}/checkPrincipalAssignmentNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameResult
+      bodyMapper: Mappers.CheckNameResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.principalAssignmentName,
   queryParameters: [Parameters.apiVersion1],
@@ -418,46 +423,22 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.kustoPoolName1
+    Parameters.kustoPoolName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/kustoPools/{kustoPoolName}/principalAssignments",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/kustoPools/{kustoPoolName}/principalAssignments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterPrincipalAssignmentListResult
+      bodyMapper: Mappers.ClusterPrincipalAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.kustoPoolName1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/kustoPools/{kustoPoolName}/principalAssignments/{principalAssignmentName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ClusterPrincipalAssignment
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -466,33 +447,54 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.kustoPoolName1,
-    Parameters.principalAssignmentName1
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/kustoPools/{kustoPoolName}/principalAssignments/{principalAssignmentName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ClusterPrincipalAssignment,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.kustoPoolName1,
+    Parameters.principalAssignmentName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/kustoPools/{kustoPoolName}/principalAssignments/{principalAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/kustoPools/{kustoPoolName}/principalAssignments/{principalAssignmentName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterPrincipalAssignment
+      bodyMapper: Mappers.ClusterPrincipalAssignment,
     },
     201: {
-      bodyMapper: Mappers.ClusterPrincipalAssignment
+      bodyMapper: Mappers.ClusterPrincipalAssignment,
     },
     202: {
-      bodyMapper: Mappers.ClusterPrincipalAssignment
+      bodyMapper: Mappers.ClusterPrincipalAssignment,
     },
     204: {
-      bodyMapper: Mappers.ClusterPrincipalAssignment
+      bodyMapper: Mappers.ClusterPrincipalAssignment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters29,
+  requestBody: Parameters.parameters28,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
@@ -500,15 +502,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.kustoPoolName1,
-    Parameters.principalAssignmentName1
+    Parameters.principalAssignmentName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/kustoPools/{kustoPoolName}/principalAssignments/{principalAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/kustoPools/{kustoPoolName}/principalAssignments/{principalAssignmentName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -516,8 +517,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -526,8 +527,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.kustoPoolName1,
-    Parameters.principalAssignmentName1
+    Parameters.principalAssignmentName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

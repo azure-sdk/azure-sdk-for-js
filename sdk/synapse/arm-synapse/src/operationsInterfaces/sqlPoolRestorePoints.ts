@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RestorePoint,
   SqlPoolRestorePointsListOptionalParams,
@@ -16,7 +16,7 @@ import {
   SqlPoolRestorePointsCreateResponse,
   SqlPoolRestorePointsGetOptionalParams,
   SqlPoolRestorePointsGetResponse,
-  SqlPoolRestorePointsDeleteOptionalParams
+  SqlPoolRestorePointsDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface SqlPoolRestorePoints {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolRestorePointsListOptionalParams
+    options?: SqlPoolRestorePointsListOptionalParams,
   ): PagedAsyncIterableIterator<RestorePoint>;
   /**
    * Creates a restore point for a data warehouse.
@@ -48,10 +48,10 @@ export interface SqlPoolRestorePoints {
     workspaceName: string,
     sqlPoolName: string,
     parameters: CreateSqlPoolRestorePointDefinition,
-    options?: SqlPoolRestorePointsCreateOptionalParams
+    options?: SqlPoolRestorePointsCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlPoolRestorePointsCreateResponse>,
+    SimplePollerLike<
+      OperationState<SqlPoolRestorePointsCreateResponse>,
       SqlPoolRestorePointsCreateResponse
     >
   >;
@@ -68,7 +68,7 @@ export interface SqlPoolRestorePoints {
     workspaceName: string,
     sqlPoolName: string,
     parameters: CreateSqlPoolRestorePointDefinition,
-    options?: SqlPoolRestorePointsCreateOptionalParams
+    options?: SqlPoolRestorePointsCreateOptionalParams,
   ): Promise<SqlPoolRestorePointsCreateResponse>;
   /**
    * Gets a restore point.
@@ -83,7 +83,7 @@ export interface SqlPoolRestorePoints {
     workspaceName: string,
     sqlPoolName: string,
     restorePointName: string,
-    options?: SqlPoolRestorePointsGetOptionalParams
+    options?: SqlPoolRestorePointsGetOptionalParams,
   ): Promise<SqlPoolRestorePointsGetResponse>;
   /**
    * Deletes a restore point.
@@ -98,6 +98,6 @@ export interface SqlPoolRestorePoints {
     workspaceName: string,
     sqlPoolName: string,
     restorePointName: string,
-    options?: SqlPoolRestorePointsDeleteOptionalParams
+    options?: SqlPoolRestorePointsDeleteOptionalParams,
   ): Promise<void>;
 }

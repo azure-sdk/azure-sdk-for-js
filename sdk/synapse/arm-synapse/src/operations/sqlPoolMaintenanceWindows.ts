@@ -15,12 +15,13 @@ import {
   SqlPoolMaintenanceWindowsGetOptionalParams,
   SqlPoolMaintenanceWindowsGetResponse,
   MaintenanceWindows,
-  SqlPoolMaintenanceWindowsCreateOrUpdateOptionalParams
+  SqlPoolMaintenanceWindowsCreateOrUpdateOptionalParams,
 } from "../models/index.js";
 
 /** Class containing SqlPoolMaintenanceWindows operations. */
 export class SqlPoolMaintenanceWindowsImpl
-  implements SqlPoolMaintenanceWindows {
+  implements SqlPoolMaintenanceWindows
+{
   private readonly client: SynapseManagementClient;
 
   /**
@@ -44,7 +45,7 @@ export class SqlPoolMaintenanceWindowsImpl
     workspaceName: string,
     sqlPoolName: string,
     maintenanceWindowName: string,
-    options?: SqlPoolMaintenanceWindowsGetOptionalParams
+    options?: SqlPoolMaintenanceWindowsGetOptionalParams,
   ): Promise<SqlPoolMaintenanceWindowsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -52,9 +53,9 @@ export class SqlPoolMaintenanceWindowsImpl
         workspaceName,
         sqlPoolName,
         maintenanceWindowName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -73,7 +74,7 @@ export class SqlPoolMaintenanceWindowsImpl
     sqlPoolName: string,
     maintenanceWindowName: string,
     parameters: MaintenanceWindows,
-    options?: SqlPoolMaintenanceWindowsCreateOrUpdateOptionalParams
+    options?: SqlPoolMaintenanceWindowsCreateOrUpdateOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -82,9 +83,9 @@ export class SqlPoolMaintenanceWindowsImpl
         sqlPoolName,
         maintenanceWindowName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 }
@@ -92,16 +93,15 @@ export class SqlPoolMaintenanceWindowsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/maintenancewindows/current",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/maintenancewindows/current",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MaintenanceWindows
+      bodyMapper: Mappers.MaintenanceWindows,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.maintenanceWindowName],
   urlParameters: [
@@ -109,26 +109,25 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/maintenancewindows/current",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/maintenancewindows/current",
   httpMethod: "PUT",
   responses: { 200: {}, default: {} },
-  requestBody: Parameters.parameters3,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion, Parameters.maintenanceWindowName],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
