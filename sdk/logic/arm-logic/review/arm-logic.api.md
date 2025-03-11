@@ -6,19 +6,22 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
+
+// @public
+export type ActionType = string;
 
 // @public
 export interface AgreementContent {
-    aS2?: AS2AgreementContent;
+    aS2?: As2AgreementContent;
     edifact?: EdifactAgreementContent;
     x12?: X12AgreementContent;
 }
 
 // @public
-export type AgreementType = "NotSpecified" | "AS2" | "X12" | "Edifact";
+export type AgreementType = string;
 
 // @public
 export interface ApiDeploymentParameterMetadata {
@@ -39,25 +42,7 @@ export interface ApiDeploymentParameterMetadataSet {
 export type ApiDeploymentParameterVisibility = string;
 
 // @public
-export interface ApiOperation extends Resource {
-    properties?: ApiOperationPropertiesDefinition;
-}
-
-// @public
-export interface ApiOperationAnnotation {
-    family?: string;
-    revision?: number;
-    status?: StatusAnnotation;
-}
-
-// @public
-export interface ApiOperationListResult {
-    nextLink?: string;
-    value?: ApiOperation[];
-}
-
-// @public
-export interface ApiOperationPropertiesDefinition {
+export interface ApiOperation extends ProxyResource {
     annotation?: ApiOperationAnnotation;
     api?: ApiReference;
     description?: string;
@@ -75,6 +60,38 @@ export interface ApiOperationPropertiesDefinition {
 }
 
 // @public
+export interface ApiOperationAnnotation {
+    family?: string;
+    revision?: number;
+    status?: StatusAnnotation;
+}
+
+// @public
+export interface ApiOperationListResult {
+    nextLink?: string;
+    value: ApiOperation[];
+}
+
+// @public
+export interface ApiOperations {
+    list(integrationServiceEnvironmentName: string, apiName: string, options?: ApiOperationsListOptionalParams): PagedAsyncIterableIterator<ApiOperation>;
+}
+
+// @public
+export interface ApiOperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApiOperationsListNextResponse = ApiOperationListResult;
+
+// @public
+export interface ApiOperationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApiOperationsListResponse = ApiOperationListResult;
+
+// @public
 export interface ApiReference extends ResourceReference {
     brandColor?: string;
     category?: ApiTier;
@@ -82,7 +99,9 @@ export interface ApiReference extends ResourceReference {
     displayName?: string;
     iconUri?: string;
     integrationServiceEnvironment?: ResourceReference;
-    swagger?: any;
+    swagger?: {
+        [propertyName: string]: any;
+    };
 }
 
 // @public
@@ -113,7 +132,7 @@ export interface ApiResourceMetadata {
     connectionType?: string;
     deploymentParameters?: ApiDeploymentParameterMetadataSet;
     hideKey?: string;
-    provisioningState?: WorkflowProvisioningState;
+    readonly provisioningState?: WorkflowProvisioningState;
     source?: string;
     tags?: {
         [propertyName: string]: string;
@@ -136,12 +155,13 @@ export interface ApiResourceProperties {
     readonly capabilities?: string[];
     readonly category?: ApiTier;
     readonly connectionParameters?: {
-        [propertyName: string]: any;
+        [propertyName: string]: {
+            [propertyName: string]: any;
+        };
     };
     readonly generalInformation?: ApiResourceGeneralInformation;
     integrationServiceEnvironment?: ResourceReference;
     readonly metadata?: ApiResourceMetadata;
-    readonly name?: string;
     readonly policies?: ApiResourcePolicies;
     readonly provisioningState?: WorkflowProvisioningState;
     readonly runtimeUrls?: string[];
@@ -168,7 +188,7 @@ export interface ArtifactProperties {
 }
 
 // @public
-export interface AS2AcknowledgementConnectionSettings {
+export interface As2AcknowledgementConnectionSettings {
     ignoreCertificateNameMismatch: boolean;
     keepHttpConnectionAlive: boolean;
     supportHttpStatusCodeContinue: boolean;
@@ -176,13 +196,13 @@ export interface AS2AcknowledgementConnectionSettings {
 }
 
 // @public
-export interface AS2AgreementContent {
-    receiveAgreement: AS2OneWayAgreement;
-    sendAgreement: AS2OneWayAgreement;
+export interface As2AgreementContent {
+    receiveAgreement: As2OneWayAgreement;
+    sendAgreement: As2OneWayAgreement;
 }
 
 // @public
-export interface AS2EnvelopeSettings {
+export interface As2EnvelopeSettings {
     autogenerateFileName: boolean;
     fileNameTemplate: string;
     messageContentType: string;
@@ -191,26 +211,26 @@ export interface AS2EnvelopeSettings {
 }
 
 // @public
-export interface AS2ErrorSettings {
-    resendIfMDNNotReceived: boolean;
+export interface As2ErrorSettings {
+    resendIfMdnNotReceived: boolean;
     suspendDuplicateMessage: boolean;
 }
 
 // @public
-export interface AS2MdnSettings {
+export interface As2MdnSettings {
     dispositionNotificationTo?: string;
     mdnText?: string;
     micHashingAlgorithm: HashingAlgorithm;
-    needMDN: boolean;
+    needMdn: boolean;
     receiptDeliveryUrl?: string;
-    sendInboundMDNToMessageBox: boolean;
-    sendMDNAsynchronously: boolean;
-    signMDN: boolean;
-    signOutboundMDNIfOptional: boolean;
+    sendInboundMdnToMessageBox: boolean;
+    sendMdnAsynchronously: boolean;
+    signMdn: boolean;
+    signOutboundMdnIfOptional: boolean;
 }
 
 // @public
-export interface AS2MessageConnectionSettings {
+export interface As2MessageConnectionSettings {
     ignoreCertificateNameMismatch: boolean;
     keepHttpConnectionAlive: boolean;
     supportHttpStatusCodeContinue: boolean;
@@ -218,31 +238,31 @@ export interface AS2MessageConnectionSettings {
 }
 
 // @public
-export interface AS2OneWayAgreement {
-    protocolSettings: AS2ProtocolSettings;
+export interface As2OneWayAgreement {
+    protocolSettings: As2ProtocolSettings;
     receiverBusinessIdentity: BusinessIdentity;
     senderBusinessIdentity: BusinessIdentity;
 }
 
 // @public
-export interface AS2ProtocolSettings {
-    acknowledgementConnectionSettings: AS2AcknowledgementConnectionSettings;
-    envelopeSettings: AS2EnvelopeSettings;
-    errorSettings: AS2ErrorSettings;
-    mdnSettings: AS2MdnSettings;
-    messageConnectionSettings: AS2MessageConnectionSettings;
-    securitySettings: AS2SecuritySettings;
-    validationSettings: AS2ValidationSettings;
+export interface As2ProtocolSettings {
+    acknowledgementConnectionSettings: As2AcknowledgementConnectionSettings;
+    envelopeSettings: As2EnvelopeSettings;
+    errorSettings: As2ErrorSettings;
+    mdnSettings: As2MdnSettings;
+    messageConnectionSettings: As2MessageConnectionSettings;
+    securitySettings: As2SecuritySettings;
+    validationSettings: As2ValidationSettings;
 }
 
 // @public
-export interface AS2SecuritySettings {
-    enableNRRForInboundDecodedMessages: boolean;
-    enableNRRForInboundEncodedMessages: boolean;
-    enableNRRForInboundMDN: boolean;
-    enableNRRForOutboundDecodedMessages: boolean;
-    enableNRRForOutboundEncodedMessages: boolean;
-    enableNRRForOutboundMDN: boolean;
+export interface As2SecuritySettings {
+    enableNrrForInboundDecodedMessages: boolean;
+    enableNrrForInboundEncodedMessages: boolean;
+    enableNrrForInboundMdn: boolean;
+    enableNrrForOutboundDecodedMessages: boolean;
+    enableNrrForOutboundEncodedMessages: boolean;
+    enableNrrForOutboundMdn: boolean;
     encryptionCertificateName?: string;
     overrideGroupSigningCertificate: boolean;
     sha2AlgorithmFormat?: string;
@@ -250,7 +270,7 @@ export interface AS2SecuritySettings {
 }
 
 // @public
-export interface AS2ValidationSettings {
+export interface As2ValidationSettings {
     checkCertificateRevocationListOnReceive: boolean;
     checkCertificateRevocationListOnSend: boolean;
     checkDuplicateMessage: boolean;
@@ -270,8 +290,17 @@ export interface AssemblyCollection {
 }
 
 // @public
-export interface AssemblyDefinition extends Resource {
-    properties: AssemblyProperties;
+export interface AssemblyDefinition extends TrackedResource {
+    assemblyCulture?: string;
+    assemblyName: string;
+    assemblyPublicKeyToken?: string;
+    assemblyVersion?: string;
+    changedTime?: Date;
+    content?: any;
+    contentLink?: ContentLink;
+    contentType?: string;
+    createdTime?: Date;
+    metadata?: any;
 }
 
 // @public
@@ -281,9 +310,6 @@ export interface AssemblyProperties extends ArtifactContentPropertiesDefinition 
     assemblyPublicKeyToken?: string;
     assemblyVersion?: string;
 }
-
-// @public
-export type AzureAsyncOperationState = string;
 
 // @public
 export interface AzureResourceErrorInfo extends ErrorInfo {
@@ -297,8 +323,12 @@ export interface B2BPartnerContent {
 }
 
 // @public
-export interface BatchConfiguration extends Resource {
-    properties: BatchConfigurationProperties;
+export interface BatchConfiguration extends TrackedResource {
+    batchGroupName: string;
+    changedTime?: Date;
+    createdTime?: Date;
+    metadata?: any;
+    releaseCriteria: BatchReleaseCriteria;
 }
 
 // @public
@@ -342,7 +372,9 @@ export interface ContentLink {
     readonly contentHash?: ContentHash;
     readonly contentSize?: number;
     readonly contentVersion?: string;
-    readonly metadata?: any;
+    readonly metadata?: {
+        [propertyName: string]: any;
+    };
     uri?: string;
 }
 
@@ -352,10 +384,13 @@ export interface Correlation {
 }
 
 // @public
-export type DayOfWeek = "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
+export type CreatedByType = string;
 
 // @public
-export type DaysOfWeek = "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
+export type DayOfWeek = string;
+
+// @public
+export type DaysOfWeek = string;
 
 // @public
 export interface EdifactAcknowledgementSettings {
@@ -382,7 +417,7 @@ export interface EdifactAgreementContent {
 export type EdifactCharacterSet = string;
 
 // @public
-export type EdifactDecimalIndicator = "NotSpecified" | "Comma" | "Decimal";
+export type EdifactDecimalIndicator = string;
 
 // @public
 export interface EdifactDelimiterOverride {
@@ -538,8 +573,8 @@ export interface EdifactValidationOverride {
     messageId: string;
     trailingSeparatorPolicy: TrailingSeparatorPolicy;
     trimLeadingAndTrailingSpacesAndZeroes: boolean;
-    validateEDITypes: boolean;
-    validateXSDTypes: boolean;
+    validateEdiTypes: boolean;
+    validateXsdTypes: boolean;
 }
 
 // @public
@@ -552,12 +587,27 @@ export interface EdifactValidationSettings {
     trailingSeparatorPolicy: TrailingSeparatorPolicy;
     trimLeadingAndTrailingSpacesAndZeroes: boolean;
     validateCharacterSet: boolean;
-    validateEDITypes: boolean;
-    validateXSDTypes: boolean;
+    validateEdiTypes: boolean;
+    validateXsdTypes: boolean;
 }
 
 // @public
 export type EncryptionAlgorithm = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: any;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
 
 // @public
 export interface ErrorInfo {
@@ -565,21 +615,12 @@ export interface ErrorInfo {
 }
 
 // @public
-export interface ErrorProperties {
-    code?: string;
-    message?: string;
-}
-
-// @public
 export interface ErrorResponse {
-    error?: ErrorProperties;
+    error?: ErrorDetail;
 }
 
 // @public
-export type ErrorResponseCode = string;
-
-// @public
-export type EventLevel = "LogAlways" | "Critical" | "Error" | "Warning" | "Informational" | "Verbose";
+export type EventLevel = string;
 
 // @public
 export interface Expression {
@@ -598,14 +639,6 @@ export interface ExpressionRoot extends Expression {
 export interface ExpressionTraces {
     // (undocumented)
     inputs?: ExpressionRoot[];
-}
-
-// @public
-export interface ExtendedErrorInfo {
-    code: ErrorResponseCode;
-    details?: ExtendedErrorInfo[];
-    innerError?: any;
-    message: string;
 }
 
 // @public
@@ -652,14 +685,14 @@ export function getContinuationToken(page: unknown): string | undefined;
 export type HashingAlgorithm = string;
 
 // @public
-export interface IntegrationAccount extends Resource {
+export interface IntegrationAccount extends TrackedResource {
     integrationServiceEnvironment?: ResourceReference;
     sku?: IntegrationAccountSku;
     state?: WorkflowState;
 }
 
 // @public
-export interface IntegrationAccountAgreement extends Resource {
+export interface IntegrationAccountAgreement extends TrackedResource {
     agreementType: AgreementType;
     readonly changedTime?: Date;
     content: AgreementContent;
@@ -668,27 +701,24 @@ export interface IntegrationAccountAgreement extends Resource {
     guestPartner: string;
     hostIdentity: BusinessIdentity;
     hostPartner: string;
-    metadata?: any;
-}
-
-// @public
-export interface IntegrationAccountAgreementFilter {
-    agreementType: AgreementType;
+    metadata?: {
+        [propertyName: string]: any;
+    };
 }
 
 // @public
 export interface IntegrationAccountAgreementListResult {
     nextLink?: string;
-    value?: IntegrationAccountAgreement[];
+    value: IntegrationAccountAgreement[];
 }
 
 // @public
 export interface IntegrationAccountAgreements {
-    createOrUpdate(resourceGroupName: string, integrationAccountName: string, agreementName: string, agreement: IntegrationAccountAgreement, options?: IntegrationAccountAgreementsCreateOrUpdateOptionalParams): Promise<IntegrationAccountAgreementsCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, integrationAccountName: string, agreementName: string, resource: IntegrationAccountAgreement, options?: IntegrationAccountAgreementsCreateOrUpdateOptionalParams): Promise<IntegrationAccountAgreementsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, integrationAccountName: string, agreementName: string, options?: IntegrationAccountAgreementsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, integrationAccountName: string, agreementName: string, options?: IntegrationAccountAgreementsGetOptionalParams): Promise<IntegrationAccountAgreementsGetResponse>;
     list(resourceGroupName: string, integrationAccountName: string, options?: IntegrationAccountAgreementsListOptionalParams): PagedAsyncIterableIterator<IntegrationAccountAgreement>;
-    listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, agreementName: string, listContentCallbackUrl: GetCallbackUrlParameters, options?: IntegrationAccountAgreementsListContentCallbackUrlOptionalParams): Promise<IntegrationAccountAgreementsListContentCallbackUrlResponse>;
+    listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, agreementName: string, body: GetCallbackUrlParameters, options?: IntegrationAccountAgreementsListContentCallbackUrlOptionalParams): Promise<IntegrationAccountAgreementsListContentCallbackUrlResponse>;
 }
 
 // @public
@@ -734,10 +764,10 @@ export type IntegrationAccountAgreementsListResponse = IntegrationAccountAgreeme
 
 // @public
 export interface IntegrationAccountAssemblies {
-    createOrUpdate(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, assemblyArtifact: AssemblyDefinition, options?: IntegrationAccountAssembliesCreateOrUpdateOptionalParams): Promise<IntegrationAccountAssembliesCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, resource: AssemblyDefinition, options?: IntegrationAccountAssembliesCreateOrUpdateOptionalParams): Promise<IntegrationAccountAssembliesCreateOrUpdateResponse>;
     delete(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, options?: IntegrationAccountAssembliesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, options?: IntegrationAccountAssembliesGetOptionalParams): Promise<IntegrationAccountAssembliesGetResponse>;
-    list(resourceGroupName: string, integrationAccountName: string, options?: IntegrationAccountAssembliesListOptionalParams): PagedAsyncIterableIterator<AssemblyDefinition>;
+    list(resourceGroupName: string, integrationAccountName: string, options?: IntegrationAccountAssembliesListOptionalParams): Promise<IntegrationAccountAssembliesListResponse>;
     listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, options?: IntegrationAccountAssembliesListContentCallbackUrlOptionalParams): Promise<IntegrationAccountAssembliesListContentCallbackUrlResponse>;
 }
 
@@ -775,10 +805,10 @@ export type IntegrationAccountAssembliesListResponse = AssemblyCollection;
 
 // @public
 export interface IntegrationAccountBatchConfigurations {
-    createOrUpdate(resourceGroupName: string, integrationAccountName: string, batchConfigurationName: string, batchConfiguration: BatchConfiguration, options?: IntegrationAccountBatchConfigurationsCreateOrUpdateOptionalParams): Promise<IntegrationAccountBatchConfigurationsCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, integrationAccountName: string, batchConfigurationName: string, resource: BatchConfiguration, options?: IntegrationAccountBatchConfigurationsCreateOrUpdateOptionalParams): Promise<IntegrationAccountBatchConfigurationsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, integrationAccountName: string, batchConfigurationName: string, options?: IntegrationAccountBatchConfigurationsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, integrationAccountName: string, batchConfigurationName: string, options?: IntegrationAccountBatchConfigurationsGetOptionalParams): Promise<IntegrationAccountBatchConfigurationsGetResponse>;
-    list(resourceGroupName: string, integrationAccountName: string, options?: IntegrationAccountBatchConfigurationsListOptionalParams): PagedAsyncIterableIterator<BatchConfiguration>;
+    list(resourceGroupName: string, integrationAccountName: string, options?: IntegrationAccountBatchConfigurationsListOptionalParams): Promise<IntegrationAccountBatchConfigurationsListResponse>;
 }
 
 // @public
@@ -807,23 +837,25 @@ export interface IntegrationAccountBatchConfigurationsListOptionalParams extends
 export type IntegrationAccountBatchConfigurationsListResponse = BatchConfigurationCollection;
 
 // @public
-export interface IntegrationAccountCertificate extends Resource {
+export interface IntegrationAccountCertificate extends TrackedResource {
     readonly changedTime?: Date;
     readonly createdTime?: Date;
     key?: KeyVaultKeyReference;
-    metadata?: any;
+    metadata?: {
+        [propertyName: string]: any;
+    };
     publicCertificate?: string;
 }
 
 // @public
 export interface IntegrationAccountCertificateListResult {
     nextLink?: string;
-    value?: IntegrationAccountCertificate[];
+    value: IntegrationAccountCertificate[];
 }
 
 // @public
 export interface IntegrationAccountCertificates {
-    createOrUpdate(resourceGroupName: string, integrationAccountName: string, certificateName: string, certificate: IntegrationAccountCertificate, options?: IntegrationAccountCertificatesCreateOrUpdateOptionalParams): Promise<IntegrationAccountCertificatesCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, integrationAccountName: string, certificateName: string, resource: IntegrationAccountCertificate, options?: IntegrationAccountCertificatesCreateOrUpdateOptionalParams): Promise<IntegrationAccountCertificatesCreateOrUpdateResponse>;
     delete(resourceGroupName: string, integrationAccountName: string, certificateName: string, options?: IntegrationAccountCertificatesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, integrationAccountName: string, certificateName: string, options?: IntegrationAccountCertificatesGetOptionalParams): Promise<IntegrationAccountCertificatesGetResponse>;
     list(resourceGroupName: string, integrationAccountName: string, options?: IntegrationAccountCertificatesListOptionalParams): PagedAsyncIterableIterator<IntegrationAccountCertificate>;
@@ -865,30 +897,27 @@ export type IntegrationAccountCertificatesListResponse = IntegrationAccountCerti
 // @public
 export interface IntegrationAccountListResult {
     nextLink?: string;
-    value?: IntegrationAccount[];
+    value: IntegrationAccount[];
 }
 
 // @public
-export interface IntegrationAccountMap extends Resource {
+export interface IntegrationAccountMap extends TrackedResource {
     readonly changedTime?: Date;
     content?: string;
     readonly contentLink?: ContentLink;
     contentType?: string;
     readonly createdTime?: Date;
     mapType: MapType;
-    metadata?: any;
+    metadata?: {
+        [propertyName: string]: any;
+    };
     parametersSchema?: IntegrationAccountMapPropertiesParametersSchema;
-}
-
-// @public
-export interface IntegrationAccountMapFilter {
-    mapType: MapType;
 }
 
 // @public
 export interface IntegrationAccountMapListResult {
     nextLink?: string;
-    value?: IntegrationAccountMap[];
+    value: IntegrationAccountMap[];
 }
 
 // @public
@@ -898,11 +927,11 @@ export interface IntegrationAccountMapPropertiesParametersSchema {
 
 // @public
 export interface IntegrationAccountMaps {
-    createOrUpdate(resourceGroupName: string, integrationAccountName: string, mapName: string, map: IntegrationAccountMap, options?: IntegrationAccountMapsCreateOrUpdateOptionalParams): Promise<IntegrationAccountMapsCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, integrationAccountName: string, mapName: string, resource: IntegrationAccountMap, options?: IntegrationAccountMapsCreateOrUpdateOptionalParams): Promise<IntegrationAccountMapsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, integrationAccountName: string, mapName: string, options?: IntegrationAccountMapsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, integrationAccountName: string, mapName: string, options?: IntegrationAccountMapsGetOptionalParams): Promise<IntegrationAccountMapsGetResponse>;
     list(resourceGroupName: string, integrationAccountName: string, options?: IntegrationAccountMapsListOptionalParams): PagedAsyncIterableIterator<IntegrationAccountMap>;
-    listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, mapName: string, listContentCallbackUrl: GetCallbackUrlParameters, options?: IntegrationAccountMapsListContentCallbackUrlOptionalParams): Promise<IntegrationAccountMapsListContentCallbackUrlResponse>;
+    listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, mapName: string, body: GetCallbackUrlParameters, options?: IntegrationAccountMapsListContentCallbackUrlOptionalParams): Promise<IntegrationAccountMapsListContentCallbackUrlResponse>;
 }
 
 // @public
@@ -947,32 +976,29 @@ export interface IntegrationAccountMapsListOptionalParams extends coreClient.Ope
 export type IntegrationAccountMapsListResponse = IntegrationAccountMapListResult;
 
 // @public
-export interface IntegrationAccountPartner extends Resource {
+export interface IntegrationAccountPartner extends TrackedResource {
     readonly changedTime?: Date;
     content: PartnerContent;
     readonly createdTime?: Date;
-    metadata?: any;
-    partnerType: PartnerType;
-}
-
-// @public
-export interface IntegrationAccountPartnerFilter {
+    metadata?: {
+        [propertyName: string]: any;
+    };
     partnerType: PartnerType;
 }
 
 // @public
 export interface IntegrationAccountPartnerListResult {
     nextLink?: string;
-    value?: IntegrationAccountPartner[];
+    value: IntegrationAccountPartner[];
 }
 
 // @public
 export interface IntegrationAccountPartners {
-    createOrUpdate(resourceGroupName: string, integrationAccountName: string, partnerName: string, partner: IntegrationAccountPartner, options?: IntegrationAccountPartnersCreateOrUpdateOptionalParams): Promise<IntegrationAccountPartnersCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, integrationAccountName: string, partnerName: string, resource: IntegrationAccountPartner, options?: IntegrationAccountPartnersCreateOrUpdateOptionalParams): Promise<IntegrationAccountPartnersCreateOrUpdateResponse>;
     delete(resourceGroupName: string, integrationAccountName: string, partnerName: string, options?: IntegrationAccountPartnersDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, integrationAccountName: string, partnerName: string, options?: IntegrationAccountPartnersGetOptionalParams): Promise<IntegrationAccountPartnersGetResponse>;
     list(resourceGroupName: string, integrationAccountName: string, options?: IntegrationAccountPartnersListOptionalParams): PagedAsyncIterableIterator<IntegrationAccountPartner>;
-    listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, partnerName: string, listContentCallbackUrl: GetCallbackUrlParameters, options?: IntegrationAccountPartnersListContentCallbackUrlOptionalParams): Promise<IntegrationAccountPartnersListContentCallbackUrlResponse>;
+    listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, partnerName: string, body: GetCallbackUrlParameters, options?: IntegrationAccountPartnersListContentCallbackUrlOptionalParams): Promise<IntegrationAccountPartnersListContentCallbackUrlResponse>;
 }
 
 // @public
@@ -1018,20 +1044,20 @@ export type IntegrationAccountPartnersListResponse = IntegrationAccountPartnerLi
 
 // @public
 export interface IntegrationAccounts {
-    createOrUpdate(resourceGroupName: string, integrationAccountName: string, integrationAccount: IntegrationAccount, options?: IntegrationAccountsCreateOrUpdateOptionalParams): Promise<IntegrationAccountsCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, integrationAccountName: string, resource: IntegrationAccount, options?: IntegrationAccountsCreateOrUpdateOptionalParams): Promise<IntegrationAccountsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, integrationAccountName: string, options?: IntegrationAccountsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, integrationAccountName: string, options?: IntegrationAccountsGetOptionalParams): Promise<IntegrationAccountsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: IntegrationAccountsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<IntegrationAccount>;
     listBySubscription(options?: IntegrationAccountsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<IntegrationAccount>;
-    listCallbackUrl(resourceGroupName: string, integrationAccountName: string, parameters: GetCallbackUrlParameters, options?: IntegrationAccountsListCallbackUrlOptionalParams): Promise<IntegrationAccountsListCallbackUrlResponse>;
-    listKeyVaultKeys(resourceGroupName: string, integrationAccountName: string, listKeyVaultKeys: ListKeyVaultKeysDefinition, options?: IntegrationAccountsListKeyVaultKeysOptionalParams): PagedAsyncIterableIterator<KeyVaultKey>;
-    logTrackingEvents(resourceGroupName: string, integrationAccountName: string, logTrackingEvents: TrackingEventsDefinition, options?: IntegrationAccountsLogTrackingEventsOptionalParams): Promise<void>;
-    regenerateAccessKey(resourceGroupName: string, integrationAccountName: string, regenerateAccessKey: RegenerateActionParameter, options?: IntegrationAccountsRegenerateAccessKeyOptionalParams): Promise<IntegrationAccountsRegenerateAccessKeyResponse>;
-    update(resourceGroupName: string, integrationAccountName: string, integrationAccount: IntegrationAccount, options?: IntegrationAccountsUpdateOptionalParams): Promise<IntegrationAccountsUpdateResponse>;
+    listCallbackUrl(resourceGroupName: string, integrationAccountName: string, body: GetCallbackUrlParameters, options?: IntegrationAccountsListCallbackUrlOptionalParams): Promise<IntegrationAccountsListCallbackUrlResponse>;
+    listKeyVaultKeys(resourceGroupName: string, integrationAccountName: string, body: ListKeyVaultKeysDefinition, options?: IntegrationAccountsListKeyVaultKeysOptionalParams): Promise<IntegrationAccountsListKeyVaultKeysResponse>;
+    logTrackingEvents(resourceGroupName: string, integrationAccountName: string, body: TrackingEventsDefinition, options?: IntegrationAccountsLogTrackingEventsOptionalParams): Promise<void>;
+    regenerateAccessKey(resourceGroupName: string, integrationAccountName: string, body: RegenerateActionParameter, options?: IntegrationAccountsRegenerateAccessKeyOptionalParams): Promise<IntegrationAccountsRegenerateAccessKeyResponse>;
+    update(resourceGroupName: string, integrationAccountName: string, properties: IntegrationAccount, options?: IntegrationAccountsUpdateOptionalParams): Promise<IntegrationAccountsUpdateResponse>;
 }
 
 // @public
-export interface IntegrationAccountSchema extends Resource {
+export interface IntegrationAccountSchema extends TrackedResource {
     readonly changedTime?: Date;
     content?: string;
     readonly contentLink?: ContentLink;
@@ -1039,29 +1065,26 @@ export interface IntegrationAccountSchema extends Resource {
     readonly createdTime?: Date;
     documentName?: string;
     fileName?: string;
-    metadata?: any;
+    metadata?: {
+        [propertyName: string]: any;
+    };
     schemaType: SchemaType;
     targetNamespace?: string;
 }
 
 // @public
-export interface IntegrationAccountSchemaFilter {
-    schemaType: SchemaType;
-}
-
-// @public
 export interface IntegrationAccountSchemaListResult {
     nextLink?: string;
-    value?: IntegrationAccountSchema[];
+    value: IntegrationAccountSchema[];
 }
 
 // @public
 export interface IntegrationAccountSchemas {
-    createOrUpdate(resourceGroupName: string, integrationAccountName: string, schemaName: string, schema: IntegrationAccountSchema, options?: IntegrationAccountSchemasCreateOrUpdateOptionalParams): Promise<IntegrationAccountSchemasCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, integrationAccountName: string, schemaName: string, resource: IntegrationAccountSchema, options?: IntegrationAccountSchemasCreateOrUpdateOptionalParams): Promise<IntegrationAccountSchemasCreateOrUpdateResponse>;
     delete(resourceGroupName: string, integrationAccountName: string, schemaName: string, options?: IntegrationAccountSchemasDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, integrationAccountName: string, schemaName: string, options?: IntegrationAccountSchemasGetOptionalParams): Promise<IntegrationAccountSchemasGetResponse>;
     list(resourceGroupName: string, integrationAccountName: string, options?: IntegrationAccountSchemasListOptionalParams): PagedAsyncIterableIterator<IntegrationAccountSchema>;
-    listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, schemaName: string, listContentCallbackUrl: GetCallbackUrlParameters, options?: IntegrationAccountSchemasListContentCallbackUrlOptionalParams): Promise<IntegrationAccountSchemasListContentCallbackUrlResponse>;
+    listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, schemaName: string, body: GetCallbackUrlParameters, options?: IntegrationAccountSchemasListContentCallbackUrlOptionalParams): Promise<IntegrationAccountSchemasListContentCallbackUrlResponse>;
 }
 
 // @public
@@ -1117,26 +1140,23 @@ export interface IntegrationAccountsDeleteOptionalParams extends coreClient.Oper
 }
 
 // @public
-export interface IntegrationAccountSession extends Resource {
+export interface IntegrationAccountSession extends TrackedResource {
     readonly changedTime?: Date;
-    content?: any;
+    content?: {
+        [propertyName: string]: any;
+    };
     readonly createdTime?: Date;
-}
-
-// @public
-export interface IntegrationAccountSessionFilter {
-    changedTime: Date;
 }
 
 // @public
 export interface IntegrationAccountSessionListResult {
     nextLink?: string;
-    value?: IntegrationAccountSession[];
+    value: IntegrationAccountSession[];
 }
 
 // @public
 export interface IntegrationAccountSessions {
-    createOrUpdate(resourceGroupName: string, integrationAccountName: string, sessionName: string, session: IntegrationAccountSession, options?: IntegrationAccountSessionsCreateOrUpdateOptionalParams): Promise<IntegrationAccountSessionsCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, integrationAccountName: string, sessionName: string, resource: IntegrationAccountSession, options?: IntegrationAccountSessionsCreateOrUpdateOptionalParams): Promise<IntegrationAccountSessionsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, integrationAccountName: string, sessionName: string, options?: IntegrationAccountSessionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, integrationAccountName: string, sessionName: string, options?: IntegrationAccountSessionsGetOptionalParams): Promise<IntegrationAccountSessionsGetResponse>;
     list(resourceGroupName: string, integrationAccountName: string, options?: IntegrationAccountSessionsListOptionalParams): PagedAsyncIterableIterator<IntegrationAccountSession>;
@@ -1266,10 +1286,15 @@ export interface IntegrationServiceEnvironmenEncryptionKeyReference {
 }
 
 // @public
-export interface IntegrationServiceEnvironment extends Resource {
+export interface IntegrationServiceEnvironment extends TrackedResource {
+    encryptionConfiguration?: IntegrationServiceEnvironmenEncryptionConfiguration;
+    endpointsConfiguration?: FlowEndpointsConfiguration;
     identity?: ManagedServiceIdentity;
-    properties?: IntegrationServiceEnvironmentProperties;
+    integrationServiceEnvironmentId?: string;
+    networkConfiguration?: NetworkConfiguration;
+    readonly provisioningState?: WorkflowProvisioningState;
     sku?: IntegrationServiceEnvironmentSku;
+    state?: WorkflowState;
 }
 
 // @public
@@ -1283,25 +1308,25 @@ export type IntegrationServiceEnvironmentAccessEndpointType = string;
 // @public
 export interface IntegrationServiceEnvironmentListResult {
     nextLink?: string;
-    // (undocumented)
-    value?: IntegrationServiceEnvironment[];
+    value: IntegrationServiceEnvironment[];
 }
 
 // @public
-export interface IntegrationServiceEnvironmentManagedApi extends Resource {
+export interface IntegrationServiceEnvironmentManagedApi extends TrackedResource {
     readonly apiDefinitions?: ApiResourceDefinitions;
     readonly apiDefinitionUrl?: string;
     readonly backendService?: ApiResourceBackendService;
     readonly capabilities?: string[];
     readonly category?: ApiTier;
     readonly connectionParameters?: {
-        [propertyName: string]: any;
+        [propertyName: string]: {
+            [propertyName: string]: any;
+        };
     };
     deploymentParameters?: IntegrationServiceEnvironmentManagedApiDeploymentParameters;
     readonly generalInformation?: ApiResourceGeneralInformation;
     integrationServiceEnvironment?: ResourceReference;
     readonly metadata?: ApiResourceMetadata;
-    readonly namePropertiesName?: string;
     readonly policies?: ApiResourcePolicies;
     readonly provisioningState?: WorkflowProvisioningState;
     readonly runtimeUrls?: string[];
@@ -1315,27 +1340,8 @@ export interface IntegrationServiceEnvironmentManagedApiDeploymentParameters {
 // @public
 export interface IntegrationServiceEnvironmentManagedApiListResult {
     nextLink?: string;
-    value?: IntegrationServiceEnvironmentManagedApi[];
+    value: IntegrationServiceEnvironmentManagedApi[];
 }
-
-// @public
-export interface IntegrationServiceEnvironmentManagedApiOperations {
-    list(resourceGroup: string, integrationServiceEnvironmentName: string, apiName: string, options?: IntegrationServiceEnvironmentManagedApiOperationsListOptionalParams): PagedAsyncIterableIterator<ApiOperation>;
-}
-
-// @public
-export interface IntegrationServiceEnvironmentManagedApiOperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type IntegrationServiceEnvironmentManagedApiOperationsListNextResponse = ApiOperationListResult;
-
-// @public
-export interface IntegrationServiceEnvironmentManagedApiOperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type IntegrationServiceEnvironmentManagedApiOperationsListResponse = ApiOperationListResult;
 
 // @public
 export interface IntegrationServiceEnvironmentManagedApiProperties extends ApiResourceProperties {
@@ -1344,12 +1350,18 @@ export interface IntegrationServiceEnvironmentManagedApiProperties extends ApiRe
 
 // @public
 export interface IntegrationServiceEnvironmentManagedApis {
-    beginDelete(resourceGroup: string, integrationServiceEnvironmentName: string, apiName: string, options?: IntegrationServiceEnvironmentManagedApisDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroup: string, integrationServiceEnvironmentName: string, apiName: string, options?: IntegrationServiceEnvironmentManagedApisDeleteOptionalParams): Promise<void>;
-    beginPut(resourceGroup: string, integrationServiceEnvironmentName: string, apiName: string, integrationServiceEnvironmentManagedApi: IntegrationServiceEnvironmentManagedApi, options?: IntegrationServiceEnvironmentManagedApisPutOptionalParams): Promise<PollerLike<PollOperationState<IntegrationServiceEnvironmentManagedApisPutResponse>, IntegrationServiceEnvironmentManagedApisPutResponse>>;
-    beginPutAndWait(resourceGroup: string, integrationServiceEnvironmentName: string, apiName: string, integrationServiceEnvironmentManagedApi: IntegrationServiceEnvironmentManagedApi, options?: IntegrationServiceEnvironmentManagedApisPutOptionalParams): Promise<IntegrationServiceEnvironmentManagedApisPutResponse>;
-    get(resourceGroup: string, integrationServiceEnvironmentName: string, apiName: string, options?: IntegrationServiceEnvironmentManagedApisGetOptionalParams): Promise<IntegrationServiceEnvironmentManagedApisGetResponse>;
-    list(resourceGroup: string, integrationServiceEnvironmentName: string, options?: IntegrationServiceEnvironmentManagedApisListOptionalParams): PagedAsyncIterableIterator<IntegrationServiceEnvironmentManagedApi>;
+    beginDelete(integrationServiceEnvironmentName: string, apiName: string, options?: IntegrationServiceEnvironmentManagedApisDeleteOptionalParams): Promise<SimplePollerLike<OperationState<IntegrationServiceEnvironmentManagedApisDeleteResponse>, IntegrationServiceEnvironmentManagedApisDeleteResponse>>;
+    beginDeleteAndWait(integrationServiceEnvironmentName: string, apiName: string, options?: IntegrationServiceEnvironmentManagedApisDeleteOptionalParams): Promise<IntegrationServiceEnvironmentManagedApisDeleteResponse>;
+    beginPut(integrationServiceEnvironmentName: string, apiName: string, resource: IntegrationServiceEnvironmentManagedApi, options?: IntegrationServiceEnvironmentManagedApisPutOptionalParams): Promise<SimplePollerLike<OperationState<IntegrationServiceEnvironmentManagedApisPutResponse>, IntegrationServiceEnvironmentManagedApisPutResponse>>;
+    beginPutAndWait(integrationServiceEnvironmentName: string, apiName: string, resource: IntegrationServiceEnvironmentManagedApi, options?: IntegrationServiceEnvironmentManagedApisPutOptionalParams): Promise<IntegrationServiceEnvironmentManagedApisPutResponse>;
+    get(integrationServiceEnvironmentName: string, apiName: string, options?: IntegrationServiceEnvironmentManagedApisGetOptionalParams): Promise<IntegrationServiceEnvironmentManagedApisGetResponse>;
+    list(integrationServiceEnvironmentName: string, options?: IntegrationServiceEnvironmentManagedApisListOptionalParams): PagedAsyncIterableIterator<IntegrationServiceEnvironmentManagedApi>;
+}
+
+// @public
+export interface IntegrationServiceEnvironmentManagedApisDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1357,6 +1369,9 @@ export interface IntegrationServiceEnvironmentManagedApisDeleteOptionalParams ex
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type IntegrationServiceEnvironmentManagedApisDeleteResponse = IntegrationServiceEnvironmentManagedApisDeleteHeaders;
 
 // @public
 export interface IntegrationServiceEnvironmentManagedApisGetOptionalParams extends coreClient.OperationOptions {
@@ -1380,6 +1395,12 @@ export interface IntegrationServiceEnvironmentManagedApisListOptionalParams exte
 export type IntegrationServiceEnvironmentManagedApisListResponse = IntegrationServiceEnvironmentManagedApiListResult;
 
 // @public
+export interface IntegrationServiceEnvironmentManagedApisPutHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface IntegrationServiceEnvironmentManagedApisPutOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1399,15 +1420,6 @@ export interface IntegrationServiceEnvironmentNetworkDependency {
 export type IntegrationServiceEnvironmentNetworkDependencyCategoryType = string;
 
 // @public
-export interface IntegrationServiceEnvironmentNetworkDependencyHealth {
-    error?: ExtendedErrorInfo;
-    state?: IntegrationServiceEnvironmentNetworkDependencyHealthState;
-}
-
-// @public
-export type IntegrationServiceEnvironmentNetworkDependencyHealthState = string;
-
-// @public
 export interface IntegrationServiceEnvironmentNetworkEndpoint {
     accessibility?: IntegrationServiceEnvironmentNetworkEndPointAccessibilityState;
     domainName?: string;
@@ -1419,7 +1431,7 @@ export type IntegrationServiceEnvironmentNetworkEndPointAccessibilityState = str
 
 // @public
 export interface IntegrationServiceEnvironmentNetworkHealth {
-    get(resourceGroup: string, integrationServiceEnvironmentName: string, options?: IntegrationServiceEnvironmentNetworkHealthGetOptionalParams): Promise<IntegrationServiceEnvironmentNetworkHealthGetResponse>;
+    outboundNetworkDependencies?: IntegrationServiceEnvironmentNetworkDependency[];
 }
 
 // @public
@@ -1427,31 +1439,29 @@ export interface IntegrationServiceEnvironmentNetworkHealthGetOptionalParams ext
 }
 
 // @public
-export type IntegrationServiceEnvironmentNetworkHealthGetResponse = {
-    [propertyName: string]: IntegrationServiceEnvironmentSubnetNetworkHealth;
-};
+export type IntegrationServiceEnvironmentNetworkHealthGetResponse = IntegrationServiceEnvironmentNetworkHealth;
 
 // @public
-export interface IntegrationServiceEnvironmentProperties {
-    encryptionConfiguration?: IntegrationServiceEnvironmenEncryptionConfiguration;
-    endpointsConfiguration?: FlowEndpointsConfiguration;
-    integrationServiceEnvironmentId?: string;
-    networkConfiguration?: NetworkConfiguration;
-    provisioningState?: WorkflowProvisioningState;
-    state?: WorkflowState;
+export interface IntegrationServiceEnvironmentNetworkHealthOperations {
+    get(integrationServiceEnvironmentName: string, options?: IntegrationServiceEnvironmentNetworkHealthGetOptionalParams): Promise<IntegrationServiceEnvironmentNetworkHealthGetResponse>;
 }
 
 // @public
 export interface IntegrationServiceEnvironments {
-    beginCreateOrUpdate(resourceGroup: string, integrationServiceEnvironmentName: string, integrationServiceEnvironment: IntegrationServiceEnvironment, options?: IntegrationServiceEnvironmentsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<IntegrationServiceEnvironmentsCreateOrUpdateResponse>, IntegrationServiceEnvironmentsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroup: string, integrationServiceEnvironmentName: string, integrationServiceEnvironment: IntegrationServiceEnvironment, options?: IntegrationServiceEnvironmentsCreateOrUpdateOptionalParams): Promise<IntegrationServiceEnvironmentsCreateOrUpdateResponse>;
-    beginUpdate(resourceGroup: string, integrationServiceEnvironmentName: string, integrationServiceEnvironment: IntegrationServiceEnvironment, options?: IntegrationServiceEnvironmentsUpdateOptionalParams): Promise<PollerLike<PollOperationState<IntegrationServiceEnvironmentsUpdateResponse>, IntegrationServiceEnvironmentsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroup: string, integrationServiceEnvironmentName: string, integrationServiceEnvironment: IntegrationServiceEnvironment, options?: IntegrationServiceEnvironmentsUpdateOptionalParams): Promise<IntegrationServiceEnvironmentsUpdateResponse>;
-    delete(resourceGroup: string, integrationServiceEnvironmentName: string, options?: IntegrationServiceEnvironmentsDeleteOptionalParams): Promise<void>;
-    get(resourceGroup: string, integrationServiceEnvironmentName: string, options?: IntegrationServiceEnvironmentsGetOptionalParams): Promise<IntegrationServiceEnvironmentsGetResponse>;
-    listByResourceGroup(resourceGroup: string, options?: IntegrationServiceEnvironmentsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<IntegrationServiceEnvironment>;
+    beginCreateOrUpdate(integrationServiceEnvironmentName: string, resource: IntegrationServiceEnvironment, options?: IntegrationServiceEnvironmentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<IntegrationServiceEnvironmentsCreateOrUpdateResponse>, IntegrationServiceEnvironmentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(integrationServiceEnvironmentName: string, resource: IntegrationServiceEnvironment, options?: IntegrationServiceEnvironmentsCreateOrUpdateOptionalParams): Promise<IntegrationServiceEnvironmentsCreateOrUpdateResponse>;
+    delete(integrationServiceEnvironmentName: string, options?: IntegrationServiceEnvironmentsDeleteOptionalParams): Promise<void>;
+    get(integrationServiceEnvironmentName: string, options?: IntegrationServiceEnvironmentsGetOptionalParams): Promise<IntegrationServiceEnvironmentsGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: IntegrationServiceEnvironmentsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<IntegrationServiceEnvironment>;
     listBySubscription(options?: IntegrationServiceEnvironmentsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<IntegrationServiceEnvironment>;
-    restart(resourceGroup: string, integrationServiceEnvironmentName: string, options?: IntegrationServiceEnvironmentsRestartOptionalParams): Promise<void>;
+    restart(integrationServiceEnvironmentName: string, options?: IntegrationServiceEnvironmentsRestartOptionalParams): Promise<void>;
+    update(integrationServiceEnvironmentName: string, properties: IntegrationServiceEnvironment, options?: IntegrationServiceEnvironmentsUpdateOptionalParams): Promise<IntegrationServiceEnvironmentsUpdateResponse>;
+}
+
+// @public
+export interface IntegrationServiceEnvironmentsCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1504,7 +1514,7 @@ export interface IntegrationServiceEnvironmentSkuDefinitionSku {
 // @public
 export interface IntegrationServiceEnvironmentSkuList {
     nextLink?: string;
-    value?: IntegrationServiceEnvironmentSkuDefinition[];
+    value: IntegrationServiceEnvironmentSkuDefinition[];
 }
 
 // @public
@@ -1512,7 +1522,7 @@ export type IntegrationServiceEnvironmentSkuName = string;
 
 // @public
 export interface IntegrationServiceEnvironmentSkus {
-    list(resourceGroup: string, integrationServiceEnvironmentName: string, options?: IntegrationServiceEnvironmentSkusListOptionalParams): PagedAsyncIterableIterator<IntegrationServiceEnvironmentSkuDefinition>;
+    list(integrationServiceEnvironmentName: string, options?: IntegrationServiceEnvironmentSkusListOptionalParams): PagedAsyncIterableIterator<IntegrationServiceEnvironmentSkuDefinition>;
 }
 
 // @public
@@ -1567,16 +1577,7 @@ export interface IntegrationServiceEnvironmentsRestartOptionalParams extends cor
 }
 
 // @public
-export interface IntegrationServiceEnvironmentSubnetNetworkHealth {
-    networkDependencyHealthState: IntegrationServiceEnvironmentNetworkEndPointAccessibilityState;
-    outboundNetworkDependencies?: IntegrationServiceEnvironmentNetworkDependency[];
-    outboundNetworkHealth?: IntegrationServiceEnvironmentNetworkDependencyHealth;
-}
-
-// @public
 export interface IntegrationServiceEnvironmentsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1640,6 +1641,19 @@ export interface KeyVaultReference extends ResourceReference {
 }
 
 // @public
+export enum KnownActionType {
+    Internal = "Internal"
+}
+
+// @public
+export enum KnownAgreementType {
+    AS2 = "AS2",
+    Edifact = "Edifact",
+    NotSpecified = "NotSpecified",
+    X12 = "X12"
+}
+
+// @public
 export enum KnownApiDeploymentParameterVisibility {
     Default = "Default",
     Internal = "Internal",
@@ -1662,11 +1676,33 @@ export enum KnownApiType {
 }
 
 // @public
-export enum KnownAzureAsyncOperationState {
-    Canceled = "Canceled",
-    Failed = "Failed",
-    Pending = "Pending",
-    Succeeded = "Succeeded"
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
+export enum KnownDayOfWeek {
+    Friday = "Friday",
+    Monday = "Monday",
+    Saturday = "Saturday",
+    Sunday = "Sunday",
+    Thursday = "Thursday",
+    Tuesday = "Tuesday",
+    Wednesday = "Wednesday"
+}
+
+// @public
+export enum KnownDaysOfWeek {
+    Friday = "Friday",
+    Monday = "Monday",
+    Saturday = "Saturday",
+    Sunday = "Sunday",
+    Thursday = "Thursday",
+    Tuesday = "Tuesday",
+    Wednesday = "Wednesday"
 }
 
 // @public
@@ -1689,6 +1725,13 @@ export enum KnownEdifactCharacterSet {
 }
 
 // @public
+export enum KnownEdifactDecimalIndicator {
+    Comma = "Comma",
+    Decimal = "Decimal",
+    NotSpecified = "NotSpecified"
+}
+
+// @public
 export enum KnownEncryptionAlgorithm {
     AES128 = "AES128",
     AES192 = "AES192",
@@ -1700,11 +1743,13 @@ export enum KnownEncryptionAlgorithm {
 }
 
 // @public
-export enum KnownErrorResponseCode {
-    IntegrationServiceEnvironmentNotFound = "IntegrationServiceEnvironmentNotFound",
-    InternalServerError = "InternalServerError",
-    InvalidOperationId = "InvalidOperationId",
-    NotSpecified = "NotSpecified"
+export enum KnownEventLevel {
+    Critical = "Critical",
+    Error = "Error",
+    Informational = "Informational",
+    LogAlways = "LogAlways",
+    Verbose = "Verbose",
+    Warning = "Warning"
 }
 
 // @public
@@ -1750,14 +1795,6 @@ export enum KnownIntegrationServiceEnvironmentNetworkDependencyCategoryType {
 }
 
 // @public
-export enum KnownIntegrationServiceEnvironmentNetworkDependencyHealthState {
-    Healthy = "Healthy",
-    NotSpecified = "NotSpecified",
-    Unhealthy = "Unhealthy",
-    Unknown = "Unknown"
-}
-
-// @public
 export enum KnownIntegrationServiceEnvironmentNetworkEndPointAccessibilityState {
     Available = "Available",
     NotAvailable = "NotAvailable",
@@ -1790,6 +1827,7 @@ export enum KnownKeyType {
 export enum KnownManagedServiceIdentityType {
     None = "None",
     SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
 }
 
@@ -1815,6 +1853,13 @@ export enum KnownOpenAuthenticationProviderType {
 }
 
 // @public
+export enum KnownOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
+}
+
+// @public
 export enum KnownParameterType {
     Array = "Array",
     Bool = "Bool",
@@ -1829,7 +1874,7 @@ export enum KnownParameterType {
 
 // @public
 export enum KnownPartnerType {
-    B2B = "B2B",
+    B2B = "B2b",
     NotSpecified = "NotSpecified"
 }
 
@@ -1849,6 +1894,15 @@ export enum KnownRecurrenceFrequency {
 export enum KnownSchemaType {
     NotSpecified = "NotSpecified",
     Xml = "Xml"
+}
+
+// @public
+export enum KnownSegmentTerminatorSuffix {
+    CR = "CR",
+    Crlf = "CRLF",
+    LF = "LF",
+    None = "None",
+    NotSpecified = "NotSpecified"
 }
 
 // @public
@@ -1898,8 +1952,8 @@ export enum KnownTrackEventsOperationOptions {
 
 // @public
 export enum KnownTrackingRecordType {
-    AS2MDN = "AS2MDN",
-    AS2Message = "AS2Message",
+    As2MDN = "As2MDN",
+    As2Message = "As2Message",
     Custom = "Custom",
     EdifactFunctionalGroup = "EdifactFunctionalGroup",
     EdifactFunctionalGroupAcknowledgment = "EdifactFunctionalGroupAcknowledgment",
@@ -2050,6 +2104,8 @@ export class LogicManagementClient extends coreClient.ServiceClient {
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: LogicManagementClientOptionalParams);
     // (undocumented)
+    apiOperations: ApiOperations;
+    // (undocumented)
     apiVersion: string;
     // (undocumented)
     integrationAccountAgreements: IntegrationAccountAgreements;
@@ -2070,11 +2126,9 @@ export class LogicManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     integrationAccountSessions: IntegrationAccountSessions;
     // (undocumented)
-    integrationServiceEnvironmentManagedApiOperations: IntegrationServiceEnvironmentManagedApiOperations;
-    // (undocumented)
     integrationServiceEnvironmentManagedApis: IntegrationServiceEnvironmentManagedApis;
     // (undocumented)
-    integrationServiceEnvironmentNetworkHealth: IntegrationServiceEnvironmentNetworkHealth;
+    integrationServiceEnvironmentNetworkHealthOperations: IntegrationServiceEnvironmentNetworkHealthOperations;
     // (undocumented)
     integrationServiceEnvironments: IntegrationServiceEnvironments;
     // (undocumented)
@@ -2114,17 +2168,6 @@ export interface LogicManagementClientOptionalParams extends coreClient.ServiceC
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
-}
-
-// @public
-export interface ManagedApi extends Resource {
-    properties?: ApiResourceProperties;
-}
-
-// @public
-export interface ManagedApiListResult {
-    nextLink?: string;
-    value?: ManagedApi[];
 }
 
 // @public
@@ -2177,36 +2220,43 @@ export type OpenAuthenticationProviderType = string;
 
 // @public
 export interface Operation {
+    readonly actionType?: ActionType;
     display?: OperationDisplay;
-    name?: string;
-    origin?: string;
-    properties?: any;
+    readonly isDataAction?: boolean;
+    readonly name?: string;
+    readonly origin?: Origin;
 }
 
 // @public
 export interface OperationDisplay {
-    description?: string;
-    operation?: string;
-    provider?: string;
-    resource?: string;
+    readonly description?: string;
+    readonly operation?: string;
+    readonly provider?: string;
+    readonly resource?: string;
 }
 
 // @public
 export interface OperationListResult {
-    nextLink?: string;
-    value?: Operation[];
+    readonly nextLink?: string;
+    readonly value?: Operation[];
 }
 
 // @public
 export interface OperationResult extends OperationResultProperties {
-    readonly inputs?: any;
+    readonly inputs?: {
+        [propertyName: string]: any;
+    };
     readonly inputsLink?: ContentLink;
     // (undocumented)
     iterationCount?: number;
-    readonly outputs?: any;
+    readonly outputs?: {
+        [propertyName: string]: any;
+    };
     readonly outputsLink?: ContentLink;
     retryHistory?: RetryHistory[];
-    readonly trackedProperties?: any;
+    readonly trackedProperties?: {
+        [propertyName: string]: any;
+    };
     readonly trackingId?: string;
 }
 
@@ -2217,7 +2267,7 @@ export interface OperationResultProperties {
     endTime?: Date;
     error?: any;
     startTime?: Date;
-    status?: WorkflowStatus;
+    readonly status?: WorkflowStatus;
 }
 
 // @public
@@ -2240,6 +2290,9 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
+export type Origin = string;
+
+// @public
 export type ParameterType = string;
 
 // @public
@@ -2249,6 +2302,10 @@ export interface PartnerContent {
 
 // @public
 export type PartnerType = string;
+
+// @public
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export type RecurrenceFrequency = string;
@@ -2281,25 +2338,16 @@ export interface RepetitionIndex {
 
 // @public
 interface Request_2 {
-    headers?: any;
+    headers?: {
+        [propertyName: string]: any;
+    };
     method?: string;
     uri?: string;
 }
 export { Request_2 as Request }
 
 // @public
-export interface RequestHistory extends Resource {
-    properties?: RequestHistoryProperties;
-}
-
-// @public
-export interface RequestHistoryListResult {
-    nextLink?: string;
-    value?: RequestHistory[];
-}
-
-// @public
-export interface RequestHistoryProperties {
+export interface RequestHistory extends TrackedResource {
     endTime?: Date;
     request?: Request_2;
     response?: Response_2;
@@ -2307,13 +2355,16 @@ export interface RequestHistoryProperties {
 }
 
 // @public
+export interface RequestHistoryListResult {
+    nextLink?: string;
+    value: RequestHistory[];
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
-    location?: string;
     readonly name?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -2327,7 +2378,9 @@ export interface ResourceReference {
 // @public
 interface Response_2 {
     bodyLink?: ContentLink;
-    headers?: any;
+    headers?: {
+        [propertyName: string]: any;
+    };
     statusCode?: number;
 }
 export { Response_2 as Response }
@@ -2357,7 +2410,7 @@ export interface RunCorrelation {
 export type SchemaType = string;
 
 // @public
-export type SegmentTerminatorSuffix = "NotSpecified" | "None" | "CR" | "LF" | "CRLF";
+export type SegmentTerminatorSuffix = string;
 
 // @public
 export interface SetTriggerStateActionDefinition {
@@ -2378,11 +2431,6 @@ export type SkuName = string;
 
 // @public
 export type StatusAnnotation = string;
-
-// @public
-export interface SubResource {
-    readonly id?: string;
-}
 
 // @public
 export interface SwaggerCustomDynamicList {
@@ -2409,7 +2457,9 @@ export interface SwaggerCustomDynamicProperties {
 export interface SwaggerCustomDynamicSchema {
     operationId?: string;
     parameters?: {
-        [propertyName: string]: any;
+        [propertyName: string]: {
+            [propertyName: string]: any;
+        };
     };
     valuePath?: string;
 }
@@ -2440,7 +2490,9 @@ export interface SwaggerCustomDynamicTreeParameter {
     parameterReference?: string;
     required?: boolean;
     selectedItemValuePath?: string;
-    value?: any;
+    value?: {
+        [propertyName: string]: any;
+    };
 }
 
 // @public
@@ -2453,21 +2505,27 @@ export interface SwaggerCustomDynamicTreeSettings {
 export interface SwaggerExternalDocumentation {
     description?: string;
     extensions?: {
-        [propertyName: string]: any;
+        [propertyName: string]: {
+            [propertyName: string]: any;
+        };
     };
     uri?: string;
 }
 
 // @public
 export interface SwaggerSchema {
-    additionalProperties?: any;
+    additionalProperties?: {
+        [propertyName: string]: any;
+    };
     allOf?: SwaggerSchema[];
     discriminator?: string;
     dynamicListNew?: SwaggerCustomDynamicList;
     dynamicSchemaNew?: SwaggerCustomDynamicProperties;
     dynamicSchemaOld?: SwaggerCustomDynamicSchema;
     dynamicTree?: SwaggerCustomDynamicTree;
-    example?: any;
+    example?: {
+        [propertyName: string]: any;
+    };
     externalDocs?: SwaggerExternalDocumentation;
     items?: SwaggerSchema;
     maxProperties?: number;
@@ -2491,12 +2549,32 @@ export type SwaggerSchemaType = string;
 export interface SwaggerXml {
     attribute?: boolean;
     extensions?: {
-        [propertyName: string]: any;
+        [propertyName: string]: {
+            [propertyName: string]: any;
+        };
     };
     name?: string;
     namespace?: string;
     prefix?: string;
     wrapped?: boolean;
+}
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -2507,7 +2585,9 @@ export interface TrackingEvent {
     error?: TrackingEventErrorInfo;
     eventLevel: EventLevel;
     eventTime: Date;
-    record?: any;
+    record?: {
+        [propertyName: string]: any;
+    };
     recordType: TrackingRecordType;
 }
 
@@ -2540,12 +2620,14 @@ export interface UserAssignedIdentity {
 }
 
 // @public
-export interface Workflow extends Resource {
+export interface Workflow extends TrackedResource {
     accessControl?: FlowAccessControlConfiguration;
     readonly accessEndpoint?: string;
     readonly changedTime?: Date;
     readonly createdTime?: Date;
-    definition?: any;
+    definition?: {
+        [propertyName: string]: any;
+    };
     endpointsConfiguration?: FlowEndpointsConfiguration;
     identity?: ManagedServiceIdentity;
     integrationAccount?: ResourceReference;
@@ -2560,27 +2642,28 @@ export interface Workflow extends Resource {
 }
 
 // @public
-export interface WorkflowFilter {
-    state?: WorkflowState;
-}
-
-// @public
 export interface WorkflowListResult {
     nextLink?: string;
-    value?: Workflow[];
+    value: Workflow[];
 }
 
 // @public
 export interface WorkflowOutputParameter extends WorkflowParameter {
-    readonly error?: any;
+    readonly error?: {
+        [propertyName: string]: any;
+    };
 }
 
 // @public
 export interface WorkflowParameter {
     description?: string;
-    metadata?: any;
+    metadata?: {
+        [propertyName: string]: any;
+    };
     type?: ParameterType;
-    value?: any;
+    value?: {
+        [propertyName: string]: any;
+    };
 }
 
 // @public
@@ -2591,13 +2674,14 @@ export interface WorkflowReference extends ResourceReference {
 }
 
 // @public
-export interface WorkflowRun extends SubResource {
+export interface WorkflowRun extends ProxyResource {
     readonly code?: string;
     correlation?: Correlation;
     readonly correlationId?: string;
     readonly endTime?: Date;
-    readonly error?: any;
-    readonly name?: string;
+    readonly error?: {
+        [propertyName: string]: any;
+    };
     readonly outputs?: {
         [propertyName: string]: WorkflowOutputParameter;
     };
@@ -2605,64 +2689,65 @@ export interface WorkflowRun extends SubResource {
     readonly startTime?: Date;
     readonly status?: WorkflowStatus;
     readonly trigger?: WorkflowRunTrigger;
-    readonly type?: string;
     readonly waitEndTime?: Date;
     readonly workflow?: ResourceReference;
 }
 
 // @public
-export interface WorkflowRunAction extends SubResource {
+export interface WorkflowRunAction extends ProxyResource {
     readonly code?: string;
     correlation?: RunActionCorrelation;
     readonly endTime?: Date;
-    readonly error?: any;
+    readonly error?: {
+        [propertyName: string]: any;
+    };
     readonly inputsLink?: ContentLink;
-    readonly name?: string;
     readonly outputsLink?: ContentLink;
     retryHistory?: RetryHistory[];
     readonly startTime?: Date;
     readonly status?: WorkflowStatus;
-    readonly trackedProperties?: any;
+    readonly trackedProperties?: {
+        [propertyName: string]: any;
+    };
     readonly trackingId?: string;
-    readonly type?: string;
-}
-
-// @public
-export interface WorkflowRunActionFilter {
-    status?: WorkflowStatus;
 }
 
 // @public
 export interface WorkflowRunActionListResult {
     nextLink?: string;
-    value?: WorkflowRunAction[];
+    value: WorkflowRunAction[];
 }
 
 // @public
-export interface WorkflowRunActionRepetitionDefinition extends Resource {
+export interface WorkflowRunActionRepetitionDefinition extends TrackedResource {
     code?: string;
     correlation?: RunActionCorrelation;
     endTime?: Date;
     error?: any;
-    readonly inputs?: any;
+    readonly inputs?: {
+        [propertyName: string]: any;
+    };
     readonly inputsLink?: ContentLink;
     // (undocumented)
     iterationCount?: number;
-    readonly outputs?: any;
+    readonly outputs?: {
+        [propertyName: string]: any;
+    };
     readonly outputsLink?: ContentLink;
     repetitionIndexes?: RepetitionIndex[];
     retryHistory?: RetryHistory[];
     startTime?: Date;
-    status?: WorkflowStatus;
-    readonly trackedProperties?: any;
+    readonly status?: WorkflowStatus;
+    readonly trackedProperties?: {
+        [propertyName: string]: any;
+    };
     readonly trackingId?: string;
 }
 
 // @public
 export interface WorkflowRunActionRepetitionDefinitionCollection {
     nextLink?: string;
-    // (undocumented)
-    value?: WorkflowRunActionRepetitionDefinition[];
+    value: WorkflowRunActionRepetitionDefinition[];
 }
 
 // @public
@@ -2673,8 +2758,7 @@ export interface WorkflowRunActionRepetitionProperties extends OperationResult {
 // @public
 export interface WorkflowRunActionRepetitions {
     get(resourceGroupName: string, workflowName: string, runName: string, actionName: string, repetitionName: string, options?: WorkflowRunActionRepetitionsGetOptionalParams): Promise<WorkflowRunActionRepetitionsGetResponse>;
-    list(resourceGroupName: string, workflowName: string, runName: string, actionName: string, options?: WorkflowRunActionRepetitionsListOptionalParams): PagedAsyncIterableIterator<WorkflowRunActionRepetitionDefinition>;
-    listExpressionTraces(resourceGroupName: string, workflowName: string, runName: string, actionName: string, repetitionName: string, options?: WorkflowRunActionRepetitionsListExpressionTracesOptionalParams): PagedAsyncIterableIterator<ExpressionRoot>;
+    listExpressionTraces(resourceGroupName: string, workflowName: string, runName: string, actionName: string, repetitionName: string, options?: WorkflowRunActionRepetitionsListExpressionTracesOptionalParams): Promise<WorkflowRunActionRepetitionsListExpressionTracesResponse>;
 }
 
 // @public
@@ -2690,13 +2774,6 @@ export interface WorkflowRunActionRepetitionsListExpressionTracesOptionalParams 
 
 // @public
 export type WorkflowRunActionRepetitionsListExpressionTracesResponse = ExpressionTraces;
-
-// @public
-export interface WorkflowRunActionRepetitionsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkflowRunActionRepetitionsListResponse = WorkflowRunActionRepetitionDefinitionCollection;
 
 // @public
 export interface WorkflowRunActionRepetitionsRequestHistories {
@@ -2756,7 +2833,7 @@ export type WorkflowRunActionRequestHistoriesListResponse = RequestHistoryListRe
 export interface WorkflowRunActions {
     get(resourceGroupName: string, workflowName: string, runName: string, actionName: string, options?: WorkflowRunActionsGetOptionalParams): Promise<WorkflowRunActionsGetResponse>;
     list(resourceGroupName: string, workflowName: string, runName: string, options?: WorkflowRunActionsListOptionalParams): PagedAsyncIterableIterator<WorkflowRunAction>;
-    listExpressionTraces(resourceGroupName: string, workflowName: string, runName: string, actionName: string, options?: WorkflowRunActionsListExpressionTracesOptionalParams): PagedAsyncIterableIterator<ExpressionRoot>;
+    listExpressionTraces(resourceGroupName: string, workflowName: string, runName: string, actionName: string, options?: WorkflowRunActionsListExpressionTracesOptionalParams): Promise<WorkflowRunActionsListExpressionTracesResponse>;
 }
 
 // @public
@@ -2771,6 +2848,13 @@ export interface WorkflowRunActionScopeRepetitionsGetOptionalParams extends core
 
 // @public
 export type WorkflowRunActionScopeRepetitionsGetResponse = WorkflowRunActionRepetitionDefinition;
+
+// @public
+export interface WorkflowRunActionScopeRepetitionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkflowRunActionScopeRepetitionsListNextResponse = WorkflowRunActionRepetitionDefinitionCollection;
 
 // @public
 export interface WorkflowRunActionScopeRepetitionsListOptionalParams extends coreClient.OperationOptions {
@@ -2810,14 +2894,9 @@ export interface WorkflowRunActionsListOptionalParams extends coreClient.Operati
 export type WorkflowRunActionsListResponse = WorkflowRunActionListResult;
 
 // @public
-export interface WorkflowRunFilter {
-    status?: WorkflowStatus;
-}
-
-// @public
 export interface WorkflowRunListResult {
     nextLink?: string;
-    value?: WorkflowRun[];
+    value: WorkflowRun[];
 }
 
 // @public
@@ -2836,7 +2915,7 @@ export type WorkflowRunOperationsGetResponse = WorkflowRun;
 export interface WorkflowRuns {
     cancel(resourceGroupName: string, workflowName: string, runName: string, options?: WorkflowRunsCancelOptionalParams): Promise<void>;
     get(resourceGroupName: string, workflowName: string, runName: string, options?: WorkflowRunsGetOptionalParams): Promise<WorkflowRunsGetResponse>;
-    list(resourceGroupName: string, workflowName: string, options?: WorkflowRunsListOptionalParams): PagedAsyncIterableIterator<WorkflowRun>;
+    list(resourceGroupName: string, workflowName: string, runName: string, options?: WorkflowRunsListOptionalParams): PagedAsyncIterableIterator<WorkflowRun>;
 }
 
 // @public
@@ -2871,37 +2950,45 @@ export interface WorkflowRunTrigger {
     readonly code?: string;
     correlation?: Correlation;
     readonly endTime?: Date;
-    readonly error?: any;
-    readonly inputs?: any;
+    readonly error?: {
+        [propertyName: string]: any;
+    };
+    readonly inputs?: {
+        [propertyName: string]: any;
+    };
     readonly inputsLink?: ContentLink;
     readonly name?: string;
-    readonly outputs?: any;
+    readonly outputs?: {
+        [propertyName: string]: any;
+    };
     readonly outputsLink?: ContentLink;
     readonly scheduledTime?: Date;
     readonly startTime?: Date;
     readonly status?: WorkflowStatus;
-    readonly trackedProperties?: any;
+    readonly trackedProperties?: {
+        [propertyName: string]: any;
+    };
     readonly trackingId?: string;
 }
 
 // @public
 export interface Workflows {
-    beginMove(resourceGroupName: string, workflowName: string, move: WorkflowReference, options?: WorkflowsMoveOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginMoveAndWait(resourceGroupName: string, workflowName: string, move: WorkflowReference, options?: WorkflowsMoveOptionalParams): Promise<void>;
-    createOrUpdate(resourceGroupName: string, workflowName: string, workflow: Workflow, options?: WorkflowsCreateOrUpdateOptionalParams): Promise<WorkflowsCreateOrUpdateResponse>;
+    beginMove(resourceGroupName: string, workflowName: string, body: WorkflowReference, options?: WorkflowsMoveOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginMoveAndWait(resourceGroupName: string, workflowName: string, body: WorkflowReference, options?: WorkflowsMoveOptionalParams): Promise<void>;
+    createOrUpdate(resourceGroupName: string, workflowName: string, resource: Workflow, options?: WorkflowsCreateOrUpdateOptionalParams): Promise<WorkflowsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, workflowName: string, options?: WorkflowsDeleteOptionalParams): Promise<void>;
     disable(resourceGroupName: string, workflowName: string, options?: WorkflowsDisableOptionalParams): Promise<void>;
     enable(resourceGroupName: string, workflowName: string, options?: WorkflowsEnableOptionalParams): Promise<void>;
-    generateUpgradedDefinition(resourceGroupName: string, workflowName: string, parameters: GenerateUpgradedDefinitionParameters, options?: WorkflowsGenerateUpgradedDefinitionOptionalParams): Promise<WorkflowsGenerateUpgradedDefinitionResponse>;
+    generateUpgradedDefinition(resourceGroupName: string, workflowName: string, body: GenerateUpgradedDefinitionParameters, options?: WorkflowsGenerateUpgradedDefinitionOptionalParams): Promise<WorkflowsGenerateUpgradedDefinitionResponse>;
     get(resourceGroupName: string, workflowName: string, options?: WorkflowsGetOptionalParams): Promise<WorkflowsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: WorkflowsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Workflow>;
     listBySubscription(options?: WorkflowsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Workflow>;
-    listCallbackUrl(resourceGroupName: string, workflowName: string, listCallbackUrl: GetCallbackUrlParameters, options?: WorkflowsListCallbackUrlOptionalParams): Promise<WorkflowsListCallbackUrlResponse>;
+    listCallbackUrl(resourceGroupName: string, workflowName: string, body: GetCallbackUrlParameters, options?: WorkflowsListCallbackUrlOptionalParams): Promise<WorkflowsListCallbackUrlResponse>;
     listSwagger(resourceGroupName: string, workflowName: string, options?: WorkflowsListSwaggerOptionalParams): Promise<WorkflowsListSwaggerResponse>;
-    regenerateAccessKey(resourceGroupName: string, workflowName: string, keyType: RegenerateActionParameter, options?: WorkflowsRegenerateAccessKeyOptionalParams): Promise<void>;
-    update(resourceGroupName: string, workflowName: string, options?: WorkflowsUpdateOptionalParams): Promise<WorkflowsUpdateResponse>;
+    regenerateAccessKey(resourceGroupName: string, workflowName: string, body: RegenerateActionParameter, options?: WorkflowsRegenerateAccessKeyOptionalParams): Promise<void>;
+    update(resourceGroupName: string, workflowName: string, properties: any, options?: WorkflowsUpdateOptionalParams): Promise<WorkflowsUpdateResponse>;
     validateByLocation(resourceGroupName: string, location: string, workflowName: string, validate: Workflow, options?: WorkflowsValidateByLocationOptionalParams): Promise<void>;
-    validateByResourceGroup(resourceGroupName: string, workflowName: string, validate: Workflow, options?: WorkflowsValidateByResourceGroupOptionalParams): Promise<void>;
+    validateByResourceGroup(resourceGroupName: string, workflowName: string, body: Workflow, options?: WorkflowsValidateByResourceGroupOptionalParams): Promise<void>;
 }
 
 // @public
@@ -2929,7 +3016,7 @@ export interface WorkflowsGenerateUpgradedDefinitionOptionalParams extends coreC
 
 // @public
 export type WorkflowsGenerateUpgradedDefinitionResponse = {
-    body: any;
+    [propertyName: string]: any;
 };
 
 // @public
@@ -2984,8 +3071,14 @@ export interface WorkflowsListSwaggerOptionalParams extends coreClient.Operation
 
 // @public
 export type WorkflowsListSwaggerResponse = {
-    body: any;
+    [propertyName: string]: any;
 };
+
+// @public
+export interface WorkflowsMoveHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface WorkflowsMoveOptionalParams extends coreClient.OperationOptions {
@@ -3019,17 +3112,15 @@ export interface WorkflowsValidateByResourceGroupOptionalParams extends coreClie
 }
 
 // @public
-export interface WorkflowTrigger extends SubResource {
+export interface WorkflowTrigger extends ProxyResource {
     readonly changedTime?: Date;
     readonly createdTime?: Date;
     readonly lastExecutionTime?: Date;
-    readonly name?: string;
     readonly nextExecutionTime?: Date;
     readonly provisioningState?: WorkflowTriggerProvisioningState;
     readonly recurrence?: WorkflowTriggerRecurrence;
     readonly state?: WorkflowState;
     readonly status?: WorkflowStatus;
-    readonly type?: string;
     readonly workflow?: ResourceReference;
 }
 
@@ -3044,15 +3135,11 @@ export interface WorkflowTriggerCallbackUrl {
 }
 
 // @public
-export interface WorkflowTriggerFilter {
-    state?: WorkflowState;
-}
-
-// @public
 export interface WorkflowTriggerHistories {
+    beginResubmit(resourceGroupName: string, workflowName: string, triggerName: string, historyName: string, options?: WorkflowTriggerHistoriesResubmitOptionalParams): Promise<SimplePollerLike<OperationState<WorkflowTriggerHistoriesResubmitResponse>, WorkflowTriggerHistoriesResubmitResponse>>;
+    beginResubmitAndWait(resourceGroupName: string, workflowName: string, triggerName: string, historyName: string, options?: WorkflowTriggerHistoriesResubmitOptionalParams): Promise<WorkflowTriggerHistoriesResubmitResponse>;
     get(resourceGroupName: string, workflowName: string, triggerName: string, historyName: string, options?: WorkflowTriggerHistoriesGetOptionalParams): Promise<WorkflowTriggerHistoriesGetResponse>;
     list(resourceGroupName: string, workflowName: string, triggerName: string, options?: WorkflowTriggerHistoriesListOptionalParams): PagedAsyncIterableIterator<WorkflowTriggerHistory>;
-    resubmit(resourceGroupName: string, workflowName: string, triggerName: string, historyName: string, options?: WorkflowTriggerHistoriesResubmitOptionalParams): Promise<void>;
 }
 
 // @public
@@ -3079,36 +3166,42 @@ export interface WorkflowTriggerHistoriesListOptionalParams extends coreClient.O
 export type WorkflowTriggerHistoriesListResponse = WorkflowTriggerHistoryListResult;
 
 // @public
-export interface WorkflowTriggerHistoriesResubmitOptionalParams extends coreClient.OperationOptions {
+export interface WorkflowTriggerHistoriesResubmitHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
-export interface WorkflowTriggerHistory extends SubResource {
+export interface WorkflowTriggerHistoriesResubmitOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type WorkflowTriggerHistoriesResubmitResponse = WorkflowTriggerHistoriesResubmitHeaders;
+
+// @public
+export interface WorkflowTriggerHistory extends ProxyResource {
     readonly code?: string;
     correlation?: Correlation;
     readonly endTime?: Date;
-    readonly error?: any;
+    readonly error?: {
+        [propertyName: string]: any;
+    };
     readonly fired?: boolean;
     readonly inputsLink?: ContentLink;
-    readonly name?: string;
     readonly outputsLink?: ContentLink;
     readonly run?: ResourceReference;
     readonly scheduledTime?: Date;
     readonly startTime?: Date;
     readonly status?: WorkflowStatus;
     readonly trackingId?: string;
-    readonly type?: string;
-}
-
-// @public
-export interface WorkflowTriggerHistoryFilter {
-    status?: WorkflowStatus;
 }
 
 // @public
 export interface WorkflowTriggerHistoryListResult {
     nextLink?: string;
-    value?: WorkflowTriggerHistory[];
+    value: WorkflowTriggerHistory[];
 }
 
 // @public
@@ -3123,7 +3216,7 @@ export interface WorkflowTriggerListCallbackUrlQueries {
 // @public
 export interface WorkflowTriggerListResult {
     nextLink?: string;
-    value?: WorkflowTrigger[];
+    value: WorkflowTrigger[];
 }
 
 // @public
@@ -3147,13 +3240,14 @@ export interface WorkflowTriggerReference extends ResourceReference {
 
 // @public
 export interface WorkflowTriggers {
+    beginRun(resourceGroupName: string, workflowName: string, triggerName: string, options?: WorkflowTriggersRunOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginRunAndWait(resourceGroupName: string, workflowName: string, triggerName: string, options?: WorkflowTriggersRunOptionalParams): Promise<void>;
     get(resourceGroupName: string, workflowName: string, triggerName: string, options?: WorkflowTriggersGetOptionalParams): Promise<WorkflowTriggersGetResponse>;
     getSchemaJson(resourceGroupName: string, workflowName: string, triggerName: string, options?: WorkflowTriggersGetSchemaJsonOptionalParams): Promise<WorkflowTriggersGetSchemaJsonResponse>;
     list(resourceGroupName: string, workflowName: string, options?: WorkflowTriggersListOptionalParams): PagedAsyncIterableIterator<WorkflowTrigger>;
     listCallbackUrl(resourceGroupName: string, workflowName: string, triggerName: string, options?: WorkflowTriggersListCallbackUrlOptionalParams): Promise<WorkflowTriggersListCallbackUrlResponse>;
     reset(resourceGroupName: string, workflowName: string, triggerName: string, options?: WorkflowTriggersResetOptionalParams): Promise<void>;
-    run(resourceGroupName: string, workflowName: string, triggerName: string, options?: WorkflowTriggersRunOptionalParams): Promise<void>;
-    setState(resourceGroupName: string, workflowName: string, triggerName: string, setState: SetTriggerStateActionDefinition, options?: WorkflowTriggersSetStateOptionalParams): Promise<void>;
+    setState(resourceGroupName: string, workflowName: string, triggerName: string, body: SetTriggerStateActionDefinition, options?: WorkflowTriggersSetStateOptionalParams): Promise<void>;
 }
 
 // @public
@@ -3198,7 +3292,15 @@ export interface WorkflowTriggersResetOptionalParams extends coreClient.Operatio
 }
 
 // @public
+export interface WorkflowTriggersRunHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface WorkflowTriggersRunOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -3206,12 +3308,14 @@ export interface WorkflowTriggersSetStateOptionalParams extends coreClient.Opera
 }
 
 // @public
-export interface WorkflowVersion extends Resource {
+export interface WorkflowVersion extends TrackedResource {
     accessControl?: FlowAccessControlConfiguration;
     readonly accessEndpoint?: string;
     readonly changedTime?: Date;
     readonly createdTime?: Date;
-    definition?: any;
+    definition?: {
+        [propertyName: string]: any;
+    };
     endpointsConfiguration?: FlowEndpointsConfiguration;
     integrationAccount?: ResourceReference;
     parameters?: {
@@ -3226,7 +3330,7 @@ export interface WorkflowVersion extends Resource {
 // @public
 export interface WorkflowVersionListResult {
     nextLink?: string;
-    value?: WorkflowVersion[];
+    value: WorkflowVersion[];
 }
 
 // @public
@@ -3445,8 +3549,8 @@ export interface X12ValidationOverride {
     trailingSeparatorPolicy: TrailingSeparatorPolicy;
     trimLeadingAndTrailingSpacesAndZeroes: boolean;
     validateCharacterSet: boolean;
-    validateEDITypes: boolean;
-    validateXSDTypes: boolean;
+    validateEdiTypes: boolean;
+    validateXsdTypes: boolean;
 }
 
 // @public
@@ -3459,8 +3563,8 @@ export interface X12ValidationSettings {
     trailingSeparatorPolicy: TrailingSeparatorPolicy;
     trimLeadingAndTrailingSpacesAndZeroes: boolean;
     validateCharacterSet: boolean;
-    validateEDITypes: boolean;
-    validateXSDTypes: boolean;
+    validateEdiTypes: boolean;
+    validateXsdTypes: boolean;
 }
 
 // (No @packageDocumentation comment for this package)

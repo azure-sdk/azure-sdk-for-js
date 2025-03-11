@@ -6,23 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { IntegrationServiceEnvironmentNetworkHealth } from "../operationsInterfaces/index.js";
+import { IntegrationServiceEnvironmentNetworkHealthOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { LogicManagementClient } from "../logicManagementClient.js";
 import {
   IntegrationServiceEnvironmentNetworkHealthGetOptionalParams,
-  IntegrationServiceEnvironmentNetworkHealthGetResponse
+  IntegrationServiceEnvironmentNetworkHealthGetResponse,
 } from "../models/index.js";
 
-/** Class containing IntegrationServiceEnvironmentNetworkHealth operations. */
-export class IntegrationServiceEnvironmentNetworkHealthImpl
-  implements IntegrationServiceEnvironmentNetworkHealth {
+/** Class containing IntegrationServiceEnvironmentNetworkHealthOperations operations. */
+export class IntegrationServiceEnvironmentNetworkHealthOperationsImpl
+  implements IntegrationServiceEnvironmentNetworkHealthOperations
+{
   private readonly client: LogicManagementClient;
 
   /**
-   * Initialize a new instance of the class IntegrationServiceEnvironmentNetworkHealth class.
+   * Initialize a new instance of the class IntegrationServiceEnvironmentNetworkHealthOperations class.
    * @param client Reference to the service client
    */
   constructor(client: LogicManagementClient) {
@@ -31,18 +32,16 @@ export class IntegrationServiceEnvironmentNetworkHealthImpl
 
   /**
    * Gets the integration service environment network health.
-   * @param resourceGroup The resource group.
    * @param integrationServiceEnvironmentName The integration service environment name.
    * @param options The options parameters.
    */
   get(
-    resourceGroup: string,
     integrationServiceEnvironmentName: string,
-    options?: IntegrationServiceEnvironmentNetworkHealthGetOptionalParams
+    options?: IntegrationServiceEnvironmentNetworkHealthGetOptionalParams,
   ): Promise<IntegrationServiceEnvironmentNetworkHealthGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroup, integrationServiceEnvironmentName, options },
-      getOperationSpec
+      { integrationServiceEnvironmentName, options },
+      getOperationSpec,
     );
   }
 }
@@ -50,34 +49,22 @@ export class IntegrationServiceEnvironmentNetworkHealthImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}/health/network",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}/network",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: {
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Composite",
-              className: "IntegrationServiceEnvironmentSubnetNetworkHealth"
-            }
-          }
-        }
-      }
+      bodyMapper: Mappers.IntegrationServiceEnvironmentNetworkHealth,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroup,
-    Parameters.integrationServiceEnvironmentName
+    Parameters.integrationServiceEnvironmentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

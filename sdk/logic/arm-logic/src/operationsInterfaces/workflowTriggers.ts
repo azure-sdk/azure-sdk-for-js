@@ -7,19 +7,20 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   WorkflowTrigger,
   WorkflowTriggersListOptionalParams,
   WorkflowTriggersGetOptionalParams,
   WorkflowTriggersGetResponse,
-  WorkflowTriggersResetOptionalParams,
-  WorkflowTriggersRunOptionalParams,
   WorkflowTriggersGetSchemaJsonOptionalParams,
   WorkflowTriggersGetSchemaJsonResponse,
+  WorkflowTriggersListCallbackUrlOptionalParams,
+  WorkflowTriggersListCallbackUrlResponse,
+  WorkflowTriggersResetOptionalParams,
+  WorkflowTriggersRunOptionalParams,
   SetTriggerStateActionDefinition,
   WorkflowTriggersSetStateOptionalParams,
-  WorkflowTriggersListCallbackUrlOptionalParams,
-  WorkflowTriggersListCallbackUrlResponse
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,18 +28,18 @@ import {
 export interface WorkflowTriggers {
   /**
    * Gets a list of workflow triggers.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     workflowName: string,
-    options?: WorkflowTriggersListOptionalParams
+    options?: WorkflowTriggersListOptionalParams,
   ): PagedAsyncIterableIterator<WorkflowTrigger>;
   /**
    * Gets a workflow trigger.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param triggerName The workflow trigger name.
    * @param options The options parameters.
@@ -47,37 +48,11 @@ export interface WorkflowTriggers {
     resourceGroupName: string,
     workflowName: string,
     triggerName: string,
-    options?: WorkflowTriggersGetOptionalParams
+    options?: WorkflowTriggersGetOptionalParams,
   ): Promise<WorkflowTriggersGetResponse>;
   /**
-   * Resets a workflow trigger.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param triggerName The workflow trigger name.
-   * @param options The options parameters.
-   */
-  reset(
-    resourceGroupName: string,
-    workflowName: string,
-    triggerName: string,
-    options?: WorkflowTriggersResetOptionalParams
-  ): Promise<void>;
-  /**
-   * Runs a workflow trigger.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param triggerName The workflow trigger name.
-   * @param options The options parameters.
-   */
-  run(
-    resourceGroupName: string,
-    workflowName: string,
-    triggerName: string,
-    options?: WorkflowTriggersRunOptionalParams
-  ): Promise<void>;
-  /**
    * Get the trigger schema as JSON.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param triggerName The workflow trigger name.
    * @param options The options parameters.
@@ -86,26 +61,11 @@ export interface WorkflowTriggers {
     resourceGroupName: string,
     workflowName: string,
     triggerName: string,
-    options?: WorkflowTriggersGetSchemaJsonOptionalParams
+    options?: WorkflowTriggersGetSchemaJsonOptionalParams,
   ): Promise<WorkflowTriggersGetSchemaJsonResponse>;
   /**
-   * Sets the state of a workflow trigger.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param triggerName The workflow trigger name.
-   * @param setState The workflow trigger state.
-   * @param options The options parameters.
-   */
-  setState(
-    resourceGroupName: string,
-    workflowName: string,
-    triggerName: string,
-    setState: SetTriggerStateActionDefinition,
-    options?: WorkflowTriggersSetStateOptionalParams
-  ): Promise<void>;
-  /**
    * Get the callback URL for a workflow trigger.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param triggerName The workflow trigger name.
    * @param options The options parameters.
@@ -114,6 +74,60 @@ export interface WorkflowTriggers {
     resourceGroupName: string,
     workflowName: string,
     triggerName: string,
-    options?: WorkflowTriggersListCallbackUrlOptionalParams
+    options?: WorkflowTriggersListCallbackUrlOptionalParams,
   ): Promise<WorkflowTriggersListCallbackUrlResponse>;
+  /**
+   * Resets a workflow trigger.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The workflow name.
+   * @param triggerName The workflow trigger name.
+   * @param options The options parameters.
+   */
+  reset(
+    resourceGroupName: string,
+    workflowName: string,
+    triggerName: string,
+    options?: WorkflowTriggersResetOptionalParams,
+  ): Promise<void>;
+  /**
+   * Runs a workflow trigger.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The workflow name.
+   * @param triggerName The workflow trigger name.
+   * @param options The options parameters.
+   */
+  beginRun(
+    resourceGroupName: string,
+    workflowName: string,
+    triggerName: string,
+    options?: WorkflowTriggersRunOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Runs a workflow trigger.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The workflow name.
+   * @param triggerName The workflow trigger name.
+   * @param options The options parameters.
+   */
+  beginRunAndWait(
+    resourceGroupName: string,
+    workflowName: string,
+    triggerName: string,
+    options?: WorkflowTriggersRunOptionalParams,
+  ): Promise<void>;
+  /**
+   * Sets the state of a workflow trigger.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The workflow name.
+   * @param triggerName The workflow trigger name.
+   * @param body The workflow trigger state.
+   * @param options The options parameters.
+   */
+  setState(
+    resourceGroupName: string,
+    workflowName: string,
+    triggerName: string,
+    body: SetTriggerStateActionDefinition,
+    options?: WorkflowTriggersSetStateOptionalParams,
+  ): Promise<void>;
 }

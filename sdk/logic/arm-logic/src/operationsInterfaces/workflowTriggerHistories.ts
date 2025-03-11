@@ -7,12 +7,14 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   WorkflowTriggerHistory,
   WorkflowTriggerHistoriesListOptionalParams,
   WorkflowTriggerHistoriesGetOptionalParams,
   WorkflowTriggerHistoriesGetResponse,
-  WorkflowTriggerHistoriesResubmitOptionalParams
+  WorkflowTriggerHistoriesResubmitOptionalParams,
+  WorkflowTriggerHistoriesResubmitResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -20,7 +22,7 @@ import {
 export interface WorkflowTriggerHistories {
   /**
    * Gets a list of workflow trigger histories.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param triggerName The workflow trigger name.
    * @param options The options parameters.
@@ -29,11 +31,11 @@ export interface WorkflowTriggerHistories {
     resourceGroupName: string,
     workflowName: string,
     triggerName: string,
-    options?: WorkflowTriggerHistoriesListOptionalParams
+    options?: WorkflowTriggerHistoriesListOptionalParams,
   ): PagedAsyncIterableIterator<WorkflowTriggerHistory>;
   /**
    * Gets a workflow trigger history.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param triggerName The workflow trigger name.
    * @param historyName The workflow trigger history name. Corresponds to the run name for triggers that
@@ -45,22 +47,43 @@ export interface WorkflowTriggerHistories {
     workflowName: string,
     triggerName: string,
     historyName: string,
-    options?: WorkflowTriggerHistoriesGetOptionalParams
+    options?: WorkflowTriggerHistoriesGetOptionalParams,
   ): Promise<WorkflowTriggerHistoriesGetResponse>;
   /**
    * Resubmits a workflow run based on the trigger history.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param triggerName The workflow trigger name.
    * @param historyName The workflow trigger history name. Corresponds to the run name for triggers that
    *                    resulted in a run.
    * @param options The options parameters.
    */
-  resubmit(
+  beginResubmit(
     resourceGroupName: string,
     workflowName: string,
     triggerName: string,
     historyName: string,
-    options?: WorkflowTriggerHistoriesResubmitOptionalParams
-  ): Promise<void>;
+    options?: WorkflowTriggerHistoriesResubmitOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WorkflowTriggerHistoriesResubmitResponse>,
+      WorkflowTriggerHistoriesResubmitResponse
+    >
+  >;
+  /**
+   * Resubmits a workflow run based on the trigger history.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The workflow name.
+   * @param triggerName The workflow trigger name.
+   * @param historyName The workflow trigger history name. Corresponds to the run name for triggers that
+   *                    resulted in a run.
+   * @param options The options parameters.
+   */
+  beginResubmitAndWait(
+    resourceGroupName: string,
+    workflowName: string,
+    triggerName: string,
+    historyName: string,
+    options?: WorkflowTriggerHistoriesResubmitOptionalParams,
+  ): Promise<WorkflowTriggerHistoriesResubmitResponse>;
 }

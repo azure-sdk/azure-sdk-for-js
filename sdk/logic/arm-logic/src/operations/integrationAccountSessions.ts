@@ -23,13 +23,14 @@ import {
   IntegrationAccountSessionsCreateOrUpdateOptionalParams,
   IntegrationAccountSessionsCreateOrUpdateResponse,
   IntegrationAccountSessionsDeleteOptionalParams,
-  IntegrationAccountSessionsListNextResponse
+  IntegrationAccountSessionsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing IntegrationAccountSessions operations. */
 export class IntegrationAccountSessionsImpl
-  implements IntegrationAccountSessions {
+  implements IntegrationAccountSessions
+{
   private readonly client: LogicManagementClient;
 
   /**
@@ -42,19 +43,19 @@ export class IntegrationAccountSessionsImpl
 
   /**
    * Gets a list of integration account sessions.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountSessionsListOptionalParams
+    options?: IntegrationAccountSessionsListOptionalParams,
   ): PagedAsyncIterableIterator<IntegrationAccountSession> {
     const iter = this.listPagingAll(
       resourceGroupName,
       integrationAccountName,
-      options
+      options,
     );
     return {
       next() {
@@ -71,9 +72,9 @@ export class IntegrationAccountSessionsImpl
           resourceGroupName,
           integrationAccountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -81,7 +82,7 @@ export class IntegrationAccountSessionsImpl
     resourceGroupName: string,
     integrationAccountName: string,
     options?: IntegrationAccountSessionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<IntegrationAccountSession[]> {
     let result: IntegrationAccountSessionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +90,7 @@ export class IntegrationAccountSessionsImpl
       result = await this._list(
         resourceGroupName,
         integrationAccountName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -101,7 +102,7 @@ export class IntegrationAccountSessionsImpl
         resourceGroupName,
         integrationAccountName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -113,12 +114,12 @@ export class IntegrationAccountSessionsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountSessionsListOptionalParams
+    options?: IntegrationAccountSessionsListOptionalParams,
   ): AsyncIterableIterator<IntegrationAccountSession> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       integrationAccountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -126,24 +127,24 @@ export class IntegrationAccountSessionsImpl
 
   /**
    * Gets a list of integration account sessions.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountSessionsListOptionalParams
+    options?: IntegrationAccountSessionsListOptionalParams,
   ): Promise<IntegrationAccountSessionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, integrationAccountName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
    * Gets an integration account session.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param sessionName The integration account session name.
    * @param options The options parameters.
@@ -152,44 +153,44 @@ export class IntegrationAccountSessionsImpl
     resourceGroupName: string,
     integrationAccountName: string,
     sessionName: string,
-    options?: IntegrationAccountSessionsGetOptionalParams
+    options?: IntegrationAccountSessionsGetOptionalParams,
   ): Promise<IntegrationAccountSessionsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, integrationAccountName, sessionName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
    * Creates or updates an integration account session.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param sessionName The integration account session name.
-   * @param session The integration account session.
+   * @param resource The integration account session.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     integrationAccountName: string,
     sessionName: string,
-    session: IntegrationAccountSession,
-    options?: IntegrationAccountSessionsCreateOrUpdateOptionalParams
+    resource: IntegrationAccountSession,
+    options?: IntegrationAccountSessionsCreateOrUpdateOptionalParams,
   ): Promise<IntegrationAccountSessionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         integrationAccountName,
         sessionName,
-        session,
-        options
+        resource,
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
   /**
    * Deletes an integration account session.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param sessionName The integration account session name.
    * @param options The options parameters.
@@ -198,17 +199,17 @@ export class IntegrationAccountSessionsImpl
     resourceGroupName: string,
     integrationAccountName: string,
     sessionName: string,
-    options?: IntegrationAccountSessionsDeleteOptionalParams
+    options?: IntegrationAccountSessionsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, integrationAccountName, sessionName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
   /**
    * ListNext
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -217,11 +218,11 @@ export class IntegrationAccountSessionsImpl
     resourceGroupName: string,
     integrationAccountName: string,
     nextLink: string,
-    options?: IntegrationAccountSessionsListNextOptionalParams
+    options?: IntegrationAccountSessionsListNextOptionalParams,
   ): Promise<IntegrationAccountSessionsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, integrationAccountName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -229,38 +230,36 @@ export class IntegrationAccountSessionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/sessions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/sessions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationAccountSessionListResult
+      bodyMapper: Mappers.IntegrationAccountSessionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.integrationAccountName
+    Parameters.integrationAccountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/sessions/{sessionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/sessions/{sessionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationAccountSession
+      bodyMapper: Mappers.IntegrationAccountSession,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -268,49 +267,47 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
-    Parameters.sessionName
+    Parameters.sessionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/sessions/{sessionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/sessions/{sessionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationAccountSession
+      bodyMapper: Mappers.IntegrationAccountSession,
     },
     201: {
-      bodyMapper: Mappers.IntegrationAccountSession
+      bodyMapper: Mappers.IntegrationAccountSession,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.session,
+  requestBody: Parameters.resource11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
-    Parameters.sessionName
+    Parameters.sessionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/sessions/{sessionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/sessions/{sessionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -318,29 +315,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
-    Parameters.sessionName
+    Parameters.sessionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationAccountSessionListResult
+      bodyMapper: Mappers.IntegrationAccountSessionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink,
-    Parameters.integrationAccountName
+    Parameters.integrationAccountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

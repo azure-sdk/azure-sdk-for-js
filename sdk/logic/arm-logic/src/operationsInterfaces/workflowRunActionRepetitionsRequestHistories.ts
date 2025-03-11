@@ -11,7 +11,7 @@ import {
   RequestHistory,
   WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams,
   WorkflowRunActionRepetitionsRequestHistoriesGetOptionalParams,
-  WorkflowRunActionRepetitionsRequestHistoriesGetResponse
+  WorkflowRunActionRepetitionsRequestHistoriesGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -19,11 +19,11 @@ import {
 export interface WorkflowRunActionRepetitionsRequestHistories {
   /**
    * List a workflow run repetition request history.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param runName The workflow run name.
-   * @param actionName The workflow action name.
-   * @param repetitionName The workflow repetition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The name of the Workflow
+   * @param runName The name of the WorkflowRun
+   * @param actionName The name of the WorkflowRunAction
+   * @param repetitionName The name of the WorkflowRunActionRepetitionDefinition
    * @param options The options parameters.
    */
   list(
@@ -32,16 +32,16 @@ export interface WorkflowRunActionRepetitionsRequestHistories {
     runName: string,
     actionName: string,
     repetitionName: string,
-    options?: WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams
+    options?: WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams,
   ): PagedAsyncIterableIterator<RequestHistory>;
   /**
    * Gets a workflow run repetition request history.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param runName The workflow run name.
-   * @param actionName The workflow action name.
-   * @param repetitionName The workflow repetition.
-   * @param requestHistoryName The request history name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The name of the Workflow
+   * @param runName The name of the WorkflowRun
+   * @param actionName The name of the WorkflowRunAction
+   * @param repetitionName The name of the WorkflowRunActionRepetitionDefinition
+   * @param requestHistoryName The name of the RequestHistory
    * @param options The options parameters.
    */
   get(
@@ -51,6 +51,6 @@ export interface WorkflowRunActionRepetitionsRequestHistories {
     actionName: string,
     repetitionName: string,
     requestHistoryName: string,
-    options?: WorkflowRunActionRepetitionsRequestHistoriesGetOptionalParams
+    options?: WorkflowRunActionRepetitionsRequestHistoriesGetOptionalParams,
   ): Promise<WorkflowRunActionRepetitionsRequestHistoriesGetResponse>;
 }

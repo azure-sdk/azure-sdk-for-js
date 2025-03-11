@@ -26,13 +26,14 @@ import {
   GetCallbackUrlParameters,
   IntegrationAccountPartnersListContentCallbackUrlOptionalParams,
   IntegrationAccountPartnersListContentCallbackUrlResponse,
-  IntegrationAccountPartnersListNextResponse
+  IntegrationAccountPartnersListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing IntegrationAccountPartners operations. */
 export class IntegrationAccountPartnersImpl
-  implements IntegrationAccountPartners {
+  implements IntegrationAccountPartners
+{
   private readonly client: LogicManagementClient;
 
   /**
@@ -45,19 +46,19 @@ export class IntegrationAccountPartnersImpl
 
   /**
    * Gets a list of integration account partners.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountPartnersListOptionalParams
+    options?: IntegrationAccountPartnersListOptionalParams,
   ): PagedAsyncIterableIterator<IntegrationAccountPartner> {
     const iter = this.listPagingAll(
       resourceGroupName,
       integrationAccountName,
-      options
+      options,
     );
     return {
       next() {
@@ -74,9 +75,9 @@ export class IntegrationAccountPartnersImpl
           resourceGroupName,
           integrationAccountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -84,7 +85,7 @@ export class IntegrationAccountPartnersImpl
     resourceGroupName: string,
     integrationAccountName: string,
     options?: IntegrationAccountPartnersListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<IntegrationAccountPartner[]> {
     let result: IntegrationAccountPartnersListResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +93,7 @@ export class IntegrationAccountPartnersImpl
       result = await this._list(
         resourceGroupName,
         integrationAccountName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -104,7 +105,7 @@ export class IntegrationAccountPartnersImpl
         resourceGroupName,
         integrationAccountName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -116,12 +117,12 @@ export class IntegrationAccountPartnersImpl
   private async *listPagingAll(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountPartnersListOptionalParams
+    options?: IntegrationAccountPartnersListOptionalParams,
   ): AsyncIterableIterator<IntegrationAccountPartner> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       integrationAccountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -129,24 +130,24 @@ export class IntegrationAccountPartnersImpl
 
   /**
    * Gets a list of integration account partners.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountPartnersListOptionalParams
+    options?: IntegrationAccountPartnersListOptionalParams,
   ): Promise<IntegrationAccountPartnersListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, integrationAccountName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
    * Gets an integration account partner.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param partnerName The integration account partner name.
    * @param options The options parameters.
@@ -155,44 +156,44 @@ export class IntegrationAccountPartnersImpl
     resourceGroupName: string,
     integrationAccountName: string,
     partnerName: string,
-    options?: IntegrationAccountPartnersGetOptionalParams
+    options?: IntegrationAccountPartnersGetOptionalParams,
   ): Promise<IntegrationAccountPartnersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, integrationAccountName, partnerName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
    * Creates or updates an integration account partner.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param partnerName The integration account partner name.
-   * @param partner The integration account partner.
+   * @param resource The integration account partner.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     integrationAccountName: string,
     partnerName: string,
-    partner: IntegrationAccountPartner,
-    options?: IntegrationAccountPartnersCreateOrUpdateOptionalParams
+    resource: IntegrationAccountPartner,
+    options?: IntegrationAccountPartnersCreateOrUpdateOptionalParams,
   ): Promise<IntegrationAccountPartnersCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         integrationAccountName,
         partnerName,
-        partner,
-        options
+        resource,
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
   /**
    * Deletes an integration account partner.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param partnerName The integration account partner name.
    * @param options The options parameters.
@@ -201,44 +202,38 @@ export class IntegrationAccountPartnersImpl
     resourceGroupName: string,
     integrationAccountName: string,
     partnerName: string,
-    options?: IntegrationAccountPartnersDeleteOptionalParams
+    options?: IntegrationAccountPartnersDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, integrationAccountName, partnerName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
   /**
    * Get the content callback url.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param partnerName The integration account partner name.
-   * @param listContentCallbackUrl The callback url parameters.
+   * @param body The callback url parameters.
    * @param options The options parameters.
    */
   listContentCallbackUrl(
     resourceGroupName: string,
     integrationAccountName: string,
     partnerName: string,
-    listContentCallbackUrl: GetCallbackUrlParameters,
-    options?: IntegrationAccountPartnersListContentCallbackUrlOptionalParams
+    body: GetCallbackUrlParameters,
+    options?: IntegrationAccountPartnersListContentCallbackUrlOptionalParams,
   ): Promise<IntegrationAccountPartnersListContentCallbackUrlResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        integrationAccountName,
-        partnerName,
-        listContentCallbackUrl,
-        options
-      },
-      listContentCallbackUrlOperationSpec
+      { resourceGroupName, integrationAccountName, partnerName, body, options },
+      listContentCallbackUrlOperationSpec,
     );
   }
 
   /**
    * ListNext
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -247,11 +242,11 @@ export class IntegrationAccountPartnersImpl
     resourceGroupName: string,
     integrationAccountName: string,
     nextLink: string,
-    options?: IntegrationAccountPartnersListNextOptionalParams
+    options?: IntegrationAccountPartnersListNextOptionalParams,
   ): Promise<IntegrationAccountPartnersListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, integrationAccountName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -259,38 +254,36 @@ export class IntegrationAccountPartnersImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/partners",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/partners",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationAccountPartnerListResult
+      bodyMapper: Mappers.IntegrationAccountPartnerListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.integrationAccountName
+    Parameters.integrationAccountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/partners/{partnerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/partners/{partnerName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationAccountPartner
+      bodyMapper: Mappers.IntegrationAccountPartner,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -298,49 +291,47 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
-    Parameters.partnerName
+    Parameters.partnerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/partners/{partnerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/partners/{partnerName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationAccountPartner
+      bodyMapper: Mappers.IntegrationAccountPartner,
     },
     201: {
-      bodyMapper: Mappers.IntegrationAccountPartner
+      bodyMapper: Mappers.IntegrationAccountPartner,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.partner,
+  requestBody: Parameters.resource9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
-    Parameters.partnerName
+    Parameters.partnerName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/partners/{partnerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/partners/{partnerName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -348,54 +339,53 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
-    Parameters.partnerName
+    Parameters.partnerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listContentCallbackUrlOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/partners/{partnerName}/listContentCallbackUrl",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/partners/{partnerName}/listContentCallbackUrl",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowTriggerCallbackUrl
+      bodyMapper: Mappers.WorkflowTriggerCallbackUrl,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.listContentCallbackUrl,
+  requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
-    Parameters.partnerName
+    Parameters.partnerName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationAccountPartnerListResult
+      bodyMapper: Mappers.IntegrationAccountPartnerListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink,
-    Parameters.integrationAccountName
+    Parameters.integrationAccountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

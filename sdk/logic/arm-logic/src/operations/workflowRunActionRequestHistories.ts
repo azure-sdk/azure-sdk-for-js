@@ -20,13 +20,14 @@ import {
   WorkflowRunActionRequestHistoriesListResponse,
   WorkflowRunActionRequestHistoriesGetOptionalParams,
   WorkflowRunActionRequestHistoriesGetResponse,
-  WorkflowRunActionRequestHistoriesListNextResponse
+  WorkflowRunActionRequestHistoriesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WorkflowRunActionRequestHistories operations. */
 export class WorkflowRunActionRequestHistoriesImpl
-  implements WorkflowRunActionRequestHistories {
+  implements WorkflowRunActionRequestHistories
+{
   private readonly client: LogicManagementClient;
 
   /**
@@ -39,10 +40,10 @@ export class WorkflowRunActionRequestHistoriesImpl
 
   /**
    * List a workflow run request history.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param runName The workflow run name.
-   * @param actionName The workflow action name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The name of the Workflow
+   * @param runName The name of the WorkflowRun
+   * @param actionName The name of the WorkflowRunAction
    * @param options The options parameters.
    */
   public list(
@@ -50,14 +51,14 @@ export class WorkflowRunActionRequestHistoriesImpl
     workflowName: string,
     runName: string,
     actionName: string,
-    options?: WorkflowRunActionRequestHistoriesListOptionalParams
+    options?: WorkflowRunActionRequestHistoriesListOptionalParams,
   ): PagedAsyncIterableIterator<RequestHistory> {
     const iter = this.listPagingAll(
       resourceGroupName,
       workflowName,
       runName,
       actionName,
-      options
+      options,
     );
     return {
       next() {
@@ -76,9 +77,9 @@ export class WorkflowRunActionRequestHistoriesImpl
           runName,
           actionName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -88,7 +89,7 @@ export class WorkflowRunActionRequestHistoriesImpl
     runName: string,
     actionName: string,
     options?: WorkflowRunActionRequestHistoriesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RequestHistory[]> {
     let result: WorkflowRunActionRequestHistoriesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +99,7 @@ export class WorkflowRunActionRequestHistoriesImpl
         workflowName,
         runName,
         actionName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -112,7 +113,7 @@ export class WorkflowRunActionRequestHistoriesImpl
         runName,
         actionName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -126,14 +127,14 @@ export class WorkflowRunActionRequestHistoriesImpl
     workflowName: string,
     runName: string,
     actionName: string,
-    options?: WorkflowRunActionRequestHistoriesListOptionalParams
+    options?: WorkflowRunActionRequestHistoriesListOptionalParams,
   ): AsyncIterableIterator<RequestHistory> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workflowName,
       runName,
       actionName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -141,10 +142,10 @@ export class WorkflowRunActionRequestHistoriesImpl
 
   /**
    * List a workflow run request history.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param runName The workflow run name.
-   * @param actionName The workflow action name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The name of the Workflow
+   * @param runName The name of the WorkflowRun
+   * @param actionName The name of the WorkflowRunAction
    * @param options The options parameters.
    */
   private _list(
@@ -152,21 +153,21 @@ export class WorkflowRunActionRequestHistoriesImpl
     workflowName: string,
     runName: string,
     actionName: string,
-    options?: WorkflowRunActionRequestHistoriesListOptionalParams
+    options?: WorkflowRunActionRequestHistoriesListOptionalParams,
   ): Promise<WorkflowRunActionRequestHistoriesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, runName, actionName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
    * Gets a workflow run request history.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param runName The workflow run name.
-   * @param actionName The workflow action name.
-   * @param requestHistoryName The request history name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The name of the Workflow
+   * @param runName The name of the WorkflowRun
+   * @param actionName The name of the WorkflowRunAction
+   * @param requestHistoryName The name of the RequestHistory
    * @param options The options parameters.
    */
   get(
@@ -175,7 +176,7 @@ export class WorkflowRunActionRequestHistoriesImpl
     runName: string,
     actionName: string,
     requestHistoryName: string,
-    options?: WorkflowRunActionRequestHistoriesGetOptionalParams
+    options?: WorkflowRunActionRequestHistoriesGetOptionalParams,
   ): Promise<WorkflowRunActionRequestHistoriesGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -184,18 +185,18 @@ export class WorkflowRunActionRequestHistoriesImpl
         runName,
         actionName,
         requestHistoryName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
    * ListNext
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param runName The workflow run name.
-   * @param actionName The workflow action name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The name of the Workflow
+   * @param runName The name of the WorkflowRun
+   * @param actionName The name of the WorkflowRunAction
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -205,7 +206,7 @@ export class WorkflowRunActionRequestHistoriesImpl
     runName: string,
     actionName: string,
     nextLink: string,
-    options?: WorkflowRunActionRequestHistoriesListNextOptionalParams
+    options?: WorkflowRunActionRequestHistoriesListNextOptionalParams,
   ): Promise<WorkflowRunActionRequestHistoriesListNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -214,9 +215,9 @@ export class WorkflowRunActionRequestHistoriesImpl
         runName,
         actionName,
         nextLink,
-        options
+        options,
       },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -224,40 +225,15 @@ export class WorkflowRunActionRequestHistoriesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/requestHistories",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/requestHistories",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RequestHistoryListResult
+      bodyMapper: Mappers.RequestHistoryListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workflowName,
-    Parameters.runName,
-    Parameters.actionName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/requestHistories/{requestHistoryName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RequestHistory
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -267,31 +243,54 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.workflowName,
     Parameters.runName,
     Parameters.actionName,
-    Parameters.requestHistoryName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/requestHistories/{requestHistoryName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RequestHistory,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workflowName,
+    Parameters.runName,
+    Parameters.actionName,
+    Parameters.requestHistoryName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RequestHistoryListResult
+      bodyMapper: Mappers.RequestHistoryListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workflowName,
-    Parameters.nextLink,
     Parameters.runName,
-    Parameters.actionName
+    Parameters.actionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

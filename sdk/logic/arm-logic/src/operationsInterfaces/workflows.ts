@@ -7,11 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Workflow,
   WorkflowsListBySubscriptionOptionalParams,
   WorkflowsListByResourceGroupOptionalParams,
+  WorkflowsValidateByLocationOptionalParams,
   WorkflowsGetOptionalParams,
   WorkflowsGetResponse,
   WorkflowsCreateOrUpdateOptionalParams,
@@ -34,7 +35,6 @@ import {
   RegenerateActionParameter,
   WorkflowsRegenerateAccessKeyOptionalParams,
   WorkflowsValidateByResourceGroupOptionalParams,
-  WorkflowsValidateByLocationOptionalParams
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,178 +45,21 @@ export interface Workflows {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: WorkflowsListBySubscriptionOptionalParams
+    options?: WorkflowsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Workflow>;
   /**
    * Gets a list of workflows by resource group.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: WorkflowsListByResourceGroupOptionalParams
+    options?: WorkflowsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Workflow>;
   /**
-   * Gets a workflow.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    workflowName: string,
-    options?: WorkflowsGetOptionalParams
-  ): Promise<WorkflowsGetResponse>;
-  /**
-   * Creates or updates a workflow.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param workflow The workflow.
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    workflowName: string,
-    workflow: Workflow,
-    options?: WorkflowsCreateOrUpdateOptionalParams
-  ): Promise<WorkflowsCreateOrUpdateResponse>;
-  /**
-   * Updates a workflow.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    workflowName: string,
-    options?: WorkflowsUpdateOptionalParams
-  ): Promise<WorkflowsUpdateResponse>;
-  /**
-   * Deletes a workflow.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    workflowName: string,
-    options?: WorkflowsDeleteOptionalParams
-  ): Promise<void>;
-  /**
-   * Disables a workflow.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param options The options parameters.
-   */
-  disable(
-    resourceGroupName: string,
-    workflowName: string,
-    options?: WorkflowsDisableOptionalParams
-  ): Promise<void>;
-  /**
-   * Enables a workflow.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param options The options parameters.
-   */
-  enable(
-    resourceGroupName: string,
-    workflowName: string,
-    options?: WorkflowsEnableOptionalParams
-  ): Promise<void>;
-  /**
-   * Generates the upgraded definition for a workflow.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param parameters Parameters for generating an upgraded definition.
-   * @param options The options parameters.
-   */
-  generateUpgradedDefinition(
-    resourceGroupName: string,
-    workflowName: string,
-    parameters: GenerateUpgradedDefinitionParameters,
-    options?: WorkflowsGenerateUpgradedDefinitionOptionalParams
-  ): Promise<WorkflowsGenerateUpgradedDefinitionResponse>;
-  /**
-   * Get the workflow callback Url.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param listCallbackUrl Which callback url to list.
-   * @param options The options parameters.
-   */
-  listCallbackUrl(
-    resourceGroupName: string,
-    workflowName: string,
-    listCallbackUrl: GetCallbackUrlParameters,
-    options?: WorkflowsListCallbackUrlOptionalParams
-  ): Promise<WorkflowsListCallbackUrlResponse>;
-  /**
-   * Gets an OpenAPI definition for the workflow.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param options The options parameters.
-   */
-  listSwagger(
-    resourceGroupName: string,
-    workflowName: string,
-    options?: WorkflowsListSwaggerOptionalParams
-  ): Promise<WorkflowsListSwaggerResponse>;
-  /**
-   * Moves an existing workflow.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param move The workflow to move.
-   * @param options The options parameters.
-   */
-  beginMove(
-    resourceGroupName: string,
-    workflowName: string,
-    move: WorkflowReference,
-    options?: WorkflowsMoveOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Moves an existing workflow.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param move The workflow to move.
-   * @param options The options parameters.
-   */
-  beginMoveAndWait(
-    resourceGroupName: string,
-    workflowName: string,
-    move: WorkflowReference,
-    options?: WorkflowsMoveOptionalParams
-  ): Promise<void>;
-  /**
-   * Regenerates the callback URL access key for request triggers.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param keyType The access key type.
-   * @param options The options parameters.
-   */
-  regenerateAccessKey(
-    resourceGroupName: string,
-    workflowName: string,
-    keyType: RegenerateActionParameter,
-    options?: WorkflowsRegenerateAccessKeyOptionalParams
-  ): Promise<void>;
-  /**
-   * Validates the workflow.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param validate The workflow.
-   * @param options The options parameters.
-   */
-  validateByResourceGroup(
-    resourceGroupName: string,
-    workflowName: string,
-    validate: Workflow,
-    options?: WorkflowsValidateByResourceGroupOptionalParams
-  ): Promise<void>;
-  /**
    * Validates the workflow definition.
-   * @param resourceGroupName The resource group name.
-   * @param location The workflow location.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location The name of Azure region.
    * @param workflowName The workflow name.
    * @param validate The workflow.
    * @param options The options parameters.
@@ -226,6 +69,165 @@ export interface Workflows {
     location: string,
     workflowName: string,
     validate: Workflow,
-    options?: WorkflowsValidateByLocationOptionalParams
+    options?: WorkflowsValidateByLocationOptionalParams,
+  ): Promise<void>;
+  /**
+   * Gets a workflow.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The workflow name.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    workflowName: string,
+    options?: WorkflowsGetOptionalParams,
+  ): Promise<WorkflowsGetResponse>;
+  /**
+   * Creates or updates a workflow.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The workflow name.
+   * @param resource The workflow.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    workflowName: string,
+    resource: Workflow,
+    options?: WorkflowsCreateOrUpdateOptionalParams,
+  ): Promise<WorkflowsCreateOrUpdateResponse>;
+  /**
+   * Updates a workflow.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The workflow name.
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    workflowName: string,
+    properties: any,
+    options?: WorkflowsUpdateOptionalParams,
+  ): Promise<WorkflowsUpdateResponse>;
+  /**
+   * Deletes a workflow.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The workflow name.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    workflowName: string,
+    options?: WorkflowsDeleteOptionalParams,
+  ): Promise<void>;
+  /**
+   * Disables a workflow.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The workflow name.
+   * @param options The options parameters.
+   */
+  disable(
+    resourceGroupName: string,
+    workflowName: string,
+    options?: WorkflowsDisableOptionalParams,
+  ): Promise<void>;
+  /**
+   * Enables a workflow.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The workflow name.
+   * @param options The options parameters.
+   */
+  enable(
+    resourceGroupName: string,
+    workflowName: string,
+    options?: WorkflowsEnableOptionalParams,
+  ): Promise<void>;
+  /**
+   * Generates the upgraded definition for a workflow.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The workflow name.
+   * @param body Parameters for generating an upgraded definition.
+   * @param options The options parameters.
+   */
+  generateUpgradedDefinition(
+    resourceGroupName: string,
+    workflowName: string,
+    body: GenerateUpgradedDefinitionParameters,
+    options?: WorkflowsGenerateUpgradedDefinitionOptionalParams,
+  ): Promise<WorkflowsGenerateUpgradedDefinitionResponse>;
+  /**
+   * Get the workflow callback Url.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The workflow name.
+   * @param body Which callback url to list.
+   * @param options The options parameters.
+   */
+  listCallbackUrl(
+    resourceGroupName: string,
+    workflowName: string,
+    body: GetCallbackUrlParameters,
+    options?: WorkflowsListCallbackUrlOptionalParams,
+  ): Promise<WorkflowsListCallbackUrlResponse>;
+  /**
+   * Gets an OpenAPI definition for the workflow.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The workflow name.
+   * @param options The options parameters.
+   */
+  listSwagger(
+    resourceGroupName: string,
+    workflowName: string,
+    options?: WorkflowsListSwaggerOptionalParams,
+  ): Promise<WorkflowsListSwaggerResponse>;
+  /**
+   * Moves an existing workflow.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The workflow name.
+   * @param body The workflow to move.
+   * @param options The options parameters.
+   */
+  beginMove(
+    resourceGroupName: string,
+    workflowName: string,
+    body: WorkflowReference,
+    options?: WorkflowsMoveOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Moves an existing workflow.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The workflow name.
+   * @param body The workflow to move.
+   * @param options The options parameters.
+   */
+  beginMoveAndWait(
+    resourceGroupName: string,
+    workflowName: string,
+    body: WorkflowReference,
+    options?: WorkflowsMoveOptionalParams,
+  ): Promise<void>;
+  /**
+   * Regenerates the callback URL access key for request triggers.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The workflow name.
+   * @param body The access key type.
+   * @param options The options parameters.
+   */
+  regenerateAccessKey(
+    resourceGroupName: string,
+    workflowName: string,
+    body: RegenerateActionParameter,
+    options?: WorkflowsRegenerateAccessKeyOptionalParams,
+  ): Promise<void>;
+  /**
+   * Validates the workflow.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The workflow name.
+   * @param body The workflow.
+   * @param options The options parameters.
+   */
+  validateByResourceGroup(
+    resourceGroupName: string,
+    workflowName: string,
+    body: Workflow,
+    options?: WorkflowsValidateByResourceGroupOptionalParams,
   ): Promise<void>;
 }

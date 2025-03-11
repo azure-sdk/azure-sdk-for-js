@@ -6,29 +6,28 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { IntegrationAccountAssemblies } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { LogicManagementClient } from "../logicManagementClient.js";
 import {
-  AssemblyDefinition,
   IntegrationAccountAssembliesListOptionalParams,
   IntegrationAccountAssembliesListResponse,
   IntegrationAccountAssembliesGetOptionalParams,
   IntegrationAccountAssembliesGetResponse,
+  AssemblyDefinition,
   IntegrationAccountAssembliesCreateOrUpdateOptionalParams,
   IntegrationAccountAssembliesCreateOrUpdateResponse,
   IntegrationAccountAssembliesDeleteOptionalParams,
   IntegrationAccountAssembliesListContentCallbackUrlOptionalParams,
-  IntegrationAccountAssembliesListContentCallbackUrlResponse
+  IntegrationAccountAssembliesListContentCallbackUrlResponse,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Class containing IntegrationAccountAssemblies operations. */
 export class IntegrationAccountAssembliesImpl
-  implements IntegrationAccountAssemblies {
+  implements IntegrationAccountAssemblies
+{
   private readonly client: LogicManagementClient;
 
   /**
@@ -41,90 +40,24 @@ export class IntegrationAccountAssembliesImpl
 
   /**
    * List the assemblies for an integration account.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param options The options parameters.
    */
-  public list(
-    resourceGroupName: string,
-    integrationAccountName: string,
-    options?: IntegrationAccountAssembliesListOptionalParams
-  ): PagedAsyncIterableIterator<AssemblyDefinition> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      integrationAccountName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(
-          resourceGroupName,
-          integrationAccountName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listPagingPage(
+  list(
     resourceGroupName: string,
     integrationAccountName: string,
     options?: IntegrationAccountAssembliesListOptionalParams,
-    _settings?: PageSettings
-  ): AsyncIterableIterator<AssemblyDefinition[]> {
-    let result: IntegrationAccountAssembliesListResponse;
-    result = await this._list(
-      resourceGroupName,
-      integrationAccountName,
-      options
-    );
-    yield result.value || [];
-  }
-
-  private async *listPagingAll(
-    resourceGroupName: string,
-    integrationAccountName: string,
-    options?: IntegrationAccountAssembliesListOptionalParams
-  ): AsyncIterableIterator<AssemblyDefinition> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      integrationAccountName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * List the assemblies for an integration account.
-   * @param resourceGroupName The resource group name.
-   * @param integrationAccountName The integration account name.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    integrationAccountName: string,
-    options?: IntegrationAccountAssembliesListOptionalParams
   ): Promise<IntegrationAccountAssembliesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, integrationAccountName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
    * Get an assembly for an integration account.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param assemblyArtifactName The assembly artifact name.
    * @param options The options parameters.
@@ -133,49 +66,49 @@ export class IntegrationAccountAssembliesImpl
     resourceGroupName: string,
     integrationAccountName: string,
     assemblyArtifactName: string,
-    options?: IntegrationAccountAssembliesGetOptionalParams
+    options?: IntegrationAccountAssembliesGetOptionalParams,
   ): Promise<IntegrationAccountAssembliesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         integrationAccountName,
         assemblyArtifactName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
    * Create or update an assembly for an integration account.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param assemblyArtifactName The assembly artifact name.
-   * @param assemblyArtifact The assembly artifact.
+   * @param resource The assembly artifact.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     integrationAccountName: string,
     assemblyArtifactName: string,
-    assemblyArtifact: AssemblyDefinition,
-    options?: IntegrationAccountAssembliesCreateOrUpdateOptionalParams
+    resource: AssemblyDefinition,
+    options?: IntegrationAccountAssembliesCreateOrUpdateOptionalParams,
   ): Promise<IntegrationAccountAssembliesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         integrationAccountName,
         assemblyArtifactName,
-        assemblyArtifact,
-        options
+        resource,
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
   /**
    * Delete an assembly for an integration account.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param assemblyArtifactName The assembly artifact name.
    * @param options The options parameters.
@@ -184,22 +117,22 @@ export class IntegrationAccountAssembliesImpl
     resourceGroupName: string,
     integrationAccountName: string,
     assemblyArtifactName: string,
-    options?: IntegrationAccountAssembliesDeleteOptionalParams
+    options?: IntegrationAccountAssembliesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         integrationAccountName,
         assemblyArtifactName,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
   /**
    * Get the content callback url for an integration account assembly.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param assemblyArtifactName The assembly artifact name.
    * @param options The options parameters.
@@ -208,16 +141,16 @@ export class IntegrationAccountAssembliesImpl
     resourceGroupName: string,
     integrationAccountName: string,
     assemblyArtifactName: string,
-    options?: IntegrationAccountAssembliesListContentCallbackUrlOptionalParams
+    options?: IntegrationAccountAssembliesListContentCallbackUrlOptionalParams,
   ): Promise<IntegrationAccountAssembliesListContentCallbackUrlResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         integrationAccountName,
         assemblyArtifactName,
-        options
+        options,
       },
-      listContentCallbackUrlOperationSpec
+      listContentCallbackUrlOperationSpec,
     );
   }
 }
@@ -225,38 +158,15 @@ export class IntegrationAccountAssembliesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AssemblyCollection
+      bodyMapper: Mappers.AssemblyCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.integrationAccountName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies/{assemblyArtifactName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AssemblyDefinition
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -264,49 +174,68 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
-    Parameters.assemblyArtifactName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies/{assemblyArtifactName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AssemblyDefinition,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.integrationAccountName,
+    Parameters.assemblyArtifactName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies/{assemblyArtifactName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies/{assemblyArtifactName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AssemblyDefinition
+      bodyMapper: Mappers.AssemblyDefinition,
     },
     201: {
-      bodyMapper: Mappers.AssemblyDefinition
+      bodyMapper: Mappers.AssemblyDefinition,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.assemblyArtifact,
+  requestBody: Parameters.resource5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
-    Parameters.assemblyArtifactName
+    Parameters.assemblyArtifactName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies/{assemblyArtifactName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies/{assemblyArtifactName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -314,22 +243,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
-    Parameters.assemblyArtifactName
+    Parameters.assemblyArtifactName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listContentCallbackUrlOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies/{assemblyArtifactName}/listContentCallbackUrl",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies/{assemblyArtifactName}/listContentCallbackUrl",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowTriggerCallbackUrl
+      bodyMapper: Mappers.WorkflowTriggerCallbackUrl,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -337,8 +265,8 @@ const listContentCallbackUrlOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
-    Parameters.assemblyArtifactName
+    Parameters.assemblyArtifactName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

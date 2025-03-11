@@ -6,27 +6,26 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { IntegrationAccountBatchConfigurations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { LogicManagementClient } from "../logicManagementClient.js";
 import {
-  BatchConfiguration,
   IntegrationAccountBatchConfigurationsListOptionalParams,
   IntegrationAccountBatchConfigurationsListResponse,
   IntegrationAccountBatchConfigurationsGetOptionalParams,
   IntegrationAccountBatchConfigurationsGetResponse,
+  BatchConfiguration,
   IntegrationAccountBatchConfigurationsCreateOrUpdateOptionalParams,
   IntegrationAccountBatchConfigurationsCreateOrUpdateResponse,
-  IntegrationAccountBatchConfigurationsDeleteOptionalParams
+  IntegrationAccountBatchConfigurationsDeleteOptionalParams,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Class containing IntegrationAccountBatchConfigurations operations. */
 export class IntegrationAccountBatchConfigurationsImpl
-  implements IntegrationAccountBatchConfigurations {
+  implements IntegrationAccountBatchConfigurations
+{
   private readonly client: LogicManagementClient;
 
   /**
@@ -39,90 +38,24 @@ export class IntegrationAccountBatchConfigurationsImpl
 
   /**
    * List the batch configurations for an integration account.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param options The options parameters.
    */
-  public list(
-    resourceGroupName: string,
-    integrationAccountName: string,
-    options?: IntegrationAccountBatchConfigurationsListOptionalParams
-  ): PagedAsyncIterableIterator<BatchConfiguration> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      integrationAccountName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(
-          resourceGroupName,
-          integrationAccountName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listPagingPage(
+  list(
     resourceGroupName: string,
     integrationAccountName: string,
     options?: IntegrationAccountBatchConfigurationsListOptionalParams,
-    _settings?: PageSettings
-  ): AsyncIterableIterator<BatchConfiguration[]> {
-    let result: IntegrationAccountBatchConfigurationsListResponse;
-    result = await this._list(
-      resourceGroupName,
-      integrationAccountName,
-      options
-    );
-    yield result.value || [];
-  }
-
-  private async *listPagingAll(
-    resourceGroupName: string,
-    integrationAccountName: string,
-    options?: IntegrationAccountBatchConfigurationsListOptionalParams
-  ): AsyncIterableIterator<BatchConfiguration> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      integrationAccountName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * List the batch configurations for an integration account.
-   * @param resourceGroupName The resource group name.
-   * @param integrationAccountName The integration account name.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    integrationAccountName: string,
-    options?: IntegrationAccountBatchConfigurationsListOptionalParams
   ): Promise<IntegrationAccountBatchConfigurationsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, integrationAccountName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
    * Get a batch configuration for an integration account.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param batchConfigurationName The batch configuration name.
    * @param options The options parameters.
@@ -131,49 +64,49 @@ export class IntegrationAccountBatchConfigurationsImpl
     resourceGroupName: string,
     integrationAccountName: string,
     batchConfigurationName: string,
-    options?: IntegrationAccountBatchConfigurationsGetOptionalParams
+    options?: IntegrationAccountBatchConfigurationsGetOptionalParams,
   ): Promise<IntegrationAccountBatchConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         integrationAccountName,
         batchConfigurationName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
    * Create or update a batch configuration for an integration account.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param batchConfigurationName The batch configuration name.
-   * @param batchConfiguration The batch configuration.
+   * @param resource The batch configuration.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     integrationAccountName: string,
     batchConfigurationName: string,
-    batchConfiguration: BatchConfiguration,
-    options?: IntegrationAccountBatchConfigurationsCreateOrUpdateOptionalParams
+    resource: BatchConfiguration,
+    options?: IntegrationAccountBatchConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<IntegrationAccountBatchConfigurationsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         integrationAccountName,
         batchConfigurationName,
-        batchConfiguration,
-        options
+        resource,
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
   /**
    * Delete a batch configuration for an integration account.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param batchConfigurationName The batch configuration name.
    * @param options The options parameters.
@@ -182,16 +115,16 @@ export class IntegrationAccountBatchConfigurationsImpl
     resourceGroupName: string,
     integrationAccountName: string,
     batchConfigurationName: string,
-    options?: IntegrationAccountBatchConfigurationsDeleteOptionalParams
+    options?: IntegrationAccountBatchConfigurationsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         integrationAccountName,
         batchConfigurationName,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 }
@@ -199,38 +132,15 @@ export class IntegrationAccountBatchConfigurationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/batchConfigurations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/batchConfigurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchConfigurationCollection
+      bodyMapper: Mappers.BatchConfigurationCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.integrationAccountName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/batchConfigurations/{batchConfigurationName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BatchConfiguration
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -238,49 +148,68 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
-    Parameters.batchConfigurationName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/batchConfigurations/{batchConfigurationName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BatchConfiguration,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.integrationAccountName,
+    Parameters.batchConfigurationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/batchConfigurations/{batchConfigurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/batchConfigurations/{batchConfigurationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchConfiguration
+      bodyMapper: Mappers.BatchConfiguration,
     },
     201: {
-      bodyMapper: Mappers.BatchConfiguration
+      bodyMapper: Mappers.BatchConfiguration,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.batchConfiguration,
+  requestBody: Parameters.resource6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
-    Parameters.batchConfigurationName
+    Parameters.batchConfigurationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/batchConfigurations/{batchConfigurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/batchConfigurations/{batchConfigurationName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -288,8 +217,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
-    Parameters.batchConfigurationName
+    Parameters.batchConfigurationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

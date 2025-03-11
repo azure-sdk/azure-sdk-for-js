@@ -12,7 +12,7 @@ import {
   WorkflowRunsListOptionalParams,
   WorkflowRunsGetOptionalParams,
   WorkflowRunsGetResponse,
-  WorkflowRunsCancelOptionalParams
+  WorkflowRunsCancelOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -20,39 +20,41 @@ import {
 export interface WorkflowRuns {
   /**
    * Gets a list of workflow runs.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The name of the Workflow
+   * @param runName The name of the WorkflowRun
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     workflowName: string,
-    options?: WorkflowRunsListOptionalParams
+    runName: string,
+    options?: WorkflowRunsListOptionalParams,
   ): PagedAsyncIterableIterator<WorkflowRun>;
   /**
    * Gets a workflow run.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param runName The workflow run name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The name of the Workflow
+   * @param runName The name of the WorkflowRun
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     workflowName: string,
     runName: string,
-    options?: WorkflowRunsGetOptionalParams
+    options?: WorkflowRunsGetOptionalParams,
   ): Promise<WorkflowRunsGetResponse>;
   /**
    * Cancels a workflow run.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param runName The workflow run name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The name of the Workflow
+   * @param runName The name of the WorkflowRun
    * @param options The options parameters.
    */
   cancel(
     resourceGroupName: string,
     workflowName: string,
     runName: string,
-    options?: WorkflowRunsCancelOptionalParams
+    options?: WorkflowRunsCancelOptionalParams,
   ): Promise<void>;
 }
