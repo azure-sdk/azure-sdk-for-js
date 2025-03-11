@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SynapseManagementClient } from "../synapseManagementClient.js";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   EncryptionProtector,
   WorkspaceManagedSqlServerEncryptionProtectorListNextOptionalParams,
@@ -26,13 +30,14 @@ import {
   WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateOptionalParams,
   WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateResponse,
   WorkspaceManagedSqlServerEncryptionProtectorRevalidateOptionalParams,
-  WorkspaceManagedSqlServerEncryptionProtectorListNextResponse
+  WorkspaceManagedSqlServerEncryptionProtectorListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WorkspaceManagedSqlServerEncryptionProtector operations. */
 export class WorkspaceManagedSqlServerEncryptionProtectorImpl
-  implements WorkspaceManagedSqlServerEncryptionProtector {
+  implements WorkspaceManagedSqlServerEncryptionProtector
+{
   private readonly client: SynapseManagementClient;
 
   /**
@@ -52,7 +57,7 @@ export class WorkspaceManagedSqlServerEncryptionProtectorImpl
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceManagedSqlServerEncryptionProtectorListOptionalParams
+    options?: WorkspaceManagedSqlServerEncryptionProtectorListOptionalParams,
   ): PagedAsyncIterableIterator<EncryptionProtector> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
@@ -70,9 +75,9 @@ export class WorkspaceManagedSqlServerEncryptionProtectorImpl
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,7 +85,7 @@ export class WorkspaceManagedSqlServerEncryptionProtectorImpl
     resourceGroupName: string,
     workspaceName: string,
     options?: WorkspaceManagedSqlServerEncryptionProtectorListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<EncryptionProtector[]> {
     let result: WorkspaceManagedSqlServerEncryptionProtectorListResponse;
     let continuationToken = settings?.continuationToken;
@@ -96,7 +101,7 @@ export class WorkspaceManagedSqlServerEncryptionProtectorImpl
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -108,12 +113,12 @@ export class WorkspaceManagedSqlServerEncryptionProtectorImpl
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceManagedSqlServerEncryptionProtectorListOptionalParams
+    options?: WorkspaceManagedSqlServerEncryptionProtectorListOptionalParams,
   ): AsyncIterableIterator<EncryptionProtector> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -130,11 +135,11 @@ export class WorkspaceManagedSqlServerEncryptionProtectorImpl
     resourceGroupName: string,
     workspaceName: string,
     encryptionProtectorName: EncryptionProtectorName,
-    options?: WorkspaceManagedSqlServerEncryptionProtectorGetOptionalParams
+    options?: WorkspaceManagedSqlServerEncryptionProtectorGetOptionalParams,
   ): Promise<WorkspaceManagedSqlServerEncryptionProtectorGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, encryptionProtectorName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -151,32 +156,29 @@ export class WorkspaceManagedSqlServerEncryptionProtectorImpl
     workspaceName: string,
     encryptionProtectorName: EncryptionProtectorName,
     parameters: EncryptionProtector,
-    options?: WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateOptionalParams
+    options?: WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateResponse
-      >,
+    SimplePollerLike<
+      OperationState<WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateResponse>,
       WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -185,8 +187,8 @@ export class WorkspaceManagedSqlServerEncryptionProtectorImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -194,25 +196,28 @@ export class WorkspaceManagedSqlServerEncryptionProtectorImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         encryptionProtectorName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateResponse,
+      OperationState<WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -231,16 +236,14 @@ export class WorkspaceManagedSqlServerEncryptionProtectorImpl
     workspaceName: string,
     encryptionProtectorName: EncryptionProtectorName,
     parameters: EncryptionProtector,
-    options?: WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateOptionalParams
-  ): Promise<
-    WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateResponse
-  > {
+    options?: WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateOptionalParams,
+  ): Promise<WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       workspaceName,
       encryptionProtectorName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -254,11 +257,11 @@ export class WorkspaceManagedSqlServerEncryptionProtectorImpl
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceManagedSqlServerEncryptionProtectorListOptionalParams
+    options?: WorkspaceManagedSqlServerEncryptionProtectorListOptionalParams,
   ): Promise<WorkspaceManagedSqlServerEncryptionProtectorListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -273,25 +276,24 @@ export class WorkspaceManagedSqlServerEncryptionProtectorImpl
     resourceGroupName: string,
     workspaceName: string,
     encryptionProtectorName: EncryptionProtectorName,
-    options?: WorkspaceManagedSqlServerEncryptionProtectorRevalidateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: WorkspaceManagedSqlServerEncryptionProtectorRevalidateOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -300,8 +302,8 @@ export class WorkspaceManagedSqlServerEncryptionProtectorImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -309,19 +311,24 @@ export class WorkspaceManagedSqlServerEncryptionProtectorImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, encryptionProtectorName, options },
-      revalidateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        workspaceName,
+        encryptionProtectorName,
+        options,
+      },
+      spec: revalidateOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -338,13 +345,13 @@ export class WorkspaceManagedSqlServerEncryptionProtectorImpl
     resourceGroupName: string,
     workspaceName: string,
     encryptionProtectorName: EncryptionProtectorName,
-    options?: WorkspaceManagedSqlServerEncryptionProtectorRevalidateOptionalParams
+    options?: WorkspaceManagedSqlServerEncryptionProtectorRevalidateOptionalParams,
   ): Promise<void> {
     const poller = await this.beginRevalidate(
       resourceGroupName,
       workspaceName,
       encryptionProtectorName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -360,11 +367,11 @@ export class WorkspaceManagedSqlServerEncryptionProtectorImpl
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: WorkspaceManagedSqlServerEncryptionProtectorListNextOptionalParams
+    options?: WorkspaceManagedSqlServerEncryptionProtectorListNextOptionalParams,
   ): Promise<WorkspaceManagedSqlServerEncryptionProtectorListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -372,16 +379,15 @@ export class WorkspaceManagedSqlServerEncryptionProtectorImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/encryptionProtector/{encryptionProtectorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/encryptionProtector/{encryptionProtectorName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EncryptionProtector
+      bodyMapper: Mappers.EncryptionProtector,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -389,68 +395,65 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.encryptionProtectorName
+    Parameters.encryptionProtectorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/encryptionProtector/{encryptionProtectorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/encryptionProtector/{encryptionProtectorName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.EncryptionProtector
+      bodyMapper: Mappers.EncryptionProtector,
     },
     201: {
-      bodyMapper: Mappers.EncryptionProtector
+      bodyMapper: Mappers.EncryptionProtector,
     },
     202: {
-      bodyMapper: Mappers.EncryptionProtector
+      bodyMapper: Mappers.EncryptionProtector,
     },
     204: {
-      bodyMapper: Mappers.EncryptionProtector
+      bodyMapper: Mappers.EncryptionProtector,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters21,
+  requestBody: Parameters.parameters20,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.encryptionProtectorName
+    Parameters.encryptionProtectorName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/encryptionProtector",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/encryptionProtector",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EncryptionProtectorListResult
+      bodyMapper: Mappers.EncryptionProtectorListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const revalidateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/encryptionProtector/{encryptionProtectorName}/revalidate",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/encryptionProtector/{encryptionProtectorName}/revalidate",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
@@ -459,26 +462,26 @@ const revalidateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.encryptionProtectorName
+    Parameters.encryptionProtectorName,
   ],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EncryptionProtectorListResult
+      bodyMapper: Mappers.EncryptionProtectorListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

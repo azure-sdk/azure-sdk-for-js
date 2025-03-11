@@ -11,7 +11,7 @@ import {
   RecoverableSqlPool,
   WorkspaceManagedSqlServerRecoverableSqlPoolsListOptionalParams,
   WorkspaceManagedSqlServerRecoverableSqlPoolsGetOptionalParams,
-  WorkspaceManagedSqlServerRecoverableSqlPoolsGetResponse
+  WorkspaceManagedSqlServerRecoverableSqlPoolsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface WorkspaceManagedSqlServerRecoverableSqlPools {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceManagedSqlServerRecoverableSqlPoolsListOptionalParams
+    options?: WorkspaceManagedSqlServerRecoverableSqlPoolsListOptionalParams,
   ): PagedAsyncIterableIterator<RecoverableSqlPool>;
   /**
    * Get recoverable sql pools for workspace managed sql server.
@@ -39,6 +39,6 @@ export interface WorkspaceManagedSqlServerRecoverableSqlPools {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: WorkspaceManagedSqlServerRecoverableSqlPoolsGetOptionalParams
+    options?: WorkspaceManagedSqlServerRecoverableSqlPoolsGetOptionalParams,
   ): Promise<WorkspaceManagedSqlServerRecoverableSqlPoolsGetResponse>;
 }

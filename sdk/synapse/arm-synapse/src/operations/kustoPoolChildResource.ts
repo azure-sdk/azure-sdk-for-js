@@ -14,7 +14,7 @@ import { SynapseManagementClient } from "../synapseManagementClient.js";
 import {
   DatabaseCheckNameRequest,
   KustoPoolChildResourceCheckNameAvailabilityOptionalParams,
-  KustoPoolChildResourceCheckNameAvailabilityResponse
+  KustoPoolChildResourceCheckNameAvailabilityResponse,
 } from "../models/index.js";
 
 /** Class containing KustoPoolChildResource operations. */
@@ -42,7 +42,7 @@ export class KustoPoolChildResourceImpl implements KustoPoolChildResource {
     kustoPoolName: string,
     resourceGroupName: string,
     resourceName: DatabaseCheckNameRequest,
-    options?: KustoPoolChildResourceCheckNameAvailabilityOptionalParams
+    options?: KustoPoolChildResourceCheckNameAvailabilityOptionalParams,
   ): Promise<KustoPoolChildResourceCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
@@ -50,9 +50,9 @@ export class KustoPoolChildResourceImpl implements KustoPoolChildResource {
         kustoPoolName,
         resourceGroupName,
         resourceName,
-        options
+        options,
       },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 }
@@ -60,16 +60,15 @@ export class KustoPoolChildResourceImpl implements KustoPoolChildResource {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/kustoPools/{kustoPoolName}/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/kustoPools/{kustoPoolName}/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameResult
+      bodyMapper: Mappers.CheckNameResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.resourceName,
   queryParameters: [Parameters.apiVersion1],
@@ -78,9 +77,9 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.kustoPoolName1
+    Parameters.kustoPoolName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

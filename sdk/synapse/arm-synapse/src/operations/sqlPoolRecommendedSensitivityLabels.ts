@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters.js";
 import { SynapseManagementClient } from "../synapseManagementClient.js";
 import {
   RecommendedSensitivityLabelUpdateList,
-  SqlPoolRecommendedSensitivityLabelsUpdateOptionalParams
+  SqlPoolRecommendedSensitivityLabelsUpdateOptionalParams,
 } from "../models/index.js";
 
 /** Class containing SqlPoolRecommendedSensitivityLabels operations. */
 export class SqlPoolRecommendedSensitivityLabelsImpl
-  implements SqlPoolRecommendedSensitivityLabels {
+  implements SqlPoolRecommendedSensitivityLabels
+{
   private readonly client: SynapseManagementClient;
 
   /**
@@ -42,11 +43,11 @@ export class SqlPoolRecommendedSensitivityLabelsImpl
     workspaceName: string,
     sqlPoolName: string,
     parameters: RecommendedSensitivityLabelUpdateList,
-    options?: SqlPoolRecommendedSensitivityLabelsUpdateOptionalParams
+    options?: SqlPoolRecommendedSensitivityLabelsUpdateOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 }
@@ -54,20 +55,19 @@ export class SqlPoolRecommendedSensitivityLabelsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/recommendedSensitivityLabels",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/recommendedSensitivityLabels",
   httpMethod: "PATCH",
   responses: { 200: {}, default: {} },
-  requestBody: Parameters.parameters8,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

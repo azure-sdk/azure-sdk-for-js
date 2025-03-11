@@ -13,7 +13,7 @@ import {
   SqlPoolBlobAuditingPoliciesGetOptionalParams,
   SqlPoolBlobAuditingPoliciesGetResponse,
   SqlPoolBlobAuditingPoliciesCreateOrUpdateOptionalParams,
-  SqlPoolBlobAuditingPoliciesCreateOrUpdateResponse
+  SqlPoolBlobAuditingPoliciesCreateOrUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface SqlPoolBlobAuditingPolicies {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolBlobAuditingPoliciesListBySqlPoolOptionalParams
+    options?: SqlPoolBlobAuditingPoliciesListBySqlPoolOptionalParams,
   ): PagedAsyncIterableIterator<SqlPoolBlobAuditingPolicy>;
   /**
    * Get a SQL pool's blob auditing policy.
@@ -43,7 +43,7 @@ export interface SqlPoolBlobAuditingPolicies {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolBlobAuditingPoliciesGetOptionalParams
+    options?: SqlPoolBlobAuditingPoliciesGetOptionalParams,
   ): Promise<SqlPoolBlobAuditingPoliciesGetResponse>;
   /**
    * Creates or updates a SQL pool's blob auditing policy.
@@ -58,6 +58,6 @@ export interface SqlPoolBlobAuditingPolicies {
     workspaceName: string,
     sqlPoolName: string,
     parameters: SqlPoolBlobAuditingPolicy,
-    options?: SqlPoolBlobAuditingPoliciesCreateOrUpdateOptionalParams
+    options?: SqlPoolBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   ): Promise<SqlPoolBlobAuditingPoliciesCreateOrUpdateResponse>;
 }
