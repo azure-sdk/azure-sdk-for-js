@@ -7,10 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   IntegrationServiceEnvironment,
   IntegrationServiceEnvironmentsListBySubscriptionOptionalParams,
+  IntegrationServiceEnvironmentSkuDefinition,
+  IntegrationServiceEnvironmentsListOptionalParams,
   IntegrationServiceEnvironmentsListByResourceGroupOptionalParams,
   IntegrationServiceEnvironmentsGetOptionalParams,
   IntegrationServiceEnvironmentsGetResponse,
@@ -19,7 +21,9 @@ import {
   IntegrationServiceEnvironmentsUpdateOptionalParams,
   IntegrationServiceEnvironmentsUpdateResponse,
   IntegrationServiceEnvironmentsDeleteOptionalParams,
-  IntegrationServiceEnvironmentsRestartOptionalParams
+  IntegrationServiceEnvironmentsIntegrationServiceEnvironmentNetworkHealthGetOptionalParams,
+  IntegrationServiceEnvironmentsIntegrationServiceEnvironmentNetworkHealthGetResponse,
+  IntegrationServiceEnvironmentsRestartOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,110 +34,114 @@ export interface IntegrationServiceEnvironments {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: IntegrationServiceEnvironmentsListBySubscriptionOptionalParams
+    options?: IntegrationServiceEnvironmentsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<IntegrationServiceEnvironment>;
   /**
+   * Gets a list of integration service environment Skus.
+   * @param integrationServiceEnvironmentName The integration service environment name.
+   * @param options The options parameters.
+   */
+  list(
+    integrationServiceEnvironmentName: string,
+    options?: IntegrationServiceEnvironmentsListOptionalParams,
+  ): PagedAsyncIterableIterator<IntegrationServiceEnvironmentSkuDefinition>;
+  /**
    * Gets a list of integration service environments by resource group.
-   * @param resourceGroup The resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
-    resourceGroup: string,
-    options?: IntegrationServiceEnvironmentsListByResourceGroupOptionalParams
+    resourceGroupName: string,
+    options?: IntegrationServiceEnvironmentsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<IntegrationServiceEnvironment>;
   /**
    * Gets an integration service environment.
-   * @param resourceGroup The resource group.
    * @param integrationServiceEnvironmentName The integration service environment name.
    * @param options The options parameters.
    */
   get(
-    resourceGroup: string,
     integrationServiceEnvironmentName: string,
-    options?: IntegrationServiceEnvironmentsGetOptionalParams
+    options?: IntegrationServiceEnvironmentsGetOptionalParams,
   ): Promise<IntegrationServiceEnvironmentsGetResponse>;
   /**
    * Creates or updates an integration service environment.
-   * @param resourceGroup The resource group.
    * @param integrationServiceEnvironmentName The integration service environment name.
-   * @param integrationServiceEnvironment The integration service environment.
+   * @param resource The integration service environment.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
-    resourceGroup: string,
     integrationServiceEnvironmentName: string,
-    integrationServiceEnvironment: IntegrationServiceEnvironment,
-    options?: IntegrationServiceEnvironmentsCreateOrUpdateOptionalParams
+    resource: IntegrationServiceEnvironment,
+    options?: IntegrationServiceEnvironmentsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<IntegrationServiceEnvironmentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IntegrationServiceEnvironmentsCreateOrUpdateResponse>,
       IntegrationServiceEnvironmentsCreateOrUpdateResponse
     >
   >;
   /**
    * Creates or updates an integration service environment.
-   * @param resourceGroup The resource group.
    * @param integrationServiceEnvironmentName The integration service environment name.
-   * @param integrationServiceEnvironment The integration service environment.
+   * @param resource The integration service environment.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
-    resourceGroup: string,
     integrationServiceEnvironmentName: string,
-    integrationServiceEnvironment: IntegrationServiceEnvironment,
-    options?: IntegrationServiceEnvironmentsCreateOrUpdateOptionalParams
+    resource: IntegrationServiceEnvironment,
+    options?: IntegrationServiceEnvironmentsCreateOrUpdateOptionalParams,
   ): Promise<IntegrationServiceEnvironmentsCreateOrUpdateResponse>;
   /**
    * Updates an integration service environment.
-   * @param resourceGroup The resource group.
    * @param integrationServiceEnvironmentName The integration service environment name.
-   * @param integrationServiceEnvironment The integration service environment.
+   * @param properties The integration service environment.
    * @param options The options parameters.
    */
   beginUpdate(
-    resourceGroup: string,
     integrationServiceEnvironmentName: string,
-    integrationServiceEnvironment: IntegrationServiceEnvironment,
-    options?: IntegrationServiceEnvironmentsUpdateOptionalParams
+    properties: IntegrationServiceEnvironment,
+    options?: IntegrationServiceEnvironmentsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<IntegrationServiceEnvironmentsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IntegrationServiceEnvironmentsUpdateResponse>,
       IntegrationServiceEnvironmentsUpdateResponse
     >
   >;
   /**
    * Updates an integration service environment.
-   * @param resourceGroup The resource group.
    * @param integrationServiceEnvironmentName The integration service environment name.
-   * @param integrationServiceEnvironment The integration service environment.
+   * @param properties The integration service environment.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
-    resourceGroup: string,
     integrationServiceEnvironmentName: string,
-    integrationServiceEnvironment: IntegrationServiceEnvironment,
-    options?: IntegrationServiceEnvironmentsUpdateOptionalParams
+    properties: IntegrationServiceEnvironment,
+    options?: IntegrationServiceEnvironmentsUpdateOptionalParams,
   ): Promise<IntegrationServiceEnvironmentsUpdateResponse>;
   /**
    * Deletes an integration service environment.
-   * @param resourceGroup The resource group.
    * @param integrationServiceEnvironmentName The integration service environment name.
    * @param options The options parameters.
    */
   delete(
-    resourceGroup: string,
     integrationServiceEnvironmentName: string,
-    options?: IntegrationServiceEnvironmentsDeleteOptionalParams
+    options?: IntegrationServiceEnvironmentsDeleteOptionalParams,
   ): Promise<void>;
   /**
+   * Gets the integration service environment network health.
+   * @param integrationServiceEnvironmentName The integration service environment name.
+   * @param options The options parameters.
+   */
+  integrationServiceEnvironmentNetworkHealthGet(
+    integrationServiceEnvironmentName: string,
+    options?: IntegrationServiceEnvironmentsIntegrationServiceEnvironmentNetworkHealthGetOptionalParams,
+  ): Promise<IntegrationServiceEnvironmentsIntegrationServiceEnvironmentNetworkHealthGetResponse>;
+  /**
    * Restarts an integration service environment.
-   * @param resourceGroup The resource group.
    * @param integrationServiceEnvironmentName The integration service environment name.
    * @param options The options parameters.
    */
   restart(
-    resourceGroup: string,
     integrationServiceEnvironmentName: string,
-    options?: IntegrationServiceEnvironmentsRestartOptionalParams
+    options?: IntegrationServiceEnvironmentsRestartOptionalParams,
   ): Promise<void>;
 }

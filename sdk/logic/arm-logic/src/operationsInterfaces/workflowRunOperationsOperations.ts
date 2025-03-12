@@ -7,15 +7,15 @@
  */
 
 import {
-  WorkflowRunOperationsGetOptionalParams,
-  WorkflowRunOperationsGetResponse
+  WorkflowRunOperationsOperationsGetOptionalParams,
+  WorkflowRunOperationsOperationsGetResponse,
 } from "../models/index.js";
 
-/** Interface representing a WorkflowRunOperations. */
-export interface WorkflowRunOperations {
+/** Interface representing a WorkflowRunOperationsOperations. */
+export interface WorkflowRunOperationsOperations {
   /**
    * Gets an operation for a run.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param runName The workflow run name.
    * @param operationId The workflow operation id.
@@ -26,6 +26,6 @@ export interface WorkflowRunOperations {
     workflowName: string,
     runName: string,
     operationId: string,
-    options?: WorkflowRunOperationsGetOptionalParams
-  ): Promise<WorkflowRunOperationsGetResponse>;
+    options?: WorkflowRunOperationsOperationsGetOptionalParams,
+  ): Promise<WorkflowRunOperationsOperationsGetResponse>;
 }

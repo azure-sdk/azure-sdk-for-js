@@ -9,28 +9,31 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  Workflow as WorkflowMapper,
-  GenerateUpgradedDefinitionParameters as GenerateUpgradedDefinitionParametersMapper,
-  GetCallbackUrlParameters as GetCallbackUrlParametersMapper,
-  WorkflowReference as WorkflowReferenceMapper,
-  RegenerateActionParameter as RegenerateActionParameterMapper,
-  SetTriggerStateActionDefinition as SetTriggerStateActionDefinitionMapper,
   IntegrationAccount as IntegrationAccountMapper,
+  GetCallbackUrlParameters as GetCallbackUrlParametersMapper,
   ListKeyVaultKeysDefinition as ListKeyVaultKeysDefinitionMapper,
   TrackingEventsDefinition as TrackingEventsDefinitionMapper,
+  RegenerateActionParameter as RegenerateActionParameterMapper,
+  IntegrationServiceEnvironment as IntegrationServiceEnvironmentMapper,
+  IntegrationServiceEnvironmentManagedApi as IntegrationServiceEnvironmentManagedApiMapper,
+  Template as TemplateMapper,
+  TemplateUpdate as TemplateUpdateMapper,
+  GenerateUpgradedDefinitionParameters as GenerateUpgradedDefinitionParametersMapper,
+  WorkflowReference as WorkflowReferenceMapper,
+  Workflow as WorkflowMapper,
+  AzureResourceManagerFoundationsArmTagsProperty as AzureResourceManagerFoundationsArmTagsPropertyMapper,
+  IntegrationAccountAgreement as IntegrationAccountAgreementMapper,
   AssemblyDefinition as AssemblyDefinitionMapper,
   BatchConfiguration as BatchConfigurationMapper,
-  IntegrationAccountSchema as IntegrationAccountSchemaMapper,
+  IntegrationAccountCertificate as IntegrationAccountCertificateMapper,
   IntegrationAccountMap as IntegrationAccountMapMapper,
   IntegrationAccountPartner as IntegrationAccountPartnerMapper,
-  IntegrationAccountAgreement as IntegrationAccountAgreementMapper,
-  IntegrationAccountCertificate as IntegrationAccountCertificateMapper,
+  IntegrationAccountSchema as IntegrationAccountSchemaMapper,
   IntegrationAccountSession as IntegrationAccountSessionMapper,
-  IntegrationServiceEnvironment as IntegrationServiceEnvironmentMapper,
-  IntegrationServiceEnvironmentManagedApi as IntegrationServiceEnvironmentManagedApiMapper
+  SetTriggerStateActionDefinition as SetTriggerStateActionDefinitionMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -40,9 +43,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -51,21 +54,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
-};
-
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -75,9 +67,32 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "Uuid",
+    },
+  },
 };
 
 export const top: OperationQueryParameter = {
@@ -85,41 +100,38 @@ export const top: OperationQueryParameter = {
   mapper: {
     serializedName: "$top",
     type: {
-      name: "Number"
-    }
-  }
-};
-
-export const filter: OperationQueryParameter = {
-  parameterPath: ["options", "filter"],
-  mapper: {
-    serializedName: "$filter",
-    type: {
-      name: "String"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+    },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const workflowName: OperationURLParameter = {
-  parameterPath: "workflowName",
+export const integrationAccountName: OperationURLParameter = {
+  parameterPath: "integrationAccountName",
   mapper: {
-    serializedName: "workflowName",
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9_.()-]{0,79}$"),
+    },
+    serializedName: "integrationAccountName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -129,149 +141,437 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const workflow: OperationParameter = {
-  parameterPath: "workflow",
-  mapper: WorkflowMapper
+export const resource: OperationParameter = {
+  parameterPath: "resource",
+  mapper: IntegrationAccountMapper,
 };
 
-export const parameters: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: GenerateUpgradedDefinitionParametersMapper
+export const properties: OperationParameter = {
+  parameterPath: "properties",
+  mapper: IntegrationAccountMapper,
 };
 
-export const listCallbackUrl: OperationParameter = {
-  parameterPath: "listCallbackUrl",
-  mapper: GetCallbackUrlParametersMapper
+export const body: OperationParameter = {
+  parameterPath: "body",
+  mapper: GetCallbackUrlParametersMapper,
 };
 
-export const move: OperationParameter = {
-  parameterPath: "move",
-  mapper: WorkflowReferenceMapper
+export const body1: OperationParameter = {
+  parameterPath: "body",
+  mapper: ListKeyVaultKeysDefinitionMapper,
 };
 
-export const keyType: OperationParameter = {
-  parameterPath: "keyType",
-  mapper: RegenerateActionParameterMapper
+export const body2: OperationParameter = {
+  parameterPath: "body",
+  mapper: TrackingEventsDefinitionMapper,
+};
+
+export const body3: OperationParameter = {
+  parameterPath: "body",
+  mapper: RegenerateActionParameterMapper,
+};
+
+export const integrationServiceEnvironmentName: OperationURLParameter = {
+  parameterPath: "integrationServiceEnvironmentName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9_.()-]{0,79}$"),
+    },
+    serializedName: "integrationServiceEnvironmentName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource1: OperationParameter = {
+  parameterPath: "resource",
+  mapper: IntegrationServiceEnvironmentMapper,
+};
+
+export const properties1: OperationParameter = {
+  parameterPath: "properties",
+  mapper: IntegrationServiceEnvironmentMapper,
+};
+
+export const apiName: OperationURLParameter = {
+  parameterPath: "apiName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9_.()-]{0,79}$"),
+    },
+    serializedName: "apiName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource2: OperationParameter = {
+  parameterPath: "resource",
+  mapper: IntegrationServiceEnvironmentManagedApiMapper,
+};
+
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    serializedName: "$filter",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const templateName: OperationURLParameter = {
+  parameterPath: "templateName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9_.()-]{0,79}$"),
+    },
+    serializedName: "templateName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource3: OperationParameter = {
+  parameterPath: "resource",
+  mapper: TemplateMapper,
+};
+
+export const properties2: OperationParameter = {
+  parameterPath: "properties",
+  mapper: TemplateUpdateMapper,
+};
+
+export const body4: OperationParameter = {
+  parameterPath: "body",
+  mapper: GenerateUpgradedDefinitionParametersMapper,
+};
+
+export const body5: OperationParameter = {
+  parameterPath: "body",
+  mapper: WorkflowReferenceMapper,
+};
+
+export const body6: OperationParameter = {
+  parameterPath: "body",
+  mapper: WorkflowMapper,
+};
+
+export const workflowName: OperationURLParameter = {
+  parameterPath: "workflowName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9_.()-]{0,79}$"),
+    },
+    serializedName: "workflowName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource4: OperationParameter = {
+  parameterPath: "resource",
+  mapper: WorkflowMapper,
+};
+
+export const properties3: OperationParameter = {
+  parameterPath: "properties",
+  mapper: AzureResourceManagerFoundationsArmTagsPropertyMapper,
+};
+
+export const agreementName: OperationURLParameter = {
+  parameterPath: "agreementName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9_.()-]{0,79}$"),
+    },
+    serializedName: "agreementName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource5: OperationParameter = {
+  parameterPath: "resource",
+  mapper: IntegrationAccountAgreementMapper,
+};
+
+export const assemblyArtifactName: OperationURLParameter = {
+  parameterPath: "assemblyArtifactName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9_.()-]{0,79}$"),
+    },
+    serializedName: "assemblyArtifactName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource6: OperationParameter = {
+  parameterPath: "resource",
+  mapper: AssemblyDefinitionMapper,
+};
+
+export const batchConfigurationName: OperationURLParameter = {
+  parameterPath: "batchConfigurationName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9_.()-]{0,79}$"),
+    },
+    serializedName: "batchConfigurationName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource7: OperationParameter = {
+  parameterPath: "resource",
+  mapper: BatchConfigurationMapper,
+};
+
+export const certificateName: OperationURLParameter = {
+  parameterPath: "certificateName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9_.()-]{0,79}$"),
+    },
+    serializedName: "certificateName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource8: OperationParameter = {
+  parameterPath: "resource",
+  mapper: IntegrationAccountCertificateMapper,
+};
+
+export const mapName: OperationURLParameter = {
+  parameterPath: "mapName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9_.()-]{0,79}$"),
+    },
+    serializedName: "mapName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource9: OperationParameter = {
+  parameterPath: "resource",
+  mapper: IntegrationAccountMapMapper,
+};
+
+export const partnerName: OperationURLParameter = {
+  parameterPath: "partnerName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9_.()-]{0,79}$"),
+    },
+    serializedName: "partnerName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource10: OperationParameter = {
+  parameterPath: "resource",
+  mapper: IntegrationAccountPartnerMapper,
+};
+
+export const schemaName: OperationURLParameter = {
+  parameterPath: "schemaName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9_.()-]{0,79}$"),
+    },
+    serializedName: "schemaName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource11: OperationParameter = {
+  parameterPath: "resource",
+  mapper: IntegrationAccountSchemaMapper,
+};
+
+export const sessionName: OperationURLParameter = {
+  parameterPath: "sessionName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9_.()-]{0,79}$"),
+    },
+    serializedName: "sessionName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource12: OperationParameter = {
+  parameterPath: "resource",
+  mapper: IntegrationAccountSessionMapper,
 };
 
 export const validate: OperationParameter = {
   parameterPath: "validate",
-  mapper: WorkflowMapper
+  mapper: WorkflowMapper,
 };
 
 export const location: OperationURLParameter = {
   parameterPath: "location",
   mapper: {
+    constraints: {
+      MinLength: 1,
+    },
     serializedName: "location",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
 };
 
-export const versionId: OperationURLParameter = {
-  parameterPath: "versionId",
+export const workflowName1: OperationURLParameter = {
+  parameterPath: "workflowName",
   mapper: {
-    serializedName: "versionId",
+    serializedName: "workflowName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const triggerName: OperationURLParameter = {
-  parameterPath: "triggerName",
-  mapper: {
-    serializedName: "triggerName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const setState: OperationParameter = {
-  parameterPath: "setState",
-  mapper: SetTriggerStateActionDefinitionMapper
-};
-
-export const parameters1: OperationParameter = {
-  parameterPath: ["options", "parameters"],
-  mapper: GetCallbackUrlParametersMapper
-};
-
-export const historyName: OperationURLParameter = {
-  parameterPath: "historyName",
-  mapper: {
-    serializedName: "historyName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const runName: OperationURLParameter = {
   parameterPath: "runName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9_.()-]{0,79}$"),
+    },
     serializedName: "runName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const actionName: OperationURLParameter = {
   parameterPath: "actionName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9_.()-]{0,79}$"),
+    },
     serializedName: "actionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const repetitionName: OperationURLParameter = {
   parameterPath: "repetitionName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9_.()-]{0,79}$"),
+    },
     serializedName: "repetitionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const requestHistoryName: OperationURLParameter = {
   parameterPath: "requestHistoryName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9_.()-]{0,79}$"),
+    },
     serializedName: "requestHistoryName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const runName1: OperationURLParameter = {
+  parameterPath: "runName",
+  mapper: {
+    serializedName: "runName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const actionName1: OperationURLParameter = {
+  parameterPath: "actionName",
+  mapper: {
+    serializedName: "actionName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const requestHistoryName1: OperationURLParameter = {
+  parameterPath: "requestHistoryName",
+  mapper: {
+    serializedName: "requestHistoryName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const repetitionName1: OperationURLParameter = {
+  parameterPath: "repetitionName",
+  mapper: {
+    serializedName: "repetitionName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const operationId: OperationURLParameter = {
@@ -280,219 +580,70 @@ export const operationId: OperationURLParameter = {
     serializedName: "operationId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const integrationAccountName: OperationURLParameter = {
-  parameterPath: "integrationAccountName",
+export const triggerName: OperationURLParameter = {
+  parameterPath: "triggerName",
   mapper: {
-    serializedName: "integrationAccountName",
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9_.()-]{0,79}$"),
+    },
+    serializedName: "triggerName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const integrationAccount: OperationParameter = {
-  parameterPath: "integrationAccount",
-  mapper: IntegrationAccountMapper
+export const body7: OperationParameter = {
+  parameterPath: "body",
+  mapper: SetTriggerStateActionDefinitionMapper,
 };
 
-export const parameters2: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: GetCallbackUrlParametersMapper
-};
-
-export const listKeyVaultKeys: OperationParameter = {
-  parameterPath: "listKeyVaultKeys",
-  mapper: ListKeyVaultKeysDefinitionMapper
-};
-
-export const logTrackingEvents: OperationParameter = {
-  parameterPath: "logTrackingEvents",
-  mapper: TrackingEventsDefinitionMapper
-};
-
-export const regenerateAccessKey: OperationParameter = {
-  parameterPath: "regenerateAccessKey",
-  mapper: RegenerateActionParameterMapper
-};
-
-export const assemblyArtifactName: OperationURLParameter = {
-  parameterPath: "assemblyArtifactName",
+export const historyName: OperationURLParameter = {
+  parameterPath: "historyName",
   mapper: {
-    serializedName: "assemblyArtifactName",
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9_.()-]{0,79}$"),
+    },
+    serializedName: "historyName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const assemblyArtifact: OperationParameter = {
-  parameterPath: "assemblyArtifact",
-  mapper: AssemblyDefinitionMapper
-};
-
-export const batchConfigurationName: OperationURLParameter = {
-  parameterPath: "batchConfigurationName",
+export const versionId: OperationURLParameter = {
+  parameterPath: "versionId",
   mapper: {
-    serializedName: "batchConfigurationName",
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9_.()-]{0,79}$"),
+    },
+    serializedName: "versionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const batchConfiguration: OperationParameter = {
-  parameterPath: "batchConfiguration",
-  mapper: BatchConfigurationMapper
+export const parameters: OperationParameter = {
+  parameterPath: ["options", "parameters"],
+  mapper: GetCallbackUrlParametersMapper,
 };
 
-export const schemaName: OperationURLParameter = {
-  parameterPath: "schemaName",
+export const triggerName1: OperationURLParameter = {
+  parameterPath: "triggerName",
   mapper: {
-    serializedName: "schemaName",
+    serializedName: "triggerName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const schema: OperationParameter = {
-  parameterPath: "schema",
-  mapper: IntegrationAccountSchemaMapper
-};
-
-export const listContentCallbackUrl: OperationParameter = {
-  parameterPath: "listContentCallbackUrl",
-  mapper: GetCallbackUrlParametersMapper
-};
-
-export const mapName: OperationURLParameter = {
-  parameterPath: "mapName",
-  mapper: {
-    serializedName: "mapName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const map: OperationParameter = {
-  parameterPath: "map",
-  mapper: IntegrationAccountMapMapper
-};
-
-export const partnerName: OperationURLParameter = {
-  parameterPath: "partnerName",
-  mapper: {
-    serializedName: "partnerName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const partner: OperationParameter = {
-  parameterPath: "partner",
-  mapper: IntegrationAccountPartnerMapper
-};
-
-export const agreementName: OperationURLParameter = {
-  parameterPath: "agreementName",
-  mapper: {
-    serializedName: "agreementName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const agreement: OperationParameter = {
-  parameterPath: "agreement",
-  mapper: IntegrationAccountAgreementMapper
-};
-
-export const certificateName: OperationURLParameter = {
-  parameterPath: "certificateName",
-  mapper: {
-    serializedName: "certificateName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const certificate: OperationParameter = {
-  parameterPath: "certificate",
-  mapper: IntegrationAccountCertificateMapper
-};
-
-export const sessionName: OperationURLParameter = {
-  parameterPath: "sessionName",
-  mapper: {
-    serializedName: "sessionName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const session: OperationParameter = {
-  parameterPath: "session",
-  mapper: IntegrationAccountSessionMapper
-};
-
-export const resourceGroup: OperationURLParameter = {
-  parameterPath: "resourceGroup",
-  mapper: {
-    serializedName: "resourceGroup",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const integrationServiceEnvironmentName: OperationURLParameter = {
-  parameterPath: "integrationServiceEnvironmentName",
-  mapper: {
-    serializedName: "integrationServiceEnvironmentName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const integrationServiceEnvironment: OperationParameter = {
-  parameterPath: "integrationServiceEnvironment",
-  mapper: IntegrationServiceEnvironmentMapper
-};
-
-export const apiName: OperationURLParameter = {
-  parameterPath: "apiName",
-  mapper: {
-    serializedName: "apiName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const integrationServiceEnvironmentManagedApi: OperationParameter = {
-  parameterPath: "integrationServiceEnvironmentManagedApi",
-  mapper: IntegrationServiceEnvironmentManagedApiMapper
+      name: "String",
+    },
+  },
 };

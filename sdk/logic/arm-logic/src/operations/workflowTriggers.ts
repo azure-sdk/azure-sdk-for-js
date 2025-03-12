@@ -14,21 +14,27 @@ import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { LogicManagementClient } from "../logicManagementClient.js";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
+import {
   WorkflowTrigger,
   WorkflowTriggersListNextOptionalParams,
   WorkflowTriggersListOptionalParams,
   WorkflowTriggersListResponse,
   WorkflowTriggersGetOptionalParams,
   WorkflowTriggersGetResponse,
-  WorkflowTriggersResetOptionalParams,
-  WorkflowTriggersRunOptionalParams,
   WorkflowTriggersGetSchemaJsonOptionalParams,
   WorkflowTriggersGetSchemaJsonResponse,
-  SetTriggerStateActionDefinition,
-  WorkflowTriggersSetStateOptionalParams,
   WorkflowTriggersListCallbackUrlOptionalParams,
   WorkflowTriggersListCallbackUrlResponse,
-  WorkflowTriggersListNextResponse
+  WorkflowTriggersResetOptionalParams,
+  WorkflowTriggersRunOptionalParams,
+  SetTriggerStateActionDefinition,
+  WorkflowTriggersSetStateOptionalParams,
+  WorkflowTriggersListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,14 +52,14 @@ export class WorkflowTriggersImpl implements WorkflowTriggers {
 
   /**
    * Gets a list of workflow triggers.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     workflowName: string,
-    options?: WorkflowTriggersListOptionalParams
+    options?: WorkflowTriggersListOptionalParams,
   ): PagedAsyncIterableIterator<WorkflowTrigger> {
     const iter = this.listPagingAll(resourceGroupName, workflowName, options);
     return {
@@ -71,9 +77,9 @@ export class WorkflowTriggersImpl implements WorkflowTriggers {
           resourceGroupName,
           workflowName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -81,7 +87,7 @@ export class WorkflowTriggersImpl implements WorkflowTriggers {
     resourceGroupName: string,
     workflowName: string,
     options?: WorkflowTriggersListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<WorkflowTrigger[]> {
     let result: WorkflowTriggersListResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +103,7 @@ export class WorkflowTriggersImpl implements WorkflowTriggers {
         resourceGroupName,
         workflowName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -109,12 +115,12 @@ export class WorkflowTriggersImpl implements WorkflowTriggers {
   private async *listPagingAll(
     resourceGroupName: string,
     workflowName: string,
-    options?: WorkflowTriggersListOptionalParams
+    options?: WorkflowTriggersListOptionalParams,
   ): AsyncIterableIterator<WorkflowTrigger> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workflowName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -122,24 +128,24 @@ export class WorkflowTriggersImpl implements WorkflowTriggers {
 
   /**
    * Gets a list of workflow triggers.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     workflowName: string,
-    options?: WorkflowTriggersListOptionalParams
+    options?: WorkflowTriggersListOptionalParams,
   ): Promise<WorkflowTriggersListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
    * Gets a workflow trigger.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param triggerName The workflow trigger name.
    * @param options The options parameters.
@@ -148,55 +154,17 @@ export class WorkflowTriggersImpl implements WorkflowTriggers {
     resourceGroupName: string,
     workflowName: string,
     triggerName: string,
-    options?: WorkflowTriggersGetOptionalParams
+    options?: WorkflowTriggersGetOptionalParams,
   ): Promise<WorkflowTriggersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, triggerName, options },
-      getOperationSpec
-    );
-  }
-
-  /**
-   * Resets a workflow trigger.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param triggerName The workflow trigger name.
-   * @param options The options parameters.
-   */
-  reset(
-    resourceGroupName: string,
-    workflowName: string,
-    triggerName: string,
-    options?: WorkflowTriggersResetOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workflowName, triggerName, options },
-      resetOperationSpec
-    );
-  }
-
-  /**
-   * Runs a workflow trigger.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param triggerName The workflow trigger name.
-   * @param options The options parameters.
-   */
-  run(
-    resourceGroupName: string,
-    workflowName: string,
-    triggerName: string,
-    options?: WorkflowTriggersRunOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workflowName, triggerName, options },
-      runOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
    * Get the trigger schema as JSON.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param triggerName The workflow trigger name.
    * @param options The options parameters.
@@ -205,38 +173,17 @@ export class WorkflowTriggersImpl implements WorkflowTriggers {
     resourceGroupName: string,
     workflowName: string,
     triggerName: string,
-    options?: WorkflowTriggersGetSchemaJsonOptionalParams
+    options?: WorkflowTriggersGetSchemaJsonOptionalParams,
   ): Promise<WorkflowTriggersGetSchemaJsonResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, triggerName, options },
-      getSchemaJsonOperationSpec
-    );
-  }
-
-  /**
-   * Sets the state of a workflow trigger.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param triggerName The workflow trigger name.
-   * @param setState The workflow trigger state.
-   * @param options The options parameters.
-   */
-  setState(
-    resourceGroupName: string,
-    workflowName: string,
-    triggerName: string,
-    setState: SetTriggerStateActionDefinition,
-    options?: WorkflowTriggersSetStateOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workflowName, triggerName, setState, options },
-      setStateOperationSpec
+      getSchemaJsonOperationSpec,
     );
   }
 
   /**
    * Get the callback URL for a workflow trigger.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param triggerName The workflow trigger name.
    * @param options The options parameters.
@@ -245,17 +192,144 @@ export class WorkflowTriggersImpl implements WorkflowTriggers {
     resourceGroupName: string,
     workflowName: string,
     triggerName: string,
-    options?: WorkflowTriggersListCallbackUrlOptionalParams
+    options?: WorkflowTriggersListCallbackUrlOptionalParams,
   ): Promise<WorkflowTriggersListCallbackUrlResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, triggerName, options },
-      listCallbackUrlOperationSpec
+      listCallbackUrlOperationSpec,
+    );
+  }
+
+  /**
+   * Resets a workflow trigger.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The workflow name.
+   * @param triggerName The workflow trigger name.
+   * @param options The options parameters.
+   */
+  reset(
+    resourceGroupName: string,
+    workflowName: string,
+    triggerName: string,
+    options?: WorkflowTriggersResetOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workflowName, triggerName, options },
+      resetOperationSpec,
+    );
+  }
+
+  /**
+   * Runs a workflow trigger.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The workflow name.
+   * @param triggerName The workflow trigger name.
+   * @param options The options parameters.
+   */
+  async beginRun(
+    resourceGroupName: string,
+    workflowName: string,
+    triggerName: string,
+    options?: WorkflowTriggersRunOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workflowName, triggerName, options },
+      spec: runOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Runs a workflow trigger.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The workflow name.
+   * @param triggerName The workflow trigger name.
+   * @param options The options parameters.
+   */
+  async beginRunAndWait(
+    resourceGroupName: string,
+    workflowName: string,
+    triggerName: string,
+    options?: WorkflowTriggersRunOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginRun(
+      resourceGroupName,
+      workflowName,
+      triggerName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Sets the state of a workflow trigger.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workflowName The workflow name.
+   * @param triggerName The workflow trigger name.
+   * @param body The workflow trigger state.
+   * @param options The options parameters.
+   */
+  setState(
+    resourceGroupName: string,
+    workflowName: string,
+    triggerName: string,
+    body: SetTriggerStateActionDefinition,
+    options?: WorkflowTriggersSetStateOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workflowName, triggerName, body, options },
+      setStateOperationSpec,
     );
   }
 
   /**
    * ListNext
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -264,11 +338,11 @@ export class WorkflowTriggersImpl implements WorkflowTriggers {
     resourceGroupName: string,
     workflowName: string,
     nextLink: string,
-    options?: WorkflowTriggersListNextOptionalParams
+    options?: WorkflowTriggersListNextOptionalParams,
   ): Promise<WorkflowTriggersListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -276,38 +350,36 @@ export class WorkflowTriggersImpl implements WorkflowTriggers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowTriggerListResult
+      bodyMapper: Mappers.WorkflowTriggerListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workflowName
+    Parameters.workflowName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers/{triggerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers/{triggerName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowTrigger
+      bodyMapper: Mappers.WorkflowTrigger,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -315,65 +387,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workflowName,
-    Parameters.triggerName
+    Parameters.triggerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const resetOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers/{triggerName}/reset",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workflowName,
-    Parameters.triggerName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const runOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers/{triggerName}/run",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    202: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workflowName,
-    Parameters.triggerName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getSchemaJsonOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers/{triggerName}/schemas/json",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers/{triggerName}/json",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JsonSchema
+      bodyMapper: Mappers.JsonSchema,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -381,75 +409,116 @@ const getSchemaJsonOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workflowName,
-    Parameters.triggerName
+    Parameters.triggerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const setStateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers/{triggerName}/setState",
+const listCallbackUrlOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers/{triggerName}/listCallbackUrl",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkflowTriggerCallbackUrl,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workflowName,
+    Parameters.triggerName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const resetOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers/{triggerName}/reset",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.setState,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workflowName,
-    Parameters.triggerName
+    Parameters.triggerName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const runOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers/{triggerName}/run",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workflowName,
+    Parameters.triggerName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const setStateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers/{triggerName}/setState",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body7,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workflowName,
+    Parameters.triggerName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const listCallbackUrlOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/triggers/{triggerName}/listCallbackUrl",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkflowTriggerCallbackUrl
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workflowName,
-    Parameters.triggerName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowTriggerListResult
+      bodyMapper: Mappers.WorkflowTriggerListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workflowName,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -9,210 +9,211 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  Workflow,
-  WorkflowsListBySubscriptionOptionalParams,
-  WorkflowsListByResourceGroupOptionalParams,
-  WorkflowsGetOptionalParams,
-  WorkflowsGetResponse,
-  WorkflowsCreateOrUpdateOptionalParams,
-  WorkflowsCreateOrUpdateResponse,
-  AzureResourceManagerFoundationsArmTagsProperty,
-  WorkflowsUpdateOptionalParams,
-  WorkflowsUpdateResponse,
-  WorkflowsDeleteOptionalParams,
-  WorkflowsDisableOptionalParams,
-  WorkflowsEnableOptionalParams,
+  Template,
+  TemplatesListBySubscriptionOptionalParams,
+  TemplatesListByResourceGroupOptionalParams,
+  TemplatesGetOptionalParams,
+  TemplatesGetResponse,
+  TemplatesCreateOrUpdateOptionalParams,
+  TemplatesCreateOrUpdateResponse,
+  TemplateUpdate,
+  TemplatesUpdateOptionalParams,
+  TemplatesUpdateResponse,
+  TemplatesDeleteOptionalParams,
+  TemplatesDisableOptionalParams,
+  TemplatesEnableOptionalParams,
   GenerateUpgradedDefinitionParameters,
-  WorkflowsGenerateUpgradedDefinitionOptionalParams,
-  WorkflowsGenerateUpgradedDefinitionResponse,
+  TemplatesGenerateUpgradedDefinitionOptionalParams,
+  TemplatesGenerateUpgradedDefinitionResponse,
   GetCallbackUrlParameters,
-  WorkflowsListCallbackUrlOptionalParams,
-  WorkflowsListCallbackUrlResponse,
-  WorkflowsListSwaggerOptionalParams,
-  WorkflowsListSwaggerResponse,
+  TemplatesListCallbackUrlOptionalParams,
+  TemplatesListCallbackUrlResponse,
+  TemplatesListSwaggerOptionalParams,
+  TemplatesListSwaggerResponse,
   WorkflowReference,
-  WorkflowsMoveOptionalParams,
+  TemplatesMoveOptionalParams,
   RegenerateActionParameter,
-  WorkflowsRegenerateAccessKeyOptionalParams,
-  WorkflowsValidateByResourceGroupOptionalParams,
+  TemplatesRegenerateAccessKeyOptionalParams,
+  Workflow,
+  TemplatesValidateByResourceGroupOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a Workflows. */
-export interface Workflows {
+/** Interface representing a Templates. */
+export interface Templates {
   /**
-   * Gets a list of workflows by subscription.
+   * Gets a list of templates by subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: WorkflowsListBySubscriptionOptionalParams,
-  ): PagedAsyncIterableIterator<Workflow>;
+    options?: TemplatesListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<Template>;
   /**
-   * Gets a list of workflows by resource group.
+   * Gets a list of templates by resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: WorkflowsListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<Workflow>;
+    options?: TemplatesListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<Template>;
   /**
-   * Gets a workflow.
+   * Gets a template.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workflowName The workflow name.
+   * @param templateName The template name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    workflowName: string,
-    options?: WorkflowsGetOptionalParams,
-  ): Promise<WorkflowsGetResponse>;
+    templateName: string,
+    options?: TemplatesGetOptionalParams,
+  ): Promise<TemplatesGetResponse>;
   /**
-   * Creates or updates a workflow.
+   * Creates or updates a template.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workflowName The workflow name.
-   * @param resource The workflow.
+   * @param templateName The template name.
+   * @param resource The template.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
-    workflowName: string,
-    resource: Workflow,
-    options?: WorkflowsCreateOrUpdateOptionalParams,
-  ): Promise<WorkflowsCreateOrUpdateResponse>;
+    templateName: string,
+    resource: Template,
+    options?: TemplatesCreateOrUpdateOptionalParams,
+  ): Promise<TemplatesCreateOrUpdateResponse>;
   /**
-   * Updates a workflow.
+   * Updates a template.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workflowName The workflow name.
+   * @param templateName The template name.
    * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
-    workflowName: string,
-    properties: AzureResourceManagerFoundationsArmTagsProperty,
-    options?: WorkflowsUpdateOptionalParams,
-  ): Promise<WorkflowsUpdateResponse>;
+    templateName: string,
+    properties: TemplateUpdate,
+    options?: TemplatesUpdateOptionalParams,
+  ): Promise<TemplatesUpdateResponse>;
   /**
-   * Deletes a workflow.
+   * Deletes a template.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workflowName The workflow name.
+   * @param templateName The template name.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
-    workflowName: string,
-    options?: WorkflowsDeleteOptionalParams,
+    templateName: string,
+    options?: TemplatesDeleteOptionalParams,
   ): Promise<void>;
   /**
-   * Disables a workflow.
+   * Disables a template.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workflowName The workflow name.
+   * @param templateName The template name.
    * @param options The options parameters.
    */
   disable(
     resourceGroupName: string,
-    workflowName: string,
-    options?: WorkflowsDisableOptionalParams,
+    templateName: string,
+    options?: TemplatesDisableOptionalParams,
   ): Promise<void>;
   /**
-   * Enables a workflow.
+   * Enables a template.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workflowName The workflow name.
+   * @param templateName The template name.
    * @param options The options parameters.
    */
   enable(
     resourceGroupName: string,
-    workflowName: string,
-    options?: WorkflowsEnableOptionalParams,
+    templateName: string,
+    options?: TemplatesEnableOptionalParams,
   ): Promise<void>;
   /**
-   * Generates the upgraded definition for a workflow.
+   * Generates the upgraded definition for a template.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workflowName The workflow name.
+   * @param templateName The template name.
    * @param body Parameters for generating an upgraded definition.
    * @param options The options parameters.
    */
   generateUpgradedDefinition(
     resourceGroupName: string,
-    workflowName: string,
+    templateName: string,
     body: GenerateUpgradedDefinitionParameters,
-    options?: WorkflowsGenerateUpgradedDefinitionOptionalParams,
-  ): Promise<WorkflowsGenerateUpgradedDefinitionResponse>;
+    options?: TemplatesGenerateUpgradedDefinitionOptionalParams,
+  ): Promise<TemplatesGenerateUpgradedDefinitionResponse>;
   /**
-   * Get the workflow callback Url.
+   * Get the template callback Url.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workflowName The workflow name.
+   * @param templateName The template name.
    * @param body Which callback url to list.
    * @param options The options parameters.
    */
   listCallbackUrl(
     resourceGroupName: string,
-    workflowName: string,
+    templateName: string,
     body: GetCallbackUrlParameters,
-    options?: WorkflowsListCallbackUrlOptionalParams,
-  ): Promise<WorkflowsListCallbackUrlResponse>;
+    options?: TemplatesListCallbackUrlOptionalParams,
+  ): Promise<TemplatesListCallbackUrlResponse>;
   /**
-   * Gets an OpenAPI definition for the workflow.
+   * Gets an OpenAPI definition for the template.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workflowName The workflow name.
+   * @param templateName The template name.
    * @param options The options parameters.
    */
   listSwagger(
     resourceGroupName: string,
-    workflowName: string,
-    options?: WorkflowsListSwaggerOptionalParams,
-  ): Promise<WorkflowsListSwaggerResponse>;
+    templateName: string,
+    options?: TemplatesListSwaggerOptionalParams,
+  ): Promise<TemplatesListSwaggerResponse>;
   /**
-   * Moves an existing workflow.
+   * Moves an existing template.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workflowName The workflow name.
-   * @param body The workflow to move.
+   * @param templateName The template name.
+   * @param body The template to move.
    * @param options The options parameters.
    */
   beginMove(
     resourceGroupName: string,
-    workflowName: string,
+    templateName: string,
     body: WorkflowReference,
-    options?: WorkflowsMoveOptionalParams,
+    options?: TemplatesMoveOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Moves an existing workflow.
+   * Moves an existing template.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workflowName The workflow name.
-   * @param body The workflow to move.
+   * @param templateName The template name.
+   * @param body The template to move.
    * @param options The options parameters.
    */
   beginMoveAndWait(
     resourceGroupName: string,
-    workflowName: string,
+    templateName: string,
     body: WorkflowReference,
-    options?: WorkflowsMoveOptionalParams,
+    options?: TemplatesMoveOptionalParams,
   ): Promise<void>;
   /**
    * Regenerates the callback URL access key for request triggers.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workflowName The workflow name.
+   * @param templateName The template name.
    * @param body The access key type.
    * @param options The options parameters.
    */
   regenerateAccessKey(
     resourceGroupName: string,
-    workflowName: string,
+    templateName: string,
     body: RegenerateActionParameter,
-    options?: WorkflowsRegenerateAccessKeyOptionalParams,
+    options?: TemplatesRegenerateAccessKeyOptionalParams,
   ): Promise<void>;
   /**
-   * Validates the workflow.
+   * Validates the template.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workflowName The workflow name.
-   * @param body The workflow.
+   * @param templateName The template name.
+   * @param body The template.
    * @param options The options parameters.
    */
   validateByResourceGroup(
     resourceGroupName: string,
-    workflowName: string,
+    templateName: string,
     body: Workflow,
-    options?: WorkflowsValidateByResourceGroupOptionalParams,
+    options?: TemplatesValidateByResourceGroupOptionalParams,
   ): Promise<void>;
 }

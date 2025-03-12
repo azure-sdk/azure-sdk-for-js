@@ -6,34 +6,33 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
+  BatchConfigurationsListOptionalParams,
+  BatchConfigurationsListResponse,
+  BatchConfigurationsGetOptionalParams,
+  BatchConfigurationsGetResponse,
   BatchConfiguration,
-  IntegrationAccountBatchConfigurationsListOptionalParams,
-  IntegrationAccountBatchConfigurationsGetOptionalParams,
-  IntegrationAccountBatchConfigurationsGetResponse,
-  IntegrationAccountBatchConfigurationsCreateOrUpdateOptionalParams,
-  IntegrationAccountBatchConfigurationsCreateOrUpdateResponse,
-  IntegrationAccountBatchConfigurationsDeleteOptionalParams
+  BatchConfigurationsCreateOrUpdateOptionalParams,
+  BatchConfigurationsCreateOrUpdateResponse,
+  BatchConfigurationsDeleteOptionalParams,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
-/** Interface representing a IntegrationAccountBatchConfigurations. */
-export interface IntegrationAccountBatchConfigurations {
+/** Interface representing a BatchConfigurations. */
+export interface BatchConfigurations {
   /**
    * List the batch configurations for an integration account.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountBatchConfigurationsListOptionalParams
-  ): PagedAsyncIterableIterator<BatchConfiguration>;
+    options?: BatchConfigurationsListOptionalParams,
+  ): Promise<BatchConfigurationsListResponse>;
   /**
    * Get a batch configuration for an integration account.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param batchConfigurationName The batch configuration name.
    * @param options The options parameters.
@@ -42,26 +41,26 @@ export interface IntegrationAccountBatchConfigurations {
     resourceGroupName: string,
     integrationAccountName: string,
     batchConfigurationName: string,
-    options?: IntegrationAccountBatchConfigurationsGetOptionalParams
-  ): Promise<IntegrationAccountBatchConfigurationsGetResponse>;
+    options?: BatchConfigurationsGetOptionalParams,
+  ): Promise<BatchConfigurationsGetResponse>;
   /**
    * Create or update a batch configuration for an integration account.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param batchConfigurationName The batch configuration name.
-   * @param batchConfiguration The batch configuration.
+   * @param resource The batch configuration.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     integrationAccountName: string,
     batchConfigurationName: string,
-    batchConfiguration: BatchConfiguration,
-    options?: IntegrationAccountBatchConfigurationsCreateOrUpdateOptionalParams
-  ): Promise<IntegrationAccountBatchConfigurationsCreateOrUpdateResponse>;
+    resource: BatchConfiguration,
+    options?: BatchConfigurationsCreateOrUpdateOptionalParams,
+  ): Promise<BatchConfigurationsCreateOrUpdateResponse>;
   /**
    * Delete a batch configuration for an integration account.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param batchConfigurationName The batch configuration name.
    * @param options The options parameters.
@@ -70,6 +69,6 @@ export interface IntegrationAccountBatchConfigurations {
     resourceGroupName: string,
     integrationAccountName: string,
     batchConfigurationName: string,
-    options?: IntegrationAccountBatchConfigurationsDeleteOptionalParams
+    options?: BatchConfigurationsDeleteOptionalParams,
   ): Promise<void>;
 }
