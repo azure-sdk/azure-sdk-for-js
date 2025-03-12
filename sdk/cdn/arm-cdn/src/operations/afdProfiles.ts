@@ -359,7 +359,7 @@ const checkEndpointNameAvailabilityOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CheckEndpointNameAvailabilityOutput,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.checkEndpointNameAvailabilityInput,
@@ -382,7 +382,7 @@ const listResourceUsageOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.UsagesListResult,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -403,7 +403,7 @@ const checkHostNameAvailabilityOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CheckNameAvailabilityOutput,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.checkHostNameAvailabilityInput,
@@ -426,7 +426,7 @@ const validateSecretOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ValidateSecretOutput,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.validateSecretInput,
@@ -458,7 +458,7 @@ const upgradeOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Profile,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.profileUpgradeParameters,
@@ -481,7 +481,7 @@ const listResourceUsageNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.UsagesListResult,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [

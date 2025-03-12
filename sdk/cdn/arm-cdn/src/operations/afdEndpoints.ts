@@ -785,7 +785,7 @@ const listByProfileOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AFDEndpointListResult,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -806,7 +806,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AFDEndpoint,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -837,7 +837,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AFDEndpoint,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.endpoint,
@@ -870,7 +870,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AFDEndpoint,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.endpointUpdateProperties,
@@ -895,7 +895,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -918,7 +918,7 @@ const purgeContentOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.contents,
@@ -942,7 +942,7 @@ const listResourceUsageOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.UsagesListResult,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -964,7 +964,7 @@ const validateCustomDomainOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ValidateCustomDomainOutput,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.customDomainProperties,
@@ -988,7 +988,7 @@ const listByProfileNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AFDEndpointListResult,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
@@ -1009,7 +1009,7 @@ const listResourceUsageNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.UsagesListResult,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [

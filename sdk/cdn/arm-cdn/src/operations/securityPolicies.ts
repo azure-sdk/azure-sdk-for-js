@@ -507,7 +507,7 @@ const listByProfileOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SecurityPolicyListResult,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -528,7 +528,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SecurityPolicy,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -559,7 +559,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SecurityPolicy,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.securityPolicy,
@@ -592,7 +592,7 @@ const patchOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SecurityPolicy,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.securityPolicyUpdateProperties,
@@ -617,7 +617,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -639,7 +639,7 @@ const listByProfileNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SecurityPolicyListResult,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
