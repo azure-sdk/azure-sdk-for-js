@@ -29,6 +29,7 @@ export interface AvailabilitySetResourceSettings extends ResourceSettings {
     tags?: {
         [propertyName: string]: string;
     };
+    targetVirtualMachineScaleSetFlexId?: string;
     updateDomain?: number;
 }
 
@@ -42,6 +43,19 @@ export interface BulkRemoveRequest {
     moveResourceInputType?: MoveResourceInputType;
     moveResources?: string[];
     validateOnly?: boolean;
+}
+
+// @public
+export interface ChildMoveResourceProperties {
+    readonly errors?: ChildMoveResourcePropertiesErrors;
+    readonly moveState?: MoveState;
+    resourceSettings?: ResourceSettingsUnion;
+    sourceId: string;
+    readonly sourceResourceSettings?: ResourceSettingsUnion;
+}
+
+// @public
+export interface ChildMoveResourcePropertiesErrors extends MoveResourceError {
 }
 
 // @public
@@ -501,6 +515,7 @@ export type MoveResourceInputType = string;
 
 // @public
 export interface MoveResourceProperties {
+    childMoveResourcesProperties?: ChildMoveResourceProperties[];
     readonly dependsOn?: MoveResourceDependency[];
     dependsOnOverrides?: MoveResourceDependencyOverride[];
     readonly errors?: MoveResourcePropertiesErrors;
@@ -902,6 +917,7 @@ export interface VirtualMachineResourceSettings extends ResourceSettings {
     };
     targetAvailabilitySetId?: string;
     targetAvailabilityZone?: TargetAvailabilityZone;
+    targetFaultDomain?: string;
     targetVmSize?: string;
     userManagedIdentities?: string[];
 }

@@ -16,7 +16,7 @@ import { ResourceMoverServiceAPI } from "../resourceMoverServiceAPI.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
@@ -50,7 +50,7 @@ import {
   MoveCollectionsListRequiredForOptionalParams,
   MoveCollectionsListRequiredForResponse,
   MoveCollectionsListMoveCollectionsBySubscriptionNextResponse,
-  MoveCollectionsListMoveCollectionsByResourceGroupNextResponse
+  MoveCollectionsListMoveCollectionsByResourceGroupNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -71,7 +71,7 @@ export class MoveCollectionsImpl implements MoveCollections {
    * @param options The options parameters.
    */
   public listMoveCollectionsBySubscription(
-    options?: MoveCollectionsListMoveCollectionsBySubscriptionOptionalParams
+    options?: MoveCollectionsListMoveCollectionsBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<MoveCollection> {
     const iter = this.listMoveCollectionsBySubscriptionPagingAll(options);
     return {
@@ -87,15 +87,15 @@ export class MoveCollectionsImpl implements MoveCollections {
         }
         return this.listMoveCollectionsBySubscriptionPagingPage(
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listMoveCollectionsBySubscriptionPagingPage(
     options?: MoveCollectionsListMoveCollectionsBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<MoveCollection[]> {
     let result: MoveCollectionsListMoveCollectionsBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -109,7 +109,7 @@ export class MoveCollectionsImpl implements MoveCollections {
     while (continuationToken) {
       result = await this._listMoveCollectionsBySubscriptionNext(
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -119,10 +119,10 @@ export class MoveCollectionsImpl implements MoveCollections {
   }
 
   private async *listMoveCollectionsBySubscriptionPagingAll(
-    options?: MoveCollectionsListMoveCollectionsBySubscriptionOptionalParams
+    options?: MoveCollectionsListMoveCollectionsBySubscriptionOptionalParams,
   ): AsyncIterableIterator<MoveCollection> {
     for await (const page of this.listMoveCollectionsBySubscriptionPagingPage(
-      options
+      options,
     )) {
       yield* page;
     }
@@ -135,11 +135,11 @@ export class MoveCollectionsImpl implements MoveCollections {
    */
   public listMoveCollectionsByResourceGroup(
     resourceGroupName: string,
-    options?: MoveCollectionsListMoveCollectionsByResourceGroupOptionalParams
+    options?: MoveCollectionsListMoveCollectionsByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<MoveCollection> {
     const iter = this.listMoveCollectionsByResourceGroupPagingAll(
       resourceGroupName,
-      options
+      options,
     );
     return {
       next() {
@@ -155,23 +155,23 @@ export class MoveCollectionsImpl implements MoveCollections {
         return this.listMoveCollectionsByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listMoveCollectionsByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: MoveCollectionsListMoveCollectionsByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<MoveCollection[]> {
     let result: MoveCollectionsListMoveCollectionsByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listMoveCollectionsByResourceGroup(
         resourceGroupName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -182,7 +182,7 @@ export class MoveCollectionsImpl implements MoveCollections {
       result = await this._listMoveCollectionsByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -193,11 +193,11 @@ export class MoveCollectionsImpl implements MoveCollections {
 
   private async *listMoveCollectionsByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: MoveCollectionsListMoveCollectionsByResourceGroupOptionalParams
+    options?: MoveCollectionsListMoveCollectionsByResourceGroupOptionalParams,
   ): AsyncIterableIterator<MoveCollection> {
     for await (const page of this.listMoveCollectionsByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -212,11 +212,11 @@ export class MoveCollectionsImpl implements MoveCollections {
   create(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsCreateOptionalParams
+    options?: MoveCollectionsCreateOptionalParams,
   ): Promise<MoveCollectionsCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, moveCollectionName, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -229,11 +229,11 @@ export class MoveCollectionsImpl implements MoveCollections {
   update(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsUpdateOptionalParams
+    options?: MoveCollectionsUpdateOptionalParams,
   ): Promise<MoveCollectionsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, moveCollectionName, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -246,7 +246,7 @@ export class MoveCollectionsImpl implements MoveCollections {
   async beginDelete(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsDeleteOptionalParams
+    options?: MoveCollectionsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MoveCollectionsDeleteResponse>,
@@ -255,21 +255,20 @@ export class MoveCollectionsImpl implements MoveCollections {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MoveCollectionsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -278,8 +277,8 @@ export class MoveCollectionsImpl implements MoveCollections {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -287,15 +286,15 @@ export class MoveCollectionsImpl implements MoveCollections {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, moveCollectionName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       MoveCollectionsDeleteResponse,
@@ -303,7 +302,7 @@ export class MoveCollectionsImpl implements MoveCollections {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -318,12 +317,12 @@ export class MoveCollectionsImpl implements MoveCollections {
   async beginDeleteAndWait(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsDeleteOptionalParams
+    options?: MoveCollectionsDeleteOptionalParams,
   ): Promise<MoveCollectionsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       moveCollectionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -337,11 +336,11 @@ export class MoveCollectionsImpl implements MoveCollections {
   get(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsGetOptionalParams
+    options?: MoveCollectionsGetOptionalParams,
   ): Promise<MoveCollectionsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, moveCollectionName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -357,7 +356,7 @@ export class MoveCollectionsImpl implements MoveCollections {
   async beginPrepare(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsPrepareOptionalParams
+    options?: MoveCollectionsPrepareOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MoveCollectionsPrepareResponse>,
@@ -366,21 +365,20 @@ export class MoveCollectionsImpl implements MoveCollections {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MoveCollectionsPrepareResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -389,8 +387,8 @@ export class MoveCollectionsImpl implements MoveCollections {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -398,15 +396,15 @@ export class MoveCollectionsImpl implements MoveCollections {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, moveCollectionName, options },
-      spec: prepareOperationSpec
+      spec: prepareOperationSpec,
     });
     const poller = await createHttpPoller<
       MoveCollectionsPrepareResponse,
@@ -414,7 +412,7 @@ export class MoveCollectionsImpl implements MoveCollections {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -432,12 +430,12 @@ export class MoveCollectionsImpl implements MoveCollections {
   async beginPrepareAndWait(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsPrepareOptionalParams
+    options?: MoveCollectionsPrepareOptionalParams,
   ): Promise<MoveCollectionsPrepareResponse> {
     const poller = await this.beginPrepare(
       resourceGroupName,
       moveCollectionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -454,7 +452,7 @@ export class MoveCollectionsImpl implements MoveCollections {
   async beginInitiateMove(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsInitiateMoveOptionalParams
+    options?: MoveCollectionsInitiateMoveOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MoveCollectionsInitiateMoveResponse>,
@@ -463,21 +461,20 @@ export class MoveCollectionsImpl implements MoveCollections {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MoveCollectionsInitiateMoveResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -486,8 +483,8 @@ export class MoveCollectionsImpl implements MoveCollections {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -495,15 +492,15 @@ export class MoveCollectionsImpl implements MoveCollections {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, moveCollectionName, options },
-      spec: initiateMoveOperationSpec
+      spec: initiateMoveOperationSpec,
     });
     const poller = await createHttpPoller<
       MoveCollectionsInitiateMoveResponse,
@@ -511,7 +508,7 @@ export class MoveCollectionsImpl implements MoveCollections {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -529,12 +526,12 @@ export class MoveCollectionsImpl implements MoveCollections {
   async beginInitiateMoveAndWait(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsInitiateMoveOptionalParams
+    options?: MoveCollectionsInitiateMoveOptionalParams,
   ): Promise<MoveCollectionsInitiateMoveResponse> {
     const poller = await this.beginInitiateMove(
       resourceGroupName,
       moveCollectionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -551,7 +548,7 @@ export class MoveCollectionsImpl implements MoveCollections {
   async beginCommit(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsCommitOptionalParams
+    options?: MoveCollectionsCommitOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MoveCollectionsCommitResponse>,
@@ -560,21 +557,20 @@ export class MoveCollectionsImpl implements MoveCollections {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MoveCollectionsCommitResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -583,8 +579,8 @@ export class MoveCollectionsImpl implements MoveCollections {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -592,15 +588,15 @@ export class MoveCollectionsImpl implements MoveCollections {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, moveCollectionName, options },
-      spec: commitOperationSpec
+      spec: commitOperationSpec,
     });
     const poller = await createHttpPoller<
       MoveCollectionsCommitResponse,
@@ -608,7 +604,7 @@ export class MoveCollectionsImpl implements MoveCollections {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -626,12 +622,12 @@ export class MoveCollectionsImpl implements MoveCollections {
   async beginCommitAndWait(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsCommitOptionalParams
+    options?: MoveCollectionsCommitOptionalParams,
   ): Promise<MoveCollectionsCommitResponse> {
     const poller = await this.beginCommit(
       resourceGroupName,
       moveCollectionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -648,7 +644,7 @@ export class MoveCollectionsImpl implements MoveCollections {
   async beginDiscard(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsDiscardOptionalParams
+    options?: MoveCollectionsDiscardOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MoveCollectionsDiscardResponse>,
@@ -657,21 +653,20 @@ export class MoveCollectionsImpl implements MoveCollections {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MoveCollectionsDiscardResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -680,8 +675,8 @@ export class MoveCollectionsImpl implements MoveCollections {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -689,15 +684,15 @@ export class MoveCollectionsImpl implements MoveCollections {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, moveCollectionName, options },
-      spec: discardOperationSpec
+      spec: discardOperationSpec,
     });
     const poller = await createHttpPoller<
       MoveCollectionsDiscardResponse,
@@ -705,7 +700,7 @@ export class MoveCollectionsImpl implements MoveCollections {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -723,12 +718,12 @@ export class MoveCollectionsImpl implements MoveCollections {
   async beginDiscardAndWait(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsDiscardOptionalParams
+    options?: MoveCollectionsDiscardOptionalParams,
   ): Promise<MoveCollectionsDiscardResponse> {
     const poller = await this.beginDiscard(
       resourceGroupName,
       moveCollectionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -742,7 +737,7 @@ export class MoveCollectionsImpl implements MoveCollections {
   async beginResolveDependencies(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsResolveDependenciesOptionalParams
+    options?: MoveCollectionsResolveDependenciesOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MoveCollectionsResolveDependenciesResponse>,
@@ -751,21 +746,20 @@ export class MoveCollectionsImpl implements MoveCollections {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MoveCollectionsResolveDependenciesResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -774,8 +768,8 @@ export class MoveCollectionsImpl implements MoveCollections {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -783,15 +777,15 @@ export class MoveCollectionsImpl implements MoveCollections {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, moveCollectionName, options },
-      spec: resolveDependenciesOperationSpec
+      spec: resolveDependenciesOperationSpec,
     });
     const poller = await createHttpPoller<
       MoveCollectionsResolveDependenciesResponse,
@@ -799,7 +793,7 @@ export class MoveCollectionsImpl implements MoveCollections {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -814,12 +808,12 @@ export class MoveCollectionsImpl implements MoveCollections {
   async beginResolveDependenciesAndWait(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsResolveDependenciesOptionalParams
+    options?: MoveCollectionsResolveDependenciesOptionalParams,
   ): Promise<MoveCollectionsResolveDependenciesResponse> {
     const poller = await this.beginResolveDependencies(
       resourceGroupName,
       moveCollectionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -835,7 +829,7 @@ export class MoveCollectionsImpl implements MoveCollections {
   async beginBulkRemove(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsBulkRemoveOptionalParams
+    options?: MoveCollectionsBulkRemoveOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MoveCollectionsBulkRemoveResponse>,
@@ -844,21 +838,20 @@ export class MoveCollectionsImpl implements MoveCollections {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MoveCollectionsBulkRemoveResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -867,8 +860,8 @@ export class MoveCollectionsImpl implements MoveCollections {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -876,15 +869,15 @@ export class MoveCollectionsImpl implements MoveCollections {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, moveCollectionName, options },
-      spec: bulkRemoveOperationSpec
+      spec: bulkRemoveOperationSpec,
     });
     const poller = await createHttpPoller<
       MoveCollectionsBulkRemoveResponse,
@@ -892,7 +885,7 @@ export class MoveCollectionsImpl implements MoveCollections {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -909,12 +902,12 @@ export class MoveCollectionsImpl implements MoveCollections {
   async beginBulkRemoveAndWait(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsBulkRemoveOptionalParams
+    options?: MoveCollectionsBulkRemoveOptionalParams,
   ): Promise<MoveCollectionsBulkRemoveResponse> {
     const poller = await this.beginBulkRemove(
       resourceGroupName,
       moveCollectionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -924,11 +917,11 @@ export class MoveCollectionsImpl implements MoveCollections {
    * @param options The options parameters.
    */
   private _listMoveCollectionsBySubscription(
-    options?: MoveCollectionsListMoveCollectionsBySubscriptionOptionalParams
+    options?: MoveCollectionsListMoveCollectionsBySubscriptionOptionalParams,
   ): Promise<MoveCollectionsListMoveCollectionsBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listMoveCollectionsBySubscriptionOperationSpec
+      listMoveCollectionsBySubscriptionOperationSpec,
     );
   }
 
@@ -939,11 +932,11 @@ export class MoveCollectionsImpl implements MoveCollections {
    */
   private _listMoveCollectionsByResourceGroup(
     resourceGroupName: string,
-    options?: MoveCollectionsListMoveCollectionsByResourceGroupOptionalParams
+    options?: MoveCollectionsListMoveCollectionsByResourceGroupOptionalParams,
   ): Promise<MoveCollectionsListMoveCollectionsByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listMoveCollectionsByResourceGroupOperationSpec
+      listMoveCollectionsByResourceGroupOperationSpec,
     );
   }
 
@@ -958,11 +951,11 @@ export class MoveCollectionsImpl implements MoveCollections {
     resourceGroupName: string,
     moveCollectionName: string,
     sourceId: string,
-    options?: MoveCollectionsListRequiredForOptionalParams
+    options?: MoveCollectionsListRequiredForOptionalParams,
   ): Promise<MoveCollectionsListRequiredForResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, moveCollectionName, sourceId, options },
-      listRequiredForOperationSpec
+      listRequiredForOperationSpec,
     );
   }
 
@@ -974,11 +967,11 @@ export class MoveCollectionsImpl implements MoveCollections {
    */
   private _listMoveCollectionsBySubscriptionNext(
     nextLink: string,
-    options?: MoveCollectionsListMoveCollectionsBySubscriptionNextOptionalParams
+    options?: MoveCollectionsListMoveCollectionsBySubscriptionNextOptionalParams,
   ): Promise<MoveCollectionsListMoveCollectionsBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listMoveCollectionsBySubscriptionNextOperationSpec
+      listMoveCollectionsBySubscriptionNextOperationSpec,
     );
   }
 
@@ -992,11 +985,11 @@ export class MoveCollectionsImpl implements MoveCollections {
   private _listMoveCollectionsByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: MoveCollectionsListMoveCollectionsByResourceGroupNextOptionalParams
+    options?: MoveCollectionsListMoveCollectionsByResourceGroupNextOptionalParams,
   ): Promise<MoveCollectionsListMoveCollectionsByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listMoveCollectionsByResourceGroupNextOperationSpec
+      listMoveCollectionsByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -1004,19 +997,18 @@ export class MoveCollectionsImpl implements MoveCollections {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MoveCollection
+      bodyMapper: Mappers.MoveCollection,
     },
     201: {
-      bodyMapper: Mappers.MoveCollection
+      bodyMapper: Mappers.MoveCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
@@ -1024,23 +1016,22 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.moveCollectionName
+    Parameters.moveCollectionName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.MoveCollection
+      bodyMapper: Mappers.MoveCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
@@ -1048,85 +1039,82 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.moveCollectionName
+    Parameters.moveCollectionName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     201: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     202: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     204: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.moveCollectionName
+    Parameters.moveCollectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MoveCollection
+      bodyMapper: Mappers.MoveCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.moveCollectionName
+    Parameters.moveCollectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const prepareOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/prepare",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/prepare",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     201: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     202: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     204: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
@@ -1134,32 +1122,31 @@ const prepareOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.moveCollectionName
+    Parameters.moveCollectionName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const initiateMoveOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/initiateMove",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/initiateMove",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     201: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     202: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     204: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion],
@@ -1167,32 +1154,31 @@ const initiateMoveOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.moveCollectionName
+    Parameters.moveCollectionName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const commitOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/commit",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/commit",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     201: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     202: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     204: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.body4,
   queryParameters: [Parameters.apiVersion],
@@ -1200,32 +1186,31 @@ const commitOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.moveCollectionName
+    Parameters.moveCollectionName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const discardOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/discard",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/discard",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     201: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     202: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     204: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.body5,
   queryParameters: [Parameters.apiVersion],
@@ -1233,63 +1218,61 @@ const discardOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.moveCollectionName
+    Parameters.moveCollectionName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const resolveDependenciesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/resolveDependencies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/resolveDependencies",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     201: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     202: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     204: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.moveCollectionName
+    Parameters.moveCollectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const bulkRemoveOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/bulkRemove",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/bulkRemove",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     201: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     202: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     204: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
@@ -1297,108 +1280,109 @@ const bulkRemoveOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.moveCollectionName
+    Parameters.moveCollectionName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const listMoveCollectionsBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Migrate/moveCollections",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MoveCollectionResultList
+const listMoveCollectionsBySubscriptionOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Migrate/moveCollections",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.MoveCollectionResultList,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listMoveCollectionsByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MoveCollectionResultList
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [Parameters.$host, Parameters.subscriptionId],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listMoveCollectionsByResourceGroupOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.MoveCollectionResultList,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const listRequiredForOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/requiredFor",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/requiredFor",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RequiredForResourcesCollection
+      bodyMapper: Mappers.RequiredForResourcesCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.sourceId],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.moveCollectionName
+    Parameters.moveCollectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listMoveCollectionsBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MoveCollectionResultList
+const listMoveCollectionsBySubscriptionNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.MoveCollectionResultList,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listMoveCollectionsByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MoveCollectionResultList
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.nextLink,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listMoveCollectionsByResourceGroupNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.MoveCollectionResultList,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.nextLink,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
