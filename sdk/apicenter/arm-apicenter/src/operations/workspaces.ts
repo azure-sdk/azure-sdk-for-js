@@ -14,6 +14,12 @@ import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureAPICenter } from "../azureAPICenter.js";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
+import {
   Workspace,
   WorkspacesListNextOptionalParams,
   WorkspacesListOptionalParams,
@@ -25,6 +31,9 @@ import {
   WorkspacesDeleteOptionalParams,
   WorkspacesHeadOptionalParams,
   WorkspacesHeadResponse,
+  ImportApiSourceRequest,
+  WorkspacesImportApiSourceOptionalParams,
+  WorkspacesImportApiSourceResponse,
   WorkspacesListNextResponse,
 } from "../models/index.js";
 
@@ -213,6 +222,106 @@ export class WorkspacesImpl implements Workspaces {
   }
 
   /**
+   * Imports from the API source (one-time import).
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of Azure API Center service.
+   * @param workspaceName The name of the workspace.
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  async beginImportApiSource(
+    resourceGroupName: string,
+    serviceName: string,
+    workspaceName: string,
+    body: ImportApiSourceRequest,
+    options?: WorkspacesImportApiSourceOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WorkspacesImportApiSourceResponse>,
+      WorkspacesImportApiSourceResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<WorkspacesImportApiSourceResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, serviceName, workspaceName, body, options },
+      spec: importApiSourceOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      WorkspacesImportApiSourceResponse,
+      OperationState<WorkspacesImportApiSourceResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Imports from the API source (one-time import).
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of Azure API Center service.
+   * @param workspaceName The name of the workspace.
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  async beginImportApiSourceAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    workspaceName: string,
+    body: ImportApiSourceRequest,
+    options?: WorkspacesImportApiSourceOptionalParams,
+  ): Promise<WorkspacesImportApiSourceResponse> {
+    const poller = await this.beginImportApiSource(
+      resourceGroupName,
+      serviceName,
+      workspaceName,
+      body,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
@@ -346,6 +455,39 @@ const headOperationSpec: coreClient.OperationSpec = {
     Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
+  serializer,
+};
+const importApiSourceOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/importApiSource",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.workspaceName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
