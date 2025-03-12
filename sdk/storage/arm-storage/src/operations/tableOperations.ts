@@ -18,12 +18,12 @@ import {
   TableListNextOptionalParams,
   TableListOptionalParams,
   TableListResponse,
+  TableGetOptionalParams,
+  TableGetResponse,
   TableCreateOptionalParams,
   TableCreateResponse,
   TableUpdateOptionalParams,
   TableUpdateResponse,
-  TableGetOptionalParams,
-  TableGetResponse,
   TableDeleteOptionalParams,
   TableListNextResponse,
 } from "../models/index.js";
@@ -43,8 +43,7 @@ export class TableOperationsImpl implements TableOperations {
 
   /**
    * Gets a list of all the tables under the specified storage account
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -121,57 +120,27 @@ export class TableOperationsImpl implements TableOperations {
   }
 
   /**
-   * Creates a new table with the specified table name, under the specified account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * Gets a list of all the tables under the specified storage account
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
-   * @param tableName A table name must be unique within a storage account and must be between 3 and 63
-   *                  characters.The name must comprise of only alphanumeric characters and it cannot begin with a numeric
-   *                  character.
    * @param options The options parameters.
    */
-  create(
+  private _list(
     resourceGroupName: string,
     accountName: string,
-    tableName: string,
-    options?: TableCreateOptionalParams,
-  ): Promise<TableCreateResponse> {
+    options?: TableListOptionalParams,
+  ): Promise<TableListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, tableName, options },
-      createOperationSpec,
-    );
-  }
-
-  /**
-   * Creates a new table with the specified table name, under the specified account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param tableName A table name must be unique within a storage account and must be between 3 and 63
-   *                  characters.The name must comprise of only alphanumeric characters and it cannot begin with a numeric
-   *                  character.
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    accountName: string,
-    tableName: string,
-    options?: TableUpdateOptionalParams,
-  ): Promise<TableUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, tableName, options },
-      updateOperationSpec,
+      { resourceGroupName, accountName, options },
+      listOperationSpec,
     );
   }
 
   /**
    * Gets the table with the specified table name, under the specified account if it exists.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -193,9 +162,58 @@ export class TableOperationsImpl implements TableOperations {
   }
 
   /**
+   * Creates a new table with the specified table name, under the specified account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param tableName A table name must be unique within a storage account and must be between 3 and 63
+   *                  characters.The name must comprise of only alphanumeric characters and it cannot begin with a numeric
+   *                  character.
+   * @param parameters The parameters to provide to create a table.
+   * @param options The options parameters.
+   */
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    tableName: string,
+    parameters: Table,
+    options?: TableCreateOptionalParams,
+  ): Promise<TableCreateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, tableName, parameters, options },
+      createOperationSpec,
+    );
+  }
+
+  /**
+   * Creates a new table with the specified table name, under the specified account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param tableName A table name must be unique within a storage account and must be between 3 and 63
+   *                  characters.The name must comprise of only alphanumeric characters and it cannot begin with a numeric
+   *                  character.
+   * @param parameters The parameters to provide to create a table.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    tableName: string,
+    parameters: Table,
+    options?: TableUpdateOptionalParams,
+  ): Promise<TableUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, tableName, parameters, options },
+      updateOperationSpec,
+    );
+  }
+
+  /**
    * Deletes the table with the specified table name, under the specified account if it exists.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -217,29 +235,8 @@ export class TableOperationsImpl implements TableOperations {
   }
 
   /**
-   * Gets a list of all the tables under the specified storage account
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    accountName: string,
-    options?: TableListOptionalParams,
-  ): Promise<TableListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, options },
-      listOperationSpec,
-    );
-  }
-
-  /**
    * ListNext
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -261,6 +258,49 @@ export class TableOperationsImpl implements TableOperations {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListTableResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables/{tableName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Table,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
+    Parameters.tableName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables/{tableName}",
   httpMethod: "PUT",
@@ -269,16 +309,16 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Table,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters13,
+  requestBody: Parameters.parameters16,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.tableName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -293,42 +333,20 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Table,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters13,
+  requestBody: Parameters.parameters16,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.tableName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables/{tableName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Table,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
-    Parameters.tableName,
-  ],
-  headerParameters: [Parameters.accept],
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
@@ -337,37 +355,16 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.tableName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ListTableResource,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -380,15 +377,15 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ListTableResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
