@@ -11,3 +11,4 @@ export * from "./grafana.js";
 export * from "./privateEndpointConnections.js";
 export * from "./privateLinkResources.js";
 export * from "./managedPrivateEndpoints.js";
+export * from "./integrationFabrics.js";

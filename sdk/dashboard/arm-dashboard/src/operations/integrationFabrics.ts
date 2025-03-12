@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { ManagedPrivateEndpoints } from "../operationsInterfaces/index.js";
+import { IntegrationFabrics } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -20,29 +20,29 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  ManagedPrivateEndpointModel,
-  ManagedPrivateEndpointsListNextOptionalParams,
-  ManagedPrivateEndpointsListOptionalParams,
-  ManagedPrivateEndpointsListResponse,
-  ManagedPrivateEndpointsRefreshOptionalParams,
-  ManagedPrivateEndpointsGetOptionalParams,
-  ManagedPrivateEndpointsGetResponse,
-  ManagedPrivateEndpointsCreateOptionalParams,
-  ManagedPrivateEndpointsCreateResponse,
-  ManagedPrivateEndpointUpdateParameters,
-  ManagedPrivateEndpointsUpdateOptionalParams,
-  ManagedPrivateEndpointsUpdateResponse,
-  ManagedPrivateEndpointsDeleteOptionalParams,
-  ManagedPrivateEndpointsListNextResponse,
+  IntegrationFabric,
+  IntegrationFabricsListNextOptionalParams,
+  IntegrationFabricsListOptionalParams,
+  IntegrationFabricsListResponse,
+  IntegrationFabricsGetOptionalParams,
+  IntegrationFabricsGetResponse,
+  IntegrationFabricsCreateOptionalParams,
+  IntegrationFabricsCreateResponse,
+  IntegrationFabricUpdateParameters,
+  IntegrationFabricsUpdateOptionalParams,
+  IntegrationFabricsUpdateResponse,
+  IntegrationFabricsDeleteOptionalParams,
+  IntegrationFabricsDeleteResponse,
+  IntegrationFabricsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ManagedPrivateEndpoints operations. */
-export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
+/** Class containing IntegrationFabrics operations. */
+export class IntegrationFabricsImpl implements IntegrationFabrics {
   private readonly client: DashboardManagementClient;
 
   /**
-   * Initialize a new instance of the class ManagedPrivateEndpoints class.
+   * Initialize a new instance of the class IntegrationFabrics class.
    * @param client Reference to the service client
    */
   constructor(client: DashboardManagementClient) {
@@ -50,7 +50,6 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   }
 
   /**
-   * List all managed private endpoints of a grafana resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The workspace name of Azure Managed Grafana.
    * @param options The options parameters.
@@ -58,8 +57,8 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ManagedPrivateEndpointsListOptionalParams,
-  ): PagedAsyncIterableIterator<ManagedPrivateEndpointModel> {
+    options?: IntegrationFabricsListOptionalParams,
+  ): PagedAsyncIterableIterator<IntegrationFabric> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
       next() {
@@ -85,10 +84,10 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   private async *listPagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ManagedPrivateEndpointsListOptionalParams,
+    options?: IntegrationFabricsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<ManagedPrivateEndpointModel[]> {
-    let result: ManagedPrivateEndpointsListResponse;
+  ): AsyncIterableIterator<IntegrationFabric[]> {
+    let result: IntegrationFabricsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, workspaceName, options);
@@ -114,8 +113,8 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ManagedPrivateEndpointsListOptionalParams,
-  ): AsyncIterableIterator<ManagedPrivateEndpointModel> {
+    options?: IntegrationFabricsListOptionalParams,
+  ): AsyncIterableIterator<IntegrationFabric> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
@@ -126,7 +125,6 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   }
 
   /**
-   * List all managed private endpoints of a grafana resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The workspace name of Azure Managed Grafana.
    * @param options The options parameters.
@@ -134,8 +132,8 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ManagedPrivateEndpointsListOptionalParams,
-  ): Promise<ManagedPrivateEndpointsListResponse> {
+    options?: IntegrationFabricsListOptionalParams,
+  ): Promise<IntegrationFabricsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
       listOperationSpec,
@@ -143,130 +141,46 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   }
 
   /**
-   * Refresh and sync managed private endpoints of a grafana resource to latest state.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The workspace name of Azure Managed Grafana.
-   * @param options The options parameters.
-   */
-  async beginRefresh(
-    resourceGroupName: string,
-    workspaceName: string,
-    options?: ManagedPrivateEndpointsRefreshOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, workspaceName, options },
-      spec: refreshOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Refresh and sync managed private endpoints of a grafana resource to latest state.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The workspace name of Azure Managed Grafana.
-   * @param options The options parameters.
-   */
-  async beginRefreshAndWait(
-    resourceGroupName: string,
-    workspaceName: string,
-    options?: ManagedPrivateEndpointsRefreshOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginRefresh(
-      resourceGroupName,
-      workspaceName,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Get a specific managed private endpoint of a grafana resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The workspace name of Azure Managed Grafana.
-   * @param managedPrivateEndpointName The managed private endpoint name of Azure Managed Grafana.
+   * @param integrationFabricName The integration fabric name of Azure Managed Grafana.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     workspaceName: string,
-    managedPrivateEndpointName: string,
-    options?: ManagedPrivateEndpointsGetOptionalParams,
-  ): Promise<ManagedPrivateEndpointsGetResponse> {
+    integrationFabricName: string,
+    options?: IntegrationFabricsGetOptionalParams,
+  ): Promise<IntegrationFabricsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, managedPrivateEndpointName, options },
+      { resourceGroupName, workspaceName, integrationFabricName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Create or update a managed private endpoint for a grafana resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The workspace name of Azure Managed Grafana.
-   * @param managedPrivateEndpointName The managed private endpoint name of Azure Managed Grafana.
-   * @param requestBodyParameters The managed private endpoint to be created or updated.
+   * @param integrationFabricName The integration fabric name of Azure Managed Grafana.
+   * @param requestBodyParameters The integration fabric resource type.
    * @param options The options parameters.
    */
   async beginCreate(
     resourceGroupName: string,
     workspaceName: string,
-    managedPrivateEndpointName: string,
-    requestBodyParameters: ManagedPrivateEndpointModel,
-    options?: ManagedPrivateEndpointsCreateOptionalParams,
+    integrationFabricName: string,
+    requestBodyParameters: IntegrationFabric,
+    options?: IntegrationFabricsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ManagedPrivateEndpointsCreateResponse>,
-      ManagedPrivateEndpointsCreateResponse
+      OperationState<IntegrationFabricsCreateResponse>,
+      IntegrationFabricsCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ManagedPrivateEndpointsCreateResponse> => {
+    ): Promise<IntegrationFabricsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -306,43 +220,42 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
       args: {
         resourceGroupName,
         workspaceName,
-        managedPrivateEndpointName,
+        integrationFabricName,
         requestBodyParameters,
         options,
       },
       spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
-      ManagedPrivateEndpointsCreateResponse,
-      OperationState<ManagedPrivateEndpointsCreateResponse>
+      IntegrationFabricsCreateResponse,
+      OperationState<IntegrationFabricsCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "original-uri",
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create or update a managed private endpoint for a grafana resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The workspace name of Azure Managed Grafana.
-   * @param managedPrivateEndpointName The managed private endpoint name of Azure Managed Grafana.
-   * @param requestBodyParameters The managed private endpoint to be created or updated.
+   * @param integrationFabricName The integration fabric name of Azure Managed Grafana.
+   * @param requestBodyParameters The integration fabric resource type.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    managedPrivateEndpointName: string,
-    requestBodyParameters: ManagedPrivateEndpointModel,
-    options?: ManagedPrivateEndpointsCreateOptionalParams,
-  ): Promise<ManagedPrivateEndpointsCreateResponse> {
+    integrationFabricName: string,
+    requestBodyParameters: IntegrationFabric,
+    options?: IntegrationFabricsCreateOptionalParams,
+  ): Promise<IntegrationFabricsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       workspaceName,
-      managedPrivateEndpointName,
+      integrationFabricName,
       requestBodyParameters,
       options,
     );
@@ -350,29 +263,28 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   }
 
   /**
-   * Update a managed private endpoint for an existing grafana resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The workspace name of Azure Managed Grafana.
-   * @param managedPrivateEndpointName The managed private endpoint name of Azure Managed Grafana.
-   * @param requestBodyParameters Properties that can be updated to an existing managed private endpoint.
+   * @param integrationFabricName The integration fabric name of Azure Managed Grafana.
+   * @param requestBodyParameters The parameters for a PATCH request to a Integration Fabric resource.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
     workspaceName: string,
-    managedPrivateEndpointName: string,
-    requestBodyParameters: ManagedPrivateEndpointUpdateParameters,
-    options?: ManagedPrivateEndpointsUpdateOptionalParams,
+    integrationFabricName: string,
+    requestBodyParameters: IntegrationFabricUpdateParameters,
+    options?: IntegrationFabricsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ManagedPrivateEndpointsUpdateResponse>,
-      ManagedPrivateEndpointsUpdateResponse
+      OperationState<IntegrationFabricsUpdateResponse>,
+      IntegrationFabricsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ManagedPrivateEndpointsUpdateResponse> => {
+    ): Promise<IntegrationFabricsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -412,15 +324,15 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
       args: {
         resourceGroupName,
         workspaceName,
-        managedPrivateEndpointName,
+        integrationFabricName,
         requestBodyParameters,
         options,
       },
       spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
-      ManagedPrivateEndpointsUpdateResponse,
-      OperationState<ManagedPrivateEndpointsUpdateResponse>
+      IntegrationFabricsUpdateResponse,
+      OperationState<IntegrationFabricsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -431,24 +343,23 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   }
 
   /**
-   * Update a managed private endpoint for an existing grafana resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The workspace name of Azure Managed Grafana.
-   * @param managedPrivateEndpointName The managed private endpoint name of Azure Managed Grafana.
-   * @param requestBodyParameters Properties that can be updated to an existing managed private endpoint.
+   * @param integrationFabricName The integration fabric name of Azure Managed Grafana.
+   * @param requestBodyParameters The parameters for a PATCH request to a Integration Fabric resource.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    managedPrivateEndpointName: string,
-    requestBodyParameters: ManagedPrivateEndpointUpdateParameters,
-    options?: ManagedPrivateEndpointsUpdateOptionalParams,
-  ): Promise<ManagedPrivateEndpointsUpdateResponse> {
+    integrationFabricName: string,
+    requestBodyParameters: IntegrationFabricUpdateParameters,
+    options?: IntegrationFabricsUpdateOptionalParams,
+  ): Promise<IntegrationFabricsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       workspaceName,
-      managedPrivateEndpointName,
+      integrationFabricName,
       requestBodyParameters,
       options,
     );
@@ -456,22 +367,26 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   }
 
   /**
-   * Delete a managed private endpoint for a grafana resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The workspace name of Azure Managed Grafana.
-   * @param managedPrivateEndpointName The managed private endpoint name of Azure Managed Grafana.
+   * @param integrationFabricName The integration fabric name of Azure Managed Grafana.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     workspaceName: string,
-    managedPrivateEndpointName: string,
-    options?: ManagedPrivateEndpointsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    integrationFabricName: string,
+    options?: IntegrationFabricsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<IntegrationFabricsDeleteResponse>,
+      IntegrationFabricsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<IntegrationFabricsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -511,12 +426,15 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
       args: {
         resourceGroupName,
         workspaceName,
-        managedPrivateEndpointName,
+        integrationFabricName,
         options,
       },
       spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      IntegrationFabricsDeleteResponse,
+      OperationState<IntegrationFabricsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "azure-async-operation",
@@ -526,22 +444,21 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   }
 
   /**
-   * Delete a managed private endpoint for a grafana resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The workspace name of Azure Managed Grafana.
-   * @param managedPrivateEndpointName The managed private endpoint name of Azure Managed Grafana.
+   * @param integrationFabricName The integration fabric name of Azure Managed Grafana.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    managedPrivateEndpointName: string,
-    options?: ManagedPrivateEndpointsDeleteOptionalParams,
-  ): Promise<void> {
+    integrationFabricName: string,
+    options?: IntegrationFabricsDeleteOptionalParams,
+  ): Promise<IntegrationFabricsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       workspaceName,
-      managedPrivateEndpointName,
+      integrationFabricName,
       options,
     );
     return poller.pollUntilDone();
@@ -558,8 +475,8 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: ManagedPrivateEndpointsListNextOptionalParams,
-  ): Promise<ManagedPrivateEndpointsListNextResponse> {
+    options?: IntegrationFabricsListNextOptionalParams,
+  ): Promise<IntegrationFabricsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
       listNextOperationSpec,
@@ -570,34 +487,12 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/managedPrivateEndpoints",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/integrationFabrics",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedPrivateEndpointModelListResponse,
+      bodyMapper: Mappers.IntegrationFabricListResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const refreshOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/refreshManagedPrivateEndpoints",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
@@ -613,11 +508,11 @@ const refreshOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/managedPrivateEndpoints/{managedPrivateEndpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/integrationFabrics/{integrationFabricName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedPrivateEndpointModel,
+      bodyMapper: Mappers.IntegrationFabric,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -629,85 +524,93 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.managedPrivateEndpointName,
+    Parameters.integrationFabricName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/managedPrivateEndpoints/{managedPrivateEndpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/integrationFabrics/{integrationFabricName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedPrivateEndpointModel,
+      bodyMapper: Mappers.IntegrationFabric,
     },
     201: {
-      bodyMapper: Mappers.ManagedPrivateEndpointModel,
+      bodyMapper: Mappers.IntegrationFabric,
     },
     202: {
-      bodyMapper: Mappers.ManagedPrivateEndpointModel,
+      bodyMapper: Mappers.IntegrationFabric,
     },
     204: {
-      bodyMapper: Mappers.ManagedPrivateEndpointModel,
+      bodyMapper: Mappers.IntegrationFabric,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.requestBodyParameters2,
+  requestBody: Parameters.requestBodyParameters4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.managedPrivateEndpointName,
+    Parameters.integrationFabricName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/managedPrivateEndpoints/{managedPrivateEndpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/integrationFabrics/{integrationFabricName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedPrivateEndpointModel,
+      bodyMapper: Mappers.IntegrationFabric,
     },
     201: {
-      bodyMapper: Mappers.ManagedPrivateEndpointModel,
+      bodyMapper: Mappers.IntegrationFabric,
     },
     202: {
-      bodyMapper: Mappers.ManagedPrivateEndpointModel,
+      bodyMapper: Mappers.IntegrationFabric,
     },
     204: {
-      bodyMapper: Mappers.ManagedPrivateEndpointModel,
+      bodyMapper: Mappers.IntegrationFabric,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.requestBodyParameters3,
+  requestBody: Parameters.requestBodyParameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.managedPrivateEndpointName,
+    Parameters.integrationFabricName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/managedPrivateEndpoints/{managedPrivateEndpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/integrationFabrics/{integrationFabricName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.IntegrationFabricsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.IntegrationFabricsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.IntegrationFabricsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.IntegrationFabricsDeleteHeaders,
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
@@ -718,7 +621,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.managedPrivateEndpointName,
+    Parameters.integrationFabricName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -728,7 +631,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedPrivateEndpointModelListResponse,
+      bodyMapper: Mappers.IntegrationFabricListResponse,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

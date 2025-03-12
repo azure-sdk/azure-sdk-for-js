@@ -298,6 +298,12 @@ export interface GrafanaConfigurations {
    * https://grafana.com/docs/grafana/v9.0/setup-grafana/configure-grafana/#smtp
    */
   smtp?: Smtp;
+  /** Grafana Snapshots settings */
+  snapshots?: Snapshots;
+  /** Grafana users settings */
+  users?: Users;
+  /** Grafana security settings */
+  security?: Security;
 }
 
 /**
@@ -333,6 +339,24 @@ export interface Smtp {
    * https://pkg.go.dev/crypto/tls#Config
    */
   skipVerify?: boolean;
+}
+
+/** Grafana Snapshots settings */
+export interface Snapshots {
+  /** Set to false to disable external snapshot publish endpoint */
+  externalEnabled?: boolean;
+}
+
+/** Grafana users settings */
+export interface Users {
+  /** Set to true so viewers can access and use explore and perform temporary edits on panels in dashboards they have access to. They cannot save their changes. */
+  viewersCanEdit?: boolean;
+}
+
+/** Grafana security settings */
+export interface Security {
+  /** Set to true to execute the CSRF check even if the login cookie is not in a request (default false). */
+  csrfAlwaysCheck?: boolean;
 }
 
 /** Plugin of Grafana */
@@ -490,6 +514,16 @@ export interface GrafanaAvailablePlugin {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
+  /**
+   * Grafana plugin type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Grafana plugin author/publisher name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly author?: string;
 }
 
 /** The list of managed private endpoints of a grafana resource */
@@ -516,6 +550,38 @@ export interface ManagedPrivateEndpointConnectionState {
 export interface ManagedPrivateEndpointUpdateParameters {
   /** The new tags of the managed private endpoint. */
   tags?: { [propertyName: string]: string };
+}
+
+export interface IntegrationFabricListResponse {
+  value?: IntegrationFabric[];
+  nextLink?: string;
+}
+
+export interface IntegrationFabricProperties {
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The resource Id of the Azure resource being integrated with Azure Managed Grafana. E.g., an Azure Kubernetes Service cluster. */
+  targetResourceId?: string;
+  /** The resource Id of the Azure resource which is used to configure Grafana data source. E.g., an Azure Monitor Workspace, an Azure Data Explorer cluster, etc. */
+  dataSourceResourceId?: string;
+  /** A list of integration scenarios covered by this integration fabric */
+  scenarios?: string[];
+}
+
+/** The parameters for a PATCH request to a Integration Fabric resource. */
+export interface IntegrationFabricUpdateParameters {
+  /** The new tags of the Integration Fabric resource. */
+  tags?: { [propertyName: string]: string };
+  /** The new properties of this Integration Fabric resource */
+  properties?: IntegrationFabricPropertiesUpdateParameters;
+}
+
+export interface IntegrationFabricPropertiesUpdateParameters {
+  /** The new integration scenarios covered by this integration fabric. */
+  scenarios?: string[];
 }
 
 /** The Private Endpoint Connection resource. */
@@ -591,6 +657,11 @@ export interface ManagedPrivateEndpointModel extends TrackedResource {
   readonly privateLinkServicePrivateIP?: string;
 }
 
+/** The integration fabric resource type. */
+export interface IntegrationFabric extends TrackedResource {
+  properties?: IntegrationFabricProperties;
+}
+
 /** Defines headers for Grafana_create operation. */
 export interface GrafanaCreateHeaders {
   /** Operation URI for long running operation. */
@@ -645,6 +716,24 @@ export interface ManagedPrivateEndpointsDeleteHeaders {
   azureAsyncOperation?: string;
 }
 
+/** Defines headers for IntegrationFabrics_create operation. */
+export interface IntegrationFabricsCreateHeaders {
+  /** Operation URI for long running operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for IntegrationFabrics_update operation. */
+export interface IntegrationFabricsUpdateHeaders {
+  /** Operation URI for long running operation. */
+  location?: string;
+}
+
+/** Defines headers for IntegrationFabrics_delete operation. */
+export interface IntegrationFabricsDeleteHeaders {
+  /** Operation URI for long running operation. */
+  location?: string;
+}
+
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
   /** User */
@@ -652,7 +741,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -669,7 +758,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -700,7 +789,7 @@ export enum KnownProvisioningState {
   /** Deleted */
   Deleted = "Deleted",
   /** NotSpecified */
-  NotSpecified = "NotSpecified"
+  NotSpecified = "NotSpecified",
 }
 
 /**
@@ -725,7 +814,7 @@ export enum KnownPublicNetworkAccess {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -743,7 +832,7 @@ export enum KnownZoneRedundancy {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
-  Enabled = "Enabled"
+  Enabled = "Enabled",
 }
 
 /**
@@ -761,7 +850,7 @@ export enum KnownApiKey {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
-  Enabled = "Enabled"
+  Enabled = "Enabled",
 }
 
 /**
@@ -779,7 +868,7 @@ export enum KnownDeterministicOutboundIP {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
-  Enabled = "Enabled"
+  Enabled = "Enabled",
 }
 
 /**
@@ -799,7 +888,7 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
   /** Approved */
   Approved = "Approved",
   /** Rejected */
-  Rejected = "Rejected"
+  Rejected = "Rejected",
 }
 
 /**
@@ -822,7 +911,7 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -846,7 +935,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -864,7 +953,7 @@ export type CreatedByType = string;
 /** Known values of {@link AutoGeneratedDomainNameLabelScope} that the service accepts. */
 export enum KnownAutoGeneratedDomainNameLabelScope {
   /** TenantReuse */
-  TenantReuse = "TenantReuse"
+  TenantReuse = "TenantReuse",
 }
 
 /**
@@ -881,7 +970,7 @@ export enum KnownMarketplaceAutoRenew {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
-  Enabled = "Enabled"
+  Enabled = "Enabled",
 }
 
 /**
@@ -901,7 +990,7 @@ export enum KnownStartTLSPolicy {
   /** MandatoryStartTLS */
   MandatoryStartTLS = "MandatoryStartTLS",
   /** NoStartTLS */
-  NoStartTLS = "NoStartTLS"
+  NoStartTLS = "NoStartTLS",
 }
 
 /**
@@ -924,7 +1013,7 @@ export enum KnownManagedServiceIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
@@ -944,7 +1033,7 @@ export enum KnownAvailablePromotion {
   /** None */
   None = "None",
   /** FreeTrial */
-  FreeTrial = "FreeTrial"
+  FreeTrial = "FreeTrial",
 }
 
 /**
@@ -966,7 +1055,7 @@ export enum KnownManagedPrivateEndpointConnectionStatus {
   /** Rejected */
   Rejected = "Rejected",
   /** Disconnected */
-  Disconnected = "Disconnected"
+  Disconnected = "Disconnected",
 }
 
 /**
@@ -1055,7 +1144,8 @@ export interface GrafanaFetchAvailablePluginsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the fetchAvailablePlugins operation. */
-export type GrafanaFetchAvailablePluginsResponse = GrafanaAvailablePluginListResponse;
+export type GrafanaFetchAvailablePluginsResponse =
+  GrafanaAvailablePluginListResponse;
 
 /** Optional parameters. */
 export interface GrafanaListNextOptionalParams
@@ -1090,8 +1180,8 @@ export interface PrivateEndpointConnectionsApproveOptionalParams
 }
 
 /** Contains response data for the approve operation. */
-export type PrivateEndpointConnectionsApproveResponse = PrivateEndpointConnectionsApproveHeaders &
-  PrivateEndpointConnection;
+export type PrivateEndpointConnectionsApproveResponse =
+  PrivateEndpointConnectionsApproveHeaders & PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -1103,21 +1193,24 @@ export interface PrivateEndpointConnectionsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type PrivateEndpointConnectionsDeleteResponse = PrivateEndpointConnectionsDeleteHeaders;
+export type PrivateEndpointConnectionsDeleteResponse =
+  PrivateEndpointConnectionsDeleteHeaders;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type PrivateEndpointConnectionsListNextResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListNextResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListOptionalParams
@@ -1138,14 +1231,16 @@ export interface PrivateLinkResourcesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type PrivateLinkResourcesListNextResponse = PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListNextResponse =
+  PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface ManagedPrivateEndpointsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ManagedPrivateEndpointsListResponse = ManagedPrivateEndpointModelListResponse;
+export type ManagedPrivateEndpointsListResponse =
+  ManagedPrivateEndpointModelListResponse;
 
 /** Optional parameters. */
 export interface ManagedPrivateEndpointsRefreshOptionalParams
@@ -1201,7 +1296,65 @@ export interface ManagedPrivateEndpointsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ManagedPrivateEndpointsListNextResponse = ManagedPrivateEndpointModelListResponse;
+export type ManagedPrivateEndpointsListNextResponse =
+  ManagedPrivateEndpointModelListResponse;
+
+/** Optional parameters. */
+export interface IntegrationFabricsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type IntegrationFabricsListResponse = IntegrationFabricListResponse;
+
+/** Optional parameters. */
+export interface IntegrationFabricsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type IntegrationFabricsGetResponse = IntegrationFabric;
+
+/** Optional parameters. */
+export interface IntegrationFabricsCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type IntegrationFabricsCreateResponse = IntegrationFabric;
+
+/** Optional parameters. */
+export interface IntegrationFabricsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type IntegrationFabricsUpdateResponse = IntegrationFabric;
+
+/** Optional parameters. */
+export interface IntegrationFabricsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type IntegrationFabricsDeleteResponse = IntegrationFabricsDeleteHeaders;
+
+/** Optional parameters. */
+export interface IntegrationFabricsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type IntegrationFabricsListNextResponse = IntegrationFabricListResponse;
 
 /** Optional parameters. */
 export interface DashboardManagementClientOptionalParams
