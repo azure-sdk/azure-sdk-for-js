@@ -545,7 +545,7 @@ const listByOriginGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AFDOriginListResult,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -567,7 +567,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AFDOrigin,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -599,7 +599,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AFDOrigin,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.origin,
@@ -633,7 +633,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AFDOrigin,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.originUpdateProperties,
@@ -659,7 +659,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -682,7 +682,7 @@ const listByOriginGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AFDOriginListResult,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [

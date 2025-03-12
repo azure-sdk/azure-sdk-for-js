@@ -240,7 +240,7 @@ const getLogAnalyticsMetricsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.MetricsResponse,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [
@@ -272,7 +272,7 @@ const getLogAnalyticsRankingsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RankingsResponse,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [
@@ -301,7 +301,7 @@ const getLogAnalyticsLocationsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ContinentsResponse,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -322,7 +322,7 @@ const getLogAnalyticsResourcesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ResourcesResponse,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -343,7 +343,7 @@ const getWafLogAnalyticsMetricsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WafMetricsResponse,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [
@@ -373,7 +373,7 @@ const getWafLogAnalyticsRankingsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WafRankingsResponse,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [
