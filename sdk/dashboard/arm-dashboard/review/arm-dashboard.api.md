@@ -40,6 +40,8 @@ export class DashboardManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     grafana: Grafana;
     // (undocumented)
+    integrationFabrics: IntegrationFabrics;
+    // (undocumented)
     managedPrivateEndpoints: ManagedPrivateEndpoints;
     // (undocumented)
     operations: Operations;
@@ -113,8 +115,10 @@ export interface Grafana {
 
 // @public
 export interface GrafanaAvailablePlugin {
+    readonly author?: string;
     readonly name?: string;
     readonly pluginId?: string;
+    readonly type?: string;
 }
 
 // @public (undocumented)
@@ -134,7 +138,10 @@ export type GrafanaCheckEnterpriseDetailsResponse = EnterpriseDetails;
 
 // @public
 export interface GrafanaConfigurations {
+    security?: Security;
     smtp?: Smtp;
+    snapshots?: Snapshots;
+    users?: Users;
 }
 
 // @public
@@ -226,6 +233,124 @@ export interface GrafanaUpdateOptionalParams extends coreClient.OperationOptions
 
 // @public
 export type GrafanaUpdateResponse = ManagedGrafana;
+
+// @public
+export interface IntegrationFabric extends TrackedResource {
+    // (undocumented)
+    properties?: IntegrationFabricProperties;
+}
+
+// @public (undocumented)
+export interface IntegrationFabricListResponse {
+    // (undocumented)
+    nextLink?: string;
+    // (undocumented)
+    value?: IntegrationFabric[];
+}
+
+// @public (undocumented)
+export interface IntegrationFabricProperties {
+    dataSourceResourceId?: string;
+    readonly provisioningState?: ProvisioningState;
+    scenarios?: string[];
+    targetResourceId?: string;
+}
+
+// @public (undocumented)
+export interface IntegrationFabricPropertiesUpdateParameters {
+    scenarios?: string[];
+}
+
+// @public
+export interface IntegrationFabrics {
+    // (undocumented)
+    beginCreate(resourceGroupName: string, workspaceName: string, integrationFabricName: string, requestBodyParameters: IntegrationFabric, options?: IntegrationFabricsCreateOptionalParams): Promise<SimplePollerLike<OperationState<IntegrationFabricsCreateResponse>, IntegrationFabricsCreateResponse>>;
+    // (undocumented)
+    beginCreateAndWait(resourceGroupName: string, workspaceName: string, integrationFabricName: string, requestBodyParameters: IntegrationFabric, options?: IntegrationFabricsCreateOptionalParams): Promise<IntegrationFabricsCreateResponse>;
+    // (undocumented)
+    beginDelete(resourceGroupName: string, workspaceName: string, integrationFabricName: string, options?: IntegrationFabricsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<IntegrationFabricsDeleteResponse>, IntegrationFabricsDeleteResponse>>;
+    // (undocumented)
+    beginDeleteAndWait(resourceGroupName: string, workspaceName: string, integrationFabricName: string, options?: IntegrationFabricsDeleteOptionalParams): Promise<IntegrationFabricsDeleteResponse>;
+    // (undocumented)
+    beginUpdate(resourceGroupName: string, workspaceName: string, integrationFabricName: string, requestBodyParameters: IntegrationFabricUpdateParameters, options?: IntegrationFabricsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<IntegrationFabricsUpdateResponse>, IntegrationFabricsUpdateResponse>>;
+    // (undocumented)
+    beginUpdateAndWait(resourceGroupName: string, workspaceName: string, integrationFabricName: string, requestBodyParameters: IntegrationFabricUpdateParameters, options?: IntegrationFabricsUpdateOptionalParams): Promise<IntegrationFabricsUpdateResponse>;
+    // (undocumented)
+    get(resourceGroupName: string, workspaceName: string, integrationFabricName: string, options?: IntegrationFabricsGetOptionalParams): Promise<IntegrationFabricsGetResponse>;
+    // (undocumented)
+    list(resourceGroupName: string, workspaceName: string, options?: IntegrationFabricsListOptionalParams): PagedAsyncIterableIterator<IntegrationFabric>;
+}
+
+// @public
+export interface IntegrationFabricsCreateHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
+export interface IntegrationFabricsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type IntegrationFabricsCreateResponse = IntegrationFabric;
+
+// @public
+export interface IntegrationFabricsDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface IntegrationFabricsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type IntegrationFabricsDeleteResponse = IntegrationFabricsDeleteHeaders;
+
+// @public
+export interface IntegrationFabricsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IntegrationFabricsGetResponse = IntegrationFabric;
+
+// @public
+export interface IntegrationFabricsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IntegrationFabricsListNextResponse = IntegrationFabricListResponse;
+
+// @public
+export interface IntegrationFabricsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IntegrationFabricsListResponse = IntegrationFabricListResponse;
+
+// @public
+export interface IntegrationFabricsUpdateHeaders {
+    location?: string;
+}
+
+// @public
+export interface IntegrationFabricsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type IntegrationFabricsUpdateResponse = IntegrationFabric;
+
+// @public
+export interface IntegrationFabricUpdateParameters {
+    properties?: IntegrationFabricPropertiesUpdateParameters;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
 
 // @public
 export enum KnownActionType {
@@ -761,6 +886,11 @@ export interface SaasSubscriptionDetails {
 }
 
 // @public
+export interface Security {
+    csrfAlwaysCheck?: boolean;
+}
+
+// @public
 export interface Smtp {
     enabled?: boolean;
     fromAddress?: string;
@@ -770,6 +900,11 @@ export interface Smtp {
     skipVerify?: boolean;
     startTLSPolicy?: StartTLSPolicy;
     user?: string;
+}
+
+// @public
+export interface Snapshots {
+    externalEnabled?: boolean;
 }
 
 // @public
@@ -804,6 +939,11 @@ export interface TrackedResource extends Resource {
 export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
+}
+
+// @public
+export interface Users {
+    viewersCanEdit?: boolean;
 }
 
 // @public

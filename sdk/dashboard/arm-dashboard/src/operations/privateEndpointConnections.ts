@@ -16,7 +16,7 @@ import { DashboardManagementClient } from "../dashboardManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
@@ -30,13 +30,14 @@ import {
   PrivateEndpointConnectionsApproveResponse,
   PrivateEndpointConnectionsDeleteOptionalParams,
   PrivateEndpointConnectionsDeleteResponse,
-  PrivateEndpointConnectionsListNextResponse
+  PrivateEndpointConnectionsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateEndpointConnections operations. */
 export class PrivateEndpointConnectionsImpl
-  implements PrivateEndpointConnections {
+  implements PrivateEndpointConnections
+{
   private readonly client: DashboardManagementClient;
 
   /**
@@ -56,7 +57,7 @@ export class PrivateEndpointConnectionsImpl
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams
+    options?: PrivateEndpointConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
@@ -74,9 +75,9 @@ export class PrivateEndpointConnectionsImpl
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -84,7 +85,7 @@ export class PrivateEndpointConnectionsImpl
     resourceGroupName: string,
     workspaceName: string,
     options?: PrivateEndpointConnectionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PrivateEndpointConnection[]> {
     let result: PrivateEndpointConnectionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +101,7 @@ export class PrivateEndpointConnectionsImpl
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -112,12 +113,12 @@ export class PrivateEndpointConnectionsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams
+    options?: PrivateEndpointConnectionsListOptionalParams,
   ): AsyncIterableIterator<PrivateEndpointConnection> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -134,16 +135,16 @@ export class PrivateEndpointConnectionsImpl
     resourceGroupName: string,
     workspaceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams
+    options?: PrivateEndpointConnectionsGetOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         workspaceName,
         privateEndpointConnectionName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -158,7 +159,7 @@ export class PrivateEndpointConnectionsImpl
     resourceGroupName: string,
     workspaceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsApproveOptionalParams
+    options?: PrivateEndpointConnectionsApproveOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateEndpointConnectionsApproveResponse>,
@@ -167,21 +168,20 @@ export class PrivateEndpointConnectionsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PrivateEndpointConnectionsApproveResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -190,8 +190,8 @@ export class PrivateEndpointConnectionsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -199,8 +199,8 @@ export class PrivateEndpointConnectionsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -210,9 +210,9 @@ export class PrivateEndpointConnectionsImpl
         resourceGroupName,
         workspaceName,
         privateEndpointConnectionName,
-        options
+        options,
       },
-      spec: approveOperationSpec
+      spec: approveOperationSpec,
     });
     const poller = await createHttpPoller<
       PrivateEndpointConnectionsApproveResponse,
@@ -220,7 +220,7 @@ export class PrivateEndpointConnectionsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -237,13 +237,13 @@ export class PrivateEndpointConnectionsImpl
     resourceGroupName: string,
     workspaceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsApproveOptionalParams
+    options?: PrivateEndpointConnectionsApproveOptionalParams,
   ): Promise<PrivateEndpointConnectionsApproveResponse> {
     const poller = await this.beginApprove(
       resourceGroupName,
       workspaceName,
       privateEndpointConnectionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -259,7 +259,7 @@ export class PrivateEndpointConnectionsImpl
     resourceGroupName: string,
     workspaceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateEndpointConnectionsDeleteResponse>,
@@ -268,21 +268,20 @@ export class PrivateEndpointConnectionsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PrivateEndpointConnectionsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -291,8 +290,8 @@ export class PrivateEndpointConnectionsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -300,8 +299,8 @@ export class PrivateEndpointConnectionsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -311,9 +310,9 @@ export class PrivateEndpointConnectionsImpl
         resourceGroupName,
         workspaceName,
         privateEndpointConnectionName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       PrivateEndpointConnectionsDeleteResponse,
@@ -321,7 +320,7 @@ export class PrivateEndpointConnectionsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -338,13 +337,13 @@ export class PrivateEndpointConnectionsImpl
     resourceGroupName: string,
     workspaceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<PrivateEndpointConnectionsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       workspaceName,
       privateEndpointConnectionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -358,11 +357,11 @@ export class PrivateEndpointConnectionsImpl
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams
+    options?: PrivateEndpointConnectionsListOptionalParams,
   ): Promise<PrivateEndpointConnectionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -377,11 +376,11 @@ export class PrivateEndpointConnectionsImpl
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: PrivateEndpointConnectionsListNextOptionalParams
+    options?: PrivateEndpointConnectionsListNextOptionalParams,
   ): Promise<PrivateEndpointConnectionsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -389,16 +388,15 @@ export class PrivateEndpointConnectionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.PrivateEndpointConnection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -406,35 +404,34 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.privateEndpointConnectionName
+    Parameters.privateEndpointConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const approveOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnection,
-      headersMapper: Mappers.PrivateEndpointConnectionsApproveHeaders
+      headersMapper: Mappers.PrivateEndpointConnectionsApproveHeaders,
     },
     201: {
       bodyMapper: Mappers.PrivateEndpointConnection,
-      headersMapper: Mappers.PrivateEndpointConnectionsApproveHeaders
+      headersMapper: Mappers.PrivateEndpointConnectionsApproveHeaders,
     },
     202: {
       bodyMapper: Mappers.PrivateEndpointConnection,
-      headersMapper: Mappers.PrivateEndpointConnectionsApproveHeaders
+      headersMapper: Mappers.PrivateEndpointConnectionsApproveHeaders,
     },
     204: {
       bodyMapper: Mappers.PrivateEndpointConnection,
-      headersMapper: Mappers.PrivateEndpointConnectionsApproveHeaders
+      headersMapper: Mappers.PrivateEndpointConnectionsApproveHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
@@ -443,32 +440,31 @@ const approveOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.privateEndpointConnectionName
+    Parameters.privateEndpointConnectionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.PrivateEndpointConnectionsDeleteHeaders
+      headersMapper: Mappers.PrivateEndpointConnectionsDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.PrivateEndpointConnectionsDeleteHeaders
+      headersMapper: Mappers.PrivateEndpointConnectionsDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.PrivateEndpointConnectionsDeleteHeaders
+      headersMapper: Mappers.PrivateEndpointConnectionsDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.PrivateEndpointConnectionsDeleteHeaders
+      headersMapper: Mappers.PrivateEndpointConnectionsDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -476,51 +472,50 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.privateEndpointConnectionName
+    Parameters.privateEndpointConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/privateEndpointConnections",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/privateEndpointConnections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult
+      bodyMapper: Mappers.PrivateEndpointConnectionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult
+      bodyMapper: Mappers.PrivateEndpointConnectionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
