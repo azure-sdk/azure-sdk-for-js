@@ -1247,7 +1247,7 @@ importers:
         specifier: file:./projects/web-pubsub-express.tgz
         version: file:projects/web-pubsub-express.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
       typescript:
-        specifier: 5.7.3
+        specifier: ~5.7.3
         version: 5.7.3
 
 packages:
@@ -1315,6 +1315,10 @@ packages:
   '@azure/arm-resources@5.2.0':
     resolution: {integrity: sha512-wQyuhL8WQsLkW/KMdik8bLJIJCz3Z6mg/+AKm0KedgK73SKhicSqYP+ed3t+43tLlRFltcrmGKMcHLQ+Jhv/6A==}
     engines: {node: '>=14.0.0'}
+
+  '@azure/arm-storage@18.4.0':
+    resolution: {integrity: sha512-3FOjh1FAL0FTWlNjmwOZFOiNJbu68cFRU4x7sKmSx+kze8/mkqAlJ+TLyYHv7+W/UigHOjrmn7DGKpDWyXkWgQ==}
+    engines: {node: '>=18.0.0'}
 
   '@azure/communication-signaling@1.0.0-beta.29':
     resolution: {integrity: sha512-bTNxJaS000wjtbLlH/nju3Off9uSybYeRVLvx1Y5k3ajb1rqVGUcsIduSEz1JBf+dRQx9pHRDCAEAXs/hOvzpg==}
@@ -2695,7 +2699,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-batch@file:projects/arm-batch.tgz':
-    resolution: {integrity: sha512-UZ3mGom1YmQz9XoBezvsBjfTxXcl0OSJfwhkSlJVi7y6aOmIhm+qyBoIy6iNAjYIM/ob2c1f07FpR5JVUrZQBQ==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-XEonyGzbC8hXi2dFPW4OUL4UDfSx2EU7OjSl6yUnjz5ohHKXE4dDJaTzNjfnUQ45IyzHmuS0GvAMzII1Mhd8Ow==, tarball: file:projects/arm-batch.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-billing@file:projects/arm-billing.tgz':
@@ -2971,7 +2975,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-eventhub@file:projects/arm-eventhub.tgz':
-    resolution: {integrity: sha512-Fb6xh8/01HxVh74siTQEZDLG1fCHx7rnaBjTu+KD6JIXiZZUYcAuqa7GQCtMRtb/mOM1lcs2ni1j5vH1f2d+mA==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-U4x3UI0KzWbDq1uTUbQ46svgAWsHiJSeAB/r5Cj2STIcPQ+QyHm77h2zJF7CD9jVxsktN5Zm1qDkqIxj2H7ysg==, tarball: file:projects/arm-eventhub.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-extendedlocation@file:projects/arm-extendedlocation.tgz':
@@ -3171,7 +3175,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-mediaservices@file:projects/arm-mediaservices.tgz':
-    resolution: {integrity: sha512-um8p+eF9gOfsorfVXdGXujqGOYBEtuKi+nb6x8v3UhZ/TwmSmZ23yZ7yCQGoCTmupFvYkAncCvtedRSaj3BS7Q==, tarball: file:projects/arm-mediaservices.tgz}
+    resolution: {integrity: sha512-HaMd6CDWPb03wI5wrX0V2JCwaDxEv6ePxqi0cI4slen16Oeee5hSf4DxcUtyG818cd0IJjKC1br/Ek2EQdXLrg==, tarball: file:projects/arm-mediaservices.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-migrate@file:projects/arm-migrate.tgz':
@@ -3199,7 +3203,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-monitor@file:projects/arm-monitor.tgz':
-    resolution: {integrity: sha512-LgN2yW/Lf0Ja7/h/vOn7XIpi5hXihM0tEGxr+LDMTvqfgKUaCVOqv3Z3i9g4lI2h0iGAoYDALK9pzm6iCmdbZQ==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-wbKOBTnbBs62uEVD/TiP9+Ak7RwmF33ALsK7LZkr1ZuIy5mR5Gi+bgdJB/ZtNCn/MIV0mRfY1sd284zDI6hSiw==, tarball: file:projects/arm-monitor.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-msi@file:projects/arm-msi.tgz':
@@ -3499,7 +3503,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-storage@file:projects/arm-storage.tgz':
-    resolution: {integrity: sha512-u6zVKzsvKeAmSqPeR1cBmh9YoG+XZrHikZz3Cl4Af6x4wkK7fzA0z9gFg+AECNxAnKQEJRfMfmAz0Kjmou+JGg==, tarball: file:projects/arm-storage.tgz}
+    resolution: {integrity: sha512-QgGKSoVZEU/bbbFPyaa2zFfcoRorOuARBSwt7WraFJ1SDXFLHCHP4i4eyLKm2b2w6MAcZX44qb6C0+tCBr8qbw==, tarball: file:projects/arm-storage.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-storageactions@file:projects/arm-storageactions.tgz':
@@ -6994,8 +6998,18 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
+  playwright-core@1.51.0:
+    resolution: {integrity: sha512-x47yPE3Zwhlil7wlNU/iktF7t2r/URR3VLbH6EknJd/04Qc/PSJ0EY3CMXipmglLG+zyRxW6HNo2EGbKLHPWMg==}
+    engines: {node: '>=18'}
+    hasBin: true
+
   playwright@1.50.1:
     resolution: {integrity: sha512-G8rwsOQJ63XG6BbKj2w5rHeavFjy5zynBA9zsJMMtBoe/Uf757oG12NXz6e6OirF7RCrTVAKFXbLmn1RbL7Qaw==}
+    engines: {node: '>=18'}
+    hasBin: true
+
+  playwright@1.51.0:
+    resolution: {integrity: sha512-442pTfGM0xxfCYxuBa/Pu6B2OqxqqaYq39JS8QDMGThUvIOCd6s0ANDog3uwA0cHavVlnTQzGCN7Id2YekDSXA==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -8361,6 +8375,18 @@ snapshots:
   '@azure/arm-resources@5.2.0':
     dependencies:
       '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.19.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/arm-storage@18.4.0':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.9.0
       '@azure/core-client': 1.9.2
       '@azure/core-lro': 2.7.2
@@ -11320,6 +11346,7 @@ snapshots:
 
   '@rush-temp/arm-batch@file:projects/arm-batch.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@azure/arm-storage': 18.4.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.76
       '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
@@ -13721,6 +13748,7 @@ snapshots:
   '@rush-temp/arm-eventhub@file:projects/arm-eventhub.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@azure/arm-network': 32.2.0
+      '@azure/arm-storage': 18.4.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.76
       '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.6.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
@@ -15454,6 +15482,7 @@ snapshots:
 
   '@rush-temp/arm-mediaservices@file:projects/arm-mediaservices.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@azure/arm-storage': 18.4.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.76
       '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
@@ -15697,6 +15726,7 @@ snapshots:
   '@rush-temp/arm-monitor@file:projects/arm-monitor.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@azure/arm-eventhub': 5.2.0
+      '@azure/arm-storage': 18.4.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.76
       '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
@@ -18310,10 +18340,10 @@ snapshots:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.76
-      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.6.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.51.0)(typescript@5.6.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
       '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
       dotenv: 16.4.7
-      playwright: 1.50.1
+      playwright: 1.51.0
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 3.0.6(@types/debug@4.1.12)(@types/node@18.19.76)(@vitest/browser@3.0.6)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(yaml@2.7.0)
@@ -23882,7 +23912,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.0.1
 
   '@types/chai-as-promised@8.0.1':
     dependencies:
@@ -24249,6 +24279,27 @@ snapshots:
       - utf-8-validate
       - vite
 
+  '@vitest/browser@3.0.6(@types/node@18.19.76)(playwright@1.51.0)(typescript@5.6.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)':
+    dependencies:
+      '@testing-library/dom': 10.4.0
+      '@testing-library/user-event': 14.6.1(@testing-library/dom@10.4.0)
+      '@vitest/mocker': 3.0.6(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))
+      '@vitest/utils': 3.0.6
+      magic-string: 0.30.17
+      msw: 2.7.2(@types/node@18.19.76)(typescript@5.6.3)
+      sirv: 3.0.1
+      tinyrainbow: 2.0.0
+      vitest: 3.0.6(@types/debug@4.1.12)(@types/node@22.7.9)(@vitest/browser@3.0.6)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(yaml@2.7.0)
+      ws: 8.18.1
+    optionalDependencies:
+      playwright: 1.51.0
+    transitivePeerDependencies:
+      - '@types/node'
+      - bufferutil
+      - typescript
+      - utf-8-validate
+      - vite
+
   '@vitest/browser@3.0.6(@types/node@22.7.9)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)':
     dependencies:
       '@testing-library/dom': 10.4.0
@@ -24269,6 +24320,28 @@ snapshots:
       - typescript
       - utf-8-validate
       - vite
+
+  '@vitest/browser@3.0.6(@types/node@22.7.9)(playwright@1.51.0)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)':
+    dependencies:
+      '@testing-library/dom': 10.4.0
+      '@testing-library/user-event': 14.6.1(@testing-library/dom@10.4.0)
+      '@vitest/mocker': 3.0.6(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))
+      '@vitest/utils': 3.0.6
+      magic-string: 0.30.17
+      msw: 2.7.2(@types/node@22.7.9)(typescript@5.7.3)
+      sirv: 3.0.1
+      tinyrainbow: 2.0.0
+      vitest: 3.0.6(@types/debug@4.1.12)(@types/node@22.7.9)(@vitest/browser@3.0.6)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(yaml@2.7.0)
+      ws: 8.18.1
+    optionalDependencies:
+      playwright: 1.51.0
+    transitivePeerDependencies:
+      - '@types/node'
+      - bufferutil
+      - typescript
+      - utf-8-validate
+      - vite
+    optional: true
 
   '@vitest/coverage-istanbul@3.0.6(vitest@3.0.6)':
     dependencies:
@@ -26999,9 +27072,17 @@ snapshots:
 
   playwright-core@1.50.1: {}
 
+  playwright-core@1.51.0: {}
+
   playwright@1.50.1:
     dependencies:
       playwright-core: 1.50.1
+    optionalDependencies:
+      fsevents: 2.3.2
+
+  playwright@1.51.0:
+    dependencies:
+      playwright-core: 1.51.0
     optionalDependencies:
       fsevents: 2.3.2
 
@@ -28165,7 +28246,7 @@ snapshots:
     optionalDependencies:
       '@types/debug': 4.1.12
       '@types/node': 18.19.76
-      '@vitest/browser': 3.0.6(@types/node@22.7.9)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/browser': 3.0.6(@types/node@22.7.9)(playwright@1.51.0)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
     transitivePeerDependencies:
       - jiti
       - less
@@ -28205,7 +28286,7 @@ snapshots:
     optionalDependencies:
       '@types/debug': 4.1.12
       '@types/node': 20.17.19
-      '@vitest/browser': 3.0.6(@types/node@22.7.9)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/browser': 3.0.6(@types/node@22.7.9)(playwright@1.51.0)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
     transitivePeerDependencies:
       - jiti
       - less
@@ -28245,7 +28326,7 @@ snapshots:
     optionalDependencies:
       '@types/debug': 4.1.12
       '@types/node': 22.7.9
-      '@vitest/browser': 3.0.6(@types/node@22.7.9)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/browser': 3.0.6(@types/node@22.7.9)(playwright@1.51.0)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
     transitivePeerDependencies:
       - jiti
       - less
