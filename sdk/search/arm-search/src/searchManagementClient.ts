@@ -16,6 +16,7 @@ import {
 import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
+  OfferingsImpl,
   AdminKeysImpl,
   QueryKeysImpl,
   ServicesImpl,
@@ -27,6 +28,7 @@ import {
 } from "./operations/index.js";
 import {
   Operations,
+  Offerings,
   AdminKeys,
   QueryKeys,
   Services,
@@ -47,7 +49,7 @@ import {
 export class SearchManagementClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the SearchManagementClient class.
@@ -60,12 +62,26 @@ export class SearchManagementClient extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: SearchManagementClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: SearchManagementClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: SearchManagementClientOptionalParams | string,
+    options?: SearchManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -131,8 +147,9 @@ export class SearchManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-06-01-preview";
+    this.apiVersion = options.apiVersion || "2025-02-01-preview";
     this.operations = new OperationsImpl(this);
+    this.offerings = new OfferingsImpl(this);
     this.adminKeys = new AdminKeysImpl(this);
     this.queryKeys = new QueryKeysImpl(this);
     this.services = new ServicesImpl(this);
@@ -174,7 +191,7 @@ export class SearchManagementClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Gets the quota usage for a search sku in the given subscription.
+   * Gets the quota usage for a search SKU in the given subscription.
    * @param location The unique location name for a Microsoft Azure geographic region.
    * @param skuName The unique SKU name that identifies a billable tier.
    * @param options The options parameters.
@@ -191,6 +208,7 @@ export class SearchManagementClient extends coreClient.ServiceClient {
   }
 
   operations: Operations;
+  offerings: Offerings;
   adminKeys: AdminKeys;
   queryKeys: QueryKeys;
   services: Services;
