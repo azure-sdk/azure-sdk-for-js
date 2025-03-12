@@ -16,7 +16,7 @@ import {
   PrivateEndpointConnectionsPutOptionalParams,
   PrivateEndpointConnectionsPutResponse,
   PrivateEndpointConnectionsDeleteOptionalParams,
-  PrivateEndpointConnectionsDeleteResponse
+  PrivateEndpointConnectionsDeleteResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -25,19 +25,19 @@ export interface PrivateEndpointConnections {
   /**
    * The List operation gets information about the private endpoint connections associated with the
    * vault.
-   * @param resourceGroupName Name of the resource group that contains the key vault.
-   * @param vaultName The name of the key vault.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the vault.
    * @param options The options parameters.
    */
   listByResource(
     resourceGroupName: string,
     vaultName: string,
-    options?: PrivateEndpointConnectionsListByResourceOptionalParams
+    options?: PrivateEndpointConnectionsListByResourceOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
    * Gets the specified private endpoint connection associated with the key vault.
-   * @param resourceGroupName Name of the resource group that contains the key vault.
-   * @param vaultName The name of the key vault.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the vault.
    * @param privateEndpointConnectionName Name of the private endpoint connection associated with the key
    *                                      vault.
    * @param options The options parameters.
@@ -46,12 +46,12 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     vaultName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams
+    options?: PrivateEndpointConnectionsGetOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
    * Updates the specified private endpoint connection associated with the key vault.
-   * @param resourceGroupName Name of the resource group that contains the key vault.
-   * @param vaultName The name of the key vault.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the vault.
    * @param privateEndpointConnectionName Name of the private endpoint connection associated with the key
    *                                      vault.
    * @param properties The intended state of private endpoint connection.
@@ -62,12 +62,12 @@ export interface PrivateEndpointConnections {
     vaultName: string,
     privateEndpointConnectionName: string,
     properties: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsPutOptionalParams
+    options?: PrivateEndpointConnectionsPutOptionalParams,
   ): Promise<PrivateEndpointConnectionsPutResponse>;
   /**
    * Deletes the specified private endpoint connection associated with the key vault.
-   * @param resourceGroupName Name of the resource group that contains the key vault.
-   * @param vaultName The name of the key vault.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the vault.
    * @param privateEndpointConnectionName Name of the private endpoint connection associated with the key
    *                                      vault.
    * @param options The options parameters.
@@ -76,7 +76,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     vaultName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateEndpointConnectionsDeleteResponse>,
@@ -85,8 +85,8 @@ export interface PrivateEndpointConnections {
   >;
   /**
    * Deletes the specified private endpoint connection associated with the key vault.
-   * @param resourceGroupName Name of the resource group that contains the key vault.
-   * @param vaultName The name of the key vault.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the vault.
    * @param privateEndpointConnectionName Name of the private endpoint connection associated with the key
    *                                      vault.
    * @param options The options parameters.
@@ -95,6 +95,6 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     vaultName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<PrivateEndpointConnectionsDeleteResponse>;
 }
