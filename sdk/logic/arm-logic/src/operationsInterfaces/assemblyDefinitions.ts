@@ -6,36 +6,35 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
+  AssemblyDefinitionsListOptionalParams,
+  AssemblyDefinitionsListResponse,
+  AssemblyDefinitionsGetOptionalParams,
+  AssemblyDefinitionsGetResponse,
   AssemblyDefinition,
-  IntegrationAccountAssembliesListOptionalParams,
-  IntegrationAccountAssembliesGetOptionalParams,
-  IntegrationAccountAssembliesGetResponse,
-  IntegrationAccountAssembliesCreateOrUpdateOptionalParams,
-  IntegrationAccountAssembliesCreateOrUpdateResponse,
-  IntegrationAccountAssembliesDeleteOptionalParams,
-  IntegrationAccountAssembliesListContentCallbackUrlOptionalParams,
-  IntegrationAccountAssembliesListContentCallbackUrlResponse
+  AssemblyDefinitionsCreateOrUpdateOptionalParams,
+  AssemblyDefinitionsCreateOrUpdateResponse,
+  AssemblyDefinitionsDeleteOptionalParams,
+  AssemblyDefinitionsListContentCallbackUrlOptionalParams,
+  AssemblyDefinitionsListContentCallbackUrlResponse,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
-/** Interface representing a IntegrationAccountAssemblies. */
-export interface IntegrationAccountAssemblies {
+/** Interface representing a AssemblyDefinitions. */
+export interface AssemblyDefinitions {
   /**
    * List the assemblies for an integration account.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountAssembliesListOptionalParams
-  ): PagedAsyncIterableIterator<AssemblyDefinition>;
+    options?: AssemblyDefinitionsListOptionalParams,
+  ): Promise<AssemblyDefinitionsListResponse>;
   /**
    * Get an assembly for an integration account.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param assemblyArtifactName The assembly artifact name.
    * @param options The options parameters.
@@ -44,26 +43,26 @@ export interface IntegrationAccountAssemblies {
     resourceGroupName: string,
     integrationAccountName: string,
     assemblyArtifactName: string,
-    options?: IntegrationAccountAssembliesGetOptionalParams
-  ): Promise<IntegrationAccountAssembliesGetResponse>;
+    options?: AssemblyDefinitionsGetOptionalParams,
+  ): Promise<AssemblyDefinitionsGetResponse>;
   /**
    * Create or update an assembly for an integration account.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param assemblyArtifactName The assembly artifact name.
-   * @param assemblyArtifact The assembly artifact.
+   * @param resource The assembly artifact.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     integrationAccountName: string,
     assemblyArtifactName: string,
-    assemblyArtifact: AssemblyDefinition,
-    options?: IntegrationAccountAssembliesCreateOrUpdateOptionalParams
-  ): Promise<IntegrationAccountAssembliesCreateOrUpdateResponse>;
+    resource: AssemblyDefinition,
+    options?: AssemblyDefinitionsCreateOrUpdateOptionalParams,
+  ): Promise<AssemblyDefinitionsCreateOrUpdateResponse>;
   /**
    * Delete an assembly for an integration account.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param assemblyArtifactName The assembly artifact name.
    * @param options The options parameters.
@@ -72,11 +71,11 @@ export interface IntegrationAccountAssemblies {
     resourceGroupName: string,
     integrationAccountName: string,
     assemblyArtifactName: string,
-    options?: IntegrationAccountAssembliesDeleteOptionalParams
+    options?: AssemblyDefinitionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get the content callback url for an integration account assembly.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param assemblyArtifactName The assembly artifact name.
    * @param options The options parameters.
@@ -85,6 +84,6 @@ export interface IntegrationAccountAssemblies {
     resourceGroupName: string,
     integrationAccountName: string,
     assemblyArtifactName: string,
-    options?: IntegrationAccountAssembliesListContentCallbackUrlOptionalParams
-  ): Promise<IntegrationAccountAssembliesListContentCallbackUrlResponse>;
+    options?: AssemblyDefinitionsListContentCallbackUrlOptionalParams,
+  ): Promise<AssemblyDefinitionsListContentCallbackUrlResponse>;
 }

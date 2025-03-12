@@ -8,18 +8,18 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  WorkflowRunActionRepetitionDefinition,
-  WorkflowRunActionScopeRepetitionsListOptionalParams,
-  WorkflowRunActionScopeRepetitionsGetOptionalParams,
-  WorkflowRunActionScopeRepetitionsGetResponse
+  RequestHistory,
+  WorkflowRunActionRequestHistoriesOperationsListOptionalParams,
+  WorkflowRunActionRequestHistoriesOperationsGetOptionalParams,
+  WorkflowRunActionRequestHistoriesOperationsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a WorkflowRunActionScopeRepetitions. */
-export interface WorkflowRunActionScopeRepetitions {
+/** Interface representing a WorkflowRunActionRequestHistoriesOperations. */
+export interface WorkflowRunActionRequestHistoriesOperations {
   /**
-   * List the workflow run action scoped repetitions.
-   * @param resourceGroupName The resource group name.
+   * List a workflow run request history.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param runName The workflow run name.
    * @param actionName The workflow action name.
@@ -30,15 +30,15 @@ export interface WorkflowRunActionScopeRepetitions {
     workflowName: string,
     runName: string,
     actionName: string,
-    options?: WorkflowRunActionScopeRepetitionsListOptionalParams
-  ): PagedAsyncIterableIterator<WorkflowRunActionRepetitionDefinition>;
+    options?: WorkflowRunActionRequestHistoriesOperationsListOptionalParams,
+  ): PagedAsyncIterableIterator<RequestHistory>;
   /**
-   * Get a workflow run action scoped repetition.
-   * @param resourceGroupName The resource group name.
+   * Gets a workflow run request history.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param runName The workflow run name.
    * @param actionName The workflow action name.
-   * @param repetitionName The workflow repetition.
+   * @param requestHistoryName The request history name.
    * @param options The options parameters.
    */
   get(
@@ -46,7 +46,7 @@ export interface WorkflowRunActionScopeRepetitions {
     workflowName: string,
     runName: string,
     actionName: string,
-    repetitionName: string,
-    options?: WorkflowRunActionScopeRepetitionsGetOptionalParams
-  ): Promise<WorkflowRunActionScopeRepetitionsGetResponse>;
+    requestHistoryName: string,
+    options?: WorkflowRunActionRequestHistoriesOperationsGetOptionalParams,
+  ): Promise<WorkflowRunActionRequestHistoriesOperationsGetResponse>;
 }

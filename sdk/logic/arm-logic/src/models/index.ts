@@ -8,12 +8,227 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** The list of workflows. */
-export interface WorkflowListResult {
-  /** The list of workflows. */
-  value?: Workflow[];
-  /** The URL to get the next set of results. */
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface OperationListResult {
+  /**
+   * List of operations supported by the resource provider
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Operation[];
+  /**
+   * URL to get the next set of operation list results (if there are any).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
+  /**
+   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+  /**
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: Origin;
+  /**
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionType?: ActionType;
+}
+
+/** Localized display information for this particular operation. */
+export interface OperationDisplay {
+  /**
+   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provider?: string;
+  /**
+   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resource?: string;
+  /**
+   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: any;
+}
+
+/** The response of a IntegrationAccount list operation. */
+export interface IntegrationAccountListResult {
+  /** The IntegrationAccount items on this page */
+  value: IntegrationAccount[];
+  /** The link to the next page of items */
   nextLink?: string;
+}
+
+/** The integration account properties. */
+export interface IntegrationAccountProperties {
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: WorkflowProvisioningState;
+  /** The integration service environment. */
+  integrationServiceEnvironment?: ResourceReference;
+  /** The workflow state. */
+  state?: WorkflowState;
+}
+
+/** The resource reference. */
+export interface ResourceReference {
+  /** The resource id. */
+  id?: string;
+  /**
+   * Gets the resource name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Gets the resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+}
+
+/** The integration account sku. */
+export interface IntegrationAccountSku {
+  /** The sku name. */
+  name: IntegrationAccountSkuName;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** The response of a IntegrationServiceEnvironment list operation. */
+export interface IntegrationServiceEnvironmentListResult {
+  /** The IntegrationServiceEnvironment items on this page */
+  value: IntegrationServiceEnvironment[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The integration service environment properties. */
+export interface IntegrationServiceEnvironmentProperties {
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: WorkflowProvisioningState;
+  /** The integration service environment state. */
+  state?: WorkflowState;
+  /** Gets the tracking id. */
+  integrationServiceEnvironmentId?: string;
+  /** The endpoints configuration. */
+  endpointsConfiguration?: FlowEndpointsConfiguration;
+  /** The network configuration. */
+  networkConfiguration?: NetworkConfiguration;
+  /** The encryption configuration. */
+  encryptionConfiguration?: IntegrationServiceEnvironmenEncryptionConfiguration;
 }
 
 /** The endpoints configuration. */
@@ -36,6 +251,634 @@ export interface FlowEndpoints {
 export interface IpAddress {
   /** The address. */
   address?: string;
+}
+
+/** The network configuration. */
+export interface NetworkConfiguration {
+  /** Gets the virtual network address space. */
+  virtualNetworkAddressSpace?: string;
+  /** The access endpoint. */
+  accessEndpoint?: IntegrationServiceEnvironmentAccessEndpoint;
+  /** The subnets. */
+  subnets?: ResourceReference[];
+}
+
+/** The integration service environment access endpoint. */
+export interface IntegrationServiceEnvironmentAccessEndpoint {
+  /** The access endpoint type. */
+  type?: IntegrationServiceEnvironmentAccessEndpointType;
+}
+
+/** The encryption configuration for the integration service environment. */
+export interface IntegrationServiceEnvironmenEncryptionConfiguration {
+  /** The encryption key reference. */
+  encryptionKeyReference?: IntegrationServiceEnvironmenEncryptionKeyReference;
+}
+
+/** The encryption key details for the integration service environment. */
+export interface IntegrationServiceEnvironmenEncryptionKeyReference {
+  /** The key vault reference. */
+  keyVault?: ResourceReference;
+  /** Gets the key name in the Key Vault. */
+  keyName?: string;
+  /** Gets the version of the key specified in the keyName property. */
+  keyVersion?: string;
+}
+
+/** The integration service environment sku. */
+export interface IntegrationServiceEnvironmentSku {
+  /** The sku name. */
+  name?: IntegrationServiceEnvironmentSkuName;
+  /** The sku capacity. */
+  capacity?: number;
+}
+
+/** The response of a IntegrationServiceEnvironmentManagedApi list operation. */
+export interface IntegrationServiceEnvironmentManagedApiListResult {
+  /** The IntegrationServiceEnvironmentManagedApi items on this page */
+  value: IntegrationServiceEnvironmentManagedApi[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The integration service environment managed api deployment parameters. */
+export interface IntegrationServiceEnvironmentManagedApiDeploymentParameters {
+  /** The integration service environment managed api content link for deployment. */
+  contentLinkDefinition?: ContentLink;
+}
+
+/** The content link. */
+export interface ContentLink {
+  /** The content link URI. */
+  uri?: string;
+  /**
+   * The content version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly contentVersion?: string;
+  /**
+   * The content size.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly contentSize?: number;
+  /**
+   * The content hash.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly contentHash?: ContentHash;
+  /**
+   * The metadata.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly metadata?: { [propertyName: string]: any };
+}
+
+/** The content hash. */
+export interface ContentHash {
+  /** The algorithm of the content hash. */
+  algorithm?: string;
+  /** The value of the content hash. */
+  value?: string;
+}
+
+/** The API resource properties. */
+export interface ApiResourceProperties {
+  /**
+   * The connection parameters.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly connectionParameters?: {
+    [propertyName: string]: { [propertyName: string]: any };
+  };
+  /**
+   * The metadata.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly metadata?: ApiResourceMetadata;
+  /**
+   * The runtime urls.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly runtimeUrls?: string[];
+  /**
+   * The api general information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly generalInformation?: ApiResourceGeneralInformation;
+  /**
+   * The capabilities.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly capabilities?: string[];
+  /**
+   * The backend service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly backendService?: ApiResourceBackendService;
+  /**
+   * The policies for the API.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policies?: ApiResourcePolicies;
+  /**
+   * The API definition.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly apiDefinitionUrl?: string;
+  /**
+   * The api definitions.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly apiDefinitions?: ApiResourceDefinitions;
+  /** The integration service environment reference. */
+  integrationServiceEnvironment?: ResourceReference;
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: WorkflowProvisioningState;
+  /**
+   * The category.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly category?: ApiTier;
+}
+
+/** The api resource metadata. */
+export interface ApiResourceMetadata {
+  /** The source. */
+  source?: string;
+  /** The brand color. */
+  brandColor?: string;
+  /** The hide key. */
+  hideKey?: string;
+  /** The tags. */
+  tags?: { [propertyName: string]: string };
+  /** The api type. */
+  apiType?: ApiType;
+  /** The WSDL service. */
+  wsdlService?: WsdlService;
+  /** The WSDL import method. */
+  wsdlImportMethod?: WsdlImportMethod;
+  /** The connection type. */
+  connectionType?: string;
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: WorkflowProvisioningState;
+  /** The connector deployment parameters metadata. */
+  deploymentParameters?: ApiDeploymentParameterMetadataSet;
+}
+
+/** The WSDL service. */
+export interface WsdlService {
+  /** The qualified name. */
+  qualifiedName?: string;
+  /** The list of endpoints' qualified names. */
+  endpointQualifiedNames?: string[];
+}
+
+/** The API deployment parameters metadata. */
+export interface ApiDeploymentParameterMetadataSet {
+  /** The package content link parameter. */
+  packageContentLink?: ApiDeploymentParameterMetadata;
+  /** The package content link parameter. */
+  redisCacheConnectionString?: ApiDeploymentParameterMetadata;
+}
+
+/** The API deployment parameter metadata. */
+export interface ApiDeploymentParameterMetadata {
+  /** The type. */
+  type?: string;
+  /** Indicates whether its required. */
+  isRequired?: boolean;
+  /** The display name. */
+  displayName?: string;
+  /** The description. */
+  description?: string;
+  /** The visibility. */
+  visibility?: ApiDeploymentParameterVisibility;
+}
+
+/** The API general information. */
+export interface ApiResourceGeneralInformation {
+  /** The icon url. */
+  iconUrl?: string;
+  /** The display name. */
+  displayName?: string;
+  /** The description. */
+  description?: string;
+  /** The terms of use url. */
+  termsOfUseUrl?: string;
+  /** The release tag. */
+  releaseTag?: string;
+  /** The tier. */
+  tier?: ApiTier;
+}
+
+/** The API backend service. */
+export interface ApiResourceBackendService {
+  /** The service URL. */
+  serviceUrl?: string;
+}
+
+/** The API resource policies. */
+export interface ApiResourcePolicies {
+  /** The API level only policies XML as embedded content. */
+  content?: string;
+  /** The content link to the policies. */
+  contentLink?: string;
+}
+
+/** The Api resource definition. */
+export interface ApiResourceDefinitions {
+  /** The original swagger url. */
+  originalSwaggerUrl?: string;
+  /** The modified swagger url. */
+  modifiedSwaggerUrl?: string;
+}
+
+/** The response of a ApiOperation list operation. */
+export interface ApiOperationListResult {
+  /** The ApiOperation items on this page */
+  value: ApiOperation[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The api operations properties */
+export interface ApiOperationPropertiesDefinition {
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: WorkflowProvisioningState;
+  /** The summary of the api operation. */
+  summary?: string;
+  /** The description of the api operation. */
+  description?: string;
+  /** The visibility of the api operation. */
+  visibility?: string;
+  /** The trigger type of api operation. */
+  trigger?: string;
+  /** The trigger hint for the api operation. */
+  triggerHint?: string;
+  /** Indicates whether the api operation is pageable. */
+  pageable?: boolean;
+  /** The annotation of api operation. */
+  annotation?: ApiOperationAnnotation;
+  /** The api reference. */
+  api?: ApiReference;
+  /** The operation inputs definition schema. */
+  inputsDefinition?: SwaggerSchema;
+  /** The operation responses definition schemas. */
+  responsesDefinition?: { [propertyName: string]: SwaggerSchema };
+  /** Indicates whether the API operation is webhook or not. */
+  isWebhook?: boolean;
+  /** Indicates whether the API operation is notification or not. */
+  isNotification?: boolean;
+}
+
+/** The Api Operation Annotation. */
+export interface ApiOperationAnnotation {
+  /** The status annotation. */
+  status?: StatusAnnotation;
+  /** The family. */
+  family?: string;
+  /** The revision. */
+  revision?: number;
+}
+
+/** The swagger schema. */
+export interface SwaggerSchema {
+  /** The reference. */
+  ref?: string;
+  /** The type */
+  type?: SwaggerSchemaType;
+  /** The title. */
+  title?: string;
+  /** The items schema. */
+  items?: SwaggerSchema;
+  /** The object properties */
+  properties?: { [propertyName: string]: SwaggerSchema };
+  /** The additional properties. */
+  additionalProperties?: { [propertyName: string]: any };
+  /** The object required properties. */
+  required?: string[];
+  /** The maximum number of allowed properties. */
+  maxProperties?: number;
+  /** The minimum number of allowed properties. */
+  minProperties?: number;
+  /** The schemas which must pass validation when this schema is used. */
+  allOf?: SwaggerSchema[];
+  /** The discriminator. */
+  discriminator?: string;
+  /** Indicates whether this property must be present in the a request. */
+  readOnly?: boolean;
+  /** The xml representation format for a property. */
+  xml?: SwaggerXml;
+  /** The external documentation. */
+  externalDocs?: SwaggerExternalDocumentation;
+  /** The example value. */
+  example?: { [propertyName: string]: any };
+  /** Indicates the notification url extension. If this is set, the property's value should be a callback url for a webhook. */
+  notificationUrlExtension?: boolean;
+  /** The dynamic schema configuration. */
+  dynamicSchemaOld?: SwaggerCustomDynamicSchema;
+  /** The dynamic schema configuration. */
+  dynamicSchemaNew?: SwaggerCustomDynamicProperties;
+  /** The dynamic list. */
+  dynamicListNew?: SwaggerCustomDynamicList;
+  /** The dynamic values tree configuration. */
+  dynamicTree?: SwaggerCustomDynamicTree;
+}
+
+/** The Swagger XML. */
+export interface SwaggerXml {
+  /** The xml element or attribute name. */
+  name?: string;
+  /** The xml namespace. */
+  namespace?: string;
+  /** The name prefix. */
+  prefix?: string;
+  /** Indicates whether the property should be an attribute instead of an element. */
+  attribute?: boolean;
+  /** Indicates whether the array elements are wrapped in a container element. */
+  wrapped?: boolean;
+  /** The vendor extensions. */
+  extensions?: { [propertyName: string]: { [propertyName: string]: any } };
+}
+
+/** The swagger external documentation */
+export interface SwaggerExternalDocumentation {
+  /** The document description. */
+  description?: string;
+  /** The documentation Uri. */
+  uri?: string;
+  /** The vendor extensions. */
+  extensions?: { [propertyName: string]: { [propertyName: string]: any } };
+}
+
+/** The swagger custom dynamic schema. */
+export interface SwaggerCustomDynamicSchema {
+  /** The operation id to fetch dynamic schema. */
+  operationId?: string;
+  /** Json pointer to the dynamic schema on the response body. */
+  valuePath?: string;
+  /** The operation parameters. */
+  parameters?: { [propertyName: string]: { [propertyName: string]: any } };
+}
+
+/** The swagger custom dynamic properties. */
+export interface SwaggerCustomDynamicProperties {
+  /** The operation id to fetch dynamic schema. */
+  operationId?: string;
+  /** Json pointer to the dynamic schema on the response body. */
+  valuePath?: string;
+  /** The operation parameters. */
+  parameters?: { [propertyName: string]: SwaggerCustomDynamicProperties };
+}
+
+/** The swagger custom dynamic list. */
+export interface SwaggerCustomDynamicList {
+  /** The operation id to fetch dynamic schema. */
+  operationId?: string;
+  /** The built in operation. */
+  builtInOperation?: string;
+  /** The path to a response property (relative to the response object, not the response body) which contains an array of dynamic value items. */
+  itemsPath?: string;
+  /** The path to a property which defines the value which should be used. */
+  itemValuePath?: string;
+  /** The path to an item property which defines the display name of the item. */
+  itemTitlePath?: string;
+  /** The parameters. */
+  parameters?: { [propertyName: string]: SwaggerCustomDynamicProperties };
+}
+
+/** The swagger custom dynamic tree. */
+export interface SwaggerCustomDynamicTree {
+  /** The tree settings */
+  settings?: SwaggerCustomDynamicTreeSettings;
+  /** The tree on-open configuration */
+  open?: SwaggerCustomDynamicTreeCommand;
+  /** The tree on-browse configuration */
+  browse?: SwaggerCustomDynamicTreeCommand;
+}
+
+/** The swagger custom dynamic tree settings. */
+export interface SwaggerCustomDynamicTreeSettings {
+  /** Indicates whether parent nodes can be selected. */
+  canSelectParentNodes?: boolean;
+  /** Indicates whether leaf nodes can be selected. */
+  canSelectLeafNodes?: boolean;
+}
+
+/** The swagger tree command. */
+export interface SwaggerCustomDynamicTreeCommand {
+  /** The path to an item property which defines the display name of the item. */
+  operationId?: string;
+  /** The path to an item property which defines the display name of the item. */
+  itemsPath?: string;
+  /** The path to an item property which defines the display name of the item. */
+  itemValuePath?: string;
+  /** The path to an item property which defines the display name of the item. */
+  itemTitlePath?: string;
+  /** The path to an item property which defines the display name of the item. */
+  itemFullTitlePath?: string;
+  /** The path to an item property which defines the display name of the item. */
+  itemIsParent?: string;
+  /** The path to an item property which defines the display name of the item. */
+  selectableFilter?: string;
+  /** Dictionary of <SwaggerCustomDynamicTreeParameter> */
+  parameters?: { [propertyName: string]: SwaggerCustomDynamicTreeParameter };
+}
+
+/** The swagger custom dynamic tree parameter. */
+export interface SwaggerCustomDynamicTreeParameter {
+  /** Gets or sets a path to a property in the currently selected item to pass as a value to a parameter for the given operation. */
+  selectedItemValuePath?: string;
+  /** The parameter value. */
+  value?: { [propertyName: string]: any };
+  /** The parameter reference. */
+  parameterReference?: string;
+  /** Indicates whether the parameter is required. */
+  required?: boolean;
+}
+
+/** The integration service environment network health. */
+export interface IntegrationServiceEnvironmentNetworkHealth {
+  /** The outbound network dependencies. */
+  outboundNetworkDependencies?: IntegrationServiceEnvironmentNetworkDependency[];
+}
+
+/** The azure async operation resource. */
+export interface IntegrationServiceEnvironmentNetworkDependency {
+  /** The network dependency category type. */
+  category?: IntegrationServiceEnvironmentNetworkDependencyCategoryType;
+  /** The display name. */
+  displayName?: string;
+  /** The endpoints. */
+  endpoints?: IntegrationServiceEnvironmentNetworkEndpoint[];
+}
+
+/** The network endpoint. */
+export interface IntegrationServiceEnvironmentNetworkEndpoint {
+  /** The accessibility state. */
+  accessibility?: IntegrationServiceEnvironmentNetworkEndPointAccessibilityState;
+  /** The domain name. */
+  domainName?: string;
+  /** The ports. */
+  ports?: string[];
+}
+
+/** The list of integration service environment skus. */
+export interface IntegrationServiceEnvironmentSkuList {
+  /** The IntegrationServiceEnvironmentSkuDefinition items on this page */
+  value: IntegrationServiceEnvironmentSkuDefinition[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The integration service environment sku definition. */
+export interface IntegrationServiceEnvironmentSkuDefinition {
+  /** The resource type. */
+  resourceType?: string;
+  /** The sku. */
+  sku?: IntegrationServiceEnvironmentSkuDefinitionSku;
+  /** The sku capacity. */
+  capacity?: IntegrationServiceEnvironmentSkuCapacity;
+}
+
+/** The sku. */
+export interface IntegrationServiceEnvironmentSkuDefinitionSku {
+  /** The sku name. */
+  name?: IntegrationServiceEnvironmentSkuName;
+  /** The sku tier. */
+  tier?: string;
+}
+
+/** The integration service environment sku capacity. */
+export interface IntegrationServiceEnvironmentSkuCapacity {
+  /** The minimum capacity. */
+  minimum?: number;
+  /** The maximum capacity. */
+  maximum?: number;
+  /** The default capacity. */
+  default?: number;
+  /** The sku scale type. */
+  scaleType?: IntegrationServiceEnvironmentSkuScaleType;
+}
+
+/** The response of a Template list operation. */
+export interface TemplateListResult {
+  /** The Template items on this page */
+  value: Template[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The flow template connector details. */
+export interface TemplateProperties {
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: WorkflowProvisioningState;
+  /** The flow template state. */
+  state?: FlowTemplateState;
+  /** The flow template type. */
+  manifest?: FlowTemplateManifest;
+}
+
+/** The flow template manifest. */
+export interface FlowTemplateManifest {
+  /** The title. */
+  title?: string;
+  /** The description. */
+  description?: string;
+  /** The summary. */
+  summary?: string;
+  /** The flow template type. */
+  type?: FlowTemplateType;
+  /** The flow template supported sku. */
+  supportedSku?: FlowTemplateSku;
+  /** The flow template connector details. */
+  featuredConnectors?: FlowTemplateConnectorDetails;
+  /** The flow template details. */
+  details?: FlowTemplateDetails;
+}
+
+/** The template properties. */
+export interface FlowTemplateConnectorDetails {
+  /** The identifier. */
+  id?: string;
+  /** The kind. */
+  kind?: string;
+}
+
+/** The template details. */
+export interface FlowTemplateDetails {
+  /** The template author. */
+  by?: string;
+  /** The template category. */
+  category?: string;
+}
+
+/** The response of a Workflow list operation. */
+export interface WorkflowListResult {
+  /** The Workflow items on this page */
+  value: Workflow[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The workflow properties. */
+export interface WorkflowProperties {
+  /**
+   * Gets the provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: WorkflowProvisioningState;
+  /**
+   * Gets the created time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTime?: Date;
+  /**
+   * Gets the changed time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly changedTime?: Date;
+  /** The state. */
+  state?: WorkflowState;
+  /**
+   * Gets the version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+  /**
+   * Gets the access endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accessEndpoint?: string;
+  /** The endpoints configuration. */
+  endpointsConfiguration?: FlowEndpointsConfiguration;
+  /** The access control configuration. */
+  accessControl?: FlowAccessControlConfiguration;
+  /**
+   * The sku.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sku?: Sku;
+  /** The integration account. */
+  integrationAccount?: ResourceReference;
+  /** The integration service environment. */
+  integrationServiceEnvironment?: ResourceReference;
+  /** The definition. */
+  definition?: { [propertyName: string]: any };
+  /** The parameters. */
+  parameters?: { [propertyName: string]: WorkflowParameter };
 }
 
 /** The access control configuration. */
@@ -94,651 +937,57 @@ export interface Sku {
   plan?: ResourceReference;
 }
 
-/** The resource reference. */
-export interface ResourceReference {
-  /** The resource id. */
-  id?: string;
-  /**
-   * Gets the resource name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Gets the resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-}
-
 /** The workflow parameters. */
 export interface WorkflowParameter {
   /** The type. */
   type?: ParameterType;
   /** The value. */
-  value?: any;
+  value?: { [propertyName: string]: any };
   /** The metadata. */
-  metadata?: any;
+  metadata?: { [propertyName: string]: any };
   /** The description. */
   description?: string;
 }
 
-/** Managed service identity properties. */
-export interface ManagedServiceIdentity {
-  /** Type of managed service identity. The type 'SystemAssigned' includes an implicitly created identity. The type 'None' will remove any identities from the resource. */
-  type: ManagedServiceIdentityType;
-  /**
-   * Tenant of managed service identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /**
-   * Principal Id of managed service identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /** The list of user assigned identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName} */
-  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
-}
-
-/** User Assigned identity properties. */
-export interface UserAssignedIdentity {
-  /**
-   * Principal Id of user assigned identity
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * Client Id of user assigned identity
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clientId?: string;
-}
-
-/** The base resource type. */
-export interface Resource {
-  /**
-   * The resource id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Gets the resource name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Gets the resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** The resource location. */
-  location?: string;
-  /** The resource tags. */
-  tags?: { [propertyName: string]: string };
-}
-
-/** Error response indicates Logic service is not able to process the incoming request. The error property contains the error details. */
-export interface ErrorResponse {
-  /** The error properties. */
-  error?: ErrorProperties;
-}
-
-/** Error properties indicate why the Logic service was not able to process the incoming request. The reason is provided in the error message. */
-export interface ErrorProperties {
-  /** Error code. */
-  code?: string;
-  /** Error message indicating why the operation failed. */
-  message?: string;
-}
-
-/** The parameters to generate upgraded definition. */
-export interface GenerateUpgradedDefinitionParameters {
-  /** The target schema version. */
-  targetSchemaVersion?: string;
-}
-
-/** The callback url parameters. */
-export interface GetCallbackUrlParameters {
-  /** The expiry time. */
-  notAfter?: Date;
-  /** The key type. */
-  keyType?: KeyType;
-}
-
-/** The workflow trigger callback URL. */
-export interface WorkflowTriggerCallbackUrl {
-  /**
-   * Gets the workflow trigger callback URL.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: string;
-  /**
-   * Gets the workflow trigger callback URL HTTP method.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly method?: string;
-  /**
-   * Gets the workflow trigger callback URL base path.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly basePath?: string;
-  /**
-   * Gets the workflow trigger callback URL relative path.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly relativePath?: string;
-  /** Gets the workflow trigger callback URL relative path parameters. */
-  relativePathParameters?: string[];
-  /** Gets the workflow trigger callback URL query parameters. */
-  queries?: WorkflowTriggerListCallbackUrlQueries;
-}
-
-/** Gets the workflow trigger callback URL query parameters. */
-export interface WorkflowTriggerListCallbackUrlQueries {
-  /** The api version. */
-  apiVersion?: string;
-  /** The SAS permissions. */
-  sp?: string;
-  /** The SAS version. */
-  sv?: string;
-  /** The SAS signature. */
-  sig?: string;
-  /** The SAS timestamp. */
-  se?: string;
-}
-
-/** The access key regenerate action content. */
-export interface RegenerateActionParameter {
-  /** The key type. */
-  keyType?: KeyType;
-}
-
-/** The list of workflow versions. */
-export interface WorkflowVersionListResult {
-  /** A list of workflow versions. */
-  value?: WorkflowVersion[];
-  /** The URL to get the next set of results. */
+/** The response of a IntegrationAccountAgreement list operation. */
+export interface IntegrationAccountAgreementListResult {
+  /** The IntegrationAccountAgreement items on this page */
+  value: IntegrationAccountAgreement[];
+  /** The link to the next page of items */
   nextLink?: string;
 }
 
-/** The list of workflow triggers. */
-export interface WorkflowTriggerListResult {
-  /** A list of workflow triggers. */
-  value?: WorkflowTrigger[];
-  /** The URL to get the next set of results. */
-  nextLink?: string;
-}
-
-/** The workflow trigger recurrence. */
-export interface WorkflowTriggerRecurrence {
-  /** The frequency. */
-  frequency?: RecurrenceFrequency;
-  /** The interval. */
-  interval?: number;
-  /** The start time. */
-  startTime?: string;
-  /** The end time. */
-  endTime?: string;
-  /** The time zone. */
-  timeZone?: string;
-  /** The recurrence schedule. */
-  schedule?: RecurrenceSchedule;
-}
-
-/** The recurrence schedule. */
-export interface RecurrenceSchedule {
-  /** The minutes. */
-  minutes?: number[];
-  /** The hours. */
-  hours?: number[];
-  /** The days of the week. */
-  weekDays?: DaysOfWeek[];
-  /** The month days. */
-  monthDays?: number[];
-  /** The monthly occurrences. */
-  monthlyOccurrences?: RecurrenceScheduleOccurrence[];
-}
-
-/** The recurrence schedule occurrence. */
-export interface RecurrenceScheduleOccurrence {
-  /** The day of the week. */
-  day?: DayOfWeek;
-  /** The occurrence. */
-  occurrence?: number;
-}
-
-/** The sub resource type. */
-export interface SubResource {
+/** The integration account agreement properties. */
+export interface IntegrationAccountAgreementProperties {
   /**
-   * The resource id.
+   * The provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly id?: string;
-}
-
-/** The JSON schema. */
-export interface JsonSchema {
-  /** The JSON title. */
-  title?: string;
-  /** The JSON content. */
-  content?: string;
-}
-
-/** The set trigger state action definition. */
-export interface SetTriggerStateActionDefinition {
-  /** The source. */
-  source: WorkflowTriggerReference;
-}
-
-/** The list of workflow trigger histories. */
-export interface WorkflowTriggerHistoryListResult {
-  /** A list of workflow trigger histories. */
-  value?: WorkflowTriggerHistory[];
-  /** The URL to get the next set of results. */
-  nextLink?: string;
-}
-
-/** The correlation property. */
-export interface Correlation {
-  /** The client tracking id. */
-  clientTrackingId?: string;
-}
-
-/** The content link. */
-export interface ContentLink {
-  /** The content link URI. */
-  uri?: string;
+  readonly provisioningState?: WorkflowProvisioningState;
   /**
-   * The content version.
+   * The created time.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly contentVersion?: string;
+  readonly createdTime?: Date;
   /**
-   * The content size.
+   * The changed time.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly contentSize?: number;
-  /**
-   * The content hash.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly contentHash?: ContentHash;
-  /**
-   * The metadata.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly metadata?: any;
-}
-
-/** The content hash. */
-export interface ContentHash {
-  /** The algorithm of the content hash. */
-  algorithm?: string;
-  /** The value of the content hash. */
-  value?: string;
-}
-
-/** The list of workflow runs. */
-export interface WorkflowRunListResult {
-  /** A list of workflow runs. */
-  value?: WorkflowRun[];
-  /** The URL to get the next set of results. */
-  nextLink?: string;
-}
-
-/** The workflow run trigger. */
-export interface WorkflowRunTrigger {
-  /**
-   * Gets the name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Gets the inputs.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly inputs?: any;
-  /**
-   * Gets the link to inputs.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly inputsLink?: ContentLink;
-  /**
-   * Gets the outputs.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly outputs?: any;
-  /**
-   * Gets the link to outputs.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly outputsLink?: ContentLink;
-  /**
-   * Gets the scheduled time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly scheduledTime?: Date;
-  /**
-   * Gets the start time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startTime?: Date;
-  /**
-   * Gets the end time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endTime?: Date;
-  /**
-   * Gets the tracking id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly trackingId?: string;
-  /** The run correlation. */
-  correlation?: Correlation;
-  /**
-   * Gets the code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * Gets the status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: WorkflowStatus;
-  /**
-   * Gets the error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly error?: any;
-  /**
-   * Gets the tracked properties.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly trackedProperties?: any;
-}
-
-/** The list of workflow run actions. */
-export interface WorkflowRunActionListResult {
-  /** A list of workflow run actions. */
-  value?: WorkflowRunAction[];
-  /** The URL to get the next set of results. */
-  nextLink?: string;
-}
-
-/** The correlation properties. */
-export interface RunCorrelation {
-  /** The client tracking identifier. */
-  clientTrackingId?: string;
-  /** The client keywords. */
-  clientKeywords?: string[];
-}
-
-/** The retry history. */
-export interface RetryHistory {
-  /** Gets the start time. */
-  startTime?: Date;
-  /** Gets the end time. */
-  endTime?: Date;
-  /** Gets the status code. */
-  code?: string;
-  /** Gets the client request Id. */
-  clientRequestId?: string;
-  /** Gets the service request Id. */
-  serviceRequestId?: string;
-  /** Gets the error response. */
-  error?: ErrorResponse;
-}
-
-/** The expression traces. */
-export interface ExpressionTraces {
-  inputs?: ExpressionRoot[];
-}
-
-/** The expression. */
-export interface Expression {
-  /** The text. */
-  text?: string;
-  /** Anything */
-  value?: any;
-  /** The sub expressions. */
-  subexpressions?: Expression[];
-  /** The azure resource error info. */
-  error?: AzureResourceErrorInfo;
-}
-
-/** The error info. */
-export interface ErrorInfo {
-  /** The error code. */
-  code: string;
-}
-
-/** A collection of workflow run action repetitions. */
-export interface WorkflowRunActionRepetitionDefinitionCollection {
-  /** The link used to get the next page of recommendations. */
-  nextLink?: string;
-  value?: WorkflowRunActionRepetitionDefinition[];
-}
-
-/** The workflow run action repetition index. */
-export interface RepetitionIndex {
-  /** The scope. */
-  scopeName?: string;
-  /** The index. */
-  itemIndex: number;
-}
-
-/** The run operation result properties. */
-export interface OperationResultProperties {
-  /** The start time of the workflow scope repetition. */
-  startTime?: Date;
-  /** The end time of the workflow scope repetition. */
-  endTime?: Date;
-  /** The correlation properties. */
-  correlation?: RunActionCorrelation;
-  /** The status of the workflow scope repetition. */
-  status?: WorkflowStatus;
-  /** The workflow scope repetition code. */
-  code?: string;
-  /** Anything */
-  error?: any;
-}
-
-/** The list of workflow request histories. */
-export interface RequestHistoryListResult {
-  /** A list of workflow request histories. */
-  value?: RequestHistory[];
-  /** The URL to get the next set of results. */
-  nextLink?: string;
-}
-
-/** The request history. */
-export interface RequestHistoryProperties {
-  /** The time the request started. */
-  startTime?: Date;
-  /** The time the request ended. */
-  endTime?: Date;
-  /** The request. */
-  request?: Request;
-  /** The response. */
-  response?: Response;
-}
-
-/** A request. */
-export interface Request {
-  /** A list of all the headers attached to the request. */
-  headers?: any;
-  /** The destination for the request. */
-  uri?: string;
-  /** The HTTP method used for the request. */
-  method?: string;
-}
-
-/** A response. */
-export interface Response {
-  /** A list of all the headers attached to the response. */
-  headers?: any;
-  /** The status code of the response. */
-  statusCode?: number;
-  /** Details on the location of the body content. */
-  bodyLink?: ContentLink;
-}
-
-/** The list of integration accounts. */
-export interface IntegrationAccountListResult {
-  /** The list of integration accounts. */
-  value?: IntegrationAccount[];
-  /** The URL to get the next set of results. */
-  nextLink?: string;
-}
-
-/** The integration account sku. */
-export interface IntegrationAccountSku {
-  /** The sku name. */
-  name: IntegrationAccountSkuName;
-}
-
-/** A collection of assembly definitions. */
-export interface AssemblyCollection {
-  value?: AssemblyDefinition[];
-}
-
-/** The artifact properties definition. */
-export interface ArtifactProperties {
-  /** The artifact creation time. */
-  createdTime?: Date;
-  /** The artifact changed time. */
-  changedTime?: Date;
-  /** Anything */
-  metadata?: any;
-}
-
-/** A collection of batch configurations. */
-export interface BatchConfigurationCollection {
-  value?: BatchConfiguration[];
-}
-
-/** The batch release criteria. */
-export interface BatchReleaseCriteria {
-  /** The message count. */
-  messageCount?: number;
-  /** The batch size in bytes. */
-  batchSize?: number;
-  /** The recurrence. */
-  recurrence?: WorkflowTriggerRecurrence;
-}
-
-/** The callback url. */
-export interface CallbackUrl {
-  /** The URL value. */
-  value?: string;
-}
-
-/** The list key vault keys definition. */
-export interface ListKeyVaultKeysDefinition {
-  /** The key vault reference. */
-  keyVault: KeyVaultReference;
-  /** The skip token. */
-  skipToken?: string;
-}
-
-/** Collection of key vault keys. */
-export interface KeyVaultKeyCollection {
-  /** The key vault keys. */
-  value?: KeyVaultKey[];
-  /** The skip token. */
-  skipToken?: string;
-}
-
-/** The key vault key. */
-export interface KeyVaultKey {
-  /** The key id. */
-  kid?: string;
-  /** The key attributes. */
-  attributes?: KeyVaultKeyAttributes;
-}
-
-/** The key attributes. */
-export interface KeyVaultKeyAttributes {
-  /** Whether the key is enabled or not. */
-  enabled?: boolean;
-  /** When the key was created. */
-  created?: number;
-  /** When the key was updated. */
-  updated?: number;
-}
-
-/** The tracking events definition. */
-export interface TrackingEventsDefinition {
-  /** The source type. */
-  sourceType: string;
-  /** The track events options. */
-  trackEventsOptions?: TrackEventsOperationOptions;
-  /** The events. */
-  events: TrackingEvent[];
-}
-
-/** The tracking event. */
-export interface TrackingEvent {
-  /** The event level. */
-  eventLevel: EventLevel;
-  /** The event time. */
-  eventTime: Date;
-  /** The record type. */
-  recordType: TrackingRecordType;
-  /** The record. */
-  record?: any;
-  /** The error. */
-  error?: TrackingEventErrorInfo;
-}
-
-/** The tracking event error info. */
-export interface TrackingEventErrorInfo {
-  /** The message. */
-  message?: string;
-  /** The code. */
-  code?: string;
-}
-
-/** The list of integration account schemas. */
-export interface IntegrationAccountSchemaListResult {
-  /** The list of integration account schemas. */
-  value?: IntegrationAccountSchema[];
-  /** The URL to get the next set of results. */
-  nextLink?: string;
-}
-
-/** The list of integration account maps. */
-export interface IntegrationAccountMapListResult {
-  /** The list of integration account maps. */
-  value?: IntegrationAccountMap[];
-  /** The URL to get the next set of results. */
-  nextLink?: string;
-}
-
-/** The parameters schema of integration account map. */
-export interface IntegrationAccountMapPropertiesParametersSchema {
-  /** The reference name. */
-  ref?: string;
-}
-
-/** The list of integration account partners. */
-export interface IntegrationAccountPartnerListResult {
-  /** The list of integration account partners. */
-  value?: IntegrationAccountPartner[];
-  /** The URL to get the next set of results. */
-  nextLink?: string;
-}
-
-/** The integration account partner content. */
-export interface PartnerContent {
-  /** The B2B partner content. */
-  b2B?: B2BPartnerContent;
-}
-
-/** The B2B partner content. */
-export interface B2BPartnerContent {
-  /** The list of partner business identities. */
-  businessIdentities?: BusinessIdentity[];
+  readonly changedTime?: Date;
+  /** The metadata. */
+  metadata?: { [propertyName: string]: any };
+  /** The agreement type. */
+  agreementType: AgreementType;
+  /** The integration account partner that is set as host partner for this agreement. */
+  hostPartner: string;
+  /** The integration account partner that is set as guest partner for this agreement. */
+  guestPartner: string;
+  /** The business identity of the host partner. */
+  hostIdentity: BusinessIdentity;
+  /** The business identity of the guest partner. */
+  guestIdentity: BusinessIdentity;
+  /** The agreement content. */
+  content: AgreementContent;
 }
 
 /** The integration account partner's business identity. */
@@ -749,18 +998,10 @@ export interface BusinessIdentity {
   value: string;
 }
 
-/** The list of integration account agreements. */
-export interface IntegrationAccountAgreementListResult {
-  /** The list of integration account agreements. */
-  value?: IntegrationAccountAgreement[];
-  /** The URL to get the next set of results. */
-  nextLink?: string;
-}
-
 /** The integration account agreement content. */
 export interface AgreementContent {
   /** The AS2 agreement content. */
-  aS2?: AS2AgreementContent;
+  aS2?: As2AgreementContent;
   /** The X12 agreement content. */
   x12?: X12AgreementContent;
   /** The EDIFACT agreement content. */
@@ -768,43 +1009,43 @@ export interface AgreementContent {
 }
 
 /** The integration account AS2 agreement content. */
-export interface AS2AgreementContent {
+export interface As2AgreementContent {
   /** The AS2 one-way receive agreement. */
-  receiveAgreement: AS2OneWayAgreement;
+  receiveAgreement: As2OneWayAgreement;
   /** The AS2 one-way send agreement. */
-  sendAgreement: AS2OneWayAgreement;
+  sendAgreement: As2OneWayAgreement;
 }
 
 /** The integration account AS2 one-way agreement. */
-export interface AS2OneWayAgreement {
+export interface As2OneWayAgreement {
   /** The sender business identity */
   senderBusinessIdentity: BusinessIdentity;
   /** The receiver business identity */
   receiverBusinessIdentity: BusinessIdentity;
   /** The AS2 protocol settings. */
-  protocolSettings: AS2ProtocolSettings;
+  protocolSettings: As2ProtocolSettings;
 }
 
 /** The AS2 agreement protocol settings. */
-export interface AS2ProtocolSettings {
+export interface As2ProtocolSettings {
   /** The message connection settings. */
-  messageConnectionSettings: AS2MessageConnectionSettings;
+  messageConnectionSettings: As2MessageConnectionSettings;
   /** The acknowledgement connection settings. */
-  acknowledgementConnectionSettings: AS2AcknowledgementConnectionSettings;
+  acknowledgementConnectionSettings: As2AcknowledgementConnectionSettings;
   /** The MDN settings. */
-  mdnSettings: AS2MdnSettings;
+  mdnSettings: As2MdnSettings;
   /** The security settings. */
-  securitySettings: AS2SecuritySettings;
+  securitySettings: As2SecuritySettings;
   /** The validation settings. */
-  validationSettings: AS2ValidationSettings;
+  validationSettings: As2ValidationSettings;
   /** The envelope settings. */
-  envelopeSettings: AS2EnvelopeSettings;
+  envelopeSettings: As2EnvelopeSettings;
   /** The error settings. */
-  errorSettings: AS2ErrorSettings;
+  errorSettings: As2ErrorSettings;
 }
 
 /** The AS2 agreement message connection settings. */
-export interface AS2MessageConnectionSettings {
+export interface As2MessageConnectionSettings {
   /** The value indicating whether to ignore mismatch in certificate name. */
   ignoreCertificateNameMismatch: boolean;
   /** The value indicating whether to support HTTP status code 'CONTINUE'. */
@@ -816,7 +1057,7 @@ export interface AS2MessageConnectionSettings {
 }
 
 /** The AS2 agreement acknowledgement connection settings. */
-export interface AS2AcknowledgementConnectionSettings {
+export interface As2AcknowledgementConnectionSettings {
   /** Indicates whether to ignore mismatch in certificate name. */
   ignoreCertificateNameMismatch: boolean;
   /** Indicates whether to support HTTP status code 'CONTINUE'. */
@@ -828,29 +1069,29 @@ export interface AS2AcknowledgementConnectionSettings {
 }
 
 /** The AS2 agreement mdn settings. */
-export interface AS2MdnSettings {
+export interface As2MdnSettings {
   /** The value indicating whether to send or request a MDN. */
-  needMDN: boolean;
+  needMdn: boolean;
   /** The value indicating whether the MDN needs to be signed or not. */
-  signMDN: boolean;
+  signMdn: boolean;
   /** The value indicating whether to send the asynchronous MDN. */
-  sendMDNAsynchronously: boolean;
+  sendMdnAsynchronously: boolean;
   /** The receipt delivery URL. */
   receiptDeliveryUrl?: string;
   /** The disposition notification to header value. */
   dispositionNotificationTo?: string;
   /** The value indicating whether to sign the outbound MDN if optional. */
-  signOutboundMDNIfOptional: boolean;
+  signOutboundMdnIfOptional: boolean;
   /** The MDN text. */
   mdnText?: string;
   /** The value indicating whether to send inbound MDN to message box. */
-  sendInboundMDNToMessageBox: boolean;
+  sendInboundMdnToMessageBox: boolean;
   /** The signing or hashing algorithm. */
   micHashingAlgorithm: HashingAlgorithm;
 }
 
 /** The AS2 agreement security settings. */
-export interface AS2SecuritySettings {
+export interface As2SecuritySettings {
   /** The value indicating whether to send or request a MDN. */
   overrideGroupSigningCertificate: boolean;
   /** The name of the signing certificate. */
@@ -858,23 +1099,23 @@ export interface AS2SecuritySettings {
   /** The name of the encryption certificate. */
   encryptionCertificateName?: string;
   /** The value indicating whether to enable NRR for inbound encoded messages. */
-  enableNRRForInboundEncodedMessages: boolean;
+  enableNrrForInboundEncodedMessages: boolean;
   /** The value indicating whether to enable NRR for inbound decoded messages. */
-  enableNRRForInboundDecodedMessages: boolean;
+  enableNrrForInboundDecodedMessages: boolean;
   /** The value indicating whether to enable NRR for outbound MDN. */
-  enableNRRForOutboundMDN: boolean;
+  enableNrrForOutboundMdn: boolean;
   /** The value indicating whether to enable NRR for outbound encoded messages. */
-  enableNRRForOutboundEncodedMessages: boolean;
+  enableNrrForOutboundEncodedMessages: boolean;
   /** The value indicating whether to enable NRR for outbound decoded messages. */
-  enableNRRForOutboundDecodedMessages: boolean;
+  enableNrrForOutboundDecodedMessages: boolean;
   /** The value indicating whether to enable NRR for inbound MDN. */
-  enableNRRForInboundMDN: boolean;
+  enableNrrForInboundMdn: boolean;
   /** The Sha2 algorithm format. Valid values are Sha2, ShaHashSize, ShaHyphenHashSize, Sha2UnderscoreHashSize. */
   sha2AlgorithmFormat?: string;
 }
 
 /** The AS2 agreement validation settings. */
-export interface AS2ValidationSettings {
+export interface As2ValidationSettings {
   /** The value indicating whether to override incoming message properties with those in agreement. */
   overrideMessageProperties: boolean;
   /** The value indicating whether the message has to be encrypted. */
@@ -898,7 +1139,7 @@ export interface AS2ValidationSettings {
 }
 
 /** The AS2 agreement envelope settings. */
-export interface AS2EnvelopeSettings {
+export interface As2EnvelopeSettings {
   /** The message content type. */
   messageContentType: string;
   /** The value indicating whether to transmit file name in mime header. */
@@ -912,11 +1153,11 @@ export interface AS2EnvelopeSettings {
 }
 
 /** The AS2 agreement error settings. */
-export interface AS2ErrorSettings {
+export interface As2ErrorSettings {
   /** The value indicating whether to suspend duplicate message. */
   suspendDuplicateMessage: boolean;
   /** The value indicating whether to resend message If MDN is not received. */
-  resendIfMDNNotReceived: boolean;
+  resendIfMdnNotReceived: boolean;
 }
 
 /** The X12 agreement content. */
@@ -978,9 +1219,9 @@ export interface X12ValidationSettings {
   /** The value indicating whether to check for duplicate transaction set control number. */
   checkDuplicateTransactionSetControlNumber: boolean;
   /** The value indicating whether to Whether to validate EDI types. */
-  validateEDITypes: boolean;
+  validateEdiTypes: boolean;
   /** The value indicating whether to Whether to validate XSD types. */
-  validateXSDTypes: boolean;
+  validateXsdTypes: boolean;
   /** The value indicating whether to allow leading and trailing spaces and zeroes. */
   allowLeadingAndTrailingSpacesAndZeroes: boolean;
   /** The value indicating whether to trim leading and trailing spaces and zeroes. */
@@ -1156,9 +1397,9 @@ export interface X12ValidationOverride {
   /** The message id on which the validation settings has to be applied. */
   messageId: string;
   /** The value indicating whether to validate EDI types. */
-  validateEDITypes: boolean;
+  validateEdiTypes: boolean;
   /** The value indicating whether to validate XSD types. */
-  validateXSDTypes: boolean;
+  validateXsdTypes: boolean;
   /** The value indicating whether to allow leading and trailing spaces and zeroes. */
   allowLeadingAndTrailingSpacesAndZeroes: boolean;
   /** The value indicating whether to validate character Set. */
@@ -1266,9 +1507,9 @@ export interface EdifactValidationSettings {
   /** The value indicating whether to check for duplicate transaction set control number. */
   checkDuplicateTransactionSetControlNumber: boolean;
   /** The value indicating whether to Whether to validate EDI types. */
-  validateEDITypes: boolean;
+  validateEdiTypes: boolean;
   /** The value indicating whether to Whether to validate XSD types. */
-  validateXSDTypes: boolean;
+  validateXsdTypes: boolean;
   /** The value indicating whether to allow leading and trailing spaces and zeroes. */
   allowLeadingAndTrailingSpacesAndZeroes: boolean;
   /** The value indicating whether to trim leading and trailing spaces and zeroes. */
@@ -1500,9 +1741,9 @@ export interface EdifactValidationOverride {
   /** The value indicating whether to validate character Set. */
   enforceCharacterSet: boolean;
   /** The value indicating whether to validate EDI types. */
-  validateEDITypes: boolean;
+  validateEdiTypes: boolean;
   /** The value indicating whether to validate XSD types. */
-  validateXSDTypes: boolean;
+  validateXsdTypes: boolean;
   /** The value indicating whether to allow leading and trailing spaces and zeroes. */
   allowLeadingAndTrailingSpacesAndZeroes: boolean;
   /** The trailing separator policy. */
@@ -1539,12 +1780,157 @@ export interface EdifactDelimiterOverride {
   targetNamespace?: string;
 }
 
-/** The list of integration account certificates. */
+/** The callback url parameters. */
+export interface GetCallbackUrlParameters {
+  /** The expiry time. */
+  notAfter?: Date;
+  /** The key type. */
+  keyType?: KeyType;
+}
+
+/** The workflow trigger callback URL. */
+export interface WorkflowTriggerCallbackUrl {
+  /**
+   * Gets the workflow trigger callback URL.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: string;
+  /**
+   * Gets the workflow trigger callback URL HTTP method.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly method?: string;
+  /**
+   * Gets the workflow trigger callback URL base path.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly basePath?: string;
+  /**
+   * Gets the workflow trigger callback URL relative path.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly relativePath?: string;
+  /** Gets the workflow trigger callback URL relative path parameters. */
+  relativePathParameters?: string[];
+  /** Gets the workflow trigger callback URL query parameters. */
+  queries?: WorkflowTriggerListCallbackUrlQueries;
+}
+
+/** Gets the workflow trigger callback URL query parameters. */
+export interface WorkflowTriggerListCallbackUrlQueries {
+  /** The api version. */
+  apiVersion?: string;
+  /** The SAS permissions. */
+  sp?: string;
+  /** The SAS version. */
+  sv?: string;
+  /** The SAS signature. */
+  sig?: string;
+  /** The SAS timestamp. */
+  se?: string;
+}
+
+/** A collection of assembly definitions. */
+export interface AssemblyCollection {
+  /** The assembly definitions. */
+  value?: AssemblyDefinition[];
+}
+
+/** The artifact properties definition. */
+export interface ArtifactProperties {
+  /** The artifact creation time. */
+  createdTime?: Date;
+  /** The artifact changed time. */
+  changedTime?: Date;
+  /** The metadata */
+  metadata?: { [propertyName: string]: any };
+}
+
+/** A collection of batch configurations. */
+export interface BatchConfigurationCollection {
+  /** The batch configurations. */
+  value?: BatchConfiguration[];
+}
+
+/** The batch release criteria. */
+export interface BatchReleaseCriteria {
+  /** The message count. */
+  messageCount?: number;
+  /** The batch size in bytes. */
+  batchSize?: number;
+  /** The recurrence. */
+  recurrence?: WorkflowTriggerRecurrence;
+}
+
+/** The workflow trigger recurrence. */
+export interface WorkflowTriggerRecurrence {
+  /** The frequency. */
+  frequency?: RecurrenceFrequency;
+  /** The interval. */
+  interval?: number;
+  /** The start time. */
+  startTime?: string;
+  /** The end time. */
+  endTime?: string;
+  /** The time zone. */
+  timeZone?: string;
+  /** The recurrence schedule. */
+  schedule?: RecurrenceSchedule;
+}
+
+/** The recurrence schedule. */
+export interface RecurrenceSchedule {
+  /** The minutes. */
+  minutes?: number[];
+  /** The hours. */
+  hours?: number[];
+  /** The days of the week. */
+  weekDays?: DaysOfWeek[];
+  /** The month days. */
+  monthDays?: number[];
+  /** The monthly occurrences. */
+  monthlyOccurrences?: RecurrenceScheduleOccurrence[];
+}
+
+/** The recurrence schedule occurrence. */
+export interface RecurrenceScheduleOccurrence {
+  /** The day of the week. */
+  day?: DayOfWeek;
+  /** The occurrence. */
+  occurrence?: number;
+}
+
+/** The response of a IntegrationAccountCertificate list operation. */
 export interface IntegrationAccountCertificateListResult {
-  /** The list of integration account certificates. */
-  value?: IntegrationAccountCertificate[];
-  /** The URL to get the next set of results. */
+  /** The IntegrationAccountCertificate items on this page */
+  value: IntegrationAccountCertificate[];
+  /** The link to the next page of items */
   nextLink?: string;
+}
+
+/** The integration account certificate properties. */
+export interface IntegrationAccountCertificateProperties {
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: WorkflowProvisioningState;
+  /**
+   * The created time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTime?: Date;
+  /**
+   * The changed time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly changedTime?: Date;
+  /** The metadata. */
+  metadata?: { [propertyName: string]: any };
+  /** The key details in the key vault. */
+  key?: KeyVaultKeyReference;
+  /** The public certificate. */
+  publicCertificate?: string;
 }
 
 /** The reference to the key vault key. */
@@ -1573,890 +1959,93 @@ export interface KeyVaultKeyReferenceKeyVault {
   readonly type?: string;
 }
 
-/** The list of integration account sessions. */
-export interface IntegrationAccountSessionListResult {
-  /** The list of integration account sessions. */
-  value?: IntegrationAccountSession[];
-  /** The URL to get the next set of results. */
-  nextLink?: string;
+/** The callback url. */
+export interface CallbackUrl {
+  /** The URL value. */
+  value?: string;
 }
 
-/** The list of integration service environments. */
-export interface IntegrationServiceEnvironmentListResult {
-  value?: IntegrationServiceEnvironment[];
-  /** The URL to get the next set of results. */
-  nextLink?: string;
-}
-
-/** The integration service environment properties. */
-export interface IntegrationServiceEnvironmentProperties {
-  /** The provisioning state. */
-  provisioningState?: WorkflowProvisioningState;
-  /** The integration service environment state. */
-  state?: WorkflowState;
-  /** Gets the tracking id. */
-  integrationServiceEnvironmentId?: string;
-  /** The endpoints configuration. */
-  endpointsConfiguration?: FlowEndpointsConfiguration;
-  /** The network configuration. */
-  networkConfiguration?: NetworkConfiguration;
-  /** The encryption configuration. */
-  encryptionConfiguration?: IntegrationServiceEnvironmenEncryptionConfiguration;
-}
-
-/** The network configuration. */
-export interface NetworkConfiguration {
-  /** Gets the virtual network address space. */
-  virtualNetworkAddressSpace?: string;
-  /** The access endpoint. */
-  accessEndpoint?: IntegrationServiceEnvironmentAccessEndpoint;
-  /** The subnets. */
-  subnets?: ResourceReference[];
-}
-
-/** The integration service environment access endpoint. */
-export interface IntegrationServiceEnvironmentAccessEndpoint {
-  /** The access endpoint type. */
-  type?: IntegrationServiceEnvironmentAccessEndpointType;
-}
-
-/** The encryption configuration for the integration service environment. */
-export interface IntegrationServiceEnvironmenEncryptionConfiguration {
-  /** The encryption key reference. */
-  encryptionKeyReference?: IntegrationServiceEnvironmenEncryptionKeyReference;
-}
-
-/** The encryption key details for the integration service environment. */
-export interface IntegrationServiceEnvironmenEncryptionKeyReference {
+/** The list key vault keys definition. */
+export interface ListKeyVaultKeysDefinition {
   /** The key vault reference. */
-  keyVault?: ResourceReference;
-  /** Gets the key name in the Key Vault. */
-  keyName?: string;
-  /** Gets the version of the key specified in the keyName property. */
-  keyVersion?: string;
+  keyVault: KeyVaultReference;
+  /** The skip token. */
+  skipToken?: string;
 }
 
-/** The integration service environment sku. */
-export interface IntegrationServiceEnvironmentSku {
-  /** The sku name. */
-  name?: IntegrationServiceEnvironmentSkuName;
-  /** The sku capacity. */
-  capacity?: number;
+/** Collection of key vault keys. */
+export interface KeyVaultKeyCollection {
+  /** The key vault keys. */
+  value?: KeyVaultKey[];
+  /** The skip token. */
+  skipToken?: string;
 }
 
-/** The list of integration service environment skus. */
-export interface IntegrationServiceEnvironmentSkuList {
-  /** The list of integration service environment skus. */
-  value?: IntegrationServiceEnvironmentSkuDefinition[];
-  /** The URL to get the next set of results. */
-  nextLink?: string;
+/** The key vault key. */
+export interface KeyVaultKey {
+  /** The key id. */
+  kid?: string;
+  /** The key attributes. */
+  attributes?: KeyVaultKeyAttributes;
 }
 
-/** The integration service environment sku definition. */
-export interface IntegrationServiceEnvironmentSkuDefinition {
-  /** The resource type. */
-  resourceType?: string;
-  /** The sku. */
-  sku?: IntegrationServiceEnvironmentSkuDefinitionSku;
-  /** The sku capacity. */
-  capacity?: IntegrationServiceEnvironmentSkuCapacity;
+/** The key attributes. */
+export interface KeyVaultKeyAttributes {
+  /** Whether the key is enabled or not. */
+  enabled?: boolean;
+  /** When the key was created. */
+  created?: number;
+  /** When the key was updated. */
+  updated?: number;
 }
 
-/** The sku. */
-export interface IntegrationServiceEnvironmentSkuDefinitionSku {
-  /** The sku name. */
-  name?: IntegrationServiceEnvironmentSkuName;
-  /** The sku tier. */
-  tier?: string;
+/** The tracking events definition. */
+export interface TrackingEventsDefinition {
+  /** The source type. */
+  sourceType: string;
+  /** The track events options. */
+  trackEventsOptions?: TrackEventsOperationOptions;
+  /** The events. */
+  events: TrackingEvent[];
 }
 
-/** The integration service environment sku capacity. */
-export interface IntegrationServiceEnvironmentSkuCapacity {
-  /** The minimum capacity. */
-  minimum?: number;
-  /** The maximum capacity. */
-  maximum?: number;
-  /** The default capacity. */
-  default?: number;
-  /** The sku scale type. */
-  scaleType?: IntegrationServiceEnvironmentSkuScaleType;
+/** The tracking event. */
+export interface TrackingEvent {
+  /** The event level. */
+  eventLevel: EventLevel;
+  /** The event time. */
+  eventTime: Date;
+  /** The record type. */
+  recordType: TrackingRecordType;
+  /** The record. */
+  record?: { [propertyName: string]: any };
+  /** The error. */
+  error?: TrackingEventErrorInfo;
 }
 
-/** The integration service environment subnet network health. */
-export interface IntegrationServiceEnvironmentSubnetNetworkHealth {
-  /** The outbound network dependencies. */
-  outboundNetworkDependencies?: IntegrationServiceEnvironmentNetworkDependency[];
-  /** The integration service environment network health. */
-  outboundNetworkHealth?: IntegrationServiceEnvironmentNetworkDependencyHealth;
-  /** The integration service environment network health state. */
-  networkDependencyHealthState: IntegrationServiceEnvironmentNetworkEndPointAccessibilityState;
-}
-
-/** The azure async operation resource. */
-export interface IntegrationServiceEnvironmentNetworkDependency {
-  /** The network dependency category type. */
-  category?: IntegrationServiceEnvironmentNetworkDependencyCategoryType;
-  /** The display name. */
-  displayName?: string;
-  /** The endpoints. */
-  endpoints?: IntegrationServiceEnvironmentNetworkEndpoint[];
-}
-
-/** The network endpoint. */
-export interface IntegrationServiceEnvironmentNetworkEndpoint {
-  /** The accessibility state. */
-  accessibility?: IntegrationServiceEnvironmentNetworkEndPointAccessibilityState;
-  /** The domain name. */
-  domainName?: string;
-  /** The ports. */
-  ports?: string[];
-}
-
-/** The integration service environment subnet network health. */
-export interface IntegrationServiceEnvironmentNetworkDependencyHealth {
-  /** The error if any occurred during the operation. */
-  error?: ExtendedErrorInfo;
-  /** The network dependency health state. */
-  state?: IntegrationServiceEnvironmentNetworkDependencyHealthState;
-}
-
-/** The extended error info. */
-export interface ExtendedErrorInfo {
-  /** The error code. */
-  code: ErrorResponseCode;
-  /** The error message. */
-  message: string;
-  /** The error message details. */
-  details?: ExtendedErrorInfo[];
-  /** The inner error. */
-  innerError?: any;
-}
-
-/** The list of integration service environment managed APIs. */
-export interface IntegrationServiceEnvironmentManagedApiListResult {
-  /** The integration service environment managed APIs. */
-  value?: IntegrationServiceEnvironmentManagedApi[];
-  /** The URL to get the next set of results. */
-  nextLink?: string;
-}
-
-/** The integration service environment managed api deployment parameters. */
-export interface IntegrationServiceEnvironmentManagedApiDeploymentParameters {
-  /** The integration service environment managed api content link for deployment. */
-  contentLinkDefinition?: ContentLink;
-}
-
-/** The API resource properties. */
-export interface ApiResourceProperties {
-  /**
-   * The name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The connection parameters.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly connectionParameters?: { [propertyName: string]: any };
-  /**
-   * The metadata.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly metadata?: ApiResourceMetadata;
-  /**
-   * The runtime urls.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly runtimeUrls?: string[];
-  /**
-   * The api general information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly generalInformation?: ApiResourceGeneralInformation;
-  /**
-   * The capabilities.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly capabilities?: string[];
-  /**
-   * The backend service.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly backendService?: ApiResourceBackendService;
-  /**
-   * The policies for the API.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly policies?: ApiResourcePolicies;
-  /**
-   * The API definition.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly apiDefinitionUrl?: string;
-  /**
-   * The api definitions.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly apiDefinitions?: ApiResourceDefinitions;
-  /** The integration service environment reference. */
-  integrationServiceEnvironment?: ResourceReference;
-  /**
-   * The provisioning state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: WorkflowProvisioningState;
-  /**
-   * The category.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly category?: ApiTier;
-}
-
-/** The api resource metadata. */
-export interface ApiResourceMetadata {
-  /** The source. */
-  source?: string;
-  /** The brand color. */
-  brandColor?: string;
-  /** The hide key. */
-  hideKey?: string;
-  /** The tags. */
-  tags?: { [propertyName: string]: string };
-  /** The api type. */
-  apiType?: ApiType;
-  /** The WSDL service. */
-  wsdlService?: WsdlService;
-  /** The WSDL import method. */
-  wsdlImportMethod?: WsdlImportMethod;
-  /** The connection type. */
-  connectionType?: string;
-  /** The provisioning state. */
-  provisioningState?: WorkflowProvisioningState;
-  /** The connector deployment parameters metadata. */
-  deploymentParameters?: ApiDeploymentParameterMetadataSet;
-}
-
-/** The WSDL service. */
-export interface WsdlService {
-  /** The qualified name. */
-  qualifiedName?: string;
-  /** The list of endpoints' qualified names. */
-  endpointQualifiedNames?: string[];
-}
-
-/** The API deployment parameters metadata. */
-export interface ApiDeploymentParameterMetadataSet {
-  /** The package content link parameter. */
-  packageContentLink?: ApiDeploymentParameterMetadata;
-  /** The package content link parameter. */
-  redisCacheConnectionString?: ApiDeploymentParameterMetadata;
-}
-
-/** The API deployment parameter metadata. */
-export interface ApiDeploymentParameterMetadata {
-  /** The type. */
-  type?: string;
-  /** Indicates whether its required. */
-  isRequired?: boolean;
-  /** The display name. */
-  displayName?: string;
-  /** The description. */
-  description?: string;
-  /** The visibility. */
-  visibility?: ApiDeploymentParameterVisibility;
-}
-
-/** The API general information. */
-export interface ApiResourceGeneralInformation {
-  /** The icon url. */
-  iconUrl?: string;
-  /** The display name. */
-  displayName?: string;
-  /** The description. */
-  description?: string;
-  /** The terms of use url. */
-  termsOfUseUrl?: string;
-  /** The release tag. */
-  releaseTag?: string;
-  /** The tier. */
-  tier?: ApiTier;
-}
-
-/** The API backend service. */
-export interface ApiResourceBackendService {
-  /** The service URL. */
-  serviceUrl?: string;
-}
-
-/** The API resource policies. */
-export interface ApiResourcePolicies {
-  /** The API level only policies XML as embedded content. */
-  content?: string;
-  /** The content link to the policies. */
-  contentLink?: string;
-}
-
-/** The Api resource definition. */
-export interface ApiResourceDefinitions {
-  /** The original swagger url. */
-  originalSwaggerUrl?: string;
-  /** The modified swagger url. */
-  modifiedSwaggerUrl?: string;
-}
-
-/** The list of managed API operations. */
-export interface ApiOperationListResult {
-  /** The api operation definitions for an API. */
-  value?: ApiOperation[];
-  /** The URL to get the next set of results. */
-  nextLink?: string;
-}
-
-/** The api operations properties */
-export interface ApiOperationPropertiesDefinition {
-  /** The summary of the api operation. */
-  summary?: string;
-  /** The description of the api operation. */
-  description?: string;
-  /** The visibility of the api operation. */
-  visibility?: string;
-  /** The trigger type of api operation. */
-  trigger?: string;
-  /** The trigger hint for the api operation. */
-  triggerHint?: string;
-  /** Indicates whether the api operation is pageable. */
-  pageable?: boolean;
-  /** The annotation of api operation. */
-  annotation?: ApiOperationAnnotation;
-  /** The api reference. */
-  api?: ApiReference;
-  /** The operation inputs definition schema. */
-  inputsDefinition?: SwaggerSchema;
-  /** The operation responses definition schemas. */
-  responsesDefinition?: { [propertyName: string]: SwaggerSchema };
-  /** Indicates whether the API operation is webhook or not. */
-  isWebhook?: boolean;
-  /** Indicates whether the API operation is notification or not. */
-  isNotification?: boolean;
-}
-
-/** The Api Operation Annotation. */
-export interface ApiOperationAnnotation {
-  /** The status annotation. */
-  status?: StatusAnnotation;
-  /** The family. */
-  family?: string;
-  /** The revision. */
-  revision?: number;
-}
-
-/** The swagger schema. */
-export interface SwaggerSchema {
-  /** The reference. */
-  ref?: string;
-  /** The type */
-  type?: SwaggerSchemaType;
-  /** The title. */
-  title?: string;
-  /** The items schema. */
-  items?: SwaggerSchema;
-  /** The object properties */
-  properties?: { [propertyName: string]: SwaggerSchema };
-  /** The additional properties. */
-  additionalProperties?: any;
-  /** The object required properties. */
-  required?: string[];
-  /** The maximum number of allowed properties. */
-  maxProperties?: number;
-  /** The minimum number of allowed properties. */
-  minProperties?: number;
-  /** The schemas which must pass validation when this schema is used. */
-  allOf?: SwaggerSchema[];
-  /** The discriminator. */
-  discriminator?: string;
-  /** Indicates whether this property must be present in the a request. */
-  readOnly?: boolean;
-  /** The xml representation format for a property. */
-  xml?: SwaggerXml;
-  /** The external documentation. */
-  externalDocs?: SwaggerExternalDocumentation;
-  /** The example value. */
-  example?: any;
-  /** Indicates the notification url extension. If this is set, the property's value should be a callback url for a webhook. */
-  notificationUrlExtension?: boolean;
-  /** The dynamic schema configuration. */
-  dynamicSchemaOld?: SwaggerCustomDynamicSchema;
-  /** The dynamic schema configuration. */
-  dynamicSchemaNew?: SwaggerCustomDynamicProperties;
-  /** The dynamic list. */
-  dynamicListNew?: SwaggerCustomDynamicList;
-  /** The dynamic values tree configuration. */
-  dynamicTree?: SwaggerCustomDynamicTree;
-}
-
-/** The Swagger XML. */
-export interface SwaggerXml {
-  /** The xml element or attribute name. */
-  name?: string;
-  /** The xml namespace. */
-  namespace?: string;
-  /** The name prefix. */
-  prefix?: string;
-  /** Indicates whether the property should be an attribute instead of an element. */
-  attribute?: boolean;
-  /** Indicates whether the array elements are wrapped in a container element. */
-  wrapped?: boolean;
-  /** The vendor extensions. */
-  extensions?: { [propertyName: string]: any };
-}
-
-/** The swagger external documentation */
-export interface SwaggerExternalDocumentation {
-  /** The document description. */
-  description?: string;
-  /** The documentation Uri. */
-  uri?: string;
-  /** The vendor extensions. */
-  extensions?: { [propertyName: string]: any };
-}
-
-/** The swagger custom dynamic schema. */
-export interface SwaggerCustomDynamicSchema {
-  /** The operation id to fetch dynamic schema. */
-  operationId?: string;
-  /** Json pointer to the dynamic schema on the response body. */
-  valuePath?: string;
-  /** The operation parameters. */
-  parameters?: { [propertyName: string]: any };
-}
-
-/** The swagger custom dynamic properties. */
-export interface SwaggerCustomDynamicProperties {
-  /** The operation id to fetch dynamic schema. */
-  operationId?: string;
-  /** Json pointer to the dynamic schema on the response body. */
-  valuePath?: string;
-  /** The operation parameters. */
-  parameters?: { [propertyName: string]: SwaggerCustomDynamicProperties };
-}
-
-/** The swagger custom dynamic list. */
-export interface SwaggerCustomDynamicList {
-  /** The operation id to fetch dynamic schema. */
-  operationId?: string;
-  /** The built in operation. */
-  builtInOperation?: string;
-  /** The path to a response property (relative to the response object, not the response body) which contains an array of dynamic value items. */
-  itemsPath?: string;
-  /** The path to a property which defines the value which should be used. */
-  itemValuePath?: string;
-  /** The path to an item property which defines the display name of the item. */
-  itemTitlePath?: string;
-  /** The parameters. */
-  parameters?: { [propertyName: string]: SwaggerCustomDynamicProperties };
-}
-
-/** The swagger custom dynamic tree. */
-export interface SwaggerCustomDynamicTree {
-  /** The tree settings */
-  settings?: SwaggerCustomDynamicTreeSettings;
-  /** The tree on-open configuration */
-  open?: SwaggerCustomDynamicTreeCommand;
-  /** The tree on-browse configuration */
-  browse?: SwaggerCustomDynamicTreeCommand;
-}
-
-/** The swagger custom dynamic tree settings. */
-export interface SwaggerCustomDynamicTreeSettings {
-  /** Indicates whether parent nodes can be selected. */
-  canSelectParentNodes?: boolean;
-  /** Indicates whether leaf nodes can be selected. */
-  canSelectLeafNodes?: boolean;
-}
-
-/** The swagger tree command. */
-export interface SwaggerCustomDynamicTreeCommand {
-  /** The path to an item property which defines the display name of the item. */
-  operationId?: string;
-  /** The path to an item property which defines the display name of the item. */
-  itemsPath?: string;
-  /** The path to an item property which defines the display name of the item. */
-  itemValuePath?: string;
-  /** The path to an item property which defines the display name of the item. */
-  itemTitlePath?: string;
-  /** The path to an item property which defines the display name of the item. */
-  itemFullTitlePath?: string;
-  /** The path to an item property which defines the display name of the item. */
-  itemIsParent?: string;
-  /** The path to an item property which defines the display name of the item. */
-  selectableFilter?: string;
-  /** Dictionary of <SwaggerCustomDynamicTreeParameter> */
-  parameters?: { [propertyName: string]: SwaggerCustomDynamicTreeParameter };
-}
-
-/** The swagger custom dynamic tree parameter. */
-export interface SwaggerCustomDynamicTreeParameter {
-  /** Gets or sets a path to a property in the currently selected item to pass as a value to a parameter for the given operation. */
-  selectedItemValuePath?: string;
-  /** The parameter value. */
-  value?: any;
-  /** The parameter reference. */
-  parameterReference?: string;
-  /** Indicates whether the parameter is required. */
-  required?: boolean;
-}
-
-/** Result of the request to list Logic operations. It contains a list of operations and a URL link to get the next set of results. */
-export interface OperationListResult {
-  /** List of Logic operations supported by the Logic resource provider. */
-  value?: Operation[];
-  /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
-}
-
-/** Logic REST API operation */
-export interface Operation {
-  /** Operation: origin */
-  origin?: string;
-  /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
-  /** The object that represents the operation. */
-  display?: OperationDisplay;
-  /** The properties. */
-  properties?: any;
-}
-
-/** The object that represents the operation. */
-export interface OperationDisplay {
-  /** Service provider: Microsoft.Logic */
-  provider?: string;
-  /** Resource on which the operation is performed: Profile, endpoint, etc. */
-  resource?: string;
-  /** Operation type: Read, write, delete, etc. */
-  operation?: string;
-  /** Operation: description. */
-  description?: string;
-}
-
-/** The workflow filter. */
-export interface WorkflowFilter {
-  /** The state of workflows. */
-  state?: WorkflowState;
-}
-
-/** The workflow trigger filter. */
-export interface WorkflowTriggerFilter {
-  /** The state of workflow trigger. */
-  state?: WorkflowState;
-}
-
-/** The workflow trigger history filter. */
-export interface WorkflowTriggerHistoryFilter {
-  /** The status of workflow trigger history. */
-  status?: WorkflowStatus;
-}
-
-/** The workflow run filter. */
-export interface WorkflowRunFilter {
-  /** The status of workflow run. */
-  status?: WorkflowStatus;
-}
-
-/** The workflow run action filter. */
-export interface WorkflowRunActionFilter {
-  /** The status of workflow run action. */
-  status?: WorkflowStatus;
-}
-
-/** The list of managed APIs. */
-export interface ManagedApiListResult {
-  /** The managed APIs. */
-  value?: ManagedApi[];
-  /** The URL to get the next set of results. */
-  nextLink?: string;
-}
-
-/** The integration account schema filter for odata query. */
-export interface IntegrationAccountSchemaFilter {
-  /** The schema type of integration account schema. */
-  schemaType: SchemaType;
-}
-
-/** The integration account map filter for odata query. */
-export interface IntegrationAccountMapFilter {
-  /** The map type of integration account map. */
-  mapType: MapType;
-}
-
-/** The integration account partner filter for odata query. */
-export interface IntegrationAccountPartnerFilter {
-  /** The partner type of integration account partner. */
-  partnerType: PartnerType;
-}
-
-/** The integration account agreement filter for odata query. */
-export interface IntegrationAccountAgreementFilter {
-  /** The agreement type of integration account agreement. */
-  agreementType: AgreementType;
-}
-
-/** The integration account session filter. */
-export interface IntegrationAccountSessionFilter {
-  /** The changed time of integration account sessions. */
-  changedTime: Date;
-}
-
-/** The workflow reference. */
-export interface WorkflowReference extends ResourceReference {}
-
-/** The workflow trigger reference. */
-export interface WorkflowTriggerReference extends ResourceReference {
-  /** The workflow name. */
-  flowName?: string;
-  /** The workflow trigger name. */
-  triggerName?: string;
-}
-
-/** The key vault reference. */
-export interface KeyVaultReference extends ResourceReference {}
-
-/** The Api reference. */
-export interface ApiReference extends ResourceReference {
-  /** The display name of the api. */
-  displayName?: string;
-  /** The description of the api. */
-  description?: string;
-  /** The icon uri of the api. */
-  iconUri?: string;
-  /** The swagger of the api. */
-  swagger?: any;
-  /** The brand color of the api. */
-  brandColor?: string;
-  /** The tier. */
-  category?: ApiTier;
-  /** The integration service environment reference. */
-  integrationServiceEnvironment?: ResourceReference;
-}
-
-/** The workflow output parameter. */
-export interface WorkflowOutputParameter extends WorkflowParameter {
-  /**
-   * Gets the error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly error?: any;
-}
-
-/** The workflow type. */
-export interface Workflow extends Resource {
-  /** Managed service identity properties. */
-  identity?: ManagedServiceIdentity;
-  /**
-   * Gets the provisioning state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: WorkflowProvisioningState;
-  /**
-   * Gets the created time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdTime?: Date;
-  /**
-   * Gets the changed time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly changedTime?: Date;
-  /** The state. */
-  state?: WorkflowState;
-  /**
-   * Gets the version.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly version?: string;
-  /**
-   * Gets the access endpoint.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly accessEndpoint?: string;
-  /** The endpoints configuration. */
-  endpointsConfiguration?: FlowEndpointsConfiguration;
-  /** The access control configuration. */
-  accessControl?: FlowAccessControlConfiguration;
-  /**
-   * The sku.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sku?: Sku;
-  /** The integration account. */
-  integrationAccount?: ResourceReference;
-  /** The integration service environment. */
-  integrationServiceEnvironment?: ResourceReference;
-  /** The definition. */
-  definition?: any;
-  /** The parameters. */
-  parameters?: { [propertyName: string]: WorkflowParameter };
-}
-
-/** The workflow version. */
-export interface WorkflowVersion extends Resource {
-  /**
-   * The provisioning state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: WorkflowProvisioningState;
-  /**
-   * Gets the created time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdTime?: Date;
-  /**
-   * Gets the changed time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly changedTime?: Date;
-  /** The state. */
-  state?: WorkflowState;
-  /**
-   * Gets the version.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly version?: string;
-  /**
-   * Gets the access endpoint.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly accessEndpoint?: string;
-  /** The endpoints configuration. */
-  endpointsConfiguration?: FlowEndpointsConfiguration;
-  /** The access control configuration. */
-  accessControl?: FlowAccessControlConfiguration;
-  /**
-   * The sku.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sku?: Sku;
-  /** The integration account. */
-  integrationAccount?: ResourceReference;
-  /** The definition. */
-  definition?: any;
-  /** The parameters. */
-  parameters?: { [propertyName: string]: WorkflowParameter };
-}
-
-/** The workflow run action repetition definition. */
-export interface WorkflowRunActionRepetitionDefinition extends Resource {
-  /** The start time of the workflow scope repetition. */
-  startTime?: Date;
-  /** The end time of the workflow scope repetition. */
-  endTime?: Date;
-  /** The correlation properties. */
-  correlation?: RunActionCorrelation;
-  /** The status of the workflow scope repetition. */
-  status?: WorkflowStatus;
-  /** The workflow scope repetition code. */
+/** The tracking event error info. */
+export interface TrackingEventErrorInfo {
+  /** The message. */
+  message?: string;
+  /** The code. */
   code?: string;
-  /** Anything */
-  error?: any;
-  /**
-   * Gets the tracking id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly trackingId?: string;
-  /**
-   * Gets the inputs.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly inputs?: any;
-  /**
-   * Gets the link to inputs.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly inputsLink?: ContentLink;
-  /**
-   * Gets the outputs.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly outputs?: any;
-  /**
-   * Gets the link to outputs.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly outputsLink?: ContentLink;
-  /**
-   * Gets the tracked properties.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly trackedProperties?: any;
-  /** Gets the retry histories. */
-  retryHistory?: RetryHistory[];
-  iterationCount?: number;
-  /** The repetition indexes. */
-  repetitionIndexes?: RepetitionIndex[];
 }
 
-/** The request history. */
-export interface RequestHistory extends Resource {
-  /** The request history properties. */
-  properties?: RequestHistoryProperties;
-}
-
-/** The integration account. */
-export interface IntegrationAccount extends Resource {
-  /** The sku. */
-  sku?: IntegrationAccountSku;
-  /** The integration service environment. */
-  integrationServiceEnvironment?: ResourceReference;
-  /** The workflow state. */
-  state?: WorkflowState;
-}
-
-/** The assembly definition. */
-export interface AssemblyDefinition extends Resource {
-  /** The assembly properties. */
-  properties: AssemblyProperties;
-}
-
-/** The batch configuration resource definition. */
-export interface BatchConfiguration extends Resource {
-  /** The batch configuration properties. */
-  properties: BatchConfigurationProperties;
-}
-
-/** The integration account schema. */
-export interface IntegrationAccountSchema extends Resource {
-  /** The schema type. */
-  schemaType: SchemaType;
-  /** The target namespace of the schema. */
-  targetNamespace?: string;
-  /** The document name. */
-  documentName?: string;
-  /** The file name. */
-  fileName?: string;
-  /**
-   * The created time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdTime?: Date;
-  /**
-   * The changed time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly changedTime?: Date;
-  /** The metadata. */
-  metadata?: any;
-  /** The content. */
-  content?: string;
-  /** The content type. */
-  contentType?: string;
-  /**
-   * The content link.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly contentLink?: ContentLink;
+/** The response of a IntegrationAccountMap list operation. */
+export interface IntegrationAccountMapListResult {
+  /** The IntegrationAccountMap items on this page */
+  value: IntegrationAccountMap[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** The integration account map. */
-export interface IntegrationAccountMap extends Resource {
+export interface IntegrationAccountMapProperties {
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: WorkflowProvisioningState;
   /** The map type. */
   mapType: MapType;
   /** The parameters schema of integration account map. */
@@ -2481,11 +2070,30 @@ export interface IntegrationAccountMap extends Resource {
    */
   readonly contentLink?: ContentLink;
   /** The metadata. */
-  metadata?: any;
+  metadata?: { [propertyName: string]: any };
 }
 
-/** The integration account partner. */
-export interface IntegrationAccountPartner extends Resource {
+/** The parameters schema of integration account map. */
+export interface IntegrationAccountMapPropertiesParametersSchema {
+  /** The reference name. */
+  ref?: string;
+}
+
+/** The response of a IntegrationAccountPartner list operation. */
+export interface IntegrationAccountPartnerListResult {
+  /** The IntegrationAccountPartner items on this page */
+  value: IntegrationAccountPartner[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The integration account partner properties. */
+export interface IntegrationAccountPartnerProperties {
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: WorkflowProvisioningState;
   /** The partner type. */
   partnerType: PartnerType;
   /**
@@ -2499,13 +2107,52 @@ export interface IntegrationAccountPartner extends Resource {
    */
   readonly changedTime?: Date;
   /** The metadata. */
-  metadata?: any;
+  metadata?: { [propertyName: string]: any };
   /** The partner content. */
   content: PartnerContent;
 }
 
-/** The integration account agreement. */
-export interface IntegrationAccountAgreement extends Resource {
+/** The integration account partner content. */
+export interface PartnerContent {
+  /** The B2B partner content. */
+  b2B?: B2BPartnerContent;
+}
+
+/** The B2B partner content. */
+export interface B2BPartnerContent {
+  /** The list of partner business identities. */
+  businessIdentities?: BusinessIdentity[];
+}
+
+/** The access key regenerate action content. */
+export interface RegenerateActionParameter {
+  /** The key type. */
+  keyType?: KeyType;
+}
+
+/** The response of a IntegrationAccountSchema list operation. */
+export interface IntegrationAccountSchemaListResult {
+  /** The IntegrationAccountSchema items on this page */
+  value: IntegrationAccountSchema[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The integration account schema properties. */
+export interface IntegrationAccountSchemaProperties {
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: WorkflowProvisioningState;
+  /** The schema type. */
+  schemaType: SchemaType;
+  /** The target namespace of the schema. */
+  targetNamespace?: string;
+  /** The document name. */
+  documentName?: string;
+  /** The file name. */
+  fileName?: string;
   /**
    * The created time.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2517,43 +2164,33 @@ export interface IntegrationAccountAgreement extends Resource {
    */
   readonly changedTime?: Date;
   /** The metadata. */
-  metadata?: any;
-  /** The agreement type. */
-  agreementType: AgreementType;
-  /** The integration account partner that is set as host partner for this agreement. */
-  hostPartner: string;
-  /** The integration account partner that is set as guest partner for this agreement. */
-  guestPartner: string;
-  /** The business identity of the host partner. */
-  hostIdentity: BusinessIdentity;
-  /** The business identity of the guest partner. */
-  guestIdentity: BusinessIdentity;
-  /** The agreement content. */
-  content: AgreementContent;
-}
-
-/** The integration account certificate. */
-export interface IntegrationAccountCertificate extends Resource {
+  metadata?: { [propertyName: string]: any };
+  /** The content. */
+  content?: string;
+  /** The content type. */
+  contentType?: string;
   /**
-   * The created time.
+   * The content link.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly createdTime?: Date;
-  /**
-   * The changed time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly changedTime?: Date;
-  /** The metadata. */
-  metadata?: any;
-  /** The key details in the key vault. */
-  key?: KeyVaultKeyReference;
-  /** The public certificate. */
-  publicCertificate?: string;
+  readonly contentLink?: ContentLink;
 }
 
-/** The integration account session. */
-export interface IntegrationAccountSession extends Resource {
+/** The response of a IntegrationAccountSession list operation. */
+export interface IntegrationAccountSessionListResult {
+  /** The IntegrationAccountSession items on this page */
+  value: IntegrationAccountSession[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The integration account session properties. */
+export interface IntegrationAccountSessionProperties {
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: WorkflowProvisioningState;
   /**
    * The created time.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2565,111 +2202,380 @@ export interface IntegrationAccountSession extends Resource {
    */
   readonly changedTime?: Date;
   /** The session content. */
-  content?: any;
+  content?: { [propertyName: string]: any };
 }
 
-/** The integration service environment. */
-export interface IntegrationServiceEnvironment extends Resource {
-  /** The integration service environment properties. */
-  properties?: IntegrationServiceEnvironmentProperties;
-  /** The sku. */
-  sku?: IntegrationServiceEnvironmentSku;
-  /** Managed service identity properties. */
-  identity?: ManagedServiceIdentity;
+/** The parameters to generate upgraded definition. */
+export interface GenerateUpgradedDefinitionParameters {
+  /** The target schema version. */
+  targetSchemaVersion?: string;
 }
 
-/** The integration service environment managed api. */
-export interface IntegrationServiceEnvironmentManagedApi extends Resource {
-  /**
-   * The name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly namePropertiesName?: string;
-  /**
-   * The connection parameters.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly connectionParameters?: { [propertyName: string]: any };
-  /**
-   * The metadata.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly metadata?: ApiResourceMetadata;
-  /**
-   * The runtime urls.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly runtimeUrls?: string[];
-  /**
-   * The api general information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly generalInformation?: ApiResourceGeneralInformation;
-  /**
-   * The capabilities.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly capabilities?: string[];
-  /**
-   * The backend service.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly backendService?: ApiResourceBackendService;
-  /**
-   * The policies for the API.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly policies?: ApiResourcePolicies;
-  /**
-   * The API definition.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly apiDefinitionUrl?: string;
-  /**
-   * The api definitions.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly apiDefinitions?: ApiResourceDefinitions;
-  /** The integration service environment reference. */
-  integrationServiceEnvironment?: ResourceReference;
+/**
+ * Standard type definition for Azure Resource Manager Tags property.
+ *
+ * It is included in the TrackedResource template definition.The Azure Resource Manager Resource tags.
+ */
+export interface AzureResourceManagerFoundationsArmTagsProperty {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** The workflow run properties. */
+export interface WorkflowRunProperties {
   /**
    * The provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: WorkflowProvisioningState;
   /**
-   * The category.
+   * Gets the wait end time.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly category?: ApiTier;
-  /** The integration service environment managed api deployment parameters. */
-  deploymentParameters?: IntegrationServiceEnvironmentManagedApiDeploymentParameters;
-}
-
-/** The api operation. */
-export interface ApiOperation extends Resource {
-  /** The api operations properties */
-  properties?: ApiOperationPropertiesDefinition;
-}
-
-/** The managed api definition. */
-export interface ManagedApi extends Resource {
-  /** The api resource properties. */
-  properties?: ApiResourceProperties;
-}
-
-/** The workflow trigger. */
-export interface WorkflowTrigger extends SubResource {
+  readonly waitEndTime?: Date;
   /**
-   * Gets the workflow trigger name.
+   * Gets the start time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: Date;
+  /**
+   * Gets the end time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: Date;
+  /**
+   * Gets the status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: WorkflowStatus;
+  /**
+   * Gets the code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Gets the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: { [propertyName: string]: any };
+  /**
+   * Gets the correlation id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
+  /** The run correlation. */
+  correlation?: Correlation;
+  /**
+   * Gets the reference to workflow version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly workflow?: ResourceReference;
+  /**
+   * Gets the fired trigger.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly trigger?: WorkflowRunTrigger;
+  /**
+   * Gets the outputs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly outputs?: { [propertyName: string]: WorkflowOutputParameter };
+  /**
+   * Gets the response of the flow run.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly response?: WorkflowRunTrigger;
+}
+
+/** The correlation property. */
+export interface Correlation {
+  /** The client tracking id. */
+  clientTrackingId?: string;
+}
+
+/** The workflow run trigger. */
+export interface WorkflowRunTrigger {
+  /**
+   * Gets the name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * Gets the workflow trigger type.
+   * Gets the inputs.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly type?: string;
+  readonly inputs?: { [propertyName: string]: any };
+  /**
+   * Gets the link to inputs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inputsLink?: ContentLink;
+  /**
+   * Gets the outputs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly outputs?: { [propertyName: string]: any };
+  /**
+   * Gets the link to outputs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly outputsLink?: ContentLink;
+  /**
+   * Gets the scheduled time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scheduledTime?: Date;
+  /**
+   * Gets the start time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: Date;
+  /**
+   * Gets the end time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: Date;
+  /**
+   * Gets the tracking id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly trackingId?: string;
+  /** The run correlation. */
+  correlation?: Correlation;
+  /**
+   * Gets the code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Gets the status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: WorkflowStatus;
+  /**
+   * Gets the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: { [propertyName: string]: any };
+  /**
+   * Gets the tracked properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly trackedProperties?: { [propertyName: string]: any };
+}
+
+/** The response of a WorkflowRunAction list operation. */
+export interface WorkflowRunActionListResult {
+  /** The WorkflowRunAction items on this page */
+  value: WorkflowRunAction[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The workflow run action properties. */
+export interface WorkflowRunActionProperties {
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: WorkflowProvisioningState;
+  /**
+   * Gets the start time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: Date;
+  /**
+   * Gets the end time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: Date;
+  /**
+   * Gets the status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: WorkflowStatus;
+  /**
+   * Gets the code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Gets the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: { [propertyName: string]: any };
+  /**
+   * Gets the tracking id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly trackingId?: string;
+  /** The correlation properties. */
+  correlation?: RunActionCorrelation;
+  /**
+   * Gets the link to inputs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inputsLink?: ContentLink;
+  /**
+   * Gets the link to outputs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly outputsLink?: ContentLink;
+  /**
+   * Gets the tracked properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly trackedProperties?: { [propertyName: string]: any };
+  /** Gets the retry histories. */
+  retryHistory?: RetryHistory[];
+}
+
+/** The correlation properties. */
+export interface RunCorrelation {
+  /** The client tracking identifier. */
+  clientTrackingId?: string;
+  /** The client keywords. */
+  clientKeywords?: string[];
+}
+
+/** The retry history. */
+export interface RetryHistory {
+  /** Gets the start time. */
+  startTime?: Date;
+  /** Gets the end time. */
+  endTime?: Date;
+  /** Gets the status code. */
+  code?: string;
+  /** Gets the client request Id. */
+  clientRequestId?: string;
+  /** Gets the service request Id. */
+  serviceRequestId?: string;
+  /** Gets the error response. */
+  error?: ErrorResponse;
+}
+
+/** The expression traces. */
+export interface ExpressionTraces {
+  /** The expression trace. */
+  inputs?: ExpressionRoot[];
+}
+
+/** The expression. */
+export interface Expression {
+  /** The text. */
+  text?: string;
+  /** The expression value */
+  value?: { [propertyName: string]: any };
+  /** The sub expressions. */
+  subexpressions?: Expression[];
+  /** The azure resource error info. */
+  error?: AzureResourceErrorInfo;
+}
+
+/** The error info. */
+export interface ErrorInfo {
+  /** The error code. */
+  code: string;
+}
+
+/** A collection of workflow run action repetitions. */
+export interface WorkflowRunActionRepetitionDefinitionCollection {
+  /** The WorkflowRunActionRepetitionDefinition items on this page */
+  value: WorkflowRunActionRepetitionDefinition[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The workflow run action repetition index. */
+export interface RepetitionIndex {
+  /** The scope. */
+  scopeName?: string;
+  /** The index. */
+  itemIndex: number;
+}
+
+/** The run operation result properties. */
+export interface OperationResultProperties {
+  /** The start time of the workflow scope repetition. */
+  startTime?: Date;
+  /** The end time of the workflow scope repetition. */
+  endTime?: Date;
+  /** The correlation properties. */
+  correlation?: RunActionCorrelation;
+  /**
+   * The status of the workflow scope repetition.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: WorkflowStatus;
+  /** The workflow scope repetition code. */
+  code?: string;
+  /** The error */
+  error?: { [propertyName: string]: any };
+}
+
+/** The response of a RequestHistory list operation. */
+export interface RequestHistoryListResult {
+  /** The RequestHistory items on this page */
+  value: RequestHistory[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The request history. */
+export interface RequestHistoryProperties {
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: WorkflowProvisioningState;
+  /** The time the request started. */
+  startTime?: Date;
+  /** The time the request ended. */
+  endTime?: Date;
+  /** The request. */
+  request?: Request;
+  /** The response. */
+  response?: Response;
+}
+
+/** A request. */
+export interface Request {
+  /** A list of all the headers attached to the request. */
+  headers?: { [propertyName: string]: any };
+  /** The destination for the request. */
+  uri?: string;
+  /** The HTTP method used for the request. */
+  method?: string;
+}
+
+/** A response. */
+export interface Response {
+  /** A list of all the headers attached to the response. */
+  headers?: { [propertyName: string]: any };
+  /** The status code of the response. */
+  statusCode?: number;
+  /** Details on the location of the body content. */
+  bodyLink?: ContentLink;
+}
+
+/** The response of a WorkflowRun list operation. */
+export interface WorkflowRunListResult {
+  /** The WorkflowRun items on this page */
+  value: WorkflowRun[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The response of a WorkflowTrigger list operation. */
+export interface WorkflowTriggerListResult {
+  /** The WorkflowTrigger items on this page */
+  value: WorkflowTrigger[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The workflow trigger properties. */
+export interface WorkflowTriggerProperties {
   /**
    * Gets the provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2717,18 +2623,21 @@ export interface WorkflowTrigger extends SubResource {
   readonly workflow?: ResourceReference;
 }
 
-/** The workflow trigger history. */
-export interface WorkflowTriggerHistory extends SubResource {
+/** The response of a WorkflowTriggerHistory list operation. */
+export interface WorkflowTriggerHistoryListResult {
+  /** The WorkflowTriggerHistory items on this page */
+  value: WorkflowTriggerHistory[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The workflow trigger history properties. */
+export interface WorkflowTriggerHistoryProperties {
   /**
-   * Gets the workflow trigger history name.
+   * The provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly name?: string;
-  /**
-   * Gets the workflow trigger history type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
+  readonly provisioningState?: WorkflowProvisioningState;
   /**
    * Gets the start time.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2758,7 +2667,7 @@ export interface WorkflowTriggerHistory extends SubResource {
    * Gets the error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly error?: any;
+  readonly error?: { [propertyName: string]: any };
   /**
    * Gets the tracking id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2788,138 +2697,162 @@ export interface WorkflowTriggerHistory extends SubResource {
   readonly run?: ResourceReference;
 }
 
-/** The workflow run. */
-export interface WorkflowRun extends SubResource {
-  /**
-   * Gets the workflow run name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Gets the workflow run type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Gets the wait end time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly waitEndTime?: Date;
-  /**
-   * Gets the start time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startTime?: Date;
-  /**
-   * Gets the end time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endTime?: Date;
-  /**
-   * Gets the status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: WorkflowStatus;
-  /**
-   * Gets the code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * Gets the error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly error?: any;
-  /**
-   * Gets the correlation id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationId?: string;
-  /** The run correlation. */
-  correlation?: Correlation;
-  /**
-   * Gets the reference to workflow version.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly workflow?: ResourceReference;
-  /**
-   * Gets the fired trigger.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly trigger?: WorkflowRunTrigger;
-  /**
-   * Gets the outputs.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly outputs?: { [propertyName: string]: WorkflowOutputParameter };
-  /**
-   * Gets the response of the flow run.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly response?: WorkflowRunTrigger;
+/** The JSON schema. */
+export interface JsonSchema {
+  /** The JSON title. */
+  title?: string;
+  /** The JSON content. */
+  content?: string;
 }
 
-/** The workflow run action. */
-export interface WorkflowRunAction extends SubResource {
+/** The set trigger state action definition. */
+export interface SetTriggerStateActionDefinition {
+  /** The source. */
+  source: WorkflowTriggerReference;
+}
+
+/** The response of a WorkflowVersion list operation. */
+export interface WorkflowVersionListResult {
+  /** The WorkflowVersion items on this page */
+  value: WorkflowVersion[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The workflow version properties. */
+export interface WorkflowVersionProperties {
   /**
-   * Gets the workflow run action name.
+   * The provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly name?: string;
+  readonly provisioningState?: WorkflowProvisioningState;
   /**
-   * Gets the workflow run action type.
+   * Gets the created time.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly type?: string;
+  readonly createdTime?: Date;
   /**
-   * Gets the start time.
+   * Gets the changed time.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly startTime?: Date;
+  readonly changedTime?: Date;
+  /** The state. */
+  state?: WorkflowState;
   /**
-   * Gets the end time.
+   * Gets the version.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly endTime?: Date;
+  readonly version?: string;
   /**
-   * Gets the status.
+   * Gets the access endpoint.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly status?: WorkflowStatus;
+  readonly accessEndpoint?: string;
+  /** The endpoints configuration. */
+  endpointsConfiguration?: FlowEndpointsConfiguration;
+  /** The access control configuration. */
+  accessControl?: FlowAccessControlConfiguration;
   /**
-   * Gets the code.
+   * The sku.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly code?: string;
+  readonly sku?: Sku;
+  /** The integration account. */
+  integrationAccount?: ResourceReference;
+  /** The definition. */
+  definition?: { [propertyName: string]: any };
+  /** The parameters. */
+  parameters?: { [propertyName: string]: WorkflowParameter };
+}
+
+/** The Api reference. */
+export interface ApiReference extends ResourceReference {
+  /** The display name of the api. */
+  displayName?: string;
+  /** The description of the api. */
+  description?: string;
+  /** The icon uri of the api. */
+  iconUri?: string;
+  /** The swagger of the api. */
+  swagger?: { [propertyName: string]: any };
+  /** The brand color of the api. */
+  brandColor?: string;
+  /** The tier. */
+  category?: ApiTier;
+  /** The integration service environment reference. */
+  integrationServiceEnvironment?: ResourceReference;
+}
+
+/** The key vault reference. */
+export interface KeyVaultReference extends ResourceReference {}
+
+/** The workflow reference. */
+export interface WorkflowReference extends ResourceReference {}
+
+/** The workflow trigger reference. */
+export interface WorkflowTriggerReference extends ResourceReference {
+  /** The workflow name. */
+  flowName?: string;
+  /** The workflow trigger name. */
+  triggerName?: string;
+}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface AzureResourceManagerCommonTypesTrackedResourceUpdate
+  extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** The integration service environment managed api properties. */
+export interface IntegrationServiceEnvironmentManagedApiProperties
+  extends ApiResourceProperties {
+  /** The integration service environment managed api deployment parameters. */
+  deploymentParameters?: IntegrationServiceEnvironmentManagedApiDeploymentParameters;
+}
+
+/** The workflow output parameter. */
+export interface WorkflowOutputParameter extends WorkflowParameter {
   /**
    * Gets the error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly error?: any;
+  readonly error?: { [propertyName: string]: any };
+}
+
+/** The artifact content properties definition. */
+export interface ArtifactContentPropertiesDefinition
+  extends ArtifactProperties {
+  /** The artifact content */
+  content?: { [propertyName: string]: any };
+  /** The content type. */
+  contentType?: string;
+  /** The content link. */
+  contentLink?: ContentLink;
+}
+
+/** The batch configuration properties definition. */
+export interface BatchConfigurationProperties extends ArtifactProperties {
   /**
-   * Gets the tracking id.
+   * The provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly trackingId?: string;
-  /** The correlation properties. */
-  correlation?: RunActionCorrelation;
-  /**
-   * Gets the link to inputs.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly inputsLink?: ContentLink;
-  /**
-   * Gets the link to outputs.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly outputsLink?: ContentLink;
-  /**
-   * Gets the tracked properties.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly trackedProperties?: any;
-  /** Gets the retry histories. */
-  retryHistory?: RetryHistory[];
+  readonly provisioningState?: WorkflowProvisioningState;
+  /** The name of the batch group. */
+  batchGroupName: string;
+  /** The batch release criteria. */
+  releaseCriteria: BatchReleaseCriteria;
 }
 
 /** The workflow run action correlation properties. */
@@ -2934,7 +2867,7 @@ export interface ExpressionRoot extends Expression {
   path?: string;
 }
 
-/** The azure resource error info. */
+/** The error info. */
 export interface AzureResourceErrorInfo extends ErrorInfo {
   /** The error message. */
   message: string;
@@ -2953,7 +2886,7 @@ export interface OperationResult extends OperationResultProperties {
    * Gets the inputs.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly inputs?: any;
+  readonly inputs?: { [propertyName: string]: any };
   /**
    * Gets the link to inputs.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2963,7 +2896,7 @@ export interface OperationResult extends OperationResultProperties {
    * Gets the outputs.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly outputs?: any;
+  readonly outputs?: { [propertyName: string]: any };
   /**
    * Gets the link to outputs.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2973,47 +2906,163 @@ export interface OperationResult extends OperationResultProperties {
    * Gets the tracked properties.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly trackedProperties?: any;
+  readonly trackedProperties?: { [propertyName: string]: any };
   /** Gets the retry histories. */
   retryHistory?: RetryHistory[];
+  /** Gets flow run execution mode. */
+  executionMode?: FlowRunExecutionMode;
+  /** Indicates whether operation can be resubmitted. */
+  canResubmit?: boolean;
+  /** Gets the iteration count. */
   iterationCount?: number;
 }
 
-/** The artifact content properties definition. */
-export interface ArtifactContentPropertiesDefinition
-  extends ArtifactProperties {
-  /** Anything */
-  content?: any;
-  /** The content type. */
-  contentType?: string;
-  /** The content link. */
-  contentLink?: ContentLink;
+/** The integration account. */
+export interface IntegrationAccount extends TrackedResource {
+  /** The integration account properties. */
+  properties?: IntegrationAccountProperties;
+  /** The sku. */
+  sku?: IntegrationAccountSku;
 }
 
-/** The batch configuration properties definition. */
-export interface BatchConfigurationProperties extends ArtifactProperties {
-  /** The name of the batch group. */
-  batchGroupName: string;
-  /** The batch release criteria. */
-  releaseCriteria: BatchReleaseCriteria;
+/** The integration service environment. */
+export interface IntegrationServiceEnvironment extends TrackedResource {
+  /** The integration service environment properties. */
+  properties?: IntegrationServiceEnvironmentProperties;
+  /** The sku. */
+  sku?: IntegrationServiceEnvironmentSku;
 }
 
-/** The integration service environment managed api properties. */
-export interface IntegrationServiceEnvironmentManagedApiProperties
-  extends ApiResourceProperties {
-  /** The integration service environment managed api deployment parameters. */
-  deploymentParameters?: IntegrationServiceEnvironmentManagedApiDeploymentParameters;
+/** The integration service environment managed api. */
+export interface IntegrationServiceEnvironmentManagedApi
+  extends TrackedResource {
+  /** The integration service environment managed api properties. */
+  properties?: IntegrationServiceEnvironmentManagedApiProperties;
 }
 
-/** The workflow run action repetition properties definition. */
-export interface WorkflowRunActionRepetitionProperties extends OperationResult {
-  /** The repetition indexes. */
-  repetitionIndexes?: RepetitionIndex[];
+/** The template type. */
+export interface Template extends TrackedResource {
+  /** The template properties. */
+  properties?: TemplateProperties;
+}
+
+/** The workflow type. */
+export interface Workflow extends TrackedResource {
+  /** The workflow properties. */
+  properties?: WorkflowProperties;
+}
+
+/** The integration service environment managed api's api operations. */
+export interface ApiOperation extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ApiOperationPropertiesDefinition;
+}
+
+/** The integration account agreement. */
+export interface IntegrationAccountAgreement extends ProxyResource {
+  /** The integration account agreement properties. */
+  properties: IntegrationAccountAgreementProperties;
+}
+
+/** The assembly definition. */
+export interface AssemblyDefinition extends ProxyResource {
+  /** The assembly properties. */
+  properties: AssemblyProperties;
+}
+
+/** The batch configuration resource definition. */
+export interface BatchConfiguration extends ProxyResource {
+  /** The batch configuration properties. */
+  properties: BatchConfigurationProperties;
+}
+
+/** The integration account certificate. */
+export interface IntegrationAccountCertificate extends ProxyResource {
+  /** The integration account certificate properties. */
+  properties: IntegrationAccountCertificateProperties;
+}
+
+/** The integration account map. */
+export interface IntegrationAccountMap extends ProxyResource {
+  /** The integration account map properties. */
+  properties: IntegrationAccountMapProperties;
+}
+
+/** The integration account partner. */
+export interface IntegrationAccountPartner extends ProxyResource {
+  /** The integration account partner properties. */
+  properties: IntegrationAccountPartnerProperties;
+}
+
+/** The integration account schema. */
+export interface IntegrationAccountSchema extends ProxyResource {
+  /** The integration account schema properties. */
+  properties: IntegrationAccountSchemaProperties;
+}
+
+/** The integration account session. */
+export interface IntegrationAccountSession extends ProxyResource {
+  /** The integration account session properties. */
+  properties: IntegrationAccountSessionProperties;
+}
+
+/** The workflow run. */
+export interface WorkflowRun extends ProxyResource {
+  /** The workflow run properties. */
+  properties?: WorkflowRunProperties;
+}
+
+/** The workflow run action. */
+export interface WorkflowRunAction extends ProxyResource {
+  /** The workflow run action properties. */
+  properties?: WorkflowRunActionProperties;
+}
+
+/** The workflow run action repetition definition. */
+export interface WorkflowRunActionRepetitionDefinition extends ProxyResource {
+  /** The workflow run action repetition properties definition. */
+  properties?: WorkflowRunActionRepetitionProperties;
+}
+
+/** The request history. */
+export interface RequestHistory extends ProxyResource {
+  /** The request history properties. */
+  properties?: RequestHistoryProperties;
+}
+
+/** The workflow trigger. */
+export interface WorkflowTrigger extends ProxyResource {
+  /** The workflow trigger properties. */
+  properties?: WorkflowTriggerProperties;
+}
+
+/** The workflow trigger history. */
+export interface WorkflowTriggerHistory extends ProxyResource {
+  /** Gets the workflow trigger history properties. */
+  properties?: WorkflowTriggerHistoryProperties;
+}
+
+/** The workflow version. */
+export interface WorkflowVersion extends ProxyResource {
+  /** The workflow version properties. */
+  properties?: WorkflowVersionProperties;
+}
+
+/** The template type. */
+export interface TemplateUpdate
+  extends AzureResourceManagerCommonTypesTrackedResourceUpdate {
+  /** The template properties. */
+  properties?: TemplateProperties;
 }
 
 /** The assembly properties definition. */
 export interface AssemblyProperties
   extends ArtifactContentPropertiesDefinition {
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: WorkflowProvisioningState;
   /** The assembly name. */
   assemblyName: string;
   /** The assembly version. */
@@ -3024,52 +3073,163 @@ export interface AssemblyProperties
   assemblyPublicKeyToken?: string;
 }
 
+/** The workflow run action repetition properties definition. */
+export interface WorkflowRunActionRepetitionProperties extends OperationResult {
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: WorkflowProvisioningState;
+  /** The repetition indexes. */
+  repetitionIndexes?: RepetitionIndex[];
+}
+
+/** Defines headers for IntegrationServiceEnvironments_createOrUpdate operation. */
+export interface IntegrationServiceEnvironmentsCreateOrUpdateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for IntegrationServiceEnvironments_update operation. */
+export interface IntegrationServiceEnvironmentsUpdateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for IntegrationServiceEnvironmentManagedApis_put operation. */
+export interface IntegrationServiceEnvironmentManagedApisPutHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for IntegrationServiceEnvironmentManagedApis_delete operation. */
+export interface IntegrationServiceEnvironmentManagedApisDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Templates_move operation. */
+export interface TemplatesMoveHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Workflows_move operation. */
+export interface WorkflowsMoveHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for WorkflowTriggers_run operation. */
+export interface WorkflowTriggersRunHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for WorkflowTriggerHistories_resubmit operation. */
+export interface WorkflowTriggerHistoriesResubmitHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Known values of {@link Origin} that the service accepts. */
+export enum KnownOrigin {
+  /** User */
+  User = "user",
+  /** System */
+  System = "system",
+  /** UserSystem */
+  UserSystem = "user,system",
+}
+
+/**
+ * Defines values for Origin. \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user** \
+ * **system** \
+ * **user,system**
+ */
+export type Origin = string;
+
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  /** Internal */
+  Internal = "Internal",
+}
+
+/**
+ * Defines values for ActionType. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**
+ */
+export type ActionType = string;
+
 /** Known values of {@link WorkflowProvisioningState} that the service accepts. */
 export enum KnownWorkflowProvisioningState {
-  /** NotSpecified */
+  /** Represents a state where the value is not specified. */
   NotSpecified = "NotSpecified",
-  /** Accepted */
+  /** Represents a state where the workflow is accepted. */
   Accepted = "Accepted",
-  /** Running */
+  /** Represents a state where the workflow is running. */
   Running = "Running",
-  /** Ready */
+  /** Represents a state where the workflow is ready. */
   Ready = "Ready",
-  /** Creating */
+  /** Represents a state where the workflow is creating. */
   Creating = "Creating",
-  /** Created */
+  /** Represents a state where the workflow is created. */
   Created = "Created",
-  /** Deleting */
+  /** Represents a state where the workflow is deleting. */
   Deleting = "Deleting",
-  /** Deleted */
+  /** Represents a state where the workflow is deleted. */
   Deleted = "Deleted",
-  /** Canceled */
+  /** Represents a state where the workflow is canceled. */
   Canceled = "Canceled",
-  /** Failed */
+  /** Represents a state where the workflow is failed. */
   Failed = "Failed",
-  /** Succeeded */
+  /** Represents a state where the workflow is succeeded. */
   Succeeded = "Succeeded",
-  /** Moving */
+  /** Represents a state where the workflow is moving. */
   Moving = "Moving",
-  /** Updating */
+  /** Represents a state where the workflow is updating. */
   Updating = "Updating",
-  /** Registering */
+  /** Represents a state where the workflow is registering. */
   Registering = "Registering",
-  /** Registered */
+  /** Represents a state where the workflow is registered. */
   Registered = "Registered",
-  /** Unregistering */
+  /** Represents a state where the workflow is unregistering. */
   Unregistering = "Unregistering",
-  /** Unregistered */
+  /** Represents a state where the workflow is unregistered. */
   Unregistered = "Unregistered",
-  /** Completed */
+  /** Represents a state where the workflow is completed. */
   Completed = "Completed",
-  /** Renewing */
+  /** Represents a state where the workflow is renewing. */
   Renewing = "Renewing",
-  /** Pending */
+  /** Represents a state where the workflow is pending. */
   Pending = "Pending",
-  /** Waiting */
+  /** Represents a state where the workflow is waiting. */
   Waiting = "Waiting",
-  /** InProgress */
-  InProgress = "InProgress"
+  /** Represents a state where the workflow is in progress. */
+  InProgress = "InProgress",
 }
 
 /**
@@ -3077,45 +3237,45 @@ export enum KnownWorkflowProvisioningState {
  * {@link KnownWorkflowProvisioningState} can be used interchangeably with WorkflowProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **NotSpecified** \
- * **Accepted** \
- * **Running** \
- * **Ready** \
- * **Creating** \
- * **Created** \
- * **Deleting** \
- * **Deleted** \
- * **Canceled** \
- * **Failed** \
- * **Succeeded** \
- * **Moving** \
- * **Updating** \
- * **Registering** \
- * **Registered** \
- * **Unregistering** \
- * **Unregistered** \
- * **Completed** \
- * **Renewing** \
- * **Pending** \
- * **Waiting** \
- * **InProgress**
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **Accepted**: Represents a state where the workflow is accepted. \
+ * **Running**: Represents a state where the workflow is running. \
+ * **Ready**: Represents a state where the workflow is ready. \
+ * **Creating**: Represents a state where the workflow is creating. \
+ * **Created**: Represents a state where the workflow is created. \
+ * **Deleting**: Represents a state where the workflow is deleting. \
+ * **Deleted**: Represents a state where the workflow is deleted. \
+ * **Canceled**: Represents a state where the workflow is canceled. \
+ * **Failed**: Represents a state where the workflow is failed. \
+ * **Succeeded**: Represents a state where the workflow is succeeded. \
+ * **Moving**: Represents a state where the workflow is moving. \
+ * **Updating**: Represents a state where the workflow is updating. \
+ * **Registering**: Represents a state where the workflow is registering. \
+ * **Registered**: Represents a state where the workflow is registered. \
+ * **Unregistering**: Represents a state where the workflow is unregistering. \
+ * **Unregistered**: Represents a state where the workflow is unregistered. \
+ * **Completed**: Represents a state where the workflow is completed. \
+ * **Renewing**: Represents a state where the workflow is renewing. \
+ * **Pending**: Represents a state where the workflow is pending. \
+ * **Waiting**: Represents a state where the workflow is waiting. \
+ * **InProgress**: Represents a state where the workflow is in progress.
  */
 export type WorkflowProvisioningState = string;
 
 /** Known values of {@link WorkflowState} that the service accepts. */
 export enum KnownWorkflowState {
-  /** NotSpecified */
+  /** Represents a state where the value is not specified. */
   NotSpecified = "NotSpecified",
-  /** Completed */
+  /** Represents a state where the workflow is completed. */
   Completed = "Completed",
-  /** Enabled */
+  /** Represents a state where the workflow is enabled. */
   Enabled = "Enabled",
-  /** Disabled */
+  /** Represents a state where the workflow is disabled. */
   Disabled = "Disabled",
-  /** Deleted */
+  /** Represents a state where the workflow is deleted. */
   Deleted = "Deleted",
-  /** Suspended */
-  Suspended = "Suspended"
+  /** Represents a state where the workflow is suspended. */
+  Suspended = "Suspended",
 }
 
 /**
@@ -3123,304 +3283,25 @@ export enum KnownWorkflowState {
  * {@link KnownWorkflowState} can be used interchangeably with WorkflowState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **NotSpecified** \
- * **Completed** \
- * **Enabled** \
- * **Disabled** \
- * **Deleted** \
- * **Suspended**
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **Completed**: Represents a state where the workflow is completed. \
+ * **Enabled**: Represents a state where the workflow is enabled. \
+ * **Disabled**: Represents a state where the workflow is disabled. \
+ * **Deleted**: Represents a state where the workflow is deleted. \
+ * **Suspended**: Represents a state where the workflow is suspended.
  */
 export type WorkflowState = string;
 
-/** Known values of {@link OpenAuthenticationProviderType} that the service accepts. */
-export enum KnownOpenAuthenticationProviderType {
-  /** AAD */
-  AAD = "AAD"
-}
-
-/**
- * Defines values for OpenAuthenticationProviderType. \
- * {@link KnownOpenAuthenticationProviderType} can be used interchangeably with OpenAuthenticationProviderType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AAD**
- */
-export type OpenAuthenticationProviderType = string;
-
-/** Known values of {@link SkuName} that the service accepts. */
-export enum KnownSkuName {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** Free */
-  Free = "Free",
-  /** Shared */
-  Shared = "Shared",
-  /** Basic */
-  Basic = "Basic",
-  /** Standard */
-  Standard = "Standard",
-  /** Premium */
-  Premium = "Premium"
-}
-
-/**
- * Defines values for SkuName. \
- * {@link KnownSkuName} can be used interchangeably with SkuName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified** \
- * **Free** \
- * **Shared** \
- * **Basic** \
- * **Standard** \
- * **Premium**
- */
-export type SkuName = string;
-
-/** Known values of {@link ParameterType} that the service accepts. */
-export enum KnownParameterType {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** String */
-  String = "String",
-  /** SecureString */
-  SecureString = "SecureString",
-  /** Int */
-  Int = "Int",
-  /** Float */
-  Float = "Float",
-  /** Bool */
-  Bool = "Bool",
-  /** Array */
-  Array = "Array",
-  /** Object */
-  Object = "Object",
-  /** SecureObject */
-  SecureObject = "SecureObject"
-}
-
-/**
- * Defines values for ParameterType. \
- * {@link KnownParameterType} can be used interchangeably with ParameterType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified** \
- * **String** \
- * **SecureString** \
- * **Int** \
- * **Float** \
- * **Bool** \
- * **Array** \
- * **Object** \
- * **SecureObject**
- */
-export type ParameterType = string;
-
-/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
-export enum KnownManagedServiceIdentityType {
-  /** SystemAssigned */
-  SystemAssigned = "SystemAssigned",
-  /** UserAssigned */
-  UserAssigned = "UserAssigned",
-  /** None */
-  None = "None"
-}
-
-/**
- * Defines values for ManagedServiceIdentityType. \
- * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **SystemAssigned** \
- * **UserAssigned** \
- * **None**
- */
-export type ManagedServiceIdentityType = string;
-
-/** Known values of {@link KeyType} that the service accepts. */
-export enum KnownKeyType {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** Primary */
-  Primary = "Primary",
-  /** Secondary */
-  Secondary = "Secondary"
-}
-
-/**
- * Defines values for KeyType. \
- * {@link KnownKeyType} can be used interchangeably with KeyType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified** \
- * **Primary** \
- * **Secondary**
- */
-export type KeyType = string;
-
-/** Known values of {@link WorkflowTriggerProvisioningState} that the service accepts. */
-export enum KnownWorkflowTriggerProvisioningState {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** Accepted */
-  Accepted = "Accepted",
-  /** Running */
-  Running = "Running",
-  /** Ready */
-  Ready = "Ready",
-  /** Creating */
-  Creating = "Creating",
-  /** Created */
-  Created = "Created",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Deleted */
-  Deleted = "Deleted",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Failed */
-  Failed = "Failed",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Moving */
-  Moving = "Moving",
-  /** Updating */
-  Updating = "Updating",
-  /** Registering */
-  Registering = "Registering",
-  /** Registered */
-  Registered = "Registered",
-  /** Unregistering */
-  Unregistering = "Unregistering",
-  /** Unregistered */
-  Unregistered = "Unregistered",
-  /** Completed */
-  Completed = "Completed"
-}
-
-/**
- * Defines values for WorkflowTriggerProvisioningState. \
- * {@link KnownWorkflowTriggerProvisioningState} can be used interchangeably with WorkflowTriggerProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified** \
- * **Accepted** \
- * **Running** \
- * **Ready** \
- * **Creating** \
- * **Created** \
- * **Deleting** \
- * **Deleted** \
- * **Canceled** \
- * **Failed** \
- * **Succeeded** \
- * **Moving** \
- * **Updating** \
- * **Registering** \
- * **Registered** \
- * **Unregistering** \
- * **Unregistered** \
- * **Completed**
- */
-export type WorkflowTriggerProvisioningState = string;
-
-/** Known values of {@link WorkflowStatus} that the service accepts. */
-export enum KnownWorkflowStatus {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** Paused */
-  Paused = "Paused",
-  /** Running */
-  Running = "Running",
-  /** Waiting */
-  Waiting = "Waiting",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Skipped */
-  Skipped = "Skipped",
-  /** Suspended */
-  Suspended = "Suspended",
-  /** Cancelled */
-  Cancelled = "Cancelled",
-  /** Failed */
-  Failed = "Failed",
-  /** Faulted */
-  Faulted = "Faulted",
-  /** TimedOut */
-  TimedOut = "TimedOut",
-  /** Aborted */
-  Aborted = "Aborted",
-  /** Ignored */
-  Ignored = "Ignored"
-}
-
-/**
- * Defines values for WorkflowStatus. \
- * {@link KnownWorkflowStatus} can be used interchangeably with WorkflowStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified** \
- * **Paused** \
- * **Running** \
- * **Waiting** \
- * **Succeeded** \
- * **Skipped** \
- * **Suspended** \
- * **Cancelled** \
- * **Failed** \
- * **Faulted** \
- * **TimedOut** \
- * **Aborted** \
- * **Ignored**
- */
-export type WorkflowStatus = string;
-
-/** Known values of {@link RecurrenceFrequency} that the service accepts. */
-export enum KnownRecurrenceFrequency {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** Second */
-  Second = "Second",
-  /** Minute */
-  Minute = "Minute",
-  /** Hour */
-  Hour = "Hour",
-  /** Day */
-  Day = "Day",
-  /** Week */
-  Week = "Week",
-  /** Month */
-  Month = "Month",
-  /** Year */
-  Year = "Year"
-}
-
-/**
- * Defines values for RecurrenceFrequency. \
- * {@link KnownRecurrenceFrequency} can be used interchangeably with RecurrenceFrequency,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified** \
- * **Second** \
- * **Minute** \
- * **Hour** \
- * **Day** \
- * **Week** \
- * **Month** \
- * **Year**
- */
-export type RecurrenceFrequency = string;
-
 /** Known values of {@link IntegrationAccountSkuName} that the service accepts. */
 export enum KnownIntegrationAccountSkuName {
-  /** NotSpecified */
+  /** Represents a state where the value is not specified. */
   NotSpecified = "NotSpecified",
-  /** Free */
+  /** Represents a free integration account SKU. */
   Free = "Free",
-  /** Basic */
+  /** Represents a basic integration account SKU. */
   Basic = "Basic",
-  /** Standard */
-  Standard = "Standard"
+  /** Represents a standard integration account SKU. */
+  Standard = "Standard",
 }
 
 /**
@@ -3428,456 +3309,45 @@ export enum KnownIntegrationAccountSkuName {
  * {@link KnownIntegrationAccountSkuName} can be used interchangeably with IntegrationAccountSkuName,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **NotSpecified** \
- * **Free** \
- * **Basic** \
- * **Standard**
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **Free**: Represents a free integration account SKU. \
+ * **Basic**: Represents a basic integration account SKU. \
+ * **Standard**: Represents a standard integration account SKU.
  */
 export type IntegrationAccountSkuName = string;
 
-/** Known values of {@link TrackEventsOperationOptions} that the service accepts. */
-export enum KnownTrackEventsOperationOptions {
-  /** None */
-  None = "None",
-  /** DisableSourceInfoEnrich */
-  DisableSourceInfoEnrich = "DisableSourceInfoEnrich"
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
 }
 
 /**
- * Defines values for TrackEventsOperationOptions. \
- * {@link KnownTrackEventsOperationOptions} can be used interchangeably with TrackEventsOperationOptions,
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None** \
- * **DisableSourceInfoEnrich**
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
  */
-export type TrackEventsOperationOptions = string;
-
-/** Known values of {@link TrackingRecordType} that the service accepts. */
-export enum KnownTrackingRecordType {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** Custom */
-  Custom = "Custom",
-  /** AS2Message */
-  AS2Message = "AS2Message",
-  /** AS2MDN */
-  AS2MDN = "AS2MDN",
-  /** X12Interchange */
-  X12Interchange = "X12Interchange",
-  /** X12FunctionalGroup */
-  X12FunctionalGroup = "X12FunctionalGroup",
-  /** X12TransactionSet */
-  X12TransactionSet = "X12TransactionSet",
-  /** X12InterchangeAcknowledgment */
-  X12InterchangeAcknowledgment = "X12InterchangeAcknowledgment",
-  /** X12FunctionalGroupAcknowledgment */
-  X12FunctionalGroupAcknowledgment = "X12FunctionalGroupAcknowledgment",
-  /** X12TransactionSetAcknowledgment */
-  X12TransactionSetAcknowledgment = "X12TransactionSetAcknowledgment",
-  /** EdifactInterchange */
-  EdifactInterchange = "EdifactInterchange",
-  /** EdifactFunctionalGroup */
-  EdifactFunctionalGroup = "EdifactFunctionalGroup",
-  /** EdifactTransactionSet */
-  EdifactTransactionSet = "EdifactTransactionSet",
-  /** EdifactInterchangeAcknowledgment */
-  EdifactInterchangeAcknowledgment = "EdifactInterchangeAcknowledgment",
-  /** EdifactFunctionalGroupAcknowledgment */
-  EdifactFunctionalGroupAcknowledgment = "EdifactFunctionalGroupAcknowledgment",
-  /** EdifactTransactionSetAcknowledgment */
-  EdifactTransactionSetAcknowledgment = "EdifactTransactionSetAcknowledgment"
-}
-
-/**
- * Defines values for TrackingRecordType. \
- * {@link KnownTrackingRecordType} can be used interchangeably with TrackingRecordType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified** \
- * **Custom** \
- * **AS2Message** \
- * **AS2MDN** \
- * **X12Interchange** \
- * **X12FunctionalGroup** \
- * **X12TransactionSet** \
- * **X12InterchangeAcknowledgment** \
- * **X12FunctionalGroupAcknowledgment** \
- * **X12TransactionSetAcknowledgment** \
- * **EdifactInterchange** \
- * **EdifactFunctionalGroup** \
- * **EdifactTransactionSet** \
- * **EdifactInterchangeAcknowledgment** \
- * **EdifactFunctionalGroupAcknowledgment** \
- * **EdifactTransactionSetAcknowledgment**
- */
-export type TrackingRecordType = string;
-
-/** Known values of {@link SchemaType} that the service accepts. */
-export enum KnownSchemaType {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** Xml */
-  Xml = "Xml"
-}
-
-/**
- * Defines values for SchemaType. \
- * {@link KnownSchemaType} can be used interchangeably with SchemaType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified** \
- * **Xml**
- */
-export type SchemaType = string;
-
-/** Known values of {@link MapType} that the service accepts. */
-export enum KnownMapType {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** Xslt */
-  Xslt = "Xslt",
-  /** Xslt20 */
-  Xslt20 = "Xslt20",
-  /** Xslt30 */
-  Xslt30 = "Xslt30",
-  /** Liquid */
-  Liquid = "Liquid"
-}
-
-/**
- * Defines values for MapType. \
- * {@link KnownMapType} can be used interchangeably with MapType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified** \
- * **Xslt** \
- * **Xslt20** \
- * **Xslt30** \
- * **Liquid**
- */
-export type MapType = string;
-
-/** Known values of {@link PartnerType} that the service accepts. */
-export enum KnownPartnerType {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** B2B */
-  B2B = "B2B"
-}
-
-/**
- * Defines values for PartnerType. \
- * {@link KnownPartnerType} can be used interchangeably with PartnerType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified** \
- * **B2B**
- */
-export type PartnerType = string;
-
-/** Known values of {@link HashingAlgorithm} that the service accepts. */
-export enum KnownHashingAlgorithm {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** None */
-  None = "None",
-  /** MD5 */
-  MD5 = "MD5",
-  /** SHA1 */
-  SHA1 = "SHA1",
-  /** SHA2256 */
-  SHA2256 = "SHA2256",
-  /** SHA2384 */
-  SHA2384 = "SHA2384",
-  /** SHA2512 */
-  SHA2512 = "SHA2512"
-}
-
-/**
- * Defines values for HashingAlgorithm. \
- * {@link KnownHashingAlgorithm} can be used interchangeably with HashingAlgorithm,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified** \
- * **None** \
- * **MD5** \
- * **SHA1** \
- * **SHA2256** \
- * **SHA2384** \
- * **SHA2512**
- */
-export type HashingAlgorithm = string;
-
-/** Known values of {@link EncryptionAlgorithm} that the service accepts. */
-export enum KnownEncryptionAlgorithm {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** None */
-  None = "None",
-  /** DES3 */
-  DES3 = "DES3",
-  /** RC2 */
-  RC2 = "RC2",
-  /** AES128 */
-  AES128 = "AES128",
-  /** AES192 */
-  AES192 = "AES192",
-  /** AES256 */
-  AES256 = "AES256"
-}
-
-/**
- * Defines values for EncryptionAlgorithm. \
- * {@link KnownEncryptionAlgorithm} can be used interchangeably with EncryptionAlgorithm,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified** \
- * **None** \
- * **DES3** \
- * **RC2** \
- * **AES128** \
- * **AES192** \
- * **AES256**
- */
-export type EncryptionAlgorithm = string;
-
-/** Known values of {@link SigningAlgorithm} that the service accepts. */
-export enum KnownSigningAlgorithm {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** Default */
-  Default = "Default",
-  /** SHA1 */
-  SHA1 = "SHA1",
-  /** SHA2256 */
-  SHA2256 = "SHA2256",
-  /** SHA2384 */
-  SHA2384 = "SHA2384",
-  /** SHA2512 */
-  SHA2512 = "SHA2512"
-}
-
-/**
- * Defines values for SigningAlgorithm. \
- * {@link KnownSigningAlgorithm} can be used interchangeably with SigningAlgorithm,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified** \
- * **Default** \
- * **SHA1** \
- * **SHA2256** \
- * **SHA2384** \
- * **SHA2512**
- */
-export type SigningAlgorithm = string;
-
-/** Known values of {@link TrailingSeparatorPolicy} that the service accepts. */
-export enum KnownTrailingSeparatorPolicy {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** NotAllowed */
-  NotAllowed = "NotAllowed",
-  /** Optional */
-  Optional = "Optional",
-  /** Mandatory */
-  Mandatory = "Mandatory"
-}
-
-/**
- * Defines values for TrailingSeparatorPolicy. \
- * {@link KnownTrailingSeparatorPolicy} can be used interchangeably with TrailingSeparatorPolicy,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified** \
- * **NotAllowed** \
- * **Optional** \
- * **Mandatory**
- */
-export type TrailingSeparatorPolicy = string;
-
-/** Known values of {@link X12CharacterSet} that the service accepts. */
-export enum KnownX12CharacterSet {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** Basic */
-  Basic = "Basic",
-  /** Extended */
-  Extended = "Extended",
-  /** UTF8 */
-  UTF8 = "UTF8"
-}
-
-/**
- * Defines values for X12CharacterSet. \
- * {@link KnownX12CharacterSet} can be used interchangeably with X12CharacterSet,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified** \
- * **Basic** \
- * **Extended** \
- * **UTF8**
- */
-export type X12CharacterSet = string;
-
-/** Known values of {@link X12DateFormat} that the service accepts. */
-export enum KnownX12DateFormat {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** Ccyymmdd */
-  Ccyymmdd = "CCYYMMDD",
-  /** Yymmdd */
-  Yymmdd = "YYMMDD"
-}
-
-/**
- * Defines values for X12DateFormat. \
- * {@link KnownX12DateFormat} can be used interchangeably with X12DateFormat,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified** \
- * **CCYYMMDD** \
- * **YYMMDD**
- */
-export type X12DateFormat = string;
-
-/** Known values of {@link X12TimeFormat} that the service accepts. */
-export enum KnownX12TimeFormat {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** Hhmm */
-  Hhmm = "HHMM",
-  /** Hhmmss */
-  Hhmmss = "HHMMSS",
-  /** HhmmsSdd */
-  HhmmsSdd = "HHMMSSdd",
-  /** HhmmsSd */
-  HhmmsSd = "HHMMSSd"
-}
-
-/**
- * Defines values for X12TimeFormat. \
- * {@link KnownX12TimeFormat} can be used interchangeably with X12TimeFormat,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified** \
- * **HHMM** \
- * **HHMMSS** \
- * **HHMMSSdd** \
- * **HHMMSSd**
- */
-export type X12TimeFormat = string;
-
-/** Known values of {@link UsageIndicator} that the service accepts. */
-export enum KnownUsageIndicator {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** Test */
-  Test = "Test",
-  /** Information */
-  Information = "Information",
-  /** Production */
-  Production = "Production"
-}
-
-/**
- * Defines values for UsageIndicator. \
- * {@link KnownUsageIndicator} can be used interchangeably with UsageIndicator,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified** \
- * **Test** \
- * **Information** \
- * **Production**
- */
-export type UsageIndicator = string;
-
-/** Known values of {@link MessageFilterType} that the service accepts. */
-export enum KnownMessageFilterType {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** Include */
-  Include = "Include",
-  /** Exclude */
-  Exclude = "Exclude"
-}
-
-/**
- * Defines values for MessageFilterType. \
- * {@link KnownMessageFilterType} can be used interchangeably with MessageFilterType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified** \
- * **Include** \
- * **Exclude**
- */
-export type MessageFilterType = string;
-
-/** Known values of {@link EdifactCharacterSet} that the service accepts. */
-export enum KnownEdifactCharacterSet {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** Unob */
-  Unob = "UNOB",
-  /** Unoa */
-  Unoa = "UNOA",
-  /** Unoc */
-  Unoc = "UNOC",
-  /** Unod */
-  Unod = "UNOD",
-  /** Unoe */
-  Unoe = "UNOE",
-  /** Unof */
-  Unof = "UNOF",
-  /** Unog */
-  Unog = "UNOG",
-  /** Unoh */
-  Unoh = "UNOH",
-  /** Unoi */
-  Unoi = "UNOI",
-  /** Unoj */
-  Unoj = "UNOJ",
-  /** Unok */
-  Unok = "UNOK",
-  /** Unox */
-  Unox = "UNOX",
-  /** Unoy */
-  Unoy = "UNOY",
-  /** Keca */
-  Keca = "KECA"
-}
-
-/**
- * Defines values for EdifactCharacterSet. \
- * {@link KnownEdifactCharacterSet} can be used interchangeably with EdifactCharacterSet,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified** \
- * **UNOB** \
- * **UNOA** \
- * **UNOC** \
- * **UNOD** \
- * **UNOE** \
- * **UNOF** \
- * **UNOG** \
- * **UNOH** \
- * **UNOI** \
- * **UNOJ** \
- * **UNOK** \
- * **UNOX** \
- * **UNOY** \
- * **KECA**
- */
-export type EdifactCharacterSet = string;
+export type CreatedByType = string;
 
 /** Known values of {@link IntegrationServiceEnvironmentAccessEndpointType} that the service accepts. */
 export enum KnownIntegrationServiceEnvironmentAccessEndpointType {
-  /** NotSpecified */
+  /** Represents a state where the value is not specified. */
   NotSpecified = "NotSpecified",
-  /** External */
+  /** Represents an external access endpoint type. */
   External = "External",
-  /** Internal */
-  Internal = "Internal"
+  /** Represents an internal access endpoint type. */
+  Internal = "Internal",
 }
 
 /**
@@ -3885,20 +3355,20 @@ export enum KnownIntegrationServiceEnvironmentAccessEndpointType {
  * {@link KnownIntegrationServiceEnvironmentAccessEndpointType} can be used interchangeably with IntegrationServiceEnvironmentAccessEndpointType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **NotSpecified** \
- * **External** \
- * **Internal**
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **External**: Represents an external access endpoint type. \
+ * **Internal**: Represents an internal access endpoint type.
  */
 export type IntegrationServiceEnvironmentAccessEndpointType = string;
 
 /** Known values of {@link IntegrationServiceEnvironmentSkuName} that the service accepts. */
 export enum KnownIntegrationServiceEnvironmentSkuName {
-  /** NotSpecified */
+  /** Represents a state where the value is not specified. */
   NotSpecified = "NotSpecified",
-  /** Premium */
+  /** Represents a premium integration service environment SKU. */
   Premium = "Premium",
-  /** Developer */
-  Developer = "Developer"
+  /** Represents a developer integration service environment SKU. */
+  Developer = "Developer",
 }
 
 /**
@@ -3906,161 +3376,20 @@ export enum KnownIntegrationServiceEnvironmentSkuName {
  * {@link KnownIntegrationServiceEnvironmentSkuName} can be used interchangeably with IntegrationServiceEnvironmentSkuName,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **NotSpecified** \
- * **Premium** \
- * **Developer**
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **Premium**: Represents a premium integration service environment SKU. \
+ * **Developer**: Represents a developer integration service environment SKU.
  */
 export type IntegrationServiceEnvironmentSkuName = string;
 
-/** Known values of {@link IntegrationServiceEnvironmentSkuScaleType} that the service accepts. */
-export enum KnownIntegrationServiceEnvironmentSkuScaleType {
-  /** Manual */
-  Manual = "Manual",
-  /** Automatic */
-  Automatic = "Automatic",
-  /** None */
-  None = "None"
-}
-
-/**
- * Defines values for IntegrationServiceEnvironmentSkuScaleType. \
- * {@link KnownIntegrationServiceEnvironmentSkuScaleType} can be used interchangeably with IntegrationServiceEnvironmentSkuScaleType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Manual** \
- * **Automatic** \
- * **None**
- */
-export type IntegrationServiceEnvironmentSkuScaleType = string;
-
-/** Known values of {@link IntegrationServiceEnvironmentNetworkDependencyCategoryType} that the service accepts. */
-export enum KnownIntegrationServiceEnvironmentNetworkDependencyCategoryType {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** AzureStorage */
-  AzureStorage = "AzureStorage",
-  /** AzureManagement */
-  AzureManagement = "AzureManagement",
-  /** AzureActiveDirectory */
-  AzureActiveDirectory = "AzureActiveDirectory",
-  /** SSLCertificateVerification */
-  SSLCertificateVerification = "SSLCertificateVerification",
-  /** DiagnosticLogsAndMetrics */
-  DiagnosticLogsAndMetrics = "DiagnosticLogsAndMetrics",
-  /** IntegrationServiceEnvironmentConnectors */
-  IntegrationServiceEnvironmentConnectors = "IntegrationServiceEnvironmentConnectors",
-  /** RedisCache */
-  RedisCache = "RedisCache",
-  /** AccessEndpoints */
-  AccessEndpoints = "AccessEndpoints",
-  /** RecoveryService */
-  RecoveryService = "RecoveryService",
-  /** SQL */
-  SQL = "SQL",
-  /** RegionalService */
-  RegionalService = "RegionalService"
-}
-
-/**
- * Defines values for IntegrationServiceEnvironmentNetworkDependencyCategoryType. \
- * {@link KnownIntegrationServiceEnvironmentNetworkDependencyCategoryType} can be used interchangeably with IntegrationServiceEnvironmentNetworkDependencyCategoryType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified** \
- * **AzureStorage** \
- * **AzureManagement** \
- * **AzureActiveDirectory** \
- * **SSLCertificateVerification** \
- * **DiagnosticLogsAndMetrics** \
- * **IntegrationServiceEnvironmentConnectors** \
- * **RedisCache** \
- * **AccessEndpoints** \
- * **RecoveryService** \
- * **SQL** \
- * **RegionalService**
- */
-export type IntegrationServiceEnvironmentNetworkDependencyCategoryType = string;
-
-/** Known values of {@link IntegrationServiceEnvironmentNetworkEndPointAccessibilityState} that the service accepts. */
-export enum KnownIntegrationServiceEnvironmentNetworkEndPointAccessibilityState {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** Unknown */
-  Unknown = "Unknown",
-  /** Available */
-  Available = "Available",
-  /** NotAvailable */
-  NotAvailable = "NotAvailable"
-}
-
-/**
- * Defines values for IntegrationServiceEnvironmentNetworkEndPointAccessibilityState. \
- * {@link KnownIntegrationServiceEnvironmentNetworkEndPointAccessibilityState} can be used interchangeably with IntegrationServiceEnvironmentNetworkEndPointAccessibilityState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified** \
- * **Unknown** \
- * **Available** \
- * **NotAvailable**
- */
-export type IntegrationServiceEnvironmentNetworkEndPointAccessibilityState = string;
-
-/** Known values of {@link ErrorResponseCode} that the service accepts. */
-export enum KnownErrorResponseCode {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** IntegrationServiceEnvironmentNotFound */
-  IntegrationServiceEnvironmentNotFound = "IntegrationServiceEnvironmentNotFound",
-  /** InternalServerError */
-  InternalServerError = "InternalServerError",
-  /** InvalidOperationId */
-  InvalidOperationId = "InvalidOperationId"
-}
-
-/**
- * Defines values for ErrorResponseCode. \
- * {@link KnownErrorResponseCode} can be used interchangeably with ErrorResponseCode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified** \
- * **IntegrationServiceEnvironmentNotFound** \
- * **InternalServerError** \
- * **InvalidOperationId**
- */
-export type ErrorResponseCode = string;
-
-/** Known values of {@link IntegrationServiceEnvironmentNetworkDependencyHealthState} that the service accepts. */
-export enum KnownIntegrationServiceEnvironmentNetworkDependencyHealthState {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** Healthy */
-  Healthy = "Healthy",
-  /** Unhealthy */
-  Unhealthy = "Unhealthy",
-  /** Unknown */
-  Unknown = "Unknown"
-}
-
-/**
- * Defines values for IntegrationServiceEnvironmentNetworkDependencyHealthState. \
- * {@link KnownIntegrationServiceEnvironmentNetworkDependencyHealthState} can be used interchangeably with IntegrationServiceEnvironmentNetworkDependencyHealthState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified** \
- * **Healthy** \
- * **Unhealthy** \
- * **Unknown**
- */
-export type IntegrationServiceEnvironmentNetworkDependencyHealthState = string;
-
 /** Known values of {@link ApiType} that the service accepts. */
 export enum KnownApiType {
-  /** NotSpecified */
+  /** Represents a state where the value is not specified. */
   NotSpecified = "NotSpecified",
-  /** Rest */
+  /** Represents a REST API type. */
   Rest = "Rest",
-  /** Soap */
-  Soap = "Soap"
+  /** Represents a SOAP API type. */
+  Soap = "Soap",
 }
 
 /**
@@ -4068,20 +3397,20 @@ export enum KnownApiType {
  * {@link KnownApiType} can be used interchangeably with ApiType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **NotSpecified** \
- * **Rest** \
- * **Soap**
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **Rest**: Represents a REST API type. \
+ * **Soap**: Represents a SOAP API type.
  */
 export type ApiType = string;
 
 /** Known values of {@link WsdlImportMethod} that the service accepts. */
 export enum KnownWsdlImportMethod {
-  /** NotSpecified */
+  /** Represents a state where the value is not specified. */
   NotSpecified = "NotSpecified",
-  /** SoapToRest */
+  /** Represents a SOAP to REST WSDL import method. */
   SoapToRest = "SoapToRest",
-  /** SoapPassThrough */
-  SoapPassThrough = "SoapPassThrough"
+  /** Represents a SOAP Pass Through WSDL import method. */
+  SoapPassThrough = "SoapPassThrough",
 }
 
 /**
@@ -4089,20 +3418,20 @@ export enum KnownWsdlImportMethod {
  * {@link KnownWsdlImportMethod} can be used interchangeably with WsdlImportMethod,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **NotSpecified** \
- * **SoapToRest** \
- * **SoapPassThrough**
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **SoapToRest**: Represents a SOAP to REST WSDL import method. \
+ * **SoapPassThrough**: Represents a SOAP Pass Through WSDL import method.
  */
 export type WsdlImportMethod = string;
 
 /** Known values of {@link ApiDeploymentParameterVisibility} that the service accepts. */
 export enum KnownApiDeploymentParameterVisibility {
-  /** NotSpecified */
+  /** Represents a state where the value is not specified. */
   NotSpecified = "NotSpecified",
-  /** Default */
+  /** Represents a default API deployment parameter visibility. */
   Default = "Default",
-  /** Internal */
-  Internal = "Internal"
+  /** Represents an internal API deployment parameter visibility. */
+  Internal = "Internal",
 }
 
 /**
@@ -4110,22 +3439,22 @@ export enum KnownApiDeploymentParameterVisibility {
  * {@link KnownApiDeploymentParameterVisibility} can be used interchangeably with ApiDeploymentParameterVisibility,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **NotSpecified** \
- * **Default** \
- * **Internal**
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **Default**: Represents a default API deployment parameter visibility. \
+ * **Internal**: Represents an internal API deployment parameter visibility.
  */
 export type ApiDeploymentParameterVisibility = string;
 
 /** Known values of {@link ApiTier} that the service accepts. */
 export enum KnownApiTier {
-  /** NotSpecified */
+  /** Represents a state where the value is not specified. */
   NotSpecified = "NotSpecified",
-  /** Enterprise */
+  /** Represents an enterprise API tier. */
   Enterprise = "Enterprise",
-  /** Standard */
+  /** Represents a standard API tier. */
   Standard = "Standard",
-  /** Premium */
-  Premium = "Premium"
+  /** Represents a premium API tier. */
+  Premium = "Premium",
 }
 
 /**
@@ -4133,21 +3462,21 @@ export enum KnownApiTier {
  * {@link KnownApiTier} can be used interchangeably with ApiTier,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **NotSpecified** \
- * **Enterprise** \
- * **Standard** \
- * **Premium**
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **Enterprise**: Represents an enterprise API tier. \
+ * **Standard**: Represents a standard API tier. \
+ * **Premium**: Represents a premium API tier.
  */
 export type ApiTier = string;
 
 /** Known values of {@link StatusAnnotation} that the service accepts. */
 export enum KnownStatusAnnotation {
-  /** NotSpecified */
+  /** Represents a state where the value is not specified. */
   NotSpecified = "NotSpecified",
-  /** Preview */
+  /** Represents a preview status annotation. */
   Preview = "Preview",
-  /** Production */
-  Production = "Production"
+  /** Represents a production status annotation. */
+  Production = "Production",
 }
 
 /**
@@ -4155,30 +3484,30 @@ export enum KnownStatusAnnotation {
  * {@link KnownStatusAnnotation} can be used interchangeably with StatusAnnotation,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **NotSpecified** \
- * **Preview** \
- * **Production**
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **Preview**: Represents a preview status annotation. \
+ * **Production**: Represents a production status annotation.
  */
 export type StatusAnnotation = string;
 
 /** Known values of {@link SwaggerSchemaType} that the service accepts. */
 export enum KnownSwaggerSchemaType {
-  /** String */
+  /** Represents a string schema type. */
   String = "String",
-  /** Number */
+  /** Represents a number schema type. */
   Number = "Number",
-  /** Integer */
+  /** Represents an integer schema type. */
   Integer = "Integer",
-  /** Boolean */
+  /** Represents a boolean schema type. */
   Boolean = "Boolean",
-  /** Array */
+  /** Represents an array schema type. */
   Array = "Array",
-  /** File */
+  /** Represents a file schema type. */
   File = "File",
-  /** Object */
+  /** Represents an object schema type. */
   Object = "Object",
-  /** Null */
-  Null = "Null"
+  /** Represents a null schema type. */
+  Null = "Null",
 }
 
 /**
@@ -4186,77 +3515,1439 @@ export enum KnownSwaggerSchemaType {
  * {@link KnownSwaggerSchemaType} can be used interchangeably with SwaggerSchemaType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **String** \
- * **Number** \
- * **Integer** \
- * **Boolean** \
- * **Array** \
- * **File** \
- * **Object** \
- * **Null**
+ * **String**: Represents a string schema type. \
+ * **Number**: Represents a number schema type. \
+ * **Integer**: Represents an integer schema type. \
+ * **Boolean**: Represents a boolean schema type. \
+ * **Array**: Represents an array schema type. \
+ * **File**: Represents a file schema type. \
+ * **Object**: Represents an object schema type. \
+ * **Null**: Represents a null schema type.
  */
 export type SwaggerSchemaType = string;
 
-/** Known values of {@link AzureAsyncOperationState} that the service accepts. */
-export enum KnownAzureAsyncOperationState {
-  /** Failed */
-  Failed = "Failed",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Pending */
-  Pending = "Pending",
-  /** Canceled */
-  Canceled = "Canceled"
+/** Known values of {@link IntegrationServiceEnvironmentNetworkDependencyCategoryType} that the service accepts. */
+export enum KnownIntegrationServiceEnvironmentNetworkDependencyCategoryType {
+  /** Represents a state where the value is not specified. */
+  NotSpecified = "NotSpecified",
+  /** Represents an Azure Storage network dependency category type. */
+  AzureStorage = "AzureStorage",
+  /** Represents an Azure Management network dependency category type. */
+  AzureManagement = "AzureManagement",
+  /** Represents an Azure Active Directory network dependency category type. */
+  AzureActiveDirectory = "AzureActiveDirectory",
+  /** Represents an SSL Certificate Verification network dependency category type. */
+  SSLCertificateVerification = "SSLCertificateVerification",
+  /** Represents a Diagnostic Logs and Metrics network dependency category type. */
+  DiagnosticLogsAndMetrics = "DiagnosticLogsAndMetrics",
+  /** Represents an Integration Service Environment Connectors network dependency category type. */
+  IntegrationServiceEnvironmentConnectors = "IntegrationServiceEnvironmentConnectors",
+  /** Represents a Redis Cache network dependency category type. */
+  RedisCache = "RedisCache",
+  /** Represents an Access Endpoints network dependency category type. */
+  AccessEndpoints = "AccessEndpoints",
+  /** Represents a Recovery Service network dependency category type. */
+  RecoveryService = "RecoveryService",
+  /** Represents a SQL network dependency category type. */
+  SQL = "SQL",
+  /** Represents a Regional Service network dependency category type. */
+  RegionalService = "RegionalService",
 }
 
 /**
- * Defines values for AzureAsyncOperationState. \
- * {@link KnownAzureAsyncOperationState} can be used interchangeably with AzureAsyncOperationState,
+ * Defines values for IntegrationServiceEnvironmentNetworkDependencyCategoryType. \
+ * {@link KnownIntegrationServiceEnvironmentNetworkDependencyCategoryType} can be used interchangeably with IntegrationServiceEnvironmentNetworkDependencyCategoryType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Failed** \
- * **Succeeded** \
- * **Pending** \
- * **Canceled**
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **AzureStorage**: Represents an Azure Storage network dependency category type. \
+ * **AzureManagement**: Represents an Azure Management network dependency category type. \
+ * **AzureActiveDirectory**: Represents an Azure Active Directory network dependency category type. \
+ * **SSLCertificateVerification**: Represents an SSL Certificate Verification network dependency category type. \
+ * **DiagnosticLogsAndMetrics**: Represents a Diagnostic Logs and Metrics network dependency category type. \
+ * **IntegrationServiceEnvironmentConnectors**: Represents an Integration Service Environment Connectors network dependency category type. \
+ * **RedisCache**: Represents a Redis Cache network dependency category type. \
+ * **AccessEndpoints**: Represents an Access Endpoints network dependency category type. \
+ * **RecoveryService**: Represents a Recovery Service network dependency category type. \
+ * **SQL**: Represents a SQL network dependency category type. \
+ * **RegionalService**: Represents a Regional Service network dependency category type.
  */
-export type AzureAsyncOperationState = string;
-/** Defines values for DaysOfWeek. */
-export type DaysOfWeek =
-  | "Sunday"
-  | "Monday"
-  | "Tuesday"
-  | "Wednesday"
-  | "Thursday"
-  | "Friday"
-  | "Saturday";
-/** Defines values for DayOfWeek. */
-export type DayOfWeek =
-  | "Sunday"
-  | "Monday"
-  | "Tuesday"
-  | "Wednesday"
-  | "Thursday"
-  | "Friday"
-  | "Saturday";
-/** Defines values for EventLevel. */
-export type EventLevel =
-  | "LogAlways"
-  | "Critical"
-  | "Error"
-  | "Warning"
-  | "Informational"
-  | "Verbose";
-/** Defines values for AgreementType. */
-export type AgreementType = "NotSpecified" | "AS2" | "X12" | "Edifact";
-/** Defines values for SegmentTerminatorSuffix. */
-export type SegmentTerminatorSuffix =
-  | "NotSpecified"
-  | "None"
-  | "CR"
-  | "LF"
-  | "CRLF";
-/** Defines values for EdifactDecimalIndicator. */
-export type EdifactDecimalIndicator = "NotSpecified" | "Comma" | "Decimal";
+export type IntegrationServiceEnvironmentNetworkDependencyCategoryType = string;
+
+/** Known values of {@link IntegrationServiceEnvironmentNetworkEndPointAccessibilityState} that the service accepts. */
+export enum KnownIntegrationServiceEnvironmentNetworkEndPointAccessibilityState {
+  /** Represents a state where the value is not specified. */
+  NotSpecified = "NotSpecified",
+  /** Represents an unknown network endpoint accessibility state. */
+  Unknown = "Unknown",
+  /** Represents an available network endpoint accessibility state. */
+  Available = "Available",
+  /** Represents a not available network endpoint accessibility state. */
+  NotAvailable = "NotAvailable",
+}
+
+/**
+ * Defines values for IntegrationServiceEnvironmentNetworkEndPointAccessibilityState. \
+ * {@link KnownIntegrationServiceEnvironmentNetworkEndPointAccessibilityState} can be used interchangeably with IntegrationServiceEnvironmentNetworkEndPointAccessibilityState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **Unknown**: Represents an unknown network endpoint accessibility state. \
+ * **Available**: Represents an available network endpoint accessibility state. \
+ * **NotAvailable**: Represents a not available network endpoint accessibility state.
+ */
+export type IntegrationServiceEnvironmentNetworkEndPointAccessibilityState =
+  string;
+
+/** Known values of {@link IntegrationServiceEnvironmentSkuScaleType} that the service accepts. */
+export enum KnownIntegrationServiceEnvironmentSkuScaleType {
+  /** Represents a manual scale type. */
+  Manual = "Manual",
+  /** Represents an automatic scale type. */
+  Automatic = "Automatic",
+  /** Represents no scale type. */
+  None = "None",
+}
+
+/**
+ * Defines values for IntegrationServiceEnvironmentSkuScaleType. \
+ * {@link KnownIntegrationServiceEnvironmentSkuScaleType} can be used interchangeably with IntegrationServiceEnvironmentSkuScaleType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Manual**: Represents a manual scale type. \
+ * **Automatic**: Represents an automatic scale type. \
+ * **None**: Represents no scale type.
+ */
+export type IntegrationServiceEnvironmentSkuScaleType = string;
+
+/** Known values of {@link FlowTemplateState} that the service accepts. */
+export enum KnownFlowTemplateState {
+  /** The flow template is in the draft state. */
+  NotSpecified = "NotSpecified",
+  /** The flow template is in the development state. */
+  Development = "Development",
+  /** The flow template is in the testing state. */
+  Testing = "Testing",
+  /** The flow template is in the production state. */
+  Production = "Production",
+}
+
+/**
+ * Defines values for FlowTemplateState. \
+ * {@link KnownFlowTemplateState} can be used interchangeably with FlowTemplateState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: The flow template is in the draft state. \
+ * **Development**: The flow template is in the development state. \
+ * **Testing**: The flow template is in the testing state. \
+ * **Production**: The flow template is in the production state.
+ */
+export type FlowTemplateState = string;
+
+/** Known values of {@link FlowTemplateType} that the service accepts. */
+export enum KnownFlowTemplateType {
+  /** The flow template type is not specified. */
+  NotSpecified = "NotSpecified",
+  /** The flow template type is workflow. */
+  Workflow = "Workflow",
+  /** The flow template type is accelerator. */
+  Accelerator = "Accelerator",
+}
+
+/**
+ * Defines values for FlowTemplateType. \
+ * {@link KnownFlowTemplateType} can be used interchangeably with FlowTemplateType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: The flow template type is not specified. \
+ * **Workflow**: The flow template type is workflow. \
+ * **Accelerator**: The flow template type is accelerator.
+ */
+export type FlowTemplateType = string;
+
+/** Known values of {@link FlowTemplateSku} that the service accepts. */
+export enum KnownFlowTemplateSku {
+  /** The flow template sku is none. */
+  None = "None",
+  /** The flow template sku is consumption. */
+  Consumption = "Consumption",
+  /** The flow template sku is standard. */
+  Standard = "Standard",
+}
+
+/**
+ * Defines values for FlowTemplateSku. \
+ * {@link KnownFlowTemplateSku} can be used interchangeably with FlowTemplateSku,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: The flow template sku is none. \
+ * **Consumption**: The flow template sku is consumption. \
+ * **Standard**: The flow template sku is standard.
+ */
+export type FlowTemplateSku = string;
+
+/** Known values of {@link OpenAuthenticationProviderType} that the service accepts. */
+export enum KnownOpenAuthenticationProviderType {
+  /** Represents Azure Active Directory (AAD) provider type. */
+  AAD = "AAD",
+}
+
+/**
+ * Defines values for OpenAuthenticationProviderType. \
+ * {@link KnownOpenAuthenticationProviderType} can be used interchangeably with OpenAuthenticationProviderType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AAD**: Represents Azure Active Directory (AAD) provider type.
+ */
+export type OpenAuthenticationProviderType = string;
+
+/** Known values of {@link SkuName} that the service accepts. */
+export enum KnownSkuName {
+  /** Represents a state where the value is not specified. */
+  NotSpecified = "NotSpecified",
+  /** Represents a free SKU. */
+  Free = "Free",
+  /** Represents a shared SKU. */
+  Shared = "Shared",
+  /** Represents a basic SKU. */
+  Basic = "Basic",
+  /** Represents a standard SKU. */
+  Standard = "Standard",
+  /** Represents a premium SKU. */
+  Premium = "Premium",
+}
+
+/**
+ * Defines values for SkuName. \
+ * {@link KnownSkuName} can be used interchangeably with SkuName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **Free**: Represents a free SKU. \
+ * **Shared**: Represents a shared SKU. \
+ * **Basic**: Represents a basic SKU. \
+ * **Standard**: Represents a standard SKU. \
+ * **Premium**: Represents a premium SKU.
+ */
+export type SkuName = string;
+
+/** Known values of {@link ParameterType} that the service accepts. */
+export enum KnownParameterType {
+  /** Represents a state where the value is not specified. */
+  NotSpecified = "NotSpecified",
+  /** Represents a string parameter type. */
+  String = "String",
+  /** Represents a secure string parameter type. */
+  SecureString = "SecureString",
+  /** Represents an integer parameter type. */
+  Int = "Int",
+  /** Represents a float parameter type. */
+  Float = "Float",
+  /** Represents a boolean parameter type. */
+  Bool = "Bool",
+  /** Represents an array parameter type. */
+  Array = "Array",
+  /** Represents an object parameter type. */
+  Object = "Object",
+  /** Represents a secure object parameter type. */
+  SecureObject = "SecureObject",
+}
+
+/**
+ * Defines values for ParameterType. \
+ * {@link KnownParameterType} can be used interchangeably with ParameterType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **String**: Represents a string parameter type. \
+ * **SecureString**: Represents a secure string parameter type. \
+ * **Int**: Represents an integer parameter type. \
+ * **Float**: Represents a float parameter type. \
+ * **Bool**: Represents a boolean parameter type. \
+ * **Array**: Represents an array parameter type. \
+ * **Object**: Represents an object parameter type. \
+ * **SecureObject**: Represents a secure object parameter type.
+ */
+export type ParameterType = string;
+
+/** Known values of {@link AgreementType} that the service accepts. */
+export enum KnownAgreementType {
+  /** Represents a not specified agreement type. */
+  NotSpecified = "NotSpecified",
+  /** Represents an AS2 agreement type. */
+  AS2 = "AS2",
+  /** Represents an X12 agreement type. */
+  X12 = "X12",
+  /** Represents an Edifact agreement type. */
+  Edifact = "Edifact",
+}
+
+/**
+ * Defines values for AgreementType. \
+ * {@link KnownAgreementType} can be used interchangeably with AgreementType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: Represents a not specified agreement type. \
+ * **AS2**: Represents an AS2 agreement type. \
+ * **X12**: Represents an X12 agreement type. \
+ * **Edifact**: Represents an Edifact agreement type.
+ */
+export type AgreementType = string;
+
+/** Known values of {@link HashingAlgorithm} that the service accepts. */
+export enum KnownHashingAlgorithm {
+  /** Represents a state where the value is not specified. */
+  NotSpecified = "NotSpecified",
+  /** Represents no hashing algorithm. */
+  None = "None",
+  /** Represents the MD5 hashing algorithm. */
+  MD5 = "MD5",
+  /** Represents the SHA1 hashing algorithm. */
+  SHA1 = "SHA1",
+  /** Represents the SHA2-256 hashing algorithm. */
+  SHA2256 = "SHA2256",
+  /** Represents the SHA2-384 hashing algorithm. */
+  SHA2384 = "SHA2384",
+  /** Represents the SHA2-512 hashing algorithm. */
+  SHA2512 = "SHA2512",
+}
+
+/**
+ * Defines values for HashingAlgorithm. \
+ * {@link KnownHashingAlgorithm} can be used interchangeably with HashingAlgorithm,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **None**: Represents no hashing algorithm. \
+ * **MD5**: Represents the MD5 hashing algorithm. \
+ * **SHA1**: Represents the SHA1 hashing algorithm. \
+ * **SHA2256**: Represents the SHA2-256 hashing algorithm. \
+ * **SHA2384**: Represents the SHA2-384 hashing algorithm. \
+ * **SHA2512**: Represents the SHA2-512 hashing algorithm.
+ */
+export type HashingAlgorithm = string;
+
+/** Known values of {@link EncryptionAlgorithm} that the service accepts. */
+export enum KnownEncryptionAlgorithm {
+  /** Represents a state where the value is not specified. */
+  NotSpecified = "NotSpecified",
+  /** Represents no encryption algorithm. */
+  None = "None",
+  /** Represents the DES3 encryption algorithm. */
+  DES3 = "DES3",
+  /** Represents the RC2 encryption algorithm. */
+  RC2 = "RC2",
+  /** Represents the AES-128 encryption algorithm. */
+  AES128 = "AES128",
+  /** Represents the AES-192 encryption algorithm. */
+  AES192 = "AES192",
+  /** Represents the AES-256 encryption algorithm. */
+  AES256 = "AES256",
+}
+
+/**
+ * Defines values for EncryptionAlgorithm. \
+ * {@link KnownEncryptionAlgorithm} can be used interchangeably with EncryptionAlgorithm,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **None**: Represents no encryption algorithm. \
+ * **DES3**: Represents the DES3 encryption algorithm. \
+ * **RC2**: Represents the RC2 encryption algorithm. \
+ * **AES128**: Represents the AES-128 encryption algorithm. \
+ * **AES192**: Represents the AES-192 encryption algorithm. \
+ * **AES256**: Represents the AES-256 encryption algorithm.
+ */
+export type EncryptionAlgorithm = string;
+
+/** Known values of {@link SigningAlgorithm} that the service accepts. */
+export enum KnownSigningAlgorithm {
+  /** Represents a state where the value is not specified. */
+  NotSpecified = "NotSpecified",
+  /** Represents the default signing algorithm. */
+  Default = "Default",
+  /** Represents the SHA1 signing algorithm. */
+  SHA1 = "SHA1",
+  /** Represents the SHA2-256 signing algorithm. */
+  SHA2256 = "SHA2256",
+  /** Represents the SHA2-384 signing algorithm. */
+  SHA2384 = "SHA2384",
+  /** Represents the SHA2-512 signing algorithm. */
+  SHA2512 = "SHA2512",
+}
+
+/**
+ * Defines values for SigningAlgorithm. \
+ * {@link KnownSigningAlgorithm} can be used interchangeably with SigningAlgorithm,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **Default**: Represents the default signing algorithm. \
+ * **SHA1**: Represents the SHA1 signing algorithm. \
+ * **SHA2256**: Represents the SHA2-256 signing algorithm. \
+ * **SHA2384**: Represents the SHA2-384 signing algorithm. \
+ * **SHA2512**: Represents the SHA2-512 signing algorithm.
+ */
+export type SigningAlgorithm = string;
+
+/** Known values of {@link TrailingSeparatorPolicy} that the service accepts. */
+export enum KnownTrailingSeparatorPolicy {
+  /** Represents a state where the value is not specified. */
+  NotSpecified = "NotSpecified",
+  /** Represents a policy where trailing separators are not allowed. */
+  NotAllowed = "NotAllowed",
+  /** Represents a policy where trailing separators are optional. */
+  Optional = "Optional",
+  /** Represents a policy where trailing separators are mandatory. */
+  Mandatory = "Mandatory",
+}
+
+/**
+ * Defines values for TrailingSeparatorPolicy. \
+ * {@link KnownTrailingSeparatorPolicy} can be used interchangeably with TrailingSeparatorPolicy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **NotAllowed**: Represents a policy where trailing separators are not allowed. \
+ * **Optional**: Represents a policy where trailing separators are optional. \
+ * **Mandatory**: Represents a policy where trailing separators are mandatory.
+ */
+export type TrailingSeparatorPolicy = string;
+
+/** Known values of {@link X12CharacterSet} that the service accepts. */
+export enum KnownX12CharacterSet {
+  /** Represents a state where the value is not specified. */
+  NotSpecified = "NotSpecified",
+  /** Represents the basic X12 character set. */
+  Basic = "Basic",
+  /** Represents the extended X12 character set. */
+  Extended = "Extended",
+  /** Represents the UTF-8 X12 character set. */
+  UTF8 = "UTF8",
+}
+
+/**
+ * Defines values for X12CharacterSet. \
+ * {@link KnownX12CharacterSet} can be used interchangeably with X12CharacterSet,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **Basic**: Represents the basic X12 character set. \
+ * **Extended**: Represents the extended X12 character set. \
+ * **UTF8**: Represents the UTF-8 X12 character set.
+ */
+export type X12CharacterSet = string;
+
+/** Known values of {@link SegmentTerminatorSuffix} that the service accepts. */
+export enum KnownSegmentTerminatorSuffix {
+  /** Represents a not specified segment terminator suffix. */
+  NotSpecified = "NotSpecified",
+  /** Represents a none segment terminator suffix. */
+  None = "None",
+  /** Represents a CR segment terminator suffix. */
+  CR = "CR",
+  /** Represents a LF segment terminator suffix. */
+  LF = "LF",
+  /** Represents a CRLF segment terminator suffix. */
+  Crlf = "CRLF",
+}
+
+/**
+ * Defines values for SegmentTerminatorSuffix. \
+ * {@link KnownSegmentTerminatorSuffix} can be used interchangeably with SegmentTerminatorSuffix,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: Represents a not specified segment terminator suffix. \
+ * **None**: Represents a none segment terminator suffix. \
+ * **CR**: Represents a CR segment terminator suffix. \
+ * **LF**: Represents a LF segment terminator suffix. \
+ * **CRLF**: Represents a CRLF segment terminator suffix.
+ */
+export type SegmentTerminatorSuffix = string;
+
+/** Known values of {@link X12DateFormat} that the service accepts. */
+export enum KnownX12DateFormat {
+  /** Represents a state where the value is not specified. */
+  NotSpecified = "NotSpecified",
+  /** Represents the CCYYMMDD date format. */
+  Ccyymmdd = "CCYYMMDD",
+  /** Represents the YYMMDD date format. */
+  Yymmdd = "YYMMDD",
+}
+
+/**
+ * Defines values for X12DateFormat. \
+ * {@link KnownX12DateFormat} can be used interchangeably with X12DateFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **CCYYMMDD**: Represents the CCYYMMDD date format. \
+ * **YYMMDD**: Represents the YYMMDD date format.
+ */
+export type X12DateFormat = string;
+
+/** Known values of {@link X12TimeFormat} that the service accepts. */
+export enum KnownX12TimeFormat {
+  /** Represents a state where the value is not specified. */
+  NotSpecified = "NotSpecified",
+  /** Represents the HHMM time format. */
+  Hhmm = "HHMM",
+  /** Represents the HHMMSS time format. */
+  Hhmmss = "HHMMSS",
+  /** Represents the HHMMSSdd time format. */
+  HhmmsSdd = "HHMMSSdd",
+  /** Represents the HHMMSSd time format. */
+  HhmmsSd = "HHMMSSd",
+}
+
+/**
+ * Defines values for X12TimeFormat. \
+ * {@link KnownX12TimeFormat} can be used interchangeably with X12TimeFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **HHMM**: Represents the HHMM time format. \
+ * **HHMMSS**: Represents the HHMMSS time format. \
+ * **HHMMSSdd**: Represents the HHMMSSdd time format. \
+ * **HHMMSSd**: Represents the HHMMSSd time format.
+ */
+export type X12TimeFormat = string;
+
+/** Known values of {@link UsageIndicator} that the service accepts. */
+export enum KnownUsageIndicator {
+  /** Represents a state where the value is not specified. */
+  NotSpecified = "NotSpecified",
+  /** Represents a test usage indicator. */
+  Test = "Test",
+  /** Represents an information usage indicator. */
+  Information = "Information",
+  /** Represents a production usage indicator. */
+  Production = "Production",
+}
+
+/**
+ * Defines values for UsageIndicator. \
+ * {@link KnownUsageIndicator} can be used interchangeably with UsageIndicator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **Test**: Represents a test usage indicator. \
+ * **Information**: Represents an information usage indicator. \
+ * **Production**: Represents a production usage indicator.
+ */
+export type UsageIndicator = string;
+
+/** Known values of {@link MessageFilterType} that the service accepts. */
+export enum KnownMessageFilterType {
+  /** Represents a state where the value is not specified. */
+  NotSpecified = "NotSpecified",
+  /** Represents an include message filter type. */
+  Include = "Include",
+  /** Represents an exclude message filter type. */
+  Exclude = "Exclude",
+}
+
+/**
+ * Defines values for MessageFilterType. \
+ * {@link KnownMessageFilterType} can be used interchangeably with MessageFilterType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **Include**: Represents an include message filter type. \
+ * **Exclude**: Represents an exclude message filter type.
+ */
+export type MessageFilterType = string;
+
+/** Known values of {@link EdifactCharacterSet} that the service accepts. */
+export enum KnownEdifactCharacterSet {
+  /** Represents a state where the value is not specified. */
+  NotSpecified = "NotSpecified",
+  /** Represents the UNOB Edifact character set. */
+  Unob = "UNOB",
+  /** Represents the UNOA Edifact character set. */
+  Unoa = "UNOA",
+  /** Represents the UNOC Edifact character set. */
+  Unoc = "UNOC",
+  /** Represents the UNOD Edifact character set. */
+  Unod = "UNOD",
+  /** Represents the UNOE Edifact character set. */
+  Unoe = "UNOE",
+  /** Represents the UNOF Edifact character set. */
+  Unof = "UNOF",
+  /** Represents the UNOG Edifact character set. */
+  Unog = "UNOG",
+  /** Represents the UNOH Edifact character set. */
+  Unoh = "UNOH",
+  /** Represents the UNOI Edifact character set. */
+  Unoi = "UNOI",
+  /** Represents the UNOJ Edifact character set. */
+  Unoj = "UNOJ",
+  /** Represents the UNOK Edifact character set. */
+  Unok = "UNOK",
+  /** Represents the UNOX Edifact character set. */
+  Unox = "UNOX",
+  /** Represents the UNOY Edifact character set. */
+  Unoy = "UNOY",
+  /** Represents the KECA Edifact character set. */
+  Keca = "KECA",
+}
+
+/**
+ * Defines values for EdifactCharacterSet. \
+ * {@link KnownEdifactCharacterSet} can be used interchangeably with EdifactCharacterSet,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **UNOB**: Represents the UNOB Edifact character set. \
+ * **UNOA**: Represents the UNOA Edifact character set. \
+ * **UNOC**: Represents the UNOC Edifact character set. \
+ * **UNOD**: Represents the UNOD Edifact character set. \
+ * **UNOE**: Represents the UNOE Edifact character set. \
+ * **UNOF**: Represents the UNOF Edifact character set. \
+ * **UNOG**: Represents the UNOG Edifact character set. \
+ * **UNOH**: Represents the UNOH Edifact character set. \
+ * **UNOI**: Represents the UNOI Edifact character set. \
+ * **UNOJ**: Represents the UNOJ Edifact character set. \
+ * **UNOK**: Represents the UNOK Edifact character set. \
+ * **UNOX**: Represents the UNOX Edifact character set. \
+ * **UNOY**: Represents the UNOY Edifact character set. \
+ * **KECA**: Represents the KECA Edifact character set.
+ */
+export type EdifactCharacterSet = string;
+
+/** Known values of {@link EdifactDecimalIndicator} that the service accepts. */
+export enum KnownEdifactDecimalIndicator {
+  /** Represents a not specified edifact decimal indicator. */
+  NotSpecified = "NotSpecified",
+  /** Represents a comma edifact decimal indicator. */
+  Comma = "Comma",
+  /** Represents a decimal edifact decimal indicator. */
+  Decimal = "Decimal",
+}
+
+/**
+ * Defines values for EdifactDecimalIndicator. \
+ * {@link KnownEdifactDecimalIndicator} can be used interchangeably with EdifactDecimalIndicator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: Represents a not specified edifact decimal indicator. \
+ * **Comma**: Represents a comma edifact decimal indicator. \
+ * **Decimal**: Represents a decimal edifact decimal indicator.
+ */
+export type EdifactDecimalIndicator = string;
+
+/** Known values of {@link KeyType} that the service accepts. */
+export enum KnownKeyType {
+  /** Represents a state where the value is not specified. */
+  NotSpecified = "NotSpecified",
+  /** Represents a primary key type. */
+  Primary = "Primary",
+  /** Represents a secondary key type. */
+  Secondary = "Secondary",
+}
+
+/**
+ * Defines values for KeyType. \
+ * {@link KnownKeyType} can be used interchangeably with KeyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **Primary**: Represents a primary key type. \
+ * **Secondary**: Represents a secondary key type.
+ */
+export type KeyType = string;
+
+/** Known values of {@link RecurrenceFrequency} that the service accepts. */
+export enum KnownRecurrenceFrequency {
+  /** Represents a state where the value is not specified. */
+  NotSpecified = "NotSpecified",
+  /** Represents a recurrence frequency of seconds. */
+  Second = "Second",
+  /** Represents a recurrence frequency of minutes. */
+  Minute = "Minute",
+  /** Represents a recurrence frequency of hours. */
+  Hour = "Hour",
+  /** Represents a recurrence frequency of days. */
+  Day = "Day",
+  /** Represents a recurrence frequency of weeks. */
+  Week = "Week",
+  /** Represents a recurrence frequency of months. */
+  Month = "Month",
+  /** Represents a recurrence frequency of years. */
+  Year = "Year",
+}
+
+/**
+ * Defines values for RecurrenceFrequency. \
+ * {@link KnownRecurrenceFrequency} can be used interchangeably with RecurrenceFrequency,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **Second**: Represents a recurrence frequency of seconds. \
+ * **Minute**: Represents a recurrence frequency of minutes. \
+ * **Hour**: Represents a recurrence frequency of hours. \
+ * **Day**: Represents a recurrence frequency of days. \
+ * **Week**: Represents a recurrence frequency of weeks. \
+ * **Month**: Represents a recurrence frequency of months. \
+ * **Year**: Represents a recurrence frequency of years.
+ */
+export type RecurrenceFrequency = string;
+
+/** Known values of {@link DaysOfWeek} that the service accepts. */
+export enum KnownDaysOfWeek {
+  /** Represents day of a week Sunday. */
+  Sunday = "Sunday",
+  /** Represents day of a week Monday. */
+  Monday = "Monday",
+  /** Represents day of a week Tuesday. */
+  Tuesday = "Tuesday",
+  /** Represents day of a week Wednesday. */
+  Wednesday = "Wednesday",
+  /** Represents day of a week Thursday. */
+  Thursday = "Thursday",
+  /** Represents day of a week Friday. */
+  Friday = "Friday",
+  /** Represents day of a week Saturday. */
+  Saturday = "Saturday",
+}
+
+/**
+ * Defines values for DaysOfWeek. \
+ * {@link KnownDaysOfWeek} can be used interchangeably with DaysOfWeek,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Sunday**: Represents day of a week Sunday. \
+ * **Monday**: Represents day of a week Monday. \
+ * **Tuesday**: Represents day of a week Tuesday. \
+ * **Wednesday**: Represents day of a week Wednesday. \
+ * **Thursday**: Represents day of a week Thursday. \
+ * **Friday**: Represents day of a week Friday. \
+ * **Saturday**: Represents day of a week Saturday.
+ */
+export type DaysOfWeek = string;
+
+/** Known values of {@link DayOfWeek} that the service accepts. */
+export enum KnownDayOfWeek {
+  /** Represents day of a week Sunday. */
+  Sunday = "Sunday",
+  /** Represents day of a week Monday. */
+  Monday = "Monday",
+  /** Represents day of a week Tuesday. */
+  Tuesday = "Tuesday",
+  /** Represents day of a week Wednesday. */
+  Wednesday = "Wednesday",
+  /** Represents day of a week Thursday. */
+  Thursday = "Thursday",
+  /** Represents day of a week Friday. */
+  Friday = "Friday",
+  /** Represents day of a week Saturday. */
+  Saturday = "Saturday",
+}
+
+/**
+ * Defines values for DayOfWeek. \
+ * {@link KnownDayOfWeek} can be used interchangeably with DayOfWeek,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Sunday**: Represents day of a week Sunday. \
+ * **Monday**: Represents day of a week Monday. \
+ * **Tuesday**: Represents day of a week Tuesday. \
+ * **Wednesday**: Represents day of a week Wednesday. \
+ * **Thursday**: Represents day of a week Thursday. \
+ * **Friday**: Represents day of a week Friday. \
+ * **Saturday**: Represents day of a week Saturday.
+ */
+export type DayOfWeek = string;
+
+/** Known values of {@link TrackEventsOperationOptions} that the service accepts. */
+export enum KnownTrackEventsOperationOptions {
+  /** Represents no track events operation options. */
+  None = "None",
+  /** Represents disabling source info enrichment for track events operation. */
+  DisableSourceInfoEnrich = "DisableSourceInfoEnrich",
+}
+
+/**
+ * Defines values for TrackEventsOperationOptions. \
+ * {@link KnownTrackEventsOperationOptions} can be used interchangeably with TrackEventsOperationOptions,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: Represents no track events operation options. \
+ * **DisableSourceInfoEnrich**: Represents disabling source info enrichment for track events operation.
+ */
+export type TrackEventsOperationOptions = string;
+
+/** Known values of {@link EventLevel} that the service accepts. */
+export enum KnownEventLevel {
+  /** Represents a log always event level. */
+  LogAlways = "LogAlways",
+  /** Represents a critical event level. */
+  Critical = "Critical",
+  /** Represents an error event level. */
+  Error = "Error",
+  /** Represents a warning event level. */
+  Warning = "Warning",
+  /** Represents an information event level. */
+  Informational = "Informational",
+  /** Represents a verbose event level. */
+  Verbose = "Verbose",
+}
+
+/**
+ * Defines values for EventLevel. \
+ * {@link KnownEventLevel} can be used interchangeably with EventLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **LogAlways**: Represents a log always event level. \
+ * **Critical**: Represents a critical event level. \
+ * **Error**: Represents an error event level. \
+ * **Warning**: Represents a warning event level. \
+ * **Informational**: Represents an information event level. \
+ * **Verbose**: Represents a verbose event level.
+ */
+export type EventLevel = string;
+
+/** Known values of {@link TrackingRecordType} that the service accepts. */
+export enum KnownTrackingRecordType {
+  /** Represents a state where the value is not specified. */
+  NotSpecified = "NotSpecified",
+  /** Represents a custom tracking record type. */
+  Custom = "Custom",
+  /** Represents an AS2 message tracking record type. */
+  AS2Message = "AS2Message",
+  /** Represents an AS2 MDN tracking record type. */
+  AS2MDN = "AS2MDN",
+  /** Represents an X12 interchange tracking record type. */
+  X12Interchange = "X12Interchange",
+  /** Represents an X12 functional group tracking record type. */
+  X12FunctionalGroup = "X12FunctionalGroup",
+  /** Represents an X12 transaction set tracking record type. */
+  X12TransactionSet = "X12TransactionSet",
+  /** Represents an X12 interchange acknowledgment tracking record type. */
+  X12InterchangeAcknowledgment = "X12InterchangeAcknowledgment",
+  /** Represents an X12 functional group acknowledgment tracking record type. */
+  X12FunctionalGroupAcknowledgment = "X12FunctionalGroupAcknowledgment",
+  /** Represents an X12 transaction set acknowledgment tracking record type. */
+  X12TransactionSetAcknowledgment = "X12TransactionSetAcknowledgment",
+  /** Represents an Edifact interchange tracking record type. */
+  EdifactInterchange = "EdifactInterchange",
+  /** Represents an Edifact functional group tracking record type. */
+  EdifactFunctionalGroup = "EdifactFunctionalGroup",
+  /** Represents an Edifact transaction set tracking record type. */
+  EdifactTransactionSet = "EdifactTransactionSet",
+  /** Represents an Edifact interchange acknowledgment tracking record type. */
+  EdifactInterchangeAcknowledgment = "EdifactInterchangeAcknowledgment",
+  /** Represents an Edifact functional group acknowledgment tracking record type. */
+  EdifactFunctionalGroupAcknowledgment = "EdifactFunctionalGroupAcknowledgment",
+  /** Represents an Edifact transaction set acknowledgment tracking record type. */
+  EdifactTransactionSetAcknowledgment = "EdifactTransactionSetAcknowledgment",
+}
+
+/**
+ * Defines values for TrackingRecordType. \
+ * {@link KnownTrackingRecordType} can be used interchangeably with TrackingRecordType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **Custom**: Represents a custom tracking record type. \
+ * **AS2Message**: Represents an AS2 message tracking record type. \
+ * **AS2MDN**: Represents an AS2 MDN tracking record type. \
+ * **X12Interchange**: Represents an X12 interchange tracking record type. \
+ * **X12FunctionalGroup**: Represents an X12 functional group tracking record type. \
+ * **X12TransactionSet**: Represents an X12 transaction set tracking record type. \
+ * **X12InterchangeAcknowledgment**: Represents an X12 interchange acknowledgment tracking record type. \
+ * **X12FunctionalGroupAcknowledgment**: Represents an X12 functional group acknowledgment tracking record type. \
+ * **X12TransactionSetAcknowledgment**: Represents an X12 transaction set acknowledgment tracking record type. \
+ * **EdifactInterchange**: Represents an Edifact interchange tracking record type. \
+ * **EdifactFunctionalGroup**: Represents an Edifact functional group tracking record type. \
+ * **EdifactTransactionSet**: Represents an Edifact transaction set tracking record type. \
+ * **EdifactInterchangeAcknowledgment**: Represents an Edifact interchange acknowledgment tracking record type. \
+ * **EdifactFunctionalGroupAcknowledgment**: Represents an Edifact functional group acknowledgment tracking record type. \
+ * **EdifactTransactionSetAcknowledgment**: Represents an Edifact transaction set acknowledgment tracking record type.
+ */
+export type TrackingRecordType = string;
+
+/** Known values of {@link MapType} that the service accepts. */
+export enum KnownMapType {
+  /** Represents a state where the value is not specified. */
+  NotSpecified = "NotSpecified",
+  /** Represents an XSLT map type. */
+  Xslt = "Xslt",
+  /** Represents an XSLT 2.0 map type. */
+  Xslt20 = "Xslt20",
+  /** Represents an XSLT 3.0 map type. */
+  Xslt30 = "Xslt30",
+  /** Represents a Liquid map type. */
+  Liquid = "Liquid",
+}
+
+/**
+ * Defines values for MapType. \
+ * {@link KnownMapType} can be used interchangeably with MapType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **Xslt**: Represents an XSLT map type. \
+ * **Xslt20**: Represents an XSLT 2.0 map type. \
+ * **Xslt30**: Represents an XSLT 3.0 map type. \
+ * **Liquid**: Represents a Liquid map type.
+ */
+export type MapType = string;
+
+/** Known values of {@link PartnerType} that the service accepts. */
+export enum KnownPartnerType {
+  /** Represents a state where the value is not specified. */
+  NotSpecified = "NotSpecified",
+  /** Represents a B2B partner type. */
+  B2B = "B2B",
+}
+
+/**
+ * Defines values for PartnerType. \
+ * {@link KnownPartnerType} can be used interchangeably with PartnerType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **B2B**: Represents a B2B partner type.
+ */
+export type PartnerType = string;
+
+/** Known values of {@link SchemaType} that the service accepts. */
+export enum KnownSchemaType {
+  /** Represents a state where the value is not specified. */
+  NotSpecified = "NotSpecified",
+  /** Represents an XML schema type. */
+  Xml = "Xml",
+}
+
+/**
+ * Defines values for SchemaType. \
+ * {@link KnownSchemaType} can be used interchangeably with SchemaType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **Xml**: Represents an XML schema type.
+ */
+export type SchemaType = string;
+
+/** Known values of {@link WorkflowStatus} that the service accepts. */
+export enum KnownWorkflowStatus {
+  /** Represents a state where the value is not specified. */
+  NotSpecified = "NotSpecified",
+  /** Represents a paused workflow status. */
+  Paused = "Paused",
+  /** Represents a running workflow status. */
+  Running = "Running",
+  /** Represents a waiting workflow status. */
+  Waiting = "Waiting",
+  /** Represents a succeeded workflow status. */
+  Succeeded = "Succeeded",
+  /** Represents a skipped workflow status. */
+  Skipped = "Skipped",
+  /** Represents a suspended workflow status. */
+  Suspended = "Suspended",
+  /** Represents a cancelled workflow status. */
+  Cancelled = "Cancelled",
+  /** Represents a failed workflow status. */
+  Failed = "Failed",
+  /** Represents a faulted workflow status. */
+  Faulted = "Faulted",
+  /** Represents a timed out workflow status. */
+  TimedOut = "TimedOut",
+  /** Represents an aborted workflow status. */
+  Aborted = "Aborted",
+  /** Represents an ignored workflow status. */
+  Ignored = "Ignored",
+}
+
+/**
+ * Defines values for WorkflowStatus. \
+ * {@link KnownWorkflowStatus} can be used interchangeably with WorkflowStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **Paused**: Represents a paused workflow status. \
+ * **Running**: Represents a running workflow status. \
+ * **Waiting**: Represents a waiting workflow status. \
+ * **Succeeded**: Represents a succeeded workflow status. \
+ * **Skipped**: Represents a skipped workflow status. \
+ * **Suspended**: Represents a suspended workflow status. \
+ * **Cancelled**: Represents a cancelled workflow status. \
+ * **Failed**: Represents a failed workflow status. \
+ * **Faulted**: Represents a faulted workflow status. \
+ * **TimedOut**: Represents a timed out workflow status. \
+ * **Aborted**: Represents an aborted workflow status. \
+ * **Ignored**: Represents an ignored workflow status.
+ */
+export type WorkflowStatus = string;
+
+/** Known values of {@link FlowRunExecutionMode} that the service accepts. */
+export enum KnownFlowRunExecutionMode {
+  /** The flow run execution mode is not specified. */
+  NotSpecified = "NotSpecified",
+  /** The flow run execution mode is static results. */
+  StaticResults = "StaticResults",
+  /** The flow run execution mode is resubmitted results. */
+  ResubmittedResults = "ResubmittedResults",
+}
+
+/**
+ * Defines values for FlowRunExecutionMode. \
+ * {@link KnownFlowRunExecutionMode} can be used interchangeably with FlowRunExecutionMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: The flow run execution mode is not specified. \
+ * **StaticResults**: The flow run execution mode is static results. \
+ * **ResubmittedResults**: The flow run execution mode is resubmitted results.
+ */
+export type FlowRunExecutionMode = string;
+
+/** Known values of {@link WorkflowTriggerProvisioningState} that the service accepts. */
+export enum KnownWorkflowTriggerProvisioningState {
+  /** Represents a state where the value is not specified. */
+  NotSpecified = "NotSpecified",
+  /** Represents a state where the workflow trigger is accepted. */
+  Accepted = "Accepted",
+  /** Represents a state where the workflow trigger is running. */
+  Running = "Running",
+  /** Represents a state where the workflow trigger is ready. */
+  Ready = "Ready",
+  /** Represents a state where the workflow trigger is creating. */
+  Creating = "Creating",
+  /** Represents a state where the workflow trigger is created. */
+  Created = "Created",
+  /** Represents a state where the workflow trigger is deleting. */
+  Deleting = "Deleting",
+  /** Represents a state where the workflow trigger is deleted. */
+  Deleted = "Deleted",
+  /** Represents a state where the workflow trigger is canceled. */
+  Canceled = "Canceled",
+  /** Represents a state where the workflow trigger is failed. */
+  Failed = "Failed",
+  /** Represents a state where the workflow trigger is succeeded. */
+  Succeeded = "Succeeded",
+  /** Represents a state where the workflow trigger is moving. */
+  Moving = "Moving",
+  /** Represents a state where the workflow trigger is updating. */
+  Updating = "Updating",
+  /** Represents a state where the workflow trigger is registering. */
+  Registering = "Registering",
+  /** Represents a state where the workflow trigger is registered. */
+  Registered = "Registered",
+  /** Represents a state where the workflow trigger is unregistering. */
+  Unregistering = "Unregistering",
+  /** Represents a state where the workflow trigger is unregistered. */
+  Unregistered = "Unregistered",
+  /** Represents a state where the workflow trigger is completed. */
+  Completed = "Completed",
+}
+
+/**
+ * Defines values for WorkflowTriggerProvisioningState. \
+ * {@link KnownWorkflowTriggerProvisioningState} can be used interchangeably with WorkflowTriggerProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: Represents a state where the value is not specified. \
+ * **Accepted**: Represents a state where the workflow trigger is accepted. \
+ * **Running**: Represents a state where the workflow trigger is running. \
+ * **Ready**: Represents a state where the workflow trigger is ready. \
+ * **Creating**: Represents a state where the workflow trigger is creating. \
+ * **Created**: Represents a state where the workflow trigger is created. \
+ * **Deleting**: Represents a state where the workflow trigger is deleting. \
+ * **Deleted**: Represents a state where the workflow trigger is deleted. \
+ * **Canceled**: Represents a state where the workflow trigger is canceled. \
+ * **Failed**: Represents a state where the workflow trigger is failed. \
+ * **Succeeded**: Represents a state where the workflow trigger is succeeded. \
+ * **Moving**: Represents a state where the workflow trigger is moving. \
+ * **Updating**: Represents a state where the workflow trigger is updating. \
+ * **Registering**: Represents a state where the workflow trigger is registering. \
+ * **Registered**: Represents a state where the workflow trigger is registered. \
+ * **Unregistering**: Represents a state where the workflow trigger is unregistering. \
+ * **Unregistered**: Represents a state where the workflow trigger is unregistered. \
+ * **Completed**: Represents a state where the workflow trigger is completed.
+ */
+export type WorkflowTriggerProvisioningState = string;
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface IntegrationAccountsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of items to be included in the result. */
+  top?: number;
+}
+
+/** Contains response data for the listBySubscription operation. */
+export type IntegrationAccountsListBySubscriptionResponse =
+  IntegrationAccountListResult;
+
+/** Optional parameters. */
+export interface IntegrationAccountsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of items to be included in the result. */
+  top?: number;
+}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type IntegrationAccountsListByResourceGroupResponse =
+  IntegrationAccountListResult;
+
+/** Optional parameters. */
+export interface IntegrationAccountsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type IntegrationAccountsGetResponse = IntegrationAccount;
+
+/** Optional parameters. */
+export interface IntegrationAccountsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type IntegrationAccountsCreateOrUpdateResponse = IntegrationAccount;
+
+/** Optional parameters. */
+export interface IntegrationAccountsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type IntegrationAccountsUpdateResponse = IntegrationAccount;
+
+/** Optional parameters. */
+export interface IntegrationAccountsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface IntegrationAccountsListCallbackUrlOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listCallbackUrl operation. */
+export type IntegrationAccountsListCallbackUrlResponse = CallbackUrl;
+
+/** Optional parameters. */
+export interface IntegrationAccountsListKeyVaultKeysOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listKeyVaultKeys operation. */
+export type IntegrationAccountsListKeyVaultKeysResponse = KeyVaultKeyCollection;
+
+/** Optional parameters. */
+export interface IntegrationAccountsLogTrackingEventsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface IntegrationAccountsRegenerateAccessKeyOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the regenerateAccessKey operation. */
+export type IntegrationAccountsRegenerateAccessKeyResponse = IntegrationAccount;
+
+/** Optional parameters. */
+export interface IntegrationAccountsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type IntegrationAccountsListBySubscriptionNextResponse =
+  IntegrationAccountListResult;
+
+/** Optional parameters. */
+export interface IntegrationAccountsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type IntegrationAccountsListByResourceGroupNextResponse =
+  IntegrationAccountListResult;
+
+/** Optional parameters. */
+export interface IntegrationServiceEnvironmentsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of items to be included in the result. */
+  top?: number;
+}
+
+/** Contains response data for the listBySubscription operation. */
+export type IntegrationServiceEnvironmentsListBySubscriptionResponse =
+  IntegrationServiceEnvironmentListResult;
+
+/** Optional parameters. */
+export interface IntegrationServiceEnvironmentsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type IntegrationServiceEnvironmentsGetResponse =
+  IntegrationServiceEnvironment;
+
+/** Optional parameters. */
+export interface IntegrationServiceEnvironmentsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type IntegrationServiceEnvironmentsCreateOrUpdateResponse =
+  IntegrationServiceEnvironment;
+
+/** Optional parameters. */
+export interface IntegrationServiceEnvironmentsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type IntegrationServiceEnvironmentsUpdateResponse =
+  IntegrationServiceEnvironment;
+
+/** Optional parameters. */
+export interface IntegrationServiceEnvironmentsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface IntegrationServiceEnvironmentsIntegrationServiceEnvironmentNetworkHealthGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the integrationServiceEnvironmentNetworkHealthGet operation. */
+export type IntegrationServiceEnvironmentsIntegrationServiceEnvironmentNetworkHealthGetResponse =
+  IntegrationServiceEnvironmentNetworkHealth;
+
+/** Optional parameters. */
+export interface IntegrationServiceEnvironmentsRestartOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface IntegrationServiceEnvironmentsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type IntegrationServiceEnvironmentsListResponse =
+  IntegrationServiceEnvironmentSkuList;
+
+/** Optional parameters. */
+export interface IntegrationServiceEnvironmentsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of items to be included in the result. */
+  top?: number;
+}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type IntegrationServiceEnvironmentsListByResourceGroupResponse =
+  IntegrationServiceEnvironmentListResult;
+
+/** Optional parameters. */
+export interface IntegrationServiceEnvironmentsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type IntegrationServiceEnvironmentsListBySubscriptionNextResponse =
+  IntegrationServiceEnvironmentListResult;
+
+/** Optional parameters. */
+export interface IntegrationServiceEnvironmentsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type IntegrationServiceEnvironmentsListNextResponse =
+  IntegrationServiceEnvironmentSkuList;
+
+/** Optional parameters. */
+export interface IntegrationServiceEnvironmentsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type IntegrationServiceEnvironmentsListByResourceGroupNextResponse =
+  IntegrationServiceEnvironmentListResult;
+
+/** Optional parameters. */
+export interface IntegrationServiceEnvironmentManagedApisListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type IntegrationServiceEnvironmentManagedApisListResponse =
+  IntegrationServiceEnvironmentManagedApiListResult;
+
+/** Optional parameters. */
+export interface IntegrationServiceEnvironmentManagedApisGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type IntegrationServiceEnvironmentManagedApisGetResponse =
+  IntegrationServiceEnvironmentManagedApi;
+
+/** Optional parameters. */
+export interface IntegrationServiceEnvironmentManagedApisPutOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the put operation. */
+export type IntegrationServiceEnvironmentManagedApisPutResponse =
+  IntegrationServiceEnvironmentManagedApi;
+
+/** Optional parameters. */
+export interface IntegrationServiceEnvironmentManagedApisDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type IntegrationServiceEnvironmentManagedApisDeleteResponse =
+  IntegrationServiceEnvironmentManagedApisDeleteHeaders;
+
+/** Optional parameters. */
+export interface IntegrationServiceEnvironmentManagedApisListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type IntegrationServiceEnvironmentManagedApisListNextResponse =
+  IntegrationServiceEnvironmentManagedApiListResult;
+
+/** Optional parameters. */
+export interface ApiOperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ApiOperationsListResponse = ApiOperationListResult;
+
+/** Optional parameters. */
+export interface ApiOperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ApiOperationsListNextResponse = ApiOperationListResult;
+
+/** Optional parameters. */
+export interface TemplatesListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of items to be included in the result. */
+  top?: number;
+  /** The filter to apply on the operation. Options for filters include: State, Trigger, and ReferencedResourceId. */
+  filter?: string;
+}
+
+/** Contains response data for the listBySubscription operation. */
+export type TemplatesListBySubscriptionResponse = TemplateListResult;
+
+/** Optional parameters. */
+export interface TemplatesListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of items to be included in the result. */
+  top?: number;
+  /** The filter to apply on the operation. Options for filters include: State, Trigger, and ReferencedResourceId. */
+  filter?: string;
+}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type TemplatesListByResourceGroupResponse = TemplateListResult;
+
+/** Optional parameters. */
+export interface TemplatesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type TemplatesGetResponse = Template;
+
+/** Optional parameters. */
+export interface TemplatesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type TemplatesCreateOrUpdateResponse = Template;
+
+/** Optional parameters. */
+export interface TemplatesUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type TemplatesUpdateResponse = Template;
+
+/** Optional parameters. */
+export interface TemplatesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface TemplatesDisableOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface TemplatesEnableOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface TemplatesGenerateUpgradedDefinitionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the generateUpgradedDefinition operation. */
+export type TemplatesGenerateUpgradedDefinitionResponse = {
+  [propertyName: string]: any;
+};
+
+/** Optional parameters. */
+export interface TemplatesListCallbackUrlOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listCallbackUrl operation. */
+export type TemplatesListCallbackUrlResponse = WorkflowTriggerCallbackUrl;
+
+/** Optional parameters. */
+export interface TemplatesListSwaggerOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSwagger operation. */
+export type TemplatesListSwaggerResponse = { [propertyName: string]: any };
+
+/** Optional parameters. */
+export interface TemplatesMoveOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface TemplatesRegenerateAccessKeyOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface TemplatesValidateByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface TemplatesListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type TemplatesListBySubscriptionNextResponse = TemplateListResult;
+
+/** Optional parameters. */
+export interface TemplatesListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type TemplatesListByResourceGroupNextResponse = TemplateListResult;
 
 /** Optional parameters. */
 export interface WorkflowsListBySubscriptionOptionalParams
@@ -4321,8 +5012,7 @@ export interface WorkflowsGenerateUpgradedDefinitionOptionalParams
 
 /** Contains response data for the generateUpgradedDefinition operation. */
 export type WorkflowsGenerateUpgradedDefinitionResponse = {
-  /** The parsed response body. */
-  body: any;
+  [propertyName: string]: any;
 };
 
 /** Optional parameters. */
@@ -4337,10 +5027,7 @@ export interface WorkflowsListSwaggerOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSwagger operation. */
-export type WorkflowsListSwaggerResponse = {
-  /** The parsed response body. */
-  body: any;
-};
+export type WorkflowsListSwaggerResponse = { [propertyName: string]: any };
 
 /** Optional parameters. */
 export interface WorkflowsMoveOptionalParams
@@ -4360,10 +5047,6 @@ export interface WorkflowsValidateByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WorkflowsValidateByLocationOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
 export interface WorkflowsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -4378,132 +5061,338 @@ export interface WorkflowsListByResourceGroupNextOptionalParams
 export type WorkflowsListByResourceGroupNextResponse = WorkflowListResult;
 
 /** Optional parameters. */
-export interface WorkflowVersionsListOptionalParams
+export interface IntegrationAccountAgreementsListOptionalParams
   extends coreClient.OperationOptions {
   /** The number of items to be included in the result. */
   top?: number;
-}
-
-/** Contains response data for the list operation. */
-export type WorkflowVersionsListResponse = WorkflowVersionListResult;
-
-/** Optional parameters. */
-export interface WorkflowVersionsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type WorkflowVersionsGetResponse = WorkflowVersion;
-
-/** Optional parameters. */
-export interface WorkflowVersionsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type WorkflowVersionsListNextResponse = WorkflowVersionListResult;
-
-/** Optional parameters. */
-export interface WorkflowTriggersListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-  /** The filter to apply on the operation. */
+  /** The filter to apply on the operation. Options for filters include: AgreementType. */
   filter?: string;
 }
 
 /** Contains response data for the list operation. */
-export type WorkflowTriggersListResponse = WorkflowTriggerListResult;
+export type IntegrationAccountAgreementsListResponse =
+  IntegrationAccountAgreementListResult;
 
 /** Optional parameters. */
-export interface WorkflowTriggersGetOptionalParams
+export interface IntegrationAccountAgreementsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkflowTriggersGetResponse = WorkflowTrigger;
+export type IntegrationAccountAgreementsGetResponse =
+  IntegrationAccountAgreement;
 
 /** Optional parameters. */
-export interface WorkflowTriggersResetOptionalParams
+export interface IntegrationAccountAgreementsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type IntegrationAccountAgreementsCreateOrUpdateResponse =
+  IntegrationAccountAgreement;
+
+/** Optional parameters. */
+export interface IntegrationAccountAgreementsDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WorkflowTriggersRunOptionalParams
+export interface IntegrationAccountAgreementsListContentCallbackUrlOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Optional parameters. */
-export interface WorkflowTriggersGetSchemaJsonOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getSchemaJson operation. */
-export type WorkflowTriggersGetSchemaJsonResponse = JsonSchema;
+/** Contains response data for the listContentCallbackUrl operation. */
+export type IntegrationAccountAgreementsListContentCallbackUrlResponse =
+  WorkflowTriggerCallbackUrl;
 
 /** Optional parameters. */
-export interface WorkflowTriggersSetStateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface WorkflowTriggersListCallbackUrlOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listCallbackUrl operation. */
-export type WorkflowTriggersListCallbackUrlResponse = WorkflowTriggerCallbackUrl;
-
-/** Optional parameters. */
-export interface WorkflowTriggersListNextOptionalParams
+export interface IntegrationAccountAgreementsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type WorkflowTriggersListNextResponse = WorkflowTriggerListResult;
+export type IntegrationAccountAgreementsListNextResponse =
+  IntegrationAccountAgreementListResult;
 
 /** Optional parameters. */
-export interface WorkflowVersionTriggersListCallbackUrlOptionalParams
-  extends coreClient.OperationOptions {
-  /** The callback URL parameters. */
-  parameters?: GetCallbackUrlParameters;
-}
+export interface AssemblyDefinitionsListOptionalParams
+  extends coreClient.OperationOptions {}
 
-/** Contains response data for the listCallbackUrl operation. */
-export type WorkflowVersionTriggersListCallbackUrlResponse = WorkflowTriggerCallbackUrl;
+/** Contains response data for the list operation. */
+export type AssemblyDefinitionsListResponse = AssemblyCollection;
 
 /** Optional parameters. */
-export interface WorkflowTriggerHistoriesListOptionalParams
+export interface AssemblyDefinitionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AssemblyDefinitionsGetResponse = AssemblyDefinition;
+
+/** Optional parameters. */
+export interface AssemblyDefinitionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type AssemblyDefinitionsCreateOrUpdateResponse = AssemblyDefinition;
+
+/** Optional parameters. */
+export interface AssemblyDefinitionsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AssemblyDefinitionsListContentCallbackUrlOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listContentCallbackUrl operation. */
+export type AssemblyDefinitionsListContentCallbackUrlResponse =
+  WorkflowTriggerCallbackUrl;
+
+/** Optional parameters. */
+export interface BatchConfigurationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type BatchConfigurationsListResponse = BatchConfigurationCollection;
+
+/** Optional parameters. */
+export interface BatchConfigurationsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type BatchConfigurationsGetResponse = BatchConfiguration;
+
+/** Optional parameters. */
+export interface BatchConfigurationsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type BatchConfigurationsCreateOrUpdateResponse = BatchConfiguration;
+
+/** Optional parameters. */
+export interface BatchConfigurationsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface IntegrationAccountCertificatesListOptionalParams
   extends coreClient.OperationOptions {
   /** The number of items to be included in the result. */
   top?: number;
-  /** The filter to apply on the operation. Options for filters include: Status, StartTime, and ClientTrackingId. */
+}
+
+/** Contains response data for the list operation. */
+export type IntegrationAccountCertificatesListResponse =
+  IntegrationAccountCertificateListResult;
+
+/** Optional parameters. */
+export interface IntegrationAccountCertificatesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type IntegrationAccountCertificatesGetResponse =
+  IntegrationAccountCertificate;
+
+/** Optional parameters. */
+export interface IntegrationAccountCertificatesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type IntegrationAccountCertificatesCreateOrUpdateResponse =
+  IntegrationAccountCertificate;
+
+/** Optional parameters. */
+export interface IntegrationAccountCertificatesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface IntegrationAccountCertificatesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type IntegrationAccountCertificatesListNextResponse =
+  IntegrationAccountCertificateListResult;
+
+/** Optional parameters. */
+export interface IntegrationAccountMapsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of items to be included in the result. */
+  top?: number;
+  /** The filter to apply on the operation. Options for filters include: MapType. */
   filter?: string;
 }
 
 /** Contains response data for the list operation. */
-export type WorkflowTriggerHistoriesListResponse = WorkflowTriggerHistoryListResult;
+export type IntegrationAccountMapsListResponse =
+  IntegrationAccountMapListResult;
 
 /** Optional parameters. */
-export interface WorkflowTriggerHistoriesGetOptionalParams
+export interface IntegrationAccountMapsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkflowTriggerHistoriesGetResponse = WorkflowTriggerHistory;
+export type IntegrationAccountMapsGetResponse = IntegrationAccountMap;
 
 /** Optional parameters. */
-export interface WorkflowTriggerHistoriesResubmitOptionalParams
+export interface IntegrationAccountMapsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type IntegrationAccountMapsCreateOrUpdateResponse =
+  IntegrationAccountMap;
+
+/** Optional parameters. */
+export interface IntegrationAccountMapsDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WorkflowTriggerHistoriesListNextOptionalParams
+export interface IntegrationAccountMapsListContentCallbackUrlOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listContentCallbackUrl operation. */
+export type IntegrationAccountMapsListContentCallbackUrlResponse =
+  WorkflowTriggerCallbackUrl;
+
+/** Optional parameters. */
+export interface IntegrationAccountMapsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type WorkflowTriggerHistoriesListNextResponse = WorkflowTriggerHistoryListResult;
+export type IntegrationAccountMapsListNextResponse =
+  IntegrationAccountMapListResult;
 
 /** Optional parameters. */
-export interface WorkflowRunsListOptionalParams
+export interface IntegrationAccountPartnersListOptionalParams
   extends coreClient.OperationOptions {
   /** The number of items to be included in the result. */
   top?: number;
-  /** The filter to apply on the operation. Options for filters include: Status, StartTime, and ClientTrackingId. */
+  /** The filter to apply on the operation. Options for filters include: PartnerType. */
   filter?: string;
 }
 
 /** Contains response data for the list operation. */
-export type WorkflowRunsListResponse = WorkflowRunListResult;
+export type IntegrationAccountPartnersListResponse =
+  IntegrationAccountPartnerListResult;
+
+/** Optional parameters. */
+export interface IntegrationAccountPartnersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type IntegrationAccountPartnersGetResponse = IntegrationAccountPartner;
+
+/** Optional parameters. */
+export interface IntegrationAccountPartnersCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type IntegrationAccountPartnersCreateOrUpdateResponse =
+  IntegrationAccountPartner;
+
+/** Optional parameters. */
+export interface IntegrationAccountPartnersDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface IntegrationAccountPartnersListContentCallbackUrlOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listContentCallbackUrl operation. */
+export type IntegrationAccountPartnersListContentCallbackUrlResponse =
+  WorkflowTriggerCallbackUrl;
+
+/** Optional parameters. */
+export interface IntegrationAccountPartnersListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type IntegrationAccountPartnersListNextResponse =
+  IntegrationAccountPartnerListResult;
+
+/** Optional parameters. */
+export interface IntegrationAccountSchemasListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of items to be included in the result. */
+  top?: number;
+  /** The filter to apply on the operation. Options for filters include: SchemaType. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type IntegrationAccountSchemasListResponse =
+  IntegrationAccountSchemaListResult;
+
+/** Optional parameters. */
+export interface IntegrationAccountSchemasGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type IntegrationAccountSchemasGetResponse = IntegrationAccountSchema;
+
+/** Optional parameters. */
+export interface IntegrationAccountSchemasCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type IntegrationAccountSchemasCreateOrUpdateResponse =
+  IntegrationAccountSchema;
+
+/** Optional parameters. */
+export interface IntegrationAccountSchemasDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface IntegrationAccountSchemasListContentCallbackUrlOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listContentCallbackUrl operation. */
+export type IntegrationAccountSchemasListContentCallbackUrlResponse =
+  WorkflowTriggerCallbackUrl;
+
+/** Optional parameters. */
+export interface IntegrationAccountSchemasListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type IntegrationAccountSchemasListNextResponse =
+  IntegrationAccountSchemaListResult;
+
+/** Optional parameters. */
+export interface IntegrationAccountSessionsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of items to be included in the result. */
+  top?: number;
+  /** The filter to apply on the operation. Options for filters include: ChangedTime. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type IntegrationAccountSessionsListResponse =
+  IntegrationAccountSessionListResult;
+
+/** Optional parameters. */
+export interface IntegrationAccountSessionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type IntegrationAccountSessionsGetResponse = IntegrationAccountSession;
+
+/** Optional parameters. */
+export interface IntegrationAccountSessionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type IntegrationAccountSessionsCreateOrUpdateResponse =
+  IntegrationAccountSession;
+
+/** Optional parameters. */
+export interface IntegrationAccountSessionsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface IntegrationAccountSessionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type IntegrationAccountSessionsListNextResponse =
+  IntegrationAccountSessionListResult;
+
+/** Optional parameters. */
+export interface WorkflowsOperationsValidateByLocationOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WorkflowRunsGetOptionalParams
@@ -4515,13 +5404,6 @@ export type WorkflowRunsGetResponse = WorkflowRun;
 /** Optional parameters. */
 export interface WorkflowRunsCancelOptionalParams
   extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface WorkflowRunsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type WorkflowRunsListNextResponse = WorkflowRunListResult;
 
 /** Optional parameters. */
 export interface WorkflowRunActionsListOptionalParams
@@ -4557,602 +5439,172 @@ export interface WorkflowRunActionsListNextOptionalParams
 export type WorkflowRunActionsListNextResponse = WorkflowRunActionListResult;
 
 /** Optional parameters. */
-export interface WorkflowRunActionRepetitionsListOptionalParams
+export interface WorkflowRunActionRepetitionDefinitionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type WorkflowRunActionRepetitionsListResponse = WorkflowRunActionRepetitionDefinitionCollection;
+export type WorkflowRunActionRepetitionDefinitionsListResponse =
+  WorkflowRunActionRepetitionDefinitionCollection;
 
 /** Optional parameters. */
-export interface WorkflowRunActionRepetitionsGetOptionalParams
+export interface WorkflowRunActionRepetitionDefinitionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkflowRunActionRepetitionsGetResponse = WorkflowRunActionRepetitionDefinition;
+export type WorkflowRunActionRepetitionDefinitionsGetResponse =
+  WorkflowRunActionRepetitionDefinition;
 
 /** Optional parameters. */
-export interface WorkflowRunActionRepetitionsListExpressionTracesOptionalParams
+export interface WorkflowRunActionRepetitionDefinitionsListExpressionTracesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listExpressionTraces operation. */
-export type WorkflowRunActionRepetitionsListExpressionTracesResponse = ExpressionTraces;
+export type WorkflowRunActionRepetitionDefinitionsListExpressionTracesResponse =
+  ExpressionTraces;
 
 /** Optional parameters. */
-export interface WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type WorkflowRunActionRepetitionsRequestHistoriesListResponse = RequestHistoryListResult;
-
-/** Optional parameters. */
-export interface WorkflowRunActionRepetitionsRequestHistoriesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type WorkflowRunActionRepetitionsRequestHistoriesGetResponse = RequestHistory;
-
-/** Optional parameters. */
-export interface WorkflowRunActionRepetitionsRequestHistoriesListNextOptionalParams
+export interface WorkflowRunActionRepetitionDefinitionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type WorkflowRunActionRepetitionsRequestHistoriesListNextResponse = RequestHistoryListResult;
+export type WorkflowRunActionRepetitionDefinitionsListNextResponse =
+  WorkflowRunActionRepetitionDefinitionCollection;
 
 /** Optional parameters. */
-export interface WorkflowRunActionRequestHistoriesListOptionalParams
+export interface RequestHistoriesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type WorkflowRunActionRequestHistoriesListResponse = RequestHistoryListResult;
+export type RequestHistoriesListResponse = RequestHistoryListResult;
 
 /** Optional parameters. */
-export interface WorkflowRunActionRequestHistoriesGetOptionalParams
+export interface RequestHistoriesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkflowRunActionRequestHistoriesGetResponse = RequestHistory;
+export type RequestHistoriesGetResponse = RequestHistory;
 
 /** Optional parameters. */
-export interface WorkflowRunActionRequestHistoriesListNextOptionalParams
+export interface RequestHistoriesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type WorkflowRunActionRequestHistoriesListNextResponse = RequestHistoryListResult;
+export type RequestHistoriesListNextResponse = RequestHistoryListResult;
 
 /** Optional parameters. */
-export interface WorkflowRunActionScopeRepetitionsListOptionalParams
+export interface WorkflowRunActionRequestHistoriesOperationsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WorkflowRunActionRequestHistoriesOperationsGetResponse =
+  RequestHistory;
+
+/** Optional parameters. */
+export interface WorkflowRunActionRequestHistoriesOperationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type WorkflowRunActionScopeRepetitionsListResponse = WorkflowRunActionRepetitionDefinitionCollection;
+export type WorkflowRunActionRequestHistoriesOperationsListResponse =
+  RequestHistoryListResult;
 
 /** Optional parameters. */
-export interface WorkflowRunActionScopeRepetitionsGetOptionalParams
+export interface WorkflowRunActionRequestHistoriesOperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type WorkflowRunActionRequestHistoriesOperationsListNextResponse =
+  RequestHistoryListResult;
+
+/** Optional parameters. */
+export interface WorkflowRunActionScopeRepetitionsOperationsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkflowRunActionScopeRepetitionsGetResponse = WorkflowRunActionRepetitionDefinition;
+export type WorkflowRunActionScopeRepetitionsOperationsGetResponse =
+  WorkflowRunActionRepetitionDefinition;
 
 /** Optional parameters. */
-export interface WorkflowRunOperationsGetOptionalParams
+export interface WorkflowRunActionScopeRepetitionsOperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type WorkflowRunActionScopeRepetitionsOperationsListResponse =
+  WorkflowRunActionRepetitionDefinitionCollection;
+
+/** Optional parameters. */
+export interface WorkflowRunActionScopeRepetitionsOperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type WorkflowRunActionScopeRepetitionsOperationsListNextResponse =
+  WorkflowRunActionRepetitionDefinitionCollection;
+
+/** Optional parameters. */
+export interface WorkflowRunOperationsOperationsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkflowRunOperationsGetResponse = WorkflowRun;
+export type WorkflowRunOperationsOperationsGetResponse = WorkflowRun;
 
 /** Optional parameters. */
-export interface IntegrationAccountsListBySubscriptionOptionalParams
+export interface WorkflowRunsOperationsListOptionalParams
   extends coreClient.OperationOptions {
   /** The number of items to be included in the result. */
   top?: number;
+  /** The filter to apply on the operation. Options for filters include: Status, StartTime, and ClientTrackingId. */
+  filter?: string;
 }
 
-/** Contains response data for the listBySubscription operation. */
-export type IntegrationAccountsListBySubscriptionResponse = IntegrationAccountListResult;
+/** Contains response data for the list operation. */
+export type WorkflowRunsOperationsListResponse = WorkflowRunListResult;
 
 /** Optional parameters. */
-export interface IntegrationAccountsListByResourceGroupOptionalParams
+export interface WorkflowRunsOperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type WorkflowRunsOperationsListNextResponse = WorkflowRunListResult;
+
+/** Optional parameters. */
+export interface WorkflowTriggersListOptionalParams
   extends coreClient.OperationOptions {
   /** The number of items to be included in the result. */
   top?: number;
+  /** The filter to apply on the operation. */
+  filter?: string;
 }
 
-/** Contains response data for the listByResourceGroup operation. */
-export type IntegrationAccountsListByResourceGroupResponse = IntegrationAccountListResult;
+/** Contains response data for the list operation. */
+export type WorkflowTriggersListResponse = WorkflowTriggerListResult;
 
 /** Optional parameters. */
-export interface IntegrationAccountsGetOptionalParams
+export interface WorkflowTriggersGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type IntegrationAccountsGetResponse = IntegrationAccount;
+export type WorkflowTriggersGetResponse = WorkflowTrigger;
 
 /** Optional parameters. */
-export interface IntegrationAccountsCreateOrUpdateOptionalParams
+export interface WorkflowTriggersGetSchemaJsonOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the createOrUpdate operation. */
-export type IntegrationAccountsCreateOrUpdateResponse = IntegrationAccount;
+/** Contains response data for the getSchemaJson operation. */
+export type WorkflowTriggersGetSchemaJsonResponse = JsonSchema;
 
 /** Optional parameters. */
-export interface IntegrationAccountsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type IntegrationAccountsUpdateResponse = IntegrationAccount;
-
-/** Optional parameters. */
-export interface IntegrationAccountsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface IntegrationAccountsListCallbackUrlOptionalParams
+export interface WorkflowTriggersListCallbackUrlOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listCallbackUrl operation. */
-export type IntegrationAccountsListCallbackUrlResponse = CallbackUrl;
+export type WorkflowTriggersListCallbackUrlResponse =
+  WorkflowTriggerCallbackUrl;
 
 /** Optional parameters. */
-export interface IntegrationAccountsListKeyVaultKeysOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listKeyVaultKeys operation. */
-export type IntegrationAccountsListKeyVaultKeysResponse = KeyVaultKeyCollection;
-
-/** Optional parameters. */
-export interface IntegrationAccountsLogTrackingEventsOptionalParams
+export interface WorkflowTriggersResetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface IntegrationAccountsRegenerateAccessKeyOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the regenerateAccessKey operation. */
-export type IntegrationAccountsRegenerateAccessKeyResponse = IntegrationAccount;
-
-/** Optional parameters. */
-export interface IntegrationAccountsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type IntegrationAccountsListBySubscriptionNextResponse = IntegrationAccountListResult;
-
-/** Optional parameters. */
-export interface IntegrationAccountsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type IntegrationAccountsListByResourceGroupNextResponse = IntegrationAccountListResult;
-
-/** Optional parameters. */
-export interface IntegrationAccountAssembliesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type IntegrationAccountAssembliesListResponse = AssemblyCollection;
-
-/** Optional parameters. */
-export interface IntegrationAccountAssembliesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type IntegrationAccountAssembliesGetResponse = AssemblyDefinition;
-
-/** Optional parameters. */
-export interface IntegrationAccountAssembliesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type IntegrationAccountAssembliesCreateOrUpdateResponse = AssemblyDefinition;
-
-/** Optional parameters. */
-export interface IntegrationAccountAssembliesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface IntegrationAccountAssembliesListContentCallbackUrlOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listContentCallbackUrl operation. */
-export type IntegrationAccountAssembliesListContentCallbackUrlResponse = WorkflowTriggerCallbackUrl;
-
-/** Optional parameters. */
-export interface IntegrationAccountBatchConfigurationsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type IntegrationAccountBatchConfigurationsListResponse = BatchConfigurationCollection;
-
-/** Optional parameters. */
-export interface IntegrationAccountBatchConfigurationsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type IntegrationAccountBatchConfigurationsGetResponse = BatchConfiguration;
-
-/** Optional parameters. */
-export interface IntegrationAccountBatchConfigurationsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type IntegrationAccountBatchConfigurationsCreateOrUpdateResponse = BatchConfiguration;
-
-/** Optional parameters. */
-export interface IntegrationAccountBatchConfigurationsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface IntegrationAccountSchemasListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-  /** The filter to apply on the operation. Options for filters include: SchemaType. */
-  filter?: string;
-}
-
-/** Contains response data for the list operation. */
-export type IntegrationAccountSchemasListResponse = IntegrationAccountSchemaListResult;
-
-/** Optional parameters. */
-export interface IntegrationAccountSchemasGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type IntegrationAccountSchemasGetResponse = IntegrationAccountSchema;
-
-/** Optional parameters. */
-export interface IntegrationAccountSchemasCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type IntegrationAccountSchemasCreateOrUpdateResponse = IntegrationAccountSchema;
-
-/** Optional parameters. */
-export interface IntegrationAccountSchemasDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface IntegrationAccountSchemasListContentCallbackUrlOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listContentCallbackUrl operation. */
-export type IntegrationAccountSchemasListContentCallbackUrlResponse = WorkflowTriggerCallbackUrl;
-
-/** Optional parameters. */
-export interface IntegrationAccountSchemasListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type IntegrationAccountSchemasListNextResponse = IntegrationAccountSchemaListResult;
-
-/** Optional parameters. */
-export interface IntegrationAccountMapsListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-  /** The filter to apply on the operation. Options for filters include: MapType. */
-  filter?: string;
-}
-
-/** Contains response data for the list operation. */
-export type IntegrationAccountMapsListResponse = IntegrationAccountMapListResult;
-
-/** Optional parameters. */
-export interface IntegrationAccountMapsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type IntegrationAccountMapsGetResponse = IntegrationAccountMap;
-
-/** Optional parameters. */
-export interface IntegrationAccountMapsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type IntegrationAccountMapsCreateOrUpdateResponse = IntegrationAccountMap;
-
-/** Optional parameters. */
-export interface IntegrationAccountMapsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface IntegrationAccountMapsListContentCallbackUrlOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listContentCallbackUrl operation. */
-export type IntegrationAccountMapsListContentCallbackUrlResponse = WorkflowTriggerCallbackUrl;
-
-/** Optional parameters. */
-export interface IntegrationAccountMapsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type IntegrationAccountMapsListNextResponse = IntegrationAccountMapListResult;
-
-/** Optional parameters. */
-export interface IntegrationAccountPartnersListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-  /** The filter to apply on the operation. Options for filters include: PartnerType. */
-  filter?: string;
-}
-
-/** Contains response data for the list operation. */
-export type IntegrationAccountPartnersListResponse = IntegrationAccountPartnerListResult;
-
-/** Optional parameters. */
-export interface IntegrationAccountPartnersGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type IntegrationAccountPartnersGetResponse = IntegrationAccountPartner;
-
-/** Optional parameters. */
-export interface IntegrationAccountPartnersCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type IntegrationAccountPartnersCreateOrUpdateResponse = IntegrationAccountPartner;
-
-/** Optional parameters. */
-export interface IntegrationAccountPartnersDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface IntegrationAccountPartnersListContentCallbackUrlOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listContentCallbackUrl operation. */
-export type IntegrationAccountPartnersListContentCallbackUrlResponse = WorkflowTriggerCallbackUrl;
-
-/** Optional parameters. */
-export interface IntegrationAccountPartnersListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type IntegrationAccountPartnersListNextResponse = IntegrationAccountPartnerListResult;
-
-/** Optional parameters. */
-export interface IntegrationAccountAgreementsListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-  /** The filter to apply on the operation. Options for filters include: AgreementType. */
-  filter?: string;
-}
-
-/** Contains response data for the list operation. */
-export type IntegrationAccountAgreementsListResponse = IntegrationAccountAgreementListResult;
-
-/** Optional parameters. */
-export interface IntegrationAccountAgreementsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type IntegrationAccountAgreementsGetResponse = IntegrationAccountAgreement;
-
-/** Optional parameters. */
-export interface IntegrationAccountAgreementsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type IntegrationAccountAgreementsCreateOrUpdateResponse = IntegrationAccountAgreement;
-
-/** Optional parameters. */
-export interface IntegrationAccountAgreementsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface IntegrationAccountAgreementsListContentCallbackUrlOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listContentCallbackUrl operation. */
-export type IntegrationAccountAgreementsListContentCallbackUrlResponse = WorkflowTriggerCallbackUrl;
-
-/** Optional parameters. */
-export interface IntegrationAccountAgreementsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type IntegrationAccountAgreementsListNextResponse = IntegrationAccountAgreementListResult;
-
-/** Optional parameters. */
-export interface IntegrationAccountCertificatesListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-}
-
-/** Contains response data for the list operation. */
-export type IntegrationAccountCertificatesListResponse = IntegrationAccountCertificateListResult;
-
-/** Optional parameters. */
-export interface IntegrationAccountCertificatesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type IntegrationAccountCertificatesGetResponse = IntegrationAccountCertificate;
-
-/** Optional parameters. */
-export interface IntegrationAccountCertificatesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type IntegrationAccountCertificatesCreateOrUpdateResponse = IntegrationAccountCertificate;
-
-/** Optional parameters. */
-export interface IntegrationAccountCertificatesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface IntegrationAccountCertificatesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type IntegrationAccountCertificatesListNextResponse = IntegrationAccountCertificateListResult;
-
-/** Optional parameters. */
-export interface IntegrationAccountSessionsListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-  /** The filter to apply on the operation. Options for filters include: ChangedTime. */
-  filter?: string;
-}
-
-/** Contains response data for the list operation. */
-export type IntegrationAccountSessionsListResponse = IntegrationAccountSessionListResult;
-
-/** Optional parameters. */
-export interface IntegrationAccountSessionsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type IntegrationAccountSessionsGetResponse = IntegrationAccountSession;
-
-/** Optional parameters. */
-export interface IntegrationAccountSessionsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type IntegrationAccountSessionsCreateOrUpdateResponse = IntegrationAccountSession;
-
-/** Optional parameters. */
-export interface IntegrationAccountSessionsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface IntegrationAccountSessionsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type IntegrationAccountSessionsListNextResponse = IntegrationAccountSessionListResult;
-
-/** Optional parameters. */
-export interface IntegrationServiceEnvironmentsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-}
-
-/** Contains response data for the listBySubscription operation. */
-export type IntegrationServiceEnvironmentsListBySubscriptionResponse = IntegrationServiceEnvironmentListResult;
-
-/** Optional parameters. */
-export interface IntegrationServiceEnvironmentsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type IntegrationServiceEnvironmentsListByResourceGroupResponse = IntegrationServiceEnvironmentListResult;
-
-/** Optional parameters. */
-export interface IntegrationServiceEnvironmentsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type IntegrationServiceEnvironmentsGetResponse = IntegrationServiceEnvironment;
-
-/** Optional parameters. */
-export interface IntegrationServiceEnvironmentsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type IntegrationServiceEnvironmentsCreateOrUpdateResponse = IntegrationServiceEnvironment;
-
-/** Optional parameters. */
-export interface IntegrationServiceEnvironmentsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type IntegrationServiceEnvironmentsUpdateResponse = IntegrationServiceEnvironment;
-
-/** Optional parameters. */
-export interface IntegrationServiceEnvironmentsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface IntegrationServiceEnvironmentsRestartOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface IntegrationServiceEnvironmentsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type IntegrationServiceEnvironmentsListBySubscriptionNextResponse = IntegrationServiceEnvironmentListResult;
-
-/** Optional parameters. */
-export interface IntegrationServiceEnvironmentsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type IntegrationServiceEnvironmentsListByResourceGroupNextResponse = IntegrationServiceEnvironmentListResult;
-
-/** Optional parameters. */
-export interface IntegrationServiceEnvironmentSkusListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type IntegrationServiceEnvironmentSkusListResponse = IntegrationServiceEnvironmentSkuList;
-
-/** Optional parameters. */
-export interface IntegrationServiceEnvironmentSkusListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type IntegrationServiceEnvironmentSkusListNextResponse = IntegrationServiceEnvironmentSkuList;
-
-/** Optional parameters. */
-export interface IntegrationServiceEnvironmentNetworkHealthGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type IntegrationServiceEnvironmentNetworkHealthGetResponse = {
-  [propertyName: string]: IntegrationServiceEnvironmentSubnetNetworkHealth;
-};
-
-/** Optional parameters. */
-export interface IntegrationServiceEnvironmentManagedApisListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type IntegrationServiceEnvironmentManagedApisListResponse = IntegrationServiceEnvironmentManagedApiListResult;
-
-/** Optional parameters. */
-export interface IntegrationServiceEnvironmentManagedApisGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type IntegrationServiceEnvironmentManagedApisGetResponse = IntegrationServiceEnvironmentManagedApi;
-
-/** Optional parameters. */
-export interface IntegrationServiceEnvironmentManagedApisPutOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the put operation. */
-export type IntegrationServiceEnvironmentManagedApisPutResponse = IntegrationServiceEnvironmentManagedApi;
-
-/** Optional parameters. */
-export interface IntegrationServiceEnvironmentManagedApisDeleteOptionalParams
+export interface WorkflowTriggersRunOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -5161,39 +5613,91 @@ export interface IntegrationServiceEnvironmentManagedApisDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface IntegrationServiceEnvironmentManagedApisListNextOptionalParams
+export interface WorkflowTriggersSetStateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface WorkflowTriggersListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type IntegrationServiceEnvironmentManagedApisListNextResponse = IntegrationServiceEnvironmentManagedApiListResult;
+export type WorkflowTriggersListNextResponse = WorkflowTriggerListResult;
 
 /** Optional parameters. */
-export interface IntegrationServiceEnvironmentManagedApiOperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkflowTriggerHistoriesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of items to be included in the result. */
+  top?: number;
+  /** The filter to apply on the operation. Options for filters include: Status, StartTime, and ClientTrackingId. */
+  filter?: string;
+}
 
 /** Contains response data for the list operation. */
-export type IntegrationServiceEnvironmentManagedApiOperationsListResponse = ApiOperationListResult;
+export type WorkflowTriggerHistoriesListResponse =
+  WorkflowTriggerHistoryListResult;
 
 /** Optional parameters. */
-export interface IntegrationServiceEnvironmentManagedApiOperationsListNextOptionalParams
+export interface WorkflowTriggerHistoriesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WorkflowTriggerHistoriesGetResponse = WorkflowTriggerHistory;
+
+/** Optional parameters. */
+export interface WorkflowTriggerHistoriesResubmitOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the resubmit operation. */
+export type WorkflowTriggerHistoriesResubmitResponse =
+  WorkflowTriggerHistoriesResubmitHeaders;
+
+/** Optional parameters. */
+export interface WorkflowTriggerHistoriesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type IntegrationServiceEnvironmentManagedApiOperationsListNextResponse = ApiOperationListResult;
+export type WorkflowTriggerHistoriesListNextResponse =
+  WorkflowTriggerHistoryListResult;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkflowVersionsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of items to be included in the result. */
+  top?: number;
+}
 
 /** Contains response data for the list operation. */
-export type OperationsListResponse = OperationListResult;
+export type WorkflowVersionsListResponse = WorkflowVersionListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
+export interface WorkflowVersionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WorkflowVersionsGetResponse = WorkflowVersion;
+
+/** Optional parameters. */
+export interface WorkflowVersionsListCallbackUrlOptionalParams
+  extends coreClient.OperationOptions {
+  /** The callback URL parameters. */
+  parameters?: GetCallbackUrlParameters;
+}
+
+/** Contains response data for the listCallbackUrl operation. */
+export type WorkflowVersionsListCallbackUrlResponse =
+  WorkflowTriggerCallbackUrl;
+
+/** Optional parameters. */
+export interface WorkflowVersionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type OperationsListNextResponse = OperationListResult;
+export type WorkflowVersionsListNextResponse = WorkflowVersionListResult;
 
 /** Optional parameters. */
 export interface LogicManagementClientOptionalParams

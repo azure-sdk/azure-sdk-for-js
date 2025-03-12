@@ -6,22 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { WorkflowRunOperations } from "../operationsInterfaces/index.js";
+import { WorkflowRunOperationsOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { LogicManagementClient } from "../logicManagementClient.js";
 import {
-  WorkflowRunOperationsGetOptionalParams,
-  WorkflowRunOperationsGetResponse
+  WorkflowRunOperationsOperationsGetOptionalParams,
+  WorkflowRunOperationsOperationsGetResponse,
 } from "../models/index.js";
 
-/** Class containing WorkflowRunOperations operations. */
-export class WorkflowRunOperationsImpl implements WorkflowRunOperations {
+/** Class containing WorkflowRunOperationsOperations operations. */
+export class WorkflowRunOperationsOperationsImpl
+  implements WorkflowRunOperationsOperations
+{
   private readonly client: LogicManagementClient;
 
   /**
-   * Initialize a new instance of the class WorkflowRunOperations class.
+   * Initialize a new instance of the class WorkflowRunOperationsOperations class.
    * @param client Reference to the service client
    */
   constructor(client: LogicManagementClient) {
@@ -30,7 +32,7 @@ export class WorkflowRunOperationsImpl implements WorkflowRunOperations {
 
   /**
    * Gets an operation for a run.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param runName The workflow run name.
    * @param operationId The workflow operation id.
@@ -41,11 +43,11 @@ export class WorkflowRunOperationsImpl implements WorkflowRunOperations {
     workflowName: string,
     runName: string,
     operationId: string,
-    options?: WorkflowRunOperationsGetOptionalParams
-  ): Promise<WorkflowRunOperationsGetResponse> {
+    options?: WorkflowRunOperationsOperationsGetOptionalParams,
+  ): Promise<WorkflowRunOperationsOperationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, runName, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -53,26 +55,25 @@ export class WorkflowRunOperationsImpl implements WorkflowRunOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/operations/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/operations/{operationId}/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/{workflowName}/{runName}/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowRun
+      bodyMapper: Mappers.WorkflowRun,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workflowName,
-    Parameters.runName,
-    Parameters.operationId
+    Parameters.workflowName1,
+    Parameters.runName1,
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

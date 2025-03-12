@@ -8,30 +8,26 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { WorkflowVersions } from "../operationsInterfaces/index.js";
+import { WorkflowRunsOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { LogicManagementClient } from "../logicManagementClient.js";
 import {
-  WorkflowVersion,
-  WorkflowVersionsListNextOptionalParams,
-  WorkflowVersionsListOptionalParams,
-  WorkflowVersionsListResponse,
-  WorkflowVersionsGetOptionalParams,
-  WorkflowVersionsGetResponse,
-  WorkflowVersionsListCallbackUrlOptionalParams,
-  WorkflowVersionsListCallbackUrlResponse,
-  WorkflowVersionsListNextResponse,
+  WorkflowRun,
+  WorkflowRunsOperationsListNextOptionalParams,
+  WorkflowRunsOperationsListOptionalParams,
+  WorkflowRunsOperationsListResponse,
+  WorkflowRunsOperationsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing WorkflowVersions operations. */
-export class WorkflowVersionsImpl implements WorkflowVersions {
+/** Class containing WorkflowRunsOperations operations. */
+export class WorkflowRunsOperationsImpl implements WorkflowRunsOperations {
   private readonly client: LogicManagementClient;
 
   /**
-   * Initialize a new instance of the class WorkflowVersions class.
+   * Initialize a new instance of the class WorkflowRunsOperations class.
    * @param client Reference to the service client
    */
   constructor(client: LogicManagementClient) {
@@ -39,7 +35,7 @@ export class WorkflowVersionsImpl implements WorkflowVersions {
   }
 
   /**
-   * Gets a list of workflow versions.
+   * Gets a list of workflow runs.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param options The options parameters.
@@ -47,8 +43,8 @@ export class WorkflowVersionsImpl implements WorkflowVersions {
   public list(
     resourceGroupName: string,
     workflowName: string,
-    options?: WorkflowVersionsListOptionalParams,
-  ): PagedAsyncIterableIterator<WorkflowVersion> {
+    options?: WorkflowRunsOperationsListOptionalParams,
+  ): PagedAsyncIterableIterator<WorkflowRun> {
     const iter = this.listPagingAll(resourceGroupName, workflowName, options);
     return {
       next() {
@@ -74,10 +70,10 @@ export class WorkflowVersionsImpl implements WorkflowVersions {
   private async *listPagingPage(
     resourceGroupName: string,
     workflowName: string,
-    options?: WorkflowVersionsListOptionalParams,
+    options?: WorkflowRunsOperationsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<WorkflowVersion[]> {
-    let result: WorkflowVersionsListResponse;
+  ): AsyncIterableIterator<WorkflowRun[]> {
+    let result: WorkflowRunsOperationsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, workflowName, options);
@@ -103,8 +99,8 @@ export class WorkflowVersionsImpl implements WorkflowVersions {
   private async *listPagingAll(
     resourceGroupName: string,
     workflowName: string,
-    options?: WorkflowVersionsListOptionalParams,
-  ): AsyncIterableIterator<WorkflowVersion> {
+    options?: WorkflowRunsOperationsListOptionalParams,
+  ): AsyncIterableIterator<WorkflowRun> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workflowName,
@@ -115,7 +111,7 @@ export class WorkflowVersionsImpl implements WorkflowVersions {
   }
 
   /**
-   * Gets a list of workflow versions.
+   * Gets a list of workflow runs.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param options The options parameters.
@@ -123,51 +119,11 @@ export class WorkflowVersionsImpl implements WorkflowVersions {
   private _list(
     resourceGroupName: string,
     workflowName: string,
-    options?: WorkflowVersionsListOptionalParams,
-  ): Promise<WorkflowVersionsListResponse> {
+    options?: WorkflowRunsOperationsListOptionalParams,
+  ): Promise<WorkflowRunsOperationsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, options },
       listOperationSpec,
-    );
-  }
-
-  /**
-   * Gets a workflow version.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workflowName The workflow name.
-   * @param versionId The workflow versionId.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    workflowName: string,
-    versionId: string,
-    options?: WorkflowVersionsGetOptionalParams,
-  ): Promise<WorkflowVersionsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workflowName, versionId, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * Get the callback url for a trigger of a workflow version.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workflowName The workflow name.
-   * @param versionId The workflow versionId.
-   * @param triggerName The workflow trigger name.
-   * @param options The options parameters.
-   */
-  listCallbackUrl(
-    resourceGroupName: string,
-    workflowName: string,
-    versionId: string,
-    triggerName: string,
-    options?: WorkflowVersionsListCallbackUrlOptionalParams,
-  ): Promise<WorkflowVersionsListCallbackUrlResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workflowName, versionId, triggerName, options },
-      listCallbackUrlOperationSpec,
     );
   }
 
@@ -182,8 +138,8 @@ export class WorkflowVersionsImpl implements WorkflowVersions {
     resourceGroupName: string,
     workflowName: string,
     nextLink: string,
-    options?: WorkflowVersionsListNextOptionalParams,
-  ): Promise<WorkflowVersionsListNextResponse> {
+    options?: WorkflowRunsOperationsListNextOptionalParams,
+  ): Promise<WorkflowRunsOperationsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, nextLink, options },
       listNextOperationSpec,
@@ -194,71 +150,24 @@ export class WorkflowVersionsImpl implements WorkflowVersions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/versions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/{workflowName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowVersionListResult,
+      bodyMapper: Mappers.WorkflowRunListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
+  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workflowName,
+    Parameters.workflowName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/versions/{versionId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkflowVersion,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workflowName,
-    Parameters.versionId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listCallbackUrlOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/versions/{versionId}/{triggerName}/listCallbackUrl",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkflowTriggerCallbackUrl,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.parameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workflowName,
-    Parameters.versionId,
-    Parameters.triggerName1,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -266,7 +175,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowVersionListResult,
+      bodyMapper: Mappers.WorkflowRunListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -277,7 +186,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workflowName,
+    Parameters.workflowName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,

@@ -9,17 +9,17 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   RequestHistory,
-  WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams,
-  WorkflowRunActionRepetitionsRequestHistoriesGetOptionalParams,
-  WorkflowRunActionRepetitionsRequestHistoriesGetResponse
+  RequestHistoriesListOptionalParams,
+  RequestHistoriesGetOptionalParams,
+  RequestHistoriesGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a WorkflowRunActionRepetitionsRequestHistories. */
-export interface WorkflowRunActionRepetitionsRequestHistories {
+/** Interface representing a RequestHistories. */
+export interface RequestHistories {
   /**
    * List a workflow run repetition request history.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param runName The workflow run name.
    * @param actionName The workflow action name.
@@ -32,11 +32,11 @@ export interface WorkflowRunActionRepetitionsRequestHistories {
     runName: string,
     actionName: string,
     repetitionName: string,
-    options?: WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams
+    options?: RequestHistoriesListOptionalParams,
   ): PagedAsyncIterableIterator<RequestHistory>;
   /**
    * Gets a workflow run repetition request history.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param runName The workflow run name.
    * @param actionName The workflow action name.
@@ -51,6 +51,6 @@ export interface WorkflowRunActionRepetitionsRequestHistories {
     actionName: string,
     repetitionName: string,
     requestHistoryName: string,
-    options?: WorkflowRunActionRepetitionsRequestHistoriesGetOptionalParams
-  ): Promise<WorkflowRunActionRepetitionsRequestHistoriesGetResponse>;
+    options?: RequestHistoriesGetOptionalParams,
+  ): Promise<RequestHistoriesGetResponse>;
 }

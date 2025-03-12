@@ -6,32 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  WorkflowRun,
-  WorkflowRunsListOptionalParams,
   WorkflowRunsGetOptionalParams,
   WorkflowRunsGetResponse,
-  WorkflowRunsCancelOptionalParams
+  WorkflowRunsCancelOptionalParams,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a WorkflowRuns. */
 export interface WorkflowRuns {
   /**
-   * Gets a list of workflow runs.
-   * @param resourceGroupName The resource group name.
-   * @param workflowName The workflow name.
-   * @param options The options parameters.
-   */
-  list(
-    resourceGroupName: string,
-    workflowName: string,
-    options?: WorkflowRunsListOptionalParams
-  ): PagedAsyncIterableIterator<WorkflowRun>;
-  /**
    * Gets a workflow run.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param runName The workflow run name.
    * @param options The options parameters.
@@ -40,11 +25,11 @@ export interface WorkflowRuns {
     resourceGroupName: string,
     workflowName: string,
     runName: string,
-    options?: WorkflowRunsGetOptionalParams
+    options?: WorkflowRunsGetOptionalParams,
   ): Promise<WorkflowRunsGetResponse>;
   /**
    * Cancels a workflow run.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workflowName The workflow name.
    * @param runName The workflow run name.
    * @param options The options parameters.
@@ -53,6 +38,6 @@ export interface WorkflowRuns {
     resourceGroupName: string,
     workflowName: string,
     runName: string,
-    options?: WorkflowRunsCancelOptionalParams
+    options?: WorkflowRunsCancelOptionalParams,
   ): Promise<void>;
 }

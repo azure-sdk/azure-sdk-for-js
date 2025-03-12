@@ -14,7 +14,7 @@ import {
   IntegrationAccountCertificatesGetResponse,
   IntegrationAccountCertificatesCreateOrUpdateOptionalParams,
   IntegrationAccountCertificatesCreateOrUpdateResponse,
-  IntegrationAccountCertificatesDeleteOptionalParams
+  IntegrationAccountCertificatesDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,18 +22,18 @@ import {
 export interface IntegrationAccountCertificates {
   /**
    * Gets a list of integration account certificates.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountCertificatesListOptionalParams
+    options?: IntegrationAccountCertificatesListOptionalParams,
   ): PagedAsyncIterableIterator<IntegrationAccountCertificate>;
   /**
    * Gets an integration account certificate.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param certificateName The integration account certificate name.
    * @param options The options parameters.
@@ -42,26 +42,26 @@ export interface IntegrationAccountCertificates {
     resourceGroupName: string,
     integrationAccountName: string,
     certificateName: string,
-    options?: IntegrationAccountCertificatesGetOptionalParams
+    options?: IntegrationAccountCertificatesGetOptionalParams,
   ): Promise<IntegrationAccountCertificatesGetResponse>;
   /**
    * Creates or updates an integration account certificate.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param certificateName The integration account certificate name.
-   * @param certificate The integration account certificate.
+   * @param resource The integration account certificate.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     integrationAccountName: string,
     certificateName: string,
-    certificate: IntegrationAccountCertificate,
-    options?: IntegrationAccountCertificatesCreateOrUpdateOptionalParams
+    resource: IntegrationAccountCertificate,
+    options?: IntegrationAccountCertificatesCreateOrUpdateOptionalParams,
   ): Promise<IntegrationAccountCertificatesCreateOrUpdateResponse>;
   /**
    * Deletes an integration account certificate.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param integrationAccountName The integration account name.
    * @param certificateName The integration account certificate name.
    * @param options The options parameters.
@@ -70,6 +70,6 @@ export interface IntegrationAccountCertificates {
     resourceGroupName: string,
     integrationAccountName: string,
     certificateName: string,
-    options?: IntegrationAccountCertificatesDeleteOptionalParams
+    options?: IntegrationAccountCertificatesDeleteOptionalParams,
   ): Promise<void>;
 }

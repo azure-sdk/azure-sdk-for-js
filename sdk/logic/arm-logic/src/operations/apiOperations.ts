@@ -8,27 +8,26 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { IntegrationServiceEnvironmentManagedApiOperations } from "../operationsInterfaces/index.js";
+import { ApiOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { LogicManagementClient } from "../logicManagementClient.js";
 import {
   ApiOperation,
-  IntegrationServiceEnvironmentManagedApiOperationsListNextOptionalParams,
-  IntegrationServiceEnvironmentManagedApiOperationsListOptionalParams,
-  IntegrationServiceEnvironmentManagedApiOperationsListResponse,
-  IntegrationServiceEnvironmentManagedApiOperationsListNextResponse
+  ApiOperationsListNextOptionalParams,
+  ApiOperationsListOptionalParams,
+  ApiOperationsListResponse,
+  ApiOperationsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing IntegrationServiceEnvironmentManagedApiOperations operations. */
-export class IntegrationServiceEnvironmentManagedApiOperationsImpl
-  implements IntegrationServiceEnvironmentManagedApiOperations {
+/** Class containing ApiOperations operations. */
+export class ApiOperationsImpl implements ApiOperations {
   private readonly client: LogicManagementClient;
 
   /**
-   * Initialize a new instance of the class IntegrationServiceEnvironmentManagedApiOperations class.
+   * Initialize a new instance of the class ApiOperations class.
    * @param client Reference to the service client
    */
   constructor(client: LogicManagementClient) {
@@ -36,23 +35,20 @@ export class IntegrationServiceEnvironmentManagedApiOperationsImpl
   }
 
   /**
-   * Gets the managed Api operations.
-   * @param resourceGroup The resource group.
+   * List ApiOperation resources by IntegrationServiceEnvironmentManagedApi
    * @param integrationServiceEnvironmentName The integration service environment name.
    * @param apiName The api name.
    * @param options The options parameters.
    */
   public list(
-    resourceGroup: string,
     integrationServiceEnvironmentName: string,
     apiName: string,
-    options?: IntegrationServiceEnvironmentManagedApiOperationsListOptionalParams
+    options?: ApiOperationsListOptionalParams,
   ): PagedAsyncIterableIterator<ApiOperation> {
     const iter = this.listPagingAll(
-      resourceGroup,
       integrationServiceEnvironmentName,
       apiName,
-      options
+      options,
     );
     return {
       next() {
@@ -66,31 +62,28 @@ export class IntegrationServiceEnvironmentManagedApiOperationsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(
-          resourceGroup,
           integrationServiceEnvironmentName,
           apiName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listPagingPage(
-    resourceGroup: string,
     integrationServiceEnvironmentName: string,
     apiName: string,
-    options?: IntegrationServiceEnvironmentManagedApiOperationsListOptionalParams,
-    settings?: PageSettings
+    options?: ApiOperationsListOptionalParams,
+    settings?: PageSettings,
   ): AsyncIterableIterator<ApiOperation[]> {
-    let result: IntegrationServiceEnvironmentManagedApiOperationsListResponse;
+    let result: ApiOperationsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(
-        resourceGroup,
         integrationServiceEnvironmentName,
         apiName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -99,11 +92,10 @@ export class IntegrationServiceEnvironmentManagedApiOperationsImpl
     }
     while (continuationToken) {
       result = await this._listNext(
-        resourceGroup,
         integrationServiceEnvironmentName,
         apiName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -113,66 +105,52 @@ export class IntegrationServiceEnvironmentManagedApiOperationsImpl
   }
 
   private async *listPagingAll(
-    resourceGroup: string,
     integrationServiceEnvironmentName: string,
     apiName: string,
-    options?: IntegrationServiceEnvironmentManagedApiOperationsListOptionalParams
+    options?: ApiOperationsListOptionalParams,
   ): AsyncIterableIterator<ApiOperation> {
     for await (const page of this.listPagingPage(
-      resourceGroup,
       integrationServiceEnvironmentName,
       apiName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * Gets the managed Api operations.
-   * @param resourceGroup The resource group.
+   * List ApiOperation resources by IntegrationServiceEnvironmentManagedApi
    * @param integrationServiceEnvironmentName The integration service environment name.
    * @param apiName The api name.
    * @param options The options parameters.
    */
   private _list(
-    resourceGroup: string,
     integrationServiceEnvironmentName: string,
     apiName: string,
-    options?: IntegrationServiceEnvironmentManagedApiOperationsListOptionalParams
-  ): Promise<IntegrationServiceEnvironmentManagedApiOperationsListResponse> {
+    options?: ApiOperationsListOptionalParams,
+  ): Promise<ApiOperationsListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroup, integrationServiceEnvironmentName, apiName, options },
-      listOperationSpec
+      { integrationServiceEnvironmentName, apiName, options },
+      listOperationSpec,
     );
   }
 
   /**
    * ListNext
-   * @param resourceGroup The resource group.
    * @param integrationServiceEnvironmentName The integration service environment name.
    * @param apiName The api name.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    resourceGroup: string,
     integrationServiceEnvironmentName: string,
     apiName: string,
     nextLink: string,
-    options?: IntegrationServiceEnvironmentManagedApiOperationsListNextOptionalParams
-  ): Promise<
-    IntegrationServiceEnvironmentManagedApiOperationsListNextResponse
-  > {
+    options?: ApiOperationsListNextOptionalParams,
+  ): Promise<ApiOperationsListNextResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroup,
-        integrationServiceEnvironmentName,
-        apiName,
-        nextLink,
-        options
-      },
-      listNextOperationSpec
+      { integrationServiceEnvironmentName, apiName, nextLink, options },
+      listNextOperationSpec,
     );
   }
 }
@@ -180,47 +158,44 @@ export class IntegrationServiceEnvironmentManagedApiOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}/managedApis/{apiName}/apiOperations",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}/managedApis/{apiName}/apiOperations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiOperationListResult
+      bodyMapper: Mappers.ApiOperationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroup,
     Parameters.integrationServiceEnvironmentName,
-    Parameters.apiName
+    Parameters.apiName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiOperationListResult
+      bodyMapper: Mappers.ApiOperationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceGroup,
+    Parameters.subscriptionId,
     Parameters.integrationServiceEnvironmentName,
-    Parameters.apiName
+    Parameters.apiName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

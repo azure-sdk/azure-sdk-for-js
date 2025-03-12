@@ -7,23 +7,20 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  IntegrationServiceEnvironmentSkuDefinition,
-  IntegrationServiceEnvironmentSkusListOptionalParams
-} from "../models/index.js";
+import { ApiOperation, ApiOperationsListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a IntegrationServiceEnvironmentSkus. */
-export interface IntegrationServiceEnvironmentSkus {
+/** Interface representing a ApiOperations. */
+export interface ApiOperations {
   /**
-   * Gets a list of integration service environment Skus.
-   * @param resourceGroup The resource group.
+   * List ApiOperation resources by IntegrationServiceEnvironmentManagedApi
    * @param integrationServiceEnvironmentName The integration service environment name.
+   * @param apiName The api name.
    * @param options The options parameters.
    */
   list(
-    resourceGroup: string,
     integrationServiceEnvironmentName: string,
-    options?: IntegrationServiceEnvironmentSkusListOptionalParams
-  ): PagedAsyncIterableIterator<IntegrationServiceEnvironmentSkuDefinition>;
+    apiName: string,
+    options?: ApiOperationsListOptionalParams,
+  ): PagedAsyncIterableIterator<ApiOperation>;
 }
