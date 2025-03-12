@@ -2331,6 +2331,11 @@
       "packageName": "@azure/arm-databasewatcher",
       "projectFolder": "sdk/databasewatcher/arm-databasewatcher",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/azure-storage-blob-rest",
+      "projectFolder": "sdk/storage/azure-storage-blob-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
