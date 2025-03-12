@@ -18,15 +18,14 @@ import {
   SecretsListNextOptionalParams,
   SecretsListOptionalParams,
   SecretsListResponse,
-  SecretCreateOrUpdateParameters,
+  SecretsGetOptionalParams,
+  SecretsGetResponse,
   SecretsCreateOrUpdateOptionalParams,
   SecretsCreateOrUpdateResponse,
   SecretPatchParameters,
   SecretsUpdateOptionalParams,
   SecretsUpdateResponse,
-  SecretsGetOptionalParams,
-  SecretsGetResponse,
-  SecretsListNextResponse
+  SecretsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,14 +45,14 @@ export class SecretsImpl implements Secrets {
    * The List operation gets information about the secrets in a vault.  NOTE: This API is intended for
    * internal use in ARM deployments. Users should use the data-plane REST service for interaction with
    * vault secrets.
-   * @param resourceGroupName The name of the Resource Group to which the vault belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the vault.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     vaultName: string,
-    options?: SecretsListOptionalParams
+    options?: SecretsListOptionalParams,
   ): PagedAsyncIterableIterator<Secret> {
     const iter = this.listPagingAll(resourceGroupName, vaultName, options);
     return {
@@ -71,9 +70,9 @@ export class SecretsImpl implements Secrets {
           resourceGroupName,
           vaultName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -81,7 +80,7 @@ export class SecretsImpl implements Secrets {
     resourceGroupName: string,
     vaultName: string,
     options?: SecretsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Secret[]> {
     let result: SecretsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +96,7 @@ export class SecretsImpl implements Secrets {
         resourceGroupName,
         vaultName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -109,68 +108,40 @@ export class SecretsImpl implements Secrets {
   private async *listPagingAll(
     resourceGroupName: string,
     vaultName: string,
-    options?: SecretsListOptionalParams
+    options?: SecretsListOptionalParams,
   ): AsyncIterableIterator<Secret> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       vaultName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * Create or update a secret in a key vault in the specified subscription.  NOTE: This API is intended
-   * for internal use in ARM deployments. Users should use the data-plane REST service for interaction
-   * with vault secrets.
-   * @param resourceGroupName The name of the Resource Group to which the vault belongs.
-   * @param vaultName Name of the vault
-   * @param secretName Name of the secret. The value you provide may be copied globally for the purpose
-   *                   of running the service. The value provided should not include personally identifiable or sensitive
-   *                   information.
-   * @param parameters Parameters to create or update the secret
+   * The List operation gets information about the secrets in a vault.  NOTE: This API is intended for
+   * internal use in ARM deployments. Users should use the data-plane REST service for interaction with
+   * vault secrets.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the vault.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  private _list(
     resourceGroupName: string,
     vaultName: string,
-    secretName: string,
-    parameters: SecretCreateOrUpdateParameters,
-    options?: SecretsCreateOrUpdateOptionalParams
-  ): Promise<SecretsCreateOrUpdateResponse> {
+    options?: SecretsListOptionalParams,
+  ): Promise<SecretsListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, secretName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-  }
-
-  /**
-   * Update a secret in the specified subscription.  NOTE: This API is intended for internal use in ARM
-   * deployments.  Users should use the data-plane REST service for interaction with vault secrets.
-   * @param resourceGroupName The name of the Resource Group to which the vault belongs.
-   * @param vaultName Name of the vault
-   * @param secretName Name of the secret
-   * @param parameters Parameters to patch the secret
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    vaultName: string,
-    secretName: string,
-    parameters: SecretPatchParameters,
-    options?: SecretsUpdateOptionalParams
-  ): Promise<SecretsUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, secretName, parameters, options },
-      updateOperationSpec
+      { resourceGroupName, vaultName, options },
+      listOperationSpec,
     );
   }
 
   /**
    * Gets the specified secret.  NOTE: This API is intended for internal use in ARM deployments. Users
    * should use the data-plane REST service for interaction with vault secrets.
-   * @param resourceGroupName The name of the Resource Group to which the vault belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the vault.
    * @param secretName The name of the secret.
    * @param options The options parameters.
@@ -179,36 +150,62 @@ export class SecretsImpl implements Secrets {
     resourceGroupName: string,
     vaultName: string,
     secretName: string,
-    options?: SecretsGetOptionalParams
+    options?: SecretsGetOptionalParams,
   ): Promise<SecretsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, secretName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
-   * The List operation gets information about the secrets in a vault.  NOTE: This API is intended for
-   * internal use in ARM deployments. Users should use the data-plane REST service for interaction with
-   * vault secrets.
-   * @param resourceGroupName The name of the Resource Group to which the vault belongs.
+   * Create or update a secret in a key vault in the specified subscription.  NOTE: This API is intended
+   * for internal use in ARM deployments. Users should use the data-plane REST service for interaction
+   * with vault secrets.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the vault.
+   * @param secretName The name of the secret.
+   * @param parameters Parameters to create or update the secret
    * @param options The options parameters.
    */
-  private _list(
+  createOrUpdate(
     resourceGroupName: string,
     vaultName: string,
-    options?: SecretsListOptionalParams
-  ): Promise<SecretsListResponse> {
+    secretName: string,
+    parameters: Secret,
+    options?: SecretsCreateOrUpdateOptionalParams,
+  ): Promise<SecretsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, options },
-      listOperationSpec
+      { resourceGroupName, vaultName, secretName, parameters, options },
+      createOrUpdateOperationSpec,
+    );
+  }
+
+  /**
+   * Update a secret in the specified subscription.  NOTE: This API is intended for internal use in ARM
+   * deployments.  Users should use the data-plane REST service for interaction with vault secrets.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the vault.
+   * @param secretName The name of the secret.
+   * @param parameters Parameters to patch the secret
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    vaultName: string,
+    secretName: string,
+    parameters: SecretPatchParameters,
+    options?: SecretsUpdateOptionalParams,
+  ): Promise<SecretsUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, vaultName, secretName, parameters, options },
+      updateOperationSpec,
     );
   }
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the Resource Group to which the vault belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the vault.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -217,84 +214,48 @@ export class SecretsImpl implements Secrets {
     resourceGroupName: string,
     vaultName: string,
     nextLink: string,
-    options?: SecretsListNextOptionalParams
+    options?: SecretsListNextOptionalParams,
   ): Promise<SecretsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/secrets/{secretName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Secret
-    },
-    201: {
-      bodyMapper: Mappers.Secret
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.parameters6,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName,
-    Parameters.secretName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/secrets/{secretName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Secret
-    },
-    201: {
-      bodyMapper: Mappers.Secret
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.parameters7,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName,
-    Parameters.secretName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/secrets/{secretName}",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/secrets",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Secret
+      bodyMapper: Mappers.SecretListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.top],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vaultName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/secrets/{secretName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Secret,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -302,51 +263,83 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName1,
-    Parameters.secretName1
+    Parameters.secretName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/secrets",
-  httpMethod: "GET",
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/secrets/{secretName}",
+  httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SecretListResult
+      bodyMapper: Mappers.Secret,
+    },
+    201: {
+      bodyMapper: Mappers.Secret,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
+  requestBody: Parameters.parameters4,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName1
+    Parameters.vaultName1,
+    Parameters.secretName,
   ],
-  headerParameters: [Parameters.accept],
-  serializer
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/secrets/{secretName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Secret,
+    },
+    201: {
+      bodyMapper: Mappers.Secret,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters5,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vaultName1,
+    Parameters.secretName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecretListResult
+      bodyMapper: Mappers.SecretListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink,
-    Parameters.vaultName1
+    Parameters.vaultName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
