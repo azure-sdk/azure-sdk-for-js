@@ -347,6 +347,29 @@ export const AgentProfile: coreClient.CompositeMapper = {
   },
 };
 
+export const FleetStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FleetStatus",
+    modelProperties: {
+      lastOperationId: {
+        serializedName: "lastOperationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      lastOperationError: {
+        serializedName: "lastOperationError",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
+};
+
 export const ManagedServiceIdentity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -558,6 +581,133 @@ export const AutoUpgradeNodeImageSelection: coreClient.CompositeMapper = {
   },
 };
 
+export const GateListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GateListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Gate",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const GateTarget: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GateTarget",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "GateTargetProperties",
+        },
+      },
+    },
+  },
+};
+
+export const UpdateRunGateTargetProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UpdateRunGateTargetProperties",
+    modelProperties: {
+      updateRun: {
+        serializedName: "updateRun",
+        type: {
+          name: "Composite",
+          className: "UpdateRunGateTarget",
+        },
+      },
+    },
+  },
+};
+
+export const UpdateRunGateTarget: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UpdateRunGateTarget",
+    modelProperties: {
+      name: {
+        constraints: {
+          Pattern: new RegExp("^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"),
+          MaxLength: 50,
+          MinLength: 1,
+        },
+        serializedName: "name",
+        required: true,
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      stage: {
+        constraints: {
+          Pattern: new RegExp("^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"),
+          MaxLength: 50,
+          MinLength: 1,
+        },
+        serializedName: "stage",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      group: {
+        constraints: {
+          Pattern: new RegExp("^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"),
+          MaxLength: 50,
+          MinLength: 1,
+        },
+        serializedName: "group",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      timing: {
+        serializedName: "timing",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const FleetCredentialResults: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -631,6 +781,29 @@ export const FleetMemberListResult: coreClient.CompositeMapper = {
   },
 };
 
+export const FleetMemberStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FleetMemberStatus",
+    modelProperties: {
+      lastOperationId: {
+        serializedName: "lastOperationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      lastOperationError: {
+        serializedName: "lastOperationError",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
+};
+
 export const FleetMemberUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -645,6 +818,13 @@ export const FleetMemberUpdate: coreClient.CompositeMapper = {
         serializedName: "properties.group",
         type: {
           name: "String",
+        },
+      },
+      labels: {
+        serializedName: "properties.labels",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
         },
       },
     },
@@ -736,6 +916,30 @@ export const UpdateStage: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      beforeGates: {
+        serializedName: "beforeGates",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GateConfiguration",
+            },
+          },
+        },
+      },
+      afterGates: {
+        serializedName: "afterGates",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GateConfiguration",
+            },
+          },
+        },
+      },
     },
   },
 };
@@ -752,6 +956,57 @@ export const UpdateGroup: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      beforeGates: {
+        serializedName: "beforeGates",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GateConfiguration",
+            },
+          },
+        },
+      },
+      afterGates: {
+        serializedName: "afterGates",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GateConfiguration",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const GateConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GateConfiguration",
+    modelProperties: {
+      displayName: {
+        constraints: {
+          Pattern: new RegExp("^[A-Za-z0-9].*$"),
+          MaxLength: 100,
+          MinLength: 1,
+        },
+        serializedName: "displayName",
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
         required: true,
         type: {
           name: "String",
@@ -955,6 +1210,32 @@ export const UpdateStageStatus: coreClient.CompositeMapper = {
           },
         },
       },
+      beforeGates: {
+        serializedName: "beforeGates",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UpdateRunGateStatus",
+            },
+          },
+        },
+      },
+      afterGates: {
+        serializedName: "afterGates",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UpdateRunGateStatus",
+            },
+          },
+        },
+      },
       afterStageWaitStatus: {
         serializedName: "afterStageWaitStatus",
         type: {
@@ -994,6 +1275,32 @@ export const UpdateGroupStatus: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "MemberUpdateStatus",
+            },
+          },
+        },
+      },
+      beforeGates: {
+        serializedName: "beforeGates",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UpdateRunGateStatus",
+            },
+          },
+        },
+      },
+      afterGates: {
+        serializedName: "afterGates",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UpdateRunGateStatus",
             },
           },
         },
@@ -1040,6 +1347,41 @@ export const MemberUpdateStatus: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const UpdateRunGateStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UpdateRunGateStatus",
+    modelProperties: {
+      displayName: {
+        constraints: {
+          Pattern: new RegExp("^[A-Za-z0-9].*$"),
+          MaxLength: 100,
+          MinLength: 1,
+        },
+        serializedName: "displayName",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      gateId: {
+        serializedName: "gateId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "Composite",
+          className: "UpdateStatus",
         },
       },
     },
@@ -1198,6 +1540,16 @@ export const ProxyResource: coreClient.CompositeMapper = {
   },
 };
 
+export const GateTargetProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GateTargetProperties",
+    modelProperties: {
+      ...UpdateRunGateTargetProperties.type.modelProperties,
+    },
+  },
+};
+
 export const Fleet: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1230,6 +1582,83 @@ export const Fleet: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "FleetHubProfile",
+        },
+      },
+      status: {
+        serializedName: "properties.status",
+        type: {
+          name: "Composite",
+          className: "FleetStatus",
+        },
+      },
+    },
+  },
+};
+
+export const Gate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Gate",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      eTag: {
+        serializedName: "eTag",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      displayName: {
+        constraints: {
+          Pattern: new RegExp("^[A-Za-z0-9].*$"),
+          MaxLength: 100,
+          MinLength: 1,
+        },
+        serializedName: "properties.displayName",
+        type: {
+          name: "String",
+        },
+      },
+      target: {
+        serializedName: "properties.target",
+        type: {
+          name: "Composite",
+          className: "GateTarget",
+        },
+      },
+      gateType: {
+        serializedName: "properties.gateType",
+        type: {
+          name: "String",
+        },
+      },
+      state: {
+        serializedName: "properties.state",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const GateUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GateUpdate",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      state: {
+        serializedName: "properties.state",
+        type: {
+          name: "String",
         },
       },
     },
@@ -1322,6 +1751,20 @@ export const FleetMember: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      labels: {
+        serializedName: "properties.labels",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      status: {
+        serializedName: "properties.status",
+        type: {
+          name: "Composite",
+          className: "FleetMemberStatus",
+        },
+      },
     },
   },
 };
@@ -1371,6 +1814,13 @@ export const UpdateRun: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "UpdateRunStatus",
+        },
+      },
+      autoUpgradeProfileId: {
+        serializedName: "properties.autoUpgradeProfileId",
+        readOnly: true,
+        type: {
+          name: "String",
         },
       },
     },
@@ -1491,6 +1941,27 @@ export const AutoUpgradeProfilesDeleteHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AutoUpgradeProfilesDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const GatesUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GatesUpdateHeaders",
     modelProperties: {
       location: {
         serializedName: "location",
