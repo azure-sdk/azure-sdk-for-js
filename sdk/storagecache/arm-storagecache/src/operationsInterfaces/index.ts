@@ -7,6 +7,7 @@
  */
 
 export * from "./amlFilesystems.js";
+export * from "./autoExportJobs.js";
 export * from "./importJobs.js";
 export * from "./operations.js";
 export * from "./skus.js";
