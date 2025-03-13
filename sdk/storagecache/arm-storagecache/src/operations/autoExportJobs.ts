@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { ImportJobs } from "../operationsInterfaces/index.js";
+import { AutoExportJobs } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -20,29 +20,29 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  ImportJob,
-  ImportJobsListByAmlFilesystemNextOptionalParams,
-  ImportJobsListByAmlFilesystemOptionalParams,
-  ImportJobsListByAmlFilesystemResponse,
-  ImportJobsDeleteOptionalParams,
-  ImportJobsDeleteResponse,
-  ImportJobsGetOptionalParams,
-  ImportJobsGetResponse,
-  ImportJobsCreateOrUpdateOptionalParams,
-  ImportJobsCreateOrUpdateResponse,
-  ImportJobUpdate,
-  ImportJobsUpdateOptionalParams,
-  ImportJobsUpdateResponse,
-  ImportJobsListByAmlFilesystemNextResponse,
+  AutoExportJob,
+  AutoExportJobsListByAmlFilesystemNextOptionalParams,
+  AutoExportJobsListByAmlFilesystemOptionalParams,
+  AutoExportJobsListByAmlFilesystemResponse,
+  AutoExportJobsDeleteOptionalParams,
+  AutoExportJobsDeleteResponse,
+  AutoExportJobsGetOptionalParams,
+  AutoExportJobsGetResponse,
+  AutoExportJobsCreateOrUpdateOptionalParams,
+  AutoExportJobsCreateOrUpdateResponse,
+  AutoExportJobUpdate,
+  AutoExportJobsUpdateOptionalParams,
+  AutoExportJobsUpdateResponse,
+  AutoExportJobsListByAmlFilesystemNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ImportJobs operations. */
-export class ImportJobsImpl implements ImportJobs {
+/** Class containing AutoExportJobs operations. */
+export class AutoExportJobsImpl implements AutoExportJobs {
   private readonly client: StorageCacheManagementClient;
 
   /**
-   * Initialize a new instance of the class ImportJobs class.
+   * Initialize a new instance of the class AutoExportJobs class.
    * @param client Reference to the service client
    */
   constructor(client: StorageCacheManagementClient) {
@@ -50,7 +50,7 @@ export class ImportJobsImpl implements ImportJobs {
   }
 
   /**
-   * Returns all import jobs the user has access to under an AML File System.
+   * Returns all the auto export jobs the user has access to under an AML File System.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param amlFilesystemName Name for the AML file system. Allows alphanumerics, underscores, and
    *                          hyphens. Start and end with alphanumeric.
@@ -59,8 +59,8 @@ export class ImportJobsImpl implements ImportJobs {
   public listByAmlFilesystem(
     resourceGroupName: string,
     amlFilesystemName: string,
-    options?: ImportJobsListByAmlFilesystemOptionalParams,
-  ): PagedAsyncIterableIterator<ImportJob> {
+    options?: AutoExportJobsListByAmlFilesystemOptionalParams,
+  ): PagedAsyncIterableIterator<AutoExportJob> {
     const iter = this.listByAmlFilesystemPagingAll(
       resourceGroupName,
       amlFilesystemName,
@@ -90,10 +90,10 @@ export class ImportJobsImpl implements ImportJobs {
   private async *listByAmlFilesystemPagingPage(
     resourceGroupName: string,
     amlFilesystemName: string,
-    options?: ImportJobsListByAmlFilesystemOptionalParams,
+    options?: AutoExportJobsListByAmlFilesystemOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<ImportJob[]> {
-    let result: ImportJobsListByAmlFilesystemResponse;
+  ): AsyncIterableIterator<AutoExportJob[]> {
+    let result: AutoExportJobsListByAmlFilesystemResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByAmlFilesystem(
@@ -123,8 +123,8 @@ export class ImportJobsImpl implements ImportJobs {
   private async *listByAmlFilesystemPagingAll(
     resourceGroupName: string,
     amlFilesystemName: string,
-    options?: ImportJobsListByAmlFilesystemOptionalParams,
-  ): AsyncIterableIterator<ImportJob> {
+    options?: AutoExportJobsListByAmlFilesystemOptionalParams,
+  ): AsyncIterableIterator<AutoExportJob> {
     for await (const page of this.listByAmlFilesystemPagingPage(
       resourceGroupName,
       amlFilesystemName,
@@ -135,29 +135,29 @@ export class ImportJobsImpl implements ImportJobs {
   }
 
   /**
-   * Schedules an import job for deletion.
+   * Schedules an auto export job for deletion.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param amlFilesystemName Name for the AML file system. Allows alphanumerics, underscores, and
    *                          hyphens. Start and end with alphanumeric.
-   * @param importJobName Name for the import job. Allows alphanumerics, underscores, and hyphens. Start
-   *                      and end with alphanumeric.
+   * @param autoExportJobName Name for the auto export job. Allows alphanumerics, underscores, and
+   *                          hyphens. Start and end with alphanumeric.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     amlFilesystemName: string,
-    importJobName: string,
-    options?: ImportJobsDeleteOptionalParams,
+    autoExportJobName: string,
+    options?: AutoExportJobsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ImportJobsDeleteResponse>,
-      ImportJobsDeleteResponse
+      OperationState<AutoExportJobsDeleteResponse>,
+      AutoExportJobsDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ImportJobsDeleteResponse> => {
+    ): Promise<AutoExportJobsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -194,12 +194,17 @@ export class ImportJobsImpl implements ImportJobs {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, amlFilesystemName, importJobName, options },
+      args: {
+        resourceGroupName,
+        amlFilesystemName,
+        autoExportJobName,
+        options,
+      },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      ImportJobsDeleteResponse,
-      OperationState<ImportJobsDeleteResponse>
+      AutoExportJobsDeleteResponse,
+      OperationState<AutoExportJobsDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -210,77 +215,77 @@ export class ImportJobsImpl implements ImportJobs {
   }
 
   /**
-   * Schedules an import job for deletion.
+   * Schedules an auto export job for deletion.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param amlFilesystemName Name for the AML file system. Allows alphanumerics, underscores, and
    *                          hyphens. Start and end with alphanumeric.
-   * @param importJobName Name for the import job. Allows alphanumerics, underscores, and hyphens. Start
-   *                      and end with alphanumeric.
+   * @param autoExportJobName Name for the auto export job. Allows alphanumerics, underscores, and
+   *                          hyphens. Start and end with alphanumeric.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     amlFilesystemName: string,
-    importJobName: string,
-    options?: ImportJobsDeleteOptionalParams,
-  ): Promise<ImportJobsDeleteResponse> {
+    autoExportJobName: string,
+    options?: AutoExportJobsDeleteOptionalParams,
+  ): Promise<AutoExportJobsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       amlFilesystemName,
-      importJobName,
+      autoExportJobName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Returns an import job.
+   * Returns an auto export job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param amlFilesystemName Name for the AML file system. Allows alphanumerics, underscores, and
    *                          hyphens. Start and end with alphanumeric.
-   * @param importJobName Name for the import job. Allows alphanumerics, underscores, and hyphens. Start
-   *                      and end with alphanumeric.
+   * @param autoExportJobName Name for the auto export job. Allows alphanumerics, underscores, and
+   *                          hyphens. Start and end with alphanumeric.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     amlFilesystemName: string,
-    importJobName: string,
-    options?: ImportJobsGetOptionalParams,
-  ): Promise<ImportJobsGetResponse> {
+    autoExportJobName: string,
+    options?: AutoExportJobsGetOptionalParams,
+  ): Promise<AutoExportJobsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, amlFilesystemName, importJobName, options },
+      { resourceGroupName, amlFilesystemName, autoExportJobName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Create or update an import job.
+   * Create or update an auto export job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param amlFilesystemName Name for the AML file system. Allows alphanumerics, underscores, and
    *                          hyphens. Start and end with alphanumeric.
-   * @param importJobName Name for the import job. Allows alphanumerics, underscores, and hyphens. Start
-   *                      and end with alphanumeric.
-   * @param importJob Object containing the user-selectable properties of the import job. If read-only
-   *                  properties are included, they must match the existing values of those properties.
+   * @param autoExportJobName Name for the auto export job. Allows alphanumerics, underscores, and
+   *                          hyphens. Start and end with alphanumeric.
+   * @param autoExportJob Object containing the user-selectable properties of the auto export job. If
+   *                      read-only properties are included, they must match the existing values of those properties.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     amlFilesystemName: string,
-    importJobName: string,
-    importJob: ImportJob,
-    options?: ImportJobsCreateOrUpdateOptionalParams,
+    autoExportJobName: string,
+    autoExportJob: AutoExportJob,
+    options?: AutoExportJobsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ImportJobsCreateOrUpdateResponse>,
-      ImportJobsCreateOrUpdateResponse
+      OperationState<AutoExportJobsCreateOrUpdateResponse>,
+      AutoExportJobsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ImportJobsCreateOrUpdateResponse> => {
+    ): Promise<AutoExportJobsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -320,15 +325,15 @@ export class ImportJobsImpl implements ImportJobs {
       args: {
         resourceGroupName,
         amlFilesystemName,
-        importJobName,
-        importJob,
+        autoExportJobName,
+        autoExportJob,
         options,
       },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      ImportJobsCreateOrUpdateResponse,
-      OperationState<ImportJobsCreateOrUpdateResponse>
+      AutoExportJobsCreateOrUpdateResponse,
+      OperationState<AutoExportJobsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -339,60 +344,60 @@ export class ImportJobsImpl implements ImportJobs {
   }
 
   /**
-   * Create or update an import job.
+   * Create or update an auto export job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param amlFilesystemName Name for the AML file system. Allows alphanumerics, underscores, and
    *                          hyphens. Start and end with alphanumeric.
-   * @param importJobName Name for the import job. Allows alphanumerics, underscores, and hyphens. Start
-   *                      and end with alphanumeric.
-   * @param importJob Object containing the user-selectable properties of the import job. If read-only
-   *                  properties are included, they must match the existing values of those properties.
+   * @param autoExportJobName Name for the auto export job. Allows alphanumerics, underscores, and
+   *                          hyphens. Start and end with alphanumeric.
+   * @param autoExportJob Object containing the user-selectable properties of the auto export job. If
+   *                      read-only properties are included, they must match the existing values of those properties.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     amlFilesystemName: string,
-    importJobName: string,
-    importJob: ImportJob,
-    options?: ImportJobsCreateOrUpdateOptionalParams,
-  ): Promise<ImportJobsCreateOrUpdateResponse> {
+    autoExportJobName: string,
+    autoExportJob: AutoExportJob,
+    options?: AutoExportJobsCreateOrUpdateOptionalParams,
+  ): Promise<AutoExportJobsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       amlFilesystemName,
-      importJobName,
-      importJob,
+      autoExportJobName,
+      autoExportJob,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Update an import job instance.
+   * Update an auto export job instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param amlFilesystemName Name for the AML file system. Allows alphanumerics, underscores, and
    *                          hyphens. Start and end with alphanumeric.
-   * @param importJobName Name for the import job. Allows alphanumerics, underscores, and hyphens. Start
-   *                      and end with alphanumeric.
-   * @param importJob Object containing the user-selectable properties of the import job. If read-only
-   *                  properties are included, they must match the existing values of those properties.
+   * @param autoExportJobName Name for the auto export job. Allows alphanumerics, underscores, and
+   *                          hyphens. Start and end with alphanumeric.
+   * @param autoExportJob Object containing the user-selectable properties of the auto export job. If
+   *                      read-only properties are included, they must match the existing values of those properties.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
     amlFilesystemName: string,
-    importJobName: string,
-    importJob: ImportJobUpdate,
-    options?: ImportJobsUpdateOptionalParams,
+    autoExportJobName: string,
+    autoExportJob: AutoExportJobUpdate,
+    options?: AutoExportJobsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ImportJobsUpdateResponse>,
-      ImportJobsUpdateResponse
+      OperationState<AutoExportJobsUpdateResponse>,
+      AutoExportJobsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ImportJobsUpdateResponse> => {
+    ): Promise<AutoExportJobsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -432,15 +437,15 @@ export class ImportJobsImpl implements ImportJobs {
       args: {
         resourceGroupName,
         amlFilesystemName,
-        importJobName,
-        importJob,
+        autoExportJobName,
+        autoExportJob,
         options,
       },
       spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
-      ImportJobsUpdateResponse,
-      OperationState<ImportJobsUpdateResponse>
+      AutoExportJobsUpdateResponse,
+      OperationState<AutoExportJobsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -451,35 +456,35 @@ export class ImportJobsImpl implements ImportJobs {
   }
 
   /**
-   * Update an import job instance.
+   * Update an auto export job instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param amlFilesystemName Name for the AML file system. Allows alphanumerics, underscores, and
    *                          hyphens. Start and end with alphanumeric.
-   * @param importJobName Name for the import job. Allows alphanumerics, underscores, and hyphens. Start
-   *                      and end with alphanumeric.
-   * @param importJob Object containing the user-selectable properties of the import job. If read-only
-   *                  properties are included, they must match the existing values of those properties.
+   * @param autoExportJobName Name for the auto export job. Allows alphanumerics, underscores, and
+   *                          hyphens. Start and end with alphanumeric.
+   * @param autoExportJob Object containing the user-selectable properties of the auto export job. If
+   *                      read-only properties are included, they must match the existing values of those properties.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
     amlFilesystemName: string,
-    importJobName: string,
-    importJob: ImportJobUpdate,
-    options?: ImportJobsUpdateOptionalParams,
-  ): Promise<ImportJobsUpdateResponse> {
+    autoExportJobName: string,
+    autoExportJob: AutoExportJobUpdate,
+    options?: AutoExportJobsUpdateOptionalParams,
+  ): Promise<AutoExportJobsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       amlFilesystemName,
-      importJobName,
-      importJob,
+      autoExportJobName,
+      autoExportJob,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Returns all import jobs the user has access to under an AML File System.
+   * Returns all the auto export jobs the user has access to under an AML File System.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param amlFilesystemName Name for the AML file system. Allows alphanumerics, underscores, and
    *                          hyphens. Start and end with alphanumeric.
@@ -488,8 +493,8 @@ export class ImportJobsImpl implements ImportJobs {
   private _listByAmlFilesystem(
     resourceGroupName: string,
     amlFilesystemName: string,
-    options?: ImportJobsListByAmlFilesystemOptionalParams,
-  ): Promise<ImportJobsListByAmlFilesystemResponse> {
+    options?: AutoExportJobsListByAmlFilesystemOptionalParams,
+  ): Promise<AutoExportJobsListByAmlFilesystemResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, amlFilesystemName, options },
       listByAmlFilesystemOperationSpec,
@@ -508,8 +513,8 @@ export class ImportJobsImpl implements ImportJobs {
     resourceGroupName: string,
     amlFilesystemName: string,
     nextLink: string,
-    options?: ImportJobsListByAmlFilesystemNextOptionalParams,
-  ): Promise<ImportJobsListByAmlFilesystemNextResponse> {
+    options?: AutoExportJobsListByAmlFilesystemNextOptionalParams,
+  ): Promise<AutoExportJobsListByAmlFilesystemNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, amlFilesystemName, nextLink, options },
       listByAmlFilesystemNextOperationSpec,
@@ -520,20 +525,20 @@ export class ImportJobsImpl implements ImportJobs {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/amlFilesystems/{amlFilesystemName}/importJobs/{importJobName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/amlFilesystems/{amlFilesystemName}/autoExportJobs/{autoExportJobName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.ImportJobsDeleteHeaders,
+      headersMapper: Mappers.AutoExportJobsDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.ImportJobsDeleteHeaders,
+      headersMapper: Mappers.AutoExportJobsDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.ImportJobsDeleteHeaders,
+      headersMapper: Mappers.AutoExportJobsDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.ImportJobsDeleteHeaders,
+      headersMapper: Mappers.AutoExportJobsDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -545,17 +550,17 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.amlFilesystemName,
-    Parameters.importJobName,
+    Parameters.autoExportJobName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/amlFilesystems/{amlFilesystemName}/importJobs/{importJobName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/amlFilesystems/{amlFilesystemName}/autoExportJobs/{autoExportJobName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ImportJob,
+      bodyMapper: Mappers.AutoExportJob,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -567,83 +572,83 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.amlFilesystemName,
-    Parameters.importJobName,
+    Parameters.autoExportJobName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/amlFilesystems/{amlFilesystemName}/importJobs/{importJobName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/amlFilesystems/{amlFilesystemName}/autoExportJobs/{autoExportJobName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ImportJob,
+      bodyMapper: Mappers.AutoExportJob,
     },
     201: {
-      bodyMapper: Mappers.ImportJob,
+      bodyMapper: Mappers.AutoExportJob,
     },
     202: {
-      bodyMapper: Mappers.ImportJob,
+      bodyMapper: Mappers.AutoExportJob,
     },
     204: {
-      bodyMapper: Mappers.ImportJob,
+      bodyMapper: Mappers.AutoExportJob,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.importJob,
+  requestBody: Parameters.autoExportJob,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.amlFilesystemName,
-    Parameters.importJobName,
+    Parameters.autoExportJobName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/amlFilesystems/{amlFilesystemName}/importJobs/{importJobName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/amlFilesystems/{amlFilesystemName}/autoExportJobs/{autoExportJobName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ImportJob,
+      bodyMapper: Mappers.AutoExportJob,
     },
     201: {
-      bodyMapper: Mappers.ImportJob,
+      bodyMapper: Mappers.AutoExportJob,
     },
     202: {
-      bodyMapper: Mappers.ImportJob,
+      bodyMapper: Mappers.AutoExportJob,
     },
     204: {
-      bodyMapper: Mappers.ImportJob,
+      bodyMapper: Mappers.AutoExportJob,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.importJob1,
+  requestBody: Parameters.autoExportJob1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.amlFilesystemName,
-    Parameters.importJobName,
+    Parameters.autoExportJobName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const listByAmlFilesystemOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/amlFilesystems/{amlFilesystemName}/importJobs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageCache/amlFilesystems/{amlFilesystemName}/autoExportJobs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ImportJobsListResult,
+      bodyMapper: Mappers.AutoExportJobsListResult,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -664,7 +669,7 @@ const listByAmlFilesystemNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ImportJobsListResult,
+      bodyMapper: Mappers.AutoExportJobsListResult,
     },
     default: {
       bodyMapper: Mappers.CloudError,

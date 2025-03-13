@@ -350,6 +350,128 @@ export interface AscUsagesListOptionalParams extends coreClient.OperationOptions
 export type AscUsagesListResponse = ResourceUsagesListResult;
 
 // @public
+export interface AutoExportJob extends TrackedResource {
+    adminStatus?: AutoExportJobAdminStatus;
+    autoExportPrefixes?: string[];
+    readonly currentIterationFilesDiscovered?: number;
+    readonly currentIterationFilesExported?: number;
+    readonly currentIterationFilesFailed?: number;
+    readonly currentIterationMiBDiscovered?: number;
+    readonly currentIterationMiBExported?: number;
+    readonly exportIterationCount?: number;
+    readonly lastCompletionTimeUTC?: Date;
+    readonly lastStartedTimeUTC?: Date;
+    readonly lastSuccessfulIterationCompletionTimeUTC?: Date;
+    readonly provisioningState?: AutoExportJobProvisioningStateType;
+    state?: AutoExportStatusType;
+    readonly statusCode?: string;
+    readonly statusMessage?: string;
+    readonly totalFilesExported?: number;
+    readonly totalFilesFailed?: number;
+    readonly totalMiBExported?: number;
+}
+
+// @public
+export type AutoExportJobAdminStatus = string;
+
+// @public
+export type AutoExportJobProvisioningStateType = string;
+
+// @public
+export interface AutoExportJobs {
+    beginCreateOrUpdate(resourceGroupName: string, amlFilesystemName: string, autoExportJobName: string, autoExportJob: AutoExportJob, options?: AutoExportJobsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AutoExportJobsCreateOrUpdateResponse>, AutoExportJobsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, amlFilesystemName: string, autoExportJobName: string, autoExportJob: AutoExportJob, options?: AutoExportJobsCreateOrUpdateOptionalParams): Promise<AutoExportJobsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, amlFilesystemName: string, autoExportJobName: string, options?: AutoExportJobsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<AutoExportJobsDeleteResponse>, AutoExportJobsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, amlFilesystemName: string, autoExportJobName: string, options?: AutoExportJobsDeleteOptionalParams): Promise<AutoExportJobsDeleteResponse>;
+    beginUpdate(resourceGroupName: string, amlFilesystemName: string, autoExportJobName: string, autoExportJob: AutoExportJobUpdate, options?: AutoExportJobsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AutoExportJobsUpdateResponse>, AutoExportJobsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, amlFilesystemName: string, autoExportJobName: string, autoExportJob: AutoExportJobUpdate, options?: AutoExportJobsUpdateOptionalParams): Promise<AutoExportJobsUpdateResponse>;
+    get(resourceGroupName: string, amlFilesystemName: string, autoExportJobName: string, options?: AutoExportJobsGetOptionalParams): Promise<AutoExportJobsGetResponse>;
+    listByAmlFilesystem(resourceGroupName: string, amlFilesystemName: string, options?: AutoExportJobsListByAmlFilesystemOptionalParams): PagedAsyncIterableIterator<AutoExportJob>;
+}
+
+// @public
+export interface AutoExportJobsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
+export interface AutoExportJobsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AutoExportJobsCreateOrUpdateResponse = AutoExportJob;
+
+// @public
+export interface AutoExportJobsDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface AutoExportJobsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AutoExportJobsDeleteResponse = AutoExportJobsDeleteHeaders;
+
+// @public
+export interface AutoExportJobsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AutoExportJobsGetResponse = AutoExportJob;
+
+// @public
+export interface AutoExportJobsListByAmlFilesystemNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AutoExportJobsListByAmlFilesystemNextResponse = AutoExportJobsListResult;
+
+// @public
+export interface AutoExportJobsListByAmlFilesystemOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AutoExportJobsListByAmlFilesystemResponse = AutoExportJobsListResult;
+
+// @public
+export interface AutoExportJobsListResult {
+    nextLink?: string;
+    value?: AutoExportJob[];
+}
+
+// @public
+export interface AutoExportJobsUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface AutoExportJobsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AutoExportJobsUpdateResponse = AutoExportJob;
+
+// @public
+export interface AutoExportJobUpdate {
+    adminStatus?: AutoExportJobAdminStatus;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export type AutoExportStatusType = string;
+
+// @public
 export interface BlobNfsTarget {
     target?: string;
     usageModel?: string;
@@ -822,13 +944,20 @@ export type HealthStateType = string;
 
 // @public
 export interface ImportJob extends TrackedResource {
+    adminStatus?: ImportJobAdminStatus;
     readonly blobsImportedPerSecond?: number;
     readonly blobsWalkedPerSecond?: number;
     conflictResolutionMode?: ConflictResolutionMode;
+    readonly importedDirectories?: number;
+    readonly importedFiles?: number;
+    readonly importedSymlinks?: number;
     importPrefixes?: string[];
     readonly lastCompletionTime?: Date;
     readonly lastStartedTime?: Date;
     maximumErrors?: number;
+    readonly preexistingDirectories?: number;
+    readonly preexistingFiles?: number;
+    readonly preexistingSymlinks?: number;
     readonly provisioningState?: ImportJobProvisioningStateType;
     readonly state?: ImportStatusType;
     readonly statusMessage?: string;
@@ -837,6 +966,9 @@ export interface ImportJob extends TrackedResource {
     readonly totalConflicts?: number;
     readonly totalErrors?: number;
 }
+
+// @public
+export type ImportJobAdminStatus = string;
 
 // @public
 export type ImportJobProvisioningStateType = string;
@@ -926,6 +1058,7 @@ export type ImportJobsUpdateResponse = ImportJob;
 
 // @public
 export interface ImportJobUpdate {
+    adminStatus?: ImportJobAdminStatus;
     tags?: {
         [propertyName: string]: string;
     };
@@ -984,6 +1117,31 @@ export enum KnownArchiveStatusType {
 }
 
 // @public
+export enum KnownAutoExportJobAdminStatus {
+    Disable = "Disable",
+    Enable = "Enable"
+}
+
+// @public
+export enum KnownAutoExportJobProvisioningStateType {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownAutoExportStatusType {
+    Disabled = "Disabled",
+    DisableFailed = "DisableFailed",
+    Disabling = "Disabling",
+    Failed = "Failed",
+    InProgress = "InProgress"
+}
+
+// @public
 export enum KnownConflictResolutionMode {
     Fail = "Fail",
     OverwriteAlways = "OverwriteAlways",
@@ -1032,6 +1190,12 @@ export enum KnownHealthStateType {
     UpgradeFailed = "UpgradeFailed",
     Upgrading = "Upgrading",
     WaitingForKey = "WaitingForKey"
+}
+
+// @public
+export enum KnownImportJobAdminStatus {
+    Active = "Active",
+    Cancel = "Cancel"
 }
 
 // @public
@@ -1364,6 +1528,8 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
     ascOperations: AscOperations;
     // (undocumented)
     ascUsages: AscUsages;
+    // (undocumented)
+    autoExportJobs: AutoExportJobs;
     // (undocumented)
     caches: Caches;
     checkAmlFSSubnets(options?: CheckAmlFSSubnetsOptionalParams): Promise<void>;
