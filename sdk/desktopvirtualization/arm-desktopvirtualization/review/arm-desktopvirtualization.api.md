@@ -6,7 +6,76 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { SimplePollerLike } from '@azure/core-lro';
+
+// @public
+export interface ActiveDirectoryInfoPatchProperties {
+    domainCredentials?: KeyVaultCredentialsPatchProperties;
+}
+
+// @public
+export interface ActiveDirectoryInfoProperties {
+    domainCredentials: KeyVaultCredentialsProperties;
+    domainName?: string;
+    ouPath: string;
+}
+
+// @public
+export interface ActiveSessionHostConfiguration extends Resource {
+    availabilityZones?: number[];
+    bootDiagnosticsInfo?: BootDiagnosticsInfoProperties;
+    customConfigurationScriptUrl?: string;
+    diskInfo: DiskInfoProperties;
+    domainInfo: DomainInfoProperties;
+    friendlyName?: string;
+    imageInfo: ImageInfoProperties;
+    networkInfo: NetworkInfoProperties;
+    securityInfo?: SecurityInfoProperties;
+    readonly version?: Date;
+    vmAdminCredentials: KeyVaultCredentialsProperties;
+    vmLocation?: string;
+    vmNamePrefix: string;
+    vmResourceGroup?: string;
+    vmSizeId: string;
+    vmTags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface ActiveSessionHostConfigurationList {
+    readonly nextLink?: string;
+    value?: ActiveSessionHostConfiguration[];
+}
+
+// @public
+export interface ActiveSessionHostConfigurations {
+    get(resourceGroupName: string, hostPoolName: string, options?: ActiveSessionHostConfigurationsGetOptionalParams): Promise<ActiveSessionHostConfigurationsGetResponse>;
+    listByHostPool(resourceGroupName: string, hostPoolName: string, options?: ActiveSessionHostConfigurationsListByHostPoolOptionalParams): PagedAsyncIterableIterator<ActiveSessionHostConfiguration>;
+}
+
+// @public
+export interface ActiveSessionHostConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ActiveSessionHostConfigurationsGetResponse = ActiveSessionHostConfiguration;
+
+// @public
+export interface ActiveSessionHostConfigurationsListByHostPoolNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ActiveSessionHostConfigurationsListByHostPoolNextResponse = ActiveSessionHostConfigurationList;
+
+// @public
+export interface ActiveSessionHostConfigurationsListByHostPoolOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ActiveSessionHostConfigurationsListByHostPoolResponse = ActiveSessionHostConfigurationList;
 
 // @public
 export interface AgentUpdatePatchProperties {
@@ -41,6 +110,7 @@ export type AppAttachPackageCreateOrUpdateResponse = AppAttachPackage;
 
 // @public
 export interface AppAttachPackageDeleteOptionalParams extends coreClient.OperationOptions {
+    force?: boolean;
 }
 
 // @public
@@ -138,22 +208,30 @@ export interface AppAttachPackageOperations {
 // @public
 export interface AppAttachPackagePatch extends Resource {
     properties?: AppAttachPackagePatchProperties;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
 export interface AppAttachPackagePatchProperties {
+    customData?: string;
     failHealthCheckOnStagingFailure?: FailHealthCheckOnStagingFailure;
     hostPoolReferences?: string[];
     image?: AppAttachPackageInfoProperties;
     keyVaultURL?: string;
+    packageLookbackUrl?: string;
 }
 
 // @public
 export interface AppAttachPackageProperties {
+    customData?: string;
     failHealthCheckOnStagingFailure?: FailHealthCheckOnStagingFailure;
     hostPoolReferences?: string[];
     image?: AppAttachPackageInfoProperties;
     keyVaultURL?: string;
+    packageLookbackUrl?: string;
+    packageOwnerName?: string;
     readonly provisioningState?: ProvisioningState;
 }
 
@@ -363,6 +441,23 @@ export type ApplicationsUpdateResponse = Application;
 export type ApplicationType = string;
 
 // @public
+export interface AzureActiveDirectoryInfoProperties {
+    mdmProviderGuid: string;
+}
+
+// @public
+export interface BootDiagnosticsInfoPatchProperties {
+    enabled?: boolean;
+    storageUri?: string;
+}
+
+// @public
+export interface BootDiagnosticsInfoProperties {
+    enabled?: boolean;
+    storageUri?: string;
+}
+
+// @public
 export interface CloudError {
     error?: CloudErrorProperties;
 }
@@ -377,7 +472,46 @@ export interface CloudErrorProperties {
 export type CommandLineSetting = string;
 
 // @public
+export interface ControlSessionHostUpdate {
+    beginPost(resourceGroupName: string, hostPoolName: string, hostPoolUpdateControlParameter: HostPoolUpdateControlParameter, options?: ControlSessionHostUpdatePostOptionalParams): Promise<SimplePollerLike<OperationState<ControlSessionHostUpdatePostResponse>, ControlSessionHostUpdatePostResponse>>;
+    beginPostAndWait(resourceGroupName: string, hostPoolName: string, hostPoolUpdateControlParameter: HostPoolUpdateControlParameter, options?: ControlSessionHostUpdatePostOptionalParams): Promise<ControlSessionHostUpdatePostResponse>;
+}
+
+// @public
+export interface ControlSessionHostUpdatePostHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ControlSessionHostUpdatePostOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ControlSessionHostUpdatePostResponse = ControlSessionHostUpdatePostHeaders;
+
+// @public
 export type CreatedByType = string;
+
+// @public
+export interface CreateDeleteProperties {
+    rampDownMaximumHostPoolSize?: number;
+    rampDownMinimumHostPoolSize?: number;
+    rampUpMaximumHostPoolSize?: number;
+    rampUpMinimumHostPoolSize?: number;
+}
+
+// @public
+export interface CustomInfoPatchProperties {
+    resourceId?: string;
+}
+
+// @public
+export interface CustomInfoProperties {
+    resourceId: string;
+}
 
 // @public
 export type DayOfWeek = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
@@ -451,6 +585,8 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DesktopVirtualizationAPIClientOptionalParams);
     // (undocumented)
+    activeSessionHostConfigurations: ActiveSessionHostConfigurations;
+    // (undocumented)
     apiVersion: string;
     // (undocumented)
     appAttachPackageInfo: AppAttachPackageInfo;
@@ -461,9 +597,13 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
     // (undocumented)
     applications: Applications;
     // (undocumented)
+    controlSessionHostUpdate: ControlSessionHostUpdate;
+    // (undocumented)
     desktops: Desktops;
     // (undocumented)
     hostPools: HostPools;
+    // (undocumented)
+    initiateSessionHostUpdate: InitiateSessionHostUpdate;
     // (undocumented)
     msixImages: MsixImages;
     // (undocumented)
@@ -480,6 +620,14 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
     scalingPlanPooledSchedules: ScalingPlanPooledSchedules;
     // (undocumented)
     scalingPlans: ScalingPlans;
+    // (undocumented)
+    sessionHostConfigurations: SessionHostConfigurations;
+    // (undocumented)
+    sessionHostManagements: SessionHostManagements;
+    // (undocumented)
+    sessionHostManagementsUpdateStatus: SessionHostManagementsUpdateStatus;
+    // (undocumented)
+    sessionHostOperations: SessionHostOperations;
     // (undocumented)
     sessionHosts: SessionHosts;
     // (undocumented)
@@ -498,6 +646,34 @@ export interface DesktopVirtualizationAPIClientOptionalParams extends coreClient
     apiVersion?: string;
     endpoint?: string;
 }
+
+// @public
+export type DirectUDP = string;
+
+// @public
+export interface DiskInfoPatchProperties {
+    type?: VirtualMachineDiskType;
+}
+
+// @public
+export interface DiskInfoProperties {
+    type: VirtualMachineDiskType;
+}
+
+// @public
+export interface DomainInfoPatchProperties {
+    activeDirectoryInfo?: ActiveDirectoryInfoPatchProperties;
+}
+
+// @public
+export interface DomainInfoProperties {
+    activeDirectoryInfo?: ActiveDirectoryInfoProperties;
+    azureActiveDirectoryInfo?: AzureActiveDirectoryInfoProperties;
+    joinType: DomainJoinType;
+}
+
+// @public
+export type DomainJoinType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -548,6 +724,9 @@ export interface ExpandMsixImageList {
 export type FailHealthCheckOnStagingFailure = string;
 
 // @public
+export type FaultType = string;
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
@@ -564,16 +743,21 @@ export interface HostPool extends ResourceModelWithAllowedPropertySet {
     readonly cloudPcResource?: boolean;
     customRdpProperty?: string;
     description?: string;
+    directUDP?: DirectUDP;
     friendlyName?: string;
     hostPoolType: HostPoolType;
     loadBalancerType: LoadBalancerType;
+    managedPrivateUDP?: ManagedPrivateUDP;
+    managementType?: ManagementType;
     maxSessionLimit?: number;
     readonly objectId?: string;
     personalDesktopAssignmentType?: PersonalDesktopAssignmentType;
     preferredAppGroupType: PreferredAppGroupType;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     publicNetworkAccess?: HostpoolPublicNetworkAccess;
+    publicUDP?: PublicUDP;
     registrationInfo?: RegistrationInfo;
+    relayUDP?: RelayUDP;
     ring?: number;
     ssoadfsAuthority?: string;
     ssoClientId?: string;
@@ -595,13 +779,17 @@ export interface HostPoolPatch extends Resource {
     agentUpdate?: AgentUpdatePatchProperties;
     customRdpProperty?: string;
     description?: string;
+    directUDP?: DirectUDP;
     friendlyName?: string;
     loadBalancerType?: LoadBalancerType;
+    managedPrivateUDP?: ManagedPrivateUDP;
     maxSessionLimit?: number;
     personalDesktopAssignmentType?: PersonalDesktopAssignmentType;
     preferredAppGroupType?: PreferredAppGroupType;
     publicNetworkAccess?: HostpoolPublicNetworkAccess;
+    publicUDP?: PublicUDP;
     registrationInfo?: RegistrationInfoPatch;
+    relayUDP?: RelayUDP;
     ring?: number;
     ssoadfsAuthority?: string;
     ssoClientId?: string;
@@ -709,16 +897,78 @@ export type HostPoolsUpdateResponse = HostPool;
 export type HostPoolType = string;
 
 // @public
-export interface Identity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type?: "SystemAssigned";
+export type HostPoolUpdateAction = string;
+
+// @public
+export interface HostPoolUpdateConfigurationPatchProperties {
+    deleteOriginalVm?: boolean;
+    logOffDelayMinutes?: number;
+    logOffMessage?: string;
+    maxVmsRemoved?: number;
+}
+
+// @public
+export interface HostPoolUpdateConfigurationProperties {
+    deleteOriginalVm?: boolean;
+    logOffDelayMinutes: number;
+    logOffMessage?: string;
+    maxVmsRemoved: number;
+}
+
+// @public
+export interface HostPoolUpdateControlParameter {
+    action: HostPoolUpdateAction;
+    cancelMessage?: string;
+}
+
+// @public
+export interface HostPoolUpdateFault {
+    faultCode?: string;
+    faultContext?: string;
+    faultText?: string;
+    faultType?: FaultType;
+}
+
+// @public
+export interface ImageInfoPatchProperties {
+    customInfo?: CustomInfoPatchProperties;
+    imageType?: Type;
+    marketplaceInfo?: MarketplaceInfoPatchProperties;
+}
+
+// @public
+export interface ImageInfoProperties {
+    customInfo?: CustomInfoProperties;
+    imageType: Type;
+    marketplaceInfo?: MarketplaceInfoProperties;
 }
 
 // @public
 export interface ImportPackageInfoRequest {
     packageArchitecture?: AppAttachPackageArchitectures;
     path?: string;
+}
+
+// @public
+export interface InitiateSessionHostUpdate {
+    post(resourceGroupName: string, hostPoolName: string, options?: InitiateSessionHostUpdatePostOptionalParams): Promise<void>;
+}
+
+// @public
+export interface InitiateSessionHostUpdatePostOptionalParams extends coreClient.OperationOptions {
+    updateSessionHostsRequestBody?: UpdateSessionHostsRequestBody;
+}
+
+// @public
+export interface KeyVaultCredentialsPatchProperties {
+    passwordKeyVaultSecretUri?: string;
+    usernameKeyVaultSecretUri?: string;
+}
+
+// @public
+export interface KeyVaultCredentialsProperties {
+    passwordKeyVaultSecretUri: string;
+    usernameKeyVaultSecretUri: string;
 }
 
 // @public
@@ -760,10 +1010,29 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownDirectUDP {
+    Default = "Default",
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownDomainJoinType {
+    ActiveDirectory = "ActiveDirectory",
+    AzureActiveDirectory = "AzureActiveDirectory"
+}
+
+// @public
 export enum KnownFailHealthCheckOnStagingFailure {
     DoNotFail = "DoNotFail",
     NeedsAssistance = "NeedsAssistance",
     Unhealthy = "Unhealthy"
+}
+
+// @public
+export enum KnownFaultType {
+    ServiceError = "ServiceError",
+    UserError = "UserError"
 }
 
 // @public
@@ -805,10 +1074,47 @@ export enum KnownHostPoolType {
 }
 
 // @public
+export enum KnownHostPoolUpdateAction {
+    Cancel = "Cancel",
+    Pause = "Pause",
+    Resume = "Resume",
+    Retry = "Retry",
+    Start = "Start"
+}
+
+// @public
 export enum KnownLoadBalancerType {
     BreadthFirst = "BreadthFirst",
     DepthFirst = "DepthFirst",
+    MultiplePersistent = "MultiplePersistent",
     Persistent = "Persistent"
+}
+
+// @public
+export enum KnownManagedPrivateUDP {
+    Default = "Default",
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownManagementType {
+    Automated = "Automated",
+    Standard = "Standard"
+}
+
+// @public
+export enum KnownOperationTypeSHM {
+    InitiateSessionHostUpdate = "InitiateSessionHostUpdate",
+    ValidateSessionHostUpdate = "ValidateSessionHostUpdate"
 }
 
 // @public
@@ -854,7 +1160,22 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownProvisioningStateSHC {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Provisioning = "Provisioning",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownPublicNetworkAccess {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownPublicUDP {
+    Default = "Default",
     Disabled = "Disabled",
     Enabled = "Enabled"
 }
@@ -867,6 +1188,13 @@ export enum KnownRegistrationTokenOperation {
 }
 
 // @public
+export enum KnownRelayUDP {
+    Default = "Default",
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownRemoteApplicationType {
     InBuilt = "InBuilt",
     MsixApplication = "MsixApplication"
@@ -874,18 +1202,14 @@ export enum KnownRemoteApplicationType {
 
 // @public
 export enum KnownScalingHostPoolType {
+    Personal = "Personal",
     Pooled = "Pooled"
 }
 
 // @public
-export enum KnownScalingScheduleDaysOfWeekItem {
-    Friday = "Friday",
-    Monday = "Monday",
-    Saturday = "Saturday",
-    Sunday = "Sunday",
-    Thursday = "Thursday",
-    Tuesday = "Tuesday",
-    Wednesday = "Wednesday"
+export enum KnownScalingMethod {
+    CreateDeletePowerManage = "CreateDeletePowerManage",
+    PowerManage = "PowerManage"
 }
 
 // @public
@@ -961,12 +1285,32 @@ export enum KnownStopHostsWhen {
 }
 
 // @public
+export enum KnownType {
+    Custom = "Custom",
+    Marketplace = "Marketplace"
+}
+
+// @public
 export enum KnownUpdateState {
     Failed = "Failed",
     Initial = "Initial",
     Pending = "Pending",
     Started = "Started",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownVirtualMachineDiskType {
+    PremiumLRS = "Premium_LRS",
+    StandardLRS = "Standard_LRS",
+    StandardSSDLRS = "StandardSSD_LRS"
+}
+
+// @public
+export enum KnownVirtualMachineSecurityType {
+    ConfidentialVM = "ConfidentialVM",
+    Standard = "Standard",
+    TrustedLaunch = "TrustedLaunch"
 }
 
 // @public
@@ -989,6 +1333,41 @@ export interface MaintenanceWindowPatchProperties {
 export interface MaintenanceWindowProperties {
     dayOfWeek?: DayOfWeek;
     hour?: number;
+}
+
+// @public
+export type ManagedPrivateUDP = string;
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity | null;
+    };
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
+
+// @public
+export type ManagementType = string;
+
+// @public
+export interface MarketplaceInfoPatchProperties {
+    exactVersion?: string;
+    offer?: string;
+    publisher?: string;
+    sku?: string;
+}
+
+// @public
+export interface MarketplaceInfoProperties {
+    exactVersion: string;
+    offer: string;
+    publisher: string;
+    sku: string;
 }
 
 // @public
@@ -1114,6 +1493,18 @@ export interface MsixPackagesUpdateOptionalParams extends coreClient.OperationOp
 export type MsixPackagesUpdateResponse = MsixPackage;
 
 // @public
+export interface NetworkInfoPatchProperties {
+    securityGroupId?: string;
+    subnetId?: string;
+}
+
+// @public
+export interface NetworkInfoProperties {
+    securityGroupId?: string;
+    subnetId: string;
+}
+
+// @public
 export interface OperationProperties {
     serviceSpecification?: ServiceSpecification;
 }
@@ -1136,6 +1527,9 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 
 // @public
 export type OperationsListResponse = ResourceProviderOperationList;
+
+// @public
+export type OperationTypeSHM = string;
 
 // @public
 export type PackageTimestamped = string;
@@ -1327,11 +1721,17 @@ export interface PrivateLinkServiceConnectionState {
 export type ProvisioningState = string;
 
 // @public
+export type ProvisioningStateSHC = string;
+
+// @public
 export interface ProxyResource extends Resource {
 }
 
 // @public
 export type PublicNetworkAccess = string;
+
+// @public
+export type PublicUDP = string;
 
 // @public
 export interface RegistrationInfo {
@@ -1362,6 +1762,9 @@ export interface RegistrationTokenMinimal {
 export type RegistrationTokenOperation = string;
 
 // @public
+export type RelayUDP = string;
+
+// @public
 export type RemoteApplicationType = string;
 
 // @public
@@ -1375,26 +1778,11 @@ export interface Resource {
 // @public
 export interface ResourceModelWithAllowedPropertySet extends TrackedResource {
     readonly etag?: string;
-    // (undocumented)
-    identity?: ResourceModelWithAllowedPropertySetIdentity;
+    identity?: ManagedServiceIdentity;
     kind?: string;
     managedBy?: string;
-    // (undocumented)
-    plan?: ResourceModelWithAllowedPropertySetPlan;
-    // (undocumented)
-    sku?: ResourceModelWithAllowedPropertySetSku;
-}
-
-// @public (undocumented)
-export interface ResourceModelWithAllowedPropertySetIdentity extends Identity {
-}
-
-// @public (undocumented)
-export interface ResourceModelWithAllowedPropertySetPlan extends Plan {
-}
-
-// @public (undocumented)
-export interface ResourceModelWithAllowedPropertySetSku extends Sku {
+    plan?: Plan;
+    sku?: Sku;
 }
 
 // @public
@@ -1429,6 +1817,9 @@ export interface ScalingHostPoolReference {
 export type ScalingHostPoolType = string;
 
 // @public
+export type ScalingMethod = string;
+
+// @public
 export interface ScalingPlan extends ResourceModelWithAllowedPropertySet {
     description?: string;
     exclusionTag?: string;
@@ -1461,31 +1852,31 @@ export interface ScalingPlanPatch {
 
 // @public
 export interface ScalingPlanPersonalSchedule extends ProxyResource {
-    daysOfWeek?: DayOfWeek[];
+    daysOfWeek: DayOfWeek[];
     offPeakActionOnDisconnect?: SessionHandlingOperation;
     offPeakActionOnLogoff?: SessionHandlingOperation;
     offPeakMinutesToWaitOnDisconnect?: number;
     offPeakMinutesToWaitOnLogoff?: number;
-    offPeakStartTime?: Time;
+    offPeakStartTime: Time;
     offPeakStartVMOnConnect?: SetStartVMOnConnect;
     peakActionOnDisconnect?: SessionHandlingOperation;
     peakActionOnLogoff?: SessionHandlingOperation;
     peakMinutesToWaitOnDisconnect?: number;
     peakMinutesToWaitOnLogoff?: number;
-    peakStartTime?: Time;
+    peakStartTime: Time;
     peakStartVMOnConnect?: SetStartVMOnConnect;
     rampDownActionOnDisconnect?: SessionHandlingOperation;
     rampDownActionOnLogoff?: SessionHandlingOperation;
     rampDownMinutesToWaitOnDisconnect?: number;
     rampDownMinutesToWaitOnLogoff?: number;
-    rampDownStartTime?: Time;
+    rampDownStartTime: Time;
     rampDownStartVMOnConnect?: SetStartVMOnConnect;
     rampUpActionOnDisconnect?: SessionHandlingOperation;
     rampUpActionOnLogoff?: SessionHandlingOperation;
     rampUpAutoStartHosts?: StartupBehavior;
     rampUpMinutesToWaitOnDisconnect?: number;
     rampUpMinutesToWaitOnLogoff?: number;
-    rampUpStartTime?: Time;
+    rampUpStartTime: Time;
     rampUpStartVMOnConnect?: SetStartVMOnConnect;
 }
 
@@ -1579,23 +1970,26 @@ export type ScalingPlanPersonalSchedulesUpdateResponse = ScalingPlanPersonalSche
 
 // @public
 export interface ScalingPlanPooledSchedule extends Resource {
-    daysOfWeek?: DayOfWeek[];
+    createDelete?: CreateDeleteProperties;
+    daysOfWeek: DayOfWeek[];
+    readonly namePropertiesName?: string;
     offPeakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
-    offPeakStartTime?: Time;
+    offPeakStartTime: Time;
     peakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
-    peakStartTime?: Time;
-    rampDownCapacityThresholdPct?: number;
+    peakStartTime: Time;
+    rampDownCapacityThresholdPct: number;
     rampDownForceLogoffUsers?: boolean;
     rampDownLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
     rampDownMinimumHostsPct?: number;
     rampDownNotificationMessage?: string;
-    rampDownStartTime?: Time;
+    rampDownStartTime: Time;
     rampDownStopHostsWhen?: StopHostsWhen;
     rampDownWaitTimeMinutes?: number;
-    rampUpCapacityThresholdPct?: number;
+    rampUpCapacityThresholdPct: number;
     rampUpLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
     rampUpMinimumHostsPct?: number;
-    rampUpStartTime?: Time;
+    rampUpStartTime: Time;
+    scalingMethod?: ScalingMethod;
 }
 
 // @public
@@ -1606,7 +2000,9 @@ export interface ScalingPlanPooledScheduleList {
 
 // @public
 export interface ScalingPlanPooledSchedulePatch extends Resource {
+    createDelete?: CreateDeleteProperties;
     daysOfWeek?: DayOfWeek[];
+    readonly namePropertiesName?: string;
     offPeakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
     offPeakStartTime?: Time;
     peakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
@@ -1623,6 +2019,7 @@ export interface ScalingPlanPooledSchedulePatch extends Resource {
     rampUpLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
     rampUpMinimumHostsPct?: number;
     rampUpStartTime?: Time;
+    scalingMethod?: ScalingMethod;
 }
 
 // @public
@@ -1767,7 +2164,8 @@ export type ScalingPlansUpdateResponse = ScalingPlan;
 
 // @public
 export interface ScalingSchedule {
-    daysOfWeek?: ScalingScheduleDaysOfWeekItem[];
+    createDelete?: CreateDeleteProperties;
+    daysOfWeek?: DayOfWeek[];
     name?: string;
     offPeakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
     offPeakStartTime?: Time;
@@ -1785,10 +2183,22 @@ export interface ScalingSchedule {
     rampUpLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
     rampUpMinimumHostsPct?: number;
     rampUpStartTime?: Time;
+    scalingMethod?: ScalingMethod;
 }
 
 // @public
-export type ScalingScheduleDaysOfWeekItem = string;
+export interface SecurityInfoPatchProperties {
+    secureBootEnabled?: boolean;
+    type?: VirtualMachineSecurityType;
+    vTpmEnabled?: boolean;
+}
+
+// @public
+export interface SecurityInfoProperties {
+    secureBootEnabled?: boolean;
+    type?: VirtualMachineSecurityType;
+    vTpmEnabled?: boolean;
+}
 
 // @public
 export interface SendMessage {
@@ -1806,15 +2216,20 @@ export type SessionHandlingOperation = string;
 
 // @public
 export interface SessionHost extends Resource {
+    activeSessions?: number;
     agentVersion?: string;
     allowNewSession?: boolean;
     assignedUser?: string;
+    disconnectedSessions?: number;
     friendlyName?: string;
     lastHeartBeat?: Date;
+    readonly lastSessionHostUpdateTime?: Date;
     readonly lastUpdateTime?: Date;
     readonly objectId?: string;
     osVersion?: string;
+    pendingSessions?: number;
     readonly resourceId?: string;
+    readonly sessionHostConfiguration?: string;
     readonly sessionHostHealthCheckResults?: SessionHostHealthCheckReport[];
     sessions?: number;
     status?: Status;
@@ -1827,6 +2242,116 @@ export interface SessionHost extends Resource {
 
 // @public
 export type SessionHostComponentUpdateType = string;
+
+// @public
+export interface SessionHostConfiguration extends Resource {
+    availabilityZones?: number[];
+    bootDiagnosticsInfo?: BootDiagnosticsInfoProperties;
+    customConfigurationScriptUrl?: string;
+    diskInfo: DiskInfoProperties;
+    domainInfo: DomainInfoProperties;
+    friendlyName?: string;
+    imageInfo: ImageInfoProperties;
+    networkInfo: NetworkInfoProperties;
+    readonly provisioningState?: ProvisioningStateSHC;
+    securityInfo?: SecurityInfoProperties;
+    readonly version?: Date;
+    vmAdminCredentials: KeyVaultCredentialsProperties;
+    vmLocation?: string;
+    vmNamePrefix: string;
+    vmResourceGroup?: string;
+    vmSizeId: string;
+    vmTags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface SessionHostConfigurationList {
+    readonly nextLink?: string;
+    value?: SessionHostConfiguration[];
+}
+
+// @public
+export interface SessionHostConfigurationPatch {
+    availabilityZones?: number[];
+    bootDiagnosticsInfo?: BootDiagnosticsInfoPatchProperties;
+    customConfigurationScriptUrl?: string;
+    diskInfo?: DiskInfoPatchProperties;
+    domainInfo?: DomainInfoPatchProperties;
+    friendlyName?: string;
+    imageInfo?: ImageInfoPatchProperties;
+    networkInfo?: NetworkInfoPatchProperties;
+    securityInfo?: SecurityInfoPatchProperties;
+    vmAdminCredentials?: KeyVaultCredentialsPatchProperties;
+    vmLocation?: string;
+    vmNamePrefix?: string;
+    vmResourceGroup?: string;
+    vmSizeId?: string;
+    vmTags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface SessionHostConfigurations {
+    beginCreateOrUpdate(resourceGroupName: string, hostPoolName: string, sessionHostConfiguration: SessionHostConfiguration, options?: SessionHostConfigurationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SessionHostConfigurationsCreateOrUpdateResponse>, SessionHostConfigurationsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, hostPoolName: string, sessionHostConfiguration: SessionHostConfiguration, options?: SessionHostConfigurationsCreateOrUpdateOptionalParams): Promise<SessionHostConfigurationsCreateOrUpdateResponse>;
+    beginUpdate(resourceGroupName: string, hostPoolName: string, options?: SessionHostConfigurationsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SessionHostConfigurationsUpdateResponse>, SessionHostConfigurationsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, hostPoolName: string, options?: SessionHostConfigurationsUpdateOptionalParams): Promise<SessionHostConfigurationsUpdateResponse>;
+    get(resourceGroupName: string, hostPoolName: string, options?: SessionHostConfigurationsGetOptionalParams): Promise<SessionHostConfigurationsGetResponse>;
+    listByHostPool(resourceGroupName: string, hostPoolName: string, options?: SessionHostConfigurationsListByHostPoolOptionalParams): PagedAsyncIterableIterator<SessionHostConfiguration>;
+}
+
+// @public
+export interface SessionHostConfigurationsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
+export interface SessionHostConfigurationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SessionHostConfigurationsCreateOrUpdateResponse = SessionHostConfigurationsCreateOrUpdateHeaders & SessionHostConfiguration;
+
+// @public
+export interface SessionHostConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SessionHostConfigurationsGetResponse = SessionHostConfiguration;
+
+// @public
+export interface SessionHostConfigurationsListByHostPoolNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SessionHostConfigurationsListByHostPoolNextResponse = SessionHostConfigurationList;
+
+// @public
+export interface SessionHostConfigurationsListByHostPoolOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SessionHostConfigurationsListByHostPoolResponse = SessionHostConfigurationList;
+
+// @public
+export interface SessionHostConfigurationsUpdateHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
+export interface SessionHostConfigurationsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    sessionHostConfiguration?: SessionHostConfigurationPatch;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SessionHostConfigurationsUpdateResponse = SessionHostConfigurationsUpdateHeaders & SessionHostConfiguration;
 
 // @public
 export interface SessionHostHealthCheckFailureDetails {
@@ -1852,10 +2377,117 @@ export interface SessionHostList {
 export type SessionHostLoadBalancingAlgorithm = string;
 
 // @public
+export interface SessionHostManagement extends ProxyResource {
+    scheduledDateTimeZone: string;
+    update: HostPoolUpdateConfigurationProperties;
+}
+
+// @public
+export interface SessionHostManagementList {
+    readonly nextLink?: string;
+    value?: SessionHostManagement[];
+}
+
+// @public
+export interface SessionHostManagementOperationProgress {
+    executionStartTime?: Date;
+    sessionHostsCompleted?: number;
+    sessionHostsInProgress?: number;
+    sessionHostsRollbackFailed?: number;
+    totalSessionHosts?: number;
+}
+
+// @public
+export interface SessionHostManagementPatch {
+    scheduledDateTimeZone?: string;
+    update?: HostPoolUpdateConfigurationPatchProperties;
+}
+
+// @public
+export interface SessionHostManagements {
+    createOrUpdate(resourceGroupName: string, hostPoolName: string, sessionHostManagement: SessionHostManagement, options?: SessionHostManagementsCreateOrUpdateOptionalParams): Promise<SessionHostManagementsCreateOrUpdateResponse>;
+    get(resourceGroupName: string, hostPoolName: string, options?: SessionHostManagementsGetOptionalParams): Promise<SessionHostManagementsGetResponse>;
+    listByHostPool(resourceGroupName: string, hostPoolName: string, options?: SessionHostManagementsListByHostPoolOptionalParams): PagedAsyncIterableIterator<SessionHostManagement>;
+    update(resourceGroupName: string, hostPoolName: string, options?: SessionHostManagementsUpdateOptionalParams): Promise<SessionHostManagementsUpdateResponse>;
+}
+
+// @public
+export interface SessionHostManagementsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SessionHostManagementsCreateOrUpdateResponse = SessionHostManagement;
+
+// @public
+export interface SessionHostManagementsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SessionHostManagementsGetResponse = SessionHostManagement;
+
+// @public
+export interface SessionHostManagementsListByHostPoolNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SessionHostManagementsListByHostPoolNextResponse = SessionHostManagementList;
+
+// @public
+export interface SessionHostManagementsListByHostPoolOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SessionHostManagementsListByHostPoolResponse = SessionHostManagementList;
+
+// @public
+export interface SessionHostManagementsUpdateOptionalParams extends coreClient.OperationOptions {
+    sessionHostManagement?: SessionHostManagementPatch;
+}
+
+// @public
+export type SessionHostManagementsUpdateResponse = SessionHostManagement;
+
+// @public
+export interface SessionHostManagementsUpdateStatus {
+    get(resourceGroupName: string, hostPoolName: string, options?: SessionHostManagementsUpdateStatusGetOptionalParams): Promise<SessionHostManagementsUpdateStatusGetResponse>;
+}
+
+// @public
+export interface SessionHostManagementsUpdateStatusGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SessionHostManagementsUpdateStatusGetResponse = SessionHostManagementUpdateStatus;
+
+// @public
+export interface SessionHostManagementUpdateStatus {
+    correlationId?: string;
+    endTime?: Date;
+    error?: ErrorDetail;
+    id?: string;
+    name?: string;
+    percentComplete?: number;
+    progress?: SessionHostManagementOperationProgress;
+    scheduledDateTime?: Date;
+    sessionHostManagement?: SessionHostManagement;
+    startTime?: Date;
+    status: string;
+}
+
+// @public
+export interface SessionHostOperations {
+    retryProvisioning(resourceGroupName: string, hostPoolName: string, sessionHostName: string, options?: SessionHostRetryProvisioningOptionalParams): Promise<void>;
+}
+
+// @public
 export interface SessionHostPatch extends Resource {
     allowNewSession?: boolean;
     assignedUser?: string;
     friendlyName?: string;
+}
+
+// @public
+export interface SessionHostRetryProvisioningOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
@@ -1890,6 +2522,7 @@ export interface SessionHostsListOptionalParams extends coreClient.OperationOpti
     initialSkip?: number;
     isDescending?: boolean;
     pageSize?: number;
+    vmPath?: string;
 }
 
 // @public
@@ -1996,7 +2629,23 @@ export interface TrackedResource extends Resource {
 }
 
 // @public
+export type Type = string;
+
+// @public
+export interface UpdateSessionHostsRequestBody {
+    scheduledDateTime?: Date;
+    scheduledDateTimeZone?: string;
+    update?: HostPoolUpdateConfigurationPatchProperties;
+}
+
+// @public
 export type UpdateState = string;
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
 
 // @public
 export interface UserSession extends Resource {
@@ -2079,6 +2728,12 @@ export type UserSessionsListResponse = UserSessionList;
 export interface UserSessionsSendMessageOptionalParams extends coreClient.OperationOptions {
     sendMessage?: SendMessage;
 }
+
+// @public
+export type VirtualMachineDiskType = string;
+
+// @public
+export type VirtualMachineSecurityType = string;
 
 // @public
 export interface Workspace extends ResourceModelWithAllowedPropertySet {

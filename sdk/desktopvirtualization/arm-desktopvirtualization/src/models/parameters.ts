@@ -28,6 +28,12 @@ import {
   DesktopPatch as DesktopPatchMapper,
   HostPool as HostPoolMapper,
   HostPoolPatch as HostPoolPatchMapper,
+  SessionHostManagement as SessionHostManagementMapper,
+  SessionHostManagementPatch as SessionHostManagementPatchMapper,
+  UpdateSessionHostsRequestBody as UpdateSessionHostsRequestBodyMapper,
+  HostPoolUpdateControlParameter as HostPoolUpdateControlParameterMapper,
+  SessionHostConfiguration as SessionHostConfigurationMapper,
+  SessionHostConfigurationPatch as SessionHostConfigurationPatchMapper,
   SendMessage as SendMessageMapper,
   SessionHostPatch as SessionHostPatchMapper,
   MsixPackage as MsixPackageMapper,
@@ -65,7 +71,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-04-03",
+    defaultValue: "2024-11-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -117,8 +123,8 @@ export const workspaceName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp("^[A-Za-z0-9@.\\-_ ]*$"),
-      MaxLength: 64,
-      MinLength: 3,
+      MaxLength: 255,
+      MinLength: 1,
     },
     serializedName: "workspaceName",
     required: true,
@@ -201,8 +207,8 @@ export const hostPoolName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp("^[A-Za-z0-9@.\\-_ ]*$"),
-      MaxLength: 64,
-      MinLength: 3,
+      MaxLength: 255,
+      MinLength: 1,
     },
     serializedName: "hostPoolName",
     required: true,
@@ -217,8 +223,8 @@ export const scalingPlanName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp("^[A-Za-z0-9@.\\-_ ]*$"),
-      MaxLength: 64,
-      MinLength: 3,
+      MaxLength: 255,
+      MinLength: 1,
     },
     serializedName: "scalingPlanName",
     required: true,
@@ -279,8 +285,8 @@ export const applicationGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp("^[A-Za-z0-9@.\\-_ ]*$"),
-      MaxLength: 64,
-      MinLength: 3,
+      MaxLength: 255,
+      MinLength: 1,
     },
     serializedName: "applicationGroupName",
     required: true,
@@ -377,6 +383,36 @@ export const hostPool1: OperationParameter = {
   mapper: HostPoolPatchMapper,
 };
 
+export const sessionHostManagement: OperationParameter = {
+  parameterPath: "sessionHostManagement",
+  mapper: SessionHostManagementMapper,
+};
+
+export const sessionHostManagement1: OperationParameter = {
+  parameterPath: ["options", "sessionHostManagement"],
+  mapper: SessionHostManagementPatchMapper,
+};
+
+export const updateSessionHostsRequestBody: OperationParameter = {
+  parameterPath: ["options", "updateSessionHostsRequestBody"],
+  mapper: UpdateSessionHostsRequestBodyMapper,
+};
+
+export const hostPoolUpdateControlParameter: OperationParameter = {
+  parameterPath: "hostPoolUpdateControlParameter",
+  mapper: HostPoolUpdateControlParameterMapper,
+};
+
+export const sessionHostConfiguration: OperationParameter = {
+  parameterPath: "sessionHostConfiguration",
+  mapper: SessionHostConfigurationMapper,
+};
+
+export const sessionHostConfiguration1: OperationParameter = {
+  parameterPath: ["options", "sessionHostConfiguration"],
+  mapper: SessionHostConfigurationPatchMapper,
+};
+
 export const sessionHostName: OperationURLParameter = {
   parameterPath: "sessionHostName",
   mapper: {
@@ -416,6 +452,21 @@ export const sendMessage: OperationParameter = {
 export const sessionHost: OperationParameter = {
   parameterPath: ["options", "sessionHost"],
   mapper: SessionHostPatchMapper,
+};
+
+export const vmPath: OperationQueryParameter = {
+  parameterPath: ["options", "vmPath"],
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Z][a-z][0-9][@./-_ ]*$"),
+      MaxLength: 1092,
+      MinLength: 3,
+    },
+    serializedName: "vmPath",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const msixPackageFullName: OperationURLParameter = {
