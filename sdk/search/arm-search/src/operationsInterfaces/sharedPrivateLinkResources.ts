@@ -42,7 +42,7 @@ export interface SharedPrivateLinkResources {
    * @param searchServiceName The name of the Azure AI Search service associated with the specified
    *                          resource group.
    * @param sharedPrivateLinkResourceName The name of the shared private link resource managed by the
-   *                                      Azure AI Search service within the specified resource group.
+   *                                      search service within the specified resource group.
    * @param sharedPrivateLinkResource The definition of the shared private link resource to create or
    *                                  update.
    * @param options The options parameters.
@@ -67,7 +67,7 @@ export interface SharedPrivateLinkResources {
    * @param searchServiceName The name of the Azure AI Search service associated with the specified
    *                          resource group.
    * @param sharedPrivateLinkResourceName The name of the shared private link resource managed by the
-   *                                      Azure AI Search service within the specified resource group.
+   *                                      search service within the specified resource group.
    * @param sharedPrivateLinkResource The definition of the shared private link resource to create or
    *                                  update.
    * @param options The options parameters.
@@ -87,7 +87,7 @@ export interface SharedPrivateLinkResources {
    * @param searchServiceName The name of the Azure AI Search service associated with the specified
    *                          resource group.
    * @param sharedPrivateLinkResourceName The name of the shared private link resource managed by the
-   *                                      Azure AI Search service within the specified resource group.
+   *                                      search service within the specified resource group.
    * @param options The options parameters.
    */
   get(
@@ -103,7 +103,7 @@ export interface SharedPrivateLinkResources {
    * @param searchServiceName The name of the Azure AI Search service associated with the specified
    *                          resource group.
    * @param sharedPrivateLinkResourceName The name of the shared private link resource managed by the
-   *                                      Azure AI Search service within the specified resource group.
+   *                                      search service within the specified resource group.
    * @param options The options parameters.
    */
   beginDelete(
@@ -119,7 +119,7 @@ export interface SharedPrivateLinkResources {
    * @param searchServiceName The name of the Azure AI Search service associated with the specified
    *                          resource group.
    * @param sharedPrivateLinkResourceName The name of the shared private link resource managed by the
-   *                                      Azure AI Search service within the specified resource group.
+   *                                      search service within the specified resource group.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
