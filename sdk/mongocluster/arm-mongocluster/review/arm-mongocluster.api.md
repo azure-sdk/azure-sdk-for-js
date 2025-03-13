@@ -67,6 +67,34 @@ export type CreatedByType = string;
 export type CreateMode = string;
 
 // @public
+export type DataApiMode = string;
+
+// @public
+export interface DataApiProperties {
+    mode?: DataApiMode;
+}
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface FirewallRule extends ProxyResource {
     properties?: FirewallRuleProperties;
 }
@@ -137,6 +165,12 @@ export enum KnownCreateMode {
     GeoReplica = "GeoReplica",
     PointInTimeRestore = "PointInTimeRestore",
     Replica = "Replica"
+}
+
+// @public
+export enum KnownDataApiMode {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -228,6 +262,14 @@ export enum KnownReplicationState {
 }
 
 // @public
+export enum KnownVersions {
+    V20240301Preview = "2024-03-01-preview",
+    V20240601Preview = "2024-06-01-preview",
+    V20240701 = "2024-07-01",
+    V20241001Preview = "2024-10-01-preview"
+}
+
+// @public
 export interface ListConnectionStringsResult {
     readonly connectionStrings?: ConnectionString[];
 }
@@ -262,6 +304,7 @@ export interface MongoClusterProperties {
     compute?: ComputeProperties;
     readonly connectionString?: string;
     createMode?: CreateMode;
+    dataApi?: DataApiProperties;
     highAvailability?: HighAvailabilityProperties;
     readonly infrastructureVersion?: string;
     previewFeatures?: PreviewFeature[];
@@ -355,6 +398,7 @@ export interface MongoClusterUpdateProperties {
     administrator?: AdministratorProperties;
     backup?: BackupProperties;
     compute?: ComputeProperties;
+    dataApi?: DataApiProperties;
     highAvailability?: HighAvailabilityProperties;
     previewFeatures?: PreviewFeature[];
     publicNetworkAccess?: PublicNetworkAccess;
@@ -365,8 +409,8 @@ export interface MongoClusterUpdateProperties {
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
