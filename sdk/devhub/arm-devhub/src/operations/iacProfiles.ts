@@ -8,39 +8,45 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { WorkflowOperations } from "../operationsInterfaces/index.js";
+import { IacProfiles } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { DeveloperHubServiceClient } from "../developerHubServiceClient.js";
 import {
-  Workflow,
-  WorkflowListNextOptionalParams,
-  WorkflowListOptionalParams,
-  WorkflowListResponse,
-  WorkflowListByResourceGroupNextOptionalParams,
-  WorkflowListByResourceGroupOptionalParams,
-  WorkflowListByResourceGroupResponse,
-  WorkflowGetOptionalParams,
-  WorkflowGetResponse,
-  WorkflowCreateOrUpdateOptionalParams,
-  WorkflowCreateOrUpdateResponse,
-  WorkflowDeleteOptionalParams,
-  WorkflowDeleteResponse,
+  IacProfile,
+  IacProfilesListNextOptionalParams,
+  IacProfilesListOptionalParams,
+  IacProfilesListResponse,
+  IacProfilesListByResourceGroupNextOptionalParams,
+  IacProfilesListByResourceGroupOptionalParams,
+  IacProfilesListByResourceGroupResponse,
+  IacProfilesGetOptionalParams,
+  IacProfilesGetResponse,
+  IacProfilesCreateOrUpdateOptionalParams,
+  IacProfilesCreateOrUpdateResponse,
+  IacProfilesDeleteOptionalParams,
   TagsObject,
-  WorkflowUpdateTagsOptionalParams,
-  WorkflowUpdateTagsResponse,
-  WorkflowListNextResponse,
-  WorkflowListByResourceGroupNextResponse,
+  IacProfilesUpdateTagsOptionalParams,
+  IacProfilesUpdateTagsResponse,
+  ExportTemplateRequest,
+  IacProfilesExportOptionalParams,
+  IacProfilesExportResponse,
+  ScaleTemplateRequest,
+  IacProfilesScaleOptionalParams,
+  IacProfilesScaleResponse,
+  IacProfilesSyncOptionalParams,
+  IacProfilesListNextResponse,
+  IacProfilesListByResourceGroupNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing WorkflowOperations operations. */
-export class WorkflowOperationsImpl implements WorkflowOperations {
+/** Class containing IacProfiles operations. */
+export class IacProfilesImpl implements IacProfiles {
   private readonly client: DeveloperHubServiceClient;
 
   /**
-   * Initialize a new instance of the class WorkflowOperations class.
+   * Initialize a new instance of the class IacProfiles class.
    * @param client Reference to the service client
    */
   constructor(client: DeveloperHubServiceClient) {
@@ -48,12 +54,12 @@ export class WorkflowOperationsImpl implements WorkflowOperations {
   }
 
   /**
-   * Gets a list of workflows associated with the specified subscription.
+   * Gets a list of IacProfiles associated with the specified subscription.
    * @param options The options parameters.
    */
   public list(
-    options?: WorkflowListOptionalParams,
-  ): PagedAsyncIterableIterator<Workflow> {
+    options?: IacProfilesListOptionalParams,
+  ): PagedAsyncIterableIterator<IacProfile> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -72,10 +78,10 @@ export class WorkflowOperationsImpl implements WorkflowOperations {
   }
 
   private async *listPagingPage(
-    options?: WorkflowListOptionalParams,
+    options?: IacProfilesListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Workflow[]> {
-    let result: WorkflowListResponse;
+  ): AsyncIterableIterator<IacProfile[]> {
+    let result: IacProfilesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(options);
@@ -94,22 +100,22 @@ export class WorkflowOperationsImpl implements WorkflowOperations {
   }
 
   private async *listPagingAll(
-    options?: WorkflowListOptionalParams,
-  ): AsyncIterableIterator<Workflow> {
+    options?: IacProfilesListOptionalParams,
+  ): AsyncIterableIterator<IacProfile> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Gets a list of workflows within a resource group.
+   * Gets a list of iacProfiles within a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: WorkflowListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<Workflow> {
+    options?: IacProfilesListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<IacProfile> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -133,10 +139,10 @@ export class WorkflowOperationsImpl implements WorkflowOperations {
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: WorkflowListByResourceGroupOptionalParams,
+    options?: IacProfilesListByResourceGroupOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Workflow[]> {
-    let result: WorkflowListByResourceGroupResponse;
+  ): AsyncIterableIterator<IacProfile[]> {
+    let result: IacProfilesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
@@ -160,8 +166,8 @@ export class WorkflowOperationsImpl implements WorkflowOperations {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: WorkflowListByResourceGroupOptionalParams,
-  ): AsyncIterableIterator<Workflow> {
+    options?: IacProfilesListByResourceGroupOptionalParams,
+  ): AsyncIterableIterator<IacProfile> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options,
@@ -171,24 +177,24 @@ export class WorkflowOperationsImpl implements WorkflowOperations {
   }
 
   /**
-   * Gets a list of workflows associated with the specified subscription.
+   * Gets a list of IacProfiles associated with the specified subscription.
    * @param options The options parameters.
    */
   private _list(
-    options?: WorkflowListOptionalParams,
-  ): Promise<WorkflowListResponse> {
+    options?: IacProfilesListOptionalParams,
+  ): Promise<IacProfilesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
-   * Gets a list of workflows within a resource group.
+   * Gets a list of iacProfiles within a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: WorkflowListByResourceGroupOptionalParams,
-  ): Promise<WorkflowListByResourceGroupResponse> {
+    options?: IacProfilesListByResourceGroupOptionalParams,
+  ): Promise<IacProfilesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec,
@@ -196,74 +202,129 @@ export class WorkflowOperationsImpl implements WorkflowOperations {
   }
 
   /**
-   * Gets a workflow.
+   * Gets a IacProfile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workflowName The name of the workflow resource.
+   * @param iacProfileName The name of the IacProfile.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    workflowName: string,
-    options?: WorkflowGetOptionalParams,
-  ): Promise<WorkflowGetResponse> {
+    iacProfileName: string,
+    options?: IacProfilesGetOptionalParams,
+  ): Promise<IacProfilesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workflowName, options },
+      { resourceGroupName, iacProfileName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates or updates a workflow
+   * Creates or updates a IacProfile
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workflowName The name of the workflow resource.
-   * @param parameters Resource representation of a workflow
+   * @param iacProfileName The name of the IacProfile.
+   * @param parameters Resource representation of a IacProfile.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
-    workflowName: string,
-    parameters: Workflow,
-    options?: WorkflowCreateOrUpdateOptionalParams,
-  ): Promise<WorkflowCreateOrUpdateResponse> {
+    iacProfileName: string,
+    parameters: IacProfile,
+    options?: IacProfilesCreateOrUpdateOptionalParams,
+  ): Promise<IacProfilesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workflowName, parameters, options },
+      { resourceGroupName, iacProfileName, parameters, options },
       createOrUpdateOperationSpec,
     );
   }
 
   /**
-   * Deletes a workflow
+   * Deletes a IacProfile
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workflowName The name of the workflow resource.
+   * @param iacProfileName The name of the IacProfile.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
-    workflowName: string,
-    options?: WorkflowDeleteOptionalParams,
-  ): Promise<WorkflowDeleteResponse> {
+    iacProfileName: string,
+    options?: IacProfilesDeleteOptionalParams,
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workflowName, options },
+      { resourceGroupName, iacProfileName, options },
       deleteOperationSpec,
     );
   }
 
   /**
-   * Updates tags on a workflow.
+   * Updates tags on a IacProfile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workflowName The name of the workflow resource.
-   * @param parameters Parameters supplied to the Update Workflow Tags operation.
+   * @param iacProfileName The name of the IacProfile.
+   * @param parameters Parameters supplied to the Update TagsObject Tags operation.
    * @param options The options parameters.
    */
   updateTags(
     resourceGroupName: string,
-    workflowName: string,
+    iacProfileName: string,
     parameters: TagsObject,
-    options?: WorkflowUpdateTagsOptionalParams,
-  ): Promise<WorkflowUpdateTagsResponse> {
+    options?: IacProfilesUpdateTagsOptionalParams,
+  ): Promise<IacProfilesUpdateTagsResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workflowName, parameters, options },
+      { resourceGroupName, iacProfileName, parameters, options },
       updateTagsOperationSpec,
+    );
+  }
+
+  /**
+   * Export a template
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param iacProfileName The name of the IacProfile.
+   * @param parameters
+   * @param options The options parameters.
+   */
+  export(
+    resourceGroupName: string,
+    iacProfileName: string,
+    parameters: ExportTemplateRequest,
+    options?: IacProfilesExportOptionalParams,
+  ): Promise<IacProfilesExportResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, iacProfileName, parameters, options },
+      exportOperationSpec,
+    );
+  }
+
+  /**
+   * Scale by template
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param iacProfileName The name of the IacProfile.
+   * @param parameters
+   * @param options The options parameters.
+   */
+  scale(
+    resourceGroupName: string,
+    iacProfileName: string,
+    parameters: ScaleTemplateRequest,
+    options?: IacProfilesScaleOptionalParams,
+  ): Promise<IacProfilesScaleResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, iacProfileName, parameters, options },
+      scaleOperationSpec,
+    );
+  }
+
+  /**
+   * Sync template
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param iacProfileName The name of the IacProfile.
+   * @param options The options parameters.
+   */
+  sync(
+    resourceGroupName: string,
+    iacProfileName: string,
+    options?: IacProfilesSyncOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, iacProfileName, options },
+      syncOperationSpec,
     );
   }
 
@@ -274,8 +335,8 @@ export class WorkflowOperationsImpl implements WorkflowOperations {
    */
   private _listNext(
     nextLink: string,
-    options?: WorkflowListNextOptionalParams,
-  ): Promise<WorkflowListNextResponse> {
+    options?: IacProfilesListNextOptionalParams,
+  ): Promise<IacProfilesListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec,
@@ -291,8 +352,8 @@ export class WorkflowOperationsImpl implements WorkflowOperations {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: WorkflowListByResourceGroupNextOptionalParams,
-  ): Promise<WorkflowListByResourceGroupNextResponse> {
+    options?: IacProfilesListByResourceGroupNextOptionalParams,
+  ): Promise<IacProfilesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec,
@@ -303,11 +364,11 @@ export class WorkflowOperationsImpl implements WorkflowOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DevHub/workflows",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DevHub/iacProfiles",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowListResult,
+      bodyMapper: Mappers.IacProfileListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -319,17 +380,17 @@ const listOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/workflows",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/iacProfiles",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowListResult,
+      bodyMapper: Mappers.IacProfileListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.managedClusterResource],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -339,11 +400,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/workflows/{workflowName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/iacProfiles/{iacProfileName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Workflow,
+      bodyMapper: Mappers.IacProfile,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -354,44 +415,42 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workflowName,
+    Parameters.iacProfileName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/workflows/{workflowName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/iacProfiles/{iacProfileName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Workflow,
+      bodyMapper: Mappers.IacProfile,
     },
     201: {
-      bodyMapper: Mappers.Workflow,
+      bodyMapper: Mappers.IacProfile,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workflowName,
+    Parameters.iacProfileName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/workflows/{workflowName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/iacProfiles/{iacProfileName}",
   httpMethod: "DELETE",
   responses: {
-    200: {
-      bodyMapper: Mappers.DeleteWorkflowResponse,
-    },
+    200: {},
     204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -402,17 +461,17 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workflowName,
+    Parameters.iacProfileName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/workflows/{workflowName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/iacProfiles/{iacProfileName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Workflow,
+      bodyMapper: Mappers.IacProfile,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -424,10 +483,75 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workflowName,
+    Parameters.iacProfileName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer,
+};
+const exportOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/iacProfiles/{iacProfileName}/export",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrLinkResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.iacProfileName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const scaleOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/iacProfiles/{iacProfileName}/scale",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrLinkResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters3,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.iacProfileName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const syncOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/iacProfiles/{iacProfileName}/sync",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.iacProfileName,
+  ],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -435,7 +559,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowListResult,
+      bodyMapper: Mappers.IacProfileListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -454,7 +578,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowListResult,
+      bodyMapper: Mappers.IacProfileListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

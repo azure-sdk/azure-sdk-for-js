@@ -8,6 +8,452 @@
 
 import * as coreClient from "@azure/core-client";
 
+export const IacProfileListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IacProfileListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IacProfile",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const StageProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StageProperties",
+    modelProperties: {
+      stageName: {
+        serializedName: "stageName",
+        type: {
+          name: "String",
+        },
+      },
+      dependencies: {
+        serializedName: "dependencies",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      gitEnvironment: {
+        serializedName: "gitEnvironment",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const IacTemplateProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IacTemplateProperties",
+    modelProperties: {
+      templateName: {
+        serializedName: "templateName",
+        type: {
+          name: "String",
+        },
+      },
+      sourceResourceId: {
+        serializedName: "sourceResourceId",
+        type: {
+          name: "String",
+        },
+      },
+      instanceStage: {
+        serializedName: "instanceStage",
+        type: {
+          name: "String",
+        },
+      },
+      instanceName: {
+        serializedName: "instanceName",
+        type: {
+          name: "String",
+        },
+      },
+      templateDetails: {
+        serializedName: "templateDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IacTemplateDetails",
+            },
+          },
+        },
+      },
+      quickStartTemplateType: {
+        serializedName: "quickStartTemplateType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const IacTemplateDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IacTemplateDetails",
+    modelProperties: {
+      productName: {
+        serializedName: "productName",
+        type: {
+          name: "String",
+        },
+      },
+      count: {
+        serializedName: "count",
+        type: {
+          name: "Number",
+        },
+      },
+      namingConvention: {
+        serializedName: "namingConvention",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const Resource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData",
+        },
+      },
+    },
+  },
+};
+
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String",
+        },
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String",
+        },
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime",
+        },
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
+};
+
+export const ErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail",
+            },
+          },
+        },
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      info: {
+        serializedName: "info",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
+};
+
+export const TagsObject: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TagsObject",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
+};
+
+export const ExportTemplateRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExportTemplateRequest",
+    modelProperties: {
+      templateName: {
+        serializedName: "templateName",
+        type: {
+          name: "String",
+        },
+      },
+      resourceGroupIds: {
+        serializedName: "resourceGroupIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      siteId: {
+        serializedName: "siteId",
+        type: {
+          name: "String",
+        },
+      },
+      instanceName: {
+        serializedName: "instanceName",
+        type: {
+          name: "String",
+        },
+      },
+      instanceStage: {
+        serializedName: "instanceStage",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const PrLinkResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrLinkResponse",
+    modelProperties: {
+      prLink: {
+        serializedName: "prLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ScaleTemplateRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ScaleTemplateRequest",
+    modelProperties: {
+      templateName: {
+        serializedName: "templateName",
+        type: {
+          name: "String",
+        },
+      },
+      scaleRequirement: {
+        serializedName: "scaleRequirement",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ScaleProperty",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ScaleProperty: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ScaleProperty",
+    modelProperties: {
+      region: {
+        serializedName: "region",
+        type: {
+          name: "String",
+        },
+      },
+      stage: {
+        serializedName: "stage",
+        type: {
+          name: "String",
+        },
+      },
+      numberOfStore: {
+        serializedName: "numberOfStore",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
 export const OperationListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -21,20 +467,20 @@ export const OperationListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Operation"
-            }
-          }
-        }
+              className: "Operation",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Operation: coreClient.CompositeMapper = {
@@ -46,39 +492,39 @@ export const Operation: coreClient.CompositeMapper = {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       isDataAction: {
         serializedName: "isDataAction",
         readOnly: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       display: {
         serializedName: "display",
         type: {
           name: "Composite",
-          className: "OperationDisplay"
-        }
+          className: "OperationDisplay",
+        },
       },
       origin: {
         serializedName: "origin",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       actionType: {
         serializedName: "actionType",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const OperationDisplay: coreClient.CompositeMapper = {
@@ -90,128 +536,32 @@ export const OperationDisplay: coreClient.CompositeMapper = {
         serializedName: "provider",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resource: {
         serializedName: "resource",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       operation: {
         serializedName: "operation",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       description: {
         serializedName: "description",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ErrorResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorResponse",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ErrorDetail"
-        }
-      }
-    }
-  }
-};
-
-export const ErrorDetail: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorDetail",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      message: {
-        serializedName: "message",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        serializedName: "target",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      details: {
-        serializedName: "details",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorDetail"
-            }
-          }
-        }
-      },
-      additionalInfo: {
-        serializedName: "additionalInfo",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorAdditionalInfo"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorAdditionalInfo",
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      info: {
-        serializedName: "info",
-        readOnly: true,
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
+    },
+  },
 };
 
 export const GitHubOAuthCallRequest: coreClient.CompositeMapper = {
@@ -222,11 +572,11 @@ export const GitHubOAuthCallRequest: coreClient.CompositeMapper = {
       redirectUrl: {
         serializedName: "redirectUrl",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const GitHubOAuthInfoResponse: coreClient.CompositeMapper = {
@@ -237,99 +587,32 @@ export const GitHubOAuthInfoResponse: coreClient.CompositeMapper = {
       authURL: {
         serializedName: "authURL",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       token: {
         serializedName: "token",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const Resource: coreClient.CompositeMapper = {
+export const GitHubOAuthProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Resource",
+    className: "GitHubOAuthProperties",
     modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
+      username: {
+        serializedName: "username",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      }
-    }
-  }
-};
-
-export const SystemData: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SystemData",
-    modelProperties: {
-      createdBy: {
-        serializedName: "createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "lastModifiedAt",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+    },
+  },
 };
 
 export const GitHubOAuthListResponse: coreClient.CompositeMapper = {
@@ -344,13 +627,13 @@ export const GitHubOAuthListResponse: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "GitHubOAuthResponse"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "GitHubOAuthResponse",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const WorkflowListResult: coreClient.CompositeMapper = {
@@ -365,32 +648,176 @@ export const WorkflowListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Workflow"
-            }
-          }
-        }
+              className: "Workflow",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const DeploymentProperties: coreClient.CompositeMapper = {
+export const WorkflowProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DeploymentProperties",
+    className: "WorkflowProperties",
+    modelProperties: {
+      githubWorkflowProfile: {
+        serializedName: "githubWorkflowProfile",
+        type: {
+          name: "Composite",
+          className: "GitHubWorkflowProfile",
+        },
+      },
+      artifactGenerationProperties: {
+        serializedName: "artifactGenerationProperties",
+        type: {
+          name: "Composite",
+          className: "ArtifactGenerationProperties",
+        },
+      },
+      azurePipelineProfile: {
+        serializedName: "azurePipelineProfile",
+        type: {
+          name: "Composite",
+          className: "AzurePipelineProfile",
+        },
+      },
+      templateWorkflowProfile: {
+        serializedName: "templateWorkflowProfile",
+        type: {
+          name: "Composite",
+          className: "TemplateWorkflowProfile",
+        },
+      },
+    },
+  },
+};
+
+export const GitHubWorkflowProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GitHubWorkflowProfile",
+    modelProperties: {
+      repositoryOwner: {
+        serializedName: "repositoryOwner",
+        type: {
+          name: "String",
+        },
+      },
+      repositoryName: {
+        serializedName: "repositoryName",
+        type: {
+          name: "String",
+        },
+      },
+      branchName: {
+        serializedName: "branchName",
+        type: {
+          name: "String",
+        },
+      },
+      dockerfile: {
+        serializedName: "dockerfile",
+        type: {
+          name: "String",
+        },
+      },
+      dockerBuildContext: {
+        serializedName: "dockerBuildContext",
+        type: {
+          name: "String",
+        },
+      },
+      deploymentProperties: {
+        serializedName: "deploymentProperties",
+        type: {
+          name: "Composite",
+          className: "Deployment",
+        },
+      },
+      namespace: {
+        serializedName: "namespace",
+        type: {
+          name: "String",
+        },
+      },
+      acr: {
+        serializedName: "acr",
+        type: {
+          name: "Composite",
+          className: "Acr",
+        },
+      },
+      oidcCredentials: {
+        serializedName: "oidcCredentials",
+        type: {
+          name: "Composite",
+          className: "GitHubWorkflowProfileOidcCredentials",
+        },
+      },
+      aksResourceId: {
+        serializedName: "aksResourceId",
+        type: {
+          name: "String",
+        },
+      },
+      prURL: {
+        serializedName: "prURL",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      pullNumber: {
+        serializedName: "pullNumber",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      prStatus: {
+        serializedName: "prStatus",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      lastWorkflowRun: {
+        serializedName: "lastWorkflowRun",
+        type: {
+          name: "Composite",
+          className: "WorkflowRun",
+        },
+      },
+      authStatus: {
+        serializedName: "authStatus",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const Deployment: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Deployment",
     modelProperties: {
       manifestType: {
         serializedName: "manifestType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       kubeManifestLocations: {
         serializedName: "kubeManifestLocations",
@@ -398,32 +825,32 @@ export const DeploymentProperties: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       helmChartPath: {
         serializedName: "helmChartPath",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       helmValues: {
         serializedName: "helmValues",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       overrides: {
         serializedName: "overrides",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
 };
 
 export const Acr: coreClient.CompositeMapper = {
@@ -434,51 +861,52 @@ export const Acr: coreClient.CompositeMapper = {
       acrSubscriptionId: {
         serializedName: "acrSubscriptionId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       acrResourceGroup: {
         serializedName: "acrResourceGroup",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       acrRegistryName: {
         serializedName: "acrRegistryName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       acrRepositoryName: {
         serializedName: "acrRepositoryName",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const GitHubWorkflowProfileOidcCredentials: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "GitHubWorkflowProfileOidcCredentials",
-    modelProperties: {
-      azureClientId: {
-        serializedName: "azureClientId",
-        type: {
-          name: "String"
-        }
+export const GitHubWorkflowProfileOidcCredentials: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "GitHubWorkflowProfileOidcCredentials",
+      modelProperties: {
+        azureClientId: {
+          serializedName: "azureClientId",
+          type: {
+            name: "String",
+          },
+        },
+        azureTenantId: {
+          serializedName: "azureTenantId",
+          type: {
+            name: "String",
+          },
+        },
       },
-      azureTenantId: {
-        serializedName: "azureTenantId",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const WorkflowRun: coreClient.CompositeMapper = {
   type: {
@@ -489,31 +917,32 @@ export const WorkflowRun: coreClient.CompositeMapper = {
         serializedName: "succeeded",
         readOnly: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       workflowRunURL: {
         serializedName: "workflowRunURL",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastRunAt: {
         serializedName: "lastRunAt",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       workflowRunStatus: {
         serializedName: "workflowRunStatus",
+        readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ArtifactGenerationProperties: coreClient.CompositeMapper = {
@@ -524,83 +953,452 @@ export const ArtifactGenerationProperties: coreClient.CompositeMapper = {
       generationLanguage: {
         serializedName: "generationLanguage",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       languageVersion: {
         serializedName: "languageVersion",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       builderVersion: {
         serializedName: "builderVersion",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       port: {
         serializedName: "port",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       appName: {
         serializedName: "appName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dockerfileOutputDirectory: {
         serializedName: "dockerfileOutputDirectory",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       manifestOutputDirectory: {
         serializedName: "manifestOutputDirectory",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dockerfileGenerationMode: {
         serializedName: "dockerfileGenerationMode",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       manifestGenerationMode: {
         serializedName: "manifestGenerationMode",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       manifestType: {
         serializedName: "manifestType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       imageName: {
         serializedName: "imageName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       namespace: {
         serializedName: "namespace",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       imageTag: {
         serializedName: "imageTag",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AzurePipelineProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzurePipelineProfile",
+    modelProperties: {
+      repository: {
+        serializedName: "repository",
+        type: {
+          name: "Composite",
+          className: "ADORepository",
+        },
+      },
+      armServiceConnection: {
+        serializedName: "armServiceConnection",
+        type: {
+          name: "String",
+        },
+      },
+      build: {
+        serializedName: "build",
+        type: {
+          name: "Composite",
+          className: "Build",
+        },
+      },
+      deployment: {
+        serializedName: "deployment",
+        type: {
+          name: "Composite",
+          className: "Deployment",
+        },
+      },
+      namespace: {
+        serializedName: "namespace",
+        type: {
+          name: "String",
+        },
+      },
+      acr: {
+        serializedName: "acr",
+        type: {
+          name: "String",
+        },
+      },
+      clusterId: {
+        serializedName: "clusterId",
+        type: {
+          name: "String",
+        },
+      },
+      pullRequest: {
+        serializedName: "pullRequest",
+        type: {
+          name: "Composite",
+          className: "PullRequest",
+        },
+      },
+      lastWorkflowRun: {
+        serializedName: "lastWorkflowRun",
+        type: {
+          name: "Composite",
+          className: "WorkflowRun",
+        },
+      },
+      authStatus: {
+        serializedName: "authStatus",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ADORepository: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ADORepository",
+    modelProperties: {
+      repositoryOwner: {
+        serializedName: "repositoryOwner",
+        type: {
+          name: "String",
+        },
+      },
+      repositoryName: {
+        serializedName: "repositoryName",
+        type: {
+          name: "String",
+        },
+      },
+      branchName: {
+        serializedName: "branchName",
+        type: {
+          name: "String",
+        },
+      },
+      adoOrganization: {
+        serializedName: "adoOrganization",
+        type: {
+          name: "String",
+        },
+      },
+      projectName: {
+        serializedName: "projectName",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const Build: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Build",
+    modelProperties: {
+      dockerfile: {
+        serializedName: "dockerfile",
+        type: {
+          name: "String",
+        },
+      },
+      dockerBuildContext: {
+        serializedName: "dockerBuildContext",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const PullRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PullRequest",
+    modelProperties: {
+      prURL: {
+        serializedName: "prURL",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      pullNumber: {
+        serializedName: "pullNumber",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      prStatus: {
+        serializedName: "prStatus",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const TemplateWorkflowProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TemplateWorkflowProfile",
+    modelProperties: {
+      repositoryProvider: {
+        serializedName: "repositoryProvider",
+        type: {
+          name: "String",
+        },
+      },
+      workflowTemplate: {
+        serializedName: "workflowTemplate",
+        type: {
+          name: "Composite",
+          className: "TemplateReference",
+        },
+      },
+      deploymentTemplate: {
+        serializedName: "deploymentTemplate",
+        type: {
+          name: "Composite",
+          className: "TemplateReference",
+        },
+      },
+      dockerfileTemplate: {
+        serializedName: "dockerfileTemplate",
+        type: {
+          name: "Composite",
+          className: "TemplateReference",
+        },
+      },
+      manifestTemplates: {
+        serializedName: "manifestTemplates",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TemplateReference",
+            },
+          },
+        },
+      },
+      gitHubProviderProfile: {
+        serializedName: "gitHubProviderProfile",
+        type: {
+          name: "Composite",
+          className: "GitHubProviderProfile",
+        },
+      },
+      adoProviderProfile: {
+        serializedName: "adoProviderProfile",
+        type: {
+          name: "Composite",
+          className: "ADOProviderProfile",
+        },
+      },
+      pullRequest: {
+        serializedName: "pullRequest",
+        type: {
+          name: "Composite",
+          className: "PullRequest",
+        },
+      },
+      lastWorkflowRun: {
+        serializedName: "lastWorkflowRun",
+        type: {
+          name: "Composite",
+          className: "WorkflowRun",
+        },
+      },
+      authStatus: {
+        serializedName: "authStatus",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const TemplateReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TemplateReference",
+    modelProperties: {
+      templateId: {
+        serializedName: "templateId",
+        type: {
+          name: "String",
+        },
+      },
+      destination: {
+        serializedName: "destination",
+        type: {
+          name: "String",
+        },
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
+};
+
+export const GitHubProviderProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GitHubProviderProfile",
+    modelProperties: {
+      repository: {
+        serializedName: "repository",
+        type: {
+          name: "Composite",
+          className: "GitHubRepository",
+        },
+      },
+      oidcCredentials: {
+        serializedName: "oidcCredentials",
+        type: {
+          name: "Composite",
+          className: "OidcCredentials",
+        },
+      },
+    },
+  },
+};
+
+export const GitHubRepository: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GitHubRepository",
+    modelProperties: {
+      repositoryOwner: {
+        serializedName: "repositoryOwner",
+        type: {
+          name: "String",
+        },
+      },
+      repositoryName: {
+        serializedName: "repositoryName",
+        type: {
+          name: "String",
+        },
+      },
+      branchName: {
+        serializedName: "branchName",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const OidcCredentials: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OidcCredentials",
+    modelProperties: {
+      azureClientId: {
+        serializedName: "azureClientId",
+        type: {
+          name: "String",
+        },
+      },
+      azureTenantId: {
+        serializedName: "azureTenantId",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ADOProviderProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ADOProviderProfile",
+    modelProperties: {
+      repository: {
+        serializedName: "repository",
+        type: {
+          name: "Composite",
+          className: "ADORepository",
+        },
+      },
+      armServiceConnection: {
+        serializedName: "armServiceConnection",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DeleteWorkflowResponse: coreClient.CompositeMapper = {
@@ -611,37 +1409,310 @@ export const DeleteWorkflowResponse: coreClient.CompositeMapper = {
       status: {
         serializedName: "status",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const TagsObject: coreClient.CompositeMapper = {
+export const AdooAuthCallRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "TagsObject",
+    className: "AdooAuthCallRequest",
     modelProperties: {
-      tags: {
-        serializedName: "tags",
+      redirectUrl: {
+        serializedName: "redirectUrl",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AdooAuthInfoResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AdooAuthInfoResponse",
+    modelProperties: {
+      authURL: {
+        serializedName: "authURL",
+        type: {
+          name: "String",
+        },
+      },
+      token: {
+        serializedName: "token",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AdooAuth: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AdooAuth",
+    modelProperties: {
+      username: {
+        serializedName: "username",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AdooAuthListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AdooAuthListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AdooAuthResponse",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const TemplateListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TemplateListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Template",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const TemplateProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TemplateProperties",
+    modelProperties: {
+      templateName: {
+        serializedName: "templateName",
+        type: {
+          name: "String",
+        },
+      },
+      defaultVersion: {
+        serializedName: "defaultVersion",
+        type: {
+          name: "String",
+        },
+      },
+      versions: {
+        serializedName: "versions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String",
+        },
+      },
+      templateType: {
+        serializedName: "templateType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const VersionedTemplateListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VersionedTemplateListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VersionedTemplate",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const VersionedTemplateProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VersionedTemplateProperties",
+    modelProperties: {
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String",
+        },
+      },
+      templateType: {
+        serializedName: "templateType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Parameter",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const Parameter: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Parameter",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String",
+        },
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String",
+        },
+      },
+      parameterType: {
+        serializedName: "parameterType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      parameterKind: {
+        serializedName: "parameterKind",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      required: {
+        serializedName: "required",
+        type: {
+          name: "Boolean",
+        },
+      },
+      default: {
+        serializedName: "default",
+        type: {
+          name: "Composite",
+          className: "ParameterDefault",
+        },
+      },
+    },
+  },
+};
+
+export const ParameterDefault: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ParameterDefault",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String",
+        },
+      },
+      referenceParameter: {
+        serializedName: "referenceParameter",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const GenerateVersionedTemplateResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GenerateVersionedTemplateResponse",
+    modelProperties: {
+      generatedFiles: {
+        serializedName: "generatedFiles",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
-};
-
-export const ProxyResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ProxyResource",
-    modelProperties: {
-      ...Resource.type.modelProperties
-    }
-  }
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
 };
 
 export const TrackedResource: coreClient.CompositeMapper = {
@@ -654,34 +1725,140 @@ export const TrackedResource: coreClient.CompositeMapper = {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       location: {
         serializedName: "location",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const GitHubOAuthResponse: coreClient.CompositeMapper = {
+export const ProxyResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "GitHubOAuthResponse",
+    className: "ProxyResource",
     modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      username: {
-        serializedName: "properties.username",
+      ...Resource.type.modelProperties,
+    },
+  },
+};
+
+export const IacProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IacProfile",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      etag: {
+        serializedName: "etag",
+        readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+      stages: {
+        serializedName: "properties.stages",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "StageProperties",
+            },
+          },
+        },
+      },
+      templates: {
+        serializedName: "properties.templates",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IacTemplateProperties",
+            },
+          },
+        },
+      },
+      storageAccountSubscription: {
+        serializedName:
+          "properties.terraformProfile.storageAccountSubscription",
+        type: {
+          name: "String",
+        },
+      },
+      storageAccountResourceGroup: {
+        serializedName:
+          "properties.terraformProfile.storageAccountResourceGroup",
+        type: {
+          name: "String",
+        },
+      },
+      storageAccountName: {
+        serializedName: "properties.terraformProfile.storageAccountName",
+        type: {
+          name: "String",
+        },
+      },
+      storageContainerName: {
+        serializedName: "properties.terraformProfile.storageContainerName",
+        type: {
+          name: "String",
+        },
+      },
+      repositoryName: {
+        serializedName: "properties.githubProfile.repositoryName",
+        type: {
+          name: "String",
+        },
+      },
+      repositoryMainBranch: {
+        serializedName: "properties.githubProfile.repositoryMainBranch",
+        type: {
+          name: "String",
+        },
+      },
+      repositoryOwner: {
+        serializedName: "properties.githubProfile.repositoryOwner",
+        type: {
+          name: "String",
+        },
+      },
+      authStatus: {
+        serializedName: "properties.githubProfile.authStatus",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      pullNumber: {
+        serializedName: "properties.githubProfile.pullNumber",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      prStatus: {
+        serializedName: "properties.githubProfile.prStatus",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      branchName: {
+        serializedName: "properties.githubProfile.branchName",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Workflow: coreClient.CompositeMapper = {
@@ -690,189 +1867,81 @@ export const Workflow: coreClient.CompositeMapper = {
     className: "Workflow",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      generationLanguage: {
-        serializedName:
-          "properties.artifactGenerationProperties.generationLanguage",
-        type: {
-          name: "String"
-        }
-      },
-      languageVersion: {
-        serializedName:
-          "properties.artifactGenerationProperties.languageVersion",
-        type: {
-          name: "String"
-        }
-      },
-      builderVersion: {
-        serializedName:
-          "properties.artifactGenerationProperties.builderVersion",
-        type: {
-          name: "String"
-        }
-      },
-      port: {
-        serializedName: "properties.artifactGenerationProperties.port",
-        type: {
-          name: "String"
-        }
-      },
-      appName: {
-        serializedName: "properties.artifactGenerationProperties.appName",
-        type: {
-          name: "String"
-        }
-      },
-      dockerfileOutputDirectory: {
-        serializedName:
-          "properties.artifactGenerationProperties.dockerfileOutputDirectory",
-        type: {
-          name: "String"
-        }
-      },
-      manifestOutputDirectory: {
-        serializedName:
-          "properties.artifactGenerationProperties.manifestOutputDirectory",
-        type: {
-          name: "String"
-        }
-      },
-      dockerfileGenerationMode: {
-        serializedName:
-          "properties.artifactGenerationProperties.dockerfileGenerationMode",
-        type: {
-          name: "String"
-        }
-      },
-      manifestGenerationMode: {
-        serializedName:
-          "properties.artifactGenerationProperties.manifestGenerationMode",
-        type: {
-          name: "String"
-        }
-      },
-      manifestType: {
-        serializedName: "properties.artifactGenerationProperties.manifestType",
-        type: {
-          name: "String"
-        }
-      },
-      imageName: {
-        serializedName: "properties.artifactGenerationProperties.imageName",
-        type: {
-          name: "String"
-        }
-      },
-      namespacePropertiesArtifactGenerationPropertiesNamespace: {
-        serializedName: "properties.artifactGenerationProperties.namespace",
-        type: {
-          name: "String"
-        }
-      },
-      imageTag: {
-        serializedName: "properties.artifactGenerationProperties.imageTag",
-        type: {
-          name: "String"
-        }
-      },
-      repositoryOwner: {
-        serializedName: "properties.githubWorkflowProfile.repositoryOwner",
-        type: {
-          name: "String"
-        }
-      },
-      repositoryName: {
-        serializedName: "properties.githubWorkflowProfile.repositoryName",
-        type: {
-          name: "String"
-        }
-      },
-      branchName: {
-        serializedName: "properties.githubWorkflowProfile.branchName",
-        type: {
-          name: "String"
-        }
-      },
-      dockerfile: {
-        serializedName: "properties.githubWorkflowProfile.dockerfile",
-        type: {
-          name: "String"
-        }
-      },
-      dockerBuildContext: {
-        serializedName: "properties.githubWorkflowProfile.dockerBuildContext",
-        type: {
-          name: "String"
-        }
-      },
-      deploymentProperties: {
-        serializedName: "properties.githubWorkflowProfile.deploymentProperties",
+      properties: {
+        serializedName: "properties",
         type: {
           name: "Composite",
-          className: "DeploymentProperties"
-        }
+          className: "WorkflowProperties",
+        },
       },
-      namespacePropertiesGithubWorkflowProfileNamespace: {
-        serializedName: "properties.githubWorkflowProfile.namespace",
-        type: {
-          name: "String"
-        }
-      },
-      acr: {
-        serializedName: "properties.githubWorkflowProfile.acr",
-        type: {
-          name: "Composite",
-          className: "Acr"
-        }
-      },
-      oidcCredentials: {
-        serializedName: "properties.githubWorkflowProfile.oidcCredentials",
+    },
+  },
+};
+
+export const GitHubOAuthResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GitHubOAuthResponse",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
         type: {
           name: "Composite",
-          className: "GitHubWorkflowProfileOidcCredentials"
-        }
+          className: "GitHubOAuthProperties",
+        },
       },
-      aksResourceId: {
-        serializedName: "properties.githubWorkflowProfile.aksResourceId",
-        type: {
-          name: "String"
-        }
-      },
-      prURL: {
-        serializedName: "properties.githubWorkflowProfile.prURL",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      pullNumber: {
-        serializedName: "properties.githubWorkflowProfile.pullNumber",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      prStatus: {
-        serializedName: "properties.githubWorkflowProfile.prStatus",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      lastWorkflowRun: {
-        serializedName: "properties.githubWorkflowProfile.lastWorkflowRun",
+    },
+  },
+};
+
+export const AdooAuthResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AdooAuthResponse",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
         type: {
           name: "Composite",
-          className: "WorkflowRun"
-        }
+          className: "AdooAuth",
+        },
       },
-      authStatus: {
-        serializedName: "properties.githubWorkflowProfile.authStatus",
-        readOnly: true,
+    },
+  },
+};
+
+export const Template: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Template",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "Composite",
+          className: "TemplateProperties",
+        },
+      },
+    },
+  },
+};
+
+export const VersionedTemplate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VersionedTemplate",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "VersionedTemplateProperties",
+        },
+      },
+    },
+  },
 };

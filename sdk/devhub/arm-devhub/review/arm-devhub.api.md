@@ -20,6 +20,75 @@ export interface Acr {
 export type ActionType = string;
 
 // @public
+export interface AdooAuth {
+    username?: string;
+}
+
+// @public
+export interface AdooAuthCallRequest {
+    redirectUrl?: string;
+}
+
+// @public
+export interface AdooAuthGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AdooAuthGetResponse = AdooAuthResponse;
+
+// @public
+export interface AdooAuthInfoResponse {
+    authURL?: string;
+    token?: string;
+}
+
+// @public
+export interface AdooAuthListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AdooAuthListNextResponse = AdooAuthListResponse;
+
+// @public
+export type AdooAuthListOperationResponse = AdooAuthListResponse;
+
+// @public
+export interface AdooAuthListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface AdooAuthListResponse {
+    readonly nextLink?: string;
+    value?: AdooAuthResponse[];
+}
+
+// @public
+export interface AdooAuthOperations {
+    get(location: string, options?: AdooAuthGetOptionalParams): Promise<AdooAuthGetResponse>;
+    list(location: string, options?: AdooAuthListOptionalParams): PagedAsyncIterableIterator<AdooAuthResponse>;
+}
+
+// @public
+export interface AdooAuthResponse extends ProxyResource {
+    properties?: AdooAuth;
+}
+
+// @public
+export interface ADOProviderProfile {
+    armServiceConnection?: string;
+    repository?: ADORepository;
+}
+
+// @public
+export interface ADORepository {
+    adoOrganization?: string;
+    branchName?: string;
+    projectName?: string;
+    repositoryName?: string;
+    repositoryOwner?: string;
+}
+
+// @public
 export interface ArtifactGenerationProperties {
     appName?: string;
     builderVersion?: string;
@@ -40,6 +109,27 @@ export interface ArtifactGenerationProperties {
 export type AuthorizationStatus = string;
 
 // @public
+export interface AzurePipelineProfile {
+    acr?: string;
+    armServiceConnection?: string;
+    readonly authStatus?: AuthorizationStatus;
+    build?: Build;
+    clusterId?: string;
+    deployment?: Deployment;
+    // (undocumented)
+    lastWorkflowRun?: WorkflowRun;
+    namespace?: string;
+    pullRequest?: PullRequest;
+    repository?: ADORepository;
+}
+
+// @public
+export interface Build {
+    dockerBuildContext?: string;
+    dockerfile?: string;
+}
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -47,8 +137,8 @@ export interface DeleteWorkflowResponse {
     status?: string;
 }
 
-// @public (undocumented)
-export interface DeploymentProperties {
+// @public
+export interface Deployment {
     helmChartPath?: string;
     helmValues?: string;
     // (undocumented)
@@ -65,15 +155,24 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DeveloperHubServiceClientOptionalParams);
     // (undocumented)
+    adooAuthOperations: AdooAuthOperations;
+    // (undocumented)
     apiVersion: string;
     generatePreviewArtifacts(location: string, parameters: ArtifactGenerationProperties, options?: GeneratePreviewArtifactsOptionalParams): Promise<GeneratePreviewArtifactsResponse>;
+    getAdooAuthInfo(location: string, options?: GetAdooAuthInfoOptionalParams): Promise<GetAdooAuthInfoResponse>;
     gitHubOAuth(location: string, options?: GitHubOAuthOptionalParams): Promise<GitHubOAuthOperationResponse>;
     gitHubOAuthCallback(location: string, code: string, state: string, options?: GitHubOAuthCallbackOptionalParams): Promise<GitHubOAuthCallbackResponse>;
+    // (undocumented)
+    iacProfiles: IacProfiles;
     listGitHubOAuth(location: string, options?: ListGitHubOAuthOptionalParams): Promise<ListGitHubOAuthResponse>;
     // (undocumented)
     operations: Operations;
     // (undocumented)
     subscriptionId: string;
+    // (undocumented)
+    templateOperations: TemplateOperations;
+    // (undocumented)
+    versionedTemplateOperations: VersionedTemplateOperations;
     // (undocumented)
     workflowOperations: WorkflowOperations;
 }
@@ -108,6 +207,19 @@ export interface ErrorResponse {
     error?: ErrorDetail;
 }
 
+// @public (undocumented)
+export interface ExportTemplateRequest {
+    // (undocumented)
+    instanceName?: string;
+    // (undocumented)
+    instanceStage?: string;
+    // (undocumented)
+    resourceGroupIds?: string[];
+    // (undocumented)
+    siteId?: string;
+    templateName?: string;
+}
+
 // @public
 export interface GeneratePreviewArtifactsOptionalParams extends coreClient.OperationOptions {
 }
@@ -118,10 +230,25 @@ export type GeneratePreviewArtifactsResponse = {
 };
 
 // @public
+export interface GenerateVersionedTemplateResponse {
+    generatedFiles?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
 export type GenerationLanguage = string;
 
 // @public
 export type GenerationManifestType = string;
+
+// @public
+export interface GetAdooAuthInfoOptionalParams extends coreClient.OperationOptions {
+    parameters?: AdooAuthCallRequest;
+}
+
+// @public
+export type GetAdooAuthInfoResponse = AdooAuthInfoResponse;
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
@@ -158,14 +285,180 @@ export interface GitHubOAuthOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface GitHubOAuthResponse extends ProxyResource {
+export interface GitHubOAuthProperties {
     username?: string;
+}
+
+// @public
+export interface GitHubOAuthResponse extends ProxyResource {
+    properties?: GitHubOAuthProperties;
+}
+
+// @public
+export interface GitHubProviderProfile {
+    oidcCredentials?: OidcCredentials;
+    repository?: GitHubRepository;
+}
+
+// @public
+export interface GitHubRepository {
+    branchName?: string;
+    repositoryName?: string;
+    repositoryOwner?: string;
+}
+
+// @public
+export interface GitHubWorkflowProfile {
+    acr?: Acr;
+    aksResourceId?: string;
+    readonly authStatus?: AuthorizationStatus;
+    branchName?: string;
+    deploymentProperties?: Deployment;
+    dockerBuildContext?: string;
+    dockerfile?: string;
+    // (undocumented)
+    lastWorkflowRun?: WorkflowRun;
+    namespace?: string;
+    oidcCredentials?: GitHubWorkflowProfileOidcCredentials;
+    readonly prStatus?: PullRequestStatus;
+    readonly prURL?: string;
+    readonly pullNumber?: number;
+    repositoryName?: string;
+    repositoryOwner?: string;
 }
 
 // @public
 export interface GitHubWorkflowProfileOidcCredentials {
     azureClientId?: string;
     azureTenantId?: string;
+}
+
+// @public
+export interface IacProfile extends TrackedResource {
+    readonly authStatus?: AuthorizationStatus;
+    branchName?: string;
+    readonly etag?: string;
+    readonly prStatus?: PullRequestStatus;
+    readonly pullNumber?: number;
+    repositoryMainBranch?: string;
+    repositoryName?: string;
+    repositoryOwner?: string;
+    // (undocumented)
+    stages?: StageProperties[];
+    storageAccountName?: string;
+    storageAccountResourceGroup?: string;
+    storageAccountSubscription?: string;
+    storageContainerName?: string;
+    // (undocumented)
+    templates?: IacTemplateProperties[];
+}
+
+// @public (undocumented)
+export interface IacProfileListResult {
+    readonly nextLink?: string;
+    value?: IacProfile[];
+}
+
+// @public
+export interface IacProfiles {
+    createOrUpdate(resourceGroupName: string, iacProfileName: string, parameters: IacProfile, options?: IacProfilesCreateOrUpdateOptionalParams): Promise<IacProfilesCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, iacProfileName: string, options?: IacProfilesDeleteOptionalParams): Promise<void>;
+    export(resourceGroupName: string, iacProfileName: string, parameters: ExportTemplateRequest, options?: IacProfilesExportOptionalParams): Promise<IacProfilesExportResponse>;
+    get(resourceGroupName: string, iacProfileName: string, options?: IacProfilesGetOptionalParams): Promise<IacProfilesGetResponse>;
+    list(options?: IacProfilesListOptionalParams): PagedAsyncIterableIterator<IacProfile>;
+    listByResourceGroup(resourceGroupName: string, options?: IacProfilesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<IacProfile>;
+    scale(resourceGroupName: string, iacProfileName: string, parameters: ScaleTemplateRequest, options?: IacProfilesScaleOptionalParams): Promise<IacProfilesScaleResponse>;
+    sync(resourceGroupName: string, iacProfileName: string, options?: IacProfilesSyncOptionalParams): Promise<void>;
+    updateTags(resourceGroupName: string, iacProfileName: string, parameters: TagsObject, options?: IacProfilesUpdateTagsOptionalParams): Promise<IacProfilesUpdateTagsResponse>;
+}
+
+// @public
+export interface IacProfilesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IacProfilesCreateOrUpdateResponse = IacProfile;
+
+// @public
+export interface IacProfilesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface IacProfilesExportOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IacProfilesExportResponse = PrLinkResponse;
+
+// @public
+export interface IacProfilesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IacProfilesGetResponse = IacProfile;
+
+// @public
+export interface IacProfilesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IacProfilesListByResourceGroupNextResponse = IacProfileListResult;
+
+// @public
+export interface IacProfilesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IacProfilesListByResourceGroupResponse = IacProfileListResult;
+
+// @public
+export interface IacProfilesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IacProfilesListNextResponse = IacProfileListResult;
+
+// @public
+export interface IacProfilesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IacProfilesListResponse = IacProfileListResult;
+
+// @public
+export interface IacProfilesScaleOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IacProfilesScaleResponse = PrLinkResponse;
+
+// @public
+export interface IacProfilesSyncOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface IacProfilesUpdateTagsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IacProfilesUpdateTagsResponse = IacProfile;
+
+// @public (undocumented)
+export interface IacTemplateDetails {
+    count?: number;
+    namingConvention?: string;
+    productName?: string;
+}
+
+// @public
+export interface IacTemplateProperties {
+    instanceName?: string;
+    instanceStage?: string;
+    readonly quickStartTemplateType?: QuickStartTemplateType;
+    sourceResourceId?: string;
+    // (undocumented)
+    templateDetails?: IacTemplateDetails[];
+    templateName?: string;
 }
 
 // @public
@@ -237,11 +530,81 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownParameterKind {
+    AzureContainerRegistry = "azureContainerRegistry",
+    AzureKeyvaultUri = "azureKeyvaultUri",
+    AzureManagedCluster = "azureManagedCluster",
+    AzureResourceGroup = "azureResourceGroup",
+    AzureServiceConnection = "azureServiceConnection",
+    ClusterResourceType = "clusterResourceType",
+    ContainerImageName = "containerImageName",
+    ContainerImageVersion = "containerImageVersion",
+    DirPath = "dirPath",
+    DockerFileName = "dockerFileName",
+    EnvVarMap = "envVarMap",
+    FilePath = "filePath",
+    Flag = "flag",
+    HelmChartOverrides = "helmChartOverrides",
+    ImagePullPolicy = "imagePullPolicy",
+    IngressHostName = "ingressHostName",
+    KubernetesNamespace = "kubernetesNamespace",
+    KubernetesProbeDelay = "kubernetesProbeDelay",
+    KubernetesProbeHttpPath = "kubernetesProbeHttpPath",
+    KubernetesProbePeriod = "kubernetesProbePeriod",
+    KubernetesProbeThreshold = "kubernetesProbeThreshold",
+    KubernetesProbeTimeout = "kubernetesProbeTimeout",
+    KubernetesProbeType = "kubernetesProbeType",
+    KubernetesResourceLimit = "kubernetesResourceLimit",
+    KubernetesResourceName = "kubernetesResourceName",
+    KubernetesResourceRequest = "kubernetesResourceRequest",
+    Label = "label",
+    Port = "port",
+    ReplicaCount = "replicaCount",
+    RepositoryBranch = "repositoryBranch",
+    ResourceLimit = "resourceLimit",
+    ScalingResourceType = "scalingResourceType",
+    ScalingResourceUtilization = "scalingResourceUtilization",
+    WorkflowAuthType = "workflowAuthType",
+    WorkflowName = "workflowName"
+}
+
+// @public
+export enum KnownParameterType {
+    Bool = "bool",
+    Float = "float",
+    Int = "int",
+    Object = "object",
+    String = "string"
+}
+
+// @public
 export enum KnownPullRequestStatus {
     Merged = "merged",
     Removed = "removed",
     Submitted = "submitted",
     Unknown = "unknown"
+}
+
+// @public
+export enum KnownQuickStartTemplateType {
+    HCI = "HCI",
+    Hciaks = "HCIAKS",
+    Hciarcvm = "HCIARCVM",
+    None = "None"
+}
+
+// @public
+export enum KnownRepositoryProviderType {
+    Ado = "ado",
+    Github = "github"
+}
+
+// @public
+export enum KnownTemplateType {
+    Deployment = "deployment",
+    Dockerfile = "dockerfile",
+    Manifest = "manifest",
+    Workflow = "workflow"
 }
 
 // @public
@@ -263,6 +626,12 @@ export type ManifestGenerationMode = string;
 
 // @public
 export type ManifestType = string;
+
+// @public
+export interface OidcCredentials {
+    azureClientId?: string;
+    azureTenantId?: string;
+}
 
 // @public
 export interface Operation {
@@ -303,11 +672,51 @@ export type OperationsListResponse = OperationListResult;
 export type Origin = string;
 
 // @public
+export interface Parameter {
+    default?: ParameterDefault;
+    description?: string;
+    name?: string;
+    readonly parameterKind?: ParameterKind;
+    readonly parameterType?: ParameterType;
+    required?: boolean;
+}
+
+// @public
+export interface ParameterDefault {
+    referenceParameter?: string;
+    value?: string;
+}
+
+// @public
+export type ParameterKind = string;
+
+// @public
+export type ParameterType = string;
+
+// @public (undocumented)
+export interface PrLinkResponse {
+    prLink?: string;
+}
+
+// @public
 export interface ProxyResource extends Resource {
 }
 
 // @public
+export interface PullRequest {
+    readonly prStatus?: PullRequestStatus;
+    readonly prURL?: string;
+    readonly pullNumber?: number;
+}
+
+// @public
 export type PullRequestStatus = string;
+
+// @public
+export type QuickStartTemplateType = string;
+
+// @public
+export type RepositoryProviderType = string;
 
 // @public
 export interface Resource {
@@ -315,6 +724,29 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public (undocumented)
+export interface ScaleProperty {
+    numberOfStore?: number;
+    region?: string;
+    stage?: string;
+}
+
+// @public (undocumented)
+export interface ScaleTemplateRequest {
+    // (undocumented)
+    scaleRequirement?: ScaleProperty[];
+    templateName?: string;
+}
+
+// @public
+export interface StageProperties {
+    // (undocumented)
+    dependencies?: string[];
+    // (undocumented)
+    gitEnvironment?: string;
+    stageName?: string;
 }
 
 // @public
@@ -335,6 +767,81 @@ export interface TagsObject {
 }
 
 // @public
+export interface Template extends ProxyResource {
+    properties?: TemplateProperties;
+}
+
+// @public
+export interface TemplateGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TemplateGetResponse = Template;
+
+// @public
+export interface TemplateListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TemplateListNextResponse = TemplateListResult;
+
+// @public
+export interface TemplateListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TemplateListResponse = TemplateListResult;
+
+// @public (undocumented)
+export interface TemplateListResult {
+    readonly nextLink?: string;
+    value?: Template[];
+}
+
+// @public
+export interface TemplateOperations {
+    get(templateName: string, options?: TemplateGetOptionalParams): Promise<TemplateGetResponse>;
+    list(options?: TemplateListOptionalParams): PagedAsyncIterableIterator<Template>;
+}
+
+// @public
+export interface TemplateProperties {
+    defaultVersion?: string;
+    description?: string;
+    templateName?: string;
+    readonly templateType?: TemplateType;
+    versions?: string[];
+}
+
+// @public
+export interface TemplateReference {
+    destination?: string;
+    parameters?: {
+        [propertyName: string]: string;
+    };
+    templateId?: string;
+}
+
+// @public
+export type TemplateType = string;
+
+// @public
+export interface TemplateWorkflowProfile {
+    adoProviderProfile?: ADOProviderProfile;
+    readonly authStatus?: AuthorizationStatus;
+    deploymentTemplate?: TemplateReference;
+    dockerfileTemplate?: TemplateReference;
+    gitHubProviderProfile?: GitHubProviderProfile;
+    // (undocumented)
+    lastWorkflowRun?: WorkflowRun;
+    // (undocumented)
+    manifestTemplates?: TemplateReference[];
+    pullRequest?: PullRequest;
+    repositoryProvider?: RepositoryProviderType;
+    workflowTemplate?: TemplateReference;
+}
+
+// @public
 export interface TrackedResource extends Resource {
     location: string;
     tags?: {
@@ -343,37 +850,63 @@ export interface TrackedResource extends Resource {
 }
 
 // @public
+export interface VersionedTemplate extends ProxyResource {
+    properties?: VersionedTemplateProperties;
+}
+
+// @public
+export interface VersionedTemplateGenerateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VersionedTemplateGenerateResponse = GenerateVersionedTemplateResponse;
+
+// @public
+export interface VersionedTemplateGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VersionedTemplateGetResponse = VersionedTemplate;
+
+// @public
+export interface VersionedTemplateListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VersionedTemplateListNextResponse = VersionedTemplateListResult;
+
+// @public
+export interface VersionedTemplateListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VersionedTemplateListResponse = VersionedTemplateListResult;
+
+// @public (undocumented)
+export interface VersionedTemplateListResult {
+    readonly nextLink?: string;
+    value?: VersionedTemplate[];
+}
+
+// @public
+export interface VersionedTemplateOperations {
+    generate(templateName: string, templateVersion: string, parameters: {
+        [propertyName: string]: string;
+    }, options?: VersionedTemplateGenerateOptionalParams): Promise<VersionedTemplateGenerateResponse>;
+    get(templateName: string, templateVersion: string, options?: VersionedTemplateGetOptionalParams): Promise<VersionedTemplateGetResponse>;
+    list(templateName: string, options?: VersionedTemplateListOptionalParams): PagedAsyncIterableIterator<VersionedTemplate>;
+}
+
+// @public
+export interface VersionedTemplateProperties {
+    parameters?: Parameter[];
+    readonly templateType?: TemplateType;
+    version?: string;
+}
+
+// @public
 export interface Workflow extends TrackedResource {
-    acr?: Acr;
-    aksResourceId?: string;
-    appName?: string;
-    readonly authStatus?: AuthorizationStatus;
-    branchName?: string;
-    builderVersion?: string;
-    // (undocumented)
-    deploymentProperties?: DeploymentProperties;
-    dockerBuildContext?: string;
-    dockerfile?: string;
-    dockerfileGenerationMode?: DockerfileGenerationMode;
-    dockerfileOutputDirectory?: string;
-    generationLanguage?: GenerationLanguage;
-    imageName?: string;
-    imageTag?: string;
-    languageVersion?: string;
-    // (undocumented)
-    lastWorkflowRun?: WorkflowRun;
-    manifestGenerationMode?: ManifestGenerationMode;
-    manifestOutputDirectory?: string;
-    manifestType?: GenerationManifestType;
-    namespacePropertiesArtifactGenerationPropertiesNamespace?: string;
-    namespacePropertiesGithubWorkflowProfileNamespace?: string;
-    oidcCredentials?: GitHubWorkflowProfileOidcCredentials;
-    port?: string;
-    readonly prStatus?: PullRequestStatus;
-    readonly prURL?: string;
-    readonly pullNumber?: number;
-    repositoryName?: string;
-    repositoryOwner?: string;
+    properties?: WorkflowProperties;
 }
 
 // @public
@@ -442,11 +975,19 @@ export interface WorkflowOperations {
     updateTags(resourceGroupName: string, workflowName: string, parameters: TagsObject, options?: WorkflowUpdateTagsOptionalParams): Promise<WorkflowUpdateTagsResponse>;
 }
 
+// @public
+export interface WorkflowProperties {
+    artifactGenerationProperties?: ArtifactGenerationProperties;
+    azurePipelineProfile?: AzurePipelineProfile;
+    githubWorkflowProfile?: GitHubWorkflowProfile;
+    templateWorkflowProfile?: TemplateWorkflowProfile;
+}
+
 // @public (undocumented)
 export interface WorkflowRun {
     readonly lastRunAt?: Date;
     readonly succeeded?: boolean;
-    workflowRunStatus?: WorkflowRunStatus;
+    readonly workflowRunStatus?: WorkflowRunStatus;
     readonly workflowRunURL?: string;
 }
 
