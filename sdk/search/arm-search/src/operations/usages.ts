@@ -35,7 +35,7 @@ export class UsagesImpl implements Usages {
   }
 
   /**
-   * Get a list of all Azure AI Search quota usages across the subscription.
+   * Gets a list of all Search quota usages in the given subscription.
    * @param location The unique location name for a Microsoft Azure geographic region.
    * @param options The options parameters.
    */
@@ -100,7 +100,7 @@ export class UsagesImpl implements Usages {
   }
 
   /**
-   * Get a list of all Azure AI Search quota usages across the subscription.
+   * Gets a list of all Search quota usages in the given subscription.
    * @param location The unique location name for a Microsoft Azure geographic region.
    * @param options The options parameters.
    */

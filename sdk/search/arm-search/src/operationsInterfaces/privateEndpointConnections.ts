@@ -35,13 +35,13 @@ export interface PrivateEndpointConnections {
     options?: PrivateEndpointConnectionsListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
-   * Updates a private endpoint connection to the search service in the given resource group.
+   * Updates a Private Endpoint connection to the search service in the given resource group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
    * @param searchServiceName The name of the Azure AI Search service associated with the specified
    *                          resource group.
-   * @param privateEndpointConnectionName The name of the private endpoint connection to the Azure AI
-   *                                      Search service with the specified resource group.
+   * @param privateEndpointConnectionName The name of the private endpoint connection to the search
+   *                                      service with the specified resource group.
    * @param privateEndpointConnection The definition of the private endpoint connection to update.
    * @param options The options parameters.
    */
@@ -59,8 +59,8 @@ export interface PrivateEndpointConnections {
    *                          obtain this value from the Azure Resource Manager API or the portal.
    * @param searchServiceName The name of the Azure AI Search service associated with the specified
    *                          resource group.
-   * @param privateEndpointConnectionName The name of the private endpoint connection to the Azure AI
-   *                                      Search service with the specified resource group.
+   * @param privateEndpointConnectionName The name of the private endpoint connection to the search
+   *                                      service with the specified resource group.
    * @param options The options parameters.
    */
   get(
@@ -75,8 +75,8 @@ export interface PrivateEndpointConnections {
    *                          obtain this value from the Azure Resource Manager API or the portal.
    * @param searchServiceName The name of the Azure AI Search service associated with the specified
    *                          resource group.
-   * @param privateEndpointConnectionName The name of the private endpoint connection to the Azure AI
-   *                                      Search service with the specified resource group.
+   * @param privateEndpointConnectionName The name of the private endpoint connection to the search
+   *                                      service with the specified resource group.
    * @param options The options parameters.
    */
   delete(
