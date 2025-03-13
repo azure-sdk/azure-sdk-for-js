@@ -15,6 +15,7 @@ import {
   Fleet as FleetMapper,
   FleetPatch as FleetPatchMapper,
   AutoUpgradeProfile as AutoUpgradeProfileMapper,
+  GateUpdate as GateUpdateMapper,
   FleetMember as FleetMemberMapper,
   FleetMemberUpdate as FleetMemberUpdateMapper,
   UpdateRun as UpdateRunMapper,
@@ -49,7 +50,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-05-02-preview",
+    defaultValue: "2025-04-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -178,6 +179,29 @@ export const resource1: OperationParameter = {
   mapper: AutoUpgradeProfileMapper,
 };
 
+export const gateName: OperationURLParameter = {
+  parameterPath: "gateName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^[0-9a-f]{8}[-][0-9a-f]{4}[-][0-9a-f]{4}[-][0-9a-f]{4}[-][0-9a-f]{12}$",
+      ),
+      MaxLength: 36,
+      MinLength: 36,
+    },
+    serializedName: "gateName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const properties1: OperationParameter = {
+  parameterPath: "properties",
+  mapper: GateUpdateMapper,
+};
+
 export const fleetMemberName: OperationURLParameter = {
   parameterPath: "fleetMemberName",
   mapper: {
@@ -199,7 +223,7 @@ export const resource2: OperationParameter = {
   mapper: FleetMemberMapper,
 };
 
-export const properties1: OperationParameter = {
+export const properties2: OperationParameter = {
   parameterPath: "properties",
   mapper: FleetMemberUpdateMapper,
 };
