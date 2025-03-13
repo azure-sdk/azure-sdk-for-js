@@ -19,7 +19,7 @@ import {
 /** Interface representing a QueryKeys. */
 export interface QueryKeys {
   /**
-   * Returns the list of query API keys for the given Azure AI Search service.
+   * Returns the list of query API keys for the given search service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
    * @param searchServiceName The name of the Azure AI Search service associated with the specified

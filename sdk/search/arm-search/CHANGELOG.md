@@ -1,15 +1,37 @@
 # Release History
-
-## 4.0.0-beta.2 (Unreleased)
-
+    
+## 3.3.0 (2025-03-13)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation Services.beginUpgrade
+  - Added operation Services.beginUpgradeAndWait
+  - Added Interface OperationAvailability
+  - Added Interface OperationLogsSpecification
+  - Added Interface OperationMetricDimension
+  - Added Interface OperationMetricsSpecification
+  - Added Interface OperationProperties
+  - Added Interface OperationServiceSpecification
+  - Added Interface ServicesUpgradeHeaders
+  - Added Interface ServicesUpgradeOptionalParams
+  - Added Interface SystemData
+  - Added Type Alias ComputeType
+  - Added Type Alias CreatedByType
+  - Added Type Alias ServicesUpgradeResponse
+  - Interface Operation has a new optional parameter isDataAction
+  - Interface Operation has a new optional parameter origin
+  - Interface Operation has a new optional parameter properties
+  - Interface SearchService has a new optional parameter computeType
+  - Interface SearchService has a new optional parameter serviceUpgradeDate
+  - Interface SearchService has a new optional parameter systemData
+  - Interface SearchService has a new optional parameter upgradeAvailable
+  - Interface SearchServiceUpdate has a new optional parameter computeType
+  - Interface SearchServiceUpdate has a new optional parameter serviceUpgradeDate
+  - Interface SearchServiceUpdate has a new optional parameter upgradeAvailable
+  - Added Enum KnownComputeType
+  - Added Enum KnownCreatedByType
+    
+    
 ## 4.0.0-beta.1 (2024-07-25)
 Compared with version 3.2.0
     
