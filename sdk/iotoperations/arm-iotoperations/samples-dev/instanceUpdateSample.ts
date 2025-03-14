@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a InstanceResource
  *
  * @summary update a InstanceResource
- * x-ms-original-file: 2024-11-01/Instance_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-04-01/Instance_Update_MaximumSet_Gen.json
  */
 async function instanceUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
