@@ -11,11 +11,13 @@ import {
   FabricCapacitiesListBySubscriptionOptionalParams,
   FabricCapacitiesListSkusForCapacityOptionalParams,
   FabricCapacitiesListSkusOptionalParams,
+  FabricCapacitiesListUsagesOptionalParams,
   FabricCapacitiesResumeOptionalParams,
   FabricCapacitiesSuspendOptionalParams,
   FabricCapacitiesUpdateOptionalParams,
 } from "../index.js";
 import {
+  errorResponseDeserializer,
   FabricCapacity,
   fabricCapacitySerializer,
   fabricCapacityDeserializer,
@@ -33,12 +35,16 @@ import {
   _RpSkuEnumerationForNewResourceResult,
   _rpSkuEnumerationForNewResourceResultDeserializer,
   RpSkuDetailsForNewResource,
+  _PagedQuota,
+  _pagedQuotaDeserializer,
+  Quota,
 } from "../../models/models.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -47,496 +53,152 @@ import {
 } from "@azure-rest/core-client";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
-export function _fabricCapacitiesGetSend(
+export function _listUsagesSend(
   context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  capacityName: string,
-  options: FabricCapacitiesGetOptionalParams = { requestOptions: {} },
+  location: string,
+  options: FabricCapacitiesListUsagesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric/capacities/{capacityName}",
-      subscriptionId,
-      resourceGroupName,
-      capacityName,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _fabricCapacitiesGetDeserialize(
-  result: PathUncheckedResponse,
-): Promise<FabricCapacity> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return fabricCapacityDeserializer(result.body);
-}
-
-/** Get a FabricCapacity */
-export async function fabricCapacitiesGet(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  capacityName: string,
-  options: FabricCapacitiesGetOptionalParams = { requestOptions: {} },
-): Promise<FabricCapacity> {
-  const result = await _fabricCapacitiesGetSend(
-    context,
-    subscriptionId,
-    resourceGroupName,
-    capacityName,
-    options,
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Fabric/locations/{location}/usages{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      location: location,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
   );
-  return _fabricCapacitiesGetDeserialize(result);
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export function _fabricCapacitiesCreateOrUpdateSend(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  capacityName: string,
-  resource: FabricCapacity,
-  options: FabricCapacitiesCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric/capacities/{capacityName}",
-      subscriptionId,
-      resourceGroupName,
-      capacityName,
-    )
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      body: fabricCapacitySerializer(resource),
-    });
-}
-
-export async function _fabricCapacitiesCreateOrUpdateDeserialize(
-  result: PathUncheckedResponse,
-): Promise<FabricCapacity> {
-  const expectedStatuses = ["200", "201"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return fabricCapacityDeserializer(result.body);
-}
-
-/** Create a FabricCapacity */
-export function fabricCapacitiesCreateOrUpdate(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  capacityName: string,
-  resource: FabricCapacity,
-  options: FabricCapacitiesCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
-): PollerLike<OperationState<FabricCapacity>, FabricCapacity> {
-  return getLongRunningPoller(context, _fabricCapacitiesCreateOrUpdateDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _fabricCapacitiesCreateOrUpdateSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        capacityName,
-        resource,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<FabricCapacity>, FabricCapacity>;
-}
-
-export function _fabricCapacitiesUpdateSend(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  capacityName: string,
-  properties: FabricCapacityUpdate,
-  options: FabricCapacitiesUpdateOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric/capacities/{capacityName}",
-      subscriptionId,
-      resourceGroupName,
-      capacityName,
-    )
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      body: fabricCapacityUpdateSerializer(properties),
-    });
-}
-
-export async function _fabricCapacitiesUpdateDeserialize(
-  result: PathUncheckedResponse,
-): Promise<FabricCapacity> {
-  const expectedStatuses = ["200", "202"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return fabricCapacityDeserializer(result.body);
-}
-
-/** Update a FabricCapacity */
-export function fabricCapacitiesUpdate(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  capacityName: string,
-  properties: FabricCapacityUpdate,
-  options: FabricCapacitiesUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<FabricCapacity>, FabricCapacity> {
-  return getLongRunningPoller(context, _fabricCapacitiesUpdateDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _fabricCapacitiesUpdateSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        capacityName,
-        properties,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<FabricCapacity>, FabricCapacity>;
-}
-
-export function _fabricCapacitiesDeleteSend(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  capacityName: string,
-  options: FabricCapacitiesDeleteOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric/capacities/{capacityName}",
-      subscriptionId,
-      resourceGroupName,
-      capacityName,
-    )
-    .delete({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _fabricCapacitiesDeleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
-  const expectedStatuses = ["202", "204", "200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return;
-}
-
-/** Delete a FabricCapacity */
-export function fabricCapacitiesDelete(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  capacityName: string,
-  options: FabricCapacitiesDeleteOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _fabricCapacitiesDeleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _fabricCapacitiesDeleteSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        capacityName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
-}
-
-export function _fabricCapacitiesListByResourceGroupSend(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  options: FabricCapacitiesListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric/capacities",
-      subscriptionId,
-      resourceGroupName,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _fabricCapacitiesListByResourceGroupDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_FabricCapacityListResult> {
+export async function _listUsagesDeserialize(result: PathUncheckedResponse): Promise<_PagedQuota> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
-  return _fabricCapacityListResultDeserializer(result.body);
+  return _pagedQuotaDeserializer(result.body);
 }
 
-/** List FabricCapacity resources by resource group */
-export function fabricCapacitiesListByResourceGroup(
+/** List the current consumption and limit in this location for the provided subscription */
+export function listUsages(
   context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  options: FabricCapacitiesListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
-): PagedAsyncIterableIterator<FabricCapacity> {
+  location: string,
+  options: FabricCapacitiesListUsagesOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<Quota> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _fabricCapacitiesListByResourceGroupSend(context, subscriptionId, resourceGroupName, options),
-    _fabricCapacitiesListByResourceGroupDeserialize,
+    () => _listUsagesSend(context, location, options),
+    _listUsagesDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _fabricCapacitiesListBySubscriptionSend(
+export function _listSkusSend(
   context: Client,
-  subscriptionId: string,
-  options: FabricCapacitiesListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: FabricCapacitiesListSkusOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path("/subscriptions/{subscriptionId}/providers/Microsoft.Fabric/capacities", subscriptionId)
-    .get({ ...operationOptionsToRequestParameters(options) });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Fabric/skus{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _fabricCapacitiesListBySubscriptionDeserialize(
+export async function _listSkusDeserialize(
   result: PathUncheckedResponse,
-): Promise<_FabricCapacityListResult> {
+): Promise<_RpSkuEnumerationForNewResourceResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
-  return _fabricCapacityListResultDeserializer(result.body);
+  return _rpSkuEnumerationForNewResourceResultDeserializer(result.body);
 }
 
-/** List FabricCapacity resources by subscription ID */
-export function fabricCapacitiesListBySubscription(
+/** List eligible SKUs for Microsoft Fabric resource provider */
+export function listSkus(
   context: Client,
-  subscriptionId: string,
-  options: FabricCapacitiesListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
-): PagedAsyncIterableIterator<FabricCapacity> {
+  options: FabricCapacitiesListSkusOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<RpSkuDetailsForNewResource> {
   return buildPagedAsyncIterator(
     context,
-    () => _fabricCapacitiesListBySubscriptionSend(context, subscriptionId, options),
-    _fabricCapacitiesListBySubscriptionDeserialize,
+    () => _listSkusSend(context, options),
+    _listSkusDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _fabricCapacitiesResumeSend(
+export function _listSkusForCapacitySend(
   context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  capacityName: string,
-  options: FabricCapacitiesResumeOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric/capacities/{capacityName}/resume",
-      subscriptionId,
-      resourceGroupName,
-      capacityName,
-    )
-    .post({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _fabricCapacitiesResumeDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
-  const expectedStatuses = ["200", "202"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return;
-}
-
-/** Resume operation of the specified Fabric capacity instance. */
-export function fabricCapacitiesResume(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  capacityName: string,
-  options: FabricCapacitiesResumeOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _fabricCapacitiesResumeDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _fabricCapacitiesResumeSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        capacityName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
-}
-
-export function _fabricCapacitiesSuspendSend(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  capacityName: string,
-  options: FabricCapacitiesSuspendOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric/capacities/{capacityName}/suspend",
-      subscriptionId,
-      resourceGroupName,
-      capacityName,
-    )
-    .post({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _fabricCapacitiesSuspendDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
-  const expectedStatuses = ["200", "202"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return;
-}
-
-/** Suspend operation of the specified Fabric capacity instance. */
-export function fabricCapacitiesSuspend(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  capacityName: string,
-  options: FabricCapacitiesSuspendOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _fabricCapacitiesSuspendDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _fabricCapacitiesSuspendSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        capacityName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
-}
-
-export function _fabricCapacitiesCheckNameAvailabilitySend(
-  context: Client,
-  subscriptionId: string,
-  location: string,
-  body: CheckNameAvailabilityRequest,
-  options: FabricCapacitiesCheckNameAvailabilityOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.Fabric/locations/{location}/checkNameAvailability",
-      subscriptionId,
-      location,
-    )
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      body: checkNameAvailabilityRequestSerializer(body),
-    });
-}
-
-export async function _fabricCapacitiesCheckNameAvailabilityDeserialize(
-  result: PathUncheckedResponse,
-): Promise<CheckNameAvailabilityResponse> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return checkNameAvailabilityResponseDeserializer(result.body);
-}
-
-/** Implements local CheckNameAvailability operations */
-export async function fabricCapacitiesCheckNameAvailability(
-  context: Client,
-  subscriptionId: string,
-  location: string,
-  body: CheckNameAvailabilityRequest,
-  options: FabricCapacitiesCheckNameAvailabilityOptionalParams = {
-    requestOptions: {},
-  },
-): Promise<CheckNameAvailabilityResponse> {
-  const result = await _fabricCapacitiesCheckNameAvailabilitySend(
-    context,
-    subscriptionId,
-    location,
-    body,
-    options,
-  );
-  return _fabricCapacitiesCheckNameAvailabilityDeserialize(result);
-}
-
-export function _fabricCapacitiesListSkusForCapacitySend(
-  context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   capacityName: string,
   options: FabricCapacitiesListSkusForCapacityOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric/capacities/{capacityName}/skus",
-      subscriptionId,
-      resourceGroupName,
-      capacityName,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric/capacities/{capacityName}/skus{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      capacityName: capacityName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _fabricCapacitiesListSkusForCapacityDeserialize(
+export async function _listSkusForCapacityDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_RpSkuEnumerationForExistingResourceResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return _rpSkuEnumerationForExistingResourceResultDeserializer(result.body);
 }
 
 /** List eligible SKUs for a Microsoft Fabric resource */
-export function fabricCapacitiesListSkusForCapacity(
+export function listSkusForCapacity(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   capacityName: string,
   options: FabricCapacitiesListSkusForCapacityOptionalParams = {
@@ -545,52 +207,511 @@ export function fabricCapacitiesListSkusForCapacity(
 ): PagedAsyncIterableIterator<RpSkuDetailsForExistingResource> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _fabricCapacitiesListSkusForCapacitySend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        capacityName,
-        options,
-      ),
-    _fabricCapacitiesListSkusForCapacityDeserialize,
+    () => _listSkusForCapacitySend(context, resourceGroupName, capacityName, options),
+    _listSkusForCapacityDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _fabricCapacitiesListSkusSend(
+export function _checkNameAvailabilitySend(
   context: Client,
-  subscriptionId: string,
-  options: FabricCapacitiesListSkusOptionalParams = { requestOptions: {} },
+  location: string,
+  body: CheckNameAvailabilityRequest,
+  options: FabricCapacitiesCheckNameAvailabilityOptionalParams = {
+    requestOptions: {},
+  },
 ): StreamableMethod {
-  return context
-    .path("/subscriptions/{subscriptionId}/providers/Microsoft.Fabric/skus", subscriptionId)
-    .get({ ...operationOptionsToRequestParameters(options) });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Fabric/locations/{location}/checkNameAvailability{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      location: location,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: checkNameAvailabilityRequestSerializer(body),
+  });
 }
 
-export async function _fabricCapacitiesListSkusDeserialize(
+export async function _checkNameAvailabilityDeserialize(
   result: PathUncheckedResponse,
-): Promise<_RpSkuEnumerationForNewResourceResult> {
+): Promise<CheckNameAvailabilityResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
-  return _rpSkuEnumerationForNewResourceResultDeserializer(result.body);
+  return checkNameAvailabilityResponseDeserializer(result.body);
 }
 
-/** List eligible SKUs for Microsoft Fabric resource provider */
-export function fabricCapacitiesListSkus(
+/** Implements local CheckNameAvailability operations */
+export async function checkNameAvailability(
   context: Client,
-  subscriptionId: string,
-  options: FabricCapacitiesListSkusOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<RpSkuDetailsForNewResource> {
+  location: string,
+  body: CheckNameAvailabilityRequest,
+  options: FabricCapacitiesCheckNameAvailabilityOptionalParams = {
+    requestOptions: {},
+  },
+): Promise<CheckNameAvailabilityResponse> {
+  const result = await _checkNameAvailabilitySend(context, location, body, options);
+  return _checkNameAvailabilityDeserialize(result);
+}
+
+export function _suspendSend(
+  context: Client,
+  resourceGroupName: string,
+  capacityName: string,
+  options: FabricCapacitiesSuspendOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric/capacities/{capacityName}/suspend{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      capacityName: capacityName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _suspendDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["202", "200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return;
+}
+
+/** Suspend operation of the specified Fabric capacity instance. */
+export function suspend(
+  context: Client,
+  resourceGroupName: string,
+  capacityName: string,
+  options: FabricCapacitiesSuspendOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _suspendDeserialize, ["202", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _suspendSend(context, resourceGroupName, capacityName, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
+}
+
+export function _resumeSend(
+  context: Client,
+  resourceGroupName: string,
+  capacityName: string,
+  options: FabricCapacitiesResumeOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric/capacities/{capacityName}/resume{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      capacityName: capacityName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _resumeDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["202", "200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return;
+}
+
+/** Resume operation of the specified Fabric capacity instance. */
+export function resume(
+  context: Client,
+  resourceGroupName: string,
+  capacityName: string,
+  options: FabricCapacitiesResumeOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _resumeDeserialize, ["202", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _resumeSend(context, resourceGroupName, capacityName, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
+}
+
+export function _listBySubscriptionSend(
+  context: Client,
+  options: FabricCapacitiesListBySubscriptionOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Fabric/capacities{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _listBySubscriptionDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_FabricCapacityListResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return _fabricCapacityListResultDeserializer(result.body);
+}
+
+/** List FabricCapacity resources by subscription ID */
+export function listBySubscription(
+  context: Client,
+  options: FabricCapacitiesListBySubscriptionOptionalParams = {
+    requestOptions: {},
+  },
+): PagedAsyncIterableIterator<FabricCapacity> {
   return buildPagedAsyncIterator(
     context,
-    () => _fabricCapacitiesListSkusSend(context, subscriptionId, options),
-    _fabricCapacitiesListSkusDeserialize,
+    () => _listBySubscriptionSend(context, options),
+    _listBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
+}
+
+export function _listByResourceGroupSend(
+  context: Client,
+  resourceGroupName: string,
+  options: FabricCapacitiesListByResourceGroupOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric/capacities{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _listByResourceGroupDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_FabricCapacityListResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return _fabricCapacityListResultDeserializer(result.body);
+}
+
+/** List FabricCapacity resources by resource group */
+export function listByResourceGroup(
+  context: Client,
+  resourceGroupName: string,
+  options: FabricCapacitiesListByResourceGroupOptionalParams = {
+    requestOptions: {},
+  },
+): PagedAsyncIterableIterator<FabricCapacity> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listByResourceGroupSend(context, resourceGroupName, options),
+    _listByResourceGroupDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink" },
+  );
+}
+
+export function _$deleteSend(
+  context: Client,
+  resourceGroupName: string,
+  capacityName: string,
+  options: FabricCapacitiesDeleteOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric/capacities/{capacityName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      capacityName: capacityName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["202", "204", "200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return;
+}
+
+/** Delete a FabricCapacity */
+/**
+ *  @fixme delete is a reserved word that cannot be used as an operation name.
+ *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+ *         to the operation to override the generated name.
+ */
+export function $delete(
+  context: Client,
+  resourceGroupName: string,
+  capacityName: string,
+  options: FabricCapacitiesDeleteOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _$deleteSend(context, resourceGroupName, capacityName, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
+}
+
+export function _updateSend(
+  context: Client,
+  resourceGroupName: string,
+  capacityName: string,
+  properties: FabricCapacityUpdate,
+  options: FabricCapacitiesUpdateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric/capacities/{capacityName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      capacityName: capacityName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: fabricCapacityUpdateSerializer(properties),
+  });
+}
+
+export async function _updateDeserialize(result: PathUncheckedResponse): Promise<FabricCapacity> {
+  const expectedStatuses = ["200", "202"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return fabricCapacityDeserializer(result.body);
+}
+
+/** Update a FabricCapacity */
+export function update(
+  context: Client,
+  resourceGroupName: string,
+  capacityName: string,
+  properties: FabricCapacityUpdate,
+  options: FabricCapacitiesUpdateOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<FabricCapacity>, FabricCapacity> {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _updateSend(context, resourceGroupName, capacityName, properties, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<FabricCapacity>, FabricCapacity>;
+}
+
+export function _createOrUpdateSend(
+  context: Client,
+  resourceGroupName: string,
+  capacityName: string,
+  resource: FabricCapacity,
+  options: FabricCapacitiesCreateOrUpdateOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric/capacities/{capacityName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      capacityName: capacityName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: fabricCapacitySerializer(resource),
+  });
+}
+
+export async function _createOrUpdateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<FabricCapacity> {
+  const expectedStatuses = ["200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return fabricCapacityDeserializer(result.body);
+}
+
+/** Create a FabricCapacity */
+export function createOrUpdate(
+  context: Client,
+  resourceGroupName: string,
+  capacityName: string,
+  resource: FabricCapacity,
+  options: FabricCapacitiesCreateOrUpdateOptionalParams = {
+    requestOptions: {},
+  },
+): PollerLike<OperationState<FabricCapacity>, FabricCapacity> {
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _createOrUpdateSend(context, resourceGroupName, capacityName, resource, options),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<FabricCapacity>, FabricCapacity>;
+}
+
+export function _getSend(
+  context: Client,
+  resourceGroupName: string,
+  capacityName: string,
+  options: FabricCapacitiesGetOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric/capacities/{capacityName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      capacityName: capacityName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<FabricCapacity> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return fabricCapacityDeserializer(result.body);
+}
+
+/** Get a FabricCapacity */
+export async function get(
+  context: Client,
+  resourceGroupName: string,
+  capacityName: string,
+  options: FabricCapacitiesGetOptionalParams = { requestOptions: {} },
+): Promise<FabricCapacity> {
+  const result = await _getSend(context, resourceGroupName, capacityName, options);
+  return _getDeserialize(result);
 }
