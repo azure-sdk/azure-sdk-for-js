@@ -66,7 +66,7 @@ export interface OrganizationsOperations {
   ) => Promise<OrganizationResource>;
 }
 
-export function getOrganizations(context: VectorDbContext) {
+function _getOrganizations(context: VectorDbContext) {
   return {
     listBySubscription: (options?: OrganizationsListBySubscriptionOptionalParams) =>
       listBySubscription(context, options),
@@ -99,8 +99,8 @@ export function getOrganizations(context: VectorDbContext) {
   };
 }
 
-export function getOrganizationsOperations(context: VectorDbContext): OrganizationsOperations {
+export function _getOrganizationsOperations(context: VectorDbContext): OrganizationsOperations {
   return {
-    ...getOrganizations(context),
+    ..._getOrganizations(context),
   };
 }
