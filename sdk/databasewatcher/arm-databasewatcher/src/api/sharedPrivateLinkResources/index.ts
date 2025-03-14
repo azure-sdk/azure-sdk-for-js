@@ -21,6 +21,7 @@ import {
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -29,7 +30,7 @@ import {
 } from "@azure-rest/core-client";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
-export function _sharedPrivateLinkResourcesListByWatcherSend(
+export function _listByWatcherSend(
   context: Client,
   resourceGroupName: string,
   watcherName: string,
@@ -37,24 +38,28 @@ export function _sharedPrivateLinkResourcesListByWatcherSend(
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources",
-      context.subscriptionId,
-      resourceGroupName,
-      watcherName,
-    )
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      watcherName: watcherName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _sharedPrivateLinkResourcesListByWatcherDeserialize(
+export async function _listByWatcherDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_SharedPrivateLinkResourceListResult> {
   const expectedStatuses = ["200"];
@@ -68,7 +73,7 @@ export async function _sharedPrivateLinkResourcesListByWatcherDeserialize(
 }
 
 /** List SharedPrivateLinkResource resources by Watcher */
-export function sharedPrivateLinkResourcesListByWatcher(
+export function listByWatcher(
   context: Client,
   resourceGroupName: string,
   watcherName: string,
@@ -78,20 +83,14 @@ export function sharedPrivateLinkResourcesListByWatcher(
 ): PagedAsyncIterableIterator<SharedPrivateLinkResource> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _sharedPrivateLinkResourcesListByWatcherSend(
-        context,
-        resourceGroupName,
-        watcherName,
-        options,
-      ),
-    _sharedPrivateLinkResourcesListByWatcherDeserialize,
+    () => _listByWatcherSend(context, resourceGroupName, watcherName, options),
+    _listByWatcherDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _sharedPrivateLinkResourcesDeleteSend(
+export function _$deleteSend(
   context: Client,
   resourceGroupName: string,
   watcherName: string,
@@ -100,27 +99,29 @@ export function _sharedPrivateLinkResourcesDeleteSend(
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
-      context.subscriptionId,
-      resourceGroupName,
-      watcherName,
-      sharedPrivateLinkResourceName,
-    )
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      watcherName: watcherName,
+      sharedPrivateLinkResourceName: sharedPrivateLinkResourceName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _sharedPrivateLinkResourcesDeleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -132,7 +133,12 @@ export async function _sharedPrivateLinkResourcesDeleteDeserialize(
 }
 
 /** Delete a SharedPrivateLinkResource */
-export function sharedPrivateLinkResourcesDelete(
+/**
+ *  @fixme delete is a reserved word that cannot be used as an operation name.
+ *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+ *         to the operation to override the generated name.
+ */
+export function $delete(
   context: Client,
   resourceGroupName: string,
   watcherName: string,
@@ -141,27 +147,16 @@ export function sharedPrivateLinkResourcesDelete(
     requestOptions: {},
   },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _sharedPrivateLinkResourcesDeleteDeserialize,
-    ["202", "204", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _sharedPrivateLinkResourcesDeleteSend(
-          context,
-          resourceGroupName,
-          watcherName,
-          sharedPrivateLinkResourceName,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _$deleteSend(context, resourceGroupName, watcherName, sharedPrivateLinkResourceName, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
-export function _sharedPrivateLinkResourcesCreateSend(
+export function _createSend(
   context: Client,
   resourceGroupName: string,
   watcherName: string,
@@ -171,27 +166,31 @@ export function _sharedPrivateLinkResourcesCreateSend(
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
-      context.subscriptionId,
-      resourceGroupName,
-      watcherName,
-      sharedPrivateLinkResourceName,
-    )
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-      body: sharedPrivateLinkResourceSerializer(resource),
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      watcherName: watcherName,
+      sharedPrivateLinkResourceName: sharedPrivateLinkResourceName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: sharedPrivateLinkResourceSerializer(resource),
+  });
 }
 
-export async function _sharedPrivateLinkResourcesCreateDeserialize(
+export async function _createDeserialize(
   result: PathUncheckedResponse,
 ): Promise<SharedPrivateLinkResource> {
   const expectedStatuses = ["200", "201"];
@@ -205,7 +204,7 @@ export async function _sharedPrivateLinkResourcesCreateDeserialize(
 }
 
 /** Create a SharedPrivateLinkResource */
-export function sharedPrivateLinkResourcesCreate(
+export function create(
   context: Client,
   resourceGroupName: string,
   watcherName: string,
@@ -215,53 +214,52 @@ export function sharedPrivateLinkResourcesCreate(
     requestOptions: {},
   },
 ): PollerLike<OperationState<SharedPrivateLinkResource>, SharedPrivateLinkResource> {
-  return getLongRunningPoller(
-    context,
-    _sharedPrivateLinkResourcesCreateDeserialize,
-    ["200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _sharedPrivateLinkResourcesCreateSend(
-          context,
-          resourceGroupName,
-          watcherName,
-          sharedPrivateLinkResourceName,
-          resource,
-          options,
-        ),
-      resourceLocationConfig: "azure-async-operation",
-    },
-  ) as PollerLike<OperationState<SharedPrivateLinkResource>, SharedPrivateLinkResource>;
+  return getLongRunningPoller(context, _createDeserialize, ["200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _createSend(
+        context,
+        resourceGroupName,
+        watcherName,
+        sharedPrivateLinkResourceName,
+        resource,
+        options,
+      ),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<SharedPrivateLinkResource>, SharedPrivateLinkResource>;
 }
 
-export function _sharedPrivateLinkResourcesGetSend(
+export function _getSend(
   context: Client,
   resourceGroupName: string,
   watcherName: string,
   sharedPrivateLinkResourceName: string,
   options: SharedPrivateLinkResourcesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
-      context.subscriptionId,
-      resourceGroupName,
-      watcherName,
-      sharedPrivateLinkResourceName,
-    )
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      watcherName: watcherName,
+      sharedPrivateLinkResourceName: sharedPrivateLinkResourceName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _sharedPrivateLinkResourcesGetDeserialize(
+export async function _getDeserialize(
   result: PathUncheckedResponse,
 ): Promise<SharedPrivateLinkResource> {
   const expectedStatuses = ["200"];
@@ -275,19 +273,19 @@ export async function _sharedPrivateLinkResourcesGetDeserialize(
 }
 
 /** Get a SharedPrivateLinkResource */
-export async function sharedPrivateLinkResourcesGet(
+export async function get(
   context: Client,
   resourceGroupName: string,
   watcherName: string,
   sharedPrivateLinkResourceName: string,
   options: SharedPrivateLinkResourcesGetOptionalParams = { requestOptions: {} },
 ): Promise<SharedPrivateLinkResource> {
-  const result = await _sharedPrivateLinkResourcesGetSend(
+  const result = await _getSend(
     context,
     resourceGroupName,
     watcherName,
     sharedPrivateLinkResourceName,
     options,
   );
-  return _sharedPrivateLinkResourcesGetDeserialize(result);
+  return _getDeserialize(result);
 }
