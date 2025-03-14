@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a BrokerResource
  *
  * @summary create a BrokerResource
- * x-ms-original-file: 2024-11-01/Broker_CreateOrUpdate_Complex.json
+ * x-ms-original-file: 2025-04-01/Broker_CreateOrUpdate_Complex.json
  */
 async function brokerCreateOrUpdateComplex(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -41,7 +41,7 @@ async function brokerCreateOrUpdateComplex(): Promise<void> {
  * This sample demonstrates how to create a BrokerResource
  *
  * @summary create a BrokerResource
- * x-ms-original-file: 2024-11-01/Broker_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-04-01/Broker_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function brokerCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -169,7 +169,7 @@ async function brokerCreateOrUpdate(): Promise<void> {
  * This sample demonstrates how to create a BrokerResource
  *
  * @summary create a BrokerResource
- * x-ms-original-file: 2024-11-01/Broker_CreateOrUpdate_Minimal.json
+ * x-ms-original-file: 2025-04-01/Broker_CreateOrUpdate_Minimal.json
  */
 async function brokerCreateOrUpdateMinimal(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -194,7 +194,7 @@ async function brokerCreateOrUpdateMinimal(): Promise<void> {
  * This sample demonstrates how to create a BrokerResource
  *
  * @summary create a BrokerResource
- * x-ms-original-file: 2024-11-01/Broker_CreateOrUpdate_Simple.json
+ * x-ms-original-file: 2025-04-01/Broker_CreateOrUpdate_Simple.json
  */
 async function brokerCreateOrUpdateSimple(): Promise<void> {
   const credential = new DefaultAzureCredential();
