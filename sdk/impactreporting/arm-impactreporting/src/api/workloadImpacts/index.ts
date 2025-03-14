@@ -21,6 +21,7 @@ import {
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -29,28 +30,32 @@ import {
 } from "@azure-rest/core-client";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
-export function _workloadImpactsListBySubscriptionSend(
+export function _listBySubscriptionSend(
   context: Client,
   options: WorkloadImpactsListBySubscriptionOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/workloadImpacts",
-      context.subscriptionId,
-    )
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/workloadImpacts{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _workloadImpactsListBySubscriptionDeserialize(
+export async function _listBySubscriptionDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_WorkloadImpactListResult> {
   const expectedStatuses = ["200"];
@@ -64,7 +69,7 @@ export async function _workloadImpactsListBySubscriptionDeserialize(
 }
 
 /** List WorkloadImpact resources by subscription ID */
-export function workloadImpactsListBySubscription(
+export function listBySubscription(
   context: Client,
   options: WorkloadImpactsListBySubscriptionOptionalParams = {
     requestOptions: {},
@@ -72,37 +77,39 @@ export function workloadImpactsListBySubscription(
 ): PagedAsyncIterableIterator<WorkloadImpact> {
   return buildPagedAsyncIterator(
     context,
-    () => _workloadImpactsListBySubscriptionSend(context, options),
-    _workloadImpactsListBySubscriptionDeserialize,
+    () => _listBySubscriptionSend(context, options),
+    _listBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _workloadImpactsDeleteSend(
+export function _$deleteSend(
   context: Client,
   workloadImpactName: string,
   options: WorkloadImpactsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/workloadImpacts/{workloadImpactName}",
-      context.subscriptionId,
-      workloadImpactName,
-    )
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/workloadImpacts/{workloadImpactName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      workloadImpactName: workloadImpactName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _workloadImpactsDeleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -114,39 +121,46 @@ export async function _workloadImpactsDeleteDeserialize(
 }
 
 /** Delete a WorkloadImpact */
-export async function workloadImpactsDelete(
+/**
+ *  @fixme delete is a reserved word that cannot be used as an operation name.
+ *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+ *         to the operation to override the generated name.
+ */
+export async function $delete(
   context: Client,
   workloadImpactName: string,
   options: WorkloadImpactsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _workloadImpactsDeleteSend(context, workloadImpactName, options);
-  return _workloadImpactsDeleteDeserialize(result);
+  const result = await _$deleteSend(context, workloadImpactName, options);
+  return _$deleteDeserialize(result);
 }
 
-export function _workloadImpactsGetSend(
+export function _getSend(
   context: Client,
   workloadImpactName: string,
   options: WorkloadImpactsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/workloadImpacts/{workloadImpactName}",
-      context.subscriptionId,
-      workloadImpactName,
-    )
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/workloadImpacts/{workloadImpactName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      workloadImpactName: workloadImpactName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _workloadImpactsGetDeserialize(
-  result: PathUncheckedResponse,
-): Promise<WorkloadImpact> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<WorkloadImpact> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -158,42 +172,44 @@ export async function _workloadImpactsGetDeserialize(
 }
 
 /** Get a WorkloadImpact */
-export async function workloadImpactsGet(
+export async function get(
   context: Client,
   workloadImpactName: string,
   options: WorkloadImpactsGetOptionalParams = { requestOptions: {} },
 ): Promise<WorkloadImpact> {
-  const result = await _workloadImpactsGetSend(context, workloadImpactName, options);
-  return _workloadImpactsGetDeserialize(result);
+  const result = await _getSend(context, workloadImpactName, options);
+  return _getDeserialize(result);
 }
 
-export function _workloadImpactsCreateSend(
+export function _createSend(
   context: Client,
   workloadImpactName: string,
   resource: WorkloadImpact,
   options: WorkloadImpactsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/workloadImpacts/{workloadImpactName}",
-      context.subscriptionId,
-      workloadImpactName,
-    )
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-      body: workloadImpactSerializer(resource),
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/workloadImpacts/{workloadImpactName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      workloadImpactName: workloadImpactName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: workloadImpactSerializer(resource),
+  });
 }
 
-export async function _workloadImpactsCreateDeserialize(
-  result: PathUncheckedResponse,
-): Promise<WorkloadImpact> {
+export async function _createDeserialize(result: PathUncheckedResponse): Promise<WorkloadImpact> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -205,17 +221,16 @@ export async function _workloadImpactsCreateDeserialize(
 }
 
 /** Create a WorkloadImpact */
-export function workloadImpactsCreate(
+export function create(
   context: Client,
   workloadImpactName: string,
   resource: WorkloadImpact,
   options: WorkloadImpactsCreateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<WorkloadImpact>, WorkloadImpact> {
-  return getLongRunningPoller(context, _workloadImpactsCreateDeserialize, ["200", "201"], {
+  return getLongRunningPoller(context, _createDeserialize, ["200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _workloadImpactsCreateSend(context, workloadImpactName, resource, options),
+    getInitialResponse: () => _createSend(context, workloadImpactName, resource, options),
     resourceLocationConfig: "azure-async-operation",
   }) as PollerLike<OperationState<WorkloadImpact>, WorkloadImpact>;
 }

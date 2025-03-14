@@ -20,27 +20,3 @@ export {
   WorkloadImpactsCreateOptionalParams,
   OperationsListOptionalParams,
 } from "./options.js";
-export {
-  connectorsListBySubscription,
-  connectorsDelete,
-  connectorsUpdate,
-  connectorsCreateOrUpdate,
-  connectorsGet,
-} from "./connectors/index.js";
-export {
-  impactCategoriesListBySubscription,
-  impactCategoriesGet,
-} from "./impactCategories/index.js";
-export {
-  insightsDelete,
-  insightsCreate,
-  insightsListBySubscription,
-  insightsGet,
-} from "./insights/index.js";
-export { operationsList } from "./operations/index.js";
-export {
-  workloadImpactsListBySubscription,
-  workloadImpactsDelete,
-  workloadImpactsGet,
-  workloadImpactsCreate,
-} from "./workloadImpacts/index.js";

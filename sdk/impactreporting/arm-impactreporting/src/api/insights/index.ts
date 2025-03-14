@@ -20,6 +20,7 @@ import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -27,30 +28,34 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
-export function _insightsDeleteSend(
+export function _$deleteSend(
   context: Client,
   workloadImpactName: string,
   insightName: string,
   options: InsightsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/workloadImpacts/{workloadImpactName}/insights/{insightName}",
-      context.subscriptionId,
-      workloadImpactName,
-      insightName,
-    )
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/workloadImpacts/{workloadImpactName}/insights/{insightName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      workloadImpactName: workloadImpactName,
+      insightName: insightName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _insightsDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -62,43 +67,52 @@ export async function _insightsDeleteDeserialize(result: PathUncheckedResponse):
 }
 
 /** Delete Insight resource, This is Admin only operation */
-export async function insightsDelete(
+/**
+ *  @fixme delete is a reserved word that cannot be used as an operation name.
+ *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+ *         to the operation to override the generated name.
+ */
+export async function $delete(
   context: Client,
   workloadImpactName: string,
   insightName: string,
   options: InsightsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _insightsDeleteSend(context, workloadImpactName, insightName, options);
-  return _insightsDeleteDeserialize(result);
+  const result = await _$deleteSend(context, workloadImpactName, insightName, options);
+  return _$deleteDeserialize(result);
 }
 
-export function _insightsCreateSend(
+export function _createSend(
   context: Client,
   workloadImpactName: string,
   insightName: string,
   resource: Insight,
   options: InsightsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/workloadImpacts/{workloadImpactName}/insights/{insightName}",
-      context.subscriptionId,
-      workloadImpactName,
-      insightName,
-    )
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-      body: insightSerializer(resource),
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/workloadImpacts/{workloadImpactName}/insights/{insightName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      workloadImpactName: workloadImpactName,
+      insightName: insightName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: insightSerializer(resource),
+  });
 }
 
-export async function _insightsCreateDeserialize(result: PathUncheckedResponse): Promise<Insight> {
+export async function _createDeserialize(result: PathUncheckedResponse): Promise<Insight> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -110,45 +124,43 @@ export async function _insightsCreateDeserialize(result: PathUncheckedResponse):
 }
 
 /** Create Insight resource, This is Admin only operation */
-export async function insightsCreate(
+export async function create(
   context: Client,
   workloadImpactName: string,
   insightName: string,
   resource: Insight,
   options: InsightsCreateOptionalParams = { requestOptions: {} },
 ): Promise<Insight> {
-  const result = await _insightsCreateSend(
-    context,
-    workloadImpactName,
-    insightName,
-    resource,
-    options,
-  );
-  return _insightsCreateDeserialize(result);
+  const result = await _createSend(context, workloadImpactName, insightName, resource, options);
+  return _createDeserialize(result);
 }
 
-export function _insightsListBySubscriptionSend(
+export function _listBySubscriptionSend(
   context: Client,
   workloadImpactName: string,
   options: InsightsListBySubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/workloadImpacts/{workloadImpactName}/insights",
-      context.subscriptionId,
-      workloadImpactName,
-    )
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/workloadImpacts/{workloadImpactName}/insights{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      workloadImpactName: workloadImpactName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _insightsListBySubscriptionDeserialize(
+export async function _listBySubscriptionDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_InsightListResult> {
   const expectedStatuses = ["200"];
@@ -162,44 +174,48 @@ export async function _insightsListBySubscriptionDeserialize(
 }
 
 /** List Insight resources by workloadImpactName */
-export function insightsListBySubscription(
+export function listBySubscription(
   context: Client,
   workloadImpactName: string,
   options: InsightsListBySubscriptionOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Insight> {
   return buildPagedAsyncIterator(
     context,
-    () => _insightsListBySubscriptionSend(context, workloadImpactName, options),
-    _insightsListBySubscriptionDeserialize,
+    () => _listBySubscriptionSend(context, workloadImpactName, options),
+    _listBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _insightsGetSend(
+export function _getSend(
   context: Client,
   workloadImpactName: string,
   insightName: string,
   options: InsightsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/workloadImpacts/{workloadImpactName}/insights/{insightName}",
-      context.subscriptionId,
-      workloadImpactName,
-      insightName,
-    )
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/workloadImpacts/{workloadImpactName}/insights/{insightName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      workloadImpactName: workloadImpactName,
+      insightName: insightName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _insightsGetDeserialize(result: PathUncheckedResponse): Promise<Insight> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<Insight> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -211,12 +227,12 @@ export async function _insightsGetDeserialize(result: PathUncheckedResponse): Pr
 }
 
 /** Get Insight resources by workloadImpactName and insightName */
-export async function insightsGet(
+export async function get(
   context: Client,
   workloadImpactName: string,
   insightName: string,
   options: InsightsGetOptionalParams = { requestOptions: {} },
 ): Promise<Insight> {
-  const result = await _insightsGetSend(context, workloadImpactName, insightName, options);
-  return _insightsGetDeserialize(result);
+  const result = await _getSend(context, workloadImpactName, insightName, options);
+  return _getDeserialize(result);
 }

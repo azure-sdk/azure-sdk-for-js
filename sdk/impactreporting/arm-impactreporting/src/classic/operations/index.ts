@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { ImpactContext } from "../../api/impactContext.js";
-import { operationsList } from "../../api/operations/index.js";
+import { list } from "../../api/operations/index.js";
 import { OperationsListOptionalParams } from "../../api/options.js";
 import { Operation } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -15,7 +15,7 @@ export interface OperationsOperations {
 
 function _getOperations(context: ImpactContext) {
   return {
-    list: (options?: OperationsListOptionalParams) => operationsList(context, options),
+    list: (options?: OperationsListOptionalParams) => list(context, options),
   };
 }
 
