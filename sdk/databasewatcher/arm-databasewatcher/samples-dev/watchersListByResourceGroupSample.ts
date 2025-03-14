@@ -5,20 +5,17 @@ import { DatabaseWatcherClient } from "@azure/arm-databasewatcher";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to list AlertRuleResource resources by Watcher
+ * This sample demonstrates how to list Watcher resources by resource group
  *
- * @summary list AlertRuleResource resources by Watcher
- * x-ms-original-file: 2025-01-02/AlertRuleResources_ListByParent_MaximumSet_Gen.json
+ * @summary list Watcher resources by resource group
+ * x-ms-original-file: 2025-01-02/Watchers_ListByResourceGroup_MaximumSet_Gen.json
  */
-async function alertRuleResourcesListByParentMaximumSet(): Promise<void> {
+async function watchersListByResourceGroupMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "A76F9850-996B-40B3-94D4-C98110A0EEC9";
   const client = new DatabaseWatcherClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.alertRuleResources.listByParent(
-    "rgWatcher",
-    "testWatcher",
-  )) {
+  for await (const item of client.watchers.listByResourceGroup("rgWatcher")) {
     resArray.push(item);
   }
 
@@ -26,7 +23,7 @@ async function alertRuleResourcesListByParentMaximumSet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await alertRuleResourcesListByParentMaximumSet();
+  await watchersListByResourceGroupMaximumSet();
 }
 
 main().catch(console.error);
