@@ -334,6 +334,9 @@ importers:
       '@rush-temp/arm-domainservices':
         specifier: file:./projects/arm-domainservices.tgz
         version: file:projects/arm-domainservices.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
+      '@rush-temp/arm-durabletask':
+        specifier: file:./projects/arm-durabletask.tgz
+        version: file:projects/arm-durabletask.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/arm-dynatrace':
         specifier: file:./projects/arm-dynatrace.tgz
         version: file:projects/arm-dynatrace.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
@@ -2809,6 +2812,10 @@ packages:
 
   '@rush-temp/arm-domainservices@file:projects/arm-domainservices.tgz':
     resolution: {integrity: sha512-uUK61Wp1+m0bDCO49iDqlHGvNWmm+x+IaxctJ7C8CgeonDY9Xb/2XPe+IgUdP5MLZM+USins4IUvkm1TVSOU/w==, tarball: file:projects/arm-domainservices.tgz}
+    version: 0.0.0
+
+  '@rush-temp/arm-durabletask@file:projects/arm-durabletask.tgz':
+    resolution: {integrity: sha512-J79OlOK50A6BPD/t7DgV3vZ9OjJjSHHk4bCmkKH6uBSj8f0Anqid4ttRQWaZ2HjGwZwsym27VNbWQjb6XBLLOw==, tarball: file:projects/arm-durabletask.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-dynatrace@file:projects/arm-dynatrace.tgz':
@@ -13287,6 +13294,41 @@ snapshots:
       playwright: 1.51.0
       tslib: 2.8.1
       typescript: 5.7.3
+      vitest: 3.0.7(@types/debug@4.1.12)(@types/node@18.19.80)(@vitest/browser@3.0.7)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(yaml@2.7.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/arm-durabletask@file:projects/arm-durabletask.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
+    dependencies:
+      '@types/node': 18.19.80
+      '@vitest/browser': 3.0.7(@types/node@18.19.80)(playwright@1.51.0)(typescript@5.6.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.7)
+      '@vitest/coverage-istanbul': 3.0.7(vitest@3.0.7)
+      dotenv: 16.4.7
+      eslint: 9.22.0
+      playwright: 1.51.0
+      tslib: 2.8.1
+      typescript: 5.6.3
       vitest: 3.0.7(@types/debug@4.1.12)(@types/node@18.19.80)(@vitest/browser@3.0.7)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -23801,7 +23843,7 @@ snapshots:
 
   '@types/express-serve-static-core@4.19.6':
     dependencies:
-      '@types/node': 18.19.80
+      '@types/node': 22.7.9
       '@types/qs': 6.9.18
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -23816,7 +23858,7 @@ snapshots:
   '@types/fs-extra@11.0.4':
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.80
+      '@types/node': 22.7.9
 
   '@types/fs-extra@8.1.5':
     dependencies:
@@ -23842,7 +23884,7 @@ snapshots:
 
   '@types/jsonfile@6.1.4':
     dependencies:
-      '@types/node': 18.19.80
+      '@types/node': 22.7.9
 
   '@types/jsonwebtoken@9.0.9':
     dependencies:
@@ -23926,7 +23968,7 @@ snapshots:
 
   '@types/readdir-glob@1.1.5':
     dependencies:
-      '@types/node': 18.19.80
+      '@types/node': 22.7.9
 
   '@types/resolve@1.20.2': {}
 
