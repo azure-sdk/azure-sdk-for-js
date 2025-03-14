@@ -100,7 +100,7 @@ export interface ScheduledActionsOperations {
   ) => Promise<DeallocateResourceOperationResponse>;
 }
 
-export function getScheduledActions(context: ComputeScheduleContext) {
+function _getScheduledActions(context: ComputeScheduleContext) {
   return {
     virtualMachinesGetOperationErrors: (
       locationparameter: string,
@@ -150,10 +150,10 @@ export function getScheduledActions(context: ComputeScheduleContext) {
   };
 }
 
-export function getScheduledActionsOperations(
+export function _getScheduledActionsOperations(
   context: ComputeScheduleContext,
 ): ScheduledActionsOperations {
   return {
-    ...getScheduledActions(context),
+    ..._getScheduledActions(context),
   };
 }
