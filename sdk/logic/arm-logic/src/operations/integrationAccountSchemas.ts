@@ -26,13 +26,14 @@ import {
   GetCallbackUrlParameters,
   IntegrationAccountSchemasListContentCallbackUrlOptionalParams,
   IntegrationAccountSchemasListContentCallbackUrlResponse,
-  IntegrationAccountSchemasListNextResponse
+  IntegrationAccountSchemasListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing IntegrationAccountSchemas operations. */
 export class IntegrationAccountSchemasImpl
-  implements IntegrationAccountSchemas {
+  implements IntegrationAccountSchemas
+{
   private readonly client: LogicManagementClient;
 
   /**
@@ -52,12 +53,12 @@ export class IntegrationAccountSchemasImpl
   public list(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountSchemasListOptionalParams
+    options?: IntegrationAccountSchemasListOptionalParams,
   ): PagedAsyncIterableIterator<IntegrationAccountSchema> {
     const iter = this.listPagingAll(
       resourceGroupName,
       integrationAccountName,
-      options
+      options,
     );
     return {
       next() {
@@ -74,9 +75,9 @@ export class IntegrationAccountSchemasImpl
           resourceGroupName,
           integrationAccountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -84,7 +85,7 @@ export class IntegrationAccountSchemasImpl
     resourceGroupName: string,
     integrationAccountName: string,
     options?: IntegrationAccountSchemasListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<IntegrationAccountSchema[]> {
     let result: IntegrationAccountSchemasListResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +93,7 @@ export class IntegrationAccountSchemasImpl
       result = await this._list(
         resourceGroupName,
         integrationAccountName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -104,7 +105,7 @@ export class IntegrationAccountSchemasImpl
         resourceGroupName,
         integrationAccountName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -116,12 +117,12 @@ export class IntegrationAccountSchemasImpl
   private async *listPagingAll(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountSchemasListOptionalParams
+    options?: IntegrationAccountSchemasListOptionalParams,
   ): AsyncIterableIterator<IntegrationAccountSchema> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       integrationAccountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -136,11 +137,11 @@ export class IntegrationAccountSchemasImpl
   private _list(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountSchemasListOptionalParams
+    options?: IntegrationAccountSchemasListOptionalParams,
   ): Promise<IntegrationAccountSchemasListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, integrationAccountName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -155,11 +156,11 @@ export class IntegrationAccountSchemasImpl
     resourceGroupName: string,
     integrationAccountName: string,
     schemaName: string,
-    options?: IntegrationAccountSchemasGetOptionalParams
+    options?: IntegrationAccountSchemasGetOptionalParams,
   ): Promise<IntegrationAccountSchemasGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, integrationAccountName, schemaName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -176,7 +177,7 @@ export class IntegrationAccountSchemasImpl
     integrationAccountName: string,
     schemaName: string,
     schema: IntegrationAccountSchema,
-    options?: IntegrationAccountSchemasCreateOrUpdateOptionalParams
+    options?: IntegrationAccountSchemasCreateOrUpdateOptionalParams,
   ): Promise<IntegrationAccountSchemasCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -184,9 +185,9 @@ export class IntegrationAccountSchemasImpl
         integrationAccountName,
         schemaName,
         schema,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -201,11 +202,11 @@ export class IntegrationAccountSchemasImpl
     resourceGroupName: string,
     integrationAccountName: string,
     schemaName: string,
-    options?: IntegrationAccountSchemasDeleteOptionalParams
+    options?: IntegrationAccountSchemasDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, integrationAccountName, schemaName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -222,7 +223,7 @@ export class IntegrationAccountSchemasImpl
     integrationAccountName: string,
     schemaName: string,
     listContentCallbackUrl: GetCallbackUrlParameters,
-    options?: IntegrationAccountSchemasListContentCallbackUrlOptionalParams
+    options?: IntegrationAccountSchemasListContentCallbackUrlOptionalParams,
   ): Promise<IntegrationAccountSchemasListContentCallbackUrlResponse> {
     return this.client.sendOperationRequest(
       {
@@ -230,9 +231,9 @@ export class IntegrationAccountSchemasImpl
         integrationAccountName,
         schemaName,
         listContentCallbackUrl,
-        options
+        options,
       },
-      listContentCallbackUrlOperationSpec
+      listContentCallbackUrlOperationSpec,
     );
   }
 
@@ -247,11 +248,11 @@ export class IntegrationAccountSchemasImpl
     resourceGroupName: string,
     integrationAccountName: string,
     nextLink: string,
-    options?: IntegrationAccountSchemasListNextOptionalParams
+    options?: IntegrationAccountSchemasListNextOptionalParams,
   ): Promise<IntegrationAccountSchemasListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, integrationAccountName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -259,38 +260,36 @@ export class IntegrationAccountSchemasImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/schemas",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/schemas",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationAccountSchemaListResult
+      bodyMapper: Mappers.IntegrationAccountSchemaListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.integrationAccountName
+    Parameters.integrationAccountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/schemas/{schemaName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/schemas/{schemaName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationAccountSchema
+      bodyMapper: Mappers.IntegrationAccountSchema,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -298,25 +297,24 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
-    Parameters.schemaName
+    Parameters.schemaName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/schemas/{schemaName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/schemas/{schemaName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationAccountSchema
+      bodyMapper: Mappers.IntegrationAccountSchema,
     },
     201: {
-      bodyMapper: Mappers.IntegrationAccountSchema
+      bodyMapper: Mappers.IntegrationAccountSchema,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.schema,
   queryParameters: [Parameters.apiVersion],
@@ -325,22 +323,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
-    Parameters.schemaName
+    Parameters.schemaName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/schemas/{schemaName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/schemas/{schemaName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -348,22 +345,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
-    Parameters.schemaName
+    Parameters.schemaName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listContentCallbackUrlOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/schemas/{schemaName}/listContentCallbackUrl",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/schemas/{schemaName}/listContentCallbackUrl",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowTriggerCallbackUrl
+      bodyMapper: Mappers.WorkflowTriggerCallbackUrl,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.listContentCallbackUrl,
   queryParameters: [Parameters.apiVersion],
@@ -372,30 +368,30 @@ const listContentCallbackUrlOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
-    Parameters.schemaName
+    Parameters.schemaName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationAccountSchemaListResult
+      bodyMapper: Mappers.IntegrationAccountSchemaListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.integrationAccountName
+    Parameters.integrationAccountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

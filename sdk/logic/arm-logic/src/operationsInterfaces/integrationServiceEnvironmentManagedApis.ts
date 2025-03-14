@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   IntegrationServiceEnvironmentManagedApi,
   IntegrationServiceEnvironmentManagedApisListOptionalParams,
@@ -15,7 +15,7 @@ import {
   IntegrationServiceEnvironmentManagedApisGetResponse,
   IntegrationServiceEnvironmentManagedApisPutOptionalParams,
   IntegrationServiceEnvironmentManagedApisPutResponse,
-  IntegrationServiceEnvironmentManagedApisDeleteOptionalParams
+  IntegrationServiceEnvironmentManagedApisDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface IntegrationServiceEnvironmentManagedApis {
   list(
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
-    options?: IntegrationServiceEnvironmentManagedApisListOptionalParams
+    options?: IntegrationServiceEnvironmentManagedApisListOptionalParams,
   ): PagedAsyncIterableIterator<IntegrationServiceEnvironmentManagedApi>;
   /**
    * Gets the integration service environment managed Api.
@@ -43,7 +43,7 @@ export interface IntegrationServiceEnvironmentManagedApis {
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
     apiName: string,
-    options?: IntegrationServiceEnvironmentManagedApisGetOptionalParams
+    options?: IntegrationServiceEnvironmentManagedApisGetOptionalParams,
   ): Promise<IntegrationServiceEnvironmentManagedApisGetResponse>;
   /**
    * Puts the integration service environment managed Api.
@@ -58,10 +58,10 @@ export interface IntegrationServiceEnvironmentManagedApis {
     integrationServiceEnvironmentName: string,
     apiName: string,
     integrationServiceEnvironmentManagedApi: IntegrationServiceEnvironmentManagedApi,
-    options?: IntegrationServiceEnvironmentManagedApisPutOptionalParams
+    options?: IntegrationServiceEnvironmentManagedApisPutOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<IntegrationServiceEnvironmentManagedApisPutResponse>,
+    SimplePollerLike<
+      OperationState<IntegrationServiceEnvironmentManagedApisPutResponse>,
       IntegrationServiceEnvironmentManagedApisPutResponse
     >
   >;
@@ -78,7 +78,7 @@ export interface IntegrationServiceEnvironmentManagedApis {
     integrationServiceEnvironmentName: string,
     apiName: string,
     integrationServiceEnvironmentManagedApi: IntegrationServiceEnvironmentManagedApi,
-    options?: IntegrationServiceEnvironmentManagedApisPutOptionalParams
+    options?: IntegrationServiceEnvironmentManagedApisPutOptionalParams,
   ): Promise<IntegrationServiceEnvironmentManagedApisPutResponse>;
   /**
    * Deletes the integration service environment managed Api.
@@ -91,8 +91,8 @@ export interface IntegrationServiceEnvironmentManagedApis {
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
     apiName: string,
-    options?: IntegrationServiceEnvironmentManagedApisDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: IntegrationServiceEnvironmentManagedApisDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the integration service environment managed Api.
    * @param resourceGroup The resource group.
@@ -104,6 +104,6 @@ export interface IntegrationServiceEnvironmentManagedApis {
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
     apiName: string,
-    options?: IntegrationServiceEnvironmentManagedApisDeleteOptionalParams
+    options?: IntegrationServiceEnvironmentManagedApisDeleteOptionalParams,
   ): Promise<void>;
 }

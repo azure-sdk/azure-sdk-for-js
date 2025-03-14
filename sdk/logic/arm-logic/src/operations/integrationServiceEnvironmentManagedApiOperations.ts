@@ -18,13 +18,14 @@ import {
   IntegrationServiceEnvironmentManagedApiOperationsListNextOptionalParams,
   IntegrationServiceEnvironmentManagedApiOperationsListOptionalParams,
   IntegrationServiceEnvironmentManagedApiOperationsListResponse,
-  IntegrationServiceEnvironmentManagedApiOperationsListNextResponse
+  IntegrationServiceEnvironmentManagedApiOperationsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing IntegrationServiceEnvironmentManagedApiOperations operations. */
 export class IntegrationServiceEnvironmentManagedApiOperationsImpl
-  implements IntegrationServiceEnvironmentManagedApiOperations {
+  implements IntegrationServiceEnvironmentManagedApiOperations
+{
   private readonly client: LogicManagementClient;
 
   /**
@@ -46,13 +47,13 @@ export class IntegrationServiceEnvironmentManagedApiOperationsImpl
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
     apiName: string,
-    options?: IntegrationServiceEnvironmentManagedApiOperationsListOptionalParams
+    options?: IntegrationServiceEnvironmentManagedApiOperationsListOptionalParams,
   ): PagedAsyncIterableIterator<ApiOperation> {
     const iter = this.listPagingAll(
       resourceGroup,
       integrationServiceEnvironmentName,
       apiName,
-      options
+      options,
     );
     return {
       next() {
@@ -70,9 +71,9 @@ export class IntegrationServiceEnvironmentManagedApiOperationsImpl
           integrationServiceEnvironmentName,
           apiName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -81,7 +82,7 @@ export class IntegrationServiceEnvironmentManagedApiOperationsImpl
     integrationServiceEnvironmentName: string,
     apiName: string,
     options?: IntegrationServiceEnvironmentManagedApiOperationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ApiOperation[]> {
     let result: IntegrationServiceEnvironmentManagedApiOperationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -90,7 +91,7 @@ export class IntegrationServiceEnvironmentManagedApiOperationsImpl
         resourceGroup,
         integrationServiceEnvironmentName,
         apiName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -103,7 +104,7 @@ export class IntegrationServiceEnvironmentManagedApiOperationsImpl
         integrationServiceEnvironmentName,
         apiName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -116,13 +117,13 @@ export class IntegrationServiceEnvironmentManagedApiOperationsImpl
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
     apiName: string,
-    options?: IntegrationServiceEnvironmentManagedApiOperationsListOptionalParams
+    options?: IntegrationServiceEnvironmentManagedApiOperationsListOptionalParams,
   ): AsyncIterableIterator<ApiOperation> {
     for await (const page of this.listPagingPage(
       resourceGroup,
       integrationServiceEnvironmentName,
       apiName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -139,11 +140,11 @@ export class IntegrationServiceEnvironmentManagedApiOperationsImpl
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
     apiName: string,
-    options?: IntegrationServiceEnvironmentManagedApiOperationsListOptionalParams
+    options?: IntegrationServiceEnvironmentManagedApiOperationsListOptionalParams,
   ): Promise<IntegrationServiceEnvironmentManagedApiOperationsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroup, integrationServiceEnvironmentName, apiName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -160,19 +161,17 @@ export class IntegrationServiceEnvironmentManagedApiOperationsImpl
     integrationServiceEnvironmentName: string,
     apiName: string,
     nextLink: string,
-    options?: IntegrationServiceEnvironmentManagedApiOperationsListNextOptionalParams
-  ): Promise<
-    IntegrationServiceEnvironmentManagedApiOperationsListNextResponse
-  > {
+    options?: IntegrationServiceEnvironmentManagedApiOperationsListNextOptionalParams,
+  ): Promise<IntegrationServiceEnvironmentManagedApiOperationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroup,
         integrationServiceEnvironmentName,
         apiName,
         nextLink,
-        options
+        options,
       },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -180,16 +179,15 @@ export class IntegrationServiceEnvironmentManagedApiOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}/managedApis/{apiName}/apiOperations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}/managedApis/{apiName}/apiOperations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiOperationListResult
+      bodyMapper: Mappers.ApiOperationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -197,21 +195,21 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroup,
     Parameters.integrationServiceEnvironmentName,
-    Parameters.apiName
+    Parameters.apiName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiOperationListResult
+      bodyMapper: Mappers.ApiOperationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -219,8 +217,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.resourceGroup,
     Parameters.integrationServiceEnvironmentName,
-    Parameters.apiName
+    Parameters.apiName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

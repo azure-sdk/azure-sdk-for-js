@@ -17,7 +17,7 @@ import {
   IntegrationAccountAgreementsDeleteOptionalParams,
   GetCallbackUrlParameters,
   IntegrationAccountAgreementsListContentCallbackUrlOptionalParams,
-  IntegrationAccountAgreementsListContentCallbackUrlResponse
+  IntegrationAccountAgreementsListContentCallbackUrlResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface IntegrationAccountAgreements {
   list(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountAgreementsListOptionalParams
+    options?: IntegrationAccountAgreementsListOptionalParams,
   ): PagedAsyncIterableIterator<IntegrationAccountAgreement>;
   /**
    * Gets an integration account agreement.
@@ -45,7 +45,7 @@ export interface IntegrationAccountAgreements {
     resourceGroupName: string,
     integrationAccountName: string,
     agreementName: string,
-    options?: IntegrationAccountAgreementsGetOptionalParams
+    options?: IntegrationAccountAgreementsGetOptionalParams,
   ): Promise<IntegrationAccountAgreementsGetResponse>;
   /**
    * Creates or updates an integration account agreement.
@@ -60,7 +60,7 @@ export interface IntegrationAccountAgreements {
     integrationAccountName: string,
     agreementName: string,
     agreement: IntegrationAccountAgreement,
-    options?: IntegrationAccountAgreementsCreateOrUpdateOptionalParams
+    options?: IntegrationAccountAgreementsCreateOrUpdateOptionalParams,
   ): Promise<IntegrationAccountAgreementsCreateOrUpdateResponse>;
   /**
    * Deletes an integration account agreement.
@@ -73,7 +73,7 @@ export interface IntegrationAccountAgreements {
     resourceGroupName: string,
     integrationAccountName: string,
     agreementName: string,
-    options?: IntegrationAccountAgreementsDeleteOptionalParams
+    options?: IntegrationAccountAgreementsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get the content callback url.
@@ -88,6 +88,6 @@ export interface IntegrationAccountAgreements {
     integrationAccountName: string,
     agreementName: string,
     listContentCallbackUrl: GetCallbackUrlParameters,
-    options?: IntegrationAccountAgreementsListContentCallbackUrlOptionalParams
+    options?: IntegrationAccountAgreementsListContentCallbackUrlOptionalParams,
   ): Promise<IntegrationAccountAgreementsListContentCallbackUrlResponse>;
 }

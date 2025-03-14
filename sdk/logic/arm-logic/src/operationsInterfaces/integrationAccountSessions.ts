@@ -14,7 +14,7 @@ import {
   IntegrationAccountSessionsGetResponse,
   IntegrationAccountSessionsCreateOrUpdateOptionalParams,
   IntegrationAccountSessionsCreateOrUpdateResponse,
-  IntegrationAccountSessionsDeleteOptionalParams
+  IntegrationAccountSessionsDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface IntegrationAccountSessions {
   list(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountSessionsListOptionalParams
+    options?: IntegrationAccountSessionsListOptionalParams,
   ): PagedAsyncIterableIterator<IntegrationAccountSession>;
   /**
    * Gets an integration account session.
@@ -42,7 +42,7 @@ export interface IntegrationAccountSessions {
     resourceGroupName: string,
     integrationAccountName: string,
     sessionName: string,
-    options?: IntegrationAccountSessionsGetOptionalParams
+    options?: IntegrationAccountSessionsGetOptionalParams,
   ): Promise<IntegrationAccountSessionsGetResponse>;
   /**
    * Creates or updates an integration account session.
@@ -57,7 +57,7 @@ export interface IntegrationAccountSessions {
     integrationAccountName: string,
     sessionName: string,
     session: IntegrationAccountSession,
-    options?: IntegrationAccountSessionsCreateOrUpdateOptionalParams
+    options?: IntegrationAccountSessionsCreateOrUpdateOptionalParams,
   ): Promise<IntegrationAccountSessionsCreateOrUpdateResponse>;
   /**
    * Deletes an integration account session.
@@ -70,6 +70,6 @@ export interface IntegrationAccountSessions {
     resourceGroupName: string,
     integrationAccountName: string,
     sessionName: string,
-    options?: IntegrationAccountSessionsDeleteOptionalParams
+    options?: IntegrationAccountSessionsDeleteOptionalParams,
   ): Promise<void>;
 }

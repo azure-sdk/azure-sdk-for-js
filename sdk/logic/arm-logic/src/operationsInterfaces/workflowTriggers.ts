@@ -19,7 +19,7 @@ import {
   SetTriggerStateActionDefinition,
   WorkflowTriggersSetStateOptionalParams,
   WorkflowTriggersListCallbackUrlOptionalParams,
-  WorkflowTriggersListCallbackUrlResponse
+  WorkflowTriggersListCallbackUrlResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface WorkflowTriggers {
   list(
     resourceGroupName: string,
     workflowName: string,
-    options?: WorkflowTriggersListOptionalParams
+    options?: WorkflowTriggersListOptionalParams,
   ): PagedAsyncIterableIterator<WorkflowTrigger>;
   /**
    * Gets a workflow trigger.
@@ -47,7 +47,7 @@ export interface WorkflowTriggers {
     resourceGroupName: string,
     workflowName: string,
     triggerName: string,
-    options?: WorkflowTriggersGetOptionalParams
+    options?: WorkflowTriggersGetOptionalParams,
   ): Promise<WorkflowTriggersGetResponse>;
   /**
    * Resets a workflow trigger.
@@ -60,7 +60,7 @@ export interface WorkflowTriggers {
     resourceGroupName: string,
     workflowName: string,
     triggerName: string,
-    options?: WorkflowTriggersResetOptionalParams
+    options?: WorkflowTriggersResetOptionalParams,
   ): Promise<void>;
   /**
    * Runs a workflow trigger.
@@ -73,7 +73,7 @@ export interface WorkflowTriggers {
     resourceGroupName: string,
     workflowName: string,
     triggerName: string,
-    options?: WorkflowTriggersRunOptionalParams
+    options?: WorkflowTriggersRunOptionalParams,
   ): Promise<void>;
   /**
    * Get the trigger schema as JSON.
@@ -86,7 +86,7 @@ export interface WorkflowTriggers {
     resourceGroupName: string,
     workflowName: string,
     triggerName: string,
-    options?: WorkflowTriggersGetSchemaJsonOptionalParams
+    options?: WorkflowTriggersGetSchemaJsonOptionalParams,
   ): Promise<WorkflowTriggersGetSchemaJsonResponse>;
   /**
    * Sets the state of a workflow trigger.
@@ -101,7 +101,7 @@ export interface WorkflowTriggers {
     workflowName: string,
     triggerName: string,
     setState: SetTriggerStateActionDefinition,
-    options?: WorkflowTriggersSetStateOptionalParams
+    options?: WorkflowTriggersSetStateOptionalParams,
   ): Promise<void>;
   /**
    * Get the callback URL for a workflow trigger.
@@ -114,6 +114,6 @@ export interface WorkflowTriggers {
     resourceGroupName: string,
     workflowName: string,
     triggerName: string,
-    options?: WorkflowTriggersListCallbackUrlOptionalParams
+    options?: WorkflowTriggersListCallbackUrlOptionalParams,
   ): Promise<WorkflowTriggersListCallbackUrlResponse>;
 }

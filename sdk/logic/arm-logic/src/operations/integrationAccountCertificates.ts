@@ -23,13 +23,14 @@ import {
   IntegrationAccountCertificatesCreateOrUpdateOptionalParams,
   IntegrationAccountCertificatesCreateOrUpdateResponse,
   IntegrationAccountCertificatesDeleteOptionalParams,
-  IntegrationAccountCertificatesListNextResponse
+  IntegrationAccountCertificatesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing IntegrationAccountCertificates operations. */
 export class IntegrationAccountCertificatesImpl
-  implements IntegrationAccountCertificates {
+  implements IntegrationAccountCertificates
+{
   private readonly client: LogicManagementClient;
 
   /**
@@ -49,12 +50,12 @@ export class IntegrationAccountCertificatesImpl
   public list(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountCertificatesListOptionalParams
+    options?: IntegrationAccountCertificatesListOptionalParams,
   ): PagedAsyncIterableIterator<IntegrationAccountCertificate> {
     const iter = this.listPagingAll(
       resourceGroupName,
       integrationAccountName,
-      options
+      options,
     );
     return {
       next() {
@@ -71,9 +72,9 @@ export class IntegrationAccountCertificatesImpl
           resourceGroupName,
           integrationAccountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -81,7 +82,7 @@ export class IntegrationAccountCertificatesImpl
     resourceGroupName: string,
     integrationAccountName: string,
     options?: IntegrationAccountCertificatesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<IntegrationAccountCertificate[]> {
     let result: IntegrationAccountCertificatesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +90,7 @@ export class IntegrationAccountCertificatesImpl
       result = await this._list(
         resourceGroupName,
         integrationAccountName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -101,7 +102,7 @@ export class IntegrationAccountCertificatesImpl
         resourceGroupName,
         integrationAccountName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -113,12 +114,12 @@ export class IntegrationAccountCertificatesImpl
   private async *listPagingAll(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountCertificatesListOptionalParams
+    options?: IntegrationAccountCertificatesListOptionalParams,
   ): AsyncIterableIterator<IntegrationAccountCertificate> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       integrationAccountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -133,11 +134,11 @@ export class IntegrationAccountCertificatesImpl
   private _list(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountCertificatesListOptionalParams
+    options?: IntegrationAccountCertificatesListOptionalParams,
   ): Promise<IntegrationAccountCertificatesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, integrationAccountName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -152,11 +153,11 @@ export class IntegrationAccountCertificatesImpl
     resourceGroupName: string,
     integrationAccountName: string,
     certificateName: string,
-    options?: IntegrationAccountCertificatesGetOptionalParams
+    options?: IntegrationAccountCertificatesGetOptionalParams,
   ): Promise<IntegrationAccountCertificatesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, integrationAccountName, certificateName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -173,7 +174,7 @@ export class IntegrationAccountCertificatesImpl
     integrationAccountName: string,
     certificateName: string,
     certificate: IntegrationAccountCertificate,
-    options?: IntegrationAccountCertificatesCreateOrUpdateOptionalParams
+    options?: IntegrationAccountCertificatesCreateOrUpdateOptionalParams,
   ): Promise<IntegrationAccountCertificatesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -181,9 +182,9 @@ export class IntegrationAccountCertificatesImpl
         integrationAccountName,
         certificateName,
         certificate,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -198,11 +199,11 @@ export class IntegrationAccountCertificatesImpl
     resourceGroupName: string,
     integrationAccountName: string,
     certificateName: string,
-    options?: IntegrationAccountCertificatesDeleteOptionalParams
+    options?: IntegrationAccountCertificatesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, integrationAccountName, certificateName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -217,11 +218,11 @@ export class IntegrationAccountCertificatesImpl
     resourceGroupName: string,
     integrationAccountName: string,
     nextLink: string,
-    options?: IntegrationAccountCertificatesListNextOptionalParams
+    options?: IntegrationAccountCertificatesListNextOptionalParams,
   ): Promise<IntegrationAccountCertificatesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, integrationAccountName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -229,38 +230,36 @@ export class IntegrationAccountCertificatesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/certificates",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/certificates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationAccountCertificateListResult
+      bodyMapper: Mappers.IntegrationAccountCertificateListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.integrationAccountName
+    Parameters.integrationAccountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/certificates/{certificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/certificates/{certificateName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationAccountCertificate
+      bodyMapper: Mappers.IntegrationAccountCertificate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -268,25 +267,24 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
-    Parameters.certificateName
+    Parameters.certificateName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/certificates/{certificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/certificates/{certificateName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationAccountCertificate
+      bodyMapper: Mappers.IntegrationAccountCertificate,
     },
     201: {
-      bodyMapper: Mappers.IntegrationAccountCertificate
+      bodyMapper: Mappers.IntegrationAccountCertificate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.certificate,
   queryParameters: [Parameters.apiVersion],
@@ -295,22 +293,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
-    Parameters.certificateName
+    Parameters.certificateName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/certificates/{certificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/certificates/{certificateName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -318,29 +315,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
-    Parameters.certificateName
+    Parameters.certificateName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationAccountCertificateListResult
+      bodyMapper: Mappers.IntegrationAccountCertificateListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.integrationAccountName
+    Parameters.integrationAccountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

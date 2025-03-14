@@ -14,7 +14,7 @@ import {
   IntegrationAccountBatchConfigurationsGetResponse,
   IntegrationAccountBatchConfigurationsCreateOrUpdateOptionalParams,
   IntegrationAccountBatchConfigurationsCreateOrUpdateResponse,
-  IntegrationAccountBatchConfigurationsDeleteOptionalParams
+  IntegrationAccountBatchConfigurationsDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface IntegrationAccountBatchConfigurations {
   list(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountBatchConfigurationsListOptionalParams
+    options?: IntegrationAccountBatchConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<BatchConfiguration>;
   /**
    * Get a batch configuration for an integration account.
@@ -42,7 +42,7 @@ export interface IntegrationAccountBatchConfigurations {
     resourceGroupName: string,
     integrationAccountName: string,
     batchConfigurationName: string,
-    options?: IntegrationAccountBatchConfigurationsGetOptionalParams
+    options?: IntegrationAccountBatchConfigurationsGetOptionalParams,
   ): Promise<IntegrationAccountBatchConfigurationsGetResponse>;
   /**
    * Create or update a batch configuration for an integration account.
@@ -57,7 +57,7 @@ export interface IntegrationAccountBatchConfigurations {
     integrationAccountName: string,
     batchConfigurationName: string,
     batchConfiguration: BatchConfiguration,
-    options?: IntegrationAccountBatchConfigurationsCreateOrUpdateOptionalParams
+    options?: IntegrationAccountBatchConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<IntegrationAccountBatchConfigurationsCreateOrUpdateResponse>;
   /**
    * Delete a batch configuration for an integration account.
@@ -70,6 +70,6 @@ export interface IntegrationAccountBatchConfigurations {
     resourceGroupName: string,
     integrationAccountName: string,
     batchConfigurationName: string,
-    options?: IntegrationAccountBatchConfigurationsDeleteOptionalParams
+    options?: IntegrationAccountBatchConfigurationsDeleteOptionalParams,
   ): Promise<void>;
 }

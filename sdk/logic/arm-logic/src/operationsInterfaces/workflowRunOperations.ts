@@ -8,7 +8,7 @@
 
 import {
   WorkflowRunOperationsGetOptionalParams,
-  WorkflowRunOperationsGetResponse
+  WorkflowRunOperationsGetResponse,
 } from "../models/index.js";
 
 /** Interface representing a WorkflowRunOperations. */
@@ -26,6 +26,6 @@ export interface WorkflowRunOperations {
     workflowName: string,
     runName: string,
     operationId: string,
-    options?: WorkflowRunOperationsGetOptionalParams
+    options?: WorkflowRunOperationsGetOptionalParams,
   ): Promise<WorkflowRunOperationsGetResponse>;
 }
