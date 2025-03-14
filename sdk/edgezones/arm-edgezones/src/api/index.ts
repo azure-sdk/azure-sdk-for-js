@@ -7,16 +7,9 @@ export {
   EdgeZonesClientOptionalParams,
 } from "./edgeZonesContext.js";
 export {
-  OperationsListOptionalParams,
-  ExtendedZonesGetOptionalParams,
-  ExtendedZonesListBySubscriptionOptionalParams,
-  ExtendedZonesRegisterOptionalParams,
   ExtendedZonesUnregisterOptionalParams,
+  ExtendedZonesRegisterOptionalParams,
+  ExtendedZonesListBySubscriptionOptionalParams,
+  ExtendedZonesGetOptionalParams,
+  OperationsListOptionalParams,
 } from "./options.js";
-export {
-  extendedZonesGet,
-  extendedZonesListBySubscription,
-  extendedZonesRegister,
-  extendedZonesUnregister,
-} from "./extendedZones/index.js";
-export { operationsList } from "./operations/index.js";
