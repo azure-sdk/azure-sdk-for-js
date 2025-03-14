@@ -106,7 +106,6 @@ import {
   LongTermRetentionManagedInstanceBackupsImpl,
   RestorableDroppedManagedDatabasesImpl,
   ServerConnectionPoliciesImpl,
-  DistributedAvailabilityGroupsImpl,
   ServerTrustCertificatesImpl,
   EndpointCertificatesImpl,
   ManagedDatabaseSensitivityLabelsImpl,
@@ -160,6 +159,7 @@ import {
   ManagedInstancesImpl,
   ServersImpl,
   ReplicationLinksImpl,
+  DistributedAvailabilityGroupsImpl,
 } from "./operations/index.js";
 import {
   DataMaskingPolicies,
@@ -258,7 +258,6 @@ import {
   LongTermRetentionManagedInstanceBackups,
   RestorableDroppedManagedDatabases,
   ServerConnectionPolicies,
-  DistributedAvailabilityGroups,
   ServerTrustCertificates,
   EndpointCertificates,
   ManagedDatabaseSensitivityLabels,
@@ -312,6 +311,7 @@ import {
   ManagedInstances,
   Servers,
   ReplicationLinks,
+  DistributedAvailabilityGroups,
 } from "./operationsInterfaces/index.js";
 import { SqlManagementClientOptionalParams } from "./models/index.js";
 
@@ -545,9 +545,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
     this.restorableDroppedManagedDatabases =
       new RestorableDroppedManagedDatabasesImpl(this);
     this.serverConnectionPolicies = new ServerConnectionPoliciesImpl(this);
-    this.distributedAvailabilityGroups = new DistributedAvailabilityGroupsImpl(
-      this,
-    );
     this.serverTrustCertificates = new ServerTrustCertificatesImpl(this);
     this.endpointCertificates = new EndpointCertificatesImpl(this);
     this.managedDatabaseSensitivityLabels =
@@ -637,6 +634,9 @@ export class SqlManagementClient extends coreClient.ServiceClient {
     this.managedInstances = new ManagedInstancesImpl(this);
     this.servers = new ServersImpl(this);
     this.replicationLinks = new ReplicationLinksImpl(this);
+    this.distributedAvailabilityGroups = new DistributedAvailabilityGroupsImpl(
+      this,
+    );
   }
 
   dataMaskingPolicies: DataMaskingPolicies;
@@ -735,7 +735,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   longTermRetentionManagedInstanceBackups: LongTermRetentionManagedInstanceBackups;
   restorableDroppedManagedDatabases: RestorableDroppedManagedDatabases;
   serverConnectionPolicies: ServerConnectionPolicies;
-  distributedAvailabilityGroups: DistributedAvailabilityGroups;
   serverTrustCertificates: ServerTrustCertificates;
   endpointCertificates: EndpointCertificates;
   managedDatabaseSensitivityLabels: ManagedDatabaseSensitivityLabels;
@@ -789,4 +788,5 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   managedInstances: ManagedInstances;
   servers: Servers;
   replicationLinks: ReplicationLinks;
+  distributedAvailabilityGroups: DistributedAvailabilityGroups;
 }
