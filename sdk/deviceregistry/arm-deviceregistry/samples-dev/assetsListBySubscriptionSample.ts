@@ -5,23 +5,25 @@ import { DeviceRegistryManagementClient } from "@azure/arm-deviceregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to update a Asset
+ * This sample demonstrates how to list Asset resources by subscription ID
  *
- * @summary update a Asset
- * x-ms-original-file: 2024-11-01/Update_Asset.json
+ * @summary list Asset resources by subscription ID
+ * x-ms-original-file: 2024-11-01/List_Assets_Subscription.json
  */
-async function updateAsset(): Promise<void> {
+async function listAssetsSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
-  const result = await client.assets.update("myResourceGroup", "my-asset", {
-    properties: { enabled: false, displayName: "NewAssetDisplayName" },
-  });
-  console.log(result);
+  const resArray = new Array();
+  for await (const item of client.assets.listBySubscription()) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await updateAsset();
+  await listAssetsSubscription();
 }
 
 main().catch(console.error);

@@ -5,17 +5,17 @@ import { DeviceRegistryManagementClient } from "@azure/arm-deviceregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to list AssetEndpointProfile resources by subscription ID
+ * This sample demonstrates how to list the operations for the provider
  *
- * @summary list AssetEndpointProfile resources by subscription ID
- * x-ms-original-file: 2024-11-01/List_AssetEndpointProfiles_Subscription.json
+ * @summary list the operations for the provider
+ * x-ms-original-file: 2024-11-01/List_Operations.json
  */
-async function listAssetEndpointProfilesSubscription(): Promise<void> {
+async function listOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.assetEndpointProfiles.listBySubscription()) {
+  for await (const item of client.operations.list()) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function listAssetEndpointProfilesSubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await listAssetEndpointProfilesSubscription();
+  await listOperations();
 }
 
 main().catch(console.error);
