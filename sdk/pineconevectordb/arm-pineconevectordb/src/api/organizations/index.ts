@@ -14,16 +14,18 @@ import {
   OrganizationResource,
   organizationResourceSerializer,
   organizationResourceDeserializer,
+  errorResponseDeserializer,
   OrganizationResourceUpdate,
   organizationResourceUpdateSerializer,
   _OrganizationResourceListResult,
   _organizationResourceListResultDeserializer,
 } from "../../models/models.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -38,19 +40,23 @@ export function _listBySubscriptionSend(
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Pinecone.VectorDb/organizations",
-      context.subscriptionId,
-    )
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Pinecone.VectorDb/organizations{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -58,7 +64,9 @@ export async function _listBySubscriptionDeserialize(
 ): Promise<_OrganizationResourceListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return _organizationResourceListResultDeserializer(result.body);
@@ -87,20 +95,24 @@ export function _listByResourceGroupSend(
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Pinecone.VectorDb/organizations",
-      context.subscriptionId,
-      resourceGroupName,
-    )
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Pinecone.VectorDb/organizations{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -108,7 +120,9 @@ export async function _listByResourceGroupDeserialize(
 ): Promise<_OrganizationResourceListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return _organizationResourceListResultDeserializer(result.body);
@@ -137,27 +151,33 @@ export function _$deleteSend(
   organizationname: string,
   options: OrganizationsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Pinecone.VectorDb/organizations/{organizationname}",
-      context.subscriptionId,
-      resourceGroupName,
-      organizationname,
-    )
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Pinecone.VectorDb/organizations/{organizationname}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      organizationname: organizationname,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return;
@@ -190,23 +210,27 @@ export function _updateSend(
   properties: OrganizationResourceUpdate,
   options: OrganizationsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Pinecone.VectorDb/organizations/{organizationname}",
-      context.subscriptionId,
-      resourceGroupName,
-      organizationname,
-    )
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-      body: organizationResourceUpdateSerializer(properties),
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Pinecone.VectorDb/organizations/{organizationname}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      organizationname: organizationname,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: organizationResourceUpdateSerializer(properties),
+  });
 }
 
 export async function _updateDeserialize(
@@ -214,7 +238,9 @@ export async function _updateDeserialize(
 ): Promise<OrganizationResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return organizationResourceDeserializer(result.body);
@@ -245,23 +271,27 @@ export function _createOrUpdateSend(
   resource: OrganizationResource,
   options: OrganizationsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Pinecone.VectorDb/organizations/{organizationname}",
-      context.subscriptionId,
-      resourceGroupName,
-      organizationname,
-    )
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-      body: organizationResourceSerializer(resource),
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Pinecone.VectorDb/organizations/{organizationname}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      organizationname: organizationname,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: organizationResourceSerializer(resource),
+  });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -269,7 +299,9 @@ export async function _createOrUpdateDeserialize(
 ): Promise<OrganizationResource> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return organizationResourceDeserializer(result.body);
@@ -298,21 +330,25 @@ export function _getSend(
   organizationname: string,
   options: OrganizationsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Pinecone.VectorDb/organizations/{organizationname}",
-      context.subscriptionId,
-      resourceGroupName,
-      organizationname,
-    )
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Pinecone.VectorDb/organizations/{organizationname}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      organizationname: organizationname,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getDeserialize(
@@ -320,7 +356,9 @@ export async function _getDeserialize(
 ): Promise<OrganizationResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return organizationResourceDeserializer(result.body);
