@@ -1,0 +1,42 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  createDatabaseFleetManager,
+  DatabaseFleetManagerContext,
+  DatabaseFleetManagerClientOptionalParams,
+} from "./databaseFleetManagerContext.js";
+export {
+  FleetTiersDisableOptionalParams,
+  FleetTiersListByFleetOptionalParams,
+  FleetTiersDeleteOptionalParams,
+  FleetTiersUpdateOptionalParams,
+  FleetTiersCreateOrUpdateOptionalParams,
+  FleetTiersGetOptionalParams,
+  FirewallRulesListByFleetspaceOptionalParams,
+  FirewallRulesDeleteOptionalParams,
+  FirewallRulesCreateOrUpdateOptionalParams,
+  FirewallRulesGetOptionalParams,
+  FleetsListOptionalParams,
+  FleetsListByResourceGroupOptionalParams,
+  FleetsDeleteOptionalParams,
+  FleetsUpdateOptionalParams,
+  FleetsCreateOrUpdateOptionalParams,
+  FleetsGetOptionalParams,
+  FleetspacesUnregisterOptionalParams,
+  FleetspacesRegisterServerOptionalParams,
+  FleetspacesListByFleetOptionalParams,
+  FleetspacesDeleteOptionalParams,
+  FleetspacesUpdateOptionalParams,
+  FleetspacesCreateOrUpdateOptionalParams,
+  FleetspacesGetOptionalParams,
+  FleetDatabasesRevertOptionalParams,
+  FleetDatabasesRenameOptionalParams,
+  FleetDatabasesChangeTierOptionalParams,
+  FleetDatabasesListByFleetspaceOptionalParams,
+  FleetDatabasesDeleteOptionalParams,
+  FleetDatabasesUpdateOptionalParams,
+  FleetDatabasesCreateOrUpdateOptionalParams,
+  FleetDatabasesGetOptionalParams,
+  OperationsListOptionalParams,
+} from "./options.js";
