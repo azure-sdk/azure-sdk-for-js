@@ -11,7 +11,7 @@ import {
   WorkflowVersion,
   WorkflowVersionsListOptionalParams,
   WorkflowVersionsGetOptionalParams,
-  WorkflowVersionsGetResponse
+  WorkflowVersionsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface WorkflowVersions {
   list(
     resourceGroupName: string,
     workflowName: string,
-    options?: WorkflowVersionsListOptionalParams
+    options?: WorkflowVersionsListOptionalParams,
   ): PagedAsyncIterableIterator<WorkflowVersion>;
   /**
    * Gets a workflow version.
@@ -39,6 +39,6 @@ export interface WorkflowVersions {
     resourceGroupName: string,
     workflowName: string,
     versionId: string,
-    options?: WorkflowVersionsGetOptionalParams
+    options?: WorkflowVersionsGetOptionalParams,
   ): Promise<WorkflowVersionsGetResponse>;
 }

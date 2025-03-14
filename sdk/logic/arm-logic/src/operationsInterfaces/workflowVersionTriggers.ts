@@ -8,7 +8,7 @@
 
 import {
   WorkflowVersionTriggersListCallbackUrlOptionalParams,
-  WorkflowVersionTriggersListCallbackUrlResponse
+  WorkflowVersionTriggersListCallbackUrlResponse,
 } from "../models/index.js";
 
 /** Interface representing a WorkflowVersionTriggers. */
@@ -26,6 +26,6 @@ export interface WorkflowVersionTriggers {
     workflowName: string,
     versionId: string,
     triggerName: string,
-    options?: WorkflowVersionTriggersListCallbackUrlOptionalParams
+    options?: WorkflowVersionTriggersListCallbackUrlOptionalParams,
   ): Promise<WorkflowVersionTriggersListCallbackUrlResponse>;
 }

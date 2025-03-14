@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   IntegrationServiceEnvironmentSkuDefinition,
-  IntegrationServiceEnvironmentSkusListOptionalParams
+  IntegrationServiceEnvironmentSkusListOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,6 +24,6 @@ export interface IntegrationServiceEnvironmentSkus {
   list(
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
-    options?: IntegrationServiceEnvironmentSkusListOptionalParams
+    options?: IntegrationServiceEnvironmentSkusListOptionalParams,
   ): PagedAsyncIterableIterator<IntegrationServiceEnvironmentSkuDefinition>;
 }

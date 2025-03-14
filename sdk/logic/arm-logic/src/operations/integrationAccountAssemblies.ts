@@ -22,13 +22,14 @@ import {
   IntegrationAccountAssembliesCreateOrUpdateResponse,
   IntegrationAccountAssembliesDeleteOptionalParams,
   IntegrationAccountAssembliesListContentCallbackUrlOptionalParams,
-  IntegrationAccountAssembliesListContentCallbackUrlResponse
+  IntegrationAccountAssembliesListContentCallbackUrlResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing IntegrationAccountAssemblies operations. */
 export class IntegrationAccountAssembliesImpl
-  implements IntegrationAccountAssemblies {
+  implements IntegrationAccountAssemblies
+{
   private readonly client: LogicManagementClient;
 
   /**
@@ -48,12 +49,12 @@ export class IntegrationAccountAssembliesImpl
   public list(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountAssembliesListOptionalParams
+    options?: IntegrationAccountAssembliesListOptionalParams,
   ): PagedAsyncIterableIterator<AssemblyDefinition> {
     const iter = this.listPagingAll(
       resourceGroupName,
       integrationAccountName,
-      options
+      options,
     );
     return {
       next() {
@@ -70,9 +71,9 @@ export class IntegrationAccountAssembliesImpl
           resourceGroupName,
           integrationAccountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,13 +81,13 @@ export class IntegrationAccountAssembliesImpl
     resourceGroupName: string,
     integrationAccountName: string,
     options?: IntegrationAccountAssembliesListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<AssemblyDefinition[]> {
     let result: IntegrationAccountAssembliesListResponse;
     result = await this._list(
       resourceGroupName,
       integrationAccountName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -94,12 +95,12 @@ export class IntegrationAccountAssembliesImpl
   private async *listPagingAll(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountAssembliesListOptionalParams
+    options?: IntegrationAccountAssembliesListOptionalParams,
   ): AsyncIterableIterator<AssemblyDefinition> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       integrationAccountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -114,11 +115,11 @@ export class IntegrationAccountAssembliesImpl
   private _list(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountAssembliesListOptionalParams
+    options?: IntegrationAccountAssembliesListOptionalParams,
   ): Promise<IntegrationAccountAssembliesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, integrationAccountName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -133,16 +134,16 @@ export class IntegrationAccountAssembliesImpl
     resourceGroupName: string,
     integrationAccountName: string,
     assemblyArtifactName: string,
-    options?: IntegrationAccountAssembliesGetOptionalParams
+    options?: IntegrationAccountAssembliesGetOptionalParams,
   ): Promise<IntegrationAccountAssembliesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         integrationAccountName,
         assemblyArtifactName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -159,7 +160,7 @@ export class IntegrationAccountAssembliesImpl
     integrationAccountName: string,
     assemblyArtifactName: string,
     assemblyArtifact: AssemblyDefinition,
-    options?: IntegrationAccountAssembliesCreateOrUpdateOptionalParams
+    options?: IntegrationAccountAssembliesCreateOrUpdateOptionalParams,
   ): Promise<IntegrationAccountAssembliesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -167,9 +168,9 @@ export class IntegrationAccountAssembliesImpl
         integrationAccountName,
         assemblyArtifactName,
         assemblyArtifact,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -184,16 +185,16 @@ export class IntegrationAccountAssembliesImpl
     resourceGroupName: string,
     integrationAccountName: string,
     assemblyArtifactName: string,
-    options?: IntegrationAccountAssembliesDeleteOptionalParams
+    options?: IntegrationAccountAssembliesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         integrationAccountName,
         assemblyArtifactName,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -208,16 +209,16 @@ export class IntegrationAccountAssembliesImpl
     resourceGroupName: string,
     integrationAccountName: string,
     assemblyArtifactName: string,
-    options?: IntegrationAccountAssembliesListContentCallbackUrlOptionalParams
+    options?: IntegrationAccountAssembliesListContentCallbackUrlOptionalParams,
   ): Promise<IntegrationAccountAssembliesListContentCallbackUrlResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         integrationAccountName,
         assemblyArtifactName,
-        options
+        options,
       },
-      listContentCallbackUrlOperationSpec
+      listContentCallbackUrlOperationSpec,
     );
   }
 }
@@ -225,38 +226,15 @@ export class IntegrationAccountAssembliesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AssemblyCollection
+      bodyMapper: Mappers.AssemblyCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.integrationAccountName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies/{assemblyArtifactName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AssemblyDefinition
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -264,25 +242,45 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
-    Parameters.assemblyArtifactName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies/{assemblyArtifactName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AssemblyDefinition,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.integrationAccountName,
+    Parameters.assemblyArtifactName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies/{assemblyArtifactName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies/{assemblyArtifactName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AssemblyDefinition
+      bodyMapper: Mappers.AssemblyDefinition,
     },
     201: {
-      bodyMapper: Mappers.AssemblyDefinition
+      bodyMapper: Mappers.AssemblyDefinition,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.assemblyArtifact,
   queryParameters: [Parameters.apiVersion],
@@ -291,22 +289,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
-    Parameters.assemblyArtifactName
+    Parameters.assemblyArtifactName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies/{assemblyArtifactName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies/{assemblyArtifactName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -314,22 +311,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
-    Parameters.assemblyArtifactName
+    Parameters.assemblyArtifactName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listContentCallbackUrlOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies/{assemblyArtifactName}/listContentCallbackUrl",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies/{assemblyArtifactName}/listContentCallbackUrl",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowTriggerCallbackUrl
+      bodyMapper: Mappers.WorkflowTriggerCallbackUrl,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -337,8 +333,8 @@ const listContentCallbackUrlOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
-    Parameters.assemblyArtifactName
+    Parameters.assemblyArtifactName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

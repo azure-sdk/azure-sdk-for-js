@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   IntegrationServiceEnvironment,
   IntegrationServiceEnvironmentsListBySubscriptionOptionalParams,
@@ -19,7 +19,7 @@ import {
   IntegrationServiceEnvironmentsUpdateOptionalParams,
   IntegrationServiceEnvironmentsUpdateResponse,
   IntegrationServiceEnvironmentsDeleteOptionalParams,
-  IntegrationServiceEnvironmentsRestartOptionalParams
+  IntegrationServiceEnvironmentsRestartOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface IntegrationServiceEnvironments {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: IntegrationServiceEnvironmentsListBySubscriptionOptionalParams
+    options?: IntegrationServiceEnvironmentsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<IntegrationServiceEnvironment>;
   /**
    * Gets a list of integration service environments by resource group.
@@ -39,7 +39,7 @@ export interface IntegrationServiceEnvironments {
    */
   listByResourceGroup(
     resourceGroup: string,
-    options?: IntegrationServiceEnvironmentsListByResourceGroupOptionalParams
+    options?: IntegrationServiceEnvironmentsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<IntegrationServiceEnvironment>;
   /**
    * Gets an integration service environment.
@@ -50,7 +50,7 @@ export interface IntegrationServiceEnvironments {
   get(
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
-    options?: IntegrationServiceEnvironmentsGetOptionalParams
+    options?: IntegrationServiceEnvironmentsGetOptionalParams,
   ): Promise<IntegrationServiceEnvironmentsGetResponse>;
   /**
    * Creates or updates an integration service environment.
@@ -63,10 +63,10 @@ export interface IntegrationServiceEnvironments {
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
     integrationServiceEnvironment: IntegrationServiceEnvironment,
-    options?: IntegrationServiceEnvironmentsCreateOrUpdateOptionalParams
+    options?: IntegrationServiceEnvironmentsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<IntegrationServiceEnvironmentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IntegrationServiceEnvironmentsCreateOrUpdateResponse>,
       IntegrationServiceEnvironmentsCreateOrUpdateResponse
     >
   >;
@@ -81,7 +81,7 @@ export interface IntegrationServiceEnvironments {
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
     integrationServiceEnvironment: IntegrationServiceEnvironment,
-    options?: IntegrationServiceEnvironmentsCreateOrUpdateOptionalParams
+    options?: IntegrationServiceEnvironmentsCreateOrUpdateOptionalParams,
   ): Promise<IntegrationServiceEnvironmentsCreateOrUpdateResponse>;
   /**
    * Updates an integration service environment.
@@ -94,10 +94,10 @@ export interface IntegrationServiceEnvironments {
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
     integrationServiceEnvironment: IntegrationServiceEnvironment,
-    options?: IntegrationServiceEnvironmentsUpdateOptionalParams
+    options?: IntegrationServiceEnvironmentsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<IntegrationServiceEnvironmentsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IntegrationServiceEnvironmentsUpdateResponse>,
       IntegrationServiceEnvironmentsUpdateResponse
     >
   >;
@@ -112,7 +112,7 @@ export interface IntegrationServiceEnvironments {
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
     integrationServiceEnvironment: IntegrationServiceEnvironment,
-    options?: IntegrationServiceEnvironmentsUpdateOptionalParams
+    options?: IntegrationServiceEnvironmentsUpdateOptionalParams,
   ): Promise<IntegrationServiceEnvironmentsUpdateResponse>;
   /**
    * Deletes an integration service environment.
@@ -123,7 +123,7 @@ export interface IntegrationServiceEnvironments {
   delete(
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
-    options?: IntegrationServiceEnvironmentsDeleteOptionalParams
+    options?: IntegrationServiceEnvironmentsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Restarts an integration service environment.
@@ -134,6 +134,6 @@ export interface IntegrationServiceEnvironments {
   restart(
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
-    options?: IntegrationServiceEnvironmentsRestartOptionalParams
+    options?: IntegrationServiceEnvironmentsRestartOptionalParams,
   ): Promise<void>;
 }

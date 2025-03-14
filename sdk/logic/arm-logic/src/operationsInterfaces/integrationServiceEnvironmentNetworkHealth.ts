@@ -8,7 +8,7 @@
 
 import {
   IntegrationServiceEnvironmentNetworkHealthGetOptionalParams,
-  IntegrationServiceEnvironmentNetworkHealthGetResponse
+  IntegrationServiceEnvironmentNetworkHealthGetResponse,
 } from "../models/index.js";
 
 /** Interface representing a IntegrationServiceEnvironmentNetworkHealth. */
@@ -22,6 +22,6 @@ export interface IntegrationServiceEnvironmentNetworkHealth {
   get(
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
-    options?: IntegrationServiceEnvironmentNetworkHealthGetOptionalParams
+    options?: IntegrationServiceEnvironmentNetworkHealthGetOptionalParams,
   ): Promise<IntegrationServiceEnvironmentNetworkHealthGetResponse>;
 }

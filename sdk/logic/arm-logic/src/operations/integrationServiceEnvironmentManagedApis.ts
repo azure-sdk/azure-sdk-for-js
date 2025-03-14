@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { LogicManagementClient } from "../logicManagementClient.js";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   IntegrationServiceEnvironmentManagedApi,
   IntegrationServiceEnvironmentManagedApisListNextOptionalParams,
@@ -25,13 +29,14 @@ import {
   IntegrationServiceEnvironmentManagedApisPutOptionalParams,
   IntegrationServiceEnvironmentManagedApisPutResponse,
   IntegrationServiceEnvironmentManagedApisDeleteOptionalParams,
-  IntegrationServiceEnvironmentManagedApisListNextResponse
+  IntegrationServiceEnvironmentManagedApisListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing IntegrationServiceEnvironmentManagedApis operations. */
 export class IntegrationServiceEnvironmentManagedApisImpl
-  implements IntegrationServiceEnvironmentManagedApis {
+  implements IntegrationServiceEnvironmentManagedApis
+{
   private readonly client: LogicManagementClient;
 
   /**
@@ -51,12 +56,12 @@ export class IntegrationServiceEnvironmentManagedApisImpl
   public list(
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
-    options?: IntegrationServiceEnvironmentManagedApisListOptionalParams
+    options?: IntegrationServiceEnvironmentManagedApisListOptionalParams,
   ): PagedAsyncIterableIterator<IntegrationServiceEnvironmentManagedApi> {
     const iter = this.listPagingAll(
       resourceGroup,
       integrationServiceEnvironmentName,
-      options
+      options,
     );
     return {
       next() {
@@ -73,9 +78,9 @@ export class IntegrationServiceEnvironmentManagedApisImpl
           resourceGroup,
           integrationServiceEnvironmentName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -83,7 +88,7 @@ export class IntegrationServiceEnvironmentManagedApisImpl
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
     options?: IntegrationServiceEnvironmentManagedApisListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<IntegrationServiceEnvironmentManagedApi[]> {
     let result: IntegrationServiceEnvironmentManagedApisListResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +96,7 @@ export class IntegrationServiceEnvironmentManagedApisImpl
       result = await this._list(
         resourceGroup,
         integrationServiceEnvironmentName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -103,7 +108,7 @@ export class IntegrationServiceEnvironmentManagedApisImpl
         resourceGroup,
         integrationServiceEnvironmentName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,12 +120,12 @@ export class IntegrationServiceEnvironmentManagedApisImpl
   private async *listPagingAll(
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
-    options?: IntegrationServiceEnvironmentManagedApisListOptionalParams
+    options?: IntegrationServiceEnvironmentManagedApisListOptionalParams,
   ): AsyncIterableIterator<IntegrationServiceEnvironmentManagedApi> {
     for await (const page of this.listPagingPage(
       resourceGroup,
       integrationServiceEnvironmentName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -135,11 +140,11 @@ export class IntegrationServiceEnvironmentManagedApisImpl
   private _list(
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
-    options?: IntegrationServiceEnvironmentManagedApisListOptionalParams
+    options?: IntegrationServiceEnvironmentManagedApisListOptionalParams,
   ): Promise<IntegrationServiceEnvironmentManagedApisListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroup, integrationServiceEnvironmentName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -154,11 +159,11 @@ export class IntegrationServiceEnvironmentManagedApisImpl
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
     apiName: string,
-    options?: IntegrationServiceEnvironmentManagedApisGetOptionalParams
+    options?: IntegrationServiceEnvironmentManagedApisGetOptionalParams,
   ): Promise<IntegrationServiceEnvironmentManagedApisGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroup, integrationServiceEnvironmentName, apiName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -175,30 +180,29 @@ export class IntegrationServiceEnvironmentManagedApisImpl
     integrationServiceEnvironmentName: string,
     apiName: string,
     integrationServiceEnvironmentManagedApi: IntegrationServiceEnvironmentManagedApi,
-    options?: IntegrationServiceEnvironmentManagedApisPutOptionalParams
+    options?: IntegrationServiceEnvironmentManagedApisPutOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<IntegrationServiceEnvironmentManagedApisPutResponse>,
+    SimplePollerLike<
+      OperationState<IntegrationServiceEnvironmentManagedApisPutResponse>,
       IntegrationServiceEnvironmentManagedApisPutResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<IntegrationServiceEnvironmentManagedApisPutResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -207,8 +211,8 @@ export class IntegrationServiceEnvironmentManagedApisImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -216,25 +220,28 @@ export class IntegrationServiceEnvironmentManagedApisImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroup,
         integrationServiceEnvironmentName,
         apiName,
         integrationServiceEnvironmentManagedApi,
-        options
+        options,
       },
-      putOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: putOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      IntegrationServiceEnvironmentManagedApisPutResponse,
+      OperationState<IntegrationServiceEnvironmentManagedApisPutResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -253,14 +260,14 @@ export class IntegrationServiceEnvironmentManagedApisImpl
     integrationServiceEnvironmentName: string,
     apiName: string,
     integrationServiceEnvironmentManagedApi: IntegrationServiceEnvironmentManagedApi,
-    options?: IntegrationServiceEnvironmentManagedApisPutOptionalParams
+    options?: IntegrationServiceEnvironmentManagedApisPutOptionalParams,
   ): Promise<IntegrationServiceEnvironmentManagedApisPutResponse> {
     const poller = await this.beginPut(
       resourceGroup,
       integrationServiceEnvironmentName,
       apiName,
       integrationServiceEnvironmentManagedApi,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -276,25 +283,24 @@ export class IntegrationServiceEnvironmentManagedApisImpl
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
     apiName: string,
-    options?: IntegrationServiceEnvironmentManagedApisDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: IntegrationServiceEnvironmentManagedApisDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -303,8 +309,8 @@ export class IntegrationServiceEnvironmentManagedApisImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -312,19 +318,24 @@ export class IntegrationServiceEnvironmentManagedApisImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroup, integrationServiceEnvironmentName, apiName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroup,
+        integrationServiceEnvironmentName,
+        apiName,
+        options,
+      },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -341,13 +352,13 @@ export class IntegrationServiceEnvironmentManagedApisImpl
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
     apiName: string,
-    options?: IntegrationServiceEnvironmentManagedApisDeleteOptionalParams
+    options?: IntegrationServiceEnvironmentManagedApisDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroup,
       integrationServiceEnvironmentName,
       apiName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -363,11 +374,11 @@ export class IntegrationServiceEnvironmentManagedApisImpl
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
     nextLink: string,
-    options?: IntegrationServiceEnvironmentManagedApisListNextOptionalParams
+    options?: IntegrationServiceEnvironmentManagedApisListNextOptionalParams,
   ): Promise<IntegrationServiceEnvironmentManagedApisListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroup, integrationServiceEnvironmentName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -375,38 +386,15 @@ export class IntegrationServiceEnvironmentManagedApisImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}/managedApis",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}/managedApis",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationServiceEnvironmentManagedApiListResult
+      bodyMapper: Mappers.IntegrationServiceEnvironmentManagedApiListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroup,
-    Parameters.integrationServiceEnvironmentName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}/managedApis/{apiName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.IntegrationServiceEnvironmentManagedApi
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -414,31 +402,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroup,
     Parameters.integrationServiceEnvironmentName,
-    Parameters.apiName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}/managedApis/{apiName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.IntegrationServiceEnvironmentManagedApi,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroup,
+    Parameters.integrationServiceEnvironmentName,
+    Parameters.apiName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const putOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}/managedApis/{apiName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}/managedApis/{apiName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationServiceEnvironmentManagedApi
+      bodyMapper: Mappers.IntegrationServiceEnvironmentManagedApi,
     },
     201: {
-      bodyMapper: Mappers.IntegrationServiceEnvironmentManagedApi
+      bodyMapper: Mappers.IntegrationServiceEnvironmentManagedApi,
     },
     202: {
-      bodyMapper: Mappers.IntegrationServiceEnvironmentManagedApi
+      bodyMapper: Mappers.IntegrationServiceEnvironmentManagedApi,
     },
     204: {
-      bodyMapper: Mappers.IntegrationServiceEnvironmentManagedApi
+      bodyMapper: Mappers.IntegrationServiceEnvironmentManagedApi,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.integrationServiceEnvironmentManagedApi,
   queryParameters: [Parameters.apiVersion],
@@ -447,15 +455,14 @@ const putOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroup,
     Parameters.integrationServiceEnvironmentName,
-    Parameters.apiName
+    Parameters.apiName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}/managedApis/{apiName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}/managedApis/{apiName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -463,8 +470,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -472,29 +479,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroup,
     Parameters.integrationServiceEnvironmentName,
-    Parameters.apiName
+    Parameters.apiName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationServiceEnvironmentManagedApiListResult
+      bodyMapper: Mappers.IntegrationServiceEnvironmentManagedApiListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.resourceGroup,
-    Parameters.integrationServiceEnvironmentName
+    Parameters.integrationServiceEnvironmentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

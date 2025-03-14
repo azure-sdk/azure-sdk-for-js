@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ApiOperation,
-  IntegrationServiceEnvironmentManagedApiOperationsListOptionalParams
+  IntegrationServiceEnvironmentManagedApiOperationsListOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,6 +26,6 @@ export interface IntegrationServiceEnvironmentManagedApiOperations {
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
     apiName: string,
-    options?: IntegrationServiceEnvironmentManagedApiOperationsListOptionalParams
+    options?: IntegrationServiceEnvironmentManagedApiOperationsListOptionalParams,
   ): PagedAsyncIterableIterator<ApiOperation>;
 }

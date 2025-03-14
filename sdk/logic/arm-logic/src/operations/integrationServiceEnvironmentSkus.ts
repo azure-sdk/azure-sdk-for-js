@@ -18,13 +18,14 @@ import {
   IntegrationServiceEnvironmentSkusListNextOptionalParams,
   IntegrationServiceEnvironmentSkusListOptionalParams,
   IntegrationServiceEnvironmentSkusListResponse,
-  IntegrationServiceEnvironmentSkusListNextResponse
+  IntegrationServiceEnvironmentSkusListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing IntegrationServiceEnvironmentSkus operations. */
 export class IntegrationServiceEnvironmentSkusImpl
-  implements IntegrationServiceEnvironmentSkus {
+  implements IntegrationServiceEnvironmentSkus
+{
   private readonly client: LogicManagementClient;
 
   /**
@@ -44,12 +45,12 @@ export class IntegrationServiceEnvironmentSkusImpl
   public list(
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
-    options?: IntegrationServiceEnvironmentSkusListOptionalParams
+    options?: IntegrationServiceEnvironmentSkusListOptionalParams,
   ): PagedAsyncIterableIterator<IntegrationServiceEnvironmentSkuDefinition> {
     const iter = this.listPagingAll(
       resourceGroup,
       integrationServiceEnvironmentName,
-      options
+      options,
     );
     return {
       next() {
@@ -66,9 +67,9 @@ export class IntegrationServiceEnvironmentSkusImpl
           resourceGroup,
           integrationServiceEnvironmentName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -76,7 +77,7 @@ export class IntegrationServiceEnvironmentSkusImpl
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
     options?: IntegrationServiceEnvironmentSkusListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<IntegrationServiceEnvironmentSkuDefinition[]> {
     let result: IntegrationServiceEnvironmentSkusListResponse;
     let continuationToken = settings?.continuationToken;
@@ -84,7 +85,7 @@ export class IntegrationServiceEnvironmentSkusImpl
       result = await this._list(
         resourceGroup,
         integrationServiceEnvironmentName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -96,7 +97,7 @@ export class IntegrationServiceEnvironmentSkusImpl
         resourceGroup,
         integrationServiceEnvironmentName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -108,12 +109,12 @@ export class IntegrationServiceEnvironmentSkusImpl
   private async *listPagingAll(
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
-    options?: IntegrationServiceEnvironmentSkusListOptionalParams
+    options?: IntegrationServiceEnvironmentSkusListOptionalParams,
   ): AsyncIterableIterator<IntegrationServiceEnvironmentSkuDefinition> {
     for await (const page of this.listPagingPage(
       resourceGroup,
       integrationServiceEnvironmentName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -128,11 +129,11 @@ export class IntegrationServiceEnvironmentSkusImpl
   private _list(
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
-    options?: IntegrationServiceEnvironmentSkusListOptionalParams
+    options?: IntegrationServiceEnvironmentSkusListOptionalParams,
   ): Promise<IntegrationServiceEnvironmentSkusListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroup, integrationServiceEnvironmentName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -147,11 +148,11 @@ export class IntegrationServiceEnvironmentSkusImpl
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
     nextLink: string,
-    options?: IntegrationServiceEnvironmentSkusListNextOptionalParams
+    options?: IntegrationServiceEnvironmentSkusListNextOptionalParams,
   ): Promise<IntegrationServiceEnvironmentSkusListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroup, integrationServiceEnvironmentName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -159,45 +160,44 @@ export class IntegrationServiceEnvironmentSkusImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}/skus",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}/skus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationServiceEnvironmentSkuList
+      bodyMapper: Mappers.IntegrationServiceEnvironmentSkuList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroup,
-    Parameters.integrationServiceEnvironmentName
+    Parameters.integrationServiceEnvironmentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationServiceEnvironmentSkuList
+      bodyMapper: Mappers.IntegrationServiceEnvironmentSkuList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.resourceGroup,
-    Parameters.integrationServiceEnvironmentName
+    Parameters.integrationServiceEnvironmentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

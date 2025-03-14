@@ -14,7 +14,7 @@ import {
   IntegrationAccountCertificatesGetResponse,
   IntegrationAccountCertificatesCreateOrUpdateOptionalParams,
   IntegrationAccountCertificatesCreateOrUpdateResponse,
-  IntegrationAccountCertificatesDeleteOptionalParams
+  IntegrationAccountCertificatesDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface IntegrationAccountCertificates {
   list(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountCertificatesListOptionalParams
+    options?: IntegrationAccountCertificatesListOptionalParams,
   ): PagedAsyncIterableIterator<IntegrationAccountCertificate>;
   /**
    * Gets an integration account certificate.
@@ -42,7 +42,7 @@ export interface IntegrationAccountCertificates {
     resourceGroupName: string,
     integrationAccountName: string,
     certificateName: string,
-    options?: IntegrationAccountCertificatesGetOptionalParams
+    options?: IntegrationAccountCertificatesGetOptionalParams,
   ): Promise<IntegrationAccountCertificatesGetResponse>;
   /**
    * Creates or updates an integration account certificate.
@@ -57,7 +57,7 @@ export interface IntegrationAccountCertificates {
     integrationAccountName: string,
     certificateName: string,
     certificate: IntegrationAccountCertificate,
-    options?: IntegrationAccountCertificatesCreateOrUpdateOptionalParams
+    options?: IntegrationAccountCertificatesCreateOrUpdateOptionalParams,
   ): Promise<IntegrationAccountCertificatesCreateOrUpdateResponse>;
   /**
    * Deletes an integration account certificate.
@@ -70,6 +70,6 @@ export interface IntegrationAccountCertificates {
     resourceGroupName: string,
     integrationAccountName: string,
     certificateName: string,
-    options?: IntegrationAccountCertificatesDeleteOptionalParams
+    options?: IntegrationAccountCertificatesDeleteOptionalParams,
   ): Promise<void>;
 }

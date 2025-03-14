@@ -20,13 +20,14 @@ import {
   WorkflowRunActionRepetitionsListExpressionTracesOptionalParams,
   WorkflowRunActionRepetitionsListExpressionTracesResponse,
   WorkflowRunActionRepetitionsGetOptionalParams,
-  WorkflowRunActionRepetitionsGetResponse
+  WorkflowRunActionRepetitionsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WorkflowRunActionRepetitions operations. */
 export class WorkflowRunActionRepetitionsImpl
-  implements WorkflowRunActionRepetitions {
+  implements WorkflowRunActionRepetitions
+{
   private readonly client: LogicManagementClient;
 
   /**
@@ -50,14 +51,14 @@ export class WorkflowRunActionRepetitionsImpl
     workflowName: string,
     runName: string,
     actionName: string,
-    options?: WorkflowRunActionRepetitionsListOptionalParams
+    options?: WorkflowRunActionRepetitionsListOptionalParams,
   ): PagedAsyncIterableIterator<WorkflowRunActionRepetitionDefinition> {
     const iter = this.listPagingAll(
       resourceGroupName,
       workflowName,
       runName,
       actionName,
-      options
+      options,
     );
     return {
       next() {
@@ -76,9 +77,9 @@ export class WorkflowRunActionRepetitionsImpl
           runName,
           actionName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -88,7 +89,7 @@ export class WorkflowRunActionRepetitionsImpl
     runName: string,
     actionName: string,
     options?: WorkflowRunActionRepetitionsListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<WorkflowRunActionRepetitionDefinition[]> {
     let result: WorkflowRunActionRepetitionsListResponse;
     result = await this._list(
@@ -96,7 +97,7 @@ export class WorkflowRunActionRepetitionsImpl
       workflowName,
       runName,
       actionName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -106,14 +107,14 @@ export class WorkflowRunActionRepetitionsImpl
     workflowName: string,
     runName: string,
     actionName: string,
-    options?: WorkflowRunActionRepetitionsListOptionalParams
+    options?: WorkflowRunActionRepetitionsListOptionalParams,
   ): AsyncIterableIterator<WorkflowRunActionRepetitionDefinition> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workflowName,
       runName,
       actionName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -134,7 +135,7 @@ export class WorkflowRunActionRepetitionsImpl
     runName: string,
     actionName: string,
     repetitionName: string,
-    options?: WorkflowRunActionRepetitionsListExpressionTracesOptionalParams
+    options?: WorkflowRunActionRepetitionsListExpressionTracesOptionalParams,
   ): PagedAsyncIterableIterator<ExpressionRoot> {
     const iter = this.listExpressionTracesPagingAll(
       resourceGroupName,
@@ -142,7 +143,7 @@ export class WorkflowRunActionRepetitionsImpl
       runName,
       actionName,
       repetitionName,
-      options
+      options,
     );
     return {
       next() {
@@ -162,9 +163,9 @@ export class WorkflowRunActionRepetitionsImpl
           actionName,
           repetitionName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -175,7 +176,7 @@ export class WorkflowRunActionRepetitionsImpl
     actionName: string,
     repetitionName: string,
     options?: WorkflowRunActionRepetitionsListExpressionTracesOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ExpressionRoot[]> {
     let result: WorkflowRunActionRepetitionsListExpressionTracesResponse;
     result = await this._listExpressionTraces(
@@ -184,7 +185,7 @@ export class WorkflowRunActionRepetitionsImpl
       runName,
       actionName,
       repetitionName,
-      options
+      options,
     );
     yield result.inputs || [];
   }
@@ -195,7 +196,7 @@ export class WorkflowRunActionRepetitionsImpl
     runName: string,
     actionName: string,
     repetitionName: string,
-    options?: WorkflowRunActionRepetitionsListExpressionTracesOptionalParams
+    options?: WorkflowRunActionRepetitionsListExpressionTracesOptionalParams,
   ): AsyncIterableIterator<ExpressionRoot> {
     for await (const page of this.listExpressionTracesPagingPage(
       resourceGroupName,
@@ -203,7 +204,7 @@ export class WorkflowRunActionRepetitionsImpl
       runName,
       actionName,
       repetitionName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -222,11 +223,11 @@ export class WorkflowRunActionRepetitionsImpl
     workflowName: string,
     runName: string,
     actionName: string,
-    options?: WorkflowRunActionRepetitionsListOptionalParams
+    options?: WorkflowRunActionRepetitionsListOptionalParams,
   ): Promise<WorkflowRunActionRepetitionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, runName, actionName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -245,7 +246,7 @@ export class WorkflowRunActionRepetitionsImpl
     runName: string,
     actionName: string,
     repetitionName: string,
-    options?: WorkflowRunActionRepetitionsGetOptionalParams
+    options?: WorkflowRunActionRepetitionsGetOptionalParams,
   ): Promise<WorkflowRunActionRepetitionsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -254,9 +255,9 @@ export class WorkflowRunActionRepetitionsImpl
         runName,
         actionName,
         repetitionName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -275,7 +276,7 @@ export class WorkflowRunActionRepetitionsImpl
     runName: string,
     actionName: string,
     repetitionName: string,
-    options?: WorkflowRunActionRepetitionsListExpressionTracesOptionalParams
+    options?: WorkflowRunActionRepetitionsListExpressionTracesOptionalParams,
   ): Promise<WorkflowRunActionRepetitionsListExpressionTracesResponse> {
     return this.client.sendOperationRequest(
       {
@@ -284,9 +285,9 @@ export class WorkflowRunActionRepetitionsImpl
         runName,
         actionName,
         repetitionName,
-        options
+        options,
       },
-      listExpressionTracesOperationSpec
+      listExpressionTracesOperationSpec,
     );
   }
 }
@@ -294,40 +295,15 @@ export class WorkflowRunActionRepetitionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/repetitions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/repetitions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowRunActionRepetitionDefinitionCollection
+      bodyMapper: Mappers.WorkflowRunActionRepetitionDefinitionCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workflowName,
-    Parameters.runName,
-    Parameters.actionName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/repetitions/{repetitionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkflowRunActionRepetitionDefinition
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -337,22 +313,44 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.workflowName,
     Parameters.runName,
     Parameters.actionName,
-    Parameters.repetitionName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/repetitions/{repetitionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkflowRunActionRepetitionDefinition,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workflowName,
+    Parameters.runName,
+    Parameters.actionName,
+    Parameters.repetitionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listExpressionTracesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/repetitions/{repetitionName}/listExpressionTraces",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/repetitions/{repetitionName}/listExpressionTraces",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ExpressionTraces
+      bodyMapper: Mappers.ExpressionTraces,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -362,8 +360,8 @@ const listExpressionTracesOperationSpec: coreClient.OperationSpec = {
     Parameters.workflowName,
     Parameters.runName,
     Parameters.actionName,
-    Parameters.repetitionName
+    Parameters.repetitionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
