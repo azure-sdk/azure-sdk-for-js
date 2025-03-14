@@ -805,6 +805,9 @@ importers:
       '@rush-temp/arm-trustedsigning':
         specifier: file:./projects/arm-trustedsigning.tgz
         version: file:projects/arm-trustedsigning.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
+      '@rush-temp/arm-verifiedid':
+        specifier: file:./projects/arm-verifiedid.tgz
+        version: file:projects/arm-verifiedid.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/arm-visualstudio':
         specifier: file:./projects/arm-visualstudio.tgz
         version: file:projects/arm-visualstudio.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
@@ -3437,6 +3440,10 @@ packages:
 
   '@rush-temp/arm-trustedsigning@file:projects/arm-trustedsigning.tgz':
     resolution: {integrity: sha512-jKTyJGjOznUMapFVE4UsvgHn6CoHyAuw832fu2l06V7nvnqYtK1cr/7IBQ9iQlbjoTHYmkBZpVBFeS4G8ztvvw==, tarball: file:projects/arm-trustedsigning.tgz}
+    version: 0.0.0
+
+  '@rush-temp/arm-verifiedid@file:projects/arm-verifiedid.tgz':
+    resolution: {integrity: sha512-bWWNL0iQdpda38tnBE/jL5PZufn1Tf7DfEi3ids5Ux6SddAOJdQFrxSVioAKq9UHOaJ3WNQcjS4Hrc/wpxL/Jg==, tarball: file:projects/arm-verifiedid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-visualstudio@file:projects/arm-visualstudio.tgz':
@@ -18765,6 +18772,41 @@ snapshots:
       - webdriverio
       - yaml
 
+  '@rush-temp/arm-verifiedid@file:projects/arm-verifiedid.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
+    dependencies:
+      '@types/node': 18.19.80
+      '@vitest/browser': 3.0.7(@types/node@18.19.80)(playwright@1.51.0)(typescript@5.6.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.7)
+      '@vitest/coverage-istanbul': 3.0.7(vitest@3.0.7)
+      dotenv: 16.4.7
+      eslint: 9.22.0
+      playwright: 1.51.0
+      tslib: 2.8.1
+      typescript: 5.6.3
+      vitest: 3.0.7(@types/debug@4.1.12)(@types/node@18.19.80)(@vitest/browser@3.0.7)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(yaml@2.7.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
   '@rush-temp/arm-visualstudio@file:projects/arm-visualstudio.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@azure/core-lro': 2.7.2
@@ -23842,7 +23884,7 @@ snapshots:
 
   '@types/jsonfile@6.1.4':
     dependencies:
-      '@types/node': 18.19.80
+      '@types/node': 22.7.9
 
   '@types/jsonwebtoken@9.0.9':
     dependencies:
@@ -23926,7 +23968,7 @@ snapshots:
 
   '@types/readdir-glob@1.1.5':
     dependencies:
-      '@types/node': 18.19.80
+      '@types/node': 22.7.9
 
   '@types/resolve@1.20.2': {}
 
