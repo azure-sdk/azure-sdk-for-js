@@ -1,67 +1,69 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Operation, _OperationListResult } from "../../models/models.js";
-import { DocumentDBContext as Client } from "../index.js";
+import { MongoClusterManagementContext as Client, OperationsListOptionalParams } from "../index.js";
 import {
-  StreamableMethod,
-  operationOptionsToRequestParameters,
-  PathUncheckedResponse,
-  createRestError,
-} from "@azure-rest/core-client";
+  errorResponseDeserializer,
+  _OperationListResult,
+  _operationListResultDeserializer,
+  Operation,
+} from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import { OperationsListOptionalParams } from "../../models/options.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
-export function _operationsListSend(
+export function _listSend(
   context: Client,
   options: OperationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path("/providers/Microsoft.DocumentDB/operations")
-    .get({ ...operationOptionsToRequestParameters(options) });
+  const path = expandUrlTemplate(
+    "/providers/Microsoft.DocumentDB/operations{?api-version}",
+    {
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _operationsListDeserialize(
+export async function _listDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_OperationListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
-  return {
-    value: result.body["value"].map((p: any) => {
-      return {
-        name: p["name"],
-        isDataAction: p["isDataAction"],
-        display: !p.display
-          ? undefined
-          : {
-              provider: p.display?.["provider"],
-              resource: p.display?.["resource"],
-              operation: p.display?.["operation"],
-              description: p.display?.["description"],
-            },
-        origin: p["origin"],
-        actionType: p["actionType"],
-      };
-    }),
-    nextLink: result.body["nextLink"],
-  };
+  return _operationListResultDeserializer(result.body);
 }
 
 /** List the operations for the provider */
-export function operationsList(
+export function list(
   context: Client,
   options: OperationsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Operation> {
   return buildPagedAsyncIterator(
     context,
-    () => _operationsListSend(context, options),
-    _operationsListDeserialize,
+    () => _listSend(context, options),
+    _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
