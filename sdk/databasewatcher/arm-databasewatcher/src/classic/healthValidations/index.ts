@@ -2,11 +2,7 @@
 // Licensed under the MIT License.
 
 import { DatabaseWatcherContext } from "../../api/databaseWatcherContext.js";
-import {
-  healthValidationsStartValidation,
-  healthValidationsListByParent,
-  healthValidationsGet,
-} from "../../api/healthValidations/index.js";
+import { startValidation, listByParent, get } from "../../api/healthValidations/index.js";
 import {
   HealthValidationsStartValidationOptionalParams,
   HealthValidationsListByParentOptionalParams,
@@ -47,26 +43,18 @@ function _getHealthValidations(context: DatabaseWatcherContext) {
       watcherName: string,
       healthValidationName: string,
       options?: HealthValidationsStartValidationOptionalParams,
-    ) =>
-      healthValidationsStartValidation(
-        context,
-        resourceGroupName,
-        watcherName,
-        healthValidationName,
-        options,
-      ),
+    ) => startValidation(context, resourceGroupName, watcherName, healthValidationName, options),
     listByParent: (
       resourceGroupName: string,
       watcherName: string,
       options?: HealthValidationsListByParentOptionalParams,
-    ) => healthValidationsListByParent(context, resourceGroupName, watcherName, options),
+    ) => listByParent(context, resourceGroupName, watcherName, options),
     get: (
       resourceGroupName: string,
       watcherName: string,
       healthValidationName: string,
       options?: HealthValidationsGetOptionalParams,
-    ) =>
-      healthValidationsGet(context, resourceGroupName, watcherName, healthValidationName, options),
+    ) => get(context, resourceGroupName, watcherName, healthValidationName, options),
   };
 }
 

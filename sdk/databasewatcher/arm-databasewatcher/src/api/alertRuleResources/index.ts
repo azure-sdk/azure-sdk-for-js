@@ -20,6 +20,7 @@ import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -27,7 +28,7 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
-export function _alertRuleResourcesListByParentSend(
+export function _listByParentSend(
   context: Client,
   resourceGroupName: string,
   watcherName: string,
@@ -35,24 +36,28 @@ export function _alertRuleResourcesListByParentSend(
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources",
-      context.subscriptionId,
-      resourceGroupName,
-      watcherName,
-    )
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      watcherName: watcherName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _alertRuleResourcesListByParentDeserialize(
+export async function _listByParentDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_AlertRuleResourceListResult> {
   const expectedStatuses = ["200"];
@@ -66,7 +71,7 @@ export async function _alertRuleResourcesListByParentDeserialize(
 }
 
 /** List AlertRuleResource resources by Watcher */
-export function alertRuleResourcesListByParent(
+export function listByParent(
   context: Client,
   resourceGroupName: string,
   watcherName: string,
@@ -76,41 +81,43 @@ export function alertRuleResourcesListByParent(
 ): PagedAsyncIterableIterator<AlertRuleResource> {
   return buildPagedAsyncIterator(
     context,
-    () => _alertRuleResourcesListByParentSend(context, resourceGroupName, watcherName, options),
-    _alertRuleResourcesListByParentDeserialize,
+    () => _listByParentSend(context, resourceGroupName, watcherName, options),
+    _listByParentDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _alertRuleResourcesDeleteSend(
+export function _$deleteSend(
   context: Client,
   resourceGroupName: string,
   watcherName: string,
   alertRuleResourceName: string,
   options: AlertRuleResourcesDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources/{alertRuleResourceName}",
-      context.subscriptionId,
-      resourceGroupName,
-      watcherName,
-      alertRuleResourceName,
-    )
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources/{alertRuleResourceName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      watcherName: watcherName,
+      alertRuleResourceName: alertRuleResourceName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _alertRuleResourcesDeleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -122,24 +129,29 @@ export async function _alertRuleResourcesDeleteDeserialize(
 }
 
 /** Delete a AlertRuleResource */
-export async function alertRuleResourcesDelete(
+/**
+ *  @fixme delete is a reserved word that cannot be used as an operation name.
+ *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+ *         to the operation to override the generated name.
+ */
+export async function $delete(
   context: Client,
   resourceGroupName: string,
   watcherName: string,
   alertRuleResourceName: string,
   options: AlertRuleResourcesDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _alertRuleResourcesDeleteSend(
+  const result = await _$deleteSend(
     context,
     resourceGroupName,
     watcherName,
     alertRuleResourceName,
     options,
   );
-  return _alertRuleResourcesDeleteDeserialize(result);
+  return _$deleteDeserialize(result);
 }
 
-export function _alertRuleResourcesCreateOrUpdateSend(
+export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   watcherName: string,
@@ -149,27 +161,31 @@ export function _alertRuleResourcesCreateOrUpdateSend(
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources/{alertRuleResourceName}",
-      context.subscriptionId,
-      resourceGroupName,
-      watcherName,
-      alertRuleResourceName,
-    )
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-      body: alertRuleResourceSerializer(resource),
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources/{alertRuleResourceName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      watcherName: watcherName,
+      alertRuleResourceName: alertRuleResourceName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: alertRuleResourceSerializer(resource),
+  });
 }
 
-export async function _alertRuleResourcesCreateOrUpdateDeserialize(
+export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<AlertRuleResource> {
   const expectedStatuses = ["200", "201"];
@@ -183,7 +199,7 @@ export async function _alertRuleResourcesCreateOrUpdateDeserialize(
 }
 
 /** Create a AlertRuleResource */
-export async function alertRuleResourcesCreateOrUpdate(
+export async function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   watcherName: string,
@@ -193,7 +209,7 @@ export async function alertRuleResourcesCreateOrUpdate(
     requestOptions: {},
   },
 ): Promise<AlertRuleResource> {
-  const result = await _alertRuleResourcesCreateOrUpdateSend(
+  const result = await _createOrUpdateSend(
     context,
     resourceGroupName,
     watcherName,
@@ -201,37 +217,39 @@ export async function alertRuleResourcesCreateOrUpdate(
     resource,
     options,
   );
-  return _alertRuleResourcesCreateOrUpdateDeserialize(result);
+  return _createOrUpdateDeserialize(result);
 }
 
-export function _alertRuleResourcesGetSend(
+export function _getSend(
   context: Client,
   resourceGroupName: string,
   watcherName: string,
   alertRuleResourceName: string,
   options: AlertRuleResourcesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources/{alertRuleResourceName}",
-      context.subscriptionId,
-      resourceGroupName,
-      watcherName,
-      alertRuleResourceName,
-    )
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources/{alertRuleResourceName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      watcherName: watcherName,
+      alertRuleResourceName: alertRuleResourceName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _alertRuleResourcesGetDeserialize(
-  result: PathUncheckedResponse,
-): Promise<AlertRuleResource> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<AlertRuleResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -243,19 +261,19 @@ export async function _alertRuleResourcesGetDeserialize(
 }
 
 /** Get a AlertRuleResource */
-export async function alertRuleResourcesGet(
+export async function get(
   context: Client,
   resourceGroupName: string,
   watcherName: string,
   alertRuleResourceName: string,
   options: AlertRuleResourcesGetOptionalParams = { requestOptions: {} },
 ): Promise<AlertRuleResource> {
-  const result = await _alertRuleResourcesGetSend(
+  const result = await _getSend(
     context,
     resourceGroupName,
     watcherName,
     alertRuleResourceName,
     options,
   );
-  return _alertRuleResourcesGetDeserialize(result);
+  return _getDeserialize(result);
 }

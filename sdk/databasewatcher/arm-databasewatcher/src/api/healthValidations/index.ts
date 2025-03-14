@@ -19,6 +19,7 @@ import {
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -27,7 +28,7 @@ import {
 } from "@azure-rest/core-client";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
-export function _healthValidationsStartValidationSend(
+export function _startValidationSend(
   context: Client,
   resourceGroupName: string,
   watcherName: string,
@@ -36,25 +37,29 @@ export function _healthValidationsStartValidationSend(
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/healthValidations/{healthValidationName}/startValidation",
-      context.subscriptionId,
-      resourceGroupName,
-      watcherName,
-      healthValidationName,
-    )
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/healthValidations/{healthValidationName}/startValidation{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      watcherName: watcherName,
+      healthValidationName: healthValidationName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _healthValidationsStartValidationDeserialize(
+export async function _startValidationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<HealthValidation> {
   const expectedStatuses = ["202", "200"];
@@ -68,7 +73,7 @@ export async function _healthValidationsStartValidationDeserialize(
 }
 
 /** Starts health validation for a watcher. */
-export function healthValidationsStartValidation(
+export function startValidation(
   context: Client,
   resourceGroupName: string,
   watcherName: string,
@@ -77,50 +82,43 @@ export function healthValidationsStartValidation(
     requestOptions: {},
   },
 ): PollerLike<OperationState<HealthValidation>, HealthValidation> {
-  return getLongRunningPoller(
-    context,
-    _healthValidationsStartValidationDeserialize,
-    ["202", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _healthValidationsStartValidationSend(
-          context,
-          resourceGroupName,
-          watcherName,
-          healthValidationName,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<HealthValidation>, HealthValidation>;
+  return getLongRunningPoller(context, _startValidationDeserialize, ["202", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _startValidationSend(context, resourceGroupName, watcherName, healthValidationName, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<HealthValidation>, HealthValidation>;
 }
 
-export function _healthValidationsListByParentSend(
+export function _listByParentSend(
   context: Client,
   resourceGroupName: string,
   watcherName: string,
   options: HealthValidationsListByParentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/healthValidations",
-      context.subscriptionId,
-      resourceGroupName,
-      watcherName,
-    )
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/healthValidations{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      watcherName: watcherName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _healthValidationsListByParentDeserialize(
+export async function _listByParentDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_HealthValidationListResult> {
   const expectedStatuses = ["200"];
@@ -134,7 +132,7 @@ export async function _healthValidationsListByParentDeserialize(
 }
 
 /** List HealthValidation resources by Watcher */
-export function healthValidationsListByParent(
+export function listByParent(
   context: Client,
   resourceGroupName: string,
   watcherName: string,
@@ -142,41 +140,43 @@ export function healthValidationsListByParent(
 ): PagedAsyncIterableIterator<HealthValidation> {
   return buildPagedAsyncIterator(
     context,
-    () => _healthValidationsListByParentSend(context, resourceGroupName, watcherName, options),
-    _healthValidationsListByParentDeserialize,
+    () => _listByParentSend(context, resourceGroupName, watcherName, options),
+    _listByParentDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _healthValidationsGetSend(
+export function _getSend(
   context: Client,
   resourceGroupName: string,
   watcherName: string,
   healthValidationName: string,
   options: HealthValidationsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/healthValidations/{healthValidationName}",
-      context.subscriptionId,
-      resourceGroupName,
-      watcherName,
-      healthValidationName,
-    )
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/healthValidations/{healthValidationName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      watcherName: watcherName,
+      healthValidationName: healthValidationName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _healthValidationsGetDeserialize(
-  result: PathUncheckedResponse,
-): Promise<HealthValidation> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<HealthValidation> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -188,19 +188,19 @@ export async function _healthValidationsGetDeserialize(
 }
 
 /** Get a HealthValidation */
-export async function healthValidationsGet(
+export async function get(
   context: Client,
   resourceGroupName: string,
   watcherName: string,
   healthValidationName: string,
   options: HealthValidationsGetOptionalParams = { requestOptions: {} },
 ): Promise<HealthValidation> {
-  const result = await _healthValidationsGetSend(
+  const result = await _getSend(
     context,
     resourceGroupName,
     watcherName,
     healthValidationName,
     options,
   );
-  return _healthValidationsGetDeserialize(result);
+  return _getDeserialize(result);
 }
