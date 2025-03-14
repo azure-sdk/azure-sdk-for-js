@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
-import { getAccountsOperations, AccountsOperations } from "./classic/accounts/index.js";
-import { getQuotasOperations, QuotasOperations } from "./classic/quotas/index.js";
 import {
-  getAccountQuotasOperations,
+  _getAccountQuotasOperations,
   AccountQuotasOperations,
 } from "./classic/accountQuotas/index.js";
+import { _getQuotasOperations, QuotasOperations } from "./classic/quotas/index.js";
+import { _getAccountsOperations, AccountsOperations } from "./classic/accounts/index.js";
+import { _getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
 import {
   createAzurePlaywrightService,
   AzurePlaywrightServiceContext,
@@ -33,23 +33,23 @@ export class AzurePlaywrightServiceClient {
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createAzurePlaywrightService(credential, {
+    this._client = createAzurePlaywrightService(credential, subscriptionId, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.operations = getOperationsOperations(this._client);
-    this.accounts = getAccountsOperations(this._client, subscriptionId);
-    this.quotas = getQuotasOperations(this._client, subscriptionId);
-    this.accountQuotas = getAccountQuotasOperations(this._client, subscriptionId);
+    this.accountQuotas = _getAccountQuotasOperations(this._client);
+    this.quotas = _getQuotasOperations(this._client);
+    this.accounts = _getAccountsOperations(this._client);
+    this.operations = _getOperationsOperations(this._client);
   }
 
-  /** The operation groups for Operations */
-  public readonly operations: OperationsOperations;
-  /** The operation groups for Accounts */
-  public readonly accounts: AccountsOperations;
-  /** The operation groups for Quotas */
-  public readonly quotas: QuotasOperations;
-  /** The operation groups for AccountQuotas */
+  /** The operation groups for accountQuotas */
   public readonly accountQuotas: AccountQuotasOperations;
+  /** The operation groups for quotas */
+  public readonly quotas: QuotasOperations;
+  /** The operation groups for accounts */
+  public readonly accounts: AccountsOperations;
+  /** The operation groups for operations */
+  public readonly operations: OperationsOperations;
 }
