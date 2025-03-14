@@ -2,12 +2,7 @@
 // Licensed under the MIT License.
 
 import { ImpactContext } from "../../api/impactContext.js";
-import {
-  insightsDelete,
-  insightsCreate,
-  insightsListBySubscription,
-  insightsGet,
-} from "../../api/insights/index.js";
+import { $delete, create, listBySubscription, get } from "../../api/insights/index.js";
 import {
   InsightsDeleteOptionalParams,
   InsightsCreateOptionalParams,
@@ -20,6 +15,11 @@ import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.j
 /** Interface representing a Insights operations. */
 export interface InsightsOperations {
   /** Delete Insight resource, This is Admin only operation */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
   delete: (
     workloadImpactName: string,
     insightName: string,
@@ -51,19 +51,19 @@ function _getInsights(context: ImpactContext) {
       workloadImpactName: string,
       insightName: string,
       options?: InsightsDeleteOptionalParams,
-    ) => insightsDelete(context, workloadImpactName, insightName, options),
+    ) => $delete(context, workloadImpactName, insightName, options),
     create: (
       workloadImpactName: string,
       insightName: string,
       resource: Insight,
       options?: InsightsCreateOptionalParams,
-    ) => insightsCreate(context, workloadImpactName, insightName, resource, options),
+    ) => create(context, workloadImpactName, insightName, resource, options),
     listBySubscription: (
       workloadImpactName: string,
       options?: InsightsListBySubscriptionOptionalParams,
-    ) => insightsListBySubscription(context, workloadImpactName, options),
+    ) => listBySubscription(context, workloadImpactName, options),
     get: (workloadImpactName: string, insightName: string, options?: InsightsGetOptionalParams) =>
-      insightsGet(context, workloadImpactName, insightName, options),
+      get(context, workloadImpactName, insightName, options),
   };
 }
 
