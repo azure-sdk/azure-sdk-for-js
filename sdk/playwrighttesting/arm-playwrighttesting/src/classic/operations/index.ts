@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AzurePlaywrightServiceContext } from "../../api/azurePlaywrightServiceContext.js";
-import { operationsList } from "../../api/operations/index.js";
+import { list } from "../../api/operations/index.js";
 import { OperationsListOptionalParams } from "../../api/options.js";
 import { Operation } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -13,16 +13,16 @@ export interface OperationsOperations {
   list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
-export function getOperations(context: AzurePlaywrightServiceContext) {
+function _getOperations(context: AzurePlaywrightServiceContext) {
   return {
-    list: (options?: OperationsListOptionalParams) => operationsList(context, options),
+    list: (options?: OperationsListOptionalParams) => list(context, options),
   };
 }
 
-export function getOperationsOperations(
+export function _getOperationsOperations(
   context: AzurePlaywrightServiceContext,
 ): OperationsOperations {
   return {
-    ...getOperations(context),
+    ..._getOperations(context),
   };
 }
