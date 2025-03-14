@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list certificate profiles under a trusted signing account.
  *
  * @summary list certificate profiles under a trusted signing account.
- * x-ms-original-file: 2024-02-05-preview/CertificateProfiles_ListByCodeSigningAccount.json
+ * x-ms-original-file: 2025-03-30/CertificateProfiles_ListByCodeSigningAccount.json
  */
 async function listCertificateProfilesUnderATrustedSigningAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
