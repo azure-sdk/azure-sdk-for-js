@@ -16,20 +16,17 @@ export interface TerraformOperations {
   ) => PollerLike<OperationState<TerraformOperationStatus>, TerraformOperationStatus>;
 }
 
-export function getTerraform(context: AzureTerraformContext, subscriptionId: string) {
+function _getTerraform(context: AzureTerraformContext) {
   return {
     exportTerraform: (
       body: BaseExportModelUnion,
       options?: TerraformExportTerraformOptionalParams,
-    ) => terraformExportTerraform(context, subscriptionId, body, options),
+    ) => terraformExportTerraform(context, body, options),
   };
 }
 
-export function getTerraformOperations(
-  context: AzureTerraformContext,
-  subscriptionId: string,
-): TerraformOperations {
+export function _getTerraformOperations(context: AzureTerraformContext): TerraformOperations {
   return {
-    ...getTerraform(context, subscriptionId),
+    ..._getTerraform(context),
   };
 }

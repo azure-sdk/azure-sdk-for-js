@@ -7,7 +7,13 @@ import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 
 /** The Azure Terraform management API provides a RESTful set of web services that used to manage your Azure Terraform resources. */
-export interface AzureTerraformContext extends Client {}
+export interface AzureTerraformContext extends Client {
+  /** The API version to use for this operation. */
+  /** Known values of {@link KnownVersions} that the service accepts. */
+  apiVersion: string;
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+}
 
 /** Optional parameters for the client. */
 export interface AzureTerraformClientOptionalParams extends ClientOptions {
@@ -19,9 +25,10 @@ export interface AzureTerraformClientOptionalParams extends ClientOptions {
 /** The Azure Terraform management API provides a RESTful set of web services that used to manage your Azure Terraform resources. */
 export function createAzureTerraform(
   credential: TokenCredential,
+  subscriptionId: string,
   options: AzureTerraformClientOptionalParams = {},
 ): AzureTerraformContext {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-arm-terraform/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
@@ -53,5 +60,9 @@ export function createAzureTerraform(
       return next(req);
     },
   });
-  return clientContext;
+  return {
+    ...clientContext,
+    apiVersion,
+    subscriptionId,
+  } as AzureTerraformContext;
 }
