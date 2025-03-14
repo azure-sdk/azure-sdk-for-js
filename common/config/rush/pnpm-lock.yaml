@@ -886,6 +886,9 @@ importers:
       '@rush-temp/container-registry':
         specifier: file:./projects/container-registry.tgz
         version: file:projects/container-registry.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
+      '@rush-temp/contoso-widgetmanager-rest':
+        specifier: file:./projects/contoso-widgetmanager-rest.tgz
+        version: file:projects/contoso-widgetmanager-rest.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/core-amqp':
         specifier: file:./projects/core-amqp.tgz
         version: file:projects/core-amqp.tgz(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(rollup@4.35.0)(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
@@ -3545,6 +3548,10 @@ packages:
 
   '@rush-temp/container-registry@file:projects/container-registry.tgz':
     resolution: {integrity: sha512-F/yDkyCUY3EqMS+83JDSB1vMoGmt0GAO13wRq92Jy2i6oE9/3z4RdFYwMUkka70hq8ujUcUqFv9ILNQcNNs8Zg==, tarball: file:projects/container-registry.tgz}
+    version: 0.0.0
+
+  '@rush-temp/contoso-widgetmanager-rest@file:projects/contoso-widgetmanager-rest.tgz':
+    resolution: {integrity: sha512-2Vs2QAcjd4+3oPqVa7EwFRPI+hPat5C5GX1lWZMQ/dv+P08xo8QieeziVlBngb/mjyi1ewZizKp+nvmy7AURQQ==, tarball: file:projects/contoso-widgetmanager-rest.tgz}
     version: 0.0.0
 
   '@rush-temp/core-amqp@file:projects/core-amqp.tgz':
@@ -19703,6 +19710,41 @@ snapshots:
       playwright: 1.51.0
       tslib: 2.8.1
       typescript: 5.7.3
+      vitest: 3.0.7(@types/debug@4.1.12)(@types/node@18.19.80)(@vitest/browser@3.0.7)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(yaml@2.7.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/contoso-widgetmanager-rest@file:projects/contoso-widgetmanager-rest.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
+    dependencies:
+      '@types/node': 18.19.80
+      '@vitest/browser': 3.0.7(@types/node@18.19.80)(playwright@1.51.0)(typescript@5.6.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.7)
+      '@vitest/coverage-istanbul': 3.0.7(vitest@3.0.7)
+      dotenv: 16.4.7
+      eslint: 9.22.0
+      playwright: 1.51.0
+      tslib: 2.8.1
+      typescript: 5.6.3
       vitest: 3.0.7(@types/debug@4.1.12)(@types/node@18.19.80)(@vitest/browser@3.0.7)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
