@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
-import { operationStatusGet } from "../../api/operationStatus/index.js";
+import { get } from "../../api/operationStatus/index.js";
 import { OperationStatusGetOptionalParams } from "../../api/options.js";
 import { OperationStatusResult } from "../../models/models.js";
 
@@ -19,7 +19,7 @@ export interface OperationStatusOperations {
 function _getOperationStatus(context: DeviceRegistryManagementContext) {
   return {
     get: (location: string, operationId: string, options?: OperationStatusGetOptionalParams) =>
-      operationStatusGet(context, location, operationId, options),
+      get(context, location, operationId, options),
   };
 }
 

@@ -17,6 +17,7 @@ import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -24,28 +25,32 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
-export function _billingContainersListBySubscriptionSend(
+export function _listBySubscriptionSend(
   context: Client,
   options: BillingContainersListBySubscriptionOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.DeviceRegistry/billingContainers",
-      context.subscriptionId,
-    )
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.DeviceRegistry/billingContainers{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _billingContainersListBySubscriptionDeserialize(
+export async function _listBySubscriptionDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_BillingContainerListResult> {
   const expectedStatuses = ["200"];
@@ -59,7 +64,7 @@ export async function _billingContainersListBySubscriptionDeserialize(
 }
 
 /** List BillingContainer resources by subscription ID */
-export function billingContainersListBySubscription(
+export function listBySubscription(
   context: Client,
   options: BillingContainersListBySubscriptionOptionalParams = {
     requestOptions: {},
@@ -67,37 +72,39 @@ export function billingContainersListBySubscription(
 ): PagedAsyncIterableIterator<BillingContainer> {
   return buildPagedAsyncIterator(
     context,
-    () => _billingContainersListBySubscriptionSend(context, options),
-    _billingContainersListBySubscriptionDeserialize,
+    () => _listBySubscriptionSend(context, options),
+    _listBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _billingContainersGetSend(
+export function _getSend(
   context: Client,
   billingContainerName: string,
   options: BillingContainersGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.DeviceRegistry/billingContainers/{billingContainerName}",
-      context.subscriptionId,
-      billingContainerName,
-    )
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.DeviceRegistry/billingContainers/{billingContainerName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      billingContainerName: billingContainerName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _billingContainersGetDeserialize(
-  result: PathUncheckedResponse,
-): Promise<BillingContainer> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<BillingContainer> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -109,11 +116,11 @@ export async function _billingContainersGetDeserialize(
 }
 
 /** Get a BillingContainer */
-export async function billingContainersGet(
+export async function get(
   context: Client,
   billingContainerName: string,
   options: BillingContainersGetOptionalParams = { requestOptions: {} },
 ): Promise<BillingContainer> {
-  const result = await _billingContainersGetSend(context, billingContainerName, options);
-  return _billingContainersGetDeserialize(result);
+  const result = await _getSend(context, billingContainerName, options);
+  return _getDeserialize(result);
 }

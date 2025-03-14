@@ -25,6 +25,7 @@ import {
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -33,26 +34,30 @@ import {
 } from "@azure-rest/core-client";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
-export function _assetsListBySubscriptionSend(
+export function _listBySubscriptionSend(
   context: Client,
   options: AssetsListBySubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.DeviceRegistry/assets",
-      context.subscriptionId,
-    )
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.DeviceRegistry/assets{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _assetsListBySubscriptionDeserialize(
+export async function _listBySubscriptionDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_AssetListResult> {
   const expectedStatuses = ["200"];
@@ -66,41 +71,45 @@ export async function _assetsListBySubscriptionDeserialize(
 }
 
 /** List Asset resources by subscription ID */
-export function assetsListBySubscription(
+export function listBySubscription(
   context: Client,
   options: AssetsListBySubscriptionOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Asset> {
   return buildPagedAsyncIterator(
     context,
-    () => _assetsListBySubscriptionSend(context, options),
-    _assetsListBySubscriptionDeserialize,
+    () => _listBySubscriptionSend(context, options),
+    _listBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _assetsListByResourceGroupSend(
+export function _listByResourceGroupSend(
   context: Client,
   resourceGroupName: string,
   options: AssetsListByResourceGroupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assets",
-      context.subscriptionId,
-      resourceGroupName,
-    )
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assets{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _assetsListByResourceGroupDeserialize(
+export async function _listByResourceGroupDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_AssetListResult> {
   const expectedStatuses = ["200"];
@@ -114,44 +123,48 @@ export async function _assetsListByResourceGroupDeserialize(
 }
 
 /** List Asset resources by resource group */
-export function assetsListByResourceGroup(
+export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
   options: AssetsListByResourceGroupOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Asset> {
   return buildPagedAsyncIterator(
     context,
-    () => _assetsListByResourceGroupSend(context, resourceGroupName, options),
-    _assetsListByResourceGroupDeserialize,
+    () => _listByResourceGroupSend(context, resourceGroupName, options),
+    _listByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _assetsDeleteSend(
+export function _$deleteSend(
   context: Client,
   resourceGroupName: string,
   assetName: string,
   options: AssetsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assets/{assetName}",
-      context.subscriptionId,
-      resourceGroupName,
-      assetName,
-    )
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assets/{assetName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      assetName: assetName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _assetsDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -163,47 +176,56 @@ export async function _assetsDeleteDeserialize(result: PathUncheckedResponse): P
 }
 
 /** Delete a Asset */
-export function assetsDelete(
+/**
+ *  @fixme delete is a reserved word that cannot be used as an operation name.
+ *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+ *         to the operation to override the generated name.
+ */
+export function $delete(
   context: Client,
   resourceGroupName: string,
   assetName: string,
   options: AssetsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _assetsDeleteDeserialize, ["202", "204", "200"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
-    getInitialResponse: () => _assetsDeleteSend(context, resourceGroupName, assetName, options),
+    getInitialResponse: () => _$deleteSend(context, resourceGroupName, assetName, options),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
 
-export function _assetsUpdateSend(
+export function _updateSend(
   context: Client,
   resourceGroupName: string,
   assetName: string,
   properties: AssetUpdate,
   options: AssetsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assets/{assetName}",
-      context.subscriptionId,
-      resourceGroupName,
-      assetName,
-    )
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-      body: assetUpdateSerializer(properties),
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assets/{assetName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      assetName: assetName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: assetUpdateSerializer(properties),
+  });
 }
 
-export async function _assetsUpdateDeserialize(result: PathUncheckedResponse): Promise<Asset> {
+export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Asset> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -215,51 +237,53 @@ export async function _assetsUpdateDeserialize(result: PathUncheckedResponse): P
 }
 
 /** Update a Asset */
-export function assetsUpdate(
+export function update(
   context: Client,
   resourceGroupName: string,
   assetName: string,
   properties: AssetUpdate,
   options: AssetsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Asset>, Asset> {
-  return getLongRunningPoller(context, _assetsUpdateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _assetsUpdateSend(context, resourceGroupName, assetName, properties, options),
+      _updateSend(context, resourceGroupName, assetName, properties, options),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<Asset>, Asset>;
 }
 
-export function _assetsCreateOrReplaceSend(
+export function _createOrReplaceSend(
   context: Client,
   resourceGroupName: string,
   assetName: string,
   resource: Asset,
   options: AssetsCreateOrReplaceOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assets/{assetName}",
-      context.subscriptionId,
-      resourceGroupName,
-      assetName,
-    )
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-      body: assetSerializer(resource),
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assets/{assetName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      assetName: assetName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: assetSerializer(resource),
+  });
 }
 
-export async function _assetsCreateOrReplaceDeserialize(
-  result: PathUncheckedResponse,
-): Promise<Asset> {
+export async function _createOrReplaceDeserialize(result: PathUncheckedResponse): Promise<Asset> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -271,46 +295,50 @@ export async function _assetsCreateOrReplaceDeserialize(
 }
 
 /** Create a Asset */
-export function assetsCreateOrReplace(
+export function createOrReplace(
   context: Client,
   resourceGroupName: string,
   assetName: string,
   resource: Asset,
   options: AssetsCreateOrReplaceOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Asset>, Asset> {
-  return getLongRunningPoller(context, _assetsCreateOrReplaceDeserialize, ["200", "201"], {
+  return getLongRunningPoller(context, _createOrReplaceDeserialize, ["200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _assetsCreateOrReplaceSend(context, resourceGroupName, assetName, resource, options),
+      _createOrReplaceSend(context, resourceGroupName, assetName, resource, options),
     resourceLocationConfig: "azure-async-operation",
   }) as PollerLike<OperationState<Asset>, Asset>;
 }
 
-export function _assetsGetSend(
+export function _getSend(
   context: Client,
   resourceGroupName: string,
   assetName: string,
   options: AssetsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assets/{assetName}",
-      context.subscriptionId,
-      resourceGroupName,
-      assetName,
-    )
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assets/{assetName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      assetName: assetName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _assetsGetDeserialize(result: PathUncheckedResponse): Promise<Asset> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<Asset> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -322,12 +350,12 @@ export async function _assetsGetDeserialize(result: PathUncheckedResponse): Prom
 }
 
 /** Get a Asset */
-export async function assetsGet(
+export async function get(
   context: Client,
   resourceGroupName: string,
   assetName: string,
   options: AssetsGetOptionalParams = { requestOptions: {} },
 ): Promise<Asset> {
-  const result = await _assetsGetSend(context, resourceGroupName, assetName, options);
-  return _assetsGetDeserialize(result);
+  const result = await _getSend(context, resourceGroupName, assetName, options);
+  return _getDeserialize(result);
 }
