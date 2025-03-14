@@ -9,6 +9,7 @@ import {
   IoTOperationsContext as Client,
 } from "../index.js";
 import {
+  errorResponseDeserializer,
   BrokerAuthenticationResource,
   brokerAuthenticationResourceSerializer,
   brokerAuthenticationResourceDeserializer,
@@ -20,6 +21,7 @@ import {
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -28,63 +30,152 @@ import {
 } from "@azure-rest/core-client";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
-export function _brokerAuthenticationGetSend(
+export function _brokerAuthenticationListByResourceGroupSend(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   instanceName: string,
   brokerName: string,
-  authenticationName: string,
-  options: BrokerAuthenticationGetOptionalParams = { requestOptions: {} },
+  options: BrokerAuthenticationListByResourceGroupOptionalParams = {
+    requestOptions: {},
+  },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authentications/{authenticationName}",
-      subscriptionId,
-      resourceGroupName,
-      instanceName,
-      brokerName,
-      authenticationName,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authentications{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      instanceName: instanceName,
+      brokerName: brokerName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _brokerAuthenticationGetDeserialize(
+export async function _brokerAuthenticationListByResourceGroupDeserialize(
   result: PathUncheckedResponse,
-): Promise<BrokerAuthenticationResource> {
+): Promise<_BrokerAuthenticationResourceListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
-  return brokerAuthenticationResourceDeserializer(result.body);
+  return _brokerAuthenticationResourceListResultDeserializer(result.body);
 }
 
-/** Get a BrokerAuthenticationResource */
-export async function brokerAuthenticationGet(
+/** List BrokerAuthenticationResource resources by BrokerResource */
+export function brokerAuthenticationListByResourceGroup(
   context: Client,
-  subscriptionId: string,
+  resourceGroupName: string,
+  instanceName: string,
+  brokerName: string,
+  options: BrokerAuthenticationListByResourceGroupOptionalParams = {
+    requestOptions: {},
+  },
+): PagedAsyncIterableIterator<BrokerAuthenticationResource> {
+  return buildPagedAsyncIterator(
+    context,
+    () =>
+      _brokerAuthenticationListByResourceGroupSend(
+        context,
+        resourceGroupName,
+        instanceName,
+        brokerName,
+        options,
+      ),
+    _brokerAuthenticationListByResourceGroupDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink" },
+  );
+}
+
+export function _brokerAuthenticationDeleteSend(
+  context: Client,
   resourceGroupName: string,
   instanceName: string,
   brokerName: string,
   authenticationName: string,
-  options: BrokerAuthenticationGetOptionalParams = { requestOptions: {} },
-): Promise<BrokerAuthenticationResource> {
-  const result = await _brokerAuthenticationGetSend(
-    context,
-    subscriptionId,
-    resourceGroupName,
-    instanceName,
-    brokerName,
-    authenticationName,
-    options,
+  options: BrokerAuthenticationDeleteOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authentications/{authenticationName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      instanceName: instanceName,
+      brokerName: brokerName,
+      authenticationName: authenticationName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
   );
-  return _brokerAuthenticationGetDeserialize(result);
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _brokerAuthenticationDeleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
+  const expectedStatuses = ["202", "204", "200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return;
+}
+
+/** Delete a BrokerAuthenticationResource */
+export function brokerAuthenticationDelete(
+  context: Client,
+  resourceGroupName: string,
+  instanceName: string,
+  brokerName: string,
+  authenticationName: string,
+  options: BrokerAuthenticationDeleteOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(
+    context,
+    _brokerAuthenticationDeleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _brokerAuthenticationDeleteSend(
+          context,
+          resourceGroupName,
+          instanceName,
+          brokerName,
+          authenticationName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _brokerAuthenticationCreateOrUpdateSend(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   instanceName: string,
   brokerName: string,
@@ -94,19 +185,29 @@ export function _brokerAuthenticationCreateOrUpdateSend(
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authentications/{authenticationName}",
-      subscriptionId,
-      resourceGroupName,
-      instanceName,
-      brokerName,
-      authenticationName,
-    )
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      body: brokerAuthenticationResourceSerializer(resource),
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authentications/{authenticationName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      instanceName: instanceName,
+      brokerName: brokerName,
+      authenticationName: authenticationName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: brokerAuthenticationResourceSerializer(resource),
+  });
 }
 
 export async function _brokerAuthenticationCreateOrUpdateDeserialize(
@@ -114,7 +215,9 @@ export async function _brokerAuthenticationCreateOrUpdateDeserialize(
 ): Promise<BrokerAuthenticationResource> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return brokerAuthenticationResourceDeserializer(result.body);
@@ -123,7 +226,6 @@ export async function _brokerAuthenticationCreateOrUpdateDeserialize(
 /** Create a BrokerAuthenticationResource */
 export function brokerAuthenticationCreateOrUpdate(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   instanceName: string,
   brokerName: string,
@@ -143,7 +245,6 @@ export function brokerAuthenticationCreateOrUpdate(
       getInitialResponse: () =>
         _brokerAuthenticationCreateOrUpdateSend(
           context,
-          subscriptionId,
           resourceGroupName,
           instanceName,
           brokerName,
@@ -156,126 +257,66 @@ export function brokerAuthenticationCreateOrUpdate(
   ) as PollerLike<OperationState<BrokerAuthenticationResource>, BrokerAuthenticationResource>;
 }
 
-export function _brokerAuthenticationDeleteSend(
+export function _brokerAuthenticationGetSend(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   instanceName: string,
   brokerName: string,
   authenticationName: string,
-  options: BrokerAuthenticationDeleteOptionalParams = { requestOptions: {} },
+  options: BrokerAuthenticationGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authentications/{authenticationName}",
-      subscriptionId,
-      resourceGroupName,
-      instanceName,
-      brokerName,
-      authenticationName,
-    )
-    .delete({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _brokerAuthenticationDeleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
-  const expectedStatuses = ["202", "204", "200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return;
-}
-
-/** Delete a BrokerAuthenticationResource */
-export function brokerAuthenticationDelete(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  instanceName: string,
-  brokerName: string,
-  authenticationName: string,
-  options: BrokerAuthenticationDeleteOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _brokerAuthenticationDeleteDeserialize,
-    ["202", "204", "200"],
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authentications/{authenticationName}{?api-version}",
     {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _brokerAuthenticationDeleteSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          instanceName,
-          brokerName,
-          authenticationName,
-          options,
-        ),
-      resourceLocationConfig: "location",
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      instanceName: instanceName,
+      brokerName: brokerName,
+      authenticationName: authenticationName,
+      "api-version": context.apiVersion,
     },
-  ) as PollerLike<OperationState<void>, void>;
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export function _brokerAuthenticationListByResourceGroupSend(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  instanceName: string,
-  brokerName: string,
-  options: BrokerAuthenticationListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authentications",
-      subscriptionId,
-      resourceGroupName,
-      instanceName,
-      brokerName,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _brokerAuthenticationListByResourceGroupDeserialize(
+export async function _brokerAuthenticationGetDeserialize(
   result: PathUncheckedResponse,
-): Promise<_BrokerAuthenticationResourceListResult> {
+): Promise<BrokerAuthenticationResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
-  return _brokerAuthenticationResourceListResultDeserializer(result.body);
+  return brokerAuthenticationResourceDeserializer(result.body);
 }
 
-/** List BrokerAuthenticationResource resources by BrokerResource */
-export function brokerAuthenticationListByResourceGroup(
+/** Get a BrokerAuthenticationResource */
+export async function brokerAuthenticationGet(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   instanceName: string,
   brokerName: string,
-  options: BrokerAuthenticationListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
-): PagedAsyncIterableIterator<BrokerAuthenticationResource> {
-  return buildPagedAsyncIterator(
+  authenticationName: string,
+  options: BrokerAuthenticationGetOptionalParams = { requestOptions: {} },
+): Promise<BrokerAuthenticationResource> {
+  const result = await _brokerAuthenticationGetSend(
     context,
-    () =>
-      _brokerAuthenticationListByResourceGroupSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        brokerName,
-        options,
-      ),
-    _brokerAuthenticationListByResourceGroupDeserialize,
-    ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    resourceGroupName,
+    instanceName,
+    brokerName,
+    authenticationName,
+    options,
   );
+  return _brokerAuthenticationGetDeserialize(result);
 }
