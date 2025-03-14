@@ -2628,7 +2628,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-computefleet@file:projects/arm-computefleet.tgz':
-    resolution: {integrity: sha512-pVr0gcPdGnexcuBYD+xtAeHjzqfA6cXbphyyuawAjiPON4ZogSYlm4pEu+Vbhk0WaFAPWVcT85oOOtR2QsRBKA==, tarball: file:projects/arm-computefleet.tgz}
+    resolution: {integrity: sha512-j1T5DbteZcHFZqBnwS8rMrW5jE5lstM7BMo0W09nl7ZVQz/tB+5u/oEI/hPd5ioezThTAtaUGCHMYqbpDF+l7A==, tarball: file:projects/arm-computefleet.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-computeschedule@file:projects/arm-computeschedule.tgz':
@@ -11714,13 +11714,13 @@ snapshots:
   '@rush-temp/arm-computefleet@file:projects/arm-computefleet.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@types/node': 18.19.80
-      '@vitest/browser': 3.0.7(@types/node@18.19.80)(playwright@1.51.0)(typescript@5.7.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.7)
+      '@vitest/browser': 3.0.7(@types/node@18.19.80)(playwright@1.51.0)(typescript@5.6.3)(vite@6.2.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.7)
       '@vitest/coverage-istanbul': 3.0.7(vitest@3.0.7)
       dotenv: 16.4.7
       eslint: 9.22.0
       playwright: 1.51.0
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.7(@types/debug@4.1.12)(@types/node@18.19.80)(@vitest/browser@3.0.7)(msw@2.7.3(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
