@@ -16,7 +16,7 @@ import {
   ReplicationExtensionCreateOptionalParams,
   ReplicationExtensionCreateResponse,
   ReplicationExtensionDeleteOptionalParams,
-  ReplicationExtensionDeleteResponse
+  ReplicationExtensionDeleteResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface ReplicationExtension {
   list(
     resourceGroupName: string,
     vaultName: string,
-    options?: ReplicationExtensionListOptionalParams
+    options?: ReplicationExtensionListOptionalParams,
   ): PagedAsyncIterableIterator<ReplicationExtensionModel>;
   /**
    * Gets the details of the replication extension.
@@ -44,20 +44,22 @@ export interface ReplicationExtension {
     resourceGroupName: string,
     vaultName: string,
     replicationExtensionName: string,
-    options?: ReplicationExtensionGetOptionalParams
+    options?: ReplicationExtensionGetOptionalParams,
   ): Promise<ReplicationExtensionGetResponse>;
   /**
    * Creates the replication extension in the given vault.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
    * @param replicationExtensionName The replication extension name.
+   * @param body Replication extension model.
    * @param options The options parameters.
    */
   beginCreate(
     resourceGroupName: string,
     vaultName: string,
     replicationExtensionName: string,
-    options?: ReplicationExtensionCreateOptionalParams
+    body: ReplicationExtensionModel,
+    options?: ReplicationExtensionCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationExtensionCreateResponse>,
@@ -69,13 +71,15 @@ export interface ReplicationExtension {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
    * @param replicationExtensionName The replication extension name.
+   * @param body Replication extension model.
    * @param options The options parameters.
    */
   beginCreateAndWait(
     resourceGroupName: string,
     vaultName: string,
     replicationExtensionName: string,
-    options?: ReplicationExtensionCreateOptionalParams
+    body: ReplicationExtensionModel,
+    options?: ReplicationExtensionCreateOptionalParams,
   ): Promise<ReplicationExtensionCreateResponse>;
   /**
    * Deletes the replication extension in the given vault.
@@ -88,7 +92,7 @@ export interface ReplicationExtension {
     resourceGroupName: string,
     vaultName: string,
     replicationExtensionName: string,
-    options?: ReplicationExtensionDeleteOptionalParams
+    options?: ReplicationExtensionDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationExtensionDeleteResponse>,
@@ -106,6 +110,6 @@ export interface ReplicationExtension {
     resourceGroupName: string,
     vaultName: string,
     replicationExtensionName: string,
-    options?: ReplicationExtensionDeleteOptionalParams
+    options?: ReplicationExtensionDeleteOptionalParams,
   ): Promise<ReplicationExtensionDeleteResponse>;
 }
