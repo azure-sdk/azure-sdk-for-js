@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { ImpactClient } = require("@azure/arm-impactreporting");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { ImpactClient } from "@azure/arm-impactreporting";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to list WorkloadImpact resources by subscription ID
@@ -10,19 +10,19 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * @summary list WorkloadImpact resources by subscription ID
  * x-ms-original-file: 2024-05-01-preview/WorkloadImpacts_ListBySubscription.json
  */
-async function listWorkloadImpactResourcesBySubscription() {
+async function listWorkloadImpactResourcesBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.workloadImpacts.listBySubscription()) {
+  for await (const item of client.workloadImpacts.listBySubscription()) {
     resArray.push(item);
   }
 
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listWorkloadImpactResourcesBySubscription();
 }
 
