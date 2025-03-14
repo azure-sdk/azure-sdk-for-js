@@ -9,21 +9,24 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  DraModel as DraModelMapper,
-  EmailConfigurationModel as EmailConfigurationModelMapper,
+  CheckNameAvailabilityModel as CheckNameAvailabilityModelMapper,
   FabricModel as FabricModelMapper,
   FabricModelUpdate as FabricModelUpdateMapper,
-  PolicyModel as PolicyModelMapper,
+  VaultModel as VaultModelMapper,
+  VaultModelUpdate as VaultModelUpdateMapper,
+  DeploymentPreflightModel as DeploymentPreflightModelMapper,
+  FabricAgentModel as FabricAgentModelMapper,
+  EmailConfigurationModel as EmailConfigurationModelMapper,
+  PrivateEndpointConnectionProxy as PrivateEndpointConnectionProxyMapper,
+  PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   ProtectedItemModel as ProtectedItemModelMapper,
+  ProtectedItemModelUpdate as ProtectedItemModelUpdateMapper,
   PlannedFailoverModel as PlannedFailoverModelMapper,
   ReplicationExtensionModel as ReplicationExtensionModelMapper,
-  CheckNameAvailabilityModel as CheckNameAvailabilityModelMapper,
-  DeploymentPreflightModel as DeploymentPreflightModelMapper,
-  VaultModel as VaultModelMapper,
-  VaultModelUpdate as VaultModelUpdateMapper
+  PolicyModel as PolicyModelMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -33,9 +36,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -44,76 +47,34 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
-};
-
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "Uuid"
-    }
-  }
-};
-
-export const resourceGroupName: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    constraints: {
-      MaxLength: 90,
-      MinLength: 1
-    },
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const fabricName: OperationURLParameter = {
-  parameterPath: "fabricName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9]*$")
-    },
-    serializedName: "fabricName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const fabricAgentName: OperationURLParameter = {
-  parameterPath: "fabricAgentName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9]*$")
-    },
-    serializedName: "fabricAgentName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-02-16-preview",
+    defaultValue: "2024-09-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
 };
 
 export const contentType: OperationParameter = {
@@ -123,97 +84,54 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: DraModelMapper
+  mapper: CheckNameAvailabilityModelMapper,
 };
 
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
   mapper: {
-    serializedName: "nextLink",
+    serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "Uuid",
+    },
   },
-  skipEncoding: true
 };
 
-export const operationId: OperationURLParameter = {
-  parameterPath: "operationId",
+export const location: OperationURLParameter = {
+  parameterPath: "location",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
-    serializedName: "operationId",
+    serializedName: "location",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const vaultName: OperationURLParameter = {
-  parameterPath: "vaultName",
+export const resourceGroupName: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9]*$")
+      MaxLength: 90,
+      MinLength: 1,
     },
-    serializedName: "vaultName",
+    serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const emailConfigurationName: OperationURLParameter = {
-  parameterPath: "emailConfigurationName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9]*$")
+      name: "String",
     },
-    serializedName: "emailConfigurationName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const body1: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: EmailConfigurationModelMapper
-};
-
-export const eventName: OperationURLParameter = {
-  parameterPath: "eventName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9]*$")
-    },
-    serializedName: "eventName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const filter: OperationQueryParameter = {
-  parameterPath: ["options", "filter"],
-  mapper: {
-    serializedName: "$filter",
-    type: {
-      name: "String"
-    }
-  }
+  },
 };
 
 export const continuationToken: OperationQueryParameter = {
@@ -221,129 +139,62 @@ export const continuationToken: OperationQueryParameter = {
   mapper: {
     serializedName: "continuationToken",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const fabricName: OperationURLParameter = {
+  parameterPath: "fabricName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]*$"),
+    },
+    serializedName: "fabricName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body1: OperationParameter = {
+  parameterPath: "body",
+  mapper: FabricModelMapper,
 };
 
 export const body2: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: FabricModelMapper
+  parameterPath: "body",
+  mapper: FabricModelUpdateMapper,
+};
+
+export const vaultName: OperationURLParameter = {
+  parameterPath: "vaultName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]*$"),
+    },
+    serializedName: "vaultName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const body3: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: FabricModelUpdateMapper
-};
-
-export const policyName: OperationURLParameter = {
-  parameterPath: "policyName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9]*$")
-    },
-    serializedName: "policyName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+  parameterPath: "body",
+  mapper: VaultModelMapper,
 };
 
 export const body4: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: PolicyModelMapper
-};
-
-export const protectedItemName: OperationURLParameter = {
-  parameterPath: "protectedItemName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9]*$")
-    },
-    serializedName: "protectedItemName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+  parameterPath: "body",
+  mapper: VaultModelUpdateMapper,
 };
 
 export const body5: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: ProtectedItemModelMapper
-};
-
-export const forceDelete: OperationQueryParameter = {
-  parameterPath: ["options", "forceDelete"],
-  mapper: {
-    serializedName: "forceDelete",
-    type: {
-      name: "Boolean"
-    }
-  }
-};
-
-export const body6: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: PlannedFailoverModelMapper
-};
-
-export const recoveryPointName: OperationURLParameter = {
-  parameterPath: "recoveryPointName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9]*$")
-    },
-    serializedName: "recoveryPointName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const replicationExtensionName: OperationURLParameter = {
-  parameterPath: "replicationExtensionName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9]*$")
-    },
-    serializedName: "replicationExtensionName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const body7: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: ReplicationExtensionModelMapper
-};
-
-export const body8: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: CheckNameAvailabilityModelMapper
-};
-
-export const location: OperationURLParameter = {
-  parameterPath: "location",
-  mapper: {
-    constraints: {
-      MinLength: 1
-    },
-    serializedName: "location",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const body9: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: DeploymentPreflightModelMapper
+  mapper: DeploymentPreflightModelMapper,
 };
 
 export const deploymentId: OperationURLParameter = {
@@ -352,31 +203,250 @@ export const deploymentId: OperationURLParameter = {
     serializedName: "deploymentId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const body10: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: VaultModelMapper
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    constraints: {
+      MinLength: 1,
+    },
+    serializedName: "operationId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
-export const body11: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: VaultModelUpdateMapper
+export const fabricAgentName: OperationURLParameter = {
+  parameterPath: "fabricAgentName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]*$"),
+    },
+    serializedName: "fabricAgentName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body6: OperationParameter = {
+  parameterPath: "body",
+  mapper: FabricAgentModelMapper,
+};
+
+export const emailConfigurationName: OperationURLParameter = {
+  parameterPath: "emailConfigurationName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]*$"),
+    },
+    serializedName: "emailConfigurationName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body7: OperationParameter = {
+  parameterPath: "body",
+  mapper: EmailConfigurationModelMapper,
+};
+
+export const odataOptions: OperationQueryParameter = {
+  parameterPath: ["options", "odataOptions"],
+  mapper: {
+    serializedName: "odataOptions",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const pageSize: OperationQueryParameter = {
+  parameterPath: ["options", "pageSize"],
+  mapper: {
+    serializedName: "pageSize",
+    type: {
+      name: "Number",
+    },
+  },
+};
+
+export const eventName: OperationURLParameter = {
+  parameterPath: "eventName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]*$"),
+    },
+    serializedName: "eventName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const jobName: OperationURLParameter = {
   parameterPath: "jobName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9]*$")
+      Pattern: new RegExp("^[a-zA-Z0-9]*$"),
     },
     serializedName: "jobName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const privateEndpointConnectionProxyName: OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionProxyName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-.]*$"),
+    },
+    serializedName: "privateEndpointConnectionProxyName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body8: OperationParameter = {
+  parameterPath: "body",
+  mapper: PrivateEndpointConnectionProxyMapper,
+};
+
+export const privateEndpointConnectionName: OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]*$"),
+    },
+    serializedName: "privateEndpointConnectionName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body9: OperationParameter = {
+  parameterPath: "body",
+  mapper: PrivateEndpointConnectionMapper,
+};
+
+export const privateLinkResourceName: OperationURLParameter = {
+  parameterPath: "privateLinkResourceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-.]*$"),
+    },
+    serializedName: "privateLinkResourceName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const protectedItemName: OperationURLParameter = {
+  parameterPath: "protectedItemName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]*$"),
+    },
+    serializedName: "protectedItemName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body10: OperationParameter = {
+  parameterPath: "body",
+  mapper: ProtectedItemModelMapper,
+};
+
+export const body11: OperationParameter = {
+  parameterPath: "body",
+  mapper: ProtectedItemModelUpdateMapper,
+};
+
+export const forceDelete: OperationQueryParameter = {
+  parameterPath: ["options", "forceDelete"],
+  mapper: {
+    serializedName: "forceDelete",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
+export const body12: OperationParameter = {
+  parameterPath: "body",
+  mapper: PlannedFailoverModelMapper,
+};
+
+export const recoveryPointName: OperationURLParameter = {
+  parameterPath: "recoveryPointName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]*$"),
+    },
+    serializedName: "recoveryPointName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const replicationExtensionName: OperationURLParameter = {
+  parameterPath: "replicationExtensionName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]*$"),
+    },
+    serializedName: "replicationExtensionName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body13: OperationParameter = {
+  parameterPath: "body",
+  mapper: ReplicationExtensionModelMapper,
+};
+
+export const policyName: OperationURLParameter = {
+  parameterPath: "policyName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]*$"),
+    },
+    serializedName: "policyName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body14: OperationParameter = {
+  parameterPath: "body",
+  mapper: PolicyModelMapper,
 };

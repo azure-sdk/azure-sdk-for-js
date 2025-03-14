@@ -15,10 +15,14 @@ import {
   ProtectedItemGetResponse,
   ProtectedItemCreateOptionalParams,
   ProtectedItemCreateResponse,
+  ProtectedItemModelUpdate,
+  ProtectedItemUpdateOptionalParams,
+  ProtectedItemUpdateResponse,
   ProtectedItemDeleteOptionalParams,
   ProtectedItemDeleteResponse,
+  PlannedFailoverModel,
   ProtectedItemPlannedFailoverOptionalParams,
-  ProtectedItemPlannedFailoverResponse
+  ProtectedItemPlannedFailoverResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +37,7 @@ export interface ProtectedItem {
   list(
     resourceGroupName: string,
     vaultName: string,
-    options?: ProtectedItemListOptionalParams
+    options?: ProtectedItemListOptionalParams,
   ): PagedAsyncIterableIterator<ProtectedItemModel>;
   /**
    * Gets the details of the protected item.
@@ -46,20 +50,22 @@ export interface ProtectedItem {
     resourceGroupName: string,
     vaultName: string,
     protectedItemName: string,
-    options?: ProtectedItemGetOptionalParams
+    options?: ProtectedItemGetOptionalParams,
   ): Promise<ProtectedItemGetResponse>;
   /**
    * Creates the protected item.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
    * @param protectedItemName The protected item name.
+   * @param body Protected item model.
    * @param options The options parameters.
    */
   beginCreate(
     resourceGroupName: string,
     vaultName: string,
     protectedItemName: string,
-    options?: ProtectedItemCreateOptionalParams
+    body: ProtectedItemModel,
+    options?: ProtectedItemCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProtectedItemCreateResponse>,
@@ -71,14 +77,51 @@ export interface ProtectedItem {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
    * @param protectedItemName The protected item name.
+   * @param body Protected item model.
    * @param options The options parameters.
    */
   beginCreateAndWait(
     resourceGroupName: string,
     vaultName: string,
     protectedItemName: string,
-    options?: ProtectedItemCreateOptionalParams
+    body: ProtectedItemModel,
+    options?: ProtectedItemCreateOptionalParams,
   ): Promise<ProtectedItemCreateResponse>;
+  /**
+   * Performs update on the protected item.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The vault name.
+   * @param protectedItemName The protected item name.
+   * @param body Protected item model.
+   * @param options The options parameters.
+   */
+  beginUpdate(
+    resourceGroupName: string,
+    vaultName: string,
+    protectedItemName: string,
+    body: ProtectedItemModelUpdate,
+    options?: ProtectedItemUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ProtectedItemUpdateResponse>,
+      ProtectedItemUpdateResponse
+    >
+  >;
+  /**
+   * Performs update on the protected item.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The vault name.
+   * @param protectedItemName The protected item name.
+   * @param body Protected item model.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    vaultName: string,
+    protectedItemName: string,
+    body: ProtectedItemModelUpdate,
+    options?: ProtectedItemUpdateOptionalParams,
+  ): Promise<ProtectedItemUpdateResponse>;
   /**
    * Removes the protected item.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -90,7 +133,7 @@ export interface ProtectedItem {
     resourceGroupName: string,
     vaultName: string,
     protectedItemName: string,
-    options?: ProtectedItemDeleteOptionalParams
+    options?: ProtectedItemDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProtectedItemDeleteResponse>,
@@ -108,20 +151,22 @@ export interface ProtectedItem {
     resourceGroupName: string,
     vaultName: string,
     protectedItemName: string,
-    options?: ProtectedItemDeleteOptionalParams
+    options?: ProtectedItemDeleteOptionalParams,
   ): Promise<ProtectedItemDeleteResponse>;
   /**
    * Performs the planned failover on the protected item.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
    * @param protectedItemName The protected item name.
+   * @param body Planned failover model.
    * @param options The options parameters.
    */
   beginPlannedFailover(
     resourceGroupName: string,
     vaultName: string,
     protectedItemName: string,
-    options?: ProtectedItemPlannedFailoverOptionalParams
+    body: PlannedFailoverModel,
+    options?: ProtectedItemPlannedFailoverOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProtectedItemPlannedFailoverResponse>,
@@ -133,12 +178,14 @@ export interface ProtectedItem {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
    * @param protectedItemName The protected item name.
+   * @param body Planned failover model.
    * @param options The options parameters.
    */
   beginPlannedFailoverAndWait(
     resourceGroupName: string,
     vaultName: string,
     protectedItemName: string,
-    options?: ProtectedItemPlannedFailoverOptionalParams
+    body: PlannedFailoverModel,
+    options?: ProtectedItemPlannedFailoverOptionalParams,
   ): Promise<ProtectedItemPlannedFailoverResponse>;
 }

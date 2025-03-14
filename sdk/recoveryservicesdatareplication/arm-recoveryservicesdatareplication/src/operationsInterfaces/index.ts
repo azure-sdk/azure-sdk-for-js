@@ -6,21 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./dra.js";
-export * from "./draOperationStatus.js";
+export * from "./operations.js";
+export * from "./checkNameAvailability.js";
+export * from "./fabric.js";
+export * from "./vault.js";
+export * from "./deploymentPreflight.js";
+export * from "./locationBasedOperationResults.js";
+export * from "./operationResults.js";
+export * from "./fabricAgent.js";
 export * from "./emailConfiguration.js";
 export * from "./event.js";
-export * from "./fabric.js";
-export * from "./fabricOperationsStatus.js";
-export * from "./policy.js";
-export * from "./policyOperationStatus.js";
+export * from "./job.js";
+export * from "./privateEndpointConnectionProxies.js";
+export * from "./privateEndpointConnections.js";
+export * from "./privateLinkResources.js";
 export * from "./protectedItem.js";
-export * from "./protectedItemOperationStatus.js";
-export * from "./recoveryPoints.js";
+export * from "./recoveryPoint.js";
 export * from "./replicationExtension.js";
-export * from "./replicationExtensionOperationStatus.js";
-export * from "./operations.js";
-export * from "./vault.js";
-export * from "./vaultOperationStatus.js";
-export * from "./workflow.js";
-export * from "./workflowOperationStatus.js";
+export * from "./policy.js";
