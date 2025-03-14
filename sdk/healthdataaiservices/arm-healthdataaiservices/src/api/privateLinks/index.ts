@@ -9,11 +9,13 @@ import {
   _PrivateLinkResourceListResult,
   _privateLinkResourceListResultDeserializer,
   PrivateLinkResource,
+  errorResponseDeserializer,
 } from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -21,53 +23,57 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
-export function _privateLinksListByDeidServiceSend(
+export function _listByDeidServiceSend(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   deidServiceName: string,
   options: PrivateLinksListByDeidServiceOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateLinkResources",
-      subscriptionId,
-      resourceGroupName,
-      deidServiceName,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateLinkResources{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      deidServiceName: deidServiceName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _privateLinksListByDeidServiceDeserialize(
+export async function _listByDeidServiceDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_PrivateLinkResourceListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return _privateLinkResourceListResultDeserializer(result.body);
 }
 
 /** List private links on the given resource */
-export function privateLinksListByDeidService(
+export function listByDeidService(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   deidServiceName: string,
   options: PrivateLinksListByDeidServiceOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<PrivateLinkResource> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _privateLinksListByDeidServiceSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        deidServiceName,
-        options,
-      ),
-    _privateLinksListByDeidServiceDeserialize,
+    () => _listByDeidServiceSend(context, resourceGroupName, deidServiceName, options),
+    _listByDeidServiceDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
