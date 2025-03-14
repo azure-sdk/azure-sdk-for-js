@@ -6,6 +6,7 @@ import {
   ResourceDetailsListByPoolOptionalParams,
 } from "../index.js";
 import {
+  errorResponseDeserializer,
   _ResourceDetailsObjectListResult,
   _resourceDetailsObjectListResultDeserializer,
   ResourceDetailsObject,
@@ -14,6 +15,7 @@ import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -21,47 +23,57 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
-export function _resourceDetailsListByPoolSend(
+export function _listByPoolSend(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   poolName: string,
   options: ResourceDetailsListByPoolOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/pools/{poolName}/resources",
-      subscriptionId,
-      resourceGroupName,
-      poolName,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/pools/{poolName}/resources{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      poolName: poolName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _resourceDetailsListByPoolDeserialize(
+export async function _listByPoolDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_ResourceDetailsObjectListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return _resourceDetailsObjectListResultDeserializer(result.body);
 }
 
 /** List ResourceDetailsObject resources by Pool */
-export function resourceDetailsListByPool(
+export function listByPool(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   poolName: string,
   options: ResourceDetailsListByPoolOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ResourceDetailsObject> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _resourceDetailsListByPoolSend(context, subscriptionId, resourceGroupName, poolName, options),
-    _resourceDetailsListByPoolDeserialize,
+    () => _listByPoolSend(context, resourceGroupName, poolName, options),
+    _listByPoolDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );

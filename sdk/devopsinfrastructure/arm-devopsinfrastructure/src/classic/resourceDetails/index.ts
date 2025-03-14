@@ -3,7 +3,7 @@
 
 import { DevOpsInfrastructureContext } from "../../api/devOpsInfrastructureContext.js";
 import { ResourceDetailsListByPoolOptionalParams } from "../../api/options.js";
-import { resourceDetailsListByPool } from "../../api/resourceDetails/index.js";
+import { listByPool } from "../../api/resourceDetails/index.js";
 import { ResourceDetailsObject } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -17,21 +17,20 @@ export interface ResourceDetailsOperations {
   ) => PagedAsyncIterableIterator<ResourceDetailsObject>;
 }
 
-export function getResourceDetails(context: DevOpsInfrastructureContext, subscriptionId: string) {
+function _getResourceDetails(context: DevOpsInfrastructureContext) {
   return {
     listByPool: (
       resourceGroupName: string,
       poolName: string,
       options?: ResourceDetailsListByPoolOptionalParams,
-    ) => resourceDetailsListByPool(context, subscriptionId, resourceGroupName, poolName, options),
+    ) => listByPool(context, resourceGroupName, poolName, options),
   };
 }
 
-export function getResourceDetailsOperations(
+export function _getResourceDetailsOperations(
   context: DevOpsInfrastructureContext,
-  subscriptionId: string,
 ): ResourceDetailsOperations {
   return {
-    ...getResourceDetails(context, subscriptionId),
+    ..._getResourceDetails(context),
   };
 }

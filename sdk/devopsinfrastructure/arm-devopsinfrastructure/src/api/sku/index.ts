@@ -6,6 +6,7 @@ import {
   SkuListByLocationOptionalParams,
 } from "../index.js";
 import {
+  errorResponseDeserializer,
   _ResourceSkuListResult,
   _resourceSkuListResultDeserializer,
   ResourceSku,
@@ -14,6 +15,7 @@ import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -21,43 +23,54 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
-export function _skuListByLocationSend(
+export function _listByLocationSend(
   context: Client,
-  subscriptionId: string,
   locationName: string,
   options: SkuListByLocationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.DevOpsInfrastructure/locations/{locationName}/skus",
-      subscriptionId,
-      locationName,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.DevOpsInfrastructure/locations/{locationName}/skus{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      locationName: locationName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _skuListByLocationDeserialize(
+export async function _listByLocationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_ResourceSkuListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return _resourceSkuListResultDeserializer(result.body);
 }
 
 /** List ResourceSku resources by subscription ID */
-export function skuListByLocation(
+export function listByLocation(
   context: Client,
-  subscriptionId: string,
   locationName: string,
   options: SkuListByLocationOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ResourceSku> {
   return buildPagedAsyncIterator(
     context,
-    () => _skuListByLocationSend(context, subscriptionId, locationName, options),
-    _skuListByLocationDeserialize,
+    () => _listByLocationSend(context, locationName, options),
+    _listByLocationDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
