@@ -6,43 +6,43 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  AdminKeysGetOptionalParams,
-  AdminKeysGetResponse,
-  AdminKeyKind,
-  AdminKeysRegenerateOptionalParams,
-  AdminKeysRegenerateResponse,
+  ServiceUpgradeOptionalParams,
+  ServiceUpgradeResponse,
 } from "../models/index.js";
 
-/** Interface representing a AdminKeys. */
-export interface AdminKeys {
+/** Interface representing a Service. */
+export interface Service {
   /**
-   * Gets the primary and secondary admin API keys for the specified search service.
+   * Upgrades the Azure AI Search service to the latest version available.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
    * @param searchServiceName The name of the Azure AI Search service associated with the specified
    *                          resource group.
    * @param options The options parameters.
    */
-  get(
+  beginUpgrade(
     resourceGroupName: string,
     searchServiceName: string,
-    options?: AdminKeysGetOptionalParams,
-  ): Promise<AdminKeysGetResponse>;
+    options?: ServiceUpgradeOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ServiceUpgradeResponse>,
+      ServiceUpgradeResponse
+    >
+  >;
   /**
-   * Regenerates either the primary or secondary admin API key. You can only regenerate one key at a
-   * time.
+   * Upgrades the Azure AI Search service to the latest version available.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
    * @param searchServiceName The name of the Azure AI Search service associated with the specified
    *                          resource group.
-   * @param keyKind Specifies which key to regenerate. Valid values include 'primary' and 'secondary'.
    * @param options The options parameters.
    */
-  regenerate(
+  beginUpgradeAndWait(
     resourceGroupName: string,
     searchServiceName: string,
-    keyKind: AdminKeyKind,
-    options?: AdminKeysRegenerateOptionalParams,
-  ): Promise<AdminKeysRegenerateResponse>;
+    options?: ServiceUpgradeOptionalParams,
+  ): Promise<ServiceUpgradeResponse>;
 }
