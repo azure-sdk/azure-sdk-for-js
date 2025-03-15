@@ -2331,6 +2331,11 @@
       "packageName": "@azure/arm-databasewatcher",
       "projectFolder": "sdk/databasewatcher/arm-databasewatcher",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-kubernetesconfiguration-extensions",
+      "projectFolder": "sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions",
+      "versionPolicyName": "management"
     }
   ]
 }
