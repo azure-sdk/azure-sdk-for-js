@@ -65,7 +65,6 @@ export interface CheckNameAvailabilityOutput {
 // @public
 export interface CloudError {
     error?: CloudErrorBody;
-    message?: string;
 }
 
 // @public
@@ -75,6 +74,12 @@ export interface CloudErrorBody {
     message?: string;
     target?: string;
 }
+
+// @public
+export type ComputeType = string;
+
+// @public
+export type CreatedByType = string;
 
 // @public
 export interface DataPlaneAadOrApiKeyAuthOption {
@@ -118,6 +123,20 @@ export interface IpRule {
 }
 
 // @public
+export enum KnownComputeType {
+    Confidential = "confidential",
+    Default = "default"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
 export enum KnownIdentityType {
     None = "None",
     SystemAssigned = "SystemAssigned",
@@ -136,21 +155,9 @@ export enum KnownPrivateLinkServiceConnectionProvisioningState {
 }
 
 // @public
-export enum KnownPublicNetworkAccess {
-    Disabled = "disabled",
-    Enabled = "enabled"
-}
-
-// @public
 export enum KnownSearchBypass {
-    AzurePortal = "AzurePortal",
     AzureServices = "AzureServices",
     None = "None"
-}
-
-// @public
-export enum KnownSearchDisabledDataExfiltrationOption {
-    All = "All"
 }
 
 // @public
@@ -165,34 +172,6 @@ export enum KnownSharedPrivateLinkResourceAsyncOperationResult {
     Failed = "Failed",
     Running = "Running",
     Succeeded = "Succeeded"
-}
-
-// @public
-export enum KnownSharedPrivateLinkResourceProvisioningState {
-    Deleting = "Deleting",
-    Failed = "Failed",
-    Incomplete = "Incomplete",
-    Succeeded = "Succeeded",
-    Updating = "Updating"
-}
-
-// @public
-export enum KnownSharedPrivateLinkResourceStatus {
-    Approved = "Approved",
-    Disconnected = "Disconnected",
-    Pending = "Pending",
-    Rejected = "Rejected"
-}
-
-// @public
-export enum KnownSkuName {
-    Basic = "basic",
-    Free = "free",
-    Standard = "standard",
-    Standard2 = "standard2",
-    Standard3 = "standard3",
-    StorageOptimizedL1 = "storage_optimized_l1",
-    StorageOptimizedL2 = "storage_optimized_l2"
 }
 
 // @public
@@ -553,7 +532,7 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
-export type PublicNetworkAccess = string;
+export type PublicNetworkAccess = "enabled" | "disabled";
 
 // @public
 export interface QueryKey {
@@ -629,9 +608,6 @@ export interface Resource {
 export type SearchBypass = string;
 
 // @public
-export type SearchDisabledDataExfiltrationOption = string;
-
-// @public
 export type SearchEncryptionComplianceStatus = "Compliant" | "NonCompliant";
 
 // @public
@@ -656,6 +632,8 @@ export class SearchManagementClient extends coreClient.ServiceClient {
     privateLinkResources: PrivateLinkResources;
     // (undocumented)
     queryKeys: QueryKeys;
+    // (undocumented)
+    service: Service;
     // (undocumented)
     services: Services;
     // (undocumented)
@@ -685,10 +663,10 @@ export type SearchSemanticSearch = string;
 // @public
 export interface SearchService extends TrackedResource {
     authOptions?: DataPlaneAuthOptions;
-    disabledDataExfiltrationOptions?: SearchDisabledDataExfiltrationOption[];
+    computeType?: ComputeType;
     disableLocalAuth?: boolean;
     encryptionWithCmk?: EncryptionWithCmk;
-    readonly eTag?: string;
+    endpoint?: string;
     hostingMode?: HostingMode;
     identity?: Identity;
     networkRuleSet?: NetworkRuleSet;
@@ -698,10 +676,13 @@ export interface SearchService extends TrackedResource {
     publicNetworkAccess?: PublicNetworkAccess;
     replicaCount?: number;
     semanticSearch?: SearchSemanticSearch;
+    readonly serviceUpgradeDate?: Date;
     readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
     sku?: Sku;
     readonly status?: SearchServiceStatus;
     readonly statusDetails?: string;
+    readonly systemData?: SystemData;
+    readonly upgradeAvailable?: boolean;
 }
 
 // @public
@@ -711,15 +692,15 @@ export interface SearchServiceListResult {
 }
 
 // @public
-export type SearchServiceStatus = "running" | "provisioning" | "deleting" | "degraded" | "disabled" | "error" | "stopped";
+export type SearchServiceStatus = "running" | "provisioning" | "deleting" | "degraded" | "disabled" | "error";
 
 // @public
 export interface SearchServiceUpdate extends Resource {
     authOptions?: DataPlaneAuthOptions;
-    disabledDataExfiltrationOptions?: SearchDisabledDataExfiltrationOption[];
+    computeType?: ComputeType;
     disableLocalAuth?: boolean;
     encryptionWithCmk?: EncryptionWithCmk;
-    readonly eTag?: string;
+    endpoint?: string;
     hostingMode?: HostingMode;
     identity?: Identity;
     location?: string;
@@ -730,6 +711,7 @@ export interface SearchServiceUpdate extends Resource {
     publicNetworkAccess?: PublicNetworkAccess;
     replicaCount?: number;
     semanticSearch?: SearchSemanticSearch;
+    readonly serviceUpgradeDate?: Date;
     readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
     sku?: Sku;
     readonly status?: SearchServiceStatus;
@@ -737,6 +719,13 @@ export interface SearchServiceUpdate extends Resource {
     tags?: {
         [propertyName: string]: string;
     };
+    readonly upgradeAvailable?: boolean;
+}
+
+// @public
+export interface Service {
+    beginUpgrade(resourceGroupName: string, searchServiceName: string, options?: ServiceUpgradeOptionalParams): Promise<SimplePollerLike<OperationState<ServiceUpgradeResponse>, ServiceUpgradeResponse>>;
+    beginUpgradeAndWait(resourceGroupName: string, searchServiceName: string, options?: ServiceUpgradeOptionalParams): Promise<ServiceUpgradeResponse>;
 }
 
 // @public
@@ -823,6 +812,21 @@ export interface ServicesUpdateOptionalParams extends coreClient.OperationOption
 export type ServicesUpdateResponse = SearchService;
 
 // @public
+export interface ServiceUpgradeHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ServiceUpgradeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ServiceUpgradeResponse = SearchService;
+
+// @public
 export interface ShareablePrivateLinkResourceProperties {
     readonly description?: string;
     readonly groupId?: string;
@@ -860,7 +864,7 @@ export interface SharedPrivateLinkResourceProperties {
 }
 
 // @public
-export type SharedPrivateLinkResourceProvisioningState = string;
+export type SharedPrivateLinkResourceProvisioningState = "Updating" | "Deleting" | "Failed" | "Succeeded" | "Incomplete";
 
 // @public
 export interface SharedPrivateLinkResources {
@@ -914,7 +918,7 @@ export interface SharedPrivateLinkResourcesListByServiceOptionalParams extends c
 export type SharedPrivateLinkResourcesListByServiceResponse = SharedPrivateLinkResourceListResult;
 
 // @public
-export type SharedPrivateLinkResourceStatus = string;
+export type SharedPrivateLinkResourceStatus = "Pending" | "Approved" | "Rejected" | "Disconnected";
 
 // @public
 export interface Sku {
@@ -922,7 +926,17 @@ export interface Sku {
 }
 
 // @public
-export type SkuName = string;
+export type SkuName = "free" | "basic" | "standard" | "standard2" | "standard3" | "storage_optimized_l1" | "storage_optimized_l2";
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
 
 // @public
 export interface TrackedResource extends Resource {

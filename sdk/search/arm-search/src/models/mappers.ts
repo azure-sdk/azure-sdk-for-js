@@ -328,12 +328,6 @@ export const CloudError: coreClient.CompositeMapper = {
           className: "CloudErrorBody",
         },
       },
-      message: {
-        serializedName: "message",
-        type: {
-          name: "String",
-        },
-      },
     },
   },
 };
@@ -702,13 +696,21 @@ export const SharedPrivateLinkResourceProperties: coreClient.CompositeMapper = {
       status: {
         serializedName: "status",
         type: {
-          name: "String",
+          name: "Enum",
+          allowedValues: ["Pending", "Approved", "Rejected", "Disconnected"],
         },
       },
       provisioningState: {
         serializedName: "provisioningState",
         type: {
-          name: "String",
+          name: "Enum",
+          allowedValues: [
+            "Updating",
+            "Deleting",
+            "Failed",
+            "Succeeded",
+            "Incomplete",
+          ],
         },
       },
     },
@@ -723,7 +725,16 @@ export const Sku: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String",
+          name: "Enum",
+          allowedValues: [
+            "free",
+            "basic",
+            "standard",
+            "standard2",
+            "standard3",
+            "storage_optimized_l1",
+            "storage_optimized_l2",
+          ],
         },
       },
     },
@@ -789,6 +800,51 @@ export const UserAssignedManagedIdentity: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String",
+        },
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String",
+        },
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime",
+        },
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime",
         },
       },
     },
@@ -1574,6 +1630,12 @@ export const SearchServiceUpdate: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      endpoint: {
+        serializedName: "properties.endpoint",
+        type: {
+          name: "String",
+        },
+      },
       hostingMode: {
         defaultValue: "default",
         serializedName: "properties.hostingMode",
@@ -1582,11 +1644,18 @@ export const SearchServiceUpdate: coreClient.CompositeMapper = {
           allowedValues: ["default", "highDensity"],
         },
       },
+      computeType: {
+        serializedName: "properties.computeType",
+        type: {
+          name: "String",
+        },
+      },
       publicNetworkAccess: {
         defaultValue: "enabled",
         serializedName: "properties.publicNetworkAccess",
         type: {
-          name: "String",
+          name: "Enum",
+          allowedValues: ["enabled", "disabled"],
         },
       },
       status: {
@@ -1601,7 +1670,6 @@ export const SearchServiceUpdate: coreClient.CompositeMapper = {
             "degraded",
             "disabled",
             "error",
-            "stopped",
           ],
         },
       },
@@ -1627,17 +1695,6 @@ export const SearchServiceUpdate: coreClient.CompositeMapper = {
           className: "NetworkRuleSet",
         },
       },
-      disabledDataExfiltrationOptions: {
-        serializedName: "properties.disabledDataExfiltrationOptions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String",
-            },
-          },
-        },
-      },
       encryptionWithCmk: {
         serializedName: "properties.encryptionWithCmk",
         type: {
@@ -1659,13 +1716,6 @@ export const SearchServiceUpdate: coreClient.CompositeMapper = {
           className: "DataPlaneAuthOptions",
         },
       },
-      semanticSearch: {
-        serializedName: "properties.semanticSearch",
-        nullable: true,
-        type: {
-          name: "String",
-        },
-      },
       privateEndpointConnections: {
         serializedName: "properties.privateEndpointConnections",
         readOnly: true,
@@ -1677,6 +1727,13 @@ export const SearchServiceUpdate: coreClient.CompositeMapper = {
               className: "PrivateEndpointConnection",
             },
           },
+        },
+      },
+      semanticSearch: {
+        serializedName: "properties.semanticSearch",
+        nullable: true,
+        type: {
+          name: "String",
         },
       },
       sharedPrivateLinkResources: {
@@ -1692,11 +1749,18 @@ export const SearchServiceUpdate: coreClient.CompositeMapper = {
           },
         },
       },
-      eTag: {
-        serializedName: "properties.eTag",
+      upgradeAvailable: {
+        serializedName: "properties.upgradeAvailable",
         readOnly: true,
         type: {
-          name: "String",
+          name: "Boolean",
+        },
+      },
+      serviceUpgradeDate: {
+        serializedName: "properties.serviceUpgradeDate",
+        readOnly: true,
+        type: {
+          name: "DateTime",
         },
       },
     },
@@ -1750,6 +1814,13 @@ export const SearchService: coreClient.CompositeMapper = {
           className: "Identity",
         },
       },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData",
+        },
+      },
       replicaCount: {
         defaultValue: 1,
         constraints: {
@@ -1772,6 +1843,12 @@ export const SearchService: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      endpoint: {
+        serializedName: "properties.endpoint",
+        type: {
+          name: "String",
+        },
+      },
       hostingMode: {
         defaultValue: "default",
         serializedName: "properties.hostingMode",
@@ -1780,11 +1857,18 @@ export const SearchService: coreClient.CompositeMapper = {
           allowedValues: ["default", "highDensity"],
         },
       },
+      computeType: {
+        serializedName: "properties.computeType",
+        type: {
+          name: "String",
+        },
+      },
       publicNetworkAccess: {
         defaultValue: "enabled",
         serializedName: "properties.publicNetworkAccess",
         type: {
-          name: "String",
+          name: "Enum",
+          allowedValues: ["enabled", "disabled"],
         },
       },
       status: {
@@ -1799,7 +1883,6 @@ export const SearchService: coreClient.CompositeMapper = {
             "degraded",
             "disabled",
             "error",
-            "stopped",
           ],
         },
       },
@@ -1825,17 +1908,6 @@ export const SearchService: coreClient.CompositeMapper = {
           className: "NetworkRuleSet",
         },
       },
-      disabledDataExfiltrationOptions: {
-        serializedName: "properties.disabledDataExfiltrationOptions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String",
-            },
-          },
-        },
-      },
       encryptionWithCmk: {
         serializedName: "properties.encryptionWithCmk",
         type: {
@@ -1857,13 +1929,6 @@ export const SearchService: coreClient.CompositeMapper = {
           className: "DataPlaneAuthOptions",
         },
       },
-      semanticSearch: {
-        serializedName: "properties.semanticSearch",
-        nullable: true,
-        type: {
-          name: "String",
-        },
-      },
       privateEndpointConnections: {
         serializedName: "properties.privateEndpointConnections",
         readOnly: true,
@@ -1875,6 +1940,13 @@ export const SearchService: coreClient.CompositeMapper = {
               className: "PrivateEndpointConnection",
             },
           },
+        },
+      },
+      semanticSearch: {
+        serializedName: "properties.semanticSearch",
+        nullable: true,
+        type: {
+          name: "String",
         },
       },
       sharedPrivateLinkResources: {
@@ -1890,11 +1962,18 @@ export const SearchService: coreClient.CompositeMapper = {
           },
         },
       },
-      eTag: {
-        serializedName: "properties.eTag",
+      upgradeAvailable: {
+        serializedName: "properties.upgradeAvailable",
         readOnly: true,
         type: {
-          name: "String",
+          name: "Boolean",
+        },
+      },
+      serviceUpgradeDate: {
+        serializedName: "properties.serviceUpgradeDate",
+        readOnly: true,
+        type: {
+          name: "DateTime",
         },
       },
     },
@@ -1967,3 +2046,18 @@ export const NetworkSecurityPerimeterConfigurationsReconcileHeaders: coreClient.
       },
     },
   };
+
+export const ServiceUpgradeHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServiceUpgradeHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
