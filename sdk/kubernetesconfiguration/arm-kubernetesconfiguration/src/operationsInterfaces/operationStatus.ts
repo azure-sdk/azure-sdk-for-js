@@ -11,7 +11,7 @@ import {
   OperationStatusResult,
   OperationStatusListOptionalParams,
   OperationStatusGetOptionalParams,
-  OperationStatusGetResponse
+  OperationStatusGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface OperationStatus {
     clusterRp: string,
     clusterResourceName: string,
     clusterName: string,
-    options?: OperationStatusListOptionalParams
+    options?: OperationStatusListOptionalParams,
   ): PagedAsyncIterableIterator<OperationStatusResult>;
   /**
    * Get Async Operation status
@@ -53,6 +53,6 @@ export interface OperationStatus {
     clusterName: string,
     extensionName: string,
     operationId: string,
-    options?: OperationStatusGetOptionalParams
+    options?: OperationStatusGetOptionalParams,
   ): Promise<OperationStatusGetResponse>;
 }
