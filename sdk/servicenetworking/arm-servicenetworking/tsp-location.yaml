@@ -1,4 +1,4 @@
 directory: specification/servicenetworking/ServiceNetworking.Management
-commit: d83ac864ad4d0819f6d0c36f000f864fc0953819
-repo: Azure/azure-rest-api-specs
+commit: e3e4f8d83c9c3614e931e8da26dd8f4986c8122d
+repo: ../azure-rest-api-specs
 additionalDirectories: 
