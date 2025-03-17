@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
 import { NetworkSecurityPerimeterConfigurations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
@@ -20,12 +21,14 @@ import {
 import { createLroSpec } from "../lroImpl.js";
 import {
   NetworkSecurityPerimeterConfiguration,
+  NetworkSecurityPerimeterConfigurationsListNextOptionalParams,
   NetworkSecurityPerimeterConfigurationsListOptionalParams,
   NetworkSecurityPerimeterConfigurationsListResponse,
   NetworkSecurityPerimeterConfigurationsGetOptionalParams,
   NetworkSecurityPerimeterConfigurationsGetResponse,
   NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
   NetworkSecurityPerimeterConfigurationsReconcileResponse,
+  NetworkSecurityPerimeterConfigurationsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,8 +48,7 @@ export class NetworkSecurityPerimeterConfigurationsImpl
 
   /**
    * Gets list of effective NetworkSecurityPerimeterConfiguration for storage account
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -83,11 +85,29 @@ export class NetworkSecurityPerimeterConfigurationsImpl
     resourceGroupName: string,
     accountName: string,
     options?: NetworkSecurityPerimeterConfigurationsListOptionalParams,
-    _settings?: PageSettings,
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkSecurityPerimeterConfiguration[]> {
     let result: NetworkSecurityPerimeterConfigurationsListResponse;
-    result = await this._list(resourceGroupName, accountName, options);
-    yield result.value || [];
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, accountName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(
+        resourceGroupName,
+        accountName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
   private async *listPagingAll(
@@ -106,8 +126,7 @@ export class NetworkSecurityPerimeterConfigurationsImpl
 
   /**
    * Gets list of effective NetworkSecurityPerimeterConfiguration for storage account
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -126,8 +145,7 @@ export class NetworkSecurityPerimeterConfigurationsImpl
 
   /**
    * Gets effective NetworkSecurityPerimeterConfiguration for association
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -154,8 +172,7 @@ export class NetworkSecurityPerimeterConfigurationsImpl
 
   /**
    * Refreshes any information about the association.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -236,8 +253,7 @@ export class NetworkSecurityPerimeterConfigurationsImpl
 
   /**
    * Refreshes any information about the association.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -259,6 +275,27 @@ export class NetworkSecurityPerimeterConfigurationsImpl
     );
     return poller.pollUntilDone();
   }
+
+  /**
+   * ListNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    resourceGroupName: string,
+    accountName: string,
+    nextLink: string,
+    options?: NetworkSecurityPerimeterConfigurationsListNextOptionalParams,
+  ): Promise<NetworkSecurityPerimeterConfigurationsListNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, nextLink, options },
+      listNextOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -271,15 +308,15 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.NetworkSecurityPerimeterConfigurationList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -292,15 +329,15 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.NetworkSecurityPerimeterConfiguration,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.networkSecurityPerimeterConfigurationName,
   ],
   headerParameters: [Parameters.accept],
@@ -327,16 +364,37 @@ const reconcileOperationSpec: coreClient.OperationSpec = {
         Mappers.NetworkSecurityPerimeterConfigurationsReconcileHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.networkSecurityPerimeterConfigurationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfigurationList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,

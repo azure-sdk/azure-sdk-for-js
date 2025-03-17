@@ -9,19 +9,18 @@
 import {
   QueueServicesListOptionalParams,
   QueueServicesListResponse,
+  QueueServicesGetServicePropertiesOptionalParams,
+  QueueServicesGetServicePropertiesResponse,
   QueueServiceProperties,
   QueueServicesSetServicePropertiesOptionalParams,
   QueueServicesSetServicePropertiesResponse,
-  QueueServicesGetServicePropertiesOptionalParams,
-  QueueServicesGetServicePropertiesResponse,
 } from "../models/index.js";
 
 /** Interface representing a QueueServices. */
 export interface QueueServices {
   /**
    * List all queue services for the storage account
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -33,10 +32,23 @@ export interface QueueServices {
     options?: QueueServicesListOptionalParams,
   ): Promise<QueueServicesListResponse>;
   /**
+   * Gets the properties of a storage account’s Queue service, including properties for Storage Analytics
+   * and CORS (Cross-Origin Resource Sharing) rules.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param options The options parameters.
+   */
+  getServiceProperties(
+    resourceGroupName: string,
+    accountName: string,
+    options?: QueueServicesGetServicePropertiesOptionalParams,
+  ): Promise<QueueServicesGetServicePropertiesResponse>;
+  /**
    * Sets the properties of a storage account’s Queue service, including properties for Storage Analytics
    * and CORS (Cross-Origin Resource Sharing) rules.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -50,19 +62,4 @@ export interface QueueServices {
     parameters: QueueServiceProperties,
     options?: QueueServicesSetServicePropertiesOptionalParams,
   ): Promise<QueueServicesSetServicePropertiesResponse>;
-  /**
-   * Gets the properties of a storage account’s Queue service, including properties for Storage Analytics
-   * and CORS (Cross-Origin Resource Sharing) rules.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param options The options parameters.
-   */
-  getServiceProperties(
-    resourceGroupName: string,
-    accountName: string,
-    options?: QueueServicesGetServicePropertiesOptionalParams,
-  ): Promise<QueueServicesGetServicePropertiesResponse>;
 }

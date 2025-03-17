@@ -15,56 +15,56 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  BlobServicesImpl,
-  BlobContainersImpl,
-  FileServicesImpl,
-  FileSharesImpl,
-  QueueServicesImpl,
-  QueueImpl,
   OperationsImpl,
-  SkusImpl,
   StorageAccountsImpl,
   DeletedAccountsImpl,
   UsagesImpl,
-  ManagementPoliciesImpl,
+  SkusImpl,
+  BlobServicesImpl,
+  BlobContainersImpl,
+  EncryptionScopesImpl,
+  FileServicesImpl,
+  FileSharesImpl,
   BlobInventoryPoliciesImpl,
+  LocalUsersOperationsImpl,
+  ManagementPoliciesImpl,
+  NetworkSecurityPerimeterConfigurationsImpl,
+  ObjectReplicationPoliciesOperationsImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
-  ObjectReplicationPoliciesOperationsImpl,
-  LocalUsersOperationsImpl,
-  EncryptionScopesImpl,
+  QueueServicesImpl,
+  QueueImpl,
+  StorageTaskAssignmentsInstancesReportImpl,
+  StorageTaskAssignmentsImpl,
+  StorageTaskAssignmentInstancesReportImpl,
   TableServicesImpl,
   TableOperationsImpl,
-  NetworkSecurityPerimeterConfigurationsImpl,
-  StorageTaskAssignmentsImpl,
-  StorageTaskAssignmentsInstancesReportImpl,
-  StorageTaskAssignmentInstancesReportImpl,
 } from "./operations/index.js";
 import {
-  BlobServices,
-  BlobContainers,
-  FileServices,
-  FileShares,
-  QueueServices,
-  Queue,
   Operations,
-  Skus,
   StorageAccounts,
   DeletedAccounts,
   Usages,
-  ManagementPolicies,
+  Skus,
+  BlobServices,
+  BlobContainers,
+  EncryptionScopes,
+  FileServices,
+  FileShares,
   BlobInventoryPolicies,
+  LocalUsersOperations,
+  ManagementPolicies,
+  NetworkSecurityPerimeterConfigurations,
+  ObjectReplicationPoliciesOperations,
   PrivateEndpointConnections,
   PrivateLinkResources,
-  ObjectReplicationPoliciesOperations,
-  LocalUsersOperations,
-  EncryptionScopes,
+  QueueServices,
+  Queue,
+  StorageTaskAssignmentsInstancesReport,
+  StorageTaskAssignments,
+  StorageTaskAssignmentInstancesReport,
   TableServices,
   TableOperations,
-  NetworkSecurityPerimeterConfigurations,
-  StorageTaskAssignments,
-  StorageTaskAssignmentsInstancesReport,
-  StorageTaskAssignmentInstancesReport,
 } from "./operationsInterfaces/index.js";
 import { StorageManagementClientOptionalParams } from "./models/index.js";
 
@@ -100,7 +100,7 @@ export class StorageManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-storage/18.4.0`;
+    const packageDetails = `azsdk-js-arm-storage/19.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -155,34 +155,34 @@ export class StorageManagementClient extends coreClient.ServiceClient {
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
     this.apiVersion = options.apiVersion || "2024-01-01";
-    this.blobServices = new BlobServicesImpl(this);
-    this.blobContainers = new BlobContainersImpl(this);
-    this.fileServices = new FileServicesImpl(this);
-    this.fileShares = new FileSharesImpl(this);
-    this.queueServices = new QueueServicesImpl(this);
-    this.queue = new QueueImpl(this);
     this.operations = new OperationsImpl(this);
-    this.skus = new SkusImpl(this);
     this.storageAccounts = new StorageAccountsImpl(this);
     this.deletedAccounts = new DeletedAccountsImpl(this);
     this.usages = new UsagesImpl(this);
-    this.managementPolicies = new ManagementPoliciesImpl(this);
-    this.blobInventoryPolicies = new BlobInventoryPoliciesImpl(this);
-    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
-    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
-    this.objectReplicationPoliciesOperations =
-      new ObjectReplicationPoliciesOperationsImpl(this);
-    this.localUsersOperations = new LocalUsersOperationsImpl(this);
+    this.skus = new SkusImpl(this);
+    this.blobServices = new BlobServicesImpl(this);
+    this.blobContainers = new BlobContainersImpl(this);
     this.encryptionScopes = new EncryptionScopesImpl(this);
-    this.tableServices = new TableServicesImpl(this);
-    this.tableOperations = new TableOperationsImpl(this);
+    this.fileServices = new FileServicesImpl(this);
+    this.fileShares = new FileSharesImpl(this);
+    this.blobInventoryPolicies = new BlobInventoryPoliciesImpl(this);
+    this.localUsersOperations = new LocalUsersOperationsImpl(this);
+    this.managementPolicies = new ManagementPoliciesImpl(this);
     this.networkSecurityPerimeterConfigurations =
       new NetworkSecurityPerimeterConfigurationsImpl(this);
-    this.storageTaskAssignments = new StorageTaskAssignmentsImpl(this);
+    this.objectReplicationPoliciesOperations =
+      new ObjectReplicationPoliciesOperationsImpl(this);
+    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
+    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.queueServices = new QueueServicesImpl(this);
+    this.queue = new QueueImpl(this);
     this.storageTaskAssignmentsInstancesReport =
       new StorageTaskAssignmentsInstancesReportImpl(this);
+    this.storageTaskAssignments = new StorageTaskAssignmentsImpl(this);
     this.storageTaskAssignmentInstancesReport =
       new StorageTaskAssignmentInstancesReportImpl(this);
+    this.tableServices = new TableServicesImpl(this);
+    this.tableOperations = new TableOperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -214,28 +214,28 @@ export class StorageManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  blobServices: BlobServices;
-  blobContainers: BlobContainers;
-  fileServices: FileServices;
-  fileShares: FileShares;
-  queueServices: QueueServices;
-  queue: Queue;
   operations: Operations;
-  skus: Skus;
   storageAccounts: StorageAccounts;
   deletedAccounts: DeletedAccounts;
   usages: Usages;
-  managementPolicies: ManagementPolicies;
+  skus: Skus;
+  blobServices: BlobServices;
+  blobContainers: BlobContainers;
+  encryptionScopes: EncryptionScopes;
+  fileServices: FileServices;
+  fileShares: FileShares;
   blobInventoryPolicies: BlobInventoryPolicies;
+  localUsersOperations: LocalUsersOperations;
+  managementPolicies: ManagementPolicies;
+  networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
+  objectReplicationPoliciesOperations: ObjectReplicationPoliciesOperations;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
-  objectReplicationPoliciesOperations: ObjectReplicationPoliciesOperations;
-  localUsersOperations: LocalUsersOperations;
-  encryptionScopes: EncryptionScopes;
+  queueServices: QueueServices;
+  queue: Queue;
+  storageTaskAssignmentsInstancesReport: StorageTaskAssignmentsInstancesReport;
+  storageTaskAssignments: StorageTaskAssignments;
+  storageTaskAssignmentInstancesReport: StorageTaskAssignmentInstancesReport;
   tableServices: TableServices;
   tableOperations: TableOperations;
-  networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
-  storageTaskAssignments: StorageTaskAssignments;
-  storageTaskAssignmentsInstancesReport: StorageTaskAssignmentsInstancesReport;
-  storageTaskAssignmentInstancesReport: StorageTaskAssignmentInstancesReport;
 }
