@@ -18,7 +18,7 @@ import {
   ExtensionsDeleteOptionalParams,
   PatchExtension,
   ExtensionsUpdateOptionalParams,
-  ExtensionsUpdateResponse
+  ExtensionsUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export interface Extensions {
     clusterRp: string,
     clusterResourceName: string,
     clusterName: string,
-    options?: ExtensionsListOptionalParams
+    options?: ExtensionsListOptionalParams,
   ): PagedAsyncIterableIterator<Extension>;
   /**
    * Create a new Kubernetes Cluster Extension.
@@ -60,7 +60,7 @@ export interface Extensions {
     clusterName: string,
     extensionName: string,
     extension: Extension,
-    options?: ExtensionsCreateOptionalParams
+    options?: ExtensionsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ExtensionsCreateResponse>,
@@ -86,7 +86,7 @@ export interface Extensions {
     clusterName: string,
     extensionName: string,
     extension: Extension,
-    options?: ExtensionsCreateOptionalParams
+    options?: ExtensionsCreateOptionalParams,
   ): Promise<ExtensionsCreateResponse>;
   /**
    * Gets Kubernetes Cluster Extension.
@@ -105,7 +105,7 @@ export interface Extensions {
     clusterResourceName: string,
     clusterName: string,
     extensionName: string,
-    options?: ExtensionsGetOptionalParams
+    options?: ExtensionsGetOptionalParams,
   ): Promise<ExtensionsGetResponse>;
   /**
    * Delete a Kubernetes Cluster Extension. This will cause the Agent to Uninstall the extension from the
@@ -125,7 +125,7 @@ export interface Extensions {
     clusterResourceName: string,
     clusterName: string,
     extensionName: string,
-    options?: ExtensionsDeleteOptionalParams
+    options?: ExtensionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Kubernetes Cluster Extension. This will cause the Agent to Uninstall the extension from the
@@ -145,7 +145,7 @@ export interface Extensions {
     clusterResourceName: string,
     clusterName: string,
     extensionName: string,
-    options?: ExtensionsDeleteOptionalParams
+    options?: ExtensionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Patch an existing Kubernetes Cluster Extension.
@@ -166,7 +166,7 @@ export interface Extensions {
     clusterName: string,
     extensionName: string,
     patchExtension: PatchExtension,
-    options?: ExtensionsUpdateOptionalParams
+    options?: ExtensionsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ExtensionsUpdateResponse>,
@@ -192,6 +192,6 @@ export interface Extensions {
     clusterName: string,
     extensionName: string,
     patchExtension: PatchExtension,
-    options?: ExtensionsUpdateOptionalParams
+    options?: ExtensionsUpdateOptionalParams,
   ): Promise<ExtensionsUpdateResponse>;
 }
