@@ -1,5 +1,17 @@
 # Release History
     
+## 2.3.0-beta.1 (2025-03-18)
+Compared with version 2.2.0
+    
+### Features Added
+
+  - Added Interface ChildMoveResourceProperties
+  - Added Interface ChildMoveResourcePropertiesErrors
+  - Interface MoveResourceProperties has a new optional parameter childMoveResourcesProperties
+  - Interface VirtualMachineResourceSettings has a new optional parameter targetFaultDomain
+  - Enum KnownMoveType has a new value AvailabilitySetToVmssFlex
+    
+    
 ## 2.2.0 (2023-10-24)
     
 ### Features Added
