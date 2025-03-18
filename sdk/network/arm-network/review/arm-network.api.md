@@ -14309,7 +14309,7 @@ export interface StaticRoute {
 
 // @public
 export interface StaticRoutesConfig {
-    readonly propagateStaticRoutes?: boolean;
+    propagateStaticRoutes?: boolean;
     vnetLocalRouteOverrideCriteria?: VnetLocalRouteOverrideCriteria;
 }
 
