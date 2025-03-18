@@ -11,20 +11,20 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   MoveCollectionsImpl,
   MoveResourcesImpl,
   UnresolvedDependenciesImpl,
-  OperationsDiscoveryOperationsImpl
+  OperationsDiscoveryOperationsImpl,
 } from "./operations/index.js";
 import {
   MoveCollections,
   MoveResources,
   UnresolvedDependencies,
-  OperationsDiscoveryOperations
+  OperationsDiscoveryOperations,
 } from "./operationsInterfaces/index.js";
 import { ResourceMoverServiceAPIOptionalParams } from "./models/index.js";
 
@@ -42,16 +42,16 @@ export class ResourceMoverServiceAPI extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: ResourceMoverServiceAPIOptionalParams
+    options?: ResourceMoverServiceAPIOptionalParams,
   );
   constructor(
     credentials: coreAuth.TokenCredential,
-    options?: ResourceMoverServiceAPIOptionalParams
+    options?: ResourceMoverServiceAPIOptionalParams,
   );
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionIdOrOptions?: ResourceMoverServiceAPIOptionalParams | string,
-    options?: ResourceMoverServiceAPIOptionalParams
+    options?: ResourceMoverServiceAPIOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -71,10 +71,10 @@ export class ResourceMoverServiceAPI extends coreClient.ServiceClient {
     }
     const defaults: ResourceMoverServiceAPIOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-resourcemover/2.2.0`;
+    const packageDetails = `azsdk-js-arm-resourcemover/2.3.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -84,20 +84,21 @@ export class ResourceMoverServiceAPI extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -107,7 +108,7 @@ export class ResourceMoverServiceAPI extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -117,9 +118,9 @@ export class ResourceMoverServiceAPI extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -127,12 +128,12 @@ export class ResourceMoverServiceAPI extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-08-01";
+    this.apiVersion = options.apiVersion || "2025-01-01-privatepreview";
     this.moveCollections = new MoveCollectionsImpl(this);
     this.moveResources = new MoveResourcesImpl(this);
     this.unresolvedDependencies = new UnresolvedDependenciesImpl(this);
     this.operationsDiscoveryOperations = new OperationsDiscoveryOperationsImpl(
-      this
+      this,
     );
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -146,7 +147,7 @@ export class ResourceMoverServiceAPI extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -160,7 +161,7 @@ export class ResourceMoverServiceAPI extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }

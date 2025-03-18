@@ -18,7 +18,7 @@ import {
   UnresolvedDependenciesGetNextOptionalParams,
   UnresolvedDependenciesGetOptionalParams,
   UnresolvedDependenciesGetResponse,
-  UnresolvedDependenciesGetNextResponse
+  UnresolvedDependenciesGetNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,12 +43,12 @@ export class UnresolvedDependenciesImpl implements UnresolvedDependencies {
   public list(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: UnresolvedDependenciesGetOptionalParams
+    options?: UnresolvedDependenciesGetOptionalParams,
   ): PagedAsyncIterableIterator<UnresolvedDependency> {
     const iter = this.getPagingAll(
       resourceGroupName,
       moveCollectionName,
-      options
+      options,
     );
     return {
       next() {
@@ -65,9 +65,9 @@ export class UnresolvedDependenciesImpl implements UnresolvedDependencies {
           resourceGroupName,
           moveCollectionName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -75,7 +75,7 @@ export class UnresolvedDependenciesImpl implements UnresolvedDependencies {
     resourceGroupName: string,
     moveCollectionName: string,
     options?: UnresolvedDependenciesGetOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<UnresolvedDependency[]> {
     let result: UnresolvedDependenciesGetResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +91,7 @@ export class UnresolvedDependenciesImpl implements UnresolvedDependencies {
         resourceGroupName,
         moveCollectionName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -103,12 +103,12 @@ export class UnresolvedDependenciesImpl implements UnresolvedDependencies {
   private async *getPagingAll(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: UnresolvedDependenciesGetOptionalParams
+    options?: UnresolvedDependenciesGetOptionalParams,
   ): AsyncIterableIterator<UnresolvedDependency> {
     for await (const page of this.getPagingPage(
       resourceGroupName,
       moveCollectionName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -123,11 +123,11 @@ export class UnresolvedDependenciesImpl implements UnresolvedDependencies {
   private _get(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: UnresolvedDependenciesGetOptionalParams
+    options?: UnresolvedDependenciesGetOptionalParams,
   ): Promise<UnresolvedDependenciesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, moveCollectionName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -142,11 +142,11 @@ export class UnresolvedDependenciesImpl implements UnresolvedDependencies {
     resourceGroupName: string,
     moveCollectionName: string,
     nextLink: string,
-    options?: UnresolvedDependenciesGetNextOptionalParams
+    options?: UnresolvedDependenciesGetNextOptionalParams,
   ): Promise<UnresolvedDependenciesGetNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, moveCollectionName, nextLink, options },
-      getNextOperationSpec
+      getNextOperationSpec,
     );
   }
 }
@@ -154,50 +154,49 @@ export class UnresolvedDependenciesImpl implements UnresolvedDependencies {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/unresolvedDependencies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/unresolvedDependencies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UnresolvedDependencyCollection
+      bodyMapper: Mappers.UnresolvedDependencyCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
     Parameters.dependencyLevel,
-    Parameters.orderby
+    Parameters.orderby,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.moveCollectionName
+    Parameters.moveCollectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UnresolvedDependencyCollection
+      bodyMapper: Mappers.UnresolvedDependencyCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.moveCollectionName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

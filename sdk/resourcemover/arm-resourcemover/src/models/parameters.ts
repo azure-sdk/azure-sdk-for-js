@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   MoveCollection as MoveCollectionMapper,
@@ -19,7 +19,7 @@ import {
   CommitRequest as CommitRequestMapper,
   DiscardRequest as DiscardRequestMapper,
   BulkRemoveRequest as BulkRemoveRequestMapper,
-  MoveResource as MoveResourceMapper
+  MoveResource as MoveResourceMapper,
 } from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
@@ -29,14 +29,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: MoveCollectionMapper
+  mapper: MoveCollectionMapper,
 };
 
 export const accept: OperationParameter = {
@@ -46,9 +46,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -57,10 +57,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -69,9 +69,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -80,9 +80,9 @@ export const resourceGroupName: OperationURLParameter = {
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const moveCollectionName: OperationURLParameter = {
@@ -91,51 +91,51 @@ export const moveCollectionName: OperationURLParameter = {
     serializedName: "moveCollectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-08-01",
+    defaultValue: "2025-01-01-privatepreview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body1: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: UpdateMoveCollectionRequestMapper
+  mapper: UpdateMoveCollectionRequestMapper,
 };
 
 export const body2: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: PrepareRequestMapper
+  mapper: PrepareRequestMapper,
 };
 
 export const body3: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: ResourceMoveRequestMapper
+  mapper: ResourceMoveRequestMapper,
 };
 
 export const body4: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: CommitRequestMapper
+  mapper: CommitRequestMapper,
 };
 
 export const body5: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: DiscardRequestMapper
+  mapper: DiscardRequestMapper,
 };
 
 export const body6: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: BulkRemoveRequestMapper
+  mapper: BulkRemoveRequestMapper,
 };
 
 export const sourceId: OperationQueryParameter = {
@@ -144,9 +144,9 @@ export const sourceId: OperationQueryParameter = {
     serializedName: "sourceId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -155,10 +155,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const filter: OperationQueryParameter = {
@@ -166,14 +166,14 @@ export const filter: OperationQueryParameter = {
   mapper: {
     serializedName: "$filter",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body7: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: MoveResourceMapper
+  mapper: MoveResourceMapper,
 };
 
 export const moveResourceName: OperationURLParameter = {
@@ -182,9 +182,9 @@ export const moveResourceName: OperationURLParameter = {
     serializedName: "moveResourceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const dependencyLevel: OperationQueryParameter = {
@@ -192,9 +192,9 @@ export const dependencyLevel: OperationQueryParameter = {
   mapper: {
     serializedName: "dependencyLevel",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const orderby: OperationQueryParameter = {
@@ -202,7 +202,7 @@ export const orderby: OperationQueryParameter = {
   mapper: {
     serializedName: "$orderby",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };

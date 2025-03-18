@@ -398,6 +398,8 @@ export interface MoveResourceProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly errors?: MoveResourcePropertiesErrors;
+  /** Gets or sets the child move resources properties. */
+  childMoveResourcesProperties?: ChildMoveResourceProperties[];
 }
 
 /** Gets or sets the resource settings. */
@@ -492,6 +494,29 @@ export interface MoveResourceDependencyOverride {
    * the dependent resource.
    */
   targetId?: string;
+}
+
+/** Defines the child move resource properties. */
+export interface ChildMoveResourceProperties {
+  /** Gets or sets the Source ARM Id of the child resource. */
+  sourceId: string;
+  /** Gets or sets the resource settings. */
+  resourceSettings?: ResourceSettingsUnion;
+  /**
+   * Gets or sets the source resource settings.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceResourceSettings?: ResourceSettingsUnion;
+  /**
+   * Defines the child move resource state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly moveState?: MoveState;
+  /**
+   * Defines the child move resource errors.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: ChildMoveResourcePropertiesErrors;
 }
 
 /** Summary Collection. */
@@ -802,6 +827,9 @@ export interface MoveCollectionPropertiesErrors extends MoveResourceError {}
 /** Defines the move resource errors. */
 export interface MoveResourcePropertiesErrors extends MoveResourceError {}
 
+/** Defines the child move resource errors. */
+export interface ChildMoveResourcePropertiesErrors extends MoveResourceError {}
+
 /** Gets or sets the virtual machine resource settings. */
 export interface VirtualMachineResourceSettings extends ResourceSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -816,6 +844,8 @@ export interface VirtualMachineResourceSettings extends ResourceSettings {
   targetVmSize?: string;
   /** Gets or sets the target availability set id for virtual machines not in an availability set at source. */
   targetAvailabilitySetId?: string;
+  /** Gets or sets the target fault domain. */
+  targetFaultDomain?: string;
 }
 
 /** Gets or sets the availability set resource settings. */
@@ -987,7 +1017,7 @@ export enum KnownResourceIdentityType {
   /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
   /** UserAssigned */
-  UserAssigned = "UserAssigned"
+  UserAssigned = "UserAssigned",
 }
 
 /**
@@ -1010,7 +1040,7 @@ export enum KnownProvisioningState {
   /** Creating */
   Creating = "Creating",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -1030,7 +1060,9 @@ export enum KnownMoveType {
   /** RegionToRegion */
   RegionToRegion = "RegionToRegion",
   /** RegionToZone */
-  RegionToZone = "RegionToZone"
+  RegionToZone = "RegionToZone",
+  /** AvailabilitySetToVmssFlex */
+  AvailabilitySetToVmssFlex = "AvailabilitySetToVMSSFlex",
 }
 
 /**
@@ -1039,7 +1071,8 @@ export enum KnownMoveType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **RegionToRegion** \
- * **RegionToZone**
+ * **RegionToZone** \
+ * **AvailabilitySetToVMSSFlex**
  */
 export type MoveType = string;
 
@@ -1052,7 +1085,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -1072,7 +1105,7 @@ export enum KnownMoveResourceInputType {
   /** MoveResourceId */
   MoveResourceId = "MoveResourceId",
   /** MoveResourceSourceId */
-  MoveResourceSourceId = "MoveResourceSourceId"
+  MoveResourceSourceId = "MoveResourceSourceId",
 }
 
 /**
@@ -1116,7 +1149,7 @@ export enum KnownMoveState {
   /** DeleteSourcePending */
   DeleteSourcePending = "DeleteSourcePending",
   /** ResourceMoveCompleted */
-  ResourceMoveCompleted = "ResourceMoveCompleted"
+  ResourceMoveCompleted = "ResourceMoveCompleted",
 }
 
 /**
@@ -1145,7 +1178,7 @@ export type MoveState = string;
 /** Known values of {@link JobName} that the service accepts. */
 export enum KnownJobName {
   /** InitialSync */
-  InitialSync = "InitialSync"
+  InitialSync = "InitialSync",
 }
 
 /**
@@ -1162,7 +1195,7 @@ export enum KnownResolutionType {
   /** Manual */
   Manual = "Manual",
   /** Automatic */
-  Automatic = "Automatic"
+  Automatic = "Automatic",
 }
 
 /**
@@ -1180,7 +1213,7 @@ export enum KnownDependencyType {
   /** RequiredForPrepare */
   RequiredForPrepare = "RequiredForPrepare",
   /** RequiredForMove */
-  RequiredForMove = "RequiredForMove"
+  RequiredForMove = "RequiredForMove",
 }
 
 /**
@@ -1198,7 +1231,7 @@ export enum KnownDependencyLevel {
   /** Direct */
   Direct = "Direct",
   /** Descendant */
-  Descendant = "Descendant"
+  Descendant = "Descendant",
 }
 
 /**
@@ -1220,7 +1253,7 @@ export enum KnownTargetAvailabilityZone {
   /** Three */
   Three = "3",
   /** NA */
-  NA = "NA"
+  NA = "NA",
 }
 
 /**
@@ -1240,7 +1273,7 @@ export enum KnownZoneRedundant {
   /** Enable */
   Enable = "Enable",
   /** Disable */
-  Disable = "Disable"
+  Disable = "Disable",
 }
 
 /**
@@ -1379,35 +1412,40 @@ export interface MoveCollectionsListMoveCollectionsBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMoveCollectionsBySubscription operation. */
-export type MoveCollectionsListMoveCollectionsBySubscriptionResponse = MoveCollectionResultList;
+export type MoveCollectionsListMoveCollectionsBySubscriptionResponse =
+  MoveCollectionResultList;
 
 /** Optional parameters. */
 export interface MoveCollectionsListMoveCollectionsByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMoveCollectionsByResourceGroup operation. */
-export type MoveCollectionsListMoveCollectionsByResourceGroupResponse = MoveCollectionResultList;
+export type MoveCollectionsListMoveCollectionsByResourceGroupResponse =
+  MoveCollectionResultList;
 
 /** Optional parameters. */
 export interface MoveCollectionsListRequiredForOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRequiredFor operation. */
-export type MoveCollectionsListRequiredForResponse = RequiredForResourcesCollection;
+export type MoveCollectionsListRequiredForResponse =
+  RequiredForResourcesCollection;
 
 /** Optional parameters. */
 export interface MoveCollectionsListMoveCollectionsBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMoveCollectionsBySubscriptionNext operation. */
-export type MoveCollectionsListMoveCollectionsBySubscriptionNextResponse = MoveCollectionResultList;
+export type MoveCollectionsListMoveCollectionsBySubscriptionNextResponse =
+  MoveCollectionResultList;
 
 /** Optional parameters. */
 export interface MoveCollectionsListMoveCollectionsByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMoveCollectionsByResourceGroupNext operation. */
-export type MoveCollectionsListMoveCollectionsByResourceGroupNextResponse = MoveCollectionResultList;
+export type MoveCollectionsListMoveCollectionsByResourceGroupNextResponse =
+  MoveCollectionResultList;
 
 /** Optional parameters. */
 export interface MoveResourcesListOptionalParams
@@ -1478,7 +1516,8 @@ export interface UnresolvedDependenciesGetNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getNext operation. */
-export type UnresolvedDependenciesGetNextResponse = UnresolvedDependencyCollection;
+export type UnresolvedDependenciesGetNextResponse =
+  UnresolvedDependencyCollection;
 
 /** Optional parameters. */
 export interface OperationsDiscoveryGetOptionalParams
