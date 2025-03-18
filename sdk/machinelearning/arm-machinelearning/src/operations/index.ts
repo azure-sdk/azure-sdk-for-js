@@ -6,17 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations.js";
-export * from "./workspaces.js";
 export * from "./usages.js";
 export * from "./virtualMachineSizes.js";
 export * from "./quotas.js";
 export * from "./computeOperations.js";
-export * from "./privateEndpointConnections.js";
-export * from "./privateLinkResources.js";
-export * from "./workspaceConnections.js";
-export * from "./managedNetworkSettingsRule.js";
-export * from "./managedNetworkProvisions.js";
 export * from "./registryCodeContainers.js";
 export * from "./registryCodeVersions.js";
 export * from "./registryComponentContainers.js";
@@ -54,3 +47,10 @@ export * from "./schedules.js";
 export * from "./serverlessEndpoints.js";
 export * from "./registries.js";
 export * from "./workspaceFeatures.js";
+export * from "./operations.js";
+export * from "./workspaces.js";
+export * from "./privateEndpointConnections.js";
+export * from "./privateLinkResources.js";
+export * from "./workspaceConnections.js";
+export * from "./managedNetworkSettingsRule.js";
+export * from "./managedNetworkProvisions.js";
