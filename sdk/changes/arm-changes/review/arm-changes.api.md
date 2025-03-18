@@ -85,8 +85,6 @@ export type ChangesGetResponse = ChangeResourceResult;
 
 // @public
 export interface ChangesListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
