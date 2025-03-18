@@ -408,15 +408,22 @@ export class ConnectedEnvironmentsImpl implements ConnectedEnvironments {
    * Patches a Managed Environment. Only patching of tags is supported currently
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param connectedEnvironmentName Name of the connectedEnvironment.
+   * @param environmentEnvelope Configuration details of the connectedEnvironment.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     connectedEnvironmentName: string,
+    environmentEnvelope: ConnectedEnvironment,
     options?: ConnectedEnvironmentsUpdateOptionalParams,
   ): Promise<ConnectedEnvironmentsUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, connectedEnvironmentName, options },
+      {
+        resourceGroupName,
+        connectedEnvironmentName,
+        environmentEnvelope,
+        options,
+      },
       updateOperationSpec,
     );
   }
@@ -565,7 +572,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.connectedEnvironmentName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -602,6 +609,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
+  requestBody: Parameters.environmentEnvelope,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -609,7 +617,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.connectedEnvironmentName,
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
@@ -631,7 +640,7 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.connectedEnvironmentName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
