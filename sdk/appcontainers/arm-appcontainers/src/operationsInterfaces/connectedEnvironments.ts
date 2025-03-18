@@ -111,11 +111,13 @@ export interface ConnectedEnvironments {
    * Patches a Managed Environment. Only patching of tags is supported currently
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param connectedEnvironmentName Name of the connectedEnvironment.
+   * @param environmentEnvelope Configuration details of the connectedEnvironment.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     connectedEnvironmentName: string,
+    environmentEnvelope: ConnectedEnvironment,
     options?: ConnectedEnvironmentsUpdateOptionalParams,
   ): Promise<ConnectedEnvironmentsUpdateResponse>;
   /**
