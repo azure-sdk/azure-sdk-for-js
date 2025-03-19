@@ -1,37 +1,55 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PrivateLinkResource, _PrivateLinkResourceListResult } from "../../models/models.js";
-import { DocumentDBContext as Client } from "../index.js";
 import {
-  StreamableMethod,
-  operationOptionsToRequestParameters,
-  PathUncheckedResponse,
-  createRestError,
-} from "@azure-rest/core-client";
+  MongoClusterManagementContext as Client,
+  PrivateLinksListByMongoClusterOptionalParams,
+} from "../index.js";
+import {
+  errorResponseDeserializer,
+  _PrivateLinkResourceListResult,
+  _privateLinkResourceListResultDeserializer,
+  PrivateLinkResource,
+} from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import { PrivateLinksListByMongoClusterOptionalParams } from "../../models/options.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _privateLinksListByMongoClusterSend(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   mongoClusterName: string,
   options: PrivateLinksListByMongoClusterOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateLinkResources",
-      subscriptionId,
-      resourceGroupName,
-      mongoClusterName,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateLinkResources{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      mongoClusterName: mongoClusterName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _privateLinksListByMongoClusterDeserialize(
@@ -39,48 +57,17 @@ export async function _privateLinksListByMongoClusterDeserialize(
 ): Promise<_PrivateLinkResourceListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
-  return {
-    value: result.body["value"].map((p: any) => {
-      return {
-        id: p["id"],
-        name: p["name"],
-        type: p["type"],
-        systemData: !p.systemData
-          ? undefined
-          : {
-              createdBy: p.systemData?.["createdBy"],
-              createdByType: p.systemData?.["createdByType"],
-              createdAt:
-                p.systemData?.["createdAt"] !== undefined
-                  ? new Date(p.systemData?.["createdAt"])
-                  : undefined,
-              lastModifiedBy: p.systemData?.["lastModifiedBy"],
-              lastModifiedByType: p.systemData?.["lastModifiedByType"],
-              lastModifiedAt:
-                p.systemData?.["lastModifiedAt"] !== undefined
-                  ? new Date(p.systemData?.["lastModifiedAt"])
-                  : undefined,
-            },
-        properties: !p.properties
-          ? undefined
-          : {
-              groupId: p.properties?.["groupId"],
-              requiredMembers: p.properties?.["requiredMembers"],
-              requiredZoneNames: p.properties?.["requiredZoneNames"],
-            },
-      };
-    }),
-    nextLink: result.body["nextLink"],
-  };
+  return _privateLinkResourceListResultDeserializer(result.body);
 }
 
 /** list private links on the given resource */
 export function privateLinksListByMongoCluster(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   mongoClusterName: string,
   options: PrivateLinksListByMongoClusterOptionalParams = {
@@ -90,13 +77,7 @@ export function privateLinksListByMongoCluster(
   return buildPagedAsyncIterator(
     context,
     () =>
-      _privateLinksListByMongoClusterSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        mongoClusterName,
-        options,
-      ),
+      _privateLinksListByMongoClusterSend(context, resourceGroupName, mongoClusterName, options),
     _privateLinksListByMongoClusterDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
