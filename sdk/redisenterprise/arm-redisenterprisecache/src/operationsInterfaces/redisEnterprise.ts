@@ -44,7 +44,9 @@ export interface RedisEnterprise {
   /**
    * Creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param parameters Parameters supplied to the Create Redis Enterprise operation.
    * @param options The options parameters.
    */
@@ -62,7 +64,9 @@ export interface RedisEnterprise {
   /**
    * Creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param parameters Parameters supplied to the Create Redis Enterprise operation.
    * @param options The options parameters.
    */
@@ -75,7 +79,9 @@ export interface RedisEnterprise {
   /**
    * Updates an existing Redis Enterprise cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param parameters Parameters supplied to the Update Redis Enterprise operation.
    * @param options The options parameters.
    */
@@ -93,7 +99,9 @@ export interface RedisEnterprise {
   /**
    * Updates an existing Redis Enterprise cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param parameters Parameters supplied to the Update Redis Enterprise operation.
    * @param options The options parameters.
    */
@@ -106,7 +114,9 @@ export interface RedisEnterprise {
   /**
    * Deletes a Redis Enterprise cache cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param options The options parameters.
    */
   beginDelete(
@@ -117,7 +127,9 @@ export interface RedisEnterprise {
   /**
    * Deletes a Redis Enterprise cache cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -128,7 +140,9 @@ export interface RedisEnterprise {
   /**
    * Gets information about a Redis Enterprise cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param options The options parameters.
    */
   get(
