@@ -20,6 +20,7 @@ import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -33,21 +34,25 @@ export function _targetsListByWatcherSend(
   watcherName: string,
   options: TargetsListByWatcherOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets",
-      context.subscriptionId,
-      resourceGroupName,
-      watcherName,
-    )
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      watcherName: watcherName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _targetsListByWatcherDeserialize(
@@ -86,22 +91,26 @@ export function _targetsDeleteSend(
   targetName: string,
   options: TargetsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets/{targetName}",
-      context.subscriptionId,
-      resourceGroupName,
-      watcherName,
-      targetName,
-    )
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets/{targetName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      watcherName: watcherName,
+      targetName: targetName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _targetsDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -141,24 +150,28 @@ export function _targetsCreateOrUpdateSend(
   resource: Target,
   options: TargetsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets/{targetName}",
-      context.subscriptionId,
-      resourceGroupName,
-      watcherName,
-      targetName,
-    )
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-      body: targetSerializer(resource),
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets/{targetName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      watcherName: watcherName,
+      targetName: targetName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: targetSerializer(resource),
+  });
 }
 
 export async function _targetsCreateOrUpdateDeserialize(
@@ -201,22 +214,26 @@ export function _targetsGetSend(
   targetName: string,
   options: TargetsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets/{targetName}",
-      context.subscriptionId,
-      resourceGroupName,
-      watcherName,
-      targetName,
-    )
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets/{targetName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      watcherName: watcherName,
+      targetName: targetName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _targetsGetDeserialize(result: PathUncheckedResponse): Promise<Target> {
