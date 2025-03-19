@@ -4,6 +4,9 @@
 
 ```ts
 
+import { ClientOptions } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+
 // @public
 export interface AcsChatEventBase {
     recipientCommunicationIdentifier: CommunicationIdentifierModel;
@@ -751,18 +754,18 @@ export type AppAction = string;
 
 // @public
 export interface AppConfigurationKeyValueDeletedEventData {
-    etag?: string;
-    key?: string;
-    label?: string;
-    syncToken?: string;
+    etag: string;
+    key: string;
+    label: string;
+    syncToken: string;
 }
 
 // @public
 export interface AppConfigurationKeyValueModifiedEventData {
-    etag?: string;
-    key?: string;
-    label?: string;
-    syncToken?: string;
+    etag: string;
+    key: string;
+    label: string | null;
+    syncToken: string;
 }
 
 // @public
@@ -771,9 +774,9 @@ export interface AppConfigurationSnapshotCreatedEventData extends AppConfigurati
 
 // @public
 export interface AppConfigurationSnapshotEventData {
-    etag?: string;
-    name?: string;
-    syncToken?: string;
+    etag: string;
+    name: string;
+    syncToken: string;
 }
 
 // @public
@@ -868,20 +871,6 @@ export interface AvsScriptExecutionFinishedEventData extends AvsScriptExecutionE
 
 // @public
 export interface AvsScriptExecutionStartedEventData extends AvsScriptExecutionEventData {
-}
-
-// @public
-export interface CloudEvent<T> {
-    data?: T;
-    dataContentType?: string;
-    dataSchema?: string;
-    extensionAttributes?: Record<string, unknown>;
-    id: string;
-    source: string;
-    specVersion?: string | "1.0";
-    subject?: string;
-    time?: Date;
-    type: string;
 }
 
 // @public
@@ -1001,20 +990,20 @@ export interface ContainerServiceClusterSupportEndingEventData extends Container
 
 // @public
 export interface ContainerServiceClusterSupportEventData {
-    kubernetesVersion?: string;
+    kubernetesVersion: string;
 }
 
 // @public
 export interface ContainerServiceNewKubernetesVersionAvailableEventData {
     latestPreviewKubernetesVersion?: string;
-    latestStableKubernetesVersion?: string;
-    latestSupportedKubernetesVersion?: string;
-    lowestMinorKubernetesVersion?: string;
+    latestStableKubernetesVersion: string;
+    latestSupportedKubernetesVersion: string;
+    lowestMinorKubernetesVersion: string;
 }
 
 // @public
 export interface ContainerServiceNodePoolRollingEventData {
-    nodePoolName?: string;
+    nodePoolName: string;
 }
 
 // @public
@@ -1119,17 +1108,6 @@ export interface DeviceTwinMetadata {
 }
 
 // @public
-export interface EventGridEvent<T> {
-    data: T;
-    dataVersion: string;
-    eventTime: Date;
-    eventType: string;
-    id: string;
-    subject: string;
-    topic?: string;
-}
-
-// @public
 export interface EventGridMqttClientCreatedOrUpdatedEventData extends EventGridMqttClientEventData {
     attributes: Record<string, string>;
     createdOn: Date;
@@ -1169,15 +1147,15 @@ export type EventGridMqttClientState = string;
 
 // @public
 export interface EventHubCaptureFileCreatedEventData {
-    eventCount?: number;
-    fileType?: string;
-    fileUrl?: string;
+    eventCount: number;
+    fileType: string;
+    fileUrl: string;
     firstEnqueueTime: Date;
-    firstSequenceNumber?: number;
+    firstSequenceNumber: number;
     lastEnqueueTime: Date;
-    lastSequenceNumber?: number;
-    partitionId?: string;
-    sizeInBytes?: number;
+    lastSequenceNumber: number;
+    partitionId: string;
+    sizeInBytes: number;
 }
 
 // @public
@@ -1258,119 +1236,113 @@ export interface IotHubDeviceTelemetryEventData extends DeviceTelemetryEvent {
 }
 
 // @public
-export function isSystemEvent<T extends KnownSystemEventTypes>(eventType: T, event: EventGridEvent<unknown>): event is EventGridEvent<SystemEventNameToEventData[T]>;
-
-// @public
-export function isSystemEvent<T extends KnownSystemEventTypes>(eventType: T, event: CloudEvent<unknown>): event is CloudEvent<SystemEventNameToEventData[T]>;
-
-// @public
 export interface KeyVaultAccessPolicyChangedEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultCertificateExpiredEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultCertificateNearExpiryEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultCertificateNewVersionCreatedEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultKeyExpiredEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultKeyNearExpiryEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultKeyNewVersionCreatedEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultSecretExpiredEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultSecretNearExpiryEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultSecretNewVersionCreatedEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
@@ -1385,24 +1357,24 @@ export enum KnownAcsEmailDeliveryReportStatus {
 
 // @public
 export enum KnownAcsInteractiveReplyKind {
-    buttonReply = "buttonReply",
-    listReply = "listReply",
-    unknown = "unknown"
+    ButtonReply = "buttonReply",
+    ListReply = "listReply",
+    Unknown = "unknown"
 }
 
 // @public
 export enum KnownAcsMessageChannelKind {
-    whatsapp = "whatsapp"
+    Whatsapp = "whatsapp"
 }
 
 // @public
 export enum KnownAcsMessageDeliveryStatus {
-    delivered = "delivered",
-    failed = "failed",
-    read = "read",
-    sent = "sent",
-    unknown = "unknown",
-    warning = "warning"
+    Delivered = "delivered",
+    Failed = "failed",
+    Read = "read",
+    Sent = "sent",
+    Unknown = "unknown",
+    Warning = "warning"
 }
 
 // @public
@@ -1449,8 +1421,8 @@ export enum KnownAcsRouterWorkerSelectorState {
 
 // @public
 export enum KnownAcsUserEngagement {
-    click = "click",
-    view = "view"
+    Click = "click",
+    View = "view"
 }
 
 // @public
@@ -1477,17 +1449,17 @@ export enum KnownAsyncStatus {
 
 // @public
 export enum KnownCommunicationCloudEnvironmentModel {
-    dod = "dod",
-    gcch = "gcch",
-    "public" = "public"
+    Dod = "dod",
+    Gcch = "gcch",
+    Public = "public"
 }
 
 // @public
 export enum KnownCommunicationIdentifierModelKind {
-    communicationUser = "communicationUser",
-    microsoftTeamsUser = "microsoftTeamsUser",
-    phoneNumber = "phoneNumber",
-    unknown = "unknown"
+    CommunicationUser = "communicationUser",
+    MicrosoftTeamsUser = "microsoftTeamsUser",
+    PhoneNumber = "phoneNumber",
+    Unknown = "unknown"
 }
 
 // @public
@@ -1705,9 +1677,9 @@ export enum KnownRecordingFormatType {
 // @public
 export enum KnownServiceApiVersions {
     // (undocumented)
-    v2018_01_01 = "2018-01-01",
+    V20180101 = "2018-01-01",
     // (undocumented)
-    v2024_01_01 = "2024-01-01"
+    V20240101 = "2024-01-01"
 }
 
 // @public
@@ -1727,6 +1699,13 @@ export enum KnownStorageBlobAccessTier {
 }
 
 // @public
+export enum KnownStorageLifecycleCompletionStatus {
+    Completed = "Completed",
+    CompletedWithError = "CompletedWithError",
+    Incomplete = "Incomplete"
+}
+
+// @public
 export enum KnownStorageTaskAssignmentCompletedStatus {
     Failed = "Failed",
     Succeeded = "Succeeded"
@@ -1739,56 +1718,53 @@ export enum KnownStorageTaskCompletedStatus {
 }
 
 // @public
-export type KnownSystemEventTypes = keyof SystemEventNameToEventData;
-
-// @public
 export interface MachineLearningServicesDatasetDriftDetectedEventData {
-    baseDatasetId?: string;
-    dataDriftId?: string;
-    dataDriftName?: string;
-    driftCoefficient?: number;
-    endTime: Date;
-    runId?: string;
-    startTime: Date;
-    targetDatasetId?: string;
+    baseDatasetId: string;
+    dataDriftId: string;
+    dataDriftName: string;
+    driftCoefficient: number;
+    endTime: Date | null;
+    runId: string;
+    startTime: Date | null;
+    targetDatasetId: string;
 }
 
 // @public
 export interface MachineLearningServicesModelDeployedEventData {
-    modelIds?: string;
-    serviceComputeType?: string;
-    serviceName?: string;
-    serviceProperties: Record<string, any>;
-    serviceTags: Record<string, any>;
+    modelIds: string;
+    serviceComputeType: string;
+    serviceName: string;
+    serviceProperties?: Record<string, any>;
+    serviceTags?: Record<string, any>;
 }
 
 // @public
 export interface MachineLearningServicesModelRegisteredEventData {
-    modelName?: string;
-    modelProperties: Record<string, any>;
-    modelTags: Record<string, any>;
-    modelVersion?: string;
+    modelName: string;
+    modelProperties?: Record<string, any>;
+    modelTags?: Record<string, any>;
+    modelVersion: string;
 }
 
 // @public
 export interface MachineLearningServicesRunCompletedEventData {
-    experimentId?: string;
-    experimentName?: string;
-    runId?: string;
-    runProperties: Record<string, any>;
-    runTags: Record<string, any>;
-    runType?: string;
+    experimentId: string;
+    experimentName: string;
+    runId: string;
+    runProperties?: Record<string, any>;
+    runTags?: Record<string, any>;
+    runType: string;
 }
 
 // @public
 export interface MachineLearningServicesRunStatusChangedEventData {
-    experimentId?: string;
-    experimentName?: string;
-    runId?: string;
-    runProperties: Record<string, any>;
-    runStatus?: string;
-    runTags: Record<string, any>;
-    runType?: string;
+    experimentId: string;
+    experimentName: string;
+    runId: string;
+    runProperties?: Record<string, any>;
+    runStatus: string;
+    runTags?: Record<string, any>;
+    runType: string;
 }
 
 // @public
@@ -2012,6 +1988,10 @@ export interface ResourceHttpRequest {
     clientRequestId?: string;
     method?: string;
     url?: string;
+}
+
+// @public
+export interface ResourceNotificationsContainerServiceEventResourcesScheduledEventData extends ResourceNotificationsResourceUpdatedEventData {
 }
 
 // @public
@@ -2293,6 +2273,9 @@ export interface StorageDirectoryRenamedEventData {
 }
 
 // @public
+export type StorageLifecycleCompletionStatus = string;
+
+// @public
 export interface StorageLifecyclePolicyActionSummaryDetail {
     errorList?: string;
     successCount?: number;
@@ -2302,12 +2285,16 @@ export interface StorageLifecyclePolicyActionSummaryDetail {
 // @public
 export interface StorageLifecyclePolicyCompletedEventData {
     deleteSummary: StorageLifecyclePolicyActionSummaryDetail;
-    // Warning: (ae-forgotten-export) The symbol "StorageLifecyclePolicyRunSummary" needs to be exported by the entry point index.d.ts
     policyRunSummary: StorageLifecyclePolicyRunSummary;
     scheduleTime?: string;
     tierToArchiveSummary: StorageLifecyclePolicyActionSummaryDetail;
     tierToColdSummary: StorageLifecyclePolicyActionSummaryDetail;
     tierToCoolSummary: StorageLifecyclePolicyActionSummaryDetail;
+}
+
+// @public
+export interface StorageLifecyclePolicyRunSummary {
+    completionStatus: StorageLifecycleCompletionStatus;
 }
 
 // @public
@@ -2362,190 +2349,14 @@ export interface SubscriptionValidationResponse {
     validationResponse: string;
 }
 
+// @public (undocumented)
+export class SystemEventsClient {
+    constructor(endpointParam: string, options?: SystemEventsClientOptionalParams);
+    readonly pipeline: Pipeline;
+}
+
 // @public
-export interface SystemEventNameToEventData {
-    "Microsoft.ApiCenter.ApiDefinitionAdded": ApiCenterApiDefinitionAddedEventData;
-    "Microsoft.ApiCenter.ApiDefinitionUpdated": ApiCenterApiDefinitionUpdatedEventData;
-    "Microsoft.ApiManagement.APICreated": ApiManagementApiCreatedEventData;
-    "Microsoft.ApiManagement.APIDeleted": ApiManagementApiDeletedEventData;
-    "Microsoft.ApiManagement.APIReleaseCreated": ApiManagementApiReleaseCreatedEventData;
-    "Microsoft.ApiManagement.APIReleaseDeleted": ApiManagementApiReleaseDeletedEventData;
-    "Microsoft.ApiManagement.APIReleaseUpdated": ApiManagementApiReleaseUpdatedEventData;
-    "Microsoft.ApiManagement.APIUpdated": ApiManagementApiUpdatedEventData;
-    "Microsoft.ApiManagement.GatewayAPIAdded": ApiManagementGatewayApiAddedEventData;
-    "Microsoft.ApiManagement.GatewayAPIRemoved": ApiManagementGatewayApiRemovedEventData;
-    "Microsoft.ApiManagement.GatewayCertificateAuthorityCreated": ApiManagementGatewayCertificateAuthorityCreatedEventData;
-    "Microsoft.ApiManagement.GatewayCertificateAuthorityDeleted": ApiManagementGatewayCertificateAuthorityDeletedEventData;
-    "Microsoft.ApiManagement.GatewayCertificateAuthorityUpdated": ApiManagementGatewayCertificateAuthorityUpdatedEventData;
-    "Microsoft.ApiManagement.GatewayCreated": ApiManagementGatewayCreatedEventData;
-    "Microsoft.ApiManagement.GatewayDeleted": ApiManagementGatewayDeletedEventData;
-    "Microsoft.ApiManagement.GatewayHostnameConfigurationCreated": ApiManagementGatewayHostnameConfigurationCreatedEventData;
-    "Microsoft.ApiManagement.GatewayHostnameConfigurationDeleted": ApiManagementGatewayHostnameConfigurationDeletedEventData;
-    "Microsoft.ApiManagement.GatewayHostnameConfigurationUpdated": ApiManagementGatewayHostnameConfigurationUpdatedEventData;
-    "Microsoft.ApiManagement.GatewayUpdated": ApiManagementGatewayUpdatedEventData;
-    "Microsoft.ApiManagement.ProductCreated": ApiManagementProductCreatedEventData;
-    "Microsoft.ApiManagement.ProductDeleted": ApiManagementProductDeletedEventData;
-    "Microsoft.ApiManagement.ProductUpdated": ApiManagementProductUpdatedEventData;
-    "Microsoft.ApiManagement.SubscriptionCreated": ApiManagementSubscriptionCreatedEventData;
-    "Microsoft.ApiManagement.SubscriptionDeleted": ApiManagementSubscriptionDeletedEventData;
-    "Microsoft.ApiManagement.SubscriptionUpdated": ApiManagementSubscriptionUpdatedEventData;
-    "Microsoft.ApiManagement.UserCreated": ApiManagementUserCreatedEventData;
-    "Microsoft.ApiManagement.UserDeleted": ApiManagementUserDeletedEventData;
-    "Microsoft.ApiManagement.UserUpdated": ApiManagementUserUpdatedEventData;
-    "Microsoft.AppConfiguration.KeyValueDeleted": AppConfigurationKeyValueDeletedEventData;
-    "Microsoft.AppConfiguration.KeyValueModified": AppConfigurationKeyValueModifiedEventData;
-    "Microsoft.AppConfiguration.SnapshotCreated": AppConfigurationSnapshotCreatedEventData;
-    "Microsoft.AppConfiguration.SnapshotModified": AppConfigurationSnapshotModifiedEventData;
-    "Microsoft.AVS.ClusterCreated": AvsClusterCreatedEventData;
-    "Microsoft.AVS.ClusterDeleted": AvsClusterDeletedEventData;
-    "Microsoft.AVS.ClusterFailed": AvsClusterFailedEventData;
-    "Microsoft.AVS.ClusterUpdated": AvsClusterUpdatedEventData;
-    "Microsoft.AVS.ClusterUpdating": AvsClusterUpdatingEventData;
-    "Microsoft.AVS.PrivateCloudFailed": AvsPrivateCloudFailedEventData;
-    "Microsoft.AVS.PrivateCloudUpdated": AvsPrivateCloudUpdatedEventData;
-    "Microsoft.AVS.PrivateCloudUpdating": AvsPrivateCloudUpdatingEventData;
-    "Microsoft.AVS.ScriptExecutionCancelled": AvsScriptExecutionCancelledEventData;
-    "Microsoft.AVS.ScriptExecutionFailed": AvsScriptExecutionFailedEventData;
-    "Microsoft.AVS.ScriptExecutionFinished": AvsScriptExecutionFinishedEventData;
-    "Microsoft.AVS.ScriptExecutionStarted": AvsScriptExecutionStartedEventData;
-    "Microsoft.Communication.AdvancedMessageDeliveryStatusUpdated": AcsMessageDeliveryStatusUpdatedEventData;
-    "Microsoft.Communication.AdvancedMessageReceived": AcsMessageReceivedEventData;
-    "Microsoft.Communication.ChatMessageDeleted": AcsChatMessageDeletedEventData;
-    "Microsoft.Communication.ChatMessageDeletedInThread": AcsChatMessageDeletedInThreadEventData;
-    "Microsoft.Communication.ChatMessageEdited": AcsChatMessageEditedEventData;
-    "Microsoft.Communication.ChatMessageEditedInThread": AcsChatMessageEditedInThreadEventData;
-    "Microsoft.Communication.ChatMessageReceived": AcsChatMessageReceivedEventData;
-    "Microsoft.Communication.ChatMessageReceivedInThread": AcsChatMessageReceivedInThreadEventData;
-    "Microsoft.Communication.ChatParticipantAddedToThreadWithUser": AcsChatParticipantAddedToThreadWithUserEventData;
-    "Microsoft.Communication.ChatParticipantRemovedFromThreadWithUser": AcsChatParticipantRemovedFromThreadWithUserEventData;
-    "Microsoft.Communication.ChatThreadCreatedWithUser": AcsChatThreadCreatedWithUserEventData;
-    "Microsoft.Communication.ChatThreadParticipantAdded": AcsChatParticipantAddedToThreadEventData;
-    "Microsoft.Communication.ChatThreadParticipantRemoved": AcsChatParticipantRemovedFromThreadEventData;
-    "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser": AcsChatThreadPropertiesUpdatedPerUserEventData;
-    "Microsoft.Communication.ChatThreadWithUserDeleted": AcsChatThreadWithUserDeletedEventData;
-    "Microsoft.Communication.EmailDeliveryReportReceived": AcsEmailDeliveryReportReceivedEventData;
-    "Microsoft.Communication.EmailEngagementTrackingReportReceived": AcsEmailEngagementTrackingReportReceivedEventData;
-    "Microsoft.Communication.IncomingCall": AcsIncomingCallEventData;
-    "Microsoft.Communication.RecordingFileStatusUpdated": AcsRecordingFileStatusUpdatedEventData;
-    "Microsoft.Communication.RouterJobCancelled": AcsRouterJobCancelledEventData;
-    "Microsoft.Communication.RouterJobClassificationFailed": AcsRouterJobClassificationFailedEventData;
-    "Microsoft.Communication.RouterJobClassified": AcsRouterJobClassifiedEventData;
-    "Microsoft.Communication.RouterJobClosed": AcsRouterJobClosedEventData;
-    "Microsoft.Communication.RouterJobCompleted": AcsRouterJobCompletedEventData;
-    "Microsoft.Communication.RouterJobDeleted": AcsRouterJobDeletedEventData;
-    "Microsoft.Communication.RouterJobExceptionTriggered": AcsRouterJobExceptionTriggeredEventData;
-    "Microsoft.Communication.RouterJobQueued": AcsRouterJobQueuedEventData;
-    "Microsoft.Communication.RouterJobReceived": AcsRouterJobReceivedEventData;
-    "Microsoft.Communication.RouterJobSchedulingFailed": AcsRouterJobSchedulingFailedEventData;
-    "Microsoft.Communication.RouterJobUnassigned": AcsRouterJobUnassignedEventData;
-    "Microsoft.Communication.RouterJobWaitingForActivation": AcsRouterJobWaitingForActivationEventData;
-    "Microsoft.Communication.RouterJobWorkerSelectorsExpire": AcsRouterJobWorkerSelectorsExpiredEventData;
-    "Microsoft.Communication.RouterWorkerDeleted": AcsRouterWorkerDeletedEventData;
-    "Microsoft.Communication.RouterWorkerDeregistered": AcsRouterWorkerDeregisteredEventData;
-    "Microsoft.Communication.RouterWorkerOfferAccepted": AcsRouterWorkerOfferAcceptedEventData;
-    "Microsoft.Communication.RouterWorkerOfferDeclined": AcsRouterWorkerOfferDeclinedEventData;
-    "Microsoft.Communication.RouterWorkerOfferExpired": AcsRouterWorkerOfferExpiredEventData;
-    "Microsoft.Communication.RouterWorkerOfferIssued": AcsRouterWorkerOfferIssuedEventData;
-    "Microsoft.Communication.RouterWorkerOfferRevoked": AcsRouterWorkerOfferRevokedEventData;
-    "Microsoft.Communication.RouterWorkerRegistered": AcsRouterWorkerRegisteredEventData;
-    "Microsoft.Communication.RouterWorkerUpdated": AcsRouterWorkerUpdatedEventData;
-    "Microsoft.Communication.SMSDeliveryReportReceived": AcsSmsDeliveryReportReceivedEventData;
-    "Microsoft.Communication.SMSReceived": AcsSmsReceivedEventData;
-    "Microsoft.Communication.UserDisconnected": AcsUserDisconnectedEventData;
-    "Microsoft.ContainerRegistry.ChartDeleted": ContainerRegistryChartDeletedEventData;
-    "Microsoft.ContainerRegistry.ChartPushed": ContainerRegistryChartPushedEventData;
-    "Microsoft.ContainerRegistry.ImageDeleted": ContainerRegistryImageDeletedEventData;
-    "Microsoft.ContainerRegistry.ImagePushed": ContainerRegistryImagePushedEventData;
-    "Microsoft.ContainerService.ClusterSupportEnded": ContainerServiceClusterSupportEndedEventData;
-    "Microsoft.ContainerService.ClusterSupportEnding": ContainerServiceClusterSupportEndingEventData;
-    "Microsoft.ContainerService.NewKubernetesVersionAvailable": ContainerServiceNewKubernetesVersionAvailableEventData;
-    "Microsoft.ContainerService.NodePoolRollingFailed": ContainerServiceNodePoolRollingFailedEventData;
-    "Microsoft.ContainerService.NodePoolRollingStarted": ContainerServiceNodePoolRollingStartedEventData;
-    "Microsoft.ContainerService.NodePoolRollingSucceeded": ContainerServiceNodePoolRollingSucceededEventData;
-    "Microsoft.DataBox.CopyCompleted": DataBoxCopyCompletedEventData;
-    "Microsoft.DataBox.CopyStarted": DataBoxCopyStartedEventData;
-    "Microsoft.DataBox.OrderCompleted": DataBoxOrderCompletedEventData;
-    "Microsoft.Devices.DeviceConnected": IotHubDeviceConnectedEventData;
-    "Microsoft.Devices.DeviceCreated": IotHubDeviceCreatedEventData;
-    "Microsoft.Devices.DeviceDeleted": IotHubDeviceDeletedEventData;
-    "Microsoft.Devices.DeviceDisconnected": IotHubDeviceDisconnectedEventData;
-    "Microsoft.Devices.DeviceTelemetry": IotHubDeviceTelemetryEventData;
-    "Microsoft.EventGrid.MQTTClientCreatedOrUpdated": EventGridMqttClientCreatedOrUpdatedEventData;
-    "Microsoft.EventGrid.MQTTClientDeleted": EventGridMqttClientDeletedEventData;
-    "Microsoft.EventGrid.MQTTClientSessionConnected": EventGridMqttClientSessionConnectedEventData;
-    "Microsoft.EventGrid.MQTTClientSessionDisconnected": EventGridMqttClientSessionDisconnectedEventData;
-    "Microsoft.EventGrid.SubscriptionDeletedEvent": SubscriptionDeletedEventData;
-    "Microsoft.EventGrid.SubscriptionValidationEvent": SubscriptionValidationEventData;
-    "Microsoft.EventHub.CaptureFileCreated": EventHubCaptureFileCreatedEventData;
-    "Microsoft.HealthcareApis.DicomImageCreated": HealthcareDicomImageCreatedEventData;
-    "Microsoft.HealthcareApis.DicomImageDeleted": HealthcareDicomImageDeletedEventData;
-    "Microsoft.HealthcareApis.DicomImageUpdated": HealthcareDicomImageUpdatedEventData;
-    "Microsoft.HealthcareApis.FhirDeletedCreated": HealthcareFhirResourceDeletedEventData;
-    "Microsoft.HealthcareApis.FhirResourceCreated": HealthcareFhirResourceCreatedEventData;
-    "Microsoft.HealthcareApis.FhirUpdatedCreated": HealthcareFhirResourceUpdatedEventData;
-    "Microsoft.KeyVault.CertificateExpired": KeyVaultCertificateExpiredEventData;
-    "Microsoft.KeyVault.CertificateNearExpiry": KeyVaultCertificateNearExpiryEventData;
-    "Microsoft.KeyVault.CertificateNewVersionCreated": KeyVaultCertificateNewVersionCreatedEventData;
-    "Microsoft.KeyVault.KeyExpired": KeyVaultKeyExpiredEventData;
-    "Microsoft.KeyVault.KeyNearExpiry": KeyVaultKeyNearExpiryEventData;
-    "Microsoft.KeyVault.KeyNewVersionCreated": KeyVaultKeyNewVersionCreatedEventData;
-    "Microsoft.KeyVault.SecretExpired": KeyVaultSecretExpiredEventData;
-    "Microsoft.KeyVault.SecretNearExpiry": KeyVaultSecretNearExpiryEventData;
-    "Microsoft.KeyVault.SecretNewVersionCreated": KeyVaultSecretNewVersionCreatedEventData;
-    "Microsoft.KeyVault.VaultAccessPolicyChanged": KeyVaultAccessPolicyChangedEventData;
-    "Microsoft.MachineLearningServices.DatasetDriftDetected": MachineLearningServicesDatasetDriftDetectedEventData;
-    "Microsoft.MachineLearningServices.ModelDeployed": MachineLearningServicesModelDeployedEventData;
-    "Microsoft.MachineLearningServices.ModelRegistered": MachineLearningServicesModelRegisteredEventData;
-    "Microsoft.MachineLearningServices.RunCompleted": MachineLearningServicesRunCompletedEventData;
-    "Microsoft.MachineLearningServices.RunStatusChanged": MachineLearningServicesRunStatusChangedEventData;
-    "Microsoft.Maps.GeofenceEntered": MapsGeofenceEnteredEventData;
-    "Microsoft.Maps.GeofenceExited": MapsGeofenceExitedEventData;
-    "Microsoft.Maps.GeofenceResult": MapsGeofenceResultEventData;
-    "Microsoft.PolicyInsights.PolicyStateChanged ": PolicyInsightsPolicyStateChangedEventData;
-    "Microsoft.PolicyInsights.PolicyStateCreated": PolicyInsightsPolicyStateCreatedEventData;
-    "Microsoft.PolicyInsights.PolicyStateDeleted": PolicyInsightsPolicyStateDeletedEventData;
-    "Microsoft.ResourceNotifications.HealthResources.AvailabilityStatusChanged": ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventData;
-    "Microsoft.ResourceNotifications.HealthResources.ResourceAnnotated": ResourceNotificationsHealthResourcesAnnotatedEventData;
-    "Microsoft.ResourceNotifications.Resources.CreatedOrUpdated": ResourceNotificationsResourceManagementCreatedOrUpdatedEventData;
-    "Microsoft.ResourceNotifications.Resources.Deleted": ResourceNotificationsResourceManagementDeletedEventData;
-    "Microsoft.Resources.ResourceActionCancel": ResourceActionCancelEventData;
-    "Microsoft.Resources.ResourceActionFailure": ResourceActionFailureEventData;
-    "Microsoft.Resources.ResourceActionSuccess": ResourceActionSuccessEventData;
-    "Microsoft.Resources.ResourceDeleteCancel": ResourceDeleteCancelEventData;
-    "Microsoft.Resources.ResourceDeleteFailure": ResourceDeleteFailureEventData;
-    "Microsoft.Resources.ResourceDeleteSuccess": ResourceDeleteSuccessEventData;
-    "Microsoft.Resources.ResourceWriteCancel": ResourceWriteCancelEventData;
-    "Microsoft.Resources.ResourceWriteFailure": ResourceWriteFailureEventData;
-    "Microsoft.Resources.ResourceWriteSuccess": ResourceWriteSuccessEventData;
-    "Microsoft.ServiceBus.ActiveMessagesAvailableWithNoListeners": ServiceBusActiveMessagesAvailableWithNoListenersEventData;
-    "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListeners": ServiceBusDeadletterMessagesAvailableWithNoListenersEventData;
-    "Microsoft.Storage.AsyncOperationInitiated": StorageAsyncOperationInitiatedEventData;
-    "Microsoft.Storage.BlobCreated": StorageBlobCreatedEventData;
-    "Microsoft.Storage.BlobDeleted": StorageBlobDeletedEventData;
-    "Microsoft.Storage.BlobInventoryPolicyCompleted": StorageBlobInventoryPolicyCompletedEventData;
-    "Microsoft.Storage.BlobRenamed": StorageBlobRenamedEventData;
-    "Microsoft.Storage.BlobTierChanged": StorageBlobTierChangedEventData;
-    "Microsoft.Storage.DirectoryCreated": StorageDirectoryCreatedEventData;
-    "Microsoft.Storage.DirectoryDeleted": StorageDirectoryDeletedEventData;
-    "Microsoft.Storage.DirectoryRenamed": StorageDirectoryRenamedEventData;
-    "Microsoft.Storage.LifecyclePolicyCompleted": StorageLifecyclePolicyCompletedEventData;
-    "Microsoft.Storage.StorageTaskAssignmentCompleted": StorageTaskAssignmentCompletedEventData;
-    "Microsoft.Storage.StorageTaskAssignmentQueued": StorageTaskAssignmentQueuedEventData;
-    "Microsoft.Storage.StorageTaskCompleted": StorageTaskCompletedEventData;
-    "Microsoft.Storage.StorageTaskQueued": StorageTaskQueuedEventData;
-    "Microsoft.Web.AppServicePlanUpdated": WebAppServicePlanUpdatedEventData;
-    "Microsoft.Web.AppUpdated": WebAppUpdatedEventData;
-    "Microsoft.Web.BackupOperationCompleted": WebBackupOperationCompletedEventData;
-    "Microsoft.Web.BackupOperationFailed": WebBackupOperationFailedEventData;
-    "Microsoft.Web.BackupOperationStarted": WebBackupOperationStartedEventData;
-    "Microsoft.Web.RestoreOperationCompleted": WebRestoreOperationCompletedEventData;
-    "Microsoft.Web.RestoreOperationFailed": WebRestoreOperationFailedEventData;
-    "Microsoft.Web.RestoreOperationStarted": WebRestoreOperationStartedEventData;
-    "Microsoft.Web.SlotSwapCompleted": WebSlotSwapCompletedEventData;
-    "Microsoft.Web.SlotSwapFailed": WebSlotSwapFailedEventData;
-    "Microsoft.Web.SlotSwapStarted": WebSlotSwapStartedEventData;
-    "Microsoft.Web.SlotSwapWithPreviewCancelled": WebSlotSwapWithPreviewCancelledEventData;
-    "Microsoft.Web.SlotSwapWithPreviewStarted": WebSlotSwapWithPreviewStartedEventData;
+export interface SystemEventsClientOptionalParams extends ClientOptions {
 }
 
 // @public
