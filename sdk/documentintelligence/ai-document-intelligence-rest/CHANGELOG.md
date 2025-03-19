@@ -1,7 +1,16 @@
-<!-- dev-tool snippets ignore -->
-
 # Release History
+    
+## 2.0.0 (2025-03-19)
+    
+### Features Added
 
+  - Added operation group SimplePollerLike
+
+### Breaking Changes
+
+  - Removed function parseResultIdFromResponse
+  - Removed function streamToUint8Array
+    
 ## 1.0.0 (2024-12-16)
 
 ### Features Added
@@ -24,7 +33,7 @@
       "/documentModels/{modelId}/analyzeResults/{resultId}/figures/{figureId}",
       "prebuilt-layout",
       resultId,
-      figureId,
+      figureId
     )
     .get()
     .asNodeStream(); // output.body would be NodeJS.ReadableStream
@@ -63,7 +72,7 @@
     .path(
       "/documentModels/{modelId}/analyzeBatchResults/{resultId}",
       "prebuilt-layout",
-      batchResultId,
+      batchResultId
     )
     .get();
   ```
@@ -110,11 +119,6 @@ The following types are renamed
 - `ResourceDetailsOutput` to `DocumentIntelligenceResourceDetailsOutput`
 - `PagedOperationDetailsOutput` to `PagedDocumentIntelligenceOperationDetailsOutput`
 - `GetResourceInfo` to `GetResourceDetails`
-- `AnalyzeResultOperationOutput` to `AnalyzeOperationOutput`
-- `FontWeightOutput` to `DocumentFontWeightOutput`
-- `FontStyleOutput` to `DocumentFontStyleOutput`
-- `DocumentOutput` to `AnalyzedDocumentOutput`
-- `CopyAuthorizationOutput` to `ModelCopyAuthorizationOutput`
 
 ## 1.0.0-beta.3 (2024-08-20)
 
@@ -242,7 +246,7 @@ The new `"2023-10-31-preview"` service version comes with some new features and 
 
     Each page is treated as a separate document. Each empty page is kept as its own document.
 
-**Breaking Changes**
+### Breaking Changes
 
 - **prebuilt-receipt** - Currency related fields have been updated. Currency symbol ("$") and code ("USD") are returned along with the amount as shown below.
 
