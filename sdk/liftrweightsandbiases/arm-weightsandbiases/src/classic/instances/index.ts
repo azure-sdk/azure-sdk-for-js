@@ -1,0 +1,98 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { WeightsAndBiasesContext } from "../../api/weightsAndBiasesContext.js";
+import {
+  instancesListBySubscription,
+  instancesListByResourceGroup,
+  instancesDelete,
+  instancesUpdate,
+  instancesCreateOrUpdate,
+  instancesGet,
+} from "../../api/instances/index.js";
+import { InstanceResource, InstanceResourceUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  InstancesListBySubscriptionOptionalParams,
+  InstancesListByResourceGroupOptionalParams,
+  InstancesDeleteOptionalParams,
+  InstancesUpdateOptionalParams,
+  InstancesCreateOrUpdateOptionalParams,
+  InstancesGetOptionalParams,
+} from "../../api/options.js";
+
+/** Interface representing a Instances operations. */
+export interface InstancesOperations {
+  /** List InstanceResource resources by subscription ID */
+  listBySubscription: (
+    options?: InstancesListBySubscriptionOptionalParams,
+  ) => PagedAsyncIterableIterator<InstanceResource>;
+  /** List InstanceResource resources by resource group */
+  listByResourceGroup: (
+    resourceGroupName: string,
+    options?: InstancesListByResourceGroupOptionalParams,
+  ) => PagedAsyncIterableIterator<InstanceResource>;
+  /** Delete a InstanceResource */
+  delete: (
+    resourceGroupName: string,
+    instancename: string,
+    options?: InstancesDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** Update a InstanceResource */
+  update: (
+    resourceGroupName: string,
+    instancename: string,
+    properties: InstanceResourceUpdate,
+    options?: InstancesUpdateOptionalParams,
+  ) => Promise<InstanceResource>;
+  /** Create a InstanceResource */
+  createOrUpdate: (
+    resourceGroupName: string,
+    instancename: string,
+    resource: InstanceResource,
+    options?: InstancesCreateOrUpdateOptionalParams,
+  ) => PollerLike<OperationState<InstanceResource>, InstanceResource>;
+  /** Get a InstanceResource */
+  get: (
+    resourceGroupName: string,
+    instancename: string,
+    options?: InstancesGetOptionalParams,
+  ) => Promise<InstanceResource>;
+}
+
+function _getInstances(context: WeightsAndBiasesContext) {
+  return {
+    listBySubscription: (options?: InstancesListBySubscriptionOptionalParams) =>
+      instancesListBySubscription(context, options),
+    listByResourceGroup: (
+      resourceGroupName: string,
+      options?: InstancesListByResourceGroupOptionalParams,
+    ) => instancesListByResourceGroup(context, resourceGroupName, options),
+    delete: (
+      resourceGroupName: string,
+      instancename: string,
+      options?: InstancesDeleteOptionalParams,
+    ) => instancesDelete(context, resourceGroupName, instancename, options),
+    update: (
+      resourceGroupName: string,
+      instancename: string,
+      properties: InstanceResourceUpdate,
+      options?: InstancesUpdateOptionalParams,
+    ) => instancesUpdate(context, resourceGroupName, instancename, properties, options),
+    createOrUpdate: (
+      resourceGroupName: string,
+      instancename: string,
+      resource: InstanceResource,
+      options?: InstancesCreateOrUpdateOptionalParams,
+    ) => instancesCreateOrUpdate(context, resourceGroupName, instancename, resource, options),
+    get: (resourceGroupName: string, instancename: string, options?: InstancesGetOptionalParams) =>
+      instancesGet(context, resourceGroupName, instancename, options),
+  };
+}
+
+export function _getInstancesOperations(context: WeightsAndBiasesContext): InstancesOperations {
+  return {
+    ..._getInstances(context),
+  };
+}
