@@ -7,19 +7,16 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  ResourceProviderOperation,
-  OperationsListOptionalParams
-} from "../models/index.js";
+import { Operation, OperationsListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Operations. */
 export interface Operations {
   /**
-   * The Microsoft Portal operations API.
+   * List the operations for the provider
    * @param options The options parameters.
    */
   list(
-    options?: OperationsListOptionalParams
-  ): PagedAsyncIterableIterator<ResourceProviderOperation>;
+    options?: OperationsListOptionalParams,
+  ): PagedAsyncIterableIterator<Operation>;
 }
