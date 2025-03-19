@@ -16,7 +16,7 @@ import {
   EndpointsCreateOrUpdateOptionalParams,
   EndpointsCreateOrUpdateResponse,
   EndpointsDeleteOptionalParams,
-  EndpointsDeleteResponse
+  EndpointsDeleteResponse,
 } from "../models/index.js";
 
 /** Interface representing a Endpoints. */
@@ -36,7 +36,7 @@ export interface Endpoints {
     endpointType: EndpointType,
     endpointName: string,
     parameters: Endpoint,
-    options?: EndpointsUpdateOptionalParams
+    options?: EndpointsUpdateOptionalParams,
   ): Promise<EndpointsUpdateResponse>;
   /**
    * Gets a Traffic Manager endpoint.
@@ -51,7 +51,7 @@ export interface Endpoints {
     profileName: string,
     endpointType: EndpointType,
     endpointName: string,
-    options?: EndpointsGetOptionalParams
+    options?: EndpointsGetOptionalParams,
   ): Promise<EndpointsGetResponse>;
   /**
    * Create or update a Traffic Manager endpoint.
@@ -68,7 +68,7 @@ export interface Endpoints {
     endpointType: EndpointType,
     endpointName: string,
     parameters: Endpoint,
-    options?: EndpointsCreateOrUpdateOptionalParams
+    options?: EndpointsCreateOrUpdateOptionalParams,
   ): Promise<EndpointsCreateOrUpdateResponse>;
   /**
    * Deletes a Traffic Manager endpoint.
@@ -83,6 +83,6 @@ export interface Endpoints {
     profileName: string,
     endpointType: EndpointType,
     endpointName: string,
-    options?: EndpointsDeleteOptionalParams
+    options?: EndpointsDeleteOptionalParams,
   ): Promise<EndpointsDeleteResponse>;
 }

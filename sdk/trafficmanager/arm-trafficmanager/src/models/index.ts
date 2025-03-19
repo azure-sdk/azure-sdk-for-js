@@ -274,7 +274,7 @@ export enum KnownEndpointStatus {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -302,7 +302,7 @@ export enum KnownEndpointMonitorStatus {
   /** Stopped */
   Stopped = "Stopped",
   /** Unmonitored */
-  Unmonitored = "Unmonitored"
+  Unmonitored = "Unmonitored",
 }
 
 /**
@@ -325,7 +325,7 @@ export enum KnownAlwaysServe {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -343,7 +343,7 @@ export enum KnownProfileStatus {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -369,7 +369,7 @@ export enum KnownTrafficRoutingMethod {
   /** MultiValue */
   MultiValue = "MultiValue",
   /** Subnet */
-  Subnet = "Subnet"
+  Subnet = "Subnet",
 }
 
 /**
@@ -397,7 +397,7 @@ export enum KnownProfileMonitorStatus {
   /** Disabled */
   Disabled = "Disabled",
   /** Inactive */
-  Inactive = "Inactive"
+  Inactive = "Inactive",
 }
 
 /**
@@ -420,7 +420,7 @@ export enum KnownMonitorProtocol {
   /** Https */
   Https = "HTTPS",
   /** TCP */
-  TCP = "TCP"
+  TCP = "TCP",
 }
 
 /**
@@ -439,7 +439,7 @@ export enum KnownTrafficViewEnrollmentStatus {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -461,7 +461,7 @@ export enum KnownAllowedEndpointRecordType {
   /** IPv6Address */
   IPv6Address = "IPv6Address",
   /** Any */
-  Any = "Any"
+  Any = "Any",
 }
 
 /**
@@ -514,14 +514,16 @@ export interface ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityOptionalP
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkTrafficManagerRelativeDnsNameAvailability operation. */
-export type ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityResponse = TrafficManagerNameAvailability;
+export type ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityResponse =
+  TrafficManagerNameAvailability;
 
 /** Optional parameters. */
 export interface ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkTrafficManagerNameAvailabilityV2 operation. */
-export type ProfilesCheckTrafficManagerNameAvailabilityV2Response = TrafficManagerNameAvailability;
+export type ProfilesCheckTrafficManagerNameAvailabilityV2Response =
+  TrafficManagerNameAvailability;
 
 /** Optional parameters. */
 export interface ProfilesListByResourceGroupOptionalParams
@@ -570,7 +572,8 @@ export interface GeographicHierarchiesGetDefaultOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDefault operation. */
-export type GeographicHierarchiesGetDefaultResponse = TrafficManagerGeographicHierarchy;
+export type GeographicHierarchiesGetDefaultResponse =
+  TrafficManagerGeographicHierarchy;
 
 /** Optional parameters. */
 export interface HeatMapGetOptionalParams extends coreClient.OperationOptions {
@@ -595,7 +598,8 @@ export interface TrafficManagerUserMetricsKeysCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type TrafficManagerUserMetricsKeysCreateOrUpdateResponse = UserMetricsModel;
+export type TrafficManagerUserMetricsKeysCreateOrUpdateResponse =
+  UserMetricsModel;
 
 /** Optional parameters. */
 export interface TrafficManagerUserMetricsKeysDeleteOptionalParams
