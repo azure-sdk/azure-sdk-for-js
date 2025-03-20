@@ -1776,6 +1776,94 @@ export const ValidateForBackupRequest: coreClient.CompositeMapper = {
   },
 };
 
+export const ValidateForModifyBackupRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ValidateForModifyBackupRequest",
+    modelProperties: {
+      backupInstance: {
+        serializedName: "backupInstance",
+        type: {
+          name: "Composite",
+          className: "BackupInstance",
+        },
+      },
+    },
+  },
+};
+
+export const ErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail",
+            },
+          },
+        },
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
 export const AzureBackupRecoveryPoint: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1951,78 +2039,6 @@ export const CrossRegionRestoreDetails: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const ErrorResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorResponse",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ErrorDetail",
-        },
-      },
-    },
-  },
-};
-
-export const ErrorDetail: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorDetail",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      message: {
-        serializedName: "message",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      target: {
-        serializedName: "target",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      details: {
-        serializedName: "details",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorDetail",
-            },
-          },
-        },
-      },
-      additionalInfo: {
-        serializedName: "additionalInfo",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorAdditionalInfo",
-            },
-          },
         },
       },
     },
@@ -3745,6 +3761,12 @@ export const BackupVaultResourceList: coreClient.CompositeMapper = {
           },
         },
       },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -3767,6 +3789,12 @@ export const BaseBackupPolicyResourceList: coreClient.CompositeMapper = {
           },
         },
       },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -3787,6 +3815,12 @@ export const BackupInstanceResourceList: coreClient.CompositeMapper = {
               className: "BackupInstanceResource",
             },
           },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
@@ -3812,6 +3846,12 @@ export const AzureBackupRecoveryPointResourceList: coreClient.CompositeMapper =
             },
           },
         },
+        nextLink: {
+          serializedName: "nextLink",
+          type: {
+            name: "String",
+          },
+        },
       },
     },
   };
@@ -3832,6 +3872,12 @@ export const AzureBackupJobResourceList: coreClient.CompositeMapper = {
               className: "AzureBackupJobResource",
             },
           },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
@@ -3856,6 +3902,12 @@ export const DeletedBackupInstanceResourceList: coreClient.CompositeMapper = {
           },
         },
       },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -3876,6 +3928,12 @@ export const ResourceGuardProxyBaseResourceList: coreClient.CompositeMapper = {
               className: "ResourceGuardProxyBaseResource",
             },
           },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
@@ -4157,6 +4215,17 @@ export const KubernetesClusterBackupDatasourceParameters: coreClient.CompositeMa
             name: "Boolean",
           },
         },
+        includedVolumeTypes: {
+          serializedName: "includedVolumeTypes",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
         includeClusterScopeResources: {
           serializedName: "includeClusterScopeResources",
           required: true,
@@ -4241,8 +4310,10 @@ export const BlobBackupDatasourceParameters: coreClient.CompositeMapper = {
     name: "Composite",
     className: "BlobBackupDatasourceParameters",
     uberParent: "BackupDatasourceParameters",
-    polymorphicDiscriminator:
-      BackupDatasourceParameters.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: {
+      serializedName: "objectType",
+      clientName: "objectType",
+    },
     modelProperties: {
       ...BackupDatasourceParameters.type.modelProperties,
       containersList: {
@@ -4552,6 +4623,12 @@ export const ResourceGuardResourceList: coreClient.CompositeMapper = {
               className: "ResourceGuardResource",
             },
           },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
@@ -5229,6 +5306,20 @@ export const BackupVaultResource: coreClient.CompositeMapper = {
   },
 };
 
+export const AdlsBlobBackupDatasourceParameters: coreClient.CompositeMapper = {
+  serializedName: "AdlsBlobBackupDatasourceParameters",
+  type: {
+    name: "Composite",
+    className: "AdlsBlobBackupDatasourceParameters",
+    uberParent: "BlobBackupDatasourceParameters",
+    polymorphicDiscriminator:
+      BlobBackupDatasourceParameters.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BlobBackupDatasourceParameters.type.modelProperties,
+    },
+  },
+};
+
 export const AzureBackupRestoreWithRehydrationRequest: coreClient.CompositeMapper =
   {
     serializedName: "AzureBackupRestoreWithRehydrationRequest",
@@ -5395,6 +5486,34 @@ export const BackupInstancesValidateForBackupHeaders: coreClient.CompositeMapper
     type: {
       name: "Composite",
       className: "BackupInstancesValidateForBackupHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
+      },
+    },
+  };
+
+export const BackupInstancesValidateForModifyBackupHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "BackupInstancesValidateForModifyBackupHeaders",
       modelProperties: {
         location: {
           serializedName: "location",
@@ -5784,6 +5903,8 @@ export let discriminators = {
     KubernetesClusterRestoreCriteria,
   "ItemLevelRestoreCriteria.KubernetesClusterVaultTierRestoreCriteria":
     KubernetesClusterVaultTierRestoreCriteria,
+  "BlobBackupDatasourceParameters.AdlsBlobBackupDatasourceParameters":
+    AdlsBlobBackupDatasourceParameters,
   "AzureBackupRecoveryPointBasedRestoreRequest.AzureBackupRestoreWithRehydrationRequest":
     AzureBackupRestoreWithRehydrationRequest,
 };
