@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Check the availability of a resource name. This is needed for resources where name is globally unique, such as a afdx endpoint.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/CheckEndpointNameAvailability.json
  */
-async function checkEndpointNameAvailability() {
+async function checkEndpointNameAvailability(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["CDN_RESOURCE_GROUP"] || "myResourceGroup";
@@ -37,7 +37,7 @@ async function checkEndpointNameAvailability() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   checkEndpointNameAvailability();
 }
 

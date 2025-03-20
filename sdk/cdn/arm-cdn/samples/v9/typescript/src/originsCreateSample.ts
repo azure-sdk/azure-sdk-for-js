@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Creates a new origin within the specified endpoint.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Origins_Create.json
  */
-async function originsCreate() {
+async function originsCreate(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
   const profileName = "profile1";
@@ -47,7 +47,7 @@ async function originsCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   originsCreate();
 }
 
