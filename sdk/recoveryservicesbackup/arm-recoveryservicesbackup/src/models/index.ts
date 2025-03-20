@@ -404,7 +404,7 @@ export interface ProtectionIntent {
 
 /** Base for all lists of resources. */
 export interface ResourceList {
-  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string;
 }
 
@@ -1163,6 +1163,16 @@ export interface RecoveryPointProperties {
   isSoftDeleted?: boolean;
 }
 
+/** Recovery point tier information. */
+export interface RecoveryPointTierInformation {
+  /** Recovery point tier type. */
+  type?: RecoveryPointTierType;
+  /** Recovery point tier status. */
+  status?: RecoveryPointTierStatus;
+  /** Recovery point tier status. */
+  extendedInfo?: { [propertyName: string]: string };
+}
+
 /** Restore file specs like file path, type and target folder path info. */
 export interface RestoreFileSpecs {
   /** Source File/Folder path */
@@ -1493,16 +1503,6 @@ export interface PointInTimeRange {
   startTime?: Date;
   /** End time of the time range for log recovery. */
   endTime?: Date;
-}
-
-/** Recovery point tier information. */
-export interface RecoveryPointTierInformation {
-  /** Recovery point tier type. */
-  type?: RecoveryPointTierType;
-  /** Recovery point tier status. */
-  status?: RecoveryPointTierStatus;
-  /** Recovery point tier status. */
-  extendedInfo?: { [propertyName: string]: string };
 }
 
 export interface RecoveryPointMoveReadinessInfo {
@@ -2372,66 +2372,88 @@ export interface AzureWorkloadContainerAutoProtectionIntent
 export interface ProtectionIntentResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectionIntentResource[];
+  /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
+  nextLink?: string;
 }
 
 /** List of RecoveryPoint resources */
 export interface RecoveryPointResourceList extends ResourceList {
   /** List of resources. */
   value?: RecoveryPointResource[];
+  /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
+  nextLink?: string;
 }
 
 /** List of ProtectionPolicy resources */
 export interface ProtectionPolicyResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectionPolicyResource[];
+  /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
+  nextLink?: string;
 }
 
 /** List of Job resources */
 export interface JobResourceList extends ResourceList {
   /** List of resources. */
   value?: JobResource[];
+  /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
+  nextLink?: string;
 }
 
 /** List of ProtectedItem resources */
 export interface ProtectedItemResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectedItemResource[];
+  /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
+  nextLink?: string;
 }
 
 /** List of BackupEngineBase resources */
 export interface BackupEngineBaseResourceList extends ResourceList {
   /** List of resources. */
   value?: BackupEngineBaseResource[];
+  /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
+  nextLink?: string;
 }
 
 /** List of ProtectableContainer resources */
 export interface ProtectableContainerResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectableContainerResource[];
+  /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
+  nextLink?: string;
 }
 
 /** List of WorkloadItem resources */
 export interface WorkloadItemResourceList extends ResourceList {
   /** List of resources. */
   value?: WorkloadItemResource[];
+  /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
+  nextLink?: string;
 }
 
 /** List of WorkloadProtectableItem resources */
 export interface WorkloadProtectableItemResourceList extends ResourceList {
   /** List of resources. */
   value?: WorkloadProtectableItemResource[];
+  /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
+  nextLink?: string;
 }
 
 /** List of ProtectionContainer resources */
 export interface ProtectionContainerResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectionContainerResource[];
+  /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
+  nextLink?: string;
 }
 
 /** List of ResourceGuardProxyBase resources */
 export interface ResourceGuardProxyBaseResourceList extends ResourceList {
   /** List of resources. */
   value?: ResourceGuardProxyBaseResource[];
+  /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
+  nextLink?: string;
 }
 
 export interface BackupResourceEncryptionConfigExtended
@@ -2557,6 +2579,11 @@ export interface AzureIaaSVMProtectedItem extends ProtectedItem {
   extendedInfo?: AzureIaaSVMProtectedItemExtendedInfo;
   /** Extended Properties for Azure IaasVM Backup. */
   extendedProperties?: ExtendedProperties;
+  /**
+   * Type of the policy used for protection
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policyType?: string;
 }
 
 /** Azure SQL workload-specific backup item. */
@@ -2682,6 +2709,8 @@ export interface AzureFileShareRecoveryPoint extends RecoveryPoint {
   recoveryPointSizeInGB?: number;
   /** Properties of Recovery Point */
   recoveryPointProperties?: RecoveryPointProperties;
+  /** Recovery point tier information. */
+  recoveryPointTierDetails?: RecoveryPointTierInformation[];
 }
 
 /** Workload specific recovery point, specifically encapsulates full/diff recovery point */
@@ -3262,6 +3291,8 @@ export interface AzureStorageContainer extends ProtectionContainer {
   protectedItemCount?: number;
   /** Whether storage account lock is to be acquired for this container or not. */
   acquireStorageAccountLock?: AcquireStorageAccountLock;
+  /** Re-Do Operation */
+  operationType?: OperationType;
 }
 
 /** Base class for generic container of backup items */
@@ -3502,6 +3533,10 @@ export interface TieringCostSavingInfo extends TieringCostInfo {
 /** Azure IaaS VM workload-specific Health Details. */
 export interface AzureIaaSVMHealthDetails extends ResourceHealthDetails {}
 
+/** RecoveryPoint Tier Information V2 */
+export interface RecoveryPointTierInformationV2
+  extends RecoveryPointTierInformation {}
+
 /** Log policy schedule. */
 export interface LogSchedulePolicy extends SchedulePolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -3567,10 +3602,6 @@ export interface SimpleRetentionPolicy extends RetentionPolicy {
   /** Retention duration of the protection policy. */
   retentionDuration?: RetentionDuration;
 }
-
-/** RecoveryPoint Tier Information V2 */
-export interface RecoveryPointTierInformationV2
-  extends RecoveryPointTierInformation {}
 
 /** Azure Recovery Services Vault specific protection intent item. */
 export interface AzureWorkloadAutoProtectionIntent
@@ -5393,6 +5424,8 @@ export enum KnownOperationType {
   Register = "Register",
   /** Reregister */
   Reregister = "Reregister",
+  /** Rehydrate */
+  Rehydrate = "Rehydrate",
 }
 
 /**
@@ -5402,7 +5435,8 @@ export enum KnownOperationType {
  * ### Known values supported by the service
  * **Invalid** \
  * **Register** \
- * **Reregister**
+ * **Reregister** \
+ * **Rehydrate**
  */
 export type OperationType = string;
 
@@ -5753,8 +5787,6 @@ export type RecoveryPointTierType =
   | "InstantRP"
   | "HardenedRP"
   | "ArchivedRP";
-/** Defines values for JobSupportedAction. */
-export type JobSupportedAction = "Invalid" | "Cancellable" | "Retriable";
 /** Defines values for RecoveryPointTierStatus. */
 export type RecoveryPointTierStatus =
   | "Invalid"
@@ -5762,6 +5794,8 @@ export type RecoveryPointTierStatus =
   | "Disabled"
   | "Deleted"
   | "Rehydrated";
+/** Defines values for JobSupportedAction. */
+export type JobSupportedAction = "Invalid" | "Cancellable" | "Retriable";
 /** Defines values for DayOfWeek. */
 export type DayOfWeek =
   | "Sunday"
