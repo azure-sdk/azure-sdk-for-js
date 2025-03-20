@@ -11,7 +11,7 @@ export type GetSchemaByVersionParameters = RequestParameters;
 
 export interface GetSchemaPropertiesByContentBodyParam {
   /** String representation (UTF-8) of the schema. */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body: string;
 }
 
 export interface GetSchemaPropertiesByContentMediaTypesParam {
@@ -19,13 +19,14 @@ export interface GetSchemaPropertiesByContentMediaTypesParam {
   contentType: SchemaContentTypeValues;
 }
 
-export type GetSchemaPropertiesByContentParameters = GetSchemaPropertiesByContentMediaTypesParam &
-  GetSchemaPropertiesByContentBodyParam &
-  RequestParameters;
+export type GetSchemaPropertiesByContentParameters =
+  GetSchemaPropertiesByContentMediaTypesParam &
+    GetSchemaPropertiesByContentBodyParam &
+    RequestParameters;
 
 export interface RegisterSchemaBodyParam {
   /** String representation (UTF-8) of the schema. */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body: string;
 }
 
 export interface RegisterSchemaMediaTypesParam {
