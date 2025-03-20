@@ -8,6 +8,7 @@ import {
 } from "../index.js";
 import {
   QuotaNames,
+  errorResponseDeserializer,
   Quota,
   quotaDeserializer,
   _QuotaListResult,
@@ -17,6 +18,7 @@ import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -24,57 +26,29 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
-export function _quotasGetSend(
-  context: Client,
-  subscriptionId: string,
-  location: string,
-  quotaName: QuotaNames,
-  options: QuotasGetOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.AzurePlaywrightService/locations/{location}/quotas/{quotaName}",
-      subscriptionId,
-      location,
-      quotaName,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _quotasGetDeserialize(result: PathUncheckedResponse): Promise<Quota> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return quotaDeserializer(result.body);
-}
-
-/** Get subscription quota by name. */
-export async function quotasGet(
-  context: Client,
-  subscriptionId: string,
-  location: string,
-  quotaName: QuotaNames,
-  options: QuotasGetOptionalParams = { requestOptions: {} },
-): Promise<Quota> {
-  const result = await _quotasGetSend(context, subscriptionId, location, quotaName, options);
-  return _quotasGetDeserialize(result);
-}
-
 export function _quotasListBySubscriptionSend(
   context: Client,
-  subscriptionId: string,
   location: string,
   options: QuotasListBySubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.AzurePlaywrightService/locations/{location}/quotas",
-      subscriptionId,
-      location,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.AzurePlaywrightService/locations/{location}/quotas{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      location: location,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _quotasListBySubscriptionDeserialize(
@@ -82,7 +56,9 @@ export async function _quotasListBySubscriptionDeserialize(
 ): Promise<_QuotaListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return _quotaListResultDeserializer(result.body);
@@ -91,15 +67,63 @@ export async function _quotasListBySubscriptionDeserialize(
 /** List quotas for a given subscription Id. */
 export function quotasListBySubscription(
   context: Client,
-  subscriptionId: string,
   location: string,
   options: QuotasListBySubscriptionOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Quota> {
   return buildPagedAsyncIterator(
     context,
-    () => _quotasListBySubscriptionSend(context, subscriptionId, location, options),
+    () => _quotasListBySubscriptionSend(context, location, options),
     _quotasListBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
+}
+
+export function _quotasGetSend(
+  context: Client,
+  location: string,
+  quotaName: QuotaNames,
+  options: QuotasGetOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.AzurePlaywrightService/locations/{location}/quotas/{quotaName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      location: location,
+      quotaName: quotaName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _quotasGetDeserialize(result: PathUncheckedResponse): Promise<Quota> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return quotaDeserializer(result.body);
+}
+
+/** Get subscription quota by name. */
+export async function quotasGet(
+  context: Client,
+  location: string,
+  quotaName: QuotaNames,
+  options: QuotasGetOptionalParams = { requestOptions: {} },
+): Promise<Quota> {
+  const result = await _quotasGetSend(context, location, quotaName, options);
+  return _quotasGetDeserialize(result);
 }
