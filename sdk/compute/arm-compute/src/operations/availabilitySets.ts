@@ -14,6 +14,12 @@ import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ComputeManagementClient } from "../computeManagementClient.js";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
+import {
   AvailabilitySet,
   AvailabilitySetsListBySubscriptionNextOptionalParams,
   AvailabilitySetsListBySubscriptionOptionalParams,
@@ -22,18 +28,26 @@ import {
   AvailabilitySetsListOptionalParams,
   AvailabilitySetsListResponse,
   VirtualMachineSize,
+  AvailabilitySetsListAvailableSizesNextOptionalParams,
   AvailabilitySetsListAvailableSizesOptionalParams,
   AvailabilitySetsListAvailableSizesResponse,
+  AvailabilitySetsGetOptionalParams,
+  AvailabilitySetsGetResponse,
   AvailabilitySetsCreateOrUpdateOptionalParams,
   AvailabilitySetsCreateOrUpdateResponse,
   AvailabilitySetUpdate,
   AvailabilitySetsUpdateOptionalParams,
   AvailabilitySetsUpdateResponse,
   AvailabilitySetsDeleteOptionalParams,
-  AvailabilitySetsGetOptionalParams,
-  AvailabilitySetsGetResponse,
+  AvailabilitySetsCancelMigrationToVirtualMachineScaleSetOptionalParams,
+  AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams,
+  AvailabilitySetsConvertToVirtualMachineScaleSetResponse,
+  MigrateToVirtualMachineScaleSetInput,
+  AvailabilitySetsStartMigrationToVirtualMachineScaleSetOptionalParams,
+  AvailabilitySetsValidateMigrationToVirtualMachineScaleSetOptionalParams,
   AvailabilitySetsListBySubscriptionNextResponse,
   AvailabilitySetsListNextResponse,
+  AvailabilitySetsListAvailableSizesNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -105,7 +119,7 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
 
   /**
    * Lists all availability sets in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public list(
@@ -168,7 +182,7 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
   /**
    * Lists all available virtual machine sizes that can be used to create a new virtual machine in an
    * existing availability set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param availabilitySetName The name of the availability set.
    * @param options The options parameters.
    */
@@ -207,15 +221,33 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
     resourceGroupName: string,
     availabilitySetName: string,
     options?: AvailabilitySetsListAvailableSizesOptionalParams,
-    _settings?: PageSettings,
+    settings?: PageSettings,
   ): AsyncIterableIterator<VirtualMachineSize[]> {
     let result: AvailabilitySetsListAvailableSizesResponse;
-    result = await this._listAvailableSizes(
-      resourceGroupName,
-      availabilitySetName,
-      options,
-    );
-    yield result.value || [];
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAvailableSizes(
+        resourceGroupName,
+        availabilitySetName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listAvailableSizesNext(
+        resourceGroupName,
+        availabilitySetName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
   private async *listAvailableSizesPagingAll(
@@ -233,8 +265,53 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
   }
 
   /**
+   * Lists all availability sets in a subscription.
+   * @param options The options parameters.
+   */
+  private _listBySubscription(
+    options?: AvailabilitySetsListBySubscriptionOptionalParams,
+  ): Promise<AvailabilitySetsListBySubscriptionResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listBySubscriptionOperationSpec,
+    );
+  }
+
+  /**
+   * Lists all availability sets in a resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    options?: AvailabilitySetsListOptionalParams,
+  ): Promise<AvailabilitySetsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
+   * Retrieves information about an availability set.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetName The name of the availability set.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    availabilitySetName: string,
+    options?: AvailabilitySetsGetOptionalParams,
+  ): Promise<AvailabilitySetsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, availabilitySetName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
    * Create or update an availability set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param availabilitySetName The name of the availability set.
    * @param parameters Parameters supplied to the Create Availability Set operation.
    * @param options The options parameters.
@@ -253,7 +330,7 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
 
   /**
    * Update an availability set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param availabilitySetName The name of the availability set.
    * @param parameters Parameters supplied to the Update Availability Set operation.
    * @param options The options parameters.
@@ -272,7 +349,7 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
 
   /**
    * Delete an availability set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param availabilitySetName The name of the availability set.
    * @param options The options parameters.
    */
@@ -288,54 +365,159 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
   }
 
   /**
-   * Retrieves information about an availability set.
-   * @param resourceGroupName The name of the resource group.
+   * Cancel the migration operation on an Availability Set.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param availabilitySetName The name of the availability set.
    * @param options The options parameters.
    */
-  get(
+  cancelMigrationToVirtualMachineScaleSet(
     resourceGroupName: string,
     availabilitySetName: string,
-    options?: AvailabilitySetsGetOptionalParams,
-  ): Promise<AvailabilitySetsGetResponse> {
+    options?: AvailabilitySetsCancelMigrationToVirtualMachineScaleSetOptionalParams,
+  ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, availabilitySetName, options },
-      getOperationSpec,
+      cancelMigrationToVirtualMachineScaleSetOperationSpec,
     );
   }
 
   /**
-   * Lists all availability sets in a subscription.
+   * Create a new Flexible Virtual Machine Scale Set and migrate all the Virtual Machines in the
+   * Availability Set. This does not trigger a downtime on the Virtual Machines.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetName The name of the availability set.
    * @param options The options parameters.
    */
-  private _listBySubscription(
-    options?: AvailabilitySetsListBySubscriptionOptionalParams,
-  ): Promise<AvailabilitySetsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
-  }
-
-  /**
-   * Lists all availability sets in a resource group.
-   * @param resourceGroupName The name of the resource group.
-   * @param options The options parameters.
-   */
-  private _list(
+  async beginConvertToVirtualMachineScaleSet(
     resourceGroupName: string,
-    options?: AvailabilitySetsListOptionalParams,
-  ): Promise<AvailabilitySetsListResponse> {
+    availabilitySetName: string,
+    options?: AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AvailabilitySetsConvertToVirtualMachineScaleSetResponse>,
+      AvailabilitySetsConvertToVirtualMachineScaleSetResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<AvailabilitySetsConvertToVirtualMachineScaleSetResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, availabilitySetName, options },
+      spec: convertToVirtualMachineScaleSetOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      AvailabilitySetsConvertToVirtualMachineScaleSetResponse,
+      OperationState<AvailabilitySetsConvertToVirtualMachineScaleSetResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Create a new Flexible Virtual Machine Scale Set and migrate all the Virtual Machines in the
+   * Availability Set. This does not trigger a downtime on the Virtual Machines.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetName The name of the availability set.
+   * @param options The options parameters.
+   */
+  async beginConvertToVirtualMachineScaleSetAndWait(
+    resourceGroupName: string,
+    availabilitySetName: string,
+    options?: AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams,
+  ): Promise<AvailabilitySetsConvertToVirtualMachineScaleSetResponse> {
+    const poller = await this.beginConvertToVirtualMachineScaleSet(
+      resourceGroupName,
+      availabilitySetName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Start migration operation on an Availability Set to move its Virtual Machines to a Virtual Machine
+   * Scale Set. This should be followed by a migrate operation on each Virtual Machine that triggers a
+   * downtime on the Virtual Machine.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetName The name of the availability set.
+   * @param body Parameters supplied to the migrate operation on the availability set.
+   * @param options The options parameters.
+   */
+  startMigrationToVirtualMachineScaleSet(
+    resourceGroupName: string,
+    availabilitySetName: string,
+    body: MigrateToVirtualMachineScaleSetInput,
+    options?: AvailabilitySetsStartMigrationToVirtualMachineScaleSetOptionalParams,
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listOperationSpec,
+      { resourceGroupName, availabilitySetName, body, options },
+      startMigrationToVirtualMachineScaleSetOperationSpec,
+    );
+  }
+
+  /**
+   * Validates that the Virtual Machines in the Availability Set can be migrated to the provided Virtual
+   * Machine Scale Set.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetName The name of the availability set.
+   * @param body Parameters supplied to the migrate operation on the availability set.
+   * @param options The options parameters.
+   */
+  validateMigrationToVirtualMachineScaleSet(
+    resourceGroupName: string,
+    availabilitySetName: string,
+    body: MigrateToVirtualMachineScaleSetInput,
+    options?: AvailabilitySetsValidateMigrationToVirtualMachineScaleSetOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, availabilitySetName, body, options },
+      validateMigrationToVirtualMachineScaleSetOperationSpec,
     );
   }
 
   /**
    * Lists all available virtual machine sizes that can be used to create a new virtual machine in an
    * existing availability set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param availabilitySetName The name of the availability set.
    * @param options The options parameters.
    */
@@ -367,7 +549,7 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -381,10 +563,86 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
       listNextOperationSpec,
     );
   }
+
+  /**
+   * ListAvailableSizesNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetName The name of the availability set.
+   * @param nextLink The nextLink from the previous successful call to the ListAvailableSizes method.
+   * @param options The options parameters.
+   */
+  private _listAvailableSizesNext(
+    resourceGroupName: string,
+    availabilitySetName: string,
+    nextLink: string,
+    options?: AvailabilitySetsListAvailableSizesNextOptionalParams,
+  ): Promise<AvailabilitySetsListAvailableSizesNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, availabilitySetName, nextLink, options },
+      listAvailableSizesNextOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/availabilitySets",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AvailabilitySetListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AvailabilitySetListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AvailabilitySet,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.availabilitySetName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
   httpMethod: "PUT",
@@ -396,7 +654,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters11,
+  requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -419,7 +677,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters12,
+  requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -451,17 +709,51 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
-  httpMethod: "GET",
+const cancelMigrationToVirtualMachineScaleSetOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}/cancelMigrationToVirtualMachineScaleSet",
+    httpMethod: "POST",
+    responses: {
+      204: {},
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
+    },
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.availabilitySetName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const convertToVirtualMachineScaleSetOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}/convertToVirtualMachineScaleSet",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailabilitySet,
+      headersMapper:
+        Mappers.AvailabilitySetsConvertToVirtualMachineScaleSetHeaders,
+    },
+    201: {
+      headersMapper:
+        Mappers.AvailabilitySetsConvertToVirtualMachineScaleSetHeaders,
+    },
+    202: {
+      headersMapper:
+        Mappers.AvailabilitySetsConvertToVirtualMachineScaleSetHeaders,
+    },
+    204: {
+      headersMapper:
+        Mappers.AvailabilitySetsConvertToVirtualMachineScaleSetHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -469,45 +761,54 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.availabilitySetName,
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };
-const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/availabilitySets",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AvailabilitySetListResult,
+const startMigrationToVirtualMachineScaleSetOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}/startMigrationToVirtualMachineScaleSet",
+    httpMethod: "POST",
+    responses: {
+      204: {},
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError,
+    requestBody: Parameters.body,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.availabilitySetName,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };
+const validateMigrationToVirtualMachineScaleSetOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}/validateMigrationToVirtualMachineScaleSet",
+    httpMethod: "POST",
+    responses: {
+      204: {},
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AvailabilitySetListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
+    requestBody: Parameters.body,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.availabilitySetName,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };
 const listAvailableSizesOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}/vmSizes",
   httpMethod: "GET",
@@ -542,8 +843,8 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -561,9 +862,30 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listAvailableSizesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualMachineSizeListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.availabilitySetName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
