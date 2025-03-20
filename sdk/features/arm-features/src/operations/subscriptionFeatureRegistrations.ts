@@ -27,13 +27,14 @@ import {
   SubscriptionFeatureRegistrationsCreateOrUpdateResponse,
   SubscriptionFeatureRegistrationsDeleteOptionalParams,
   SubscriptionFeatureRegistrationsListBySubscriptionNextResponse,
-  SubscriptionFeatureRegistrationsListAllBySubscriptionNextResponse
+  SubscriptionFeatureRegistrationsListAllBySubscriptionNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SubscriptionFeatureRegistrations operations. */
 export class SubscriptionFeatureRegistrationsImpl
-  implements SubscriptionFeatureRegistrations {
+  implements SubscriptionFeatureRegistrations
+{
   private readonly client: FeatureClient;
 
   /**
@@ -51,7 +52,7 @@ export class SubscriptionFeatureRegistrationsImpl
    */
   public listBySubscription(
     providerNamespace: string,
-    options?: SubscriptionFeatureRegistrationsListBySubscriptionOptionalParams
+    options?: SubscriptionFeatureRegistrationsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<SubscriptionFeatureRegistration> {
     const iter = this.listBySubscriptionPagingAll(providerNamespace, options);
     return {
@@ -68,16 +69,16 @@ export class SubscriptionFeatureRegistrationsImpl
         return this.listBySubscriptionPagingPage(
           providerNamespace,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     providerNamespace: string,
     options?: SubscriptionFeatureRegistrationsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SubscriptionFeatureRegistration[]> {
     let result: SubscriptionFeatureRegistrationsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +93,7 @@ export class SubscriptionFeatureRegistrationsImpl
       result = await this._listBySubscriptionNext(
         providerNamespace,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -103,11 +104,11 @@ export class SubscriptionFeatureRegistrationsImpl
 
   private async *listBySubscriptionPagingAll(
     providerNamespace: string,
-    options?: SubscriptionFeatureRegistrationsListBySubscriptionOptionalParams
+    options?: SubscriptionFeatureRegistrationsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<SubscriptionFeatureRegistration> {
     for await (const page of this.listBySubscriptionPagingPage(
       providerNamespace,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -118,7 +119,7 @@ export class SubscriptionFeatureRegistrationsImpl
    * @param options The options parameters.
    */
   public listAllBySubscription(
-    options?: SubscriptionFeatureRegistrationsListAllBySubscriptionOptionalParams
+    options?: SubscriptionFeatureRegistrationsListAllBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<SubscriptionFeatureRegistration> {
     const iter = this.listAllBySubscriptionPagingAll(options);
     return {
@@ -133,13 +134,13 @@ export class SubscriptionFeatureRegistrationsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listAllBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listAllBySubscriptionPagingPage(
     options?: SubscriptionFeatureRegistrationsListAllBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SubscriptionFeatureRegistration[]> {
     let result: SubscriptionFeatureRegistrationsListAllBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -153,7 +154,7 @@ export class SubscriptionFeatureRegistrationsImpl
     while (continuationToken) {
       result = await this._listAllBySubscriptionNext(
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -163,7 +164,7 @@ export class SubscriptionFeatureRegistrationsImpl
   }
 
   private async *listAllBySubscriptionPagingAll(
-    options?: SubscriptionFeatureRegistrationsListAllBySubscriptionOptionalParams
+    options?: SubscriptionFeatureRegistrationsListAllBySubscriptionOptionalParams,
   ): AsyncIterableIterator<SubscriptionFeatureRegistration> {
     for await (const page of this.listAllBySubscriptionPagingPage(options)) {
       yield* page;
@@ -179,11 +180,11 @@ export class SubscriptionFeatureRegistrationsImpl
   get(
     providerNamespace: string,
     featureName: string,
-    options?: SubscriptionFeatureRegistrationsGetOptionalParams
+    options?: SubscriptionFeatureRegistrationsGetOptionalParams,
   ): Promise<SubscriptionFeatureRegistrationsGetResponse> {
     return this.client.sendOperationRequest(
       { providerNamespace, featureName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -196,11 +197,11 @@ export class SubscriptionFeatureRegistrationsImpl
   createOrUpdate(
     providerNamespace: string,
     featureName: string,
-    options?: SubscriptionFeatureRegistrationsCreateOrUpdateOptionalParams
+    options?: SubscriptionFeatureRegistrationsCreateOrUpdateOptionalParams,
   ): Promise<SubscriptionFeatureRegistrationsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { providerNamespace, featureName, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -213,11 +214,11 @@ export class SubscriptionFeatureRegistrationsImpl
   delete(
     providerNamespace: string,
     featureName: string,
-    options?: SubscriptionFeatureRegistrationsDeleteOptionalParams
+    options?: SubscriptionFeatureRegistrationsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { providerNamespace, featureName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -228,11 +229,11 @@ export class SubscriptionFeatureRegistrationsImpl
    */
   private _listBySubscription(
     providerNamespace: string,
-    options?: SubscriptionFeatureRegistrationsListBySubscriptionOptionalParams
+    options?: SubscriptionFeatureRegistrationsListBySubscriptionOptionalParams,
   ): Promise<SubscriptionFeatureRegistrationsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { providerNamespace, options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -241,11 +242,11 @@ export class SubscriptionFeatureRegistrationsImpl
    * @param options The options parameters.
    */
   private _listAllBySubscription(
-    options?: SubscriptionFeatureRegistrationsListAllBySubscriptionOptionalParams
+    options?: SubscriptionFeatureRegistrationsListAllBySubscriptionOptionalParams,
   ): Promise<SubscriptionFeatureRegistrationsListAllBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listAllBySubscriptionOperationSpec
+      listAllBySubscriptionOperationSpec,
     );
   }
 
@@ -258,11 +259,11 @@ export class SubscriptionFeatureRegistrationsImpl
   private _listBySubscriptionNext(
     providerNamespace: string,
     nextLink: string,
-    options?: SubscriptionFeatureRegistrationsListBySubscriptionNextOptionalParams
+    options?: SubscriptionFeatureRegistrationsListBySubscriptionNextOptionalParams,
   ): Promise<SubscriptionFeatureRegistrationsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { providerNamespace, nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -273,13 +274,11 @@ export class SubscriptionFeatureRegistrationsImpl
    */
   private _listAllBySubscriptionNext(
     nextLink: string,
-    options?: SubscriptionFeatureRegistrationsListAllBySubscriptionNextOptionalParams
-  ): Promise<
-    SubscriptionFeatureRegistrationsListAllBySubscriptionNextResponse
-  > {
+    options?: SubscriptionFeatureRegistrationsListAllBySubscriptionNextOptionalParams,
+  ): Promise<SubscriptionFeatureRegistrationsListAllBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listAllBySubscriptionNextOperationSpec
+      listAllBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -287,148 +286,141 @@ export class SubscriptionFeatureRegistrationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Features/featureProviders/{providerNamespace}/subscriptionFeatureRegistrations/{featureName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Features/featureProviders/{providerNamespace}/subscriptionFeatureRegistrations/{featureName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionFeatureRegistration
+      bodyMapper: Mappers.SubscriptionFeatureRegistration,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.providerNamespace,
     Parameters.featureName,
-    Parameters.providerNamespace
   ],
-  headerParameters: [Parameters.accept1],
-  serializer
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Features/featureProviders/{providerNamespace}/subscriptionFeatureRegistrations/{featureName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Features/featureProviders/{providerNamespace}/subscriptionFeatureRegistrations/{featureName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionFeatureRegistration
+      bodyMapper: Mappers.SubscriptionFeatureRegistration,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.subscriptionFeatureRegistrationType,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.providerNamespace,
     Parameters.featureName,
-    Parameters.providerNamespace
   ],
-  headerParameters: [Parameters.accept1, Parameters.contentType],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Features/featureProviders/{providerNamespace}/subscriptionFeatureRegistrations/{featureName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Features/featureProviders/{providerNamespace}/subscriptionFeatureRegistrations/{featureName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.providerNamespace,
     Parameters.featureName,
-    Parameters.providerNamespace
   ],
-  headerParameters: [Parameters.accept1],
-  serializer
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Features/featureProviders/{providerNamespace}/subscriptionFeatureRegistrations",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Features/featureProviders/{providerNamespace}/subscriptionFeatureRegistrations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionFeatureRegistrationList
+      bodyMapper: Mappers.SubscriptionFeatureRegistrationList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.providerNamespace
+    Parameters.providerNamespace,
   ],
-  headerParameters: [Parameters.accept1],
-  serializer
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listAllBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Features/subscriptionFeatureRegistrations",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Features/subscriptionFeatureRegistrations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionFeatureRegistrationList
+      bodyMapper: Mappers.SubscriptionFeatureRegistrationList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept1],
-  serializer
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionFeatureRegistrationList
+      bodyMapper: Mappers.SubscriptionFeatureRegistrationList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.providerNamespace
+    Parameters.providerNamespace,
+    Parameters.nextLink,
   ],
-  headerParameters: [Parameters.accept1],
-  serializer
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listAllBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionFeatureRegistrationList
+      bodyMapper: Mappers.SubscriptionFeatureRegistrationList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.subscriptionId
   ],
-  headerParameters: [Parameters.accept1],
-  serializer
+  headerParameters: [Parameters.accept],
+  serializer,
 };
