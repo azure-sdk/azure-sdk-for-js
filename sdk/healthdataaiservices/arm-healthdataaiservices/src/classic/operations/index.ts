@@ -13,16 +13,16 @@ export interface OperationsOperations {
   list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
-export function getOperations(context: HealthDataAIServicesContext) {
+function _getOperations(context: HealthDataAIServicesContext) {
   return {
     list: (options?: OperationsListOptionalParams) => operationsList(context, options),
   };
 }
 
-export function getOperationsOperations(
+export function _getOperationsOperations(
   context: HealthDataAIServicesContext,
 ): OperationsOperations {
   return {
-    ...getOperations(context),
+    ..._getOperations(context),
   };
 }
