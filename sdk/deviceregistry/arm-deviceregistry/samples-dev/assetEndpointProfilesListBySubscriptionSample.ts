@@ -5,17 +5,17 @@ import { DeviceRegistryManagementClient } from "@azure/arm-deviceregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to list Asset resources by resource group
+ * This sample demonstrates how to list AssetEndpointProfile resources by subscription ID
  *
- * @summary list Asset resources by resource group
- * x-ms-original-file: 2024-11-01/List_Assets_ResourceGroup.json
+ * @summary list AssetEndpointProfile resources by subscription ID
+ * x-ms-original-file: 2024-11-01/List_AssetEndpointProfiles_Subscription.json
  */
-async function listAssetsResourceGroup(): Promise<void> {
+async function listAssetEndpointProfilesSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.assets.listByResourceGroup("myResourceGroup")) {
+  for await (const item of client.assetEndpointProfiles.listBySubscription()) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function listAssetsResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await listAssetsResourceGroup();
+  await listAssetEndpointProfilesSubscription();
 }
 
 main().catch(console.error);
