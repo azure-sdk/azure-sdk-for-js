@@ -3190,7 +3190,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-quota@file:projects/arm-quota.tgz':
-    resolution: {integrity: sha512-lu0HNFsSv7Lep7SUiEkEqnCund3unZIczMm4w5hBwnWEkNjhh6wwkcwotmowIowVySrqyD2RPrXGf29HyqHXTQ==, tarball: file:projects/arm-quota.tgz}
+    resolution: {integrity: sha512-KsLgyEkPrqo95ZrQEfmMuFk0GYy7ZlEvBHoTUKCZ2VvxCWszJ/QYQD1TbXfJ9AZx3ZV3jD7FUHdKv4kTDyQsCA==, tarball: file:projects/arm-quota.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-recoveryservices-siterecovery@file:projects/arm-recoveryservices-siterecovery.tgz':
@@ -23686,7 +23686,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.2.0
 
   '@types/chai-as-promised@8.0.2':
     dependencies:
