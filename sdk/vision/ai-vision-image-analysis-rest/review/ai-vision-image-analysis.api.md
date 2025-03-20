@@ -48,6 +48,13 @@ export interface AnalyzeFromImageDataDefaultResponse extends HttpResponse {
     status: string;
 }
 
+// @public
+export interface AnalyzeFromImageDataFeaturesQueryParam {
+    explode: false;
+    style: "form";
+    value: VisualFeatures[];
+}
+
 // @public (undocumented)
 export interface AnalyzeFromImageDataMediaTypesParam {
     contentType: "application/octet-stream";
@@ -66,9 +73,16 @@ export interface AnalyzeFromImageDataQueryParam {
 export interface AnalyzeFromImageDataQueryParamProperties {
     "gender-neutral-caption"?: boolean;
     "model-version"?: string;
-    "smartcrops-aspect-ratios"?: number[];
-    features: VisualFeatures[];
+    "smartcrops-aspect-ratios"?: number[] | AnalyzeFromImageDataSmartcropsAspectRatiosQueryParam;
+    features: VisualFeatures[] | AnalyzeFromImageDataFeaturesQueryParam;
     language?: string;
+}
+
+// @public
+export interface AnalyzeFromImageDataSmartcropsAspectRatiosQueryParam {
+    explode: false;
+    style: "form";
+    value: number[];
 }
 
 // @public
@@ -99,6 +113,13 @@ export interface AnalyzeFromUrlDefaultResponse extends HttpResponse {
     status: string;
 }
 
+// @public
+export interface AnalyzeFromUrlFeaturesQueryParam {
+    explode: false;
+    style: "form";
+    value: VisualFeatures[];
+}
+
 // @public (undocumented)
 export interface AnalyzeFromUrlMediaTypesParam {
     contentType: "application/json";
@@ -117,9 +138,16 @@ export interface AnalyzeFromUrlQueryParam {
 export interface AnalyzeFromUrlQueryParamProperties {
     "gender-neutral-caption"?: boolean;
     "model-version"?: string;
-    "smartcrops-aspect-ratios"?: number[];
-    features: VisualFeatures[];
+    "smartcrops-aspect-ratios"?: number[] | AnalyzeFromUrlSmartcropsAspectRatiosQueryParam;
+    features: VisualFeatures[] | AnalyzeFromUrlFeaturesQueryParam;
     language?: string;
+}
+
+// @public
+export interface AnalyzeFromUrlSmartcropsAspectRatiosQueryParam {
+    explode: false;
+    style: "form";
+    value: number[];
 }
 
 // @public
