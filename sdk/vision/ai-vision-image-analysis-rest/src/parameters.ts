@@ -13,13 +13,33 @@ export interface AnalyzeFromImageDataBodyParam {
   body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
 }
 
+/** This is the wrapper object for the parameter `features` with explode set to false and style set to form. */
+export interface AnalyzeFromImageDataFeaturesQueryParam {
+  /** Value of the parameter */
+  value: VisualFeatures[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
+/** This is the wrapper object for the parameter `smartcrops-aspect-ratios` with explode set to false and style set to form. */
+export interface AnalyzeFromImageDataSmartcropsAspectRatiosQueryParam {
+  /** Value of the parameter */
+  value: number[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
 export interface AnalyzeFromImageDataQueryParamProperties {
   /**
    * A list of visual features to analyze.
    * Seven visual features are supported: Caption, DenseCaptions, Read (OCR), Tags, Objects, SmartCrops, and People.
    * At least one visual feature must be specified.
    */
-  features: VisualFeatures[];
+  features: VisualFeatures[] | AnalyzeFromImageDataFeaturesQueryParam;
   /**
    * The desired language for result generation (a two-letter language code).
    * If this option is not specified, the default value 'en' is used (English).
@@ -39,7 +59,7 @@ export interface AnalyzeFromImageDataQueryParamProperties {
    * If this parameter is not specified, the service will return one crop region with an aspect
    * ratio it sees fit between 0.5 and 2.0 (inclusive).
    */
-  "smartcrops-aspect-ratios"?: number[];
+  "smartcrops-aspect-ratios"?: number[] | AnalyzeFromImageDataSmartcropsAspectRatiosQueryParam;
   /**
    * The version of cloud AI-model used for analysis.
    * The format is the following: 'latest' (default value) or 'YYYY-MM-DD' or 'YYYY-MM-DD-preview', where 'YYYY', 'MM', 'DD' are the year, month and day associated with the model.
@@ -68,13 +88,33 @@ export interface AnalyzeFromUrlBodyParam {
   body: ImageUrl;
 }
 
+/** This is the wrapper object for the parameter `features` with explode set to false and style set to form. */
+export interface AnalyzeFromUrlFeaturesQueryParam {
+  /** Value of the parameter */
+  value: VisualFeatures[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
+/** This is the wrapper object for the parameter `smartcrops-aspect-ratios` with explode set to false and style set to form. */
+export interface AnalyzeFromUrlSmartcropsAspectRatiosQueryParam {
+  /** Value of the parameter */
+  value: number[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
 export interface AnalyzeFromUrlQueryParamProperties {
   /**
    * A list of visual features to analyze.
    * Seven visual features are supported: Caption, DenseCaptions, Read (OCR), Tags, Objects, SmartCrops, and People.
    * At least one visual feature must be specified.
    */
-  features: VisualFeatures[];
+  features: VisualFeatures[] | AnalyzeFromUrlFeaturesQueryParam;
   /**
    * The desired language for result generation (a two-letter language code).
    * If this option is not specified, the default value 'en' is used (English).
@@ -94,7 +134,7 @@ export interface AnalyzeFromUrlQueryParamProperties {
    * If this parameter is not specified, the service will return one crop region with an aspect
    * ratio it sees fit between 0.5 and 2.0 (inclusive).
    */
-  "smartcrops-aspect-ratios"?: number[];
+  "smartcrops-aspect-ratios"?: number[] | AnalyzeFromUrlSmartcropsAspectRatiosQueryParam;
   /**
    * The version of cloud AI-model used for analysis.
    * The format is the following: 'latest' (default value) or 'YYYY-MM-DD' or 'YYYY-MM-DD-preview', where 'YYYY', 'MM', 'DD' are the year, month and day associated with the model.
