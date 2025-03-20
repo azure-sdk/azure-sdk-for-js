@@ -2662,7 +2662,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-cosmosdb@file:projects/arm-cosmosdb.tgz':
-    resolution: {integrity: sha512-agz2lF4nGqX8RK60MXSLBmnhN7Ueo/KrEHNgsJsCmafU58HYXST57MOvRBqRHRSpG4sKrW02BR2Hj8agPCzw5A==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-WF3//FYZZi4b1mg/Zskz7qbeCTDAjpcayFn8bV8H4NZWjFTTKS3rGhBU0QjfGBcp67mYtfoxU2j6ZYpB9/IedQ==, tarball: file:projects/arm-cosmosdb.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-cosmosdbforpostgresql@file:projects/arm-cosmosdbforpostgresql.tgz':
@@ -23686,7 +23686,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.2.0
 
   '@types/chai-as-promised@8.0.2':
     dependencies:
