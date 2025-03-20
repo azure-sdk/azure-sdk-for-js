@@ -1,20 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StandbyPoolContext } from "../../api/standbyPoolManagementContext.js";
-import { StandbyVirtualMachineResource } from "../../models/models.js";
 import {
-  standbyVirtualMachinesGet,
-  standbyVirtualMachinesListByStandbyVirtualMachinePoolResource,
-} from "../../api/standbyVirtualMachines/index.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import {
-  StandbyVirtualMachinesGetOptionalParams,
   StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOptionalParams,
-} from "../../models/options.js";
+  StandbyVirtualMachinesGetOptionalParams,
+} from "../../api/options.js";
+import { StandbyPoolManagementContext } from "../../api/standbyPoolManagementContext.js";
+import {
+  standbyVirtualMachinesListByStandbyVirtualMachinePoolResource,
+  standbyVirtualMachinesGet,
+} from "../../api/standbyVirtualMachines/index.js";
+import { StandbyVirtualMachineResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a StandbyVirtualMachines operations. */
 export interface StandbyVirtualMachinesOperations {
+  /** List StandbyVirtualMachineResource resources by StandbyVirtualMachinePoolResource */
+  listByStandbyVirtualMachinePoolResource: (
+    resourceGroupName: string,
+    standbyVirtualMachinePoolName: string,
+    options?: StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOptionalParams,
+  ) => PagedAsyncIterableIterator<StandbyVirtualMachineResource>;
   /** Get a StandbyVirtualMachineResource */
   get: (
     resourceGroupName: string,
@@ -22,16 +28,21 @@ export interface StandbyVirtualMachinesOperations {
     standbyVirtualMachineName: string,
     options?: StandbyVirtualMachinesGetOptionalParams,
   ) => Promise<StandbyVirtualMachineResource>;
-  /** List StandbyVirtualMachineResource resources by StandbyVirtualMachinePoolResource */
-  listByStandbyVirtualMachinePoolResource: (
-    resourceGroupName: string,
-    standbyVirtualMachinePoolName: string,
-    options?: StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOptionalParams,
-  ) => PagedAsyncIterableIterator<StandbyVirtualMachineResource>;
 }
 
-export function getStandbyVirtualMachines(context: StandbyPoolContext, subscriptionId: string) {
+function _getStandbyVirtualMachines(context: StandbyPoolManagementContext) {
   return {
+    listByStandbyVirtualMachinePoolResource: (
+      resourceGroupName: string,
+      standbyVirtualMachinePoolName: string,
+      options?: StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOptionalParams,
+    ) =>
+      standbyVirtualMachinesListByStandbyVirtualMachinePoolResource(
+        context,
+        resourceGroupName,
+        standbyVirtualMachinePoolName,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       standbyVirtualMachinePoolName: string,
@@ -40,32 +51,18 @@ export function getStandbyVirtualMachines(context: StandbyPoolContext, subscript
     ) =>
       standbyVirtualMachinesGet(
         context,
-        subscriptionId,
         resourceGroupName,
         standbyVirtualMachinePoolName,
         standbyVirtualMachineName,
         options,
       ),
-    listByStandbyVirtualMachinePoolResource: (
-      resourceGroupName: string,
-      standbyVirtualMachinePoolName: string,
-      options?: StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOptionalParams,
-    ) =>
-      standbyVirtualMachinesListByStandbyVirtualMachinePoolResource(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        standbyVirtualMachinePoolName,
-        options,
-      ),
   };
 }
 
-export function getStandbyVirtualMachinesOperations(
-  context: StandbyPoolContext,
-  subscriptionId: string,
+export function _getStandbyVirtualMachinesOperations(
+  context: StandbyPoolManagementContext,
 ): StandbyVirtualMachinesOperations {
   return {
-    ...getStandbyVirtualMachines(context, subscriptionId),
+    ..._getStandbyVirtualMachines(context),
   };
 }
