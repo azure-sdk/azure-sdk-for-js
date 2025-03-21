@@ -24,6 +24,7 @@ import {
   TriggerDataMoveRequest as TriggerDataMoveRequestMapper,
   MoveRPAcrossTiersRequest as MoveRPAcrossTiersRequestMapper,
   ProtectedItemResource as ProtectedItemResourceMapper,
+  UpdateRecoveryPointRequest as UpdateRecoveryPointRequestMapper,
   RestoreRequestResource as RestoreRequestResourceMapper,
   ProtectionPolicyResource as ProtectionPolicyResourceMapper,
   ValidateOperationRequestResource as ValidateOperationRequestResourceMapper,
@@ -64,7 +65,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-04-01",
+    defaultValue: "2024-11-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -310,6 +311,26 @@ export const parameters11: OperationParameter = {
 
 export const parameters12: OperationParameter = {
   parameterPath: "parameters",
+  mapper: UpdateRecoveryPointRequestMapper,
+};
+
+export const resourceGroupName1: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters13: OperationParameter = {
+  parameterPath: "parameters",
   mapper: RestoreRequestResourceMapper,
 };
 
@@ -324,7 +345,7 @@ export const policyName: OperationURLParameter = {
   },
 };
 
-export const parameters13: OperationParameter = {
+export const parameters14: OperationParameter = {
   parameterPath: "parameters",
   mapper: ProtectionPolicyResourceMapper,
 };
@@ -340,7 +361,7 @@ export const jobName: OperationURLParameter = {
   },
 };
 
-export const parameters14: OperationParameter = {
+export const parameters15: OperationParameter = {
   parameterPath: "parameters",
   mapper: ValidateOperationRequestResourceMapper,
 };
@@ -356,27 +377,27 @@ export const backupEngineName: OperationURLParameter = {
   },
 };
 
-export const parameters15: OperationParameter = {
+export const parameters16: OperationParameter = {
   parameterPath: "parameters",
   mapper: ProtectionContainerResourceMapper,
 };
 
-export const parameters16: OperationParameter = {
+export const parameters17: OperationParameter = {
   parameterPath: "parameters",
   mapper: BackupRequestResourceMapper,
 };
 
-export const parameters17: OperationParameter = {
+export const parameters18: OperationParameter = {
   parameterPath: "parameters",
   mapper: ILRRequestResourceMapper,
 };
 
-export const parameters18: OperationParameter = {
+export const parameters19: OperationParameter = {
   parameterPath: ["options", "parameters"],
   mapper: SecurityPinBaseMapper,
 };
 
-export const parameters19: OperationParameter = {
+export const parameters20: OperationParameter = {
   parameterPath: "parameters",
   mapper: ListRecoveryPointsRecommendedForMoveRequestMapper,
 };
@@ -392,17 +413,17 @@ export const resourceGuardProxyName: OperationURLParameter = {
   },
 };
 
-export const parameters20: OperationParameter = {
+export const parameters21: OperationParameter = {
   parameterPath: "parameters",
   mapper: ResourceGuardProxyBaseResourceMapper,
 };
 
-export const parameters21: OperationParameter = {
+export const parameters22: OperationParameter = {
   parameterPath: "parameters",
   mapper: UnlockDeleteRequestMapper,
 };
 
-export const parameters22: OperationParameter = {
+export const parameters23: OperationParameter = {
   parameterPath: "parameters",
   mapper: FetchTieringCostInfoRequestMapper,
 };
