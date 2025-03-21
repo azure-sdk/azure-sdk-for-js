@@ -1,0 +1,4 @@
+directory: specification/workloads/Workloads.SAPMonitor.Management
+commit: 245877b0f64271f6d7dcccb456a5a2ad1ac34ab2
+repo: ../azure-rest-api-specs
+additionalDirectories: 
