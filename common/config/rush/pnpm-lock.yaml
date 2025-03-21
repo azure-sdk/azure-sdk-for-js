@@ -2490,7 +2490,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-appservice-1@file:projects/arm-appservice-1.tgz':
-    resolution: {integrity: sha512-TdpfIMAinDGGg49OtaT7b3aoLJWNsPldWieQL9PWUKaI3ODe/NsjeMjT4qdSXCTrckO322+cBb9g6oL/auiTQg==, tarball: file:projects/arm-appservice-1.tgz}
+    resolution: {integrity: sha512-bfs4wbXxXM8xZp6jVcYslsMJs8PRtZUCi0EnwzuLd1J++yvscusCaRuDNmrSNLETCJg9Rxj+yunWP9Ve6+5Wpw==, tarball: file:projects/arm-appservice-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-appservice-profile-2020-09-01-hybrid@file:projects/arm-appservice-profile-2020-09-01-hybrid.tgz':
@@ -3502,7 +3502,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/communication-rooms@file:projects/communication-rooms.tgz':
-    resolution: {integrity: sha512-wZGQ86x72CF5svp08KDZ2NimnHa7UrolQ4+jbVqI/QwTLnSpZXez84ANriWnPauXXYx9FDICKhIsrvmR6WGhZg==, tarball: file:projects/communication-rooms.tgz}
+    resolution: {integrity: sha512-6xOyOCOtDadX1jV4Rh5w5dD0M/i8mgBbuAAol5SM+RrV5DljKQYUHyDEekX+9MKtmXjnviU/QxijK5zY3PWkaw==, tarball: file:projects/communication-rooms.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-short-codes@file:projects/communication-short-codes.tgz':
@@ -3830,15 +3830,15 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-monitor-ingestion@file:projects/perf-monitor-ingestion.tgz':
-    resolution: {integrity: sha512-Yiua52li3/Qa+OtEuhK8we3JpSmGmDShfQPxeukfhiWKaBNQDPL3AnCUdNKCdUscOpT3siXLD4ta2SFlay3r5w==, tarball: file:projects/perf-monitor-ingestion.tgz}
+    resolution: {integrity: sha512-2c8J6VJrZsmCmVQ9aPOJvOKwa20SveYih+UJCTDHlkdnOUUNPz6OmVB8/gt2Pl7AorQGGrbOyhNWzFZls2vy5Q==, tarball: file:projects/perf-monitor-ingestion.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-monitor-opentelemetry@file:projects/perf-monitor-opentelemetry.tgz':
-    resolution: {integrity: sha512-hT+JNqvVsnhPakW2c1UODLlQ0dn6/OJ9ERxo4cO7ND0hNmjrk+HS8YhROpmnQ0e0+/vEgbDUXXPM+fVDdv7tbg==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-nwr+4PRhn/YqxelVMEVgPig2prXSLCU+EP/ryFZQqwIQNPZiV/KNeCz2oDKA/WUZPiO/JDKIDufcDaLgpy17DA==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-monitor-query@file:projects/perf-monitor-query.tgz':
-    resolution: {integrity: sha512-ztwhbcBk/sTdFmmnGAefc8On9oI0u2RFjUvxaOKSiVyTbjkF4gSPEE/JEgbGJu362u+Kf1KOjKZYLmT1sC39eg==, tarball: file:projects/perf-monitor-query.tgz}
+    resolution: {integrity: sha512-spYI42XUNEMuTGD5NAh7U5kzU0A6biUq9m+ekdDuEI/LwfGa58p8pOU6Muvwam8BkUYu9XV1wtMlZRKU0BIvDw==, tarball: file:projects/perf-monitor-query.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-schema-registry-avro@file:projects/perf-schema-registry-avro.tgz':
@@ -23686,7 +23686,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.2.0
 
   '@types/chai-as-promised@8.0.2':
     dependencies:
