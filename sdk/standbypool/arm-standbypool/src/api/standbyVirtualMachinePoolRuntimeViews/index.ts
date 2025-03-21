@@ -2,129 +2,56 @@
 // Licensed under the MIT License.
 
 import {
-  StandbyVirtualMachinePoolRuntimeViewResource,
-  _StandbyVirtualMachinePoolRuntimeViewResourceListResult,
-} from "../../models/models.js";
-import { StandbyPoolContext as Client } from "../index.js";
+  StandbyPoolManagementContext as Client,
+  StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams,
+  StandbyVirtualMachinePoolRuntimeViewsListByStandbyPoolOptionalParams,
+} from "../index.js";
 import {
-  StreamableMethod,
-  operationOptionsToRequestParameters,
-  PathUncheckedResponse,
-  createRestError,
-} from "@azure-rest/core-client";
+  errorResponseDeserializer,
+  StandbyVirtualMachinePoolRuntimeViewResource,
+  standbyVirtualMachinePoolRuntimeViewResourceDeserializer,
+  _StandbyVirtualMachinePoolRuntimeViewResourceListResult,
+  _standbyVirtualMachinePoolRuntimeViewResourceListResultDeserializer,
+} from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
-  StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams,
-  StandbyVirtualMachinePoolRuntimeViewsListByStandbyPoolOptionalParams,
-} from "../../models/options.js";
-
-export function _standbyVirtualMachinePoolRuntimeViewsGetSend(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  standbyVirtualMachinePoolName: string,
-  runtimeView: string,
-  options: StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyVirtualMachinePools/{standbyVirtualMachinePoolName}/runtimeViews/{runtimeView}",
-      subscriptionId,
-      resourceGroupName,
-      standbyVirtualMachinePoolName,
-      runtimeView,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _standbyVirtualMachinePoolRuntimeViewsGetDeserialize(
-  result: PathUncheckedResponse,
-): Promise<StandbyVirtualMachinePoolRuntimeViewResource> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return {
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !result.body.properties
-      ? undefined
-      : {
-          instanceCountSummary: result.body.properties?.["instanceCountSummary"].map((p: any) => {
-            return {
-              zone: p["zone"],
-              instanceCountsByState: p["instanceCountsByState"].map((p: any) => {
-                return { state: p["state"], count: p["count"] };
-              }),
-            };
-          }),
-          provisioningState: result.body.properties?.["provisioningState"],
-        },
-  };
-}
-
-/** Get a StandbyVirtualMachinePoolRuntimeViewResource */
-export async function standbyVirtualMachinePoolRuntimeViewsGet(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  standbyVirtualMachinePoolName: string,
-  runtimeView: string,
-  options: StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams = {
-    requestOptions: {},
-  },
-): Promise<StandbyVirtualMachinePoolRuntimeViewResource> {
-  const result = await _standbyVirtualMachinePoolRuntimeViewsGetSend(
-    context,
-    subscriptionId,
-    resourceGroupName,
-    standbyVirtualMachinePoolName,
-    runtimeView,
-    options,
-  );
-  return _standbyVirtualMachinePoolRuntimeViewsGetDeserialize(result);
-}
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _standbyVirtualMachinePoolRuntimeViewsListByStandbyPoolSend(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   standbyVirtualMachinePoolName: string,
   options: StandbyVirtualMachinePoolRuntimeViewsListByStandbyPoolOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyVirtualMachinePools/{standbyVirtualMachinePoolName}/runtimeViews",
-      subscriptionId,
-      resourceGroupName,
-      standbyVirtualMachinePoolName,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyVirtualMachinePools/{standbyVirtualMachinePoolName}/runtimeViews{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      standbyVirtualMachinePoolName: standbyVirtualMachinePoolName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _standbyVirtualMachinePoolRuntimeViewsListByStandbyPoolDeserialize(
@@ -132,54 +59,17 @@ export async function _standbyVirtualMachinePoolRuntimeViewsListByStandbyPoolDes
 ): Promise<_StandbyVirtualMachinePoolRuntimeViewResourceListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
-  return {
-    value: result.body["value"].map((p: any) => {
-      return {
-        id: p["id"],
-        name: p["name"],
-        type: p["type"],
-        systemData: !p.systemData
-          ? undefined
-          : {
-              createdBy: p.systemData?.["createdBy"],
-              createdByType: p.systemData?.["createdByType"],
-              createdAt:
-                p.systemData?.["createdAt"] !== undefined
-                  ? new Date(p.systemData?.["createdAt"])
-                  : undefined,
-              lastModifiedBy: p.systemData?.["lastModifiedBy"],
-              lastModifiedByType: p.systemData?.["lastModifiedByType"],
-              lastModifiedAt:
-                p.systemData?.["lastModifiedAt"] !== undefined
-                  ? new Date(p.systemData?.["lastModifiedAt"])
-                  : undefined,
-            },
-        properties: !p.properties
-          ? undefined
-          : {
-              instanceCountSummary: p.properties?.["instanceCountSummary"].map((p: any) => {
-                return {
-                  zone: p["zone"],
-                  instanceCountsByState: p["instanceCountsByState"].map((p: any) => {
-                    return { state: p["state"], count: p["count"] };
-                  }),
-                };
-              }),
-              provisioningState: p.properties?.["provisioningState"],
-            },
-      };
-    }),
-    nextLink: result.body["nextLink"],
-  };
+  return _standbyVirtualMachinePoolRuntimeViewResourceListResultDeserializer(result.body);
 }
 
 /** List StandbyVirtualMachinePoolRuntimeViewResource resources by StandbyVirtualMachinePoolResource */
 export function standbyVirtualMachinePoolRuntimeViewsListByStandbyPool(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   standbyVirtualMachinePoolName: string,
   options: StandbyVirtualMachinePoolRuntimeViewsListByStandbyPoolOptionalParams = {
@@ -191,7 +81,6 @@ export function standbyVirtualMachinePoolRuntimeViewsListByStandbyPool(
     () =>
       _standbyVirtualMachinePoolRuntimeViewsListByStandbyPoolSend(
         context,
-        subscriptionId,
         resourceGroupName,
         standbyVirtualMachinePoolName,
         options,
@@ -200,4 +89,68 @@ export function standbyVirtualMachinePoolRuntimeViewsListByStandbyPool(
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
+}
+
+export function _standbyVirtualMachinePoolRuntimeViewsGetSend(
+  context: Client,
+  resourceGroupName: string,
+  standbyVirtualMachinePoolName: string,
+  runtimeView: string,
+  options: StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyVirtualMachinePools/{standbyVirtualMachinePoolName}/runtimeViews/{runtimeView}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      standbyVirtualMachinePoolName: standbyVirtualMachinePoolName,
+      runtimeView: runtimeView,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _standbyVirtualMachinePoolRuntimeViewsGetDeserialize(
+  result: PathUncheckedResponse,
+): Promise<StandbyVirtualMachinePoolRuntimeViewResource> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return standbyVirtualMachinePoolRuntimeViewResourceDeserializer(result.body);
+}
+
+/** Get a StandbyVirtualMachinePoolRuntimeViewResource */
+export async function standbyVirtualMachinePoolRuntimeViewsGet(
+  context: Client,
+  resourceGroupName: string,
+  standbyVirtualMachinePoolName: string,
+  runtimeView: string,
+  options: StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams = {
+    requestOptions: {},
+  },
+): Promise<StandbyVirtualMachinePoolRuntimeViewResource> {
+  const result = await _standbyVirtualMachinePoolRuntimeViewsGetSend(
+    context,
+    resourceGroupName,
+    standbyVirtualMachinePoolName,
+    runtimeView,
+    options,
+  );
+  return _standbyVirtualMachinePoolRuntimeViewsGetDeserialize(result);
 }
