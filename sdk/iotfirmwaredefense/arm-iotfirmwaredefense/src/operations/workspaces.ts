@@ -21,14 +21,14 @@ import {
   WorkspacesListByResourceGroupNextOptionalParams,
   WorkspacesListByResourceGroupOptionalParams,
   WorkspacesListByResourceGroupResponse,
+  WorkspacesGetOptionalParams,
+  WorkspacesGetResponse,
   WorkspacesCreateOptionalParams,
   WorkspacesCreateResponse,
-  WorkspaceUpdateDefinition,
+  WorkspaceUpdate,
   WorkspacesUpdateOptionalParams,
   WorkspacesUpdateResponse,
   WorkspacesDeleteOptionalParams,
-  WorkspacesGetOptionalParams,
-  WorkspacesGetResponse,
   GenerateUploadUrlRequest,
   WorkspacesGenerateUploadUrlOptionalParams,
   WorkspacesGenerateUploadUrlResponse,
@@ -201,20 +201,37 @@ export class WorkspacesImpl implements Workspaces {
   }
 
   /**
+   * Get firmware analysis workspace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the firmware analysis workspace.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: WorkspacesGetOptionalParams,
+  ): Promise<WorkspacesGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
    * The operation to create or update a firmware analysis workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the firmware analysis workspace.
-   * @param workspace Parameters when creating a firmware analysis workspace.
+   * @param resource Parameters when creating a firmware analysis workspace.
    * @param options The options parameters.
    */
   create(
     resourceGroupName: string,
     workspaceName: string,
-    workspace: Workspace,
+    resource: Workspace,
     options?: WorkspacesCreateOptionalParams,
   ): Promise<WorkspacesCreateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, workspace, options },
+      { resourceGroupName, workspaceName, resource, options },
       createOperationSpec,
     );
   }
@@ -223,17 +240,17 @@ export class WorkspacesImpl implements Workspaces {
    * The operation to update a firmware analysis workspaces.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the firmware analysis workspace.
-   * @param workspace Parameters when updating a firmware analysis workspace.
+   * @param properties Parameters when updating a firmware analysis workspace.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     workspaceName: string,
-    workspace: WorkspaceUpdateDefinition,
+    properties: WorkspaceUpdate,
     options?: WorkspacesUpdateOptionalParams,
   ): Promise<WorkspacesUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, workspace, options },
+      { resourceGroupName, workspaceName, properties, options },
       updateOperationSpec,
     );
   }
@@ -256,37 +273,20 @@ export class WorkspacesImpl implements Workspaces {
   }
 
   /**
-   * Get firmware analysis workspace.
+   * Generate a URL for uploading a firmware image.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the firmware analysis workspace.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    workspaceName: string,
-    options?: WorkspacesGetOptionalParams,
-  ): Promise<WorkspacesGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * The operation to get a url for file upload.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the firmware analysis workspace.
-   * @param generateUploadUrl Parameters when requesting a URL to upload firmware.
+   * @param body Parameters when requesting a URL to upload firmware.
    * @param options The options parameters.
    */
   generateUploadUrl(
     resourceGroupName: string,
     workspaceName: string,
-    generateUploadUrl: GenerateUploadUrlRequest,
+    body: GenerateUploadUrlRequest,
     options?: WorkspacesGenerateUploadUrlOptionalParams,
   ): Promise<WorkspacesGenerateUploadUrlResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, generateUploadUrl, options },
+      { resourceGroupName, workspaceName, body, options },
       generateUploadUrlOperationSpec,
     );
   }
@@ -331,7 +331,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceList,
+      bodyMapper: Mappers.WorkspaceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -347,7 +347,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceList,
+      bodyMapper: Mappers.WorkspaceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -358,6 +358,27 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Workspace,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -376,7 +397,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.workspace,
+  requestBody: Parameters.resource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -399,7 +420,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.workspace1,
+  requestBody: Parameters.properties,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -431,27 +452,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Workspace,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const generateUploadUrlOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/generateUploadUrl",
   httpMethod: "POST",
@@ -463,7 +463,7 @@ const generateUploadUrlOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.generateUploadUrl,
+  requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -480,7 +480,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceList,
+      bodyMapper: Mappers.WorkspaceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -488,8 +488,8 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -499,7 +499,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceList,
+      bodyMapper: Mappers.WorkspaceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -507,9 +507,9 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

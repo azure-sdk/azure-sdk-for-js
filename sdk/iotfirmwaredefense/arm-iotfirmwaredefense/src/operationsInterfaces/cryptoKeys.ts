@@ -16,7 +16,7 @@ import {
 /** Interface representing a CryptoKeys. */
 export interface CryptoKeys {
   /**
-   * Lists cryptographic key analysis results found in a firmware.
+   * Lists crypto key analysis results of a firmware.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the firmware analysis workspace.
    * @param firmwareId The id of the firmware.

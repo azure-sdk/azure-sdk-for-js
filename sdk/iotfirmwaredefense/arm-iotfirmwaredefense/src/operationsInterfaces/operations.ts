@@ -13,7 +13,7 @@ import { Operation, OperationsListOptionalParams } from "../models/index.js";
 /** Interface representing a Operations. */
 export interface Operations {
   /**
-   * Lists the operations for this resource provider
+   * List the operations for the provider
    * @param options The options parameters.
    */
   list(

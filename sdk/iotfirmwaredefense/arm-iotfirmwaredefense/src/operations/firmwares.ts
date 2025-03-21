@@ -18,18 +18,14 @@ import {
   FirmwaresListByWorkspaceNextOptionalParams,
   FirmwaresListByWorkspaceOptionalParams,
   FirmwaresListByWorkspaceResponse,
+  FirmwaresGetOptionalParams,
+  FirmwaresGetResponse,
   FirmwaresCreateOptionalParams,
   FirmwaresCreateResponse,
   FirmwareUpdateDefinition,
   FirmwaresUpdateOptionalParams,
   FirmwaresUpdateResponse,
   FirmwaresDeleteOptionalParams,
-  FirmwaresGetOptionalParams,
-  FirmwaresGetResponse,
-  FirmwaresGenerateDownloadUrlOptionalParams,
-  FirmwaresGenerateDownloadUrlResponse,
-  FirmwaresGenerateFilesystemDownloadUrlOptionalParams,
-  FirmwaresGenerateFilesystemDownloadUrlResponse,
   FirmwaresListByWorkspaceNextResponse,
 } from "../models/index.js";
 
@@ -148,22 +144,41 @@ export class FirmwaresImpl implements Firmwares {
   }
 
   /**
+   * Get firmware.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the firmware analysis workspace.
+   * @param firmwareId The id of the firmware.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    firmwareId: string,
+    options?: FirmwaresGetOptionalParams,
+  ): Promise<FirmwaresGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, firmwareId, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
    * The operation to create a firmware.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the firmware analysis workspace.
    * @param firmwareId The id of the firmware.
-   * @param firmware Details of the firmware being created or updated.
+   * @param resource Details of the firmware being created or updated.
    * @param options The options parameters.
    */
   create(
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    firmware: Firmware,
+    resource: Firmware,
     options?: FirmwaresCreateOptionalParams,
   ): Promise<FirmwaresCreateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, firmwareId, firmware, options },
+      { resourceGroupName, workspaceName, firmwareId, resource, options },
       createOperationSpec,
     );
   }
@@ -173,18 +188,18 @@ export class FirmwaresImpl implements Firmwares {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the firmware analysis workspace.
    * @param firmwareId The id of the firmware.
-   * @param firmware Details of the firmware being created or updated.
+   * @param properties Details of the firmware being created or updated.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    firmware: FirmwareUpdateDefinition,
+    properties: FirmwareUpdateDefinition,
     options?: FirmwaresUpdateOptionalParams,
   ): Promise<FirmwaresUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, firmwareId, firmware, options },
+      { resourceGroupName, workspaceName, firmwareId, properties, options },
       updateOperationSpec,
     );
   }
@@ -205,63 +220,6 @@ export class FirmwaresImpl implements Firmwares {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, firmwareId, options },
       deleteOperationSpec,
-    );
-  }
-
-  /**
-   * Get firmware.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the firmware analysis workspace.
-   * @param firmwareId The id of the firmware.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    workspaceName: string,
-    firmwareId: string,
-    options?: FirmwaresGetOptionalParams,
-  ): Promise<FirmwaresGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, firmwareId, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * The operation to a url for file download.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the firmware analysis workspace.
-   * @param firmwareId The id of the firmware.
-   * @param options The options parameters.
-   */
-  generateDownloadUrl(
-    resourceGroupName: string,
-    workspaceName: string,
-    firmwareId: string,
-    options?: FirmwaresGenerateDownloadUrlOptionalParams,
-  ): Promise<FirmwaresGenerateDownloadUrlResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, firmwareId, options },
-      generateDownloadUrlOperationSpec,
-    );
-  }
-
-  /**
-   * The operation to a url for tar file download.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the firmware analysis workspace.
-   * @param firmwareId The id of the firmware.
-   * @param options The options parameters.
-   */
-  generateFilesystemDownloadUrl(
-    resourceGroupName: string,
-    workspaceName: string,
-    firmwareId: string,
-    options?: FirmwaresGenerateFilesystemDownloadUrlOptionalParams,
-  ): Promise<FirmwaresGenerateFilesystemDownloadUrlResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, firmwareId, options },
-      generateFilesystemDownloadUrlOperationSpec,
     );
   }
 
@@ -292,7 +250,7 @@ const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FirmwareList,
+      bodyMapper: Mappers.FirmwareListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -304,6 +262,28 @@ const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Firmware,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.firmwareId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -322,7 +302,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.firmware,
+  requestBody: Parameters.resource1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -346,7 +326,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.firmware1,
+  requestBody: Parameters.properties1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -380,78 +360,12 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Firmware,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.firmwareId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const generateDownloadUrlOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateDownloadUrl",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.UrlToken,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.firmwareId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const generateFilesystemDownloadUrlOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/generateFilesystemDownloadUrl",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.UrlToken,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.firmwareId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FirmwareList,
+      bodyMapper: Mappers.FirmwareListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -459,10 +373,10 @@ const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,
