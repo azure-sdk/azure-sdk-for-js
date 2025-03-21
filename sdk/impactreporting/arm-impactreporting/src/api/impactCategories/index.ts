@@ -17,6 +17,7 @@ import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -31,23 +32,25 @@ export function _impactCategoriesListBySubscriptionSend(
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/impactCategories",
-      context.subscriptionId,
-    )
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: {
-        "api-version": context.apiVersion,
-        categoryName: options?.categoryName,
-        resourceType: resourceType,
-      },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/impactCategories{?api-version,categoryName,resourceType}",
+    {
+      subscriptionId: context.subscriptionId,
+      "api-version": context.apiVersion,
+      categoryName: options?.categoryName,
+      resourceType: resourceType,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _impactCategoriesListBySubscriptionDeserialize(
@@ -85,20 +88,24 @@ export function _impactCategoriesGetSend(
   impactCategoryName: string,
   options: ImpactCategoriesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/impactCategories/{impactCategoryName}",
-      context.subscriptionId,
-      impactCategoryName,
-    )
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/impactCategories/{impactCategoryName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      impactCategoryName: impactCategoryName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _impactCategoriesGetDeserialize(
