@@ -35,6 +35,9 @@ import {
   ValidateForBackupRequest,
   BackupInstancesValidateForBackupOptionalParams,
   BackupInstancesValidateForBackupResponse,
+  ValidateForModifyBackupRequest,
+  BackupInstancesValidateForModifyBackupOptionalParams,
+  BackupInstancesValidateForModifyBackupResponse,
   BackupInstancesGetBackupInstanceOperationResultOptionalParams,
   BackupInstancesGetBackupInstanceOperationResultResponse,
   CrossRegionRestoreRequestObject,
@@ -572,6 +575,112 @@ export class BackupInstancesImpl implements BackupInstances {
     const poller = await this.beginValidateForBackup(
       resourceGroupName,
       vaultName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Validate whether update for backup instance will be successful or not
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the backup vault.
+   * @param backupInstanceName The name of the backup instance.
+   * @param parameters Request body for operation
+   * @param options The options parameters.
+   */
+  async beginValidateForModifyBackup(
+    resourceGroupName: string,
+    vaultName: string,
+    backupInstanceName: string,
+    parameters: ValidateForModifyBackupRequest,
+    options?: BackupInstancesValidateForModifyBackupOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BackupInstancesValidateForModifyBackupResponse>,
+      BackupInstancesValidateForModifyBackupResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<BackupInstancesValidateForModifyBackupResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        vaultName,
+        backupInstanceName,
+        parameters,
+        options,
+      },
+      spec: validateForModifyBackupOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      BackupInstancesValidateForModifyBackupResponse,
+      OperationState<BackupInstancesValidateForModifyBackupResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Validate whether update for backup instance will be successful or not
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the backup vault.
+   * @param backupInstanceName The name of the backup instance.
+   * @param parameters Request body for operation
+   * @param options The options parameters.
+   */
+  async beginValidateForModifyBackupAndWait(
+    resourceGroupName: string,
+    vaultName: string,
+    backupInstanceName: string,
+    parameters: ValidateForModifyBackupRequest,
+    options?: BackupInstancesValidateForModifyBackupOptionalParams,
+  ): Promise<BackupInstancesValidateForModifyBackupResponse> {
+    const poller = await this.beginValidateForModifyBackup(
+      resourceGroupName,
+      vaultName,
+      backupInstanceName,
       parameters,
       options,
     );
@@ -1747,6 +1856,39 @@ const validateForBackupOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
+const validateForModifyBackupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/validateForModifyBackup",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.BackupInstancesValidateForModifyBackupHeaders,
+    },
+    201: {
+      headersMapper: Mappers.BackupInstancesValidateForModifyBackupHeaders,
+    },
+    202: {
+      headersMapper: Mappers.BackupInstancesValidateForModifyBackupHeaders,
+    },
+    204: {
+      headersMapper: Mappers.BackupInstancesValidateForModifyBackupHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters8,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.backupInstanceName,
+    Parameters.vaultName1,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const getBackupInstanceOperationResultOperationSpec: coreClient.OperationSpec =
   {
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/operationResults/{operationId}",
@@ -1792,7 +1934,7 @@ const triggerCrossRegionRestoreOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters8,
+  requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1824,7 +1966,7 @@ const validateCrossRegionRestoreOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters9,
+  requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1856,7 +1998,7 @@ const triggerRehydrateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters10,
+  requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1889,7 +2031,7 @@ const triggerRestoreOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters11,
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1964,7 +2106,7 @@ const stopProtectionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters12,
+  requestBody: Parameters.parameters13,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1993,7 +2135,7 @@ const suspendBackupsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters13,
+  requestBody: Parameters.parameters14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2022,7 +2164,7 @@ const syncBackupInstanceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters14,
+  requestBody: Parameters.parameters15,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2055,7 +2197,7 @@ const validateForRestoreOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters15,
+  requestBody: Parameters.parameters16,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
