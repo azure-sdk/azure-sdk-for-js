@@ -1,0 +1,29 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { WorkloadsClient } from "@azure/arm-sapmonitors";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to gets a list of SAP monitors in the specified subscription. The operations returns various properties of each SAP monitor.
+ *
+ * @summary gets a list of SAP monitors in the specified subscription. The operations returns various properties of each SAP monitor.
+ * x-ms-original-file: 2024-02-01-preview/Monitors_List.json
+ */
+async function listAllSAPMonitorsInASubscription(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new WorkloadsClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.monitors.list()) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main(): Promise<void> {
+  await listAllSAPMonitorsInASubscription();
+}
+
+main().catch(console.error);
