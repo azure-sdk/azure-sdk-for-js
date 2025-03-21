@@ -49,7 +49,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-06-01-preview",
+    defaultValue: "2024-07-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -147,6 +147,16 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true,
 };
 
+export const xMsAccessSoftDeletedResources: OperationParameter = {
+  parameterPath: ["options", "xMsAccessSoftDeletedResources"],
+  mapper: {
+    serializedName: "x-ms-access-soft-deleted-resources",
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
   mapper: VolumeGroupMapper,
@@ -213,6 +223,16 @@ export const xMsForceDelete: OperationParameter = {
   parameterPath: ["options", "xMsForceDelete"],
   mapper: {
     serializedName: "x-ms-force-delete",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const deleteType: OperationQueryParameter = {
+  parameterPath: ["options", "deleteType"],
+  mapper: {
+    serializedName: "deleteType",
     type: {
       name: "String",
     },
