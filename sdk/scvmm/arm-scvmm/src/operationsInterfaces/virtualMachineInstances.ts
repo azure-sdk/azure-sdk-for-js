@@ -33,7 +33,6 @@ import {
   VirtualMachineInstancesRestoreCheckpointResponse,
   VirtualMachineInstancesStartOptionalParams,
   VirtualMachineInstancesStartResponse,
-  StopVirtualMachineOptions,
   VirtualMachineInstancesStopOptionalParams,
   VirtualMachineInstancesStopResponse,
 } from "../models/index.js";
@@ -268,12 +267,10 @@ export interface VirtualMachineInstances {
   /**
    * The operation to power off (stop) a virtual machine instance.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
-   * @param body The content of the action request
    * @param options The options parameters.
    */
   beginStop(
     resourceUri: string,
-    body: StopVirtualMachineOptions,
     options?: VirtualMachineInstancesStopOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -284,12 +281,10 @@ export interface VirtualMachineInstances {
   /**
    * The operation to power off (stop) a virtual machine instance.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
-   * @param body The content of the action request
    * @param options The options parameters.
    */
   beginStopAndWait(
     resourceUri: string,
-    body: StopVirtualMachineOptions,
     options?: VirtualMachineInstancesStopOptionalParams,
   ): Promise<VirtualMachineInstancesStopResponse>;
 }
