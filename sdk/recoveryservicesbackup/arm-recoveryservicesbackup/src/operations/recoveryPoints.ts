@@ -20,6 +20,9 @@ import {
   RecoveryPointsListResponse,
   RecoveryPointsGetOptionalParams,
   RecoveryPointsGetResponse,
+  UpdateRecoveryPointRequest,
+  RecoveryPointsUpdateOptionalParams,
+  RecoveryPointsUpdateResponse,
   RecoveryPointsListNextResponse,
 } from "../models/index.js";
 
@@ -216,6 +219,42 @@ export class RecoveryPointsImpl implements RecoveryPoints {
   }
 
   /**
+   * UpdateRecoveryPoint to update recovery point for given RecoveryPointID.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the recovery services vault.
+   * @param fabricName Fabric name associated with backed up item.
+   * @param containerName Container name associated with backed up item.
+   * @param protectedItemName Backed up item name whose backup data needs to be fetched.
+   * @param recoveryPointId RecoveryPointID represents the backed up data to be fetched.
+   * @param parameters Request body for operation
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    vaultName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    recoveryPointId: string,
+    parameters: UpdateRecoveryPointRequest,
+    options?: RecoveryPointsUpdateOptionalParams,
+  ): Promise<RecoveryPointsUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        vaultName,
+        fabricName,
+        containerName,
+        protectedItemName,
+        recoveryPointId,
+        parameters,
+        options,
+      },
+      updateOperationSpec,
+    );
+  }
+
+  /**
    * ListNext
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -299,6 +338,33 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.recoveryPointId,
   ],
   headerParameters: [Parameters.accept],
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints/{recoveryPointId}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RecoveryPointResource,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.parameters12,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.vaultName,
+    Parameters.subscriptionId,
+    Parameters.fabricName,
+    Parameters.containerName,
+    Parameters.protectedItemName,
+    Parameters.recoveryPointId,
+    Parameters.resourceGroupName1,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
