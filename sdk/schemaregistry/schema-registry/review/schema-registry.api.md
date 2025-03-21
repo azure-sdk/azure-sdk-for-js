@@ -4,72 +4,366 @@
 
 ```ts
 
-import type { CommonClientOptions } from '@azure/core-client';
-import type { OperationOptions } from '@azure/core-client';
+import type { Client } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { ErrorResponse } from '@azure-rest/core-client';
+import type { HttpResponse } from '@azure-rest/core-client';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import type { RequestParameters } from '@azure-rest/core-client';
+import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface GetSchemaOptions extends OperationOptions {
+function createClient(fullyQualifiedNamespace: string, credentials: TokenCredential, { apiVersion, ...options }?: SchemaRegistryClientOptions): SchemaRegistryClient;
+export default createClient;
+
+// @public
+export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
+
+// @public
+export type GetPage<TPage> = (pageLink: string) => Promise<{
+    page: TPage;
+    nextPageLink?: string;
+}>;
+
+// @public (undocumented)
+export interface GetSchemaById {
+    get(options?: GetSchemaByIdParameters): StreamableMethod<GetSchemaById200Response | GetSchemaByIdDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface GetSchemaById200Headers {
+    "content-type": SchemaContentTypeValuesOutput;
+    "schema-group-name": string;
+    "schema-id": string;
+    "schema-id-location": string;
+    "schema-name": string;
+    "schema-version": number;
+    location: string;
 }
 
 // @public
-export interface GetSchemaPropertiesOptions extends OperationOptions {
+export interface GetSchemaById200Response extends HttpResponse {
+    // (undocumented)
+    body: string;
+    // (undocumented)
+    headers: RawHttpHeaders & GetSchemaById200Headers;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface GetSchemaByIdDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface GetSchemaByIdDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & GetSchemaByIdDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type GetSchemaByIdParameters = RequestParameters;
+
+// @public (undocumented)
+export interface GetSchemaByVersion {
+    get(options?: GetSchemaByVersionParameters): StreamableMethod<GetSchemaByVersion200Response | GetSchemaByVersionDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface GetSchemaByVersion200Headers {
+    "content-type": SchemaContentTypeValuesOutput;
+    "schema-group-name": string;
+    "schema-id": string;
+    "schema-id-location": string;
+    "schema-name": string;
+    "schema-version": number;
+    location: string;
 }
 
 // @public
-export enum KnownSchemaFormats {
-    Avro = "Avro",
-    Custom = "Custom",
-    Json = "Json"
+export interface GetSchemaByVersion200Response extends HttpResponse {
+    // (undocumented)
+    body: string;
+    // (undocumented)
+    headers: RawHttpHeaders & GetSchemaByVersion200Headers;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface GetSchemaByVersionDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface GetSchemaByVersionDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & GetSchemaByVersionDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type GetSchemaByVersionParameters = RequestParameters;
+
+// @public (undocumented)
+export interface GetSchemaPropertiesByContent {
+    post(options: GetSchemaPropertiesByContentParameters): StreamableMethod<GetSchemaPropertiesByContent204Response | GetSchemaPropertiesByContentDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface GetSchemaPropertiesByContent204Headers {
+    "schema-group-name": string;
+    "schema-id": string;
+    "schema-id-location": string;
+    "schema-name": string;
+    "schema-version": number;
+    location: string;
 }
 
 // @public
-export interface RegisterSchemaOptions extends OperationOptions {
+export interface GetSchemaPropertiesByContent204Response extends HttpResponse {
+    // (undocumented)
+    headers: RawHttpHeaders & GetSchemaPropertiesByContent204Headers;
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface GetSchemaPropertiesByContentBodyParam {
+    body: string;
+}
+
+// @public (undocumented)
+export interface GetSchemaPropertiesByContentDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface GetSchemaPropertiesByContentDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & GetSchemaPropertiesByContentDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface GetSchemaPropertiesByContentMediaTypesParam {
+    contentType: SchemaContentTypeValues;
+}
+
+// @public (undocumented)
+export type GetSchemaPropertiesByContentParameters = GetSchemaPropertiesByContentMediaTypesParam & GetSchemaPropertiesByContentBodyParam & RequestParameters;
+
+// @public (undocumented)
+export function isUnexpected(response: ListSchemaGroups200Response | ListSchemaGroupsDefaultResponse): response is ListSchemaGroupsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ListSchemaVersions200Response | ListSchemaVersionsDefaultResponse): response is ListSchemaVersionsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetSchemaById200Response | GetSchemaByIdDefaultResponse): response is GetSchemaByIdDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetSchemaByVersion200Response | GetSchemaByVersionDefaultResponse): response is GetSchemaByVersionDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetSchemaPropertiesByContent204Response | GetSchemaPropertiesByContentDefaultResponse): response is GetSchemaPropertiesByContentDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: RegisterSchema204Response | RegisterSchemaDefaultResponse): response is RegisterSchemaDefaultResponse;
+
+// @public (undocumented)
+export interface ListSchemaGroups {
+    get(options?: ListSchemaGroupsParameters): StreamableMethod<ListSchemaGroups200Response | ListSchemaGroupsDefaultResponse>;
 }
 
 // @public
-export interface Schema {
-    definition: string;
-    properties: SchemaProperties;
+export interface ListSchemaGroups200Response extends HttpResponse {
+    // (undocumented)
+    body: SchemaGroupsOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ListSchemaGroupsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface ListSchemaGroupsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ListSchemaGroupsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ListSchemaGroupsParameters = RequestParameters;
+
+// @public (undocumented)
+export interface ListSchemaVersions {
+    get(options?: ListSchemaVersionsParameters): StreamableMethod<ListSchemaVersions200Response | ListSchemaVersionsDefaultResponse>;
 }
 
 // @public
-export interface SchemaDescription {
-    definition: string;
-    format: string;
-    groupName: string;
-    name: string;
+export interface ListSchemaVersions200Response extends HttpResponse {
+    // (undocumented)
+    body: SchemaVersionsOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ListSchemaVersionsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface ListSchemaVersionsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ListSchemaVersionsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ListSchemaVersionsParameters = RequestParameters;
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export interface SchemaProperties {
-    format: string;
-    groupName: string;
-    id: string;
-    name: string;
-    version: number;
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
-export interface SchemaRegistry {
-    getSchema(schemaId: string, options?: GetSchemaOptions): Promise<Schema>;
-    getSchemaProperties(schema: SchemaDescription, options?: GetSchemaPropertiesOptions): Promise<SchemaProperties>;
-    registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaProperties>;
+export function paginate<TResponse extends PathUncheckedResponse>(client: Client, initialResponse: TResponse, options?: PagingOptions<TResponse>): PagedAsyncIterableIterator<PaginateReturn<TResponse>>;
+
+// @public
+export type PaginateReturn<TResult> = TResult extends {
+    body: {
+        value?: infer TPage;
+    };
+} | {
+    body: {
+        Value?: infer TPage;
+    };
+} ? GetArrayType<TPage> : Array<unknown>;
+
+// @public
+export interface PagingOptions<TResponse> {
+    customGetPage?: GetPage<PaginateReturn<TResponse>[]>;
+}
+
+// @public (undocumented)
+export interface RegisterSchema {
+    put(options: RegisterSchemaParameters): StreamableMethod<RegisterSchema204Response | RegisterSchemaDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface RegisterSchema204Headers {
+    "schema-group-name": string;
+    "schema-id": string;
+    "schema-id-location": string;
+    "schema-name": string;
+    "schema-version": number;
+    location: string;
 }
 
 // @public
-export class SchemaRegistryClient implements SchemaRegistry {
-    constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: SchemaRegistryClientOptions);
-    readonly fullyQualifiedNamespace: string;
-    getSchema(schemaId: string, options?: GetSchemaOptions): Promise<Schema>;
-    getSchema(name: string, groupName: string, version: number, options?: GetSchemaOptions): Promise<Schema>;
-    getSchemaProperties(schema: SchemaDescription, options?: GetSchemaPropertiesOptions): Promise<SchemaProperties>;
-    registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaProperties>;
+export interface RegisterSchema204Response extends HttpResponse {
+    // (undocumented)
+    headers: RawHttpHeaders & RegisterSchema204Headers;
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface RegisterSchemaBodyParam {
+    body: string;
+}
+
+// @public (undocumented)
+export interface RegisterSchemaDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface RegisterSchemaDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & RegisterSchemaDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface RegisterSchemaMediaTypesParam {
+    contentType: SchemaContentTypeValues;
+}
+
+// @public (undocumented)
+export type RegisterSchemaParameters = RegisterSchemaMediaTypesParam & RegisterSchemaBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface Routes {
+    (path: "/$schemaGroups"): ListSchemaGroups;
+    (path: "/$schemaGroups/{groupName}/schemas/{schemaName}/versions", groupName: string, schemaName: string): ListSchemaVersions;
+    (path: "/$schemaGroups/$schemas/{id}", id: string): GetSchemaById;
+    (path: "/$schemaGroups/{groupName}/schemas/{schemaName}/versions/{schemaVersion}", groupName: string, schemaName: string, schemaVersion: number): GetSchemaByVersion;
+    (path: "/$schemaGroups/{groupName}/schemas/{schemaName}:get-id", groupName: string, schemaName: string): GetSchemaPropertiesByContent;
+    (path: "/$schemaGroups/{groupName}/schemas/{schemaName}", groupName: string, schemaName: string): RegisterSchema;
 }
 
 // @public
-export interface SchemaRegistryClientOptions extends CommonClientOptions {
+export type SchemaContentTypeValues = "application/json; serialization=Avro" | "application/json; serialization=Json" | "text/plain; charset=utf-8" | "text/vnd.ms.protobuf";
+
+// @public
+export type SchemaContentTypeValuesOutput = "application/json; serialization=Avro" | "application/json; serialization=Json" | "text/plain; charset=utf-8" | "text/vnd.ms.protobuf";
+
+// @public
+export interface SchemaGroupsOutput {
+    NextLink?: string;
+    Value: string[];
+}
+
+// @public (undocumented)
+export type SchemaRegistryClient = Client & {
+    path: Routes;
+};
+
+// @public
+export interface SchemaRegistryClientOptions extends ClientOptions {
     apiVersion?: string;
+}
+
+// @public
+export interface SchemaVersionsOutput {
+    NextLink?: string;
+    Value: number[];
 }
 
 // (No @packageDocumentation comment for this package)
