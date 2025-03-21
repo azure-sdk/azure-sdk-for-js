@@ -2,128 +2,286 @@
 // Licensed under the MIT License.
 
 import {
-  standbyContainerGroupPoolResourcePropertiesSerializer,
-  standbyContainerGroupPoolResourceUpdatePropertiesSerializer,
-  StandbyContainerGroupPoolResource,
-  StandbyContainerGroupPoolResourceUpdate,
-  _StandbyContainerGroupPoolResourceListResult,
-} from "../../models/models.js";
-import { StandbyPoolContext as Client } from "../index.js";
+  StandbyPoolManagementContext as Client,
+  StandbyContainerGroupPoolsCreateOrUpdateOptionalParams,
+  StandbyContainerGroupPoolsDeleteOptionalParams,
+  StandbyContainerGroupPoolsGetOptionalParams,
+  StandbyContainerGroupPoolsListByResourceGroupOptionalParams,
+  StandbyContainerGroupPoolsListBySubscriptionOptionalParams,
+  StandbyContainerGroupPoolsUpdateOptionalParams,
+} from "../index.js";
 import {
-  StreamableMethod,
-  operationOptionsToRequestParameters,
-  PathUncheckedResponse,
-  createRestError,
-} from "@azure-rest/core-client";
-import { serializeRecord } from "../../helpers/serializerHelpers.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+  errorResponseDeserializer,
+  StandbyContainerGroupPoolResource,
+  standbyContainerGroupPoolResourceSerializer,
+  standbyContainerGroupPoolResourceDeserializer,
+  StandbyContainerGroupPoolResourceUpdate,
+  standbyContainerGroupPoolResourceUpdateSerializer,
+  _StandbyContainerGroupPoolResourceListResult,
+  _standbyContainerGroupPoolResourceListResultDeserializer,
+} from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
-  StandbyContainerGroupPoolsGetOptionalParams,
-  StandbyContainerGroupPoolsCreateOrUpdateOptionalParams,
-  StandbyContainerGroupPoolsDeleteOptionalParams,
-  StandbyContainerGroupPoolsUpdateOptionalParams,
-  StandbyContainerGroupPoolsListByResourceGroupOptionalParams,
-  StandbyContainerGroupPoolsListBySubscriptionOptionalParams,
-} from "../../models/options.js";
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
-export function _standbyContainerGroupPoolsGetSend(
+export function _standbyContainerGroupPoolsListBySubscriptionSend(
   context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  standbyContainerGroupPoolName: string,
-  options: StandbyContainerGroupPoolsGetOptionalParams = { requestOptions: {} },
+  options: StandbyContainerGroupPoolsListBySubscriptionOptionalParams = {
+    requestOptions: {},
+  },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools/{standbyContainerGroupPoolName}",
-      subscriptionId,
-      resourceGroupName,
-      standbyContainerGroupPoolName,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.StandbyPool/standbyContainerGroupPools{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _standbyContainerGroupPoolsGetDeserialize(
+export async function _standbyContainerGroupPoolsListBySubscriptionDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_StandbyContainerGroupPoolResourceListResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return _standbyContainerGroupPoolResourceListResultDeserializer(result.body);
+}
+
+/** List StandbyContainerGroupPoolResource resources by subscription ID */
+export function standbyContainerGroupPoolsListBySubscription(
+  context: Client,
+  options: StandbyContainerGroupPoolsListBySubscriptionOptionalParams = {
+    requestOptions: {},
+  },
+): PagedAsyncIterableIterator<StandbyContainerGroupPoolResource> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _standbyContainerGroupPoolsListBySubscriptionSend(context, options),
+    _standbyContainerGroupPoolsListBySubscriptionDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink" },
+  );
+}
+
+export function _standbyContainerGroupPoolsListByResourceGroupSend(
+  context: Client,
+  resourceGroupName: string,
+  options: StandbyContainerGroupPoolsListByResourceGroupOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _standbyContainerGroupPoolsListByResourceGroupDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_StandbyContainerGroupPoolResourceListResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return _standbyContainerGroupPoolResourceListResultDeserializer(result.body);
+}
+
+/** List StandbyContainerGroupPoolResource resources by resource group */
+export function standbyContainerGroupPoolsListByResourceGroup(
+  context: Client,
+  resourceGroupName: string,
+  options: StandbyContainerGroupPoolsListByResourceGroupOptionalParams = {
+    requestOptions: {},
+  },
+): PagedAsyncIterableIterator<StandbyContainerGroupPoolResource> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _standbyContainerGroupPoolsListByResourceGroupSend(context, resourceGroupName, options),
+    _standbyContainerGroupPoolsListByResourceGroupDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink" },
+  );
+}
+
+export function _standbyContainerGroupPoolsUpdateSend(
+  context: Client,
+  resourceGroupName: string,
+  standbyContainerGroupPoolName: string,
+  properties: StandbyContainerGroupPoolResourceUpdate,
+  options: StandbyContainerGroupPoolsUpdateOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools/{standbyContainerGroupPoolName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      standbyContainerGroupPoolName: standbyContainerGroupPoolName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: standbyContainerGroupPoolResourceUpdateSerializer(properties),
+  });
+}
+
+export async function _standbyContainerGroupPoolsUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<StandbyContainerGroupPoolResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
-  return {
-    tags: result.body["tags"],
-    location: result.body["location"],
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !result.body.properties
-      ? undefined
-      : {
-          elasticityProfile: {
-            maxReadyCapacity: result.body.properties?.elasticityProfile["maxReadyCapacity"],
-            refillPolicy: result.body.properties?.elasticityProfile["refillPolicy"],
-          },
-          containerGroupProperties: {
-            containerGroupProfile: {
-              id: result.body.properties?.containerGroupProperties.containerGroupProfile["id"],
-              revision:
-                result.body.properties?.containerGroupProperties.containerGroupProfile["revision"],
-            },
-            subnetIds:
-              result.body.properties?.containerGroupProperties["subnetIds"] === undefined
-                ? result.body.properties?.containerGroupProperties["subnetIds"]
-                : result.body.properties?.containerGroupProperties["subnetIds"].map((p: any) => {
-                    return { id: p["id"] };
-                  }),
-          },
-          provisioningState: result.body.properties?.["provisioningState"],
-        },
-  };
+  return standbyContainerGroupPoolResourceDeserializer(result.body);
 }
 
-/** Get a StandbyContainerGroupPoolResource */
-export async function standbyContainerGroupPoolsGet(
+/** Update a StandbyContainerGroupPoolResource */
+export async function standbyContainerGroupPoolsUpdate(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   standbyContainerGroupPoolName: string,
-  options: StandbyContainerGroupPoolsGetOptionalParams = { requestOptions: {} },
+  properties: StandbyContainerGroupPoolResourceUpdate,
+  options: StandbyContainerGroupPoolsUpdateOptionalParams = {
+    requestOptions: {},
+  },
 ): Promise<StandbyContainerGroupPoolResource> {
-  const result = await _standbyContainerGroupPoolsGetSend(
+  const result = await _standbyContainerGroupPoolsUpdateSend(
     context,
-    subscriptionId,
     resourceGroupName,
     standbyContainerGroupPoolName,
+    properties,
     options,
   );
-  return _standbyContainerGroupPoolsGetDeserialize(result);
+  return _standbyContainerGroupPoolsUpdateDeserialize(result);
+}
+
+export function _standbyContainerGroupPoolsDeleteSend(
+  context: Client,
+  resourceGroupName: string,
+  standbyContainerGroupPoolName: string,
+  options: StandbyContainerGroupPoolsDeleteOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools/{standbyContainerGroupPoolName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      standbyContainerGroupPoolName: standbyContainerGroupPoolName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _standbyContainerGroupPoolsDeleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
+  const expectedStatuses = ["202", "204", "200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return;
+}
+
+/** Delete a StandbyContainerGroupPoolResource */
+export function standbyContainerGroupPoolsDelete(
+  context: Client,
+  resourceGroupName: string,
+  standbyContainerGroupPoolName: string,
+  options: StandbyContainerGroupPoolsDeleteOptionalParams = {
+    requestOptions: {},
+  },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(
+    context,
+    _standbyContainerGroupPoolsDeleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _standbyContainerGroupPoolsDeleteSend(
+          context,
+          resourceGroupName,
+          standbyContainerGroupPoolName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _standbyContainerGroupPoolsCreateOrUpdateSend(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   standbyContainerGroupPoolName: string,
   resource: StandbyContainerGroupPoolResource,
@@ -131,23 +289,27 @@ export function _standbyContainerGroupPoolsCreateOrUpdateSend(
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools/{standbyContainerGroupPoolName}",
-      subscriptionId,
-      resourceGroupName,
-      standbyContainerGroupPoolName,
-    )
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      body: {
-        tags: !resource.tags ? resource.tags : (serializeRecord(resource.tags as any) as any),
-        location: resource["location"],
-        properties: !resource.properties
-          ? resource.properties
-          : standbyContainerGroupPoolResourcePropertiesSerializer(resource.properties),
-      },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools/{standbyContainerGroupPoolName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      standbyContainerGroupPoolName: standbyContainerGroupPoolName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: standbyContainerGroupPoolResourceSerializer(resource),
+  });
 }
 
 export async function _standbyContainerGroupPoolsCreateOrUpdateDeserialize(
@@ -155,60 +317,17 @@ export async function _standbyContainerGroupPoolsCreateOrUpdateDeserialize(
 ): Promise<StandbyContainerGroupPoolResource> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
-  return {
-    tags: result.body["tags"],
-    location: result.body["location"],
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !result.body.properties
-      ? undefined
-      : {
-          elasticityProfile: {
-            maxReadyCapacity: result.body.properties?.elasticityProfile["maxReadyCapacity"],
-            refillPolicy: result.body.properties?.elasticityProfile["refillPolicy"],
-          },
-          containerGroupProperties: {
-            containerGroupProfile: {
-              id: result.body.properties?.containerGroupProperties.containerGroupProfile["id"],
-              revision:
-                result.body.properties?.containerGroupProperties.containerGroupProfile["revision"],
-            },
-            subnetIds:
-              result.body.properties?.containerGroupProperties["subnetIds"] === undefined
-                ? result.body.properties?.containerGroupProperties["subnetIds"]
-                : result.body.properties?.containerGroupProperties["subnetIds"].map((p: any) => {
-                    return { id: p["id"] };
-                  }),
-          },
-          provisioningState: result.body.properties?.["provisioningState"],
-        },
-  };
+  return standbyContainerGroupPoolResourceDeserializer(result.body);
 }
 
 /** Create a StandbyContainerGroupPoolResource */
 export function standbyContainerGroupPoolsCreateOrUpdate(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   standbyContainerGroupPoolName: string,
   resource: StandbyContainerGroupPoolResource,
@@ -229,7 +348,6 @@ export function standbyContainerGroupPoolsCreateOrUpdate(
       getInitialResponse: () =>
         _standbyContainerGroupPoolsCreateOrUpdateSend(
           context,
-          subscriptionId,
           resourceGroupName,
           standbyContainerGroupPoolName,
           resource,
@@ -243,360 +361,58 @@ export function standbyContainerGroupPoolsCreateOrUpdate(
   >;
 }
 
-export function _standbyContainerGroupPoolsDeleteSend(
+export function _standbyContainerGroupPoolsGetSend(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   standbyContainerGroupPoolName: string,
-  options: StandbyContainerGroupPoolsDeleteOptionalParams = {
-    requestOptions: {},
-  },
+  options: StandbyContainerGroupPoolsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools/{standbyContainerGroupPoolName}",
-      subscriptionId,
-      resourceGroupName,
-      standbyContainerGroupPoolName,
-    )
-    .delete({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _standbyContainerGroupPoolsDeleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
-  const expectedStatuses = ["202", "204", "200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return;
-}
-
-/** Delete a StandbyContainerGroupPoolResource */
-export function standbyContainerGroupPoolsDelete(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  standbyContainerGroupPoolName: string,
-  options: StandbyContainerGroupPoolsDeleteOptionalParams = {
-    requestOptions: {},
-  },
-): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _standbyContainerGroupPoolsDeleteDeserialize,
-    ["202", "204", "200"],
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools/{standbyContainerGroupPoolName}{?api-version}",
     {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _standbyContainerGroupPoolsDeleteSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          standbyContainerGroupPoolName,
-          options,
-        ),
-      resourceLocationConfig: "location",
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      standbyContainerGroupPoolName: standbyContainerGroupPoolName,
+      "api-version": context.apiVersion,
     },
-  ) as PollerLike<OperationState<void>, void>;
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export function _standbyContainerGroupPoolsUpdateSend(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  standbyContainerGroupPoolName: string,
-  properties: StandbyContainerGroupPoolResourceUpdate,
-  options: StandbyContainerGroupPoolsUpdateOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools/{standbyContainerGroupPoolName}",
-      subscriptionId,
-      resourceGroupName,
-      standbyContainerGroupPoolName,
-    )
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      body: {
-        tags: !properties.tags ? properties.tags : (serializeRecord(properties.tags as any) as any),
-        properties: !properties.properties
-          ? properties.properties
-          : standbyContainerGroupPoolResourceUpdatePropertiesSerializer(properties.properties),
-      },
-    });
-}
-
-export async function _standbyContainerGroupPoolsUpdateDeserialize(
+export async function _standbyContainerGroupPoolsGetDeserialize(
   result: PathUncheckedResponse,
 ): Promise<StandbyContainerGroupPoolResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
-  return {
-    tags: result.body["tags"],
-    location: result.body["location"],
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !result.body.properties
-      ? undefined
-      : {
-          elasticityProfile: {
-            maxReadyCapacity: result.body.properties?.elasticityProfile["maxReadyCapacity"],
-            refillPolicy: result.body.properties?.elasticityProfile["refillPolicy"],
-          },
-          containerGroupProperties: {
-            containerGroupProfile: {
-              id: result.body.properties?.containerGroupProperties.containerGroupProfile["id"],
-              revision:
-                result.body.properties?.containerGroupProperties.containerGroupProfile["revision"],
-            },
-            subnetIds:
-              result.body.properties?.containerGroupProperties["subnetIds"] === undefined
-                ? result.body.properties?.containerGroupProperties["subnetIds"]
-                : result.body.properties?.containerGroupProperties["subnetIds"].map((p: any) => {
-                    return { id: p["id"] };
-                  }),
-          },
-          provisioningState: result.body.properties?.["provisioningState"],
-        },
-  };
+  return standbyContainerGroupPoolResourceDeserializer(result.body);
 }
 
-/** Update a StandbyContainerGroupPoolResource */
-export async function standbyContainerGroupPoolsUpdate(
+/** Get a StandbyContainerGroupPoolResource */
+export async function standbyContainerGroupPoolsGet(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   standbyContainerGroupPoolName: string,
-  properties: StandbyContainerGroupPoolResourceUpdate,
-  options: StandbyContainerGroupPoolsUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: StandbyContainerGroupPoolsGetOptionalParams = { requestOptions: {} },
 ): Promise<StandbyContainerGroupPoolResource> {
-  const result = await _standbyContainerGroupPoolsUpdateSend(
+  const result = await _standbyContainerGroupPoolsGetSend(
     context,
-    subscriptionId,
     resourceGroupName,
     standbyContainerGroupPoolName,
-    properties,
     options,
   );
-  return _standbyContainerGroupPoolsUpdateDeserialize(result);
-}
-
-export function _standbyContainerGroupPoolsListByResourceGroupSend(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  options: StandbyContainerGroupPoolsListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools",
-      subscriptionId,
-      resourceGroupName,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _standbyContainerGroupPoolsListByResourceGroupDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_StandbyContainerGroupPoolResourceListResult> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return {
-    value: result.body["value"].map((p: any) => {
-      return {
-        tags: p["tags"],
-        location: p["location"],
-        id: p["id"],
-        name: p["name"],
-        type: p["type"],
-        systemData: !p.systemData
-          ? undefined
-          : {
-              createdBy: p.systemData?.["createdBy"],
-              createdByType: p.systemData?.["createdByType"],
-              createdAt:
-                p.systemData?.["createdAt"] !== undefined
-                  ? new Date(p.systemData?.["createdAt"])
-                  : undefined,
-              lastModifiedBy: p.systemData?.["lastModifiedBy"],
-              lastModifiedByType: p.systemData?.["lastModifiedByType"],
-              lastModifiedAt:
-                p.systemData?.["lastModifiedAt"] !== undefined
-                  ? new Date(p.systemData?.["lastModifiedAt"])
-                  : undefined,
-            },
-        properties: !p.properties
-          ? undefined
-          : {
-              elasticityProfile: {
-                maxReadyCapacity: p.properties?.elasticityProfile["maxReadyCapacity"],
-                refillPolicy: p.properties?.elasticityProfile["refillPolicy"],
-              },
-              containerGroupProperties: {
-                containerGroupProfile: {
-                  id: p.properties?.containerGroupProperties.containerGroupProfile["id"],
-                  revision:
-                    p.properties?.containerGroupProperties.containerGroupProfile["revision"],
-                },
-                subnetIds:
-                  p.properties?.containerGroupProperties["subnetIds"] === undefined
-                    ? p.properties?.containerGroupProperties["subnetIds"]
-                    : p.properties?.containerGroupProperties["subnetIds"].map((p: any) => {
-                        return { id: p["id"] };
-                      }),
-              },
-              provisioningState: p.properties?.["provisioningState"],
-            },
-      };
-    }),
-    nextLink: result.body["nextLink"],
-  };
-}
-
-/** List StandbyContainerGroupPoolResource resources by resource group */
-export function standbyContainerGroupPoolsListByResourceGroup(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  options: StandbyContainerGroupPoolsListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
-): PagedAsyncIterableIterator<StandbyContainerGroupPoolResource> {
-  return buildPagedAsyncIterator(
-    context,
-    () =>
-      _standbyContainerGroupPoolsListByResourceGroupSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        options,
-      ),
-    _standbyContainerGroupPoolsListByResourceGroupDeserialize,
-    ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
-  );
-}
-
-export function _standbyContainerGroupPoolsListBySubscriptionSend(
-  context: Client,
-  subscriptionId: string,
-  options: StandbyContainerGroupPoolsListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.StandbyPool/standbyContainerGroupPools",
-      subscriptionId,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _standbyContainerGroupPoolsListBySubscriptionDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_StandbyContainerGroupPoolResourceListResult> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return {
-    value: result.body["value"].map((p: any) => {
-      return {
-        tags: p["tags"],
-        location: p["location"],
-        id: p["id"],
-        name: p["name"],
-        type: p["type"],
-        systemData: !p.systemData
-          ? undefined
-          : {
-              createdBy: p.systemData?.["createdBy"],
-              createdByType: p.systemData?.["createdByType"],
-              createdAt:
-                p.systemData?.["createdAt"] !== undefined
-                  ? new Date(p.systemData?.["createdAt"])
-                  : undefined,
-              lastModifiedBy: p.systemData?.["lastModifiedBy"],
-              lastModifiedByType: p.systemData?.["lastModifiedByType"],
-              lastModifiedAt:
-                p.systemData?.["lastModifiedAt"] !== undefined
-                  ? new Date(p.systemData?.["lastModifiedAt"])
-                  : undefined,
-            },
-        properties: !p.properties
-          ? undefined
-          : {
-              elasticityProfile: {
-                maxReadyCapacity: p.properties?.elasticityProfile["maxReadyCapacity"],
-                refillPolicy: p.properties?.elasticityProfile["refillPolicy"],
-              },
-              containerGroupProperties: {
-                containerGroupProfile: {
-                  id: p.properties?.containerGroupProperties.containerGroupProfile["id"],
-                  revision:
-                    p.properties?.containerGroupProperties.containerGroupProfile["revision"],
-                },
-                subnetIds:
-                  p.properties?.containerGroupProperties["subnetIds"] === undefined
-                    ? p.properties?.containerGroupProperties["subnetIds"]
-                    : p.properties?.containerGroupProperties["subnetIds"].map((p: any) => {
-                        return { id: p["id"] };
-                      }),
-              },
-              provisioningState: p.properties?.["provisioningState"],
-            },
-      };
-    }),
-    nextLink: result.body["nextLink"],
-  };
-}
-
-/** List StandbyContainerGroupPoolResource resources by subscription ID */
-export function standbyContainerGroupPoolsListBySubscription(
-  context: Client,
-  subscriptionId: string,
-  options: StandbyContainerGroupPoolsListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
-): PagedAsyncIterableIterator<StandbyContainerGroupPoolResource> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _standbyContainerGroupPoolsListBySubscriptionSend(context, subscriptionId, options),
-    _standbyContainerGroupPoolsListBySubscriptionDeserialize,
-    ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
-  );
+  return _standbyContainerGroupPoolsGetDeserialize(result);
 }
