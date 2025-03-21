@@ -1,0 +1,4 @@
+directory: specification/scvmm/ScVmm.Management
+commit: 31e26e9f06513a37173d0a80f8832053c19a7242
+repo: ../azure-rest-api-specs
+additionalDirectories: 
