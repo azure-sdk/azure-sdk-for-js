@@ -6,13 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./operations.js";
+export * from "./workspaces.js";
+export * from "./firmwares.js";
 export * from "./binaryHardening.js";
+export * from "./cves.js";
 export * from "./cryptoCertificates.js";
 export * from "./cryptoKeys.js";
-export * from "./cves.js";
-export * from "./firmwares.js";
-export * from "./operations.js";
 export * from "./passwordHashes.js";
 export * from "./sbomComponents.js";
 export * from "./summaries.js";
-export * from "./workspaces.js";
+export * from "./usageMetrics.js";

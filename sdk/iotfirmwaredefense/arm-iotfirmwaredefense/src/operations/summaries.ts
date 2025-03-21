@@ -18,7 +18,7 @@ import {
   SummariesListByFirmwareNextOptionalParams,
   SummariesListByFirmwareOptionalParams,
   SummariesListByFirmwareResponse,
-  SummaryName,
+  SummaryType,
   SummariesGetOptionalParams,
   SummariesGetResponse,
   SummariesListByFirmwareNextResponse,
@@ -156,18 +156,18 @@ export class SummariesImpl implements Summaries {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the firmware analysis workspace.
    * @param firmwareId The id of the firmware.
-   * @param summaryName The Firmware analysis summary name describing the type of summary.
+   * @param summaryType The Firmware analysis summary name describing the type of summary.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     workspaceName: string,
     firmwareId: string,
-    summaryName: SummaryName,
+    summaryType: SummaryType,
     options?: SummariesGetOptionalParams,
   ): Promise<SummariesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, firmwareId, summaryName, options },
+      { resourceGroupName, workspaceName, firmwareId, summaryType, options },
       getOperationSpec,
     );
   }
@@ -201,7 +201,7 @@ const listByFirmwareOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SummaryListResult,
+      bodyMapper: Mappers.SummaryResourceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -219,7 +219,7 @@ const listByFirmwareOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/summaries/{summaryName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/summaries/{summaryType}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -236,7 +236,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.firmwareId,
-    Parameters.summaryName,
+    Parameters.summaryType,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -246,7 +246,7 @@ const listByFirmwareNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SummaryListResult,
+      bodyMapper: Mappers.SummaryResourceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -254,11 +254,11 @@ const listByFirmwareNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.firmwareId,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

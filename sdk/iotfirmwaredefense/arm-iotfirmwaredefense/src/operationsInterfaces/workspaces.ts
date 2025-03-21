@@ -11,14 +11,14 @@ import {
   Workspace,
   WorkspacesListBySubscriptionOptionalParams,
   WorkspacesListByResourceGroupOptionalParams,
+  WorkspacesGetOptionalParams,
+  WorkspacesGetResponse,
   WorkspacesCreateOptionalParams,
   WorkspacesCreateResponse,
-  WorkspaceUpdateDefinition,
+  WorkspaceUpdate,
   WorkspacesUpdateOptionalParams,
   WorkspacesUpdateResponse,
   WorkspacesDeleteOptionalParams,
-  WorkspacesGetOptionalParams,
-  WorkspacesGetResponse,
   GenerateUploadUrlRequest,
   WorkspacesGenerateUploadUrlOptionalParams,
   WorkspacesGenerateUploadUrlResponse,
@@ -44,29 +44,40 @@ export interface Workspaces {
     options?: WorkspacesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Workspace>;
   /**
+   * Get firmware analysis workspace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the firmware analysis workspace.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: WorkspacesGetOptionalParams,
+  ): Promise<WorkspacesGetResponse>;
+  /**
    * The operation to create or update a firmware analysis workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the firmware analysis workspace.
-   * @param workspace Parameters when creating a firmware analysis workspace.
+   * @param resource Parameters when creating a firmware analysis workspace.
    * @param options The options parameters.
    */
   create(
     resourceGroupName: string,
     workspaceName: string,
-    workspace: Workspace,
+    resource: Workspace,
     options?: WorkspacesCreateOptionalParams,
   ): Promise<WorkspacesCreateResponse>;
   /**
    * The operation to update a firmware analysis workspaces.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the firmware analysis workspace.
-   * @param workspace Parameters when updating a firmware analysis workspace.
+   * @param properties Parameters when updating a firmware analysis workspace.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     workspaceName: string,
-    workspace: WorkspaceUpdateDefinition,
+    properties: WorkspaceUpdate,
     options?: WorkspacesUpdateOptionalParams,
   ): Promise<WorkspacesUpdateResponse>;
   /**
@@ -81,27 +92,16 @@ export interface Workspaces {
     options?: WorkspacesDeleteOptionalParams,
   ): Promise<void>;
   /**
-   * Get firmware analysis workspace.
+   * Generate a URL for uploading a firmware image.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the firmware analysis workspace.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    workspaceName: string,
-    options?: WorkspacesGetOptionalParams,
-  ): Promise<WorkspacesGetResponse>;
-  /**
-   * The operation to get a url for file upload.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the firmware analysis workspace.
-   * @param generateUploadUrl Parameters when requesting a URL to upload firmware.
+   * @param body Parameters when requesting a URL to upload firmware.
    * @param options The options parameters.
    */
   generateUploadUrl(
     resourceGroupName: string,
     workspaceName: string,
-    generateUploadUrl: GenerateUploadUrlRequest,
+    body: GenerateUploadUrlRequest,
     options?: WorkspacesGenerateUploadUrlOptionalParams,
   ): Promise<WorkspacesGenerateUploadUrlResponse>;
 }
