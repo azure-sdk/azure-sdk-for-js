@@ -133,6 +133,12 @@ export const OsProfileForVmInstance: coreClient.CompositeMapper = {
     name: "Composite",
     className: "OsProfileForVmInstance",
     modelProperties: {
+      adminUsername: {
+        serializedName: "adminUsername",
+        type: {
+          name: "String",
+        },
+      },
       adminPassword: {
         serializedName: "adminPassword",
         type: {
@@ -162,6 +168,48 @@ export const OsProfileForVmInstance: coreClient.CompositeMapper = {
       osVersion: {
         serializedName: "osVersion",
         readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      domainName: {
+        serializedName: "domainName",
+        type: {
+          name: "String",
+        },
+      },
+      domainUsername: {
+        serializedName: "domainUsername",
+        type: {
+          name: "String",
+        },
+      },
+      domainPassword: {
+        serializedName: "domainPassword",
+        type: {
+          name: "String",
+        },
+      },
+      workgroup: {
+        serializedName: "workgroup",
+        type: {
+          name: "String",
+        },
+      },
+      productKey: {
+        serializedName: "productKey",
+        type: {
+          name: "String",
+        },
+      },
+      timezone: {
+        serializedName: "timezone",
+        type: {
+          name: "Number",
+        },
+      },
+      runOnceCommands: {
+        serializedName: "runOnceCommands",
         type: {
           name: "String",
         },
@@ -1185,6 +1233,12 @@ export const GuestAgentProperties: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      privateLinkScopeResourceId: {
+        serializedName: "privateLinkScopeResourceId",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -1603,6 +1657,13 @@ export const CloudCapacity: coreClient.CompositeMapper = {
       },
       vmCount: {
         serializedName: "vmCount",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      storageGB: {
+        serializedName: "storageGB",
         readOnly: true,
         type: {
           name: "Number",
@@ -2294,6 +2355,13 @@ export const VirtualMachineInventoryItem: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String",
+        },
+      },
+      generation: {
+        serializedName: "generation",
+        readOnly: true,
+        type: {
+          name: "Number",
         },
       },
       ipAddresses: {
