@@ -388,6 +388,22 @@ export interface UserAssignedManagedIdentity {
   readonly clientId?: string;
 }
 
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
 /** Response containing a list of Azure AI Search services. */
 export interface SearchServiceListResult {
   /**
@@ -668,12 +684,21 @@ export interface SearchServiceUpdate extends Resource {
   tags?: { [propertyName: string]: string };
   /** Details about the search service identity. A null value indicates that the search service has no identity assigned. */
   identity?: Identity;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU. */
   replicaCount?: number;
   /** The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1 and 3. */
   partitionCount?: number;
+  /** The endpoint of the Azure AI Search service. */
+  endpoint?: string;
   /** Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'. */
   hostingMode?: HostingMode;
+  /** Configure this property to support the search service using either the Default Compute or Azure Confidential Compute. */
+  computeType?: ComputeType;
   /** This value can be set to 'enabled' to avoid breaking changes on existing customer resources and templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method. */
   publicNetworkAccess?: PublicNetworkAccess;
   /**
@@ -718,6 +743,16 @@ export interface SearchServiceUpdate extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly eTag?: string;
+  /**
+   * Indicates whether or not the search service has an upgrade available.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly upgradeAvailable?: boolean;
+  /**
+   * The date and time the search service was last upgraded. This field will be null until the service gets upgraded for the first time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceUpgradeDate?: Date;
 }
 
 /** Describes a supported private link resource for the Azure AI Search service. */
@@ -738,12 +773,21 @@ export interface SearchService extends TrackedResource {
   sku?: Sku;
   /** The identity of the resource. */
   identity?: Identity;
+  /**
+   * Azure Resource Manager metadata of the search service containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU. */
   replicaCount?: number;
   /** The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1 and 3. */
   partitionCount?: number;
+  /** The endpoint of the Azure AI Search service. */
+  endpoint?: string;
   /** Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'. */
   hostingMode?: HostingMode;
+  /** Configure this property to support the search service using either the Default Compute or Azure Confidential Compute. */
+  computeType?: ComputeType;
   /** This value can be set to 'enabled' to avoid breaking changes on existing customer resources and templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method. */
   publicNetworkAccess?: PublicNetworkAccess;
   /**
@@ -788,6 +832,16 @@ export interface SearchService extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly eTag?: string;
+  /**
+   * Indicates whether or not the search service has an upgrade available.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly upgradeAvailable?: boolean;
+  /**
+   * The date and time the search service was last upgraded. This field will be null until the service gets upgraded for the first time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceUpgradeDate?: Date;
 }
 
 /** Network security perimeter configuration for a server. */
@@ -803,6 +857,11 @@ export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
   provisioningIssues?: NSPProvisioningIssue[];
 }
 
+/** Defines headers for Services_upgrade operation. */
+export interface ServicesUpgradeHeaders {
+  location?: string;
+}
+
 /** Defines headers for NetworkSecurityPerimeterConfigurations_reconcile operation. */
 export interface NetworkSecurityPerimeterConfigurationsReconcileHeaders {
   location?: string;
@@ -813,6 +872,24 @@ export interface SearchManagementRequestOptions {
   /** A client-generated GUID value that identifies this request. If specified, this will be included in response information as a way to track the request. */
   clientRequestId?: string;
 }
+
+/** Known values of {@link ComputeType} that the service accepts. */
+export enum KnownComputeType {
+  /** Create the service with the Default Compute. */
+  Default = "default",
+  /** Create the service with Azure Confidential Compute. */
+  Confidential = "confidential",
+}
+
+/**
+ * Defines values for ComputeType. \
+ * {@link KnownComputeType} can be used interchangeably with ComputeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **default**: Create the service with the Default Compute. \
+ * **confidential**: Create the service with Azure Confidential Compute.
+ */
+export type ComputeType = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
@@ -832,12 +909,64 @@ export enum KnownPublicNetworkAccess {
  */
 export type PublicNetworkAccess = string;
 
+/** Known values of {@link SearchServiceStatus} that the service accepts. */
+export enum KnownSearchServiceStatus {
+  /** The search service is running and no provisioning operations are underway. */
+  Running = "running",
+  /** The search service is being provisioned or scaled up or down. */
+  Provisioning = "provisioning",
+  /** The search service is being deleted. */
+  Deleting = "deleting",
+  /** The search service is degraded because underlying search units are not healthy. */
+  Degraded = "degraded",
+  /** The search service is disabled and all API requests will be rejected. */
+  Disabled = "disabled",
+  /** The search service is in error state, indicating either a failure to provision or to be deleted. */
+  Error = "error",
+  /** The search service is in a subscription that's disabled. */
+  Stopped = "stopped",
+}
+
+/**
+ * Defines values for SearchServiceStatus. \
+ * {@link KnownSearchServiceStatus} can be used interchangeably with SearchServiceStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **running**: The search service is running and no provisioning operations are underway. \
+ * **provisioning**: The search service is being provisioned or scaled up or down. \
+ * **deleting**: The search service is being deleted. \
+ * **degraded**: The search service is degraded because underlying search units are not healthy. \
+ * **disabled**: The search service is disabled and all API requests will be rejected. \
+ * **error**: The search service is in error state, indicating either a failure to provision or to be deleted. \
+ * **stopped**: The search service is in a subscription that's disabled.
+ */
+export type SearchServiceStatus = string;
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  /** The last provisioning operation has completed successfully. */
+  Succeeded = "succeeded",
+  /** The search service is being provisioned or scaled up or down. */
+  Provisioning = "provisioning",
+  /** The last provisioning operation has failed. */
+  Failed = "failed",
+}
+
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **succeeded**: The last provisioning operation has completed successfully. \
+ * **provisioning**: The search service is being provisioned or scaled up or down. \
+ * **failed**: The last provisioning operation has failed.
+ */
+export type ProvisioningState = string;
+
 /** Known values of {@link SearchBypass} that the service accepts. */
 export enum KnownSearchBypass {
   /** Indicates that no origin can bypass the rules defined in the 'ipRules' section. This is the default. */
   None = "None",
-  /** Indicates that requests originating from the Azure portal can bypass the rules defined in the 'ipRules' section. */
-  AzurePortal = "AzurePortal",
   /** Indicates that requests originating from Azure trusted services can bypass the rules defined in the 'ipRules' section. */
   AzureServices = "AzureServices",
 }
@@ -848,7 +977,6 @@ export enum KnownSearchBypass {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **None**: Indicates that no origin can bypass the rules defined in the 'ipRules' section. This is the default. \
- * **AzurePortal**: Indicates that requests originating from the Azure portal can bypass the rules defined in the 'ipRules' section. \
  * **AzureServices**: Indicates that requests originating from Azure trusted services can bypass the rules defined in the 'ipRules' section.
  */
 export type SearchBypass = string;
@@ -1027,6 +1155,30 @@ export enum KnownIdentityType {
  */
 export type IdentityType = string;
 
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
 /** Known values of {@link UnavailableNameReason} that the service accepts. */
 export enum KnownUnavailableNameReason {
   /** The search service name doesn't match naming requirements. */
@@ -1069,17 +1221,6 @@ export type SharedPrivateLinkResourceAsyncOperationResult = string;
 export type AdminKeyKind = "primary" | "secondary";
 /** Defines values for HostingMode. */
 export type HostingMode = "default" | "highDensity";
-/** Defines values for SearchServiceStatus. */
-export type SearchServiceStatus =
-  | "running"
-  | "provisioning"
-  | "deleting"
-  | "degraded"
-  | "disabled"
-  | "error"
-  | "stopped";
-/** Defines values for ProvisioningState. */
-export type ProvisioningState = "Succeeded" | "Provisioning" | "Failed";
 /** Defines values for SearchEncryptionWithCmk. */
 export type SearchEncryptionWithCmk = "Disabled" | "Enabled" | "Unspecified";
 /** Defines values for SearchEncryptionComplianceStatus. */
@@ -1226,6 +1367,18 @@ export interface ServicesCheckNameAvailabilityOptionalParams
 
 /** Contains response data for the checkNameAvailability operation. */
 export type ServicesCheckNameAvailabilityResponse = CheckNameAvailabilityOutput;
+
+/** Optional parameters. */
+export interface ServicesUpgradeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the upgrade operation. */
+export type ServicesUpgradeResponse = SearchService;
 
 /** Optional parameters. */
 export interface ServicesListByResourceGroupNextOptionalParams

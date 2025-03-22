@@ -77,7 +77,7 @@ export class SearchManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-search/4.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-search/3.3.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -131,7 +131,7 @@ export class SearchManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-06-01-preview";
+    this.apiVersion = options.apiVersion || "2025-05-01";
     this.operations = new OperationsImpl(this);
     this.adminKeys = new AdminKeysImpl(this);
     this.queryKeys = new QueryKeysImpl(this);
@@ -174,7 +174,7 @@ export class SearchManagementClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Gets the quota usage for a search sku in the given subscription.
+   * Gets the quota usage for a search SKU in the given subscription.
    * @param location The unique location name for a Microsoft Azure geographic region.
    * @param skuName The unique SKU name that identifies a billable tier.
    * @param options The options parameters.
