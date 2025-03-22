@@ -1,0 +1,4 @@
+directory: specification/servicefabricmanagedclusters/ServiceFabricManagedClusters.Management
+commit: 7aed8f6b03f2135a1bd6ebb860a5d639597dd1f8
+repo: ../azure-rest-api-specs
+additionalDirectories: 
