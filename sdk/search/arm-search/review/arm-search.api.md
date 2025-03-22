@@ -77,6 +77,12 @@ export interface CloudErrorBody {
 }
 
 // @public
+export type ComputeType = string;
+
+// @public
+export type CreatedByType = string;
+
+// @public
 export interface DataPlaneAadOrApiKeyAuthOption {
     aadAuthFailureMode?: AadAuthFailureMode;
 }
@@ -118,6 +124,20 @@ export interface IpRule {
 }
 
 // @public
+export enum KnownComputeType {
+    Confidential = "confidential",
+    Default = "default"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
 export enum KnownIdentityType {
     None = "None",
     SystemAssigned = "SystemAssigned",
@@ -136,6 +156,13 @@ export enum KnownPrivateLinkServiceConnectionProvisioningState {
 }
 
 // @public
+export enum KnownProvisioningState {
+    Failed = "failed",
+    Provisioning = "provisioning",
+    Succeeded = "succeeded"
+}
+
+// @public
 export enum KnownPublicNetworkAccess {
     Disabled = "disabled",
     Enabled = "enabled"
@@ -143,7 +170,6 @@ export enum KnownPublicNetworkAccess {
 
 // @public
 export enum KnownSearchBypass {
-    AzurePortal = "AzurePortal",
     AzureServices = "AzureServices",
     None = "None"
 }
@@ -158,6 +184,17 @@ export enum KnownSearchSemanticSearch {
     Disabled = "disabled",
     Free = "free",
     Standard = "standard"
+}
+
+// @public
+export enum KnownSearchServiceStatus {
+    Degraded = "degraded",
+    Deleting = "deleting",
+    Disabled = "disabled",
+    Error = "error",
+    Provisioning = "provisioning",
+    Running = "running",
+    Stopped = "stopped"
 }
 
 // @public
@@ -546,7 +583,7 @@ export type PrivateLinkServiceConnectionProvisioningState = string;
 export type PrivateLinkServiceConnectionStatus = "Pending" | "Approved" | "Rejected" | "Disconnected";
 
 // @public
-export type ProvisioningState = "Succeeded" | "Provisioning" | "Failed";
+export type ProvisioningState = string;
 
 // @public
 export interface ProxyResource extends Resource {
@@ -685,9 +722,11 @@ export type SearchSemanticSearch = string;
 // @public
 export interface SearchService extends TrackedResource {
     authOptions?: DataPlaneAuthOptions;
+    computeType?: ComputeType;
     disabledDataExfiltrationOptions?: SearchDisabledDataExfiltrationOption[];
     disableLocalAuth?: boolean;
     encryptionWithCmk?: EncryptionWithCmk;
+    endpoint?: string;
     readonly eTag?: string;
     hostingMode?: HostingMode;
     identity?: Identity;
@@ -698,10 +737,13 @@ export interface SearchService extends TrackedResource {
     publicNetworkAccess?: PublicNetworkAccess;
     replicaCount?: number;
     semanticSearch?: SearchSemanticSearch;
+    readonly serviceUpgradeDate?: Date;
     readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
     sku?: Sku;
     readonly status?: SearchServiceStatus;
     readonly statusDetails?: string;
+    readonly systemData?: SystemData;
+    readonly upgradeAvailable?: boolean;
 }
 
 // @public
@@ -711,14 +753,16 @@ export interface SearchServiceListResult {
 }
 
 // @public
-export type SearchServiceStatus = "running" | "provisioning" | "deleting" | "degraded" | "disabled" | "error" | "stopped";
+export type SearchServiceStatus = string;
 
 // @public
 export interface SearchServiceUpdate extends Resource {
     authOptions?: DataPlaneAuthOptions;
+    computeType?: ComputeType;
     disabledDataExfiltrationOptions?: SearchDisabledDataExfiltrationOption[];
     disableLocalAuth?: boolean;
     encryptionWithCmk?: EncryptionWithCmk;
+    endpoint?: string;
     readonly eTag?: string;
     hostingMode?: HostingMode;
     identity?: Identity;
@@ -730,19 +774,24 @@ export interface SearchServiceUpdate extends Resource {
     publicNetworkAccess?: PublicNetworkAccess;
     replicaCount?: number;
     semanticSearch?: SearchSemanticSearch;
+    readonly serviceUpgradeDate?: Date;
     readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
     sku?: Sku;
     readonly status?: SearchServiceStatus;
     readonly statusDetails?: string;
+    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
+    readonly upgradeAvailable?: boolean;
 }
 
 // @public
 export interface Services {
     beginCreateOrUpdate(resourceGroupName: string, searchServiceName: string, service: SearchService, options?: ServicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ServicesCreateOrUpdateResponse>, ServicesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, searchServiceName: string, service: SearchService, options?: ServicesCreateOrUpdateOptionalParams): Promise<ServicesCreateOrUpdateResponse>;
+    beginUpgrade(resourceGroupName: string, searchServiceName: string, options?: ServicesUpgradeOptionalParams): Promise<SimplePollerLike<OperationState<ServicesUpgradeResponse>, ServicesUpgradeResponse>>;
+    beginUpgradeAndWait(resourceGroupName: string, searchServiceName: string, options?: ServicesUpgradeOptionalParams): Promise<ServicesUpgradeResponse>;
     checkNameAvailability(name: string, options?: ServicesCheckNameAvailabilityOptionalParams): Promise<ServicesCheckNameAvailabilityResponse>;
     delete(resourceGroupName: string, searchServiceName: string, options?: ServicesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, searchServiceName: string, options?: ServicesGetOptionalParams): Promise<ServicesGetResponse>;
@@ -821,6 +870,21 @@ export interface ServicesUpdateOptionalParams extends coreClient.OperationOption
 
 // @public
 export type ServicesUpdateResponse = SearchService;
+
+// @public
+export interface ServicesUpgradeHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ServicesUpgradeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ServicesUpgradeResponse = SearchService;
 
 // @public
 export interface ShareablePrivateLinkResourceProperties {
@@ -923,6 +987,16 @@ export interface Sku {
 
 // @public
 export type SkuName = string;
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
 
 // @public
 export interface TrackedResource extends Resource {

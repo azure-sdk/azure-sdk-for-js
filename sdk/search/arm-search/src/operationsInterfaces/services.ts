@@ -22,6 +22,8 @@ import {
   ServicesDeleteOptionalParams,
   ServicesCheckNameAvailabilityOptionalParams,
   ServicesCheckNameAvailabilityResponse,
+  ServicesUpgradeOptionalParams,
+  ServicesUpgradeResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -141,4 +143,35 @@ export interface Services {
     name: string,
     options?: ServicesCheckNameAvailabilityOptionalParams,
   ): Promise<ServicesCheckNameAvailabilityResponse>;
+  /**
+   * Upgrades the Azure AI Search service to the latest version available.
+   * @param resourceGroupName The name of the resource group within the current subscription. You can
+   *                          obtain this value from the Azure Resource Manager API or the portal.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
+   * @param options The options parameters.
+   */
+  beginUpgrade(
+    resourceGroupName: string,
+    searchServiceName: string,
+    options?: ServicesUpgradeOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ServicesUpgradeResponse>,
+      ServicesUpgradeResponse
+    >
+  >;
+  /**
+   * Upgrades the Azure AI Search service to the latest version available.
+   * @param resourceGroupName The name of the resource group within the current subscription. You can
+   *                          obtain this value from the Azure Resource Manager API or the portal.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
+   * @param options The options parameters.
+   */
+  beginUpgradeAndWait(
+    resourceGroupName: string,
+    searchServiceName: string,
+    options?: ServicesUpgradeOptionalParams,
+  ): Promise<ServicesUpgradeResponse>;
 }
