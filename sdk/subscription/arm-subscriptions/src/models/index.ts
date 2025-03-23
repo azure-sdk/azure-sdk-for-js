@@ -218,6 +218,12 @@ export interface EnabledSubscriptionId {
   readonly subscriptionId?: string;
 }
 
+/** The created subscription object. */
+export interface SubscriptionCreationResult {
+  /** The link to the new subscription. Use this link to check the status of subscription creation operation. */
+  subscriptionLink?: string;
+}
+
 /** Result of the request to list operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** List of operations. */
@@ -546,12 +552,20 @@ export interface SubscriptionAcceptOwnershipHeaders {
   retryAfter?: number;
 }
 
+/** Defines headers for SubscriptionOperation_get operation. */
+export interface SubscriptionOperationGetHeaders {
+  /** The URL where the status of the asynchronous operation can be checked. */
+  location?: string;
+  /** The amount of delay to use while the status of the operation is checked. The value is expressed in seconds. */
+  retryAfter?: number;
+}
+
 /** Known values of {@link Workload} that the service accepts. */
 export enum KnownWorkload {
   /** Production */
   Production = "Production",
   /** DevTest */
-  DevTest = "DevTest"
+  DevTest = "DevTest",
 }
 
 /**
@@ -571,7 +585,7 @@ export enum KnownProvisioningState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -592,7 +606,7 @@ export enum KnownAcceptOwnership {
   /** Completed */
   Completed = "Completed",
   /** Expired */
-  Expired = "Expired"
+  Expired = "Expired",
 }
 
 /**
@@ -615,7 +629,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -637,7 +651,7 @@ export enum KnownProvisioning {
   /** Accepted */
   Accepted = "Accepted",
   /** Succeeded */
-  Succeeded = "Succeeded"
+  Succeeded = "Succeeded",
 }
 
 /**
@@ -733,14 +747,23 @@ export interface SubscriptionAcceptOwnershipOptionalParams
 }
 
 /** Contains response data for the acceptOwnership operation. */
-export type SubscriptionAcceptOwnershipResponse = SubscriptionAcceptOwnershipHeaders;
+export type SubscriptionAcceptOwnershipResponse =
+  SubscriptionAcceptOwnershipHeaders;
 
 /** Optional parameters. */
 export interface SubscriptionAcceptOwnershipStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the acceptOwnershipStatus operation. */
-export type SubscriptionAcceptOwnershipStatusResponse = AcceptOwnershipStatusResponse;
+export type SubscriptionAcceptOwnershipStatusResponse =
+  AcceptOwnershipStatusResponse;
+
+/** Optional parameters. */
+export interface SubscriptionOperationGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SubscriptionOperationGetResponse = SubscriptionCreationResult;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -788,28 +811,32 @@ export interface SubscriptionPolicyAddUpdatePolicyForTenantOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the addUpdatePolicyForTenant operation. */
-export type SubscriptionPolicyAddUpdatePolicyForTenantResponse = GetTenantPolicyResponse;
+export type SubscriptionPolicyAddUpdatePolicyForTenantResponse =
+  GetTenantPolicyResponse;
 
 /** Optional parameters. */
 export interface SubscriptionPolicyGetPolicyForTenantOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getPolicyForTenant operation. */
-export type SubscriptionPolicyGetPolicyForTenantResponse = GetTenantPolicyResponse;
+export type SubscriptionPolicyGetPolicyForTenantResponse =
+  GetTenantPolicyResponse;
 
 /** Optional parameters. */
 export interface SubscriptionPolicyListPolicyForTenantOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPolicyForTenant operation. */
-export type SubscriptionPolicyListPolicyForTenantResponse = GetTenantPolicyListResponse;
+export type SubscriptionPolicyListPolicyForTenantResponse =
+  GetTenantPolicyListResponse;
 
 /** Optional parameters. */
 export interface SubscriptionPolicyListPolicyForTenantNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPolicyForTenantNext operation. */
-export type SubscriptionPolicyListPolicyForTenantNextResponse = GetTenantPolicyListResponse;
+export type SubscriptionPolicyListPolicyForTenantNextResponse =
+  GetTenantPolicyListResponse;
 
 /** Optional parameters. */
 export interface BillingAccountGetPolicyOptionalParams
