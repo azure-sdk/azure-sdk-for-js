@@ -12,11 +12,11 @@ import {
   OperationQueryParameter,
 } from "@azure/core-client";
 import {
+  Workspace as WorkspaceMapper,
+  WorkspaceUpdate as WorkspaceUpdateMapper,
+  GenerateUploadUrlRequest as GenerateUploadUrlRequestMapper,
   Firmware as FirmwareMapper,
   FirmwareUpdateDefinition as FirmwareUpdateDefinitionMapper,
-  Workspace as WorkspaceMapper,
-  WorkspaceUpdateDefinition as WorkspaceUpdateDefinitionMapper,
-  GenerateUploadUrlRequest as GenerateUploadUrlRequestMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -35,6 +35,30 @@ export const $host: OperationURLParameter = {
   parameterPath: "$host",
   mapper: {
     serializedName: "$host",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2025-04-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
     required: true,
     type: {
       name: "String",
@@ -83,41 +107,6 @@ export const workspaceName: OperationURLParameter = {
   },
 };
 
-export const firmwareId: OperationURLParameter = {
-  parameterPath: "firmwareId",
-  mapper: {
-    serializedName: "firmwareId",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2024-01-10",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-  skipEncoding: true,
-};
-
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
@@ -130,20 +119,28 @@ export const contentType: OperationParameter = {
   },
 };
 
-export const firmware: OperationParameter = {
-  parameterPath: "firmware",
-  mapper: FirmwareMapper,
+export const resource: OperationParameter = {
+  parameterPath: "resource",
+  mapper: WorkspaceMapper,
 };
 
-export const firmware1: OperationParameter = {
-  parameterPath: "firmware",
-  mapper: FirmwareUpdateDefinitionMapper,
+export const properties: OperationParameter = {
+  parameterPath: "properties",
+  mapper: WorkspaceUpdateMapper,
 };
 
-export const summaryName: OperationURLParameter = {
-  parameterPath: "summaryName",
+export const body: OperationParameter = {
+  parameterPath: "body",
+  mapper: GenerateUploadUrlRequestMapper,
+};
+
+export const firmwareId: OperationURLParameter = {
+  parameterPath: "firmwareId",
   mapper: {
-    serializedName: "summaryName",
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$"),
+    },
+    serializedName: "firmwareId",
     required: true,
     type: {
       name: "String",
@@ -151,17 +148,37 @@ export const summaryName: OperationURLParameter = {
   },
 };
 
-export const workspace: OperationParameter = {
-  parameterPath: "workspace",
-  mapper: WorkspaceMapper,
+export const resource1: OperationParameter = {
+  parameterPath: "resource",
+  mapper: FirmwareMapper,
 };
 
-export const workspace1: OperationParameter = {
-  parameterPath: "workspace",
-  mapper: WorkspaceUpdateDefinitionMapper,
+export const properties1: OperationParameter = {
+  parameterPath: "properties",
+  mapper: FirmwareUpdateDefinitionMapper,
 };
 
-export const generateUploadUrl: OperationParameter = {
-  parameterPath: "generateUploadUrl",
-  mapper: GenerateUploadUrlRequestMapper,
+export const summaryType: OperationURLParameter = {
+  parameterPath: "summaryType",
+  mapper: {
+    serializedName: "summaryType",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const name: OperationURLParameter = {
+  parameterPath: "name",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$"),
+    },
+    serializedName: "name",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };

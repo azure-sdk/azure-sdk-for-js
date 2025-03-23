@@ -35,7 +35,7 @@ export class CryptoCertificatesImpl implements CryptoCertificates {
   }
 
   /**
-   * Lists cryptographic certificate analysis results found in a firmware.
+   * Lists crypto certificate analysis results of a firmware.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the firmware analysis workspace.
    * @param firmwareId The id of the firmware.
@@ -128,7 +128,7 @@ export class CryptoCertificatesImpl implements CryptoCertificates {
   }
 
   /**
-   * Lists cryptographic certificate analysis results found in a firmware.
+   * Lists crypto certificate analysis results of a firmware.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the firmware analysis workspace.
    * @param firmwareId The id of the firmware.
@@ -175,7 +175,7 @@ const listByFirmwareOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CryptoCertificateListResult,
+      bodyMapper: Mappers.CryptoCertificateResourceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -197,7 +197,7 @@ const listByFirmwareNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CryptoCertificateListResult,
+      bodyMapper: Mappers.CryptoCertificateResourceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -205,11 +205,11 @@ const listByFirmwareNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.firmwareId,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

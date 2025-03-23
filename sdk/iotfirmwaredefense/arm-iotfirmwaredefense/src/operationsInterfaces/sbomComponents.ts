@@ -16,7 +16,7 @@ import {
 /** Interface representing a SbomComponents. */
 export interface SbomComponents {
   /**
-   * Lists SBOM analysis results of a firmware.
+   * Lists sbom analysis results of a firmware.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the firmware analysis workspace.
    * @param firmwareId The id of the firmware.

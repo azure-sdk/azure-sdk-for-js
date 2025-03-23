@@ -15,35 +15,37 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  OperationsImpl,
+  WorkspacesImpl,
+  FirmwaresImpl,
   BinaryHardeningImpl,
+  CvesImpl,
   CryptoCertificatesImpl,
   CryptoKeysImpl,
-  CvesImpl,
-  FirmwaresImpl,
-  OperationsImpl,
   PasswordHashesImpl,
   SbomComponentsImpl,
   SummariesImpl,
-  WorkspacesImpl,
+  UsageMetricsImpl,
 } from "./operations/index.js";
 import {
+  Operations,
+  Workspaces,
+  Firmwares,
   BinaryHardening,
+  Cves,
   CryptoCertificates,
   CryptoKeys,
-  Cves,
-  Firmwares,
-  Operations,
   PasswordHashes,
   SbomComponents,
   Summaries,
-  Workspaces,
+  UsageMetrics,
 } from "./operationsInterfaces/index.js";
 import { IoTFirmwareDefenseClientOptionalParams } from "./models/index.js";
 
 export class IoTFirmwareDefenseClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
   apiVersion: string;
+  subscriptionId: string;
 
   /**
    * Initializes a new instance of the IoTFirmwareDefenseClient class.
@@ -72,7 +74,7 @@ export class IoTFirmwareDefenseClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-iotfirmwaredefense/1.0.1`;
+    const packageDetails = `azsdk-js-arm-iotfirmwaredefense/2.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -126,17 +128,18 @@ export class IoTFirmwareDefenseClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-01-10";
+    this.apiVersion = options.apiVersion || "2025-04-01-preview";
+    this.operations = new OperationsImpl(this);
+    this.workspaces = new WorkspacesImpl(this);
+    this.firmwares = new FirmwaresImpl(this);
     this.binaryHardening = new BinaryHardeningImpl(this);
+    this.cves = new CvesImpl(this);
     this.cryptoCertificates = new CryptoCertificatesImpl(this);
     this.cryptoKeys = new CryptoKeysImpl(this);
-    this.cves = new CvesImpl(this);
-    this.firmwares = new FirmwaresImpl(this);
-    this.operations = new OperationsImpl(this);
     this.passwordHashes = new PasswordHashesImpl(this);
     this.sbomComponents = new SbomComponentsImpl(this);
     this.summaries = new SummariesImpl(this);
-    this.workspaces = new WorkspacesImpl(this);
+    this.usageMetrics = new UsageMetricsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -168,14 +171,15 @@ export class IoTFirmwareDefenseClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  operations: Operations;
+  workspaces: Workspaces;
+  firmwares: Firmwares;
   binaryHardening: BinaryHardening;
+  cves: Cves;
   cryptoCertificates: CryptoCertificates;
   cryptoKeys: CryptoKeys;
-  cves: Cves;
-  firmwares: Firmwares;
-  operations: Operations;
   passwordHashes: PasswordHashes;
   sbomComponents: SbomComponents;
   summaries: Summaries;
-  workspaces: Workspaces;
+  usageMetrics: UsageMetrics;
 }

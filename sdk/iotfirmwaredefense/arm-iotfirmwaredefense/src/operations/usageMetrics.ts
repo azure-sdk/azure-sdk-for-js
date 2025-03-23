@@ -8,26 +8,28 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { SbomComponents } from "../operationsInterfaces/index.js";
+import { UsageMetrics } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { IoTFirmwareDefenseClient } from "../ioTFirmwareDefenseClient.js";
 import {
-  SbomComponentResource,
-  SbomComponentsListByFirmwareNextOptionalParams,
-  SbomComponentsListByFirmwareOptionalParams,
-  SbomComponentsListByFirmwareResponse,
-  SbomComponentsListByFirmwareNextResponse,
+  UsageMetric,
+  UsageMetricsListByWorkspaceNextOptionalParams,
+  UsageMetricsListByWorkspaceOptionalParams,
+  UsageMetricsListByWorkspaceResponse,
+  UsageMetricsGetOptionalParams,
+  UsageMetricsGetResponse,
+  UsageMetricsListByWorkspaceNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing SbomComponents operations. */
-export class SbomComponentsImpl implements SbomComponents {
+/** Class containing UsageMetrics operations. */
+export class UsageMetricsImpl implements UsageMetrics {
   private readonly client: IoTFirmwareDefenseClient;
 
   /**
-   * Initialize a new instance of the class SbomComponents class.
+   * Initialize a new instance of the class UsageMetrics class.
    * @param client Reference to the service client
    */
   constructor(client: IoTFirmwareDefenseClient) {
@@ -35,22 +37,19 @@ export class SbomComponentsImpl implements SbomComponents {
   }
 
   /**
-   * Lists sbom analysis results of a firmware.
+   * Lists monthly usage information for a workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the firmware analysis workspace.
-   * @param firmwareId The id of the firmware.
    * @param options The options parameters.
    */
-  public listByFirmware(
+  public listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    firmwareId: string,
-    options?: SbomComponentsListByFirmwareOptionalParams,
-  ): PagedAsyncIterableIterator<SbomComponentResource> {
-    const iter = this.listByFirmwarePagingAll(
+    options?: UsageMetricsListByWorkspaceOptionalParams,
+  ): PagedAsyncIterableIterator<UsageMetric> {
+    const iter = this.listByWorkspacePagingAll(
       resourceGroupName,
       workspaceName,
-      firmwareId,
       options,
     );
     return {
@@ -64,10 +63,9 @@ export class SbomComponentsImpl implements SbomComponents {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByFirmwarePagingPage(
+        return this.listByWorkspacePagingPage(
           resourceGroupName,
           workspaceName,
-          firmwareId,
           options,
           settings,
         );
@@ -75,20 +73,18 @@ export class SbomComponentsImpl implements SbomComponents {
     };
   }
 
-  private async *listByFirmwarePagingPage(
+  private async *listByWorkspacePagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    firmwareId: string,
-    options?: SbomComponentsListByFirmwareOptionalParams,
+    options?: UsageMetricsListByWorkspaceOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<SbomComponentResource[]> {
-    let result: SbomComponentsListByFirmwareResponse;
+  ): AsyncIterableIterator<UsageMetric[]> {
+    let result: UsageMetricsListByWorkspaceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByFirmware(
+      result = await this._listByWorkspace(
         resourceGroupName,
         workspaceName,
-        firmwareId,
         options,
       );
       let page = result.value || [];
@@ -97,10 +93,9 @@ export class SbomComponentsImpl implements SbomComponents {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByFirmwareNext(
+      result = await this._listByWorkspaceNext(
         resourceGroupName,
         workspaceName,
-        firmwareId,
         continuationToken,
         options,
       );
@@ -111,16 +106,14 @@ export class SbomComponentsImpl implements SbomComponents {
     }
   }
 
-  private async *listByFirmwarePagingAll(
+  private async *listByWorkspacePagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    firmwareId: string,
-    options?: SbomComponentsListByFirmwareOptionalParams,
-  ): AsyncIterableIterator<SbomComponentResource> {
-    for await (const page of this.listByFirmwarePagingPage(
+    options?: UsageMetricsListByWorkspaceOptionalParams,
+  ): AsyncIterableIterator<UsageMetric> {
+    for await (const page of this.listByWorkspacePagingPage(
       resourceGroupName,
       workspaceName,
-      firmwareId,
       options,
     )) {
       yield* page;
@@ -128,54 +121,69 @@ export class SbomComponentsImpl implements SbomComponents {
   }
 
   /**
-   * Lists sbom analysis results of a firmware.
+   * Lists monthly usage information for a workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the firmware analysis workspace.
-   * @param firmwareId The id of the firmware.
    * @param options The options parameters.
    */
-  private _listByFirmware(
+  private _listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    firmwareId: string,
-    options?: SbomComponentsListByFirmwareOptionalParams,
-  ): Promise<SbomComponentsListByFirmwareResponse> {
+    options?: UsageMetricsListByWorkspaceOptionalParams,
+  ): Promise<UsageMetricsListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, firmwareId, options },
-      listByFirmwareOperationSpec,
+      { resourceGroupName, workspaceName, options },
+      listByWorkspaceOperationSpec,
     );
   }
 
   /**
-   * ListByFirmwareNext
+   * Gets monthly usage information for a workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the firmware analysis workspace.
-   * @param firmwareId The id of the firmware.
-   * @param nextLink The nextLink from the previous successful call to the ListByFirmware method.
+   * @param name The Firmware analysis summary name describing the type of summary.
    * @param options The options parameters.
    */
-  private _listByFirmwareNext(
+  get(
     resourceGroupName: string,
     workspaceName: string,
-    firmwareId: string,
-    nextLink: string,
-    options?: SbomComponentsListByFirmwareNextOptionalParams,
-  ): Promise<SbomComponentsListByFirmwareNextResponse> {
+    name: string,
+    options?: UsageMetricsGetOptionalParams,
+  ): Promise<UsageMetricsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, firmwareId, nextLink, options },
-      listByFirmwareNextOperationSpec,
+      { resourceGroupName, workspaceName, name, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * ListByWorkspaceNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the firmware analysis workspace.
+   * @param nextLink The nextLink from the previous successful call to the ListByWorkspace method.
+   * @param options The options parameters.
+   */
+  private _listByWorkspaceNext(
+    resourceGroupName: string,
+    workspaceName: string,
+    nextLink: string,
+    options?: UsageMetricsListByWorkspaceNextOptionalParams,
+  ): Promise<UsageMetricsListByWorkspaceNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, nextLink, options },
+      listByWorkspaceNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByFirmwareOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/sbomComponents",
+const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/usageMetrics",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SbomComponentResourceListResult,
+      bodyMapper: Mappers.UsageMetricListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -187,17 +195,38 @@ const listByFirmwareOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.firmwareId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByFirmwareNextOperationSpec: coreClient.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/usageMetrics/{name}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.UsageMetric,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SbomComponentResourceListResult,
+      bodyMapper: Mappers.UsageMetricListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -209,7 +238,6 @@ const listByFirmwareNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.firmwareId,
   ],
   headerParameters: [Parameters.accept],
   serializer,

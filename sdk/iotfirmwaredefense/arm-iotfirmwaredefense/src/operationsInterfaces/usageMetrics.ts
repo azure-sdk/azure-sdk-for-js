@@ -8,43 +8,37 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  SummaryResource,
-  SummariesListByFirmwareOptionalParams,
-  SummaryType,
-  SummariesGetOptionalParams,
-  SummariesGetResponse,
+  UsageMetric,
+  UsageMetricsListByWorkspaceOptionalParams,
+  UsageMetricsGetOptionalParams,
+  UsageMetricsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a Summaries. */
-export interface Summaries {
+/** Interface representing a UsageMetrics. */
+export interface UsageMetrics {
   /**
-   * Lists analysis result summary names of a firmware. To fetch the full summary data, get that summary
-   * by name.
+   * Lists monthly usage information for a workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the firmware analysis workspace.
-   * @param firmwareId The id of the firmware.
    * @param options The options parameters.
    */
-  listByFirmware(
+  listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    firmwareId: string,
-    options?: SummariesListByFirmwareOptionalParams,
-  ): PagedAsyncIterableIterator<SummaryResource>;
+    options?: UsageMetricsListByWorkspaceOptionalParams,
+  ): PagedAsyncIterableIterator<UsageMetric>;
   /**
-   * Get an analysis result summary of a firmware by name.
+   * Gets monthly usage information for a workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the firmware analysis workspace.
-   * @param firmwareId The id of the firmware.
-   * @param summaryType The Firmware analysis summary name describing the type of summary.
+   * @param name The Firmware analysis summary name describing the type of summary.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     workspaceName: string,
-    firmwareId: string,
-    summaryType: SummaryType,
-    options?: SummariesGetOptionalParams,
-  ): Promise<SummariesGetResponse>;
+    name: string,
+    options?: UsageMetricsGetOptionalParams,
+  ): Promise<UsageMetricsGetResponse>;
 }
