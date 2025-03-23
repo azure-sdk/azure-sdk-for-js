@@ -3414,7 +3414,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-trafficmanager@file:projects/arm-trafficmanager.tgz':
-    resolution: {integrity: sha512-dA2trpN65EiwG8G0L867v2J4SZ0JvnJ7tJGp7eUmG1BP3ry8jJPY6cazzl7u5JXowDg00A2io7Dxb0Dhfy2luQ==, tarball: file:projects/arm-trafficmanager.tgz}
+    resolution: {integrity: sha512-7ZZHqScxfma8069QIgCM/8MBI83lHd9HhTWTKyfnDDRFp7Rsa0DD6Gmaq+N/NiLb+G+g4FdaxC8hF0tajF/yBA==, tarball: file:projects/arm-trafficmanager.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-trustedsigning@file:projects/arm-trustedsigning.tgz':
@@ -3502,7 +3502,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/communication-rooms@file:projects/communication-rooms.tgz':
-    resolution: {integrity: sha512-wZGQ86x72CF5svp08KDZ2NimnHa7UrolQ4+jbVqI/QwTLnSpZXez84ANriWnPauXXYx9FDICKhIsrvmR6WGhZg==, tarball: file:projects/communication-rooms.tgz}
+    resolution: {integrity: sha512-6xOyOCOtDadX1jV4Rh5w5dD0M/i8mgBbuAAol5SM+RrV5DljKQYUHyDEekX+9MKtmXjnviU/QxijK5zY3PWkaw==, tarball: file:projects/communication-rooms.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-short-codes@file:projects/communication-short-codes.tgz':
@@ -18644,12 +18644,12 @@ snapshots:
   '@rush-temp/arm-trafficmanager@file:projects/arm-trafficmanager.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@types/node': 18.19.80
-      '@vitest/browser': 3.0.9(@types/node@18.19.80)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
+      '@vitest/browser': 3.0.9(@types/node@18.19.80)(playwright@1.51.1)(typescript@5.6.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
       '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
       dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.8.2
+      typescript: 5.6.3
       vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.80)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
