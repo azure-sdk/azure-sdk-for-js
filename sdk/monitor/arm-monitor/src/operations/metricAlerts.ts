@@ -6,29 +6,27 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { MetricAlerts } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { MonitorClient } from "../monitorClient.js";
 import {
-  MetricAlertResource,
-  MetricAlertsListBySubscriptionOptionalParams,
-  MetricAlertsListBySubscriptionResponse,
-  MetricAlertsListByResourceGroupOptionalParams,
-  MetricAlertsListByResourceGroupResponse,
   MetricAlertsGetOptionalParams,
   MetricAlertsGetResponse,
+  MetricAlertResource,
   MetricAlertsCreateOrUpdateOptionalParams,
   MetricAlertsCreateOrUpdateResponse,
   MetricAlertResourcePatch,
   MetricAlertsUpdateOptionalParams,
   MetricAlertsUpdateResponse,
   MetricAlertsDeleteOptionalParams,
+  MetricAlertsListByResourceGroupOptionalParams,
+  MetricAlertsListByResourceGroupResponse,
+  MetricAlertsListBySubscriptionOptionalParams,
+  MetricAlertsListBySubscriptionResponse,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Class containing MetricAlerts operations. */
 export class MetricAlertsImpl implements MetricAlerts {
   private readonly client: MonitorClient;
@@ -42,130 +40,9 @@ export class MetricAlertsImpl implements MetricAlerts {
   }
 
   /**
-   * Retrieve alert rule definitions in a subscription.
-   * @param options The options parameters.
-   */
-  public listBySubscription(
-    options?: MetricAlertsListBySubscriptionOptionalParams,
-  ): PagedAsyncIterableIterator<MetricAlertResource> {
-    const iter = this.listBySubscriptionPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySubscriptionPagingPage(options, settings);
-      },
-    };
-  }
-
-  private async *listBySubscriptionPagingPage(
-    options?: MetricAlertsListBySubscriptionOptionalParams,
-    _settings?: PageSettings,
-  ): AsyncIterableIterator<MetricAlertResource[]> {
-    let result: MetricAlertsListBySubscriptionResponse;
-    result = await this._listBySubscription(options);
-    yield result.value || [];
-  }
-
-  private async *listBySubscriptionPagingAll(
-    options?: MetricAlertsListBySubscriptionOptionalParams,
-  ): AsyncIterableIterator<MetricAlertResource> {
-    for await (const page of this.listBySubscriptionPagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Retrieve alert rule definitions in a resource group.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  public listByResourceGroup(
-    resourceGroupName: string,
-    options?: MetricAlertsListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<MetricAlertResource> {
-    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
-      },
-    };
-  }
-
-  private async *listByResourceGroupPagingPage(
-    resourceGroupName: string,
-    options?: MetricAlertsListByResourceGroupOptionalParams,
-    _settings?: PageSettings,
-  ): AsyncIterableIterator<MetricAlertResource[]> {
-    let result: MetricAlertsListByResourceGroupResponse;
-    result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-  }
-
-  private async *listByResourceGroupPagingAll(
-    resourceGroupName: string,
-    options?: MetricAlertsListByResourceGroupOptionalParams,
-  ): AsyncIterableIterator<MetricAlertResource> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Retrieve alert rule definitions in a subscription.
-   * @param options The options parameters.
-   */
-  private _listBySubscription(
-    options?: MetricAlertsListBySubscriptionOptionalParams,
-  ): Promise<MetricAlertsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
-  }
-
-  /**
-   * Retrieve alert rule definitions in a resource group.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: MetricAlertsListByResourceGroupOptionalParams,
-  ): Promise<MetricAlertsListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec,
-    );
-  }
-
-  /**
    * Retrieve an alert rule definition.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ruleName The name of the rule.
+   * @param resourceGroupName The name of the resource group.
+   * @param ruleName The name of the alert rule.
    * @param options The options parameters.
    */
   get(
@@ -180,10 +57,10 @@ export class MetricAlertsImpl implements MetricAlerts {
   }
 
   /**
-   * Create or update an metric alert definition.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ruleName The name of the rule.
-   * @param parameters The parameters of the rule to create or update.
+   * Create or update an alert rule.
+   * @param resourceGroupName The name of the resource group.
+   * @param ruleName The name of the alert rule.
+   * @param parameters The metric alert rule resource.
    * @param options The options parameters.
    */
   createOrUpdate(
@@ -199,10 +76,10 @@ export class MetricAlertsImpl implements MetricAlerts {
   }
 
   /**
-   * Update an metric alert definition.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ruleName The name of the rule.
-   * @param parameters The parameters of the rule to update.
+   * Update an alert rule. Only tags, enabled, and actions fields can be updated.
+   * @param resourceGroupName The name of the resource group.
+   * @param ruleName The name of the alert rule.
+   * @param parameters The metric alert rule resource for patch operations.
    * @param options The options parameters.
    */
   update(
@@ -218,9 +95,9 @@ export class MetricAlertsImpl implements MetricAlerts {
   }
 
   /**
-   * Delete an alert rule definition.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ruleName The name of the rule.
+   * Delete an alert rule.
+   * @param resourceGroupName The name of the resource group.
+   * @param ruleName The name of the alert rule.
    * @param options The options parameters.
    */
   delete(
@@ -233,130 +110,161 @@ export class MetricAlertsImpl implements MetricAlerts {
       deleteOperationSpec,
     );
   }
+
+  /**
+   * Retrieve alert rule definitions in a resource group.
+   * @param resourceGroupName The name of the resource group.
+   * @param options The options parameters.
+   */
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: MetricAlertsListByResourceGroupOptionalParams,
+  ): Promise<MetricAlertsListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
+    );
+  }
+
+  /**
+   * Retrieve alert rule definitions in a subscription.
+   * @param options The options parameters.
+   */
+  listBySubscription(
+    options?: MetricAlertsListBySubscriptionOptionalParams,
+  ): Promise<MetricAlertsListBySubscriptionResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listBySubscriptionOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Insights/metricAlerts",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MetricAlertResourceCollection,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion9],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MetricAlertResourceCollection,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion9],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.insights/metricAlerts/{ruleName}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.MetricAlertResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
     },
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.ruleName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.insights/metricAlerts/{ruleName}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.MetricAlertResource,
     },
+    201: {
+      bodyMapper: Mappers.MetricAlertResource,
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
     },
   },
-  requestBody: Parameters.parameters4,
-  queryParameters: [Parameters.apiVersion9],
+  requestBody: Parameters.parameters,
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.ruleName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.insights/metricAlerts/{ruleName}",
   httpMethod: "PATCH",
   responses: {
     200: {
       bodyMapper: Mappers.MetricAlertResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
     },
   },
-  requestBody: Parameters.parameters5,
-  queryParameters: [Parameters.apiVersion9],
+  requestBody: Parameters.parameters1,
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.ruleName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.insights/metricAlerts/{ruleName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
     },
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.ruleName,
   ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.insights/metricAlerts",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MetricAlertResourceCollection,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/microsoft.insights/metricAlerts",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MetricAlertResourceCollection,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };

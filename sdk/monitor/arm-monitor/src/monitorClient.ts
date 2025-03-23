@@ -10,93 +10,20 @@ import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
-import { createLroSpec } from "./lroImpl.js";
-import {
-  MetricNamespacesImpl,
-  MetricDefinitionsImpl,
-  MetricsOperationsImpl,
-  AzureMonitorWorkspacesImpl,
-  MonitorOperationsImpl,
-  AutoscaleSettingsImpl,
-  PredictiveMetricImpl,
-  OperationsImpl,
-  AlertRuleIncidentsImpl,
-  AlertRulesImpl,
-  LogProfilesImpl,
-  DiagnosticSettingsImpl,
-  DiagnosticSettingsCategoryImpl,
   ActionGroupsImpl,
-  TenantActionGroupsImpl,
-  ActivityLogsImpl,
-  EventCategoriesImpl,
-  TenantActivityLogsImpl,
-  BaselinesImpl,
   MetricAlertsImpl,
-  MetricAlertsStatusImpl,
   ScheduledQueryRulesImpl,
-  VMInsightsImpl,
-  PrivateLinkScopesImpl,
-  PrivateLinkScopeOperationStatusImpl,
-  PrivateLinkResourcesImpl,
-  PrivateEndpointConnectionsImpl,
-  PrivateLinkScopedResourcesImpl,
-  ActivityLogAlertsImpl,
-  DataCollectionEndpointsImpl,
-  DataCollectionRuleAssociationsImpl,
-  DataCollectionRulesImpl,
 } from "./operations/index.js";
 import {
-  MetricNamespaces,
-  MetricDefinitions,
-  MetricsOperations,
-  AzureMonitorWorkspaces,
-  MonitorOperations,
-  AutoscaleSettings,
-  PredictiveMetric,
-  Operations,
-  AlertRuleIncidents,
-  AlertRules,
-  LogProfiles,
-  DiagnosticSettings,
-  DiagnosticSettingsCategory,
   ActionGroups,
-  TenantActionGroups,
-  ActivityLogs,
-  EventCategories,
-  TenantActivityLogs,
-  Baselines,
   MetricAlerts,
-  MetricAlertsStatus,
   ScheduledQueryRules,
-  VMInsights,
-  PrivateLinkScopes,
-  PrivateLinkScopeOperationStatus,
-  PrivateLinkResources,
-  PrivateEndpointConnections,
-  PrivateLinkScopedResources,
-  ActivityLogAlerts,
-  DataCollectionEndpoints,
-  DataCollectionRuleAssociations,
-  DataCollectionRules,
 } from "./operationsInterfaces/index.js";
-import * as Parameters from "./models/parameters.js";
-import * as Mappers from "./models/mappers.js";
-import {
-  MonitorClientOptionalParams,
-  TenantNotificationRequestBody,
-  CreateNotificationsAtTenantActionGroupResourceLevelOptionalParams,
-  CreateNotificationsAtTenantActionGroupResourceLevelResponse,
-  GetTestNotificationsAtTenantActionGroupResourceLevelOptionalParams,
-  GetTestNotificationsAtTenantActionGroupResourceLevelResponse,
-} from "./models/index.js";
+import { MonitorClientOptionalParams } from "./models/index.js";
 
 export class MonitorClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId?: string;
+  subscriptionId: string;
 
   /**
    * Initializes a new instance of the MonitorClient class.
@@ -108,26 +35,12 @@ export class MonitorClient extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: MonitorClientOptionalParams,
-  );
-  constructor(
-    credentials: coreAuth.TokenCredential,
-    options?: MonitorClientOptionalParams,
-  );
-  constructor(
-    credentials: coreAuth.TokenCredential,
-    subscriptionIdOrOptions?: MonitorClientOptionalParams | string,
-    options?: MonitorClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-
-    let subscriptionId: string | undefined;
-
-    if (typeof subscriptionIdOrOptions === "string") {
-      subscriptionId = subscriptionIdOrOptions;
-    } else if (typeof subscriptionIdOrOptions === "object") {
-      options = subscriptionIdOrOptions;
+    if (subscriptionId === undefined) {
+      throw new Error("'subscriptionId' cannot be null");
     }
 
     // Initializing default values for options
@@ -193,267 +106,12 @@ export class MonitorClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.metricNamespaces = new MetricNamespacesImpl(this);
-    this.metricDefinitions = new MetricDefinitionsImpl(this);
-    this.metricsOperations = new MetricsOperationsImpl(this);
-    this.azureMonitorWorkspaces = new AzureMonitorWorkspacesImpl(this);
-    this.monitorOperations = new MonitorOperationsImpl(this);
-    this.autoscaleSettings = new AutoscaleSettingsImpl(this);
-    this.predictiveMetric = new PredictiveMetricImpl(this);
-    this.operations = new OperationsImpl(this);
-    this.alertRuleIncidents = new AlertRuleIncidentsImpl(this);
-    this.alertRules = new AlertRulesImpl(this);
-    this.logProfiles = new LogProfilesImpl(this);
-    this.diagnosticSettings = new DiagnosticSettingsImpl(this);
-    this.diagnosticSettingsCategory = new DiagnosticSettingsCategoryImpl(this);
     this.actionGroups = new ActionGroupsImpl(this);
-    this.tenantActionGroups = new TenantActionGroupsImpl(this);
-    this.activityLogs = new ActivityLogsImpl(this);
-    this.eventCategories = new EventCategoriesImpl(this);
-    this.tenantActivityLogs = new TenantActivityLogsImpl(this);
-    this.baselines = new BaselinesImpl(this);
     this.metricAlerts = new MetricAlertsImpl(this);
-    this.metricAlertsStatus = new MetricAlertsStatusImpl(this);
     this.scheduledQueryRules = new ScheduledQueryRulesImpl(this);
-    this.vMInsights = new VMInsightsImpl(this);
-    this.privateLinkScopes = new PrivateLinkScopesImpl(this);
-    this.privateLinkScopeOperationStatus =
-      new PrivateLinkScopeOperationStatusImpl(this);
-    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
-    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
-    this.privateLinkScopedResources = new PrivateLinkScopedResourcesImpl(this);
-    this.activityLogAlerts = new ActivityLogAlertsImpl(this);
-    this.dataCollectionEndpoints = new DataCollectionEndpointsImpl(this);
-    this.dataCollectionRuleAssociations =
-      new DataCollectionRuleAssociationsImpl(this);
-    this.dataCollectionRules = new DataCollectionRulesImpl(this);
   }
 
-  /**
-   * Send test notifications to a set of provided receivers
-   * @param managementGroupId The management group id.
-   * @param tenantActionGroupName The name of the action group.
-   * @param xMsClientTenantId The tenant ID of the client making the request.
-   * @param notificationRequest The notification request body which includes the contact details
-   * @param options The options parameters.
-   */
-  async beginCreateNotificationsAtTenantActionGroupResourceLevel(
-    managementGroupId: string,
-    tenantActionGroupName: string,
-    xMsClientTenantId: string,
-    notificationRequest: TenantNotificationRequestBody,
-    options?: CreateNotificationsAtTenantActionGroupResourceLevelOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<CreateNotificationsAtTenantActionGroupResourceLevelResponse>,
-      CreateNotificationsAtTenantActionGroupResourceLevelResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<CreateNotificationsAtTenantActionGroupResourceLevelResponse> => {
-      return this.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        managementGroupId,
-        tenantActionGroupName,
-        xMsClientTenantId,
-        notificationRequest,
-        options,
-      },
-      spec: createNotificationsAtTenantActionGroupResourceLevelOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      CreateNotificationsAtTenantActionGroupResourceLevelResponse,
-      OperationState<CreateNotificationsAtTenantActionGroupResourceLevelResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Send test notifications to a set of provided receivers
-   * @param managementGroupId The management group id.
-   * @param tenantActionGroupName The name of the action group.
-   * @param xMsClientTenantId The tenant ID of the client making the request.
-   * @param notificationRequest The notification request body which includes the contact details
-   * @param options The options parameters.
-   */
-  async beginCreateNotificationsAtTenantActionGroupResourceLevelAndWait(
-    managementGroupId: string,
-    tenantActionGroupName: string,
-    xMsClientTenantId: string,
-    notificationRequest: TenantNotificationRequestBody,
-    options?: CreateNotificationsAtTenantActionGroupResourceLevelOptionalParams,
-  ): Promise<CreateNotificationsAtTenantActionGroupResourceLevelResponse> {
-    const poller =
-      await this.beginCreateNotificationsAtTenantActionGroupResourceLevel(
-        managementGroupId,
-        tenantActionGroupName,
-        xMsClientTenantId,
-        notificationRequest,
-        options,
-      );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Get the test notifications by the notification id
-   * @param managementGroupId The management group id.
-   * @param tenantActionGroupName The name of the action group.
-   * @param xMsClientTenantId The tenant ID of the client making the request.
-   * @param notificationId The notification id
-   * @param options The options parameters.
-   */
-  getTestNotificationsAtTenantActionGroupResourceLevel(
-    managementGroupId: string,
-    tenantActionGroupName: string,
-    xMsClientTenantId: string,
-    notificationId: string,
-    options?: GetTestNotificationsAtTenantActionGroupResourceLevelOptionalParams,
-  ): Promise<GetTestNotificationsAtTenantActionGroupResourceLevelResponse> {
-    return this.sendOperationRequest(
-      {
-        managementGroupId,
-        tenantActionGroupName,
-        xMsClientTenantId,
-        notificationId,
-        options,
-      },
-      getTestNotificationsAtTenantActionGroupResourceLevelOperationSpec,
-    );
-  }
-
-  metricNamespaces: MetricNamespaces;
-  metricDefinitions: MetricDefinitions;
-  metricsOperations: MetricsOperations;
-  azureMonitorWorkspaces: AzureMonitorWorkspaces;
-  monitorOperations: MonitorOperations;
-  autoscaleSettings: AutoscaleSettings;
-  predictiveMetric: PredictiveMetric;
-  operations: Operations;
-  alertRuleIncidents: AlertRuleIncidents;
-  alertRules: AlertRules;
-  logProfiles: LogProfiles;
-  diagnosticSettings: DiagnosticSettings;
-  diagnosticSettingsCategory: DiagnosticSettingsCategory;
   actionGroups: ActionGroups;
-  tenantActionGroups: TenantActionGroups;
-  activityLogs: ActivityLogs;
-  eventCategories: EventCategories;
-  tenantActivityLogs: TenantActivityLogs;
-  baselines: Baselines;
   metricAlerts: MetricAlerts;
-  metricAlertsStatus: MetricAlertsStatus;
   scheduledQueryRules: ScheduledQueryRules;
-  vMInsights: VMInsights;
-  privateLinkScopes: PrivateLinkScopes;
-  privateLinkScopeOperationStatus: PrivateLinkScopeOperationStatus;
-  privateLinkResources: PrivateLinkResources;
-  privateEndpointConnections: PrivateEndpointConnections;
-  privateLinkScopedResources: PrivateLinkScopedResources;
-  activityLogAlerts: ActivityLogAlerts;
-  dataCollectionEndpoints: DataCollectionEndpoints;
-  dataCollectionRuleAssociations: DataCollectionRuleAssociations;
-  dataCollectionRules: DataCollectionRules;
 }
-// Operation Specifications
-const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
-
-const createNotificationsAtTenantActionGroupResourceLevelOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Insights/tenantActionGroups/{tenantActionGroupName}/createNotifications",
-    httpMethod: "POST",
-    responses: {
-      200: {
-        bodyMapper: Mappers.TestNotificationDetailsResponseAutoGenerated,
-      },
-      201: {
-        bodyMapper: Mappers.TestNotificationDetailsResponseAutoGenerated,
-      },
-      202: {
-        bodyMapper: Mappers.TestNotificationDetailsResponseAutoGenerated,
-      },
-      204: {
-        bodyMapper: Mappers.TestNotificationDetailsResponseAutoGenerated,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponseAutoGenerated3,
-      },
-    },
-    requestBody: Parameters.notificationRequest1,
-    queryParameters: [Parameters.apiVersion7],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.managementGroupId,
-      Parameters.tenantActionGroupName,
-    ],
-    headerParameters: [
-      Parameters.accept,
-      Parameters.contentType,
-      Parameters.xMsClientTenantId,
-    ],
-    mediaType: "json",
-    serializer,
-  };
-const getTestNotificationsAtTenantActionGroupResourceLevelOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Insights/tenantActionGroups/{tenantActionGroupName}/notificationStatus/{notificationId}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.TestNotificationDetailsResponseAutoGenerated,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
-    },
-    queryParameters: [Parameters.apiVersion7],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.notificationId,
-      Parameters.managementGroupId,
-      Parameters.tenantActionGroupName,
-    ],
-    headerParameters: [Parameters.accept, Parameters.xMsClientTenantId],
-    serializer,
-  };
