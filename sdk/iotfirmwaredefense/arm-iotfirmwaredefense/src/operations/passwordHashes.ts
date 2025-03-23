@@ -175,7 +175,7 @@ const listByFirmwareOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PasswordHashListResult,
+      bodyMapper: Mappers.PasswordHashResourceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -197,7 +197,7 @@ const listByFirmwareNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PasswordHashListResult,
+      bodyMapper: Mappers.PasswordHashResourceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -205,11 +205,11 @@ const listByFirmwareNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.firmwareId,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

@@ -171,11 +171,11 @@ export class CvesImpl implements Cves {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByFirmwareOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/cves",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/commonVulnerabilitiesAndExposures",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CveListResult,
+      bodyMapper: Mappers.CveResourceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -197,7 +197,7 @@ const listByFirmwareNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CveListResult,
+      bodyMapper: Mappers.CveResourceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -205,11 +205,11 @@ const listByFirmwareNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.firmwareId,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,
