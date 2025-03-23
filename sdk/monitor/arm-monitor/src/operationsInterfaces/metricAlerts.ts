@@ -6,44 +6,28 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  MetricAlertResource,
-  MetricAlertsListBySubscriptionOptionalParams,
-  MetricAlertsListByResourceGroupOptionalParams,
   MetricAlertsGetOptionalParams,
   MetricAlertsGetResponse,
+  MetricAlertResource,
   MetricAlertsCreateOrUpdateOptionalParams,
   MetricAlertsCreateOrUpdateResponse,
   MetricAlertResourcePatch,
   MetricAlertsUpdateOptionalParams,
   MetricAlertsUpdateResponse,
   MetricAlertsDeleteOptionalParams,
+  MetricAlertsListByResourceGroupOptionalParams,
+  MetricAlertsListByResourceGroupResponse,
+  MetricAlertsListBySubscriptionOptionalParams,
+  MetricAlertsListBySubscriptionResponse,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a MetricAlerts. */
 export interface MetricAlerts {
   /**
-   * Retrieve alert rule definitions in a subscription.
-   * @param options The options parameters.
-   */
-  listBySubscription(
-    options?: MetricAlertsListBySubscriptionOptionalParams,
-  ): PagedAsyncIterableIterator<MetricAlertResource>;
-  /**
-   * Retrieve alert rule definitions in a resource group.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: MetricAlertsListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<MetricAlertResource>;
-  /**
    * Retrieve an alert rule definition.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ruleName The name of the rule.
+   * @param resourceGroupName The name of the resource group.
+   * @param ruleName The name of the alert rule.
    * @param options The options parameters.
    */
   get(
@@ -52,10 +36,10 @@ export interface MetricAlerts {
     options?: MetricAlertsGetOptionalParams,
   ): Promise<MetricAlertsGetResponse>;
   /**
-   * Create or update an metric alert definition.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ruleName The name of the rule.
-   * @param parameters The parameters of the rule to create or update.
+   * Create or update an alert rule.
+   * @param resourceGroupName The name of the resource group.
+   * @param ruleName The name of the alert rule.
+   * @param parameters The metric alert rule resource.
    * @param options The options parameters.
    */
   createOrUpdate(
@@ -65,10 +49,10 @@ export interface MetricAlerts {
     options?: MetricAlertsCreateOrUpdateOptionalParams,
   ): Promise<MetricAlertsCreateOrUpdateResponse>;
   /**
-   * Update an metric alert definition.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ruleName The name of the rule.
-   * @param parameters The parameters of the rule to update.
+   * Update an alert rule. Only tags, enabled, and actions fields can be updated.
+   * @param resourceGroupName The name of the resource group.
+   * @param ruleName The name of the alert rule.
+   * @param parameters The metric alert rule resource for patch operations.
    * @param options The options parameters.
    */
   update(
@@ -78,9 +62,9 @@ export interface MetricAlerts {
     options?: MetricAlertsUpdateOptionalParams,
   ): Promise<MetricAlertsUpdateResponse>;
   /**
-   * Delete an alert rule definition.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ruleName The name of the rule.
+   * Delete an alert rule.
+   * @param resourceGroupName The name of the resource group.
+   * @param ruleName The name of the alert rule.
    * @param options The options parameters.
    */
   delete(
@@ -88,4 +72,20 @@ export interface MetricAlerts {
     ruleName: string,
     options?: MetricAlertsDeleteOptionalParams,
   ): Promise<void>;
+  /**
+   * Retrieve alert rule definitions in a resource group.
+   * @param resourceGroupName The name of the resource group.
+   * @param options The options parameters.
+   */
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: MetricAlertsListByResourceGroupOptionalParams,
+  ): Promise<MetricAlertsListByResourceGroupResponse>;
+  /**
+   * Retrieve alert rule definitions in a subscription.
+   * @param options The options parameters.
+   */
+  listBySubscription(
+    options?: MetricAlertsListBySubscriptionOptionalParams,
+  ): Promise<MetricAlertsListBySubscriptionResponse>;
 }
