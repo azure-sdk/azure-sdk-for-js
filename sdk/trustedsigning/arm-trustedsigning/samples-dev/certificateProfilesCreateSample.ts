@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a certificate profile.
  *
  * @summary create a certificate profile.
- * x-ms-original-file: 2024-02-05-preview/CertificateProfiles_Create.json
+ * x-ms-original-file: 2024-09-30-preview/CertificateProfiles_Create.json
  */
 async function createACertificateProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
