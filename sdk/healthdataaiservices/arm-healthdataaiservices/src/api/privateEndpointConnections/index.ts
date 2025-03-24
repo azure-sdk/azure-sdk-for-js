@@ -9,6 +9,7 @@ import {
   PrivateEndpointConnectionsListByDeidServiceOptionalParams,
 } from "../index.js";
 import {
+  errorResponseDeserializer,
   PrivateEndpointConnectionResource,
   privateEndpointConnectionResourceSerializer,
   privateEndpointConnectionResourceDeserializer,
@@ -20,6 +21,7 @@ import {
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -28,59 +30,148 @@ import {
 } from "@azure-rest/core-client";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
-export function _privateEndpointConnectionsGetSend(
+export function _privateEndpointConnectionsListByDeidServiceSend(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   deidServiceName: string,
-  privateEndpointConnectionName: string,
-  options: PrivateEndpointConnectionsGetOptionalParams = { requestOptions: {} },
+  options: PrivateEndpointConnectionsListByDeidServiceOptionalParams = {
+    requestOptions: {},
+  },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateEndpointConnections/{privateEndpointConnectionName}",
-      subscriptionId,
-      resourceGroupName,
-      deidServiceName,
-      privateEndpointConnectionName,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateEndpointConnections{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      deidServiceName: deidServiceName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _privateEndpointConnectionsGetDeserialize(
+export async function _privateEndpointConnectionsListByDeidServiceDeserialize(
   result: PathUncheckedResponse,
-): Promise<PrivateEndpointConnectionResource> {
+): Promise<_PrivateEndpointConnectionResourceListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
-  return privateEndpointConnectionResourceDeserializer(result.body);
+  return _privateEndpointConnectionResourceListResultDeserializer(result.body);
 }
 
-/** Get a specific private connection */
-export async function privateEndpointConnectionsGet(
+/** List private endpoint connections on the given resource */
+export function privateEndpointConnectionsListByDeidService(
   context: Client,
-  subscriptionId: string,
+  resourceGroupName: string,
+  deidServiceName: string,
+  options: PrivateEndpointConnectionsListByDeidServiceOptionalParams = {
+    requestOptions: {},
+  },
+): PagedAsyncIterableIterator<PrivateEndpointConnectionResource> {
+  return buildPagedAsyncIterator(
+    context,
+    () =>
+      _privateEndpointConnectionsListByDeidServiceSend(
+        context,
+        resourceGroupName,
+        deidServiceName,
+        options,
+      ),
+    _privateEndpointConnectionsListByDeidServiceDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink" },
+  );
+}
+
+export function _privateEndpointConnectionsDeleteSend(
+  context: Client,
   resourceGroupName: string,
   deidServiceName: string,
   privateEndpointConnectionName: string,
-  options: PrivateEndpointConnectionsGetOptionalParams = { requestOptions: {} },
-): Promise<PrivateEndpointConnectionResource> {
-  const result = await _privateEndpointConnectionsGetSend(
-    context,
-    subscriptionId,
-    resourceGroupName,
-    deidServiceName,
-    privateEndpointConnectionName,
-    options,
+  options: PrivateEndpointConnectionsDeleteOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateEndpointConnections/{privateEndpointConnectionName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      deidServiceName: deidServiceName,
+      privateEndpointConnectionName: privateEndpointConnectionName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
   );
-  return _privateEndpointConnectionsGetDeserialize(result);
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _privateEndpointConnectionsDeleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
+  const expectedStatuses = ["202", "204", "200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return;
+}
+
+/** Delete the private endpoint connection */
+export function privateEndpointConnectionsDelete(
+  context: Client,
+  resourceGroupName: string,
+  deidServiceName: string,
+  privateEndpointConnectionName: string,
+  options: PrivateEndpointConnectionsDeleteOptionalParams = {
+    requestOptions: {},
+  },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(
+    context,
+    _privateEndpointConnectionsDeleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _privateEndpointConnectionsDeleteSend(
+          context,
+          resourceGroupName,
+          deidServiceName,
+          privateEndpointConnectionName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _privateEndpointConnectionsCreateSend(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   deidServiceName: string,
   privateEndpointConnectionName: string,
@@ -89,18 +180,28 @@ export function _privateEndpointConnectionsCreateSend(
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateEndpointConnections/{privateEndpointConnectionName}",
-      subscriptionId,
-      resourceGroupName,
-      deidServiceName,
-      privateEndpointConnectionName,
-    )
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      body: privateEndpointConnectionResourceSerializer(resource),
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateEndpointConnections/{privateEndpointConnectionName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      deidServiceName: deidServiceName,
+      privateEndpointConnectionName: privateEndpointConnectionName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: privateEndpointConnectionResourceSerializer(resource),
+  });
 }
 
 export async function _privateEndpointConnectionsCreateDeserialize(
@@ -108,7 +209,9 @@ export async function _privateEndpointConnectionsCreateDeserialize(
 ): Promise<PrivateEndpointConnectionResource> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return privateEndpointConnectionResourceDeserializer(result.body);
@@ -117,7 +220,6 @@ export async function _privateEndpointConnectionsCreateDeserialize(
 /** Create a Private endpoint connection */
 export function privateEndpointConnectionsCreate(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   deidServiceName: string,
   privateEndpointConnectionName: string,
@@ -139,7 +241,6 @@ export function privateEndpointConnectionsCreate(
       getInitialResponse: () =>
         _privateEndpointConnectionsCreateSend(
           context,
-          subscriptionId,
           resourceGroupName,
           deidServiceName,
           privateEndpointConnectionName,
@@ -154,122 +255,62 @@ export function privateEndpointConnectionsCreate(
   >;
 }
 
-export function _privateEndpointConnectionsDeleteSend(
+export function _privateEndpointConnectionsGetSend(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   deidServiceName: string,
   privateEndpointConnectionName: string,
-  options: PrivateEndpointConnectionsDeleteOptionalParams = {
-    requestOptions: {},
-  },
+  options: PrivateEndpointConnectionsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateEndpointConnections/{privateEndpointConnectionName}",
-      subscriptionId,
-      resourceGroupName,
-      deidServiceName,
-      privateEndpointConnectionName,
-    )
-    .delete({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _privateEndpointConnectionsDeleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
-  const expectedStatuses = ["202", "204", "200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return;
-}
-
-/** Delete the private endpoint connection */
-export function privateEndpointConnectionsDelete(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  deidServiceName: string,
-  privateEndpointConnectionName: string,
-  options: PrivateEndpointConnectionsDeleteOptionalParams = {
-    requestOptions: {},
-  },
-): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _privateEndpointConnectionsDeleteDeserialize,
-    ["202", "204", "200"],
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateEndpointConnections/{privateEndpointConnectionName}{?api-version}",
     {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _privateEndpointConnectionsDeleteSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          deidServiceName,
-          privateEndpointConnectionName,
-          options,
-        ),
-      resourceLocationConfig: "location",
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      deidServiceName: deidServiceName,
+      privateEndpointConnectionName: privateEndpointConnectionName,
+      "api-version": context.apiVersion,
     },
-  ) as PollerLike<OperationState<void>, void>;
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export function _privateEndpointConnectionsListByDeidServiceSend(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  deidServiceName: string,
-  options: PrivateEndpointConnectionsListByDeidServiceOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateEndpointConnections",
-      subscriptionId,
-      resourceGroupName,
-      deidServiceName,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _privateEndpointConnectionsListByDeidServiceDeserialize(
+export async function _privateEndpointConnectionsGetDeserialize(
   result: PathUncheckedResponse,
-): Promise<_PrivateEndpointConnectionResourceListResult> {
+): Promise<PrivateEndpointConnectionResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
-  return _privateEndpointConnectionResourceListResultDeserializer(result.body);
+  return privateEndpointConnectionResourceDeserializer(result.body);
 }
 
-/** List private endpoint connections on the given resource */
-export function privateEndpointConnectionsListByDeidService(
+/** Get a specific private connection */
+export async function privateEndpointConnectionsGet(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   deidServiceName: string,
-  options: PrivateEndpointConnectionsListByDeidServiceOptionalParams = {
-    requestOptions: {},
-  },
-): PagedAsyncIterableIterator<PrivateEndpointConnectionResource> {
-  return buildPagedAsyncIterator(
+  privateEndpointConnectionName: string,
+  options: PrivateEndpointConnectionsGetOptionalParams = { requestOptions: {} },
+): Promise<PrivateEndpointConnectionResource> {
+  const result = await _privateEndpointConnectionsGetSend(
     context,
-    () =>
-      _privateEndpointConnectionsListByDeidServiceSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        deidServiceName,
-        options,
-      ),
-    _privateEndpointConnectionsListByDeidServiceDeserialize,
-    ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    resourceGroupName,
+    deidServiceName,
+    privateEndpointConnectionName,
+    options,
   );
+  return _privateEndpointConnectionsGetDeserialize(result);
 }
