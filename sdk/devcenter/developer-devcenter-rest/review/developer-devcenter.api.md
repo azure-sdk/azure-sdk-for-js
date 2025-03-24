@@ -328,7 +328,6 @@ export type DeleteEnvironmentParameters = RequestParameters;
 
 // @public
 export interface DevBox {
-    localAdministrator?: LocalAdminStatus;
     poolName: string;
 }
 
@@ -368,7 +367,7 @@ export interface DevBoxOutput {
     readonly hardwareProfile?: HardwareProfileOutput;
     readonly hibernateSupport?: HibernateSupportOutput;
     readonly imageReference?: ImageReferenceOutput;
-    localAdministrator?: LocalAdminStatusOutput;
+    readonly localAdministrator?: LocalAdminStatusOutput;
     readonly location?: string;
     readonly name: string;
     readonly osType?: OsTypeOutput;
@@ -1339,7 +1338,7 @@ export interface OperationStatusOutput {
     readonly id: string;
     readonly name: string;
     percentComplete?: number;
-    properties?: any;
+    properties?: Record<string, any>;
     resourceId?: string;
     startTime?: string;
     status: OperationStateOutput;
