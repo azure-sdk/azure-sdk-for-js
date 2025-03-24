@@ -274,8 +274,10 @@ export function resourceIdDeserializer(item: any): ResourceId {
 
 /** SecurityPolicyConfigurations Subresource of Traffic Controller. */
 export interface SecurityPolicyConfigurations {
-  /** Contains reference to a WAF-type security policy that is applied at the Traffic Controller level. */
+  /** Contains reference to a WAF-type security policy. */
   wafSecurityPolicy?: WafSecurityPolicy;
+  /** Contains reference to a IpAccessRules-type security policy. */
+  ipAccessRulesSecurityPolicy?: IpAccessRulesSecurityPolicy;
 }
 
 export function securityPolicyConfigurationsSerializer(item: SecurityPolicyConfigurations): any {
@@ -283,6 +285,9 @@ export function securityPolicyConfigurationsSerializer(item: SecurityPolicyConfi
     wafSecurityPolicy: !item["wafSecurityPolicy"]
       ? item["wafSecurityPolicy"]
       : wafSecurityPolicySerializer(item["wafSecurityPolicy"]),
+    ipAccessRulesSecurityPolicy: !item["ipAccessRulesSecurityPolicy"]
+      ? item["ipAccessRulesSecurityPolicy"]
+      : ipAccessRulesSecurityPolicySerializer(item["ipAccessRulesSecurityPolicy"]),
   };
 }
 
@@ -291,6 +296,9 @@ export function securityPolicyConfigurationsDeserializer(item: any): SecurityPol
     wafSecurityPolicy: !item["wafSecurityPolicy"]
       ? item["wafSecurityPolicy"]
       : wafSecurityPolicyDeserializer(item["wafSecurityPolicy"]),
+    ipAccessRulesSecurityPolicy: !item["ipAccessRulesSecurityPolicy"]
+      ? item["ipAccessRulesSecurityPolicy"]
+      : ipAccessRulesSecurityPolicyDeserializer(item["ipAccessRulesSecurityPolicy"]),
   };
 }
 
@@ -305,6 +313,22 @@ export function wafSecurityPolicySerializer(item: WafSecurityPolicy): any {
 }
 
 export function wafSecurityPolicyDeserializer(item: any): WafSecurityPolicy {
+  return {
+    id: item["id"],
+  };
+}
+
+/** IpAccessRules Security Policy */
+export interface IpAccessRulesSecurityPolicy {
+  /** Resource ID of the Ip Access Rules Security Policy */
+  id: string;
+}
+
+export function ipAccessRulesSecurityPolicySerializer(item: IpAccessRulesSecurityPolicy): any {
+  return { id: item["id"] };
+}
+
+export function ipAccessRulesSecurityPolicyDeserializer(item: any): IpAccessRulesSecurityPolicy {
   return {
     id: item["id"],
   };
@@ -544,8 +568,10 @@ export function securityPolicyDeserializer(item: any): SecurityPolicy {
 export interface SecurityPolicyProperties {
   /** Type of the Traffic Controller Security Policy */
   readonly policyType?: PolicyType;
-  /** Web Application Firewall Policy of the Traffic Controller Security Policy */
+  /** Web Application Firewall Policy of the Traffic Controller Security Policy. Single Security Policy can have only one policy type set. */
   wafPolicy?: WafPolicy;
+  /** Ip Access Policy of the Traffic Controller Security Policy. Single Security Policy can have only one policy type set. */
+  ipAccessRulesPolicy?: IpAccessRulesPolicy;
   /** Provisioning State of Traffic Controller SecurityPolicy Resource */
   readonly provisioningState?: ProvisioningState;
 }
@@ -553,6 +579,9 @@ export interface SecurityPolicyProperties {
 export function securityPolicyPropertiesSerializer(item: SecurityPolicyProperties): any {
   return {
     wafPolicy: !item["wafPolicy"] ? item["wafPolicy"] : wafPolicySerializer(item["wafPolicy"]),
+    ipAccessRulesPolicy: !item["ipAccessRulesPolicy"]
+      ? item["ipAccessRulesPolicy"]
+      : ipAccessRulesPolicySerializer(item["ipAccessRulesPolicy"]),
   };
 }
 
@@ -560,6 +589,9 @@ export function securityPolicyPropertiesDeserializer(item: any): SecurityPolicyP
   return {
     policyType: item["policyType"],
     wafPolicy: !item["wafPolicy"] ? item["wafPolicy"] : wafPolicyDeserializer(item["wafPolicy"]),
+    ipAccessRulesPolicy: !item["ipAccessRulesPolicy"]
+      ? item["ipAccessRulesPolicy"]
+      : ipAccessRulesPolicyDeserializer(item["ipAccessRulesPolicy"]),
     provisioningState: item["provisioningState"],
   };
 }
@@ -568,6 +600,8 @@ export function securityPolicyPropertiesDeserializer(item: any): SecurityPolicyP
 export enum KnownPolicyType {
   /** Policy of Type WAF */
   WAF = "waf",
+  /** Policy of Type IpAccessRules */
+  IpAccessRules = "ipAccessRules",
 }
 
 /**
@@ -575,7 +609,8 @@ export enum KnownPolicyType {
  * {@link KnownPolicyType} can be used interchangeably with PolicyType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **waf**: Policy of Type WAF
+ * **waf**: Policy of Type WAF \
+ * **ipAccessRules**: Policy of Type IpAccessRules
  */
 export type PolicyType = string;
 
@@ -594,6 +629,88 @@ export function wafPolicyDeserializer(item: any): WafPolicy {
     id: item["id"],
   };
 }
+
+/** Ip Access Policy */
+export interface IpAccessRulesPolicy {
+  /** Ip Access Policy Rules List */
+  rules?: IpAccessRule[];
+}
+
+export function ipAccessRulesPolicySerializer(item: IpAccessRulesPolicy): any {
+  return {
+    rules: !item["rules"] ? item["rules"] : ipAccessRuleArraySerializer(item["rules"]),
+  };
+}
+
+export function ipAccessRulesPolicyDeserializer(item: any): IpAccessRulesPolicy {
+  return {
+    rules: !item["rules"] ? item["rules"] : ipAccessRuleArrayDeserializer(item["rules"]),
+  };
+}
+
+export function ipAccessRuleArraySerializer(result: Array<IpAccessRule>): any[] {
+  return result.map((item) => {
+    return ipAccessRuleSerializer(item);
+  });
+}
+
+export function ipAccessRuleArrayDeserializer(result: Array<IpAccessRule>): any[] {
+  return result.map((item) => {
+    return ipAccessRuleDeserializer(item);
+  });
+}
+
+/** Ip Access Policy Rules */
+export interface IpAccessRule {
+  /** Name of the Ip Access Rule */
+  name: string;
+  /** The priority of the rule. The value can be between 1 and 500. The priority number must be unique for each rule in the collection. The lower the priority number, the higher the priority of the rule. */
+  priority: number;
+  /** Source Address Prefixed Applied by the Rule. Asterisk '*' can also be used to match all source IPs. */
+  sourceAddressPrefixes: string[];
+  /** Action of the Rule */
+  action: IpAccessRuleAction;
+}
+
+export function ipAccessRuleSerializer(item: IpAccessRule): any {
+  return {
+    name: item["name"],
+    priority: item["priority"],
+    sourceAddressPrefixes: item["sourceAddressPrefixes"].map((p: any) => {
+      return p;
+    }),
+    action: item["action"],
+  };
+}
+
+export function ipAccessRuleDeserializer(item: any): IpAccessRule {
+  return {
+    name: item["name"],
+    priority: item["priority"],
+    sourceAddressPrefixes: item["sourceAddressPrefixes"].map((p: any) => {
+      return p;
+    }),
+    action: item["action"],
+  };
+}
+
+/** Action of Ip Access Rule */
+export enum KnownIpAccessRuleAction {
+  /** Allow Source Ip Prefixes */
+  Allow = "allow",
+  /** Deny Source Ip Prefixes */
+  Deny = "deny",
+}
+
+/**
+ * Action of Ip Access Rule \
+ * {@link KnownIpAccessRuleAction} can be used interchangeably with IpAccessRuleAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **allow**: Allow Source Ip Prefixes \
+ * **deny**: Deny Source Ip Prefixes
+ */
+export type IpAccessRuleAction = string;
 
 /** The type used for update operations of the SecurityPolicy. */
 export interface SecurityPolicyUpdate {
@@ -614,8 +731,10 @@ export function securityPolicyUpdateSerializer(item: SecurityPolicyUpdate): any 
 
 /** The updatable properties of the SecurityPolicy. */
 export interface SecurityPolicyUpdateProperties {
-  /** Web Application Firewall Policy of the Traffic Controller Security Policy */
+  /** Web Application Firewall Policy of the Traffic Controller Security Policy. Single Security Policy can have only one policy type set. */
   wafPolicy?: WafPolicy;
+  /** Ip Access Policy of the Traffic Controller Security Policy. Single Security Policy can have only one policy type set. */
+  ipAccessRulesPolicy?: IpAccessRulesPolicy;
 }
 
 export function securityPolicyUpdatePropertiesSerializer(
@@ -623,6 +742,9 @@ export function securityPolicyUpdatePropertiesSerializer(
 ): any {
   return {
     wafPolicy: !item["wafPolicy"] ? item["wafPolicy"] : wafPolicySerializer(item["wafPolicy"]),
+    ipAccessRulesPolicy: !item["ipAccessRulesPolicy"]
+      ? item["ipAccessRulesPolicy"]
+      : ipAccessRulesPolicySerializer(item["ipAccessRulesPolicy"]),
   };
 }
 
@@ -689,17 +811,26 @@ export function frontendDeserializer(item: any): Frontend {
 export interface FrontendProperties {
   /** The Fully Qualified Domain Name of the DNS record associated to a Traffic Controller frontend. */
   readonly fqdn?: string;
+  /** Frontend Security Policy Configuration */
+  securityPolicyConfigurations?: SecurityPolicyConfigurations;
   /** Provisioning State of Traffic Controller Frontend Resource */
   readonly provisioningState?: ProvisioningState;
 }
 
 export function frontendPropertiesSerializer(item: FrontendProperties): any {
-  return item;
+  return {
+    securityPolicyConfigurations: !item["securityPolicyConfigurations"]
+      ? item["securityPolicyConfigurations"]
+      : securityPolicyConfigurationsSerializer(item["securityPolicyConfigurations"]),
+  };
 }
 
 export function frontendPropertiesDeserializer(item: any): FrontendProperties {
   return {
     fqdn: item["fqdn"],
+    securityPolicyConfigurations: !item["securityPolicyConfigurations"]
+      ? item["securityPolicyConfigurations"]
+      : securityPolicyConfigurationsDeserializer(item["securityPolicyConfigurations"]),
     provisioningState: item["provisioningState"],
   };
 }
@@ -708,10 +839,31 @@ export function frontendPropertiesDeserializer(item: any): FrontendProperties {
 export interface FrontendUpdate {
   /** Resource tags. */
   tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: FrontendUpdateProperties;
 }
 
 export function frontendUpdateSerializer(item: FrontendUpdate): any {
-  return { tags: item["tags"] };
+  return {
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : frontendUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** The updatable properties of the Frontend. */
+export interface FrontendUpdateProperties {
+  /** Frontend Security Policy Configuration */
+  securityPolicyConfigurations?: SecurityPolicyConfigurations;
+}
+
+export function frontendUpdatePropertiesSerializer(item: FrontendUpdateProperties): any {
+  return {
+    securityPolicyConfigurations: !item["securityPolicyConfigurations"]
+      ? item["securityPolicyConfigurations"]
+      : securityPolicyConfigurationsSerializer(item["securityPolicyConfigurations"]),
+  };
 }
 
 /** The response of a Frontend list operation. */
@@ -864,7 +1016,7 @@ export function associationUpdatePropertiesSerializer(item: AssociationUpdatePro
 /** Association Subnet. */
 export interface AssociationSubnetUpdate {
   /** Association ID. */
-  id: string;
+  id?: string;
 }
 
 export function associationSubnetUpdateSerializer(item: AssociationSubnetUpdate): any {
@@ -901,7 +1053,11 @@ export function associationArrayDeserializer(result: Array<Association>): any[] 
 /** Api versions */
 export enum KnownVersions {
   /** 2023-11-01 stable version */
-  V2023_11_01 = "2023-11-01",
+  V20231101 = "2023-11-01",
+  /** 2024-05-01 preview version */
+  V20240501Preview = "2024-05-01-preview",
   /** 2025-01-01 stable version */
-  V2025_05_01 = "2025-01-01",
+  V20250501 = "2025-01-01",
+  /** 2025-03-01 preview version */
+  V20250301Preview = "2025-03-01-preview",
 }
