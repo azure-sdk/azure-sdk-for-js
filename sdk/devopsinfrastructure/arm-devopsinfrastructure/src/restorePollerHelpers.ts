@@ -3,9 +3,9 @@
 
 import { DevOpsInfrastructureClient } from "./devOpsInfrastructureClient.js";
 import {
-  _poolsCreateOrUpdateDeserialize,
-  _poolsUpdateDeserialize,
   _poolsDeleteDeserialize,
+  _poolsUpdateDeserialize,
+  _poolsCreateOrUpdateDeserialize,
 } from "./api/pools/index.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
@@ -80,17 +80,17 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/pools/{poolName}":
-    {
-      deserializer: _poolsCreateOrUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/pools/{poolName}":
-    { deserializer: _poolsUpdateDeserialize, expectedStatuses: ["200", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/pools/{poolName}":
     {
       deserializer: _poolsDeleteDeserialize,
       expectedStatuses: ["202", "204", "200"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/pools/{poolName}":
+    { deserializer: _poolsUpdateDeserialize, expectedStatuses: ["200", "202"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/pools/{poolName}":
+    {
+      deserializer: _poolsCreateOrUpdateDeserialize,
+      expectedStatuses: ["200", "201"],
     },
 };
 
