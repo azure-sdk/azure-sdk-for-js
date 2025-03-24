@@ -46,6 +46,26 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export type CreatedByType = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface FabricCapacitiesCheckNameAvailabilityOptionalParams extends OperationOptions {
 }
 
@@ -80,6 +100,10 @@ export interface FabricCapacitiesListSkusOptionalParams extends OperationOptions
 }
 
 // @public
+export interface FabricCapacitiesListUsagesOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface FabricCapacitiesOperations {
     checkNameAvailability: (location: string, body: CheckNameAvailabilityRequest, options?: FabricCapacitiesCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResponse>;
     createOrUpdate: (resourceGroupName: string, capacityName: string, resource: FabricCapacity, options?: FabricCapacitiesCreateOrUpdateOptionalParams) => PollerLike<OperationState<FabricCapacity>, FabricCapacity>;
@@ -89,6 +113,7 @@ export interface FabricCapacitiesOperations {
     listBySubscription: (options?: FabricCapacitiesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<FabricCapacity>;
     listSkus: (options?: FabricCapacitiesListSkusOptionalParams) => PagedAsyncIterableIterator<RpSkuDetailsForNewResource>;
     listSkusForCapacity: (resourceGroupName: string, capacityName: string, options?: FabricCapacitiesListSkusForCapacityOptionalParams) => PagedAsyncIterableIterator<RpSkuDetailsForExistingResource>;
+    listUsages: (location: string, options?: FabricCapacitiesListUsagesOptionalParams) => PagedAsyncIterableIterator<Quota>;
     resume: (resourceGroupName: string, capacityName: string, options?: FabricCapacitiesResumeOptionalParams) => PollerLike<OperationState<void>, void>;
     suspend: (resourceGroupName: string, capacityName: string, options?: FabricCapacitiesSuspendOptionalParams) => PollerLike<OperationState<void>, void>;
     update: (resourceGroupName: string, capacityName: string, properties: FabricCapacityUpdate, options?: FabricCapacitiesUpdateOptionalParams) => PollerLike<OperationState<FabricCapacity>, FabricCapacity>;
@@ -205,9 +230,14 @@ export enum KnownRpSkuTier {
 }
 
 // @public
+export enum KnownVersions {
+    V20250115Preview = "2025-01-15-preview"
+}
+
+// @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -247,6 +277,20 @@ export interface PageSettings {
 
 // @public
 export type ProvisioningState = string;
+
+// @public
+export interface Quota {
+    currentValue: number;
+    limit: number;
+    readonly name?: QuotaName;
+    unit: string;
+}
+
+// @public
+export interface QuotaName {
+    localizedValue?: string;
+    value?: string;
+}
 
 // @public
 export interface Resource {

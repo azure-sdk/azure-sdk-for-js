@@ -13,14 +13,14 @@ export interface OperationsOperations {
   list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
-export function getOperations(context: FabricContext) {
+function _getOperations(context: FabricContext) {
   return {
     list: (options?: OperationsListOptionalParams) => operationsList(context, options),
   };
 }
 
-export function getOperationsOperations(context: FabricContext): OperationsOperations {
+export function _getOperationsOperations(context: FabricContext): OperationsOperations {
   return {
-    ...getOperations(context),
+    ..._getOperations(context),
   };
 }
