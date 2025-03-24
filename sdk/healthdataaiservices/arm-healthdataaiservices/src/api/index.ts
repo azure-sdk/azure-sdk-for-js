@@ -7,32 +7,32 @@ export {
   HealthDataAIServicesClientOptionalParams,
 } from "./healthDataAIServicesContext.js";
 export {
-  OperationsListOptionalParams,
-  DeidServicesGetOptionalParams,
-  DeidServicesListByResourceGroupOptionalParams,
-  DeidServicesListBySubscriptionOptionalParams,
-  DeidServicesCreateOptionalParams,
-  DeidServicesUpdateOptionalParams,
-  DeidServicesDeleteOptionalParams,
-  PrivateEndpointConnectionsGetOptionalParams,
-  PrivateEndpointConnectionsCreateOptionalParams,
-  PrivateEndpointConnectionsDeleteOptionalParams,
-  PrivateEndpointConnectionsListByDeidServiceOptionalParams,
   PrivateLinksListByDeidServiceOptionalParams,
+  PrivateEndpointConnectionsListByDeidServiceOptionalParams,
+  PrivateEndpointConnectionsDeleteOptionalParams,
+  PrivateEndpointConnectionsCreateOptionalParams,
+  PrivateEndpointConnectionsGetOptionalParams,
+  DeidServicesDeleteOptionalParams,
+  DeidServicesUpdateOptionalParams,
+  DeidServicesCreateOptionalParams,
+  DeidServicesListBySubscriptionOptionalParams,
+  DeidServicesListByResourceGroupOptionalParams,
+  DeidServicesGetOptionalParams,
+  OperationsListOptionalParams,
 } from "./options.js";
 export {
-  deidServicesGet,
-  deidServicesListByResourceGroup,
-  deidServicesListBySubscription,
-  deidServicesCreate,
-  deidServicesUpdate,
   deidServicesDelete,
+  deidServicesUpdate,
+  deidServicesCreate,
+  deidServicesListBySubscription,
+  deidServicesListByResourceGroup,
+  deidServicesGet,
 } from "./deidServices/index.js";
 export { operationsList } from "./operations/index.js";
 export {
-  privateEndpointConnectionsGet,
-  privateEndpointConnectionsCreate,
-  privateEndpointConnectionsDelete,
   privateEndpointConnectionsListByDeidService,
+  privateEndpointConnectionsDelete,
+  privateEndpointConnectionsCreate,
+  privateEndpointConnectionsGet,
 } from "./privateEndpointConnections/index.js";
 export { privateLinksListByDeidService } from "./privateLinks/index.js";
