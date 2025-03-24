@@ -17,28 +17,20 @@ export interface PrivateLinksOperations {
   ) => PagedAsyncIterableIterator<PrivateLinkResource>;
 }
 
-export function getPrivateLinks(context: HealthDataAIServicesContext, subscriptionId: string) {
+function _getPrivateLinks(context: HealthDataAIServicesContext) {
   return {
     listByDeidService: (
       resourceGroupName: string,
       deidServiceName: string,
       options?: PrivateLinksListByDeidServiceOptionalParams,
-    ) =>
-      privateLinksListByDeidService(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        deidServiceName,
-        options,
-      ),
+    ) => privateLinksListByDeidService(context, resourceGroupName, deidServiceName, options),
   };
 }
 
-export function getPrivateLinksOperations(
+export function _getPrivateLinksOperations(
   context: HealthDataAIServicesContext,
-  subscriptionId: string,
 ): PrivateLinksOperations {
   return {
-    ...getPrivateLinks(context, subscriptionId),
+    ..._getPrivateLinks(context),
   };
 }
