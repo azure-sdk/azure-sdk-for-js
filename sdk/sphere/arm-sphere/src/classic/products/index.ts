@@ -1,0 +1,148 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { AzureSphereContext } from "../../api/azureSphereContext.js";
+import {
+  ProductsGenerateDefaultDeviceGroupsOptionalParams,
+  ProductsCountDevicesOptionalParams,
+  ProductsListByCatalogOptionalParams,
+  ProductsDeleteOptionalParams,
+  ProductsUpdateOptionalParams,
+  ProductsCreateOrUpdateOptionalParams,
+  ProductsGetOptionalParams,
+} from "../../api/options.js";
+import {
+  productsGenerateDefaultDeviceGroups,
+  productsCountDevices,
+  productsListByCatalog,
+  productsDelete,
+  productsUpdate,
+  productsCreateOrUpdate,
+  productsGet,
+} from "../../api/products/index.js";
+import { DeviceGroup, CountDevicesResponse, Product, ProductUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
+
+/** Interface representing a Products operations. */
+export interface ProductsOperations {
+  /** Generates default device groups for the product. '.default' and '.unassigned' are system defined values and cannot be used for product name. */
+  generateDefaultDeviceGroups: (
+    resourceGroupName: string,
+    catalogName: string,
+    productName: string,
+    options?: ProductsGenerateDefaultDeviceGroupsOptionalParams,
+  ) => PagedAsyncIterableIterator<DeviceGroup>;
+  /** Counts devices in product. '.default' and '.unassigned' are system defined values and cannot be used for product name. */
+  countDevices: (
+    resourceGroupName: string,
+    catalogName: string,
+    productName: string,
+    options?: ProductsCountDevicesOptionalParams,
+  ) => Promise<CountDevicesResponse>;
+  /** List Product resources by Catalog */
+  listByCatalog: (
+    resourceGroupName: string,
+    catalogName: string,
+    options?: ProductsListByCatalogOptionalParams,
+  ) => PagedAsyncIterableIterator<Product>;
+  /** Delete a Product. '.default' and '.unassigned' are system defined values and cannot be used for product name' */
+  delete: (
+    resourceGroupName: string,
+    catalogName: string,
+    productName: string,
+    options?: ProductsDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** Update a Product. '.default' and '.unassigned' are system defined values and cannot be used for product name. */
+  update: (
+    resourceGroupName: string,
+    catalogName: string,
+    productName: string,
+    properties: ProductUpdate,
+    options?: ProductsUpdateOptionalParams,
+  ) => PollerLike<OperationState<Product>, Product>;
+  /** Create a Product. '.default' and '.unassigned' are system defined values and cannot be used for product name. */
+  createOrUpdate: (
+    resourceGroupName: string,
+    catalogName: string,
+    productName: string,
+    resource: Product,
+    options?: ProductsCreateOrUpdateOptionalParams,
+  ) => PollerLike<OperationState<Product>, Product>;
+  /** Get a Product. '.default' and '.unassigned' are system defined values and cannot be used for product name. */
+  get: (
+    resourceGroupName: string,
+    catalogName: string,
+    productName: string,
+    options?: ProductsGetOptionalParams,
+  ) => Promise<Product>;
+}
+
+function _getProducts(context: AzureSphereContext) {
+  return {
+    generateDefaultDeviceGroups: (
+      resourceGroupName: string,
+      catalogName: string,
+      productName: string,
+      options?: ProductsGenerateDefaultDeviceGroupsOptionalParams,
+    ) =>
+      productsGenerateDefaultDeviceGroups(
+        context,
+        resourceGroupName,
+        catalogName,
+        productName,
+        options,
+      ),
+    countDevices: (
+      resourceGroupName: string,
+      catalogName: string,
+      productName: string,
+      options?: ProductsCountDevicesOptionalParams,
+    ) => productsCountDevices(context, resourceGroupName, catalogName, productName, options),
+    listByCatalog: (
+      resourceGroupName: string,
+      catalogName: string,
+      options?: ProductsListByCatalogOptionalParams,
+    ) => productsListByCatalog(context, resourceGroupName, catalogName, options),
+    delete: (
+      resourceGroupName: string,
+      catalogName: string,
+      productName: string,
+      options?: ProductsDeleteOptionalParams,
+    ) => productsDelete(context, resourceGroupName, catalogName, productName, options),
+    update: (
+      resourceGroupName: string,
+      catalogName: string,
+      productName: string,
+      properties: ProductUpdate,
+      options?: ProductsUpdateOptionalParams,
+    ) => productsUpdate(context, resourceGroupName, catalogName, productName, properties, options),
+    createOrUpdate: (
+      resourceGroupName: string,
+      catalogName: string,
+      productName: string,
+      resource: Product,
+      options?: ProductsCreateOrUpdateOptionalParams,
+    ) =>
+      productsCreateOrUpdate(
+        context,
+        resourceGroupName,
+        catalogName,
+        productName,
+        resource,
+        options,
+      ),
+    get: (
+      resourceGroupName: string,
+      catalogName: string,
+      productName: string,
+      options?: ProductsGetOptionalParams,
+    ) => productsGet(context, resourceGroupName, catalogName, productName, options),
+  };
+}
+
+export function _getProductsOperations(context: AzureSphereContext): ProductsOperations {
+  return {
+    ..._getProducts(context),
+  };
+}
