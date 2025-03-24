@@ -3,6 +3,7 @@
 
 import { AzurePlaywrightServiceContext as Client, OperationsListOptionalParams } from "../index.js";
 import {
+  errorResponseDeserializer,
   _OperationListResult,
   _operationListResultDeserializer,
   Operation,
@@ -11,6 +12,7 @@ import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -22,9 +24,22 @@ export function _operationsListSend(
   context: Client,
   options: OperationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path("/providers/Microsoft.AzurePlaywrightService/operations")
-    .get({ ...operationOptionsToRequestParameters(options) });
+  const path = expandUrlTemplate(
+    "/providers/Microsoft.AzurePlaywrightService/operations{?api-version}",
+    {
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _operationsListDeserialize(
@@ -32,7 +47,9 @@ export async function _operationsListDeserialize(
 ): Promise<_OperationListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return _operationListResultDeserializer(result.body);
