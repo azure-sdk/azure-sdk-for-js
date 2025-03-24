@@ -7,7 +7,13 @@ import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 
 /** Microsoft.AzurePlaywrightService Resource Provider Management API. */
-export interface AzurePlaywrightServiceContext extends Client {}
+export interface AzurePlaywrightServiceContext extends Client {
+  /** The API version to use for this operation. */
+  /** Known values of {@link KnownVersions} that the service accepts. */
+  apiVersion: string;
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+}
 
 /** Optional parameters for the client. */
 export interface AzurePlaywrightServiceClientOptionalParams extends ClientOptions {
@@ -19,11 +25,12 @@ export interface AzurePlaywrightServiceClientOptionalParams extends ClientOption
 /** Microsoft.AzurePlaywrightService Resource Provider Management API. */
 export function createAzurePlaywrightService(
   credential: TokenCredential,
+  subscriptionId: string,
   options: AzurePlaywrightServiceClientOptionalParams = {},
 ): AzurePlaywrightServiceContext {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-playwrighttesting/1.0.0`;
+  const userAgentInfo = `azsdk-js-arm-playwrighttesting/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
@@ -53,5 +60,9 @@ export function createAzurePlaywrightService(
       return next(req);
     },
   });
-  return clientContext;
+  return {
+    ...clientContext,
+    apiVersion,
+    subscriptionId,
+  } as AzurePlaywrightServiceContext;
 }
