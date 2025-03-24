@@ -2,528 +2,440 @@
 // Licensed under the MIT License.
 
 import {
-  codeSigningAccountPropertiesSerializer,
-  codeSigningAccountPatchPropertiesSerializer,
-  CodeSigningAccount,
-  CodeSigningAccountPatch,
-  CheckNameAvailability,
-  CheckNameAvailabilityResult,
-  _CodeSigningAccountListResult,
-} from "../../models/models.js";
-import { CodeSigningContext as Client } from "../index.js";
+  CodeSigningContext as Client,
+  CodeSigningAccountsCheckNameAvailabilityOptionalParams,
+  CodeSigningAccountsCreateOptionalParams,
+  CodeSigningAccountsDeleteOptionalParams,
+  CodeSigningAccountsGetOptionalParams,
+  CodeSigningAccountsListByResourceGroupOptionalParams,
+  CodeSigningAccountsListBySubscriptionOptionalParams,
+  CodeSigningAccountsUpdateOptionalParams,
+} from "../index.js";
 import {
-  StreamableMethod,
-  operationOptionsToRequestParameters,
-  PathUncheckedResponse,
-  createRestError,
-} from "@azure-rest/core-client";
-import { serializeRecord } from "../../helpers/serializerHelpers.js";
+  errorResponseDeserializer,
+  CodeSigningAccount,
+  codeSigningAccountSerializer,
+  codeSigningAccountDeserializer,
+  CodeSigningAccountPatch,
+  codeSigningAccountPatchSerializer,
+  _CodeSigningAccountListResult,
+  _codeSigningAccountListResultDeserializer,
+  CheckNameAvailability,
+  checkNameAvailabilitySerializer,
+  CheckNameAvailabilityResult,
+  checkNameAvailabilityResultDeserializer,
+} from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
-  CodeSigningAccountsGetOptionalParams,
-  CodeSigningAccountsCreateOptionalParams,
-  CodeSigningAccountsUpdateOptionalParams,
-  CodeSigningAccountsDeleteOptionalParams,
-  CodeSigningAccountsListByResourceGroupOptionalParams,
-  CodeSigningAccountsListBySubscriptionOptionalParams,
-  CodeSigningAccountsCheckNameAvailabilityOptionalParams,
-} from "../../models/options.js";
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
-export function _getSend(
+export function _codeSigningAccountsCheckNameAvailabilitySend(
   context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  accountName: string,
-  options: CodeSigningAccountsGetOptionalParams = { requestOptions: {} },
+  body: CheckNameAvailability,
+  options: CodeSigningAccountsCheckNameAvailabilityOptionalParams = {
+    requestOptions: {},
+  },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}",
-      subscriptionId,
-      resourceGroupName,
-      accountName,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.CodeSigning/checkNameAvailability{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: checkNameAvailabilitySerializer(body),
+  });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<CodeSigningAccount> {
+export async function _codeSigningAccountsCheckNameAvailabilityDeserialize(
+  result: PathUncheckedResponse,
+): Promise<CheckNameAvailabilityResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
-  return {
-    tags: result.body["tags"],
-    location: result.body["location"],
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !result.body.properties
-      ? undefined
-      : {
-          accountUri: result.body.properties?.["accountUri"],
-          sku: !result.body.properties?.sku
-            ? undefined
-            : { name: result.body.properties?.sku?.["name"] },
-          provisioningState: result.body.properties?.["provisioningState"],
-        },
-  };
+  return checkNameAvailabilityResultDeserializer(result.body);
 }
 
-/** Get a trusted Signing Account. */
-export async function get(
+/** Checks that the trusted signing account name is valid and is not already in use. */
+export async function codeSigningAccountsCheckNameAvailability(
   context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  accountName: string,
-  options: CodeSigningAccountsGetOptionalParams = { requestOptions: {} },
-): Promise<CodeSigningAccount> {
-  const result = await _getSend(context, subscriptionId, resourceGroupName, accountName, options);
-  return _getDeserialize(result);
+  body: CheckNameAvailability,
+  options: CodeSigningAccountsCheckNameAvailabilityOptionalParams = {
+    requestOptions: {},
+  },
+): Promise<CheckNameAvailabilityResult> {
+  const result = await _codeSigningAccountsCheckNameAvailabilitySend(context, body, options);
+  return _codeSigningAccountsCheckNameAvailabilityDeserialize(result);
 }
 
-export function _createSend(
+export function _codeSigningAccountsListBySubscriptionSend(
   context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  accountName: string,
-  resource: CodeSigningAccount,
-  options: CodeSigningAccountsCreateOptionalParams = { requestOptions: {} },
+  options: CodeSigningAccountsListBySubscriptionOptionalParams = {
+    requestOptions: {},
+  },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}",
-      subscriptionId,
-      resourceGroupName,
-      accountName,
-    )
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      body: {
-        tags: !resource.tags ? resource.tags : (serializeRecord(resource.tags as any) as any),
-        location: resource["location"],
-        properties: !resource.properties
-          ? resource.properties
-          : codeSigningAccountPropertiesSerializer(resource.properties),
-      },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.CodeSigning/codeSigningAccounts{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _createDeserialize(
+export async function _codeSigningAccountsListBySubscriptionDeserialize(
   result: PathUncheckedResponse,
-): Promise<CodeSigningAccount> {
-  const expectedStatuses = ["200", "201"];
+): Promise<_CodeSigningAccountListResult> {
+  const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
-  return {
-    tags: result.body["tags"],
-    location: result.body["location"],
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !result.body.properties
-      ? undefined
-      : {
-          accountUri: result.body.properties?.["accountUri"],
-          sku: !result.body.properties?.sku
-            ? undefined
-            : { name: result.body.properties?.sku?.["name"] },
-          provisioningState: result.body.properties?.["provisioningState"],
-        },
-  };
+  return _codeSigningAccountListResultDeserializer(result.body);
 }
 
-/** Create a trusted Signing Account. */
-export function create(
+/** Lists trusted signing accounts within a subscription. */
+export function codeSigningAccountsListBySubscription(
   context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  accountName: string,
-  resource: CodeSigningAccount,
-  options: CodeSigningAccountsCreateOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<CodeSigningAccount>, CodeSigningAccount> {
-  return getLongRunningPoller(context, _createDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createSend(context, subscriptionId, resourceGroupName, accountName, resource, options),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<CodeSigningAccount>, CodeSigningAccount>;
+  options: CodeSigningAccountsListBySubscriptionOptionalParams = {
+    requestOptions: {},
+  },
+): PagedAsyncIterableIterator<CodeSigningAccount> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _codeSigningAccountsListBySubscriptionSend(context, options),
+    _codeSigningAccountsListBySubscriptionDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink" },
+  );
 }
 
-export function _updateSend(
+export function _codeSigningAccountsListByResourceGroupSend(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
-  accountName: string,
-  properties: CodeSigningAccountPatch,
-  options: CodeSigningAccountsUpdateOptionalParams = { requestOptions: {} },
+  options: CodeSigningAccountsListByResourceGroupOptionalParams = {
+    requestOptions: {},
+  },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}",
-      subscriptionId,
-      resourceGroupName,
-      accountName,
-    )
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      body: {
-        tags: !properties.tags ? properties.tags : (serializeRecord(properties.tags as any) as any),
-        properties: !properties.properties
-          ? properties.properties
-          : codeSigningAccountPatchPropertiesSerializer(properties.properties),
-      },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _updateDeserialize(
+export async function _codeSigningAccountsListByResourceGroupDeserialize(
   result: PathUncheckedResponse,
-): Promise<CodeSigningAccount> {
-  const expectedStatuses = ["200", "202"];
+): Promise<_CodeSigningAccountListResult> {
+  const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
-  return {
-    tags: result.body["tags"],
-    location: result.body["location"],
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !result.body.properties
-      ? undefined
-      : {
-          accountUri: result.body.properties?.["accountUri"],
-          sku: !result.body.properties?.sku
-            ? undefined
-            : { name: result.body.properties?.sku?.["name"] },
-          provisioningState: result.body.properties?.["provisioningState"],
-        },
-  };
+  return _codeSigningAccountListResultDeserializer(result.body);
 }
 
-/** Update a trusted signing account. */
-export function update(
+/** Lists trusted signing accounts within a resource group. */
+export function codeSigningAccountsListByResourceGroup(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
-  accountName: string,
-  properties: CodeSigningAccountPatch,
-  options: CodeSigningAccountsUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<CodeSigningAccount>, CodeSigningAccount> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _updateSend(context, subscriptionId, resourceGroupName, accountName, properties, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<CodeSigningAccount>, CodeSigningAccount>;
+  options: CodeSigningAccountsListByResourceGroupOptionalParams = {
+    requestOptions: {},
+  },
+): PagedAsyncIterableIterator<CodeSigningAccount> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _codeSigningAccountsListByResourceGroupSend(context, resourceGroupName, options),
+    _codeSigningAccountsListByResourceGroupDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink" },
+  );
 }
 
-export function _$deleteSend(
+export function _codeSigningAccountsDeleteSend(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   accountName: string,
   options: CodeSigningAccountsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}",
-      subscriptionId,
-      resourceGroupName,
-      accountName,
-    )
-    .delete({ ...operationOptionsToRequestParameters(options) });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      accountName: accountName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _codeSigningAccountsDeleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return;
 }
 
 /** Delete a trusted signing account. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
-export function $delete(
+export function codeSigningAccountsDelete(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   accountName: string,
   options: CodeSigningAccountsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
+  return getLongRunningPoller(
+    context,
+    _codeSigningAccountsDeleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _codeSigningAccountsDeleteSend(context, resourceGroupName, accountName, options),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
+}
+
+export function _codeSigningAccountsUpdateSend(
+  context: Client,
+  resourceGroupName: string,
+  accountName: string,
+  properties: CodeSigningAccountPatch,
+  options: CodeSigningAccountsUpdateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      accountName: accountName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: codeSigningAccountPatchSerializer(properties),
+  });
+}
+
+export async function _codeSigningAccountsUpdateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<CodeSigningAccount> {
+  const expectedStatuses = ["200", "202"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return codeSigningAccountDeserializer(result.body);
+}
+
+/** Update a trusted signing account. */
+export function codeSigningAccountsUpdate(
+  context: Client,
+  resourceGroupName: string,
+  accountName: string,
+  properties: CodeSigningAccountPatch,
+  options: CodeSigningAccountsUpdateOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<CodeSigningAccount>, CodeSigningAccount> {
+  return getLongRunningPoller(context, _codeSigningAccountsUpdateDeserialize, ["200", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _$deleteSend(context, subscriptionId, resourceGroupName, accountName, options),
+      _codeSigningAccountsUpdateSend(context, resourceGroupName, accountName, properties, options),
     resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  }) as PollerLike<OperationState<CodeSigningAccount>, CodeSigningAccount>;
 }
 
-export function _listByResourceGroupSend(
+export function _codeSigningAccountsCreateSend(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
-  options: CodeSigningAccountsListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  accountName: string,
+  resource: CodeSigningAccount,
+  options: CodeSigningAccountsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts",
-      subscriptionId,
-      resourceGroupName,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      accountName: accountName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: codeSigningAccountSerializer(resource),
+  });
 }
 
-export async function _listByResourceGroupDeserialize(
+export async function _codeSigningAccountsCreateDeserialize(
   result: PathUncheckedResponse,
-): Promise<_CodeSigningAccountListResult> {
-  const expectedStatuses = ["200"];
+): Promise<CodeSigningAccount> {
+  const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
-  return {
-    value: result.body["value"].map((p: any) => {
-      return {
-        tags: p["tags"],
-        location: p["location"],
-        id: p["id"],
-        name: p["name"],
-        type: p["type"],
-        systemData: !p.systemData
-          ? undefined
-          : {
-              createdBy: p.systemData?.["createdBy"],
-              createdByType: p.systemData?.["createdByType"],
-              createdAt:
-                p.systemData?.["createdAt"] !== undefined
-                  ? new Date(p.systemData?.["createdAt"])
-                  : undefined,
-              lastModifiedBy: p.systemData?.["lastModifiedBy"],
-              lastModifiedByType: p.systemData?.["lastModifiedByType"],
-              lastModifiedAt:
-                p.systemData?.["lastModifiedAt"] !== undefined
-                  ? new Date(p.systemData?.["lastModifiedAt"])
-                  : undefined,
-            },
-        properties: !p.properties
-          ? undefined
-          : {
-              accountUri: p.properties?.["accountUri"],
-              sku: !p.properties?.sku ? undefined : { name: p.properties?.sku?.["name"] },
-              provisioningState: p.properties?.["provisioningState"],
-            },
-      };
-    }),
-    nextLink: result.body["nextLink"],
-  };
+  return codeSigningAccountDeserializer(result.body);
 }
 
-/** Lists trusted signing accounts within a resource group. */
-export function listByResourceGroup(
+/** Create a trusted Signing Account. */
+export function codeSigningAccountsCreate(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
-  options: CodeSigningAccountsListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
-): PagedAsyncIterableIterator<CodeSigningAccount> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _listByResourceGroupSend(context, subscriptionId, resourceGroupName, options),
-    _listByResourceGroupDeserialize,
-    ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
-  );
+  accountName: string,
+  resource: CodeSigningAccount,
+  options: CodeSigningAccountsCreateOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<CodeSigningAccount>, CodeSigningAccount> {
+  return getLongRunningPoller(context, _codeSigningAccountsCreateDeserialize, ["200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _codeSigningAccountsCreateSend(context, resourceGroupName, accountName, resource, options),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<CodeSigningAccount>, CodeSigningAccount>;
 }
 
-export function _listBySubscriptionSend(
+export function _codeSigningAccountsGetSend(
   context: Client,
-  subscriptionId: string,
-  options: CodeSigningAccountsListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  resourceGroupName: string,
+  accountName: string,
+  options: CodeSigningAccountsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.CodeSigning/codeSigningAccounts",
-      subscriptionId,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      accountName: accountName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _listBySubscriptionDeserialize(
+export async function _codeSigningAccountsGetDeserialize(
   result: PathUncheckedResponse,
-): Promise<_CodeSigningAccountListResult> {
+): Promise<CodeSigningAccount> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
-  return {
-    value: result.body["value"].map((p: any) => {
-      return {
-        tags: p["tags"],
-        location: p["location"],
-        id: p["id"],
-        name: p["name"],
-        type: p["type"],
-        systemData: !p.systemData
-          ? undefined
-          : {
-              createdBy: p.systemData?.["createdBy"],
-              createdByType: p.systemData?.["createdByType"],
-              createdAt:
-                p.systemData?.["createdAt"] !== undefined
-                  ? new Date(p.systemData?.["createdAt"])
-                  : undefined,
-              lastModifiedBy: p.systemData?.["lastModifiedBy"],
-              lastModifiedByType: p.systemData?.["lastModifiedByType"],
-              lastModifiedAt:
-                p.systemData?.["lastModifiedAt"] !== undefined
-                  ? new Date(p.systemData?.["lastModifiedAt"])
-                  : undefined,
-            },
-        properties: !p.properties
-          ? undefined
-          : {
-              accountUri: p.properties?.["accountUri"],
-              sku: !p.properties?.sku ? undefined : { name: p.properties?.sku?.["name"] },
-              provisioningState: p.properties?.["provisioningState"],
-            },
-      };
-    }),
-    nextLink: result.body["nextLink"],
-  };
+  return codeSigningAccountDeserializer(result.body);
 }
 
-/** Lists trusted signing accounts within a subscription. */
-export function listBySubscription(
+/** Get a trusted Signing Account. */
+export async function codeSigningAccountsGet(
   context: Client,
-  subscriptionId: string,
-  options: CodeSigningAccountsListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
-): PagedAsyncIterableIterator<CodeSigningAccount> {
-  return buildPagedAsyncIterator(
+  resourceGroupName: string,
+  accountName: string,
+  options: CodeSigningAccountsGetOptionalParams = { requestOptions: {} },
+): Promise<CodeSigningAccount> {
+  const result = await _codeSigningAccountsGetSend(
     context,
-    () => _listBySubscriptionSend(context, subscriptionId, options),
-    _listBySubscriptionDeserialize,
-    ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    resourceGroupName,
+    accountName,
+    options,
   );
-}
-
-export function _checkNameAvailabilitySend(
-  context: Client,
-  subscriptionId: string,
-  body: CheckNameAvailability,
-  options: CodeSigningAccountsCheckNameAvailabilityOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.CodeSigning/checkNameAvailability",
-      subscriptionId,
-    )
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      body: { name: body["name"] },
-    });
-}
-
-export async function _checkNameAvailabilityDeserialize(
-  result: PathUncheckedResponse,
-): Promise<CheckNameAvailabilityResult> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return {
-    nameAvailable: result.body["nameAvailable"],
-    reason: result.body["reason"],
-    message: result.body["message"],
-  };
-}
-
-/** Checks that the trusted signing account name is valid and is not already in use. */
-export async function checkNameAvailability(
-  context: Client,
-  subscriptionId: string,
-  body: CheckNameAvailability,
-  options: CodeSigningAccountsCheckNameAvailabilityOptionalParams = {
-    requestOptions: {},
-  },
-): Promise<CheckNameAvailabilityResult> {
-  const result = await _checkNameAvailabilitySend(context, subscriptionId, body, options);
-  return _checkNameAvailabilityDeserialize(result);
+  return _codeSigningAccountsGetDeserialize(result);
 }
