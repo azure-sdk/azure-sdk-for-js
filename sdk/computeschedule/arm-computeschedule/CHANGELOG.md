@@ -1,15 +1,19 @@
 # Release History
-
-## 1.0.1 (Unreleased)
-
+    
+## 2.0.0 (2025-03-24)
+    
 ### Features Added
+
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Enum KnownVersions has a new value _20241001
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Enum KnownVersions no longer has value "V2024-10-01"
+    
+    
 ## 1.0.0 (2025-01-24)
 
 ### Features Added
