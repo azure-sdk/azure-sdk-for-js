@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OracleDatabaseManagementClient } from "../src/index.js";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { DatabaseClient } from "../src/index.js";
 import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
@@ -9,7 +12,7 @@ import { describe, it } from "vitest";
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_Node", async () => {
     const subscriptionId = "00000000-0000-0000-0000-000000000000";
-    const client = new OracleDatabaseManagementClient(new DefaultAzureCredential(), subscriptionId);
+    const client = new DatabaseClient(new DefaultAzureCredential(), subscriptionId);
   });
 
   it("ReadmeSampleCreateClient_Browser", async () => {
@@ -18,7 +21,7 @@ describe("snippets", () => {
       tenantId: "<YOUR_TENANT_ID>",
       clientId: "<YOUR_CLIENT_ID>",
     });
-    const client = new OracleDatabaseManagementClient(credential, subscriptionId);
+    const client = new DatabaseClient(credential, subscriptionId);
   });
 
   it("SetLogLevel", async () => {

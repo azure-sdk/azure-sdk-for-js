@@ -1,0 +1,32 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { DatabaseClient } from "@azure/arm-oracledatabase";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to list VirtualNetworkAddress resources by CloudVmCluster
+ *
+ * @summary list VirtualNetworkAddress resources by CloudVmCluster
+ * x-ms-original-file: 2024-10-01-preview/virtualNetworkAddresses_listByParent.json
+ */
+async function virtualNetworkAddressesListByCloudVmCluster(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new DatabaseClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.virtualNetworkAddresses.listByCloudVmCluster(
+    "rg000",
+    "cluster1",
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main(): Promise<void> {
+  await virtualNetworkAddressesListByCloudVmCluster();
+}
+
+main().catch(console.error);
