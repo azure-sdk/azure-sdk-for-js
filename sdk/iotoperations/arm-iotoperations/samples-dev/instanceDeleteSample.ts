@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a InstanceResource
  *
  * @summary delete a InstanceResource
- * x-ms-original-file: 2024-11-01/Instance_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-04-01/Instance_Delete_MaximumSet_Gen.json
  */
 async function instanceDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
