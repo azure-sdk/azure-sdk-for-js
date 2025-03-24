@@ -11,6 +11,7 @@ import {
   InstanceUpdateOptionalParams,
 } from "../index.js";
 import {
+  errorResponseDeserializer,
   InstanceResource,
   instanceResourceSerializer,
   instanceResourceDeserializer,
@@ -24,6 +25,7 @@ import {
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -32,71 +34,252 @@ import {
 } from "@azure-rest/core-client";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
-export function _instanceGetSend(
+export function _instanceListBySubscriptionSend(
   context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  instanceName: string,
-  options: InstanceGetOptionalParams = { requestOptions: {} },
+  options: InstanceListBySubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}",
-      subscriptionId,
-      resourceGroupName,
-      instanceName,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.IoTOperations/instances{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _instanceGetDeserialize(
+export async function _instanceListBySubscriptionDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_InstanceResourceListResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return _instanceResourceListResultDeserializer(result.body);
+}
+
+/** List InstanceResource resources by subscription ID */
+export function instanceListBySubscription(
+  context: Client,
+  options: InstanceListBySubscriptionOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<InstanceResource> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _instanceListBySubscriptionSend(context, options),
+    _instanceListBySubscriptionDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink" },
+  );
+}
+
+export function _instanceListByResourceGroupSend(
+  context: Client,
+  resourceGroupName: string,
+  options: InstanceListByResourceGroupOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _instanceListByResourceGroupDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_InstanceResourceListResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return _instanceResourceListResultDeserializer(result.body);
+}
+
+/** List InstanceResource resources by resource group */
+export function instanceListByResourceGroup(
+  context: Client,
+  resourceGroupName: string,
+  options: InstanceListByResourceGroupOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<InstanceResource> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _instanceListByResourceGroupSend(context, resourceGroupName, options),
+    _instanceListByResourceGroupDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink" },
+  );
+}
+
+export function _instanceDeleteSend(
+  context: Client,
+  resourceGroupName: string,
+  instanceName: string,
+  options: InstanceDeleteOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      instanceName: instanceName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _instanceDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["202", "204", "200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return;
+}
+
+/** Delete a InstanceResource */
+export function instanceDelete(
+  context: Client,
+  resourceGroupName: string,
+  instanceName: string,
+  options: InstanceDeleteOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _instanceDeleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _instanceDeleteSend(context, resourceGroupName, instanceName, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
+}
+
+export function _instanceUpdateSend(
+  context: Client,
+  resourceGroupName: string,
+  instanceName: string,
+  properties: InstancePatchModel,
+  options: InstanceUpdateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      instanceName: instanceName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: instancePatchModelSerializer(properties),
+  });
+}
+
+export async function _instanceUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<InstanceResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return instanceResourceDeserializer(result.body);
 }
 
-/** Get a InstanceResource */
-export async function instanceGet(
+/** Update a InstanceResource */
+export async function instanceUpdate(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   instanceName: string,
-  options: InstanceGetOptionalParams = { requestOptions: {} },
+  properties: InstancePatchModel,
+  options: InstanceUpdateOptionalParams = { requestOptions: {} },
 ): Promise<InstanceResource> {
-  const result = await _instanceGetSend(
+  const result = await _instanceUpdateSend(
     context,
-    subscriptionId,
     resourceGroupName,
     instanceName,
+    properties,
     options,
   );
-  return _instanceGetDeserialize(result);
+  return _instanceUpdateDeserialize(result);
 }
 
 export function _instanceCreateOrUpdateSend(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   instanceName: string,
   resource: InstanceResource,
   options: InstanceCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}",
-      subscriptionId,
-      resourceGroupName,
-      instanceName,
-    )
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      body: instanceResourceSerializer(resource),
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      instanceName: instanceName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: instanceResourceSerializer(resource),
+  });
 }
 
 export async function _instanceCreateOrUpdateDeserialize(
@@ -104,7 +287,9 @@ export async function _instanceCreateOrUpdateDeserialize(
 ): Promise<InstanceResource> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return instanceResourceDeserializer(result.body);
@@ -113,7 +298,6 @@ export async function _instanceCreateOrUpdateDeserialize(
 /** Create a InstanceResource */
 export function instanceCreateOrUpdate(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   instanceName: string,
   resource: InstanceResource,
@@ -123,190 +307,58 @@ export function instanceCreateOrUpdate(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _instanceCreateOrUpdateSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        resource,
-        options,
-      ),
+      _instanceCreateOrUpdateSend(context, resourceGroupName, instanceName, resource, options),
     resourceLocationConfig: "azure-async-operation",
   }) as PollerLike<OperationState<InstanceResource>, InstanceResource>;
 }
 
-export function _instanceUpdateSend(
+export function _instanceGetSend(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   instanceName: string,
-  properties: InstancePatchModel,
-  options: InstanceUpdateOptionalParams = { requestOptions: {} },
+  options: InstanceGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}",
-      subscriptionId,
-      resourceGroupName,
-      instanceName,
-    )
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      body: instancePatchModelSerializer(properties),
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      instanceName: instanceName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _instanceUpdateDeserialize(
+export async function _instanceGetDeserialize(
   result: PathUncheckedResponse,
 ): Promise<InstanceResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return instanceResourceDeserializer(result.body);
 }
 
-/** Update a InstanceResource */
-export async function instanceUpdate(
+/** Get a InstanceResource */
+export async function instanceGet(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   instanceName: string,
-  properties: InstancePatchModel,
-  options: InstanceUpdateOptionalParams = { requestOptions: {} },
+  options: InstanceGetOptionalParams = { requestOptions: {} },
 ): Promise<InstanceResource> {
-  const result = await _instanceUpdateSend(
-    context,
-    subscriptionId,
-    resourceGroupName,
-    instanceName,
-    properties,
-    options,
-  );
-  return _instanceUpdateDeserialize(result);
-}
-
-export function _instanceDeleteSend(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  instanceName: string,
-  options: InstanceDeleteOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}",
-      subscriptionId,
-      resourceGroupName,
-      instanceName,
-    )
-    .delete({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _instanceDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return;
-}
-
-/** Delete a InstanceResource */
-export function instanceDelete(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  instanceName: string,
-  options: InstanceDeleteOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _instanceDeleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _instanceDeleteSend(context, subscriptionId, resourceGroupName, instanceName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
-}
-
-export function _instanceListByResourceGroupSend(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  options: InstanceListByResourceGroupOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances",
-      subscriptionId,
-      resourceGroupName,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _instanceListByResourceGroupDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_InstanceResourceListResult> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return _instanceResourceListResultDeserializer(result.body);
-}
-
-/** List InstanceResource resources by resource group */
-export function instanceListByResourceGroup(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  options: InstanceListByResourceGroupOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<InstanceResource> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _instanceListByResourceGroupSend(context, subscriptionId, resourceGroupName, options),
-    _instanceListByResourceGroupDeserialize,
-    ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
-  );
-}
-
-export function _instanceListBySubscriptionSend(
-  context: Client,
-  subscriptionId: string,
-  options: InstanceListBySubscriptionOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.IoTOperations/instances",
-      subscriptionId,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _instanceListBySubscriptionDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_InstanceResourceListResult> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return _instanceResourceListResultDeserializer(result.body);
-}
-
-/** List InstanceResource resources by subscription ID */
-export function instanceListBySubscription(
-  context: Client,
-  subscriptionId: string,
-  options: InstanceListBySubscriptionOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<InstanceResource> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _instanceListBySubscriptionSend(context, subscriptionId, options),
-    _instanceListBySubscriptionDeserialize,
-    ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
-  );
+  const result = await _instanceGetSend(context, resourceGroupName, instanceName, options);
+  return _instanceGetDeserialize(result);
 }
