@@ -18,9 +18,7 @@ async function updateAssetEndpointProfile(): Promise<void> {
     "myResourceGroup",
     "my-assetendpointprofile",
     {
-      properties: {
-        targetAddress: "https://www.example.com/myTargetAddress",
-      },
+      properties: { targetAddress: "https://www.example.com/myTargetAddress" },
     },
   );
   console.log(result);
