@@ -8,7 +8,23 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
  *
  * @summary updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
- * x-ms-original-file: 2024-07-01/MongoClusters_PatchDiskSize.json
+ * x-ms-original-file: 2024-10-01-preview/MongoClusters_PatchDataApi.json
+ */
+async function enablesDataAPIOnAMongoClusterResource(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new MongoClusterManagementClient(credential, subscriptionId);
+  const result = await client.mongoClusters.update("TestResourceGroup", "myMongoCluster", {
+    properties: { dataApi: { mode: "Enabled" } },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
+ *
+ * @summary updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
+ * x-ms-original-file: 2024-10-01-preview/MongoClusters_PatchDiskSize.json
  */
 async function updatesTheDiskSizeOnAMongoClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +40,7 @@ async function updatesTheDiskSizeOnAMongoClusterResource(): Promise<void> {
  * This sample demonstrates how to updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
  *
  * @summary updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
- * x-ms-original-file: 2024-07-01/MongoClusters_PatchPrivateNetworkAccess.json
+ * x-ms-original-file: 2024-10-01-preview/MongoClusters_PatchPrivateNetworkAccess.json
  */
 async function disablesPublicNetworkAccessOnAMongoClusterResourceWithAPrivateEndpointConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -40,7 +56,7 @@ async function disablesPublicNetworkAccessOnAMongoClusterResourceWithAPrivateEnd
  * This sample demonstrates how to updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
  *
  * @summary updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
- * x-ms-original-file: 2024-07-01/MongoClusters_ResetPassword.json
+ * x-ms-original-file: 2024-10-01-preview/MongoClusters_ResetPassword.json
  */
 async function resetsTheAdministratorLoginPassword(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -58,7 +74,7 @@ async function resetsTheAdministratorLoginPassword(): Promise<void> {
  * This sample demonstrates how to updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
  *
  * @summary updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
- * x-ms-original-file: 2024-07-01/MongoClusters_Update.json
+ * x-ms-original-file: 2024-10-01-preview/MongoClusters_Update.json
  */
 async function updatesAMongoClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -80,6 +96,7 @@ async function updatesAMongoClusterResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
+  await enablesDataAPIOnAMongoClusterResource();
   await updatesTheDiskSizeOnAMongoClusterResource();
   await disablesPublicNetworkAccessOnAMongoClusterResourceWithAPrivateEndpointConnection();
   await resetsTheAdministratorLoginPassword();
