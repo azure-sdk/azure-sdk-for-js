@@ -4,19 +4,25 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams extends OperationOptions {}
+export interface AccountQuotasListByAccountOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AccountsGetOptionalParams extends OperationOptions {}
+export interface AccountQuotasGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AccountsCreateOrUpdateOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-}
+export interface QuotasListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AccountsUpdateOptionalParams extends OperationOptions {}
+export interface QuotasGetOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface AccountsCheckNameAvailabilityOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface AccountsListBySubscriptionOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface AccountsListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AccountsDeleteOptionalParams extends OperationOptions {
@@ -25,22 +31,16 @@ export interface AccountsDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface AccountsListByResourceGroupOptionalParams extends OperationOptions {}
+export interface AccountsUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AccountsListBySubscriptionOptionalParams extends OperationOptions {}
+export interface AccountsCreateOrUpdateOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
 
 /** Optional parameters. */
-export interface AccountsCheckNameAvailabilityOptionalParams extends OperationOptions {}
+export interface AccountsGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface QuotasGetOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface QuotasListBySubscriptionOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface AccountQuotasGetOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface AccountQuotasListByAccountOptionalParams extends OperationOptions {}
+export interface OperationsListOptionalParams extends OperationOptions {}
