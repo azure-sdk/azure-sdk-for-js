@@ -1,0 +1,4 @@
+directory: specification/azuredependencymap/DependencyMap.Management
+commit: a5601ef7c12352c76df69b5014fa6f9f4d4fbb5e
+repo: ../azure-rest-api-specs
+additionalDirectories: 
