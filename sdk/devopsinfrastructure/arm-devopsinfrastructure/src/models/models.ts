@@ -148,6 +148,78 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+export function errorResponseDeserializer(item: any): ErrorResponse {
+  return {
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+  };
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+export function errorDetailDeserializer(item: any): ErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
+  };
+}
+
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+  return result.map((item) => {
+    return errorDetailDeserializer(item);
+  });
+}
+
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+  return result.map((item) => {
+    return errorAdditionalInfoDeserializer(item);
+  });
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: Record<string, any>;
+}
+
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+  return {
+    type: item["type"],
+    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+  };
+}
+
+/** model interface _ErrorAdditionalInfoInfo */
+export interface _ErrorAdditionalInfoInfo {}
+
+export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
+  return item;
+}
+
 /** Paged collection of Quota items */
 export interface _PagedQuota {
   /** The Quota items on this page */
@@ -838,6 +910,8 @@ export interface Organization {
   projects?: string[];
   /** How many machines can be created at maximum in this organization out of the maximumConcurrency of the pool. */
   parallelism?: number;
+  /** Determines if the pool should have open access to all projects in this organization. */
+  openAccess?: boolean;
 }
 
 export function organizationSerializer(item: Organization): any {
@@ -849,6 +923,7 @@ export function organizationSerializer(item: Organization): any {
           return p;
         }),
     parallelism: item["parallelism"],
+    openAccess: item["openAccess"],
   };
 }
 
@@ -861,6 +936,7 @@ export function organizationDeserializer(item: any): Organization {
           return p;
         }),
     parallelism: item["parallelism"],
+    openAccess: item["openAccess"],
   };
 }
 
@@ -940,25 +1016,25 @@ export interface AgentProfile {
 
 export function agentProfileSerializer(item: AgentProfile): any {
   return {
+    kind: item["kind"],
     resourcePredictions: !item["resourcePredictions"]
       ? item["resourcePredictions"]
       : resourcePredictionsSerializer(item["resourcePredictions"]),
     resourcePredictionsProfile: !item["resourcePredictionsProfile"]
       ? item["resourcePredictionsProfile"]
       : resourcePredictionsProfileUnionSerializer(item["resourcePredictionsProfile"]),
-    kind: item["kind"],
   };
 }
 
 export function agentProfileDeserializer(item: any): AgentProfile {
   return {
+    kind: item["kind"],
     resourcePredictions: !item["resourcePredictions"]
       ? item["resourcePredictions"]
       : resourcePredictionsDeserializer(item["resourcePredictions"]),
     resourcePredictionsProfile: !item["resourcePredictionsProfile"]
       ? item["resourcePredictionsProfile"]
       : resourcePredictionsProfileUnionDeserializer(item["resourcePredictionsProfile"]),
-    kind: item["kind"],
   };
 }
 
@@ -1158,25 +1234,25 @@ export interface StatelessAgentProfile extends AgentProfile {
 
 export function statelessAgentProfileSerializer(item: StatelessAgentProfile): any {
   return {
+    kind: item["kind"],
     resourcePredictions: !item["resourcePredictions"]
       ? item["resourcePredictions"]
       : resourcePredictionsSerializer(item["resourcePredictions"]),
     resourcePredictionsProfile: !item["resourcePredictionsProfile"]
       ? item["resourcePredictionsProfile"]
       : resourcePredictionsProfileUnionSerializer(item["resourcePredictionsProfile"]),
-    kind: item["kind"],
   };
 }
 
 export function statelessAgentProfileDeserializer(item: any): StatelessAgentProfile {
   return {
+    kind: item["kind"],
     resourcePredictions: !item["resourcePredictions"]
       ? item["resourcePredictions"]
       : resourcePredictionsDeserializer(item["resourcePredictions"]),
     resourcePredictionsProfile: !item["resourcePredictionsProfile"]
       ? item["resourcePredictionsProfile"]
       : resourcePredictionsProfileUnionDeserializer(item["resourcePredictionsProfile"]),
-    kind: item["kind"],
   };
 }
 
@@ -1192,13 +1268,13 @@ export interface Stateful extends AgentProfile {
 
 export function statefulSerializer(item: Stateful): any {
   return {
+    kind: item["kind"],
     resourcePredictions: !item["resourcePredictions"]
       ? item["resourcePredictions"]
       : resourcePredictionsSerializer(item["resourcePredictions"]),
     resourcePredictionsProfile: !item["resourcePredictionsProfile"]
       ? item["resourcePredictionsProfile"]
       : resourcePredictionsProfileUnionSerializer(item["resourcePredictionsProfile"]),
-    kind: item["kind"],
     maxAgentLifetime: item["maxAgentLifetime"],
     gracePeriodTimeSpan: item["gracePeriodTimeSpan"],
   };
@@ -1206,13 +1282,13 @@ export function statefulSerializer(item: Stateful): any {
 
 export function statefulDeserializer(item: any): Stateful {
   return {
+    kind: item["kind"],
     resourcePredictions: !item["resourcePredictions"]
       ? item["resourcePredictions"]
       : resourcePredictionsDeserializer(item["resourcePredictions"]),
     resourcePredictionsProfile: !item["resourcePredictionsProfile"]
       ? item["resourcePredictionsProfile"]
       : resourcePredictionsProfileUnionDeserializer(item["resourcePredictionsProfile"]),
-    kind: item["kind"],
     maxAgentLifetime: item["maxAgentLifetime"],
     gracePeriodTimeSpan: item["gracePeriodTimeSpan"],
   };
@@ -1342,6 +1418,8 @@ export interface PoolImage {
   aliases?: string[];
   /** The percentage of the buffer to be allocated to this image. */
   buffer?: string;
+  /** The ephemeral type of the image. */
+  ephemeralType?: EphemeralType;
 }
 
 export function poolImageSerializer(item: PoolImage): any {
@@ -1354,6 +1432,7 @@ export function poolImageSerializer(item: PoolImage): any {
           return p;
         }),
     buffer: item["buffer"],
+    ephemeralType: item["ephemeralType"],
   };
 }
 
@@ -1367,8 +1446,30 @@ export function poolImageDeserializer(item: any): PoolImage {
           return p;
         }),
     buffer: item["buffer"],
+    ephemeralType: item["ephemeralType"],
   };
 }
+
+/** The type of Ephemeral option the pool will use on underlying VMs when loading this image. */
+export enum KnownEphemeralType {
+  /** Ephemeral is handled by Managed DevOps Pools service. */
+  Automatic = "Automatic",
+  /** CacheDisk ephemeral only, requires that the SKU has a cache that is large enough for the image. */
+  CacheDisk = "CacheDisk",
+  /** ResourceDisk ephemeral only, requires only that the SKU supports it. */
+  ResourceDisk = "ResourceDisk",
+}
+
+/**
+ * The type of Ephemeral option the pool will use on underlying VMs when loading this image. \
+ * {@link KnownEphemeralType} can be used interchangeably with EphemeralType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Automatic**: Ephemeral is handled by Managed DevOps Pools service. \
+ * **CacheDisk**: CacheDisk ephemeral only, requires that the SKU has a cache that is large enough for the image. \
+ * **ResourceDisk**: ResourceDisk ephemeral only, requires only that the SKU supports it.
+ */
+export type EphemeralType = string;
 
 /** The OS profile of the machines in the pool. */
 export interface OsProfile {
@@ -1400,6 +1501,8 @@ export function osProfileDeserializer(item: any): OsProfile {
 export interface SecretsManagementSettings {
   /** Where to store certificates on the machine. */
   certificateStoreLocation?: string;
+  /** Name of the certificate store to use on the machine, currently 'My' and 'Root' are supported. */
+  certificateStoreName?: CertificateStoreNameOption;
   /** The list of certificates to install on all machines in the pool. */
   observedCertificates: string[];
   /** Defines if the key of the certificates should be exportable. */
@@ -1409,6 +1512,7 @@ export interface SecretsManagementSettings {
 export function secretsManagementSettingsSerializer(item: SecretsManagementSettings): any {
   return {
     certificateStoreLocation: item["certificateStoreLocation"],
+    certificateStoreName: item["certificateStoreName"],
     observedCertificates: item["observedCertificates"].map((p: any) => {
       return p;
     }),
@@ -1419,12 +1523,31 @@ export function secretsManagementSettingsSerializer(item: SecretsManagementSetti
 export function secretsManagementSettingsDeserializer(item: any): SecretsManagementSettings {
   return {
     certificateStoreLocation: item["certificateStoreLocation"],
+    certificateStoreName: item["certificateStoreName"],
     observedCertificates: item["observedCertificates"].map((p: any) => {
       return p;
     }),
     keyExportable: item["keyExportable"],
   };
 }
+
+/** The certificate store name type */
+export enum KnownCertificateStoreNameOption {
+  /** The X.509 certificate store for personal certificates. */
+  My = "My",
+  /** The X.509 certificate store for trusted root certificate authorities (CAs). */
+  Root = "Root",
+}
+
+/**
+ * The certificate store name type \
+ * {@link KnownCertificateStoreNameOption} can be used interchangeably with CertificateStoreNameOption,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **My**: The X.509 certificate store for personal certificates. \
+ * **Root**: The X.509 certificate store for trusted root certificate authorities (CAs).
+ */
+export type CertificateStoreNameOption = string;
 
 /** Determines how the service should be run. */
 export enum KnownLogonType {
@@ -1559,11 +1682,11 @@ export enum KnownStorageAccountType {
   /** The data disk should use premium locally redundant storage. */
   PremiumLRS = "Premium_LRS",
   /** The data disk should use standard SSD locally redundant storage. */
-  StandardSSDLRS = "StandardSSD_LRS",
+  StandardSsdlrs = "StandardSSD_LRS",
   /** The data disk should use premium SSD zonal redundant storage. */
   PremiumZRS = "Premium_ZRS",
   /** The data disk should use standard SSD zonal redundant storage. */
-  StandardSSDZRS = "StandardSSD_ZRS",
+  StandardSsdzrs = "StandardSSD_ZRS",
 }
 
 /**
@@ -1649,10 +1772,10 @@ export type ManagedServiceIdentityType = string;
 
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
-  /** The principal ID of the assigned identity. */
-  readonly principalId?: string;
   /** The client ID of the assigned identity. */
   readonly clientId?: string;
+  /** The principal ID of the assigned identity. */
+  readonly principalId?: string;
 }
 
 export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
@@ -1661,8 +1784,8 @@ export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any 
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
   return {
-    principalId: item["principalId"],
     clientId: item["clientId"],
+    principalId: item["principalId"],
   };
 }
 
@@ -1773,6 +1896,90 @@ export function poolArrayDeserializer(result: Array<Pool>): any[] {
   });
 }
 
+/** The parameters used to check the availability of a resource. */
+export interface CheckNameAvailability {
+  /** The name of the resource. */
+  name: string;
+  /** The type of resource that is used as the scope of the availability check. */
+  type: DevOpsInfrastructureResourceType;
+}
+
+export function checkNameAvailabilitySerializer(item: CheckNameAvailability): any {
+  return { name: item["name"], type: item["type"] };
+}
+
+/** The type of resource. */
+export enum KnownDevOpsInfrastructureResourceType {
+  /** DevOpsInfrastructure pool resource. */
+  MicrosoftDevOpsInfrastructurePools = "Microsoft.DevOpsInfrastructure/pools",
+}
+
+/**
+ * The type of resource. \
+ * {@link KnownDevOpsInfrastructureResourceType} can be used interchangeably with DevOpsInfrastructureResourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Microsoft.DevOpsInfrastructure\/pools**: DevOpsInfrastructure pool resource.
+ */
+export type DevOpsInfrastructureResourceType = string;
+
+/** The CheckNameAvailability operation response. */
+export interface CheckNameAvailabilityResult {
+  /** Availability status of the name. */
+  available: AvailabilityStatus;
+  /** A message explaining why the name is unavailable. Will be null if the name is available. */
+  message: string;
+  /** The name whose availability was checked. */
+  name: string;
+  /** The reason code explaining why the name is unavailable. Will be null if the name is available. */
+  reason: CheckNameAvailabilityReason;
+}
+
+export function checkNameAvailabilityResultDeserializer(item: any): CheckNameAvailabilityResult {
+  return {
+    available: item["available"],
+    message: item["message"],
+    name: item["name"],
+    reason: item["reason"],
+  };
+}
+
+/** AvailabilityStatus of a name. */
+export enum KnownAvailabilityStatus {
+  /** The name is available. */
+  Available = "Available",
+  /** The name is unavailable */
+  Unavailable = "Unavailable",
+}
+
+/**
+ * AvailabilityStatus of a name. \
+ * {@link KnownAvailabilityStatus} can be used interchangeably with AvailabilityStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Available**: The name is available. \
+ * **Unavailable**: The name is unavailable
+ */
+export type AvailabilityStatus = string;
+
+/** The reason code explaining why the name is unavailable. Will be null if the name is available. */
+export enum KnownCheckNameAvailabilityReason {
+  /** The name is invalid. */
+  Invalid = "Invalid",
+  /** The name already exists. */
+  AlreadyExists = "AlreadyExists",
+}
+
+/**
+ * The reason code explaining why the name is unavailable. Will be null if the name is available. \
+ * {@link KnownCheckNameAvailabilityReason} can be used interchangeably with CheckNameAvailabilityReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid**: The name is invalid. \
+ * **AlreadyExists**: The name already exists.
+ */
+export type CheckNameAvailabilityReason = string;
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -1801,11 +2008,11 @@ export interface Operation {
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
   readonly isDataAction?: boolean;
   /** Localized display information for this particular operation. */
-  readonly display?: OperationDisplay;
+  display?: OperationDisplay;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
   readonly origin?: Origin;
   /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: ActionType;
+  readonly actionType?: ActionType;
 }
 
 export function operationDeserializer(item: any): Operation {
@@ -1877,6 +2084,6 @@ export type ActionType = string;
 
 /** Api versions */
 export enum KnownVersions {
-  /** 2024-10-19 version */
-  "V2024-10-19" = "2024-10-19",
+  /** 2025-01-21 version */
+  _20250121 = "2025-01-21",
 }

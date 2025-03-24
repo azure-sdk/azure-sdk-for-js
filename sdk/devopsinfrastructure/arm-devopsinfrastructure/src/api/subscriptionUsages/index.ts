@@ -5,11 +5,17 @@ import {
   DevOpsInfrastructureContext as Client,
   SubscriptionUsagesUsagesOptionalParams,
 } from "../index.js";
-import { _PagedQuota, _pagedQuotaDeserializer, Quota } from "../../models/models.js";
+import {
+  errorResponseDeserializer,
+  _PagedQuota,
+  _pagedQuotaDeserializer,
+  Quota,
+} from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -19,17 +25,27 @@ import {
 
 export function _subscriptionUsagesUsagesSend(
   context: Client,
-  subscriptionId: string,
   location: string,
   options: SubscriptionUsagesUsagesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.DevOpsInfrastructure/locations/{location}/usages",
-      subscriptionId,
-      location,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.DevOpsInfrastructure/locations/{location}/usages{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      location: location,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _subscriptionUsagesUsagesDeserialize(
@@ -37,7 +53,9 @@ export async function _subscriptionUsagesUsagesDeserialize(
 ): Promise<_PagedQuota> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return _pagedQuotaDeserializer(result.body);
@@ -46,13 +64,12 @@ export async function _subscriptionUsagesUsagesDeserialize(
 /** List Quota resources by subscription ID */
 export function subscriptionUsagesUsages(
   context: Client,
-  subscriptionId: string,
   location: string,
   options: SubscriptionUsagesUsagesOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Quota> {
   return buildPagedAsyncIterator(
     context,
-    () => _subscriptionUsagesUsagesSend(context, subscriptionId, location, options),
+    () => _subscriptionUsagesUsagesSend(context, location, options),
     _subscriptionUsagesUsagesDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
