@@ -14,6 +14,12 @@ import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { BillingBenefitsRP } from "../billingBenefitsRP.js";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
+import {
   SavingsPlanModel,
   SavingsPlanListNextOptionalParams,
   SavingsPlanListOptionalParams,
@@ -30,7 +36,7 @@ import {
   SavingsPlanValidateUpdateOptionalParams,
   SavingsPlanValidateUpdateResponse,
   SavingsPlanListNextResponse,
-  SavingsPlanListAllNextResponse
+  SavingsPlanListAllNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,7 +59,7 @@ export class SavingsPlanImpl implements SavingsPlan {
    */
   public list(
     savingsPlanOrderId: string,
-    options?: SavingsPlanListOptionalParams
+    options?: SavingsPlanListOptionalParams,
   ): PagedAsyncIterableIterator<SavingsPlanModel> {
     const iter = this.listPagingAll(savingsPlanOrderId, options);
     return {
@@ -68,14 +74,14 @@ export class SavingsPlanImpl implements SavingsPlan {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(savingsPlanOrderId, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     savingsPlanOrderId: string,
     options?: SavingsPlanListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SavingsPlanModel[]> {
     let result: SavingsPlanListResponse;
     let continuationToken = settings?.continuationToken;
@@ -90,7 +96,7 @@ export class SavingsPlanImpl implements SavingsPlan {
       result = await this._listNext(
         savingsPlanOrderId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -101,7 +107,7 @@ export class SavingsPlanImpl implements SavingsPlan {
 
   private async *listPagingAll(
     savingsPlanOrderId: string,
-    options?: SavingsPlanListOptionalParams
+    options?: SavingsPlanListOptionalParams,
   ): AsyncIterableIterator<SavingsPlanModel> {
     for await (const page of this.listPagingPage(savingsPlanOrderId, options)) {
       yield* page;
@@ -113,7 +119,7 @@ export class SavingsPlanImpl implements SavingsPlan {
    * @param options The options parameters.
    */
   public listAll(
-    options?: SavingsPlanListAllOptionalParams
+    options?: SavingsPlanListAllOptionalParams,
   ): PagedAsyncIterableIterator<SavingsPlanModel> {
     const iter = this.listAllPagingAll(options);
     return {
@@ -128,13 +134,13 @@ export class SavingsPlanImpl implements SavingsPlan {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listAllPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listAllPagingPage(
     options?: SavingsPlanListAllOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SavingsPlanModel[]> {
     let result: SavingsPlanListAllResponse;
     let continuationToken = settings?.continuationToken;
@@ -155,7 +161,7 @@ export class SavingsPlanImpl implements SavingsPlan {
   }
 
   private async *listAllPagingAll(
-    options?: SavingsPlanListAllOptionalParams
+    options?: SavingsPlanListAllOptionalParams,
   ): AsyncIterableIterator<SavingsPlanModel> {
     for await (const page of this.listAllPagingPage(options)) {
       yield* page;
@@ -169,11 +175,11 @@ export class SavingsPlanImpl implements SavingsPlan {
    */
   private _list(
     savingsPlanOrderId: string,
-    options?: SavingsPlanListOptionalParams
+    options?: SavingsPlanListOptionalParams,
   ): Promise<SavingsPlanListResponse> {
     return this.client.sendOperationRequest(
       { savingsPlanOrderId, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -182,7 +188,7 @@ export class SavingsPlanImpl implements SavingsPlan {
    * @param options The options parameters.
    */
   private _listAll(
-    options?: SavingsPlanListAllOptionalParams
+    options?: SavingsPlanListAllOptionalParams,
   ): Promise<SavingsPlanListAllResponse> {
     return this.client.sendOperationRequest({ options }, listAllOperationSpec);
   }
@@ -196,11 +202,11 @@ export class SavingsPlanImpl implements SavingsPlan {
   get(
     savingsPlanOrderId: string,
     savingsPlanId: string,
-    options?: SavingsPlanGetOptionalParams
+    options?: SavingsPlanGetOptionalParams,
   ): Promise<SavingsPlanGetResponse> {
     return this.client.sendOperationRequest(
       { savingsPlanOrderId, savingsPlanId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -211,16 +217,91 @@ export class SavingsPlanImpl implements SavingsPlan {
    * @param body Request body for patching a savings plan order alias
    * @param options The options parameters.
    */
-  update(
+  async beginUpdate(
     savingsPlanOrderId: string,
     savingsPlanId: string,
     body: SavingsPlanUpdateRequest,
-    options?: SavingsPlanUpdateOptionalParams
+    options?: SavingsPlanUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SavingsPlanUpdateResponse>,
+      SavingsPlanUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<SavingsPlanUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { savingsPlanOrderId, savingsPlanId, body, options },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SavingsPlanUpdateResponse,
+      OperationState<SavingsPlanUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Update savings plan.
+   * @param savingsPlanOrderId Order ID of the savings plan
+   * @param savingsPlanId ID of the savings plan
+   * @param body Request body for patching a savings plan order alias
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    savingsPlanOrderId: string,
+    savingsPlanId: string,
+    body: SavingsPlanUpdateRequest,
+    options?: SavingsPlanUpdateOptionalParams,
   ): Promise<SavingsPlanUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { savingsPlanOrderId, savingsPlanId, body, options },
-      updateOperationSpec
+    const poller = await this.beginUpdate(
+      savingsPlanOrderId,
+      savingsPlanId,
+      body,
+      options,
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -234,11 +315,11 @@ export class SavingsPlanImpl implements SavingsPlan {
     savingsPlanOrderId: string,
     savingsPlanId: string,
     body: SavingsPlanUpdateValidateRequest,
-    options?: SavingsPlanValidateUpdateOptionalParams
+    options?: SavingsPlanValidateUpdateOptionalParams,
   ): Promise<SavingsPlanValidateUpdateResponse> {
     return this.client.sendOperationRequest(
       { savingsPlanOrderId, savingsPlanId, body, options },
-      validateUpdateOperationSpec
+      validateUpdateOperationSpec,
     );
   }
 
@@ -251,11 +332,11 @@ export class SavingsPlanImpl implements SavingsPlan {
   private _listNext(
     savingsPlanOrderId: string,
     nextLink: string,
-    options?: SavingsPlanListNextOptionalParams
+    options?: SavingsPlanListNextOptionalParams,
   ): Promise<SavingsPlanListNextResponse> {
     return this.client.sendOperationRequest(
       { savingsPlanOrderId, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -266,11 +347,11 @@ export class SavingsPlanImpl implements SavingsPlan {
    */
   private _listAllNext(
     nextLink: string,
-    options?: SavingsPlanListAllNextOptionalParams
+    options?: SavingsPlanListAllNextOptionalParams,
   ): Promise<SavingsPlanListAllNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listAllNextOperationSpec
+      listAllNextOperationSpec,
     );
   }
 }
@@ -278,32 +359,31 @@ export class SavingsPlanImpl implements SavingsPlan {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/savingsPlans",
+  path: "/providers/Microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/savingsPlans",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SavingsPlanModelList
+      bodyMapper: Mappers.SavingsPlanModelList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.savingsPlanOrderId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAllOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.BillingBenefits/savingsPlans",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SavingsPlanModelListResult
+      bodyMapper: Mappers.SavingsPlanModelListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
@@ -312,116 +392,119 @@ const listAllOperationSpec: coreClient.OperationSpec = {
     Parameters.refreshSummary,
     Parameters.skiptoken,
     Parameters.selectedState,
-    Parameters.take
+    Parameters.take,
   ],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/savingsPlans/{savingsPlanId}",
+  path: "/providers/Microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/savingsPlans/{savingsPlanId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SavingsPlanModel
+      bodyMapper: Mappers.SavingsPlanModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.savingsPlanOrderId,
-    Parameters.savingsPlanId
+    Parameters.savingsPlanId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/savingsPlans/{savingsPlanId}",
+  path: "/providers/Microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/savingsPlans/{savingsPlanId}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SavingsPlanModel
+      bodyMapper: Mappers.SavingsPlanModel,
+    },
+    201: {
+      bodyMapper: Mappers.SavingsPlanModel,
     },
     202: {
-      headersMapper: Mappers.SavingsPlanUpdateHeaders
+      bodyMapper: Mappers.SavingsPlanModel,
+    },
+    204: {
+      bodyMapper: Mappers.SavingsPlanModel,
     },
     404: {
-      isError: true
+      isError: true,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.savingsPlanOrderId,
-    Parameters.savingsPlanId
+    Parameters.savingsPlanId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const validateUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/savingsPlans/{savingsPlanId}/validate",
+  path: "/providers/Microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/savingsPlans/{savingsPlanId}/validate",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SavingsPlanValidateResponse
+      bodyMapper: Mappers.SavingsPlanValidateResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.savingsPlanOrderId,
-    Parameters.savingsPlanId
+    Parameters.savingsPlanId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SavingsPlanModelList
+      bodyMapper: Mappers.SavingsPlanModelList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.savingsPlanOrderId
+    Parameters.savingsPlanOrderId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAllNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SavingsPlanModelListResult
+      bodyMapper: Mappers.SavingsPlanModelListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
