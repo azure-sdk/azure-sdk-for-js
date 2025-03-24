@@ -17,8 +17,11 @@ export {
   KnownTargetProvider,
   TargetProvider,
   ExportQuery,
+  KnownAuthorizationScopeFilter,
+  AuthorizationScopeFilter,
   ExportResource,
   ExportResourceGroup,
+  ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,
   TerraformOperationStatus,
@@ -35,8 +38,8 @@ export {
 } from "./models/index.js";
 export {
   AzureTerraformClientOptionalParams,
-  OperationsListOptionalParams,
   TerraformExportTerraformOptionalParams,
+  OperationsListOptionalParams,
 } from "./api/index.js";
 export { OperationsOperations, TerraformOperations } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
