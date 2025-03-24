@@ -171,6 +171,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ManagedEnvironmentStorage,
     },
+    201: {
+      bodyMapper: Mappers.ManagedEnvironmentStorage,
+    },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
