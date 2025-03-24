@@ -234,7 +234,6 @@ export interface ErrorResponse {
 // @public
 interface Event_2 extends ProxyResource {
     additionalInformation?: EventPropertiesAdditionalInformation;
-    argQuery?: string;
     article?: EventPropertiesArticle;
     description?: string;
     duration?: number;
@@ -242,7 +241,6 @@ interface Event_2 extends ProxyResource {
     enableMicrosoftSupport?: boolean;
     eventLevel?: EventLevelValues;
     eventSource?: EventSourceValues;
-    eventSubType?: EventSubTypeValues;
     eventType?: EventTypeValues;
     externalIncidentId?: string;
     faqs?: Faq[];
@@ -256,8 +254,6 @@ interface Event_2 extends ProxyResource {
     lastUpdateTime?: Date;
     level?: LevelValues;
     links?: Link[];
-    maintenanceId?: string;
-    maintenanceType?: string;
     platformInitiated?: boolean;
     priority?: number;
     reason?: string;
@@ -303,11 +299,6 @@ export type EventGetByTenantIdAndTrackingIdResponse = Event_2;
 // @public
 export interface EventImpactedResource extends ProxyResource {
     info?: KeyValueItem[];
-    readonly maintenanceEndTime?: string;
-    readonly maintenanceStartTime?: string;
-    readonly resourceGroup?: string;
-    readonly resourceName?: string;
-    readonly status?: string;
     readonly targetRegion?: string;
     readonly targetResourceId?: string;
     readonly targetResourceType?: string;
@@ -422,9 +413,6 @@ export type EventSourceValues = string;
 export type EventStatusValues = string;
 
 // @public
-export type EventSubTypeValues = string;
-
-// @public
 export type EventTypeValues = string;
 
 // @public
@@ -441,6 +429,7 @@ export function getContinuationToken(page: unknown): string | undefined;
 export interface Impact {
     impactedRegions?: ImpactedServiceRegion[];
     impactedService?: string;
+    impactedServiceGuid?: string;
 }
 
 // @public
@@ -563,11 +552,6 @@ export enum KnownEventSourceValues {
 export enum KnownEventStatusValues {
     Active = "Active",
     Resolved = "Resolved"
-}
-
-// @public
-export enum KnownEventSubTypeValues {
-    Retirement = "Retirement"
 }
 
 // @public
@@ -695,7 +679,9 @@ export type MetadataListResponse = MetadataEntityListResult;
 export interface MetadataSupportedValueDetail {
     displayName?: string;
     id?: string;
+    previousId?: string;
     resourceTypes?: string[];
+    serviceGuid?: string;
 }
 
 // @public (undocumented)
