@@ -9,11 +9,13 @@ import {
   _ImageVersionListResult,
   _imageVersionListResultDeserializer,
   ImageVersion,
+  errorResponseDeserializer,
 } from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -23,19 +25,29 @@ import {
 
 export function _imageVersionsListByImageSend(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   imageName: string,
   options: ImageVersionsListByImageOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/images/{imageName}/versions",
-      subscriptionId,
-      resourceGroupName,
-      imageName,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/images/{imageName}/versions{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      imageName: imageName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _imageVersionsListByImageDeserialize(
@@ -43,7 +55,9 @@ export async function _imageVersionsListByImageDeserialize(
 ): Promise<_ImageVersionListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return _imageVersionListResultDeserializer(result.body);
@@ -52,15 +66,13 @@ export async function _imageVersionsListByImageDeserialize(
 /** List ImageVersion resources by Image */
 export function imageVersionsListByImage(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   imageName: string,
   options: ImageVersionsListByImageOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ImageVersion> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _imageVersionsListByImageSend(context, subscriptionId, resourceGroupName, imageName, options),
+    () => _imageVersionsListByImageSend(context, resourceGroupName, imageName, options),
     _imageVersionsListByImageDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
