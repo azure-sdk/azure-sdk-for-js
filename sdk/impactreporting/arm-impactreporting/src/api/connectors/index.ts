@@ -24,6 +24,7 @@ import {
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -36,19 +37,23 @@ export function _connectorsListBySubscriptionSend(
   context: Client,
   options: ConnectorsListBySubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/connectors",
-      context.subscriptionId,
-    )
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/connectors{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _connectorsListBySubscriptionDeserialize(
@@ -83,20 +88,24 @@ export function _connectorsDeleteSend(
   connectorName: string,
   options: ConnectorsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/connectors/{connectorName}",
-      context.subscriptionId,
-      connectorName,
-    )
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/connectors/{connectorName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      connectorName: connectorName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _connectorsDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -126,22 +135,26 @@ export function _connectorsUpdateSend(
   properties: ConnectorUpdate,
   options: ConnectorsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/connectors/{connectorName}",
-      context.subscriptionId,
-      connectorName,
-    )
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-      body: connectorUpdateSerializer(properties),
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/connectors/{connectorName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      connectorName: connectorName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: connectorUpdateSerializer(properties),
+  });
 }
 
 export async function _connectorsUpdateDeserialize(
@@ -174,22 +187,26 @@ export function _connectorsCreateOrUpdateSend(
   resource: Connector,
   options: ConnectorsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/connectors/{connectorName}",
-      context.subscriptionId,
-      connectorName,
-    )
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-      body: connectorSerializer(resource),
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/connectors/{connectorName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      connectorName: connectorName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: connectorSerializer(resource),
+  });
 }
 
 export async function _connectorsCreateOrUpdateDeserialize(
@@ -226,20 +243,24 @@ export function _connectorsGetSend(
   connectorName: string,
   options: ConnectorsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/connectors/{connectorName}",
-      context.subscriptionId,
-      connectorName,
-    )
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Impact/connectors/{connectorName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      connectorName: connectorName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _connectorsGetDeserialize(result: PathUncheckedResponse): Promise<Connector> {
