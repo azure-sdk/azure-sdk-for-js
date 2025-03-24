@@ -1,15 +1,53 @@
 # Release History
-
-## 2.0.1 (Unreleased)
-
+    
+## 3.0.0 (2025-03-24)
+    
 ### Features Added
+
+  - Added operation FileSystemsOperations.createOrUpdate
+  - Added operation FileSystemsOperations.delete
+  - Added Interface FileSystemResourceProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface RestorePollerOptions
+  - Added Interface StorageClientOptionalParams
+  - Added Class StorageClient
+  - Added Type Alias ContinuablePage
+  - Interface FileSystemResource has a new optional parameter properties
+  - Added Enum KnownVersions
+  - Added function restorePoller
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation FileSystems.beginCreateOrUpdate
+  - Removed operation FileSystems.beginCreateOrUpdateAndWait
+  - Removed operation FileSystems.beginDelete
+  - Removed operation FileSystems.beginDeleteAndWait
+  - Deleted Class QumuloStorage
+  - Interface FileSystemResource no longer has parameter adminPassword
+  - Interface FileSystemResource no longer has parameter availabilityZone
+  - Interface FileSystemResource no longer has parameter clusterLoginUrl
+  - Interface FileSystemResource no longer has parameter delegatedSubnetId
+  - Interface FileSystemResource no longer has parameter marketplaceDetails
+  - Interface FileSystemResource no longer has parameter privateIPs
+  - Interface FileSystemResource no longer has parameter provisioningState
+  - Interface FileSystemResource no longer has parameter storageSku
+  - Interface FileSystemResource no longer has parameter userDetails
+  - Interface FileSystemsCreateOrUpdateOptionalParams no longer has parameter resumeFrom
+  - Interface FileSystemsDeleteOptionalParams no longer has parameter resumeFrom
+  - Type of parameter info of interface ErrorAdditionalInfo is changed from Record<string, unknown> to Record<string, any>
+  - Type of parameter tags of interface FileSystemResourceUpdate is changed from {
+        [propertyName: string]: string;
+    } to Record<string, string>
+  - Type of parameter userAssignedIdentities of interface ManagedServiceIdentity is changed from {
+        [propertyName: string]: UserAssignedIdentity;
+    } to Record<string, UserAssignedIdentity>
+  - Type of parameter tags of interface TrackedResource is changed from {
+        [propertyName: string]: string;
+    } to Record<string, string>
+  - Removed function getContinuationToken
+    
+    
 ## 2.0.0 (2024-07-17)
     
 ### Features Added
