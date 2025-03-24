@@ -13,6 +13,8 @@ trigger:
     include:
       - sdk\pineconevectordb\arm-pineconevectordb
       - ci.mgmt.yml
+      - sdk/pineconevectordb/arm-pineconevectordb
+      - sdk/pineconevectordb/ci.mgmt.yml
 pr:
   branches:
     include:
@@ -26,6 +28,8 @@ pr:
     include:
       - sdk\pineconevectordb\arm-pineconevectordb
       - ci.mgmt.yml
+      - sdk/pineconevectordb/arm-pineconevectordb
+      - sdk/pineconevectordb/ci.mgmt.yml
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
