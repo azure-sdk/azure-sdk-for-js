@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SavingsPlanOrderAliasModel,
   SavingsPlanOrderAliasCreateOptionalParams,
   SavingsPlanOrderAliasCreateResponse,
   SavingsPlanOrderAliasGetOptionalParams,
-  SavingsPlanOrderAliasGetResponse
+  SavingsPlanOrderAliasGetResponse,
 } from "../models/index.js";
 
 /** Interface representing a SavingsPlanOrderAlias. */
@@ -27,10 +27,10 @@ export interface SavingsPlanOrderAlias {
   beginCreate(
     savingsPlanOrderAliasName: string,
     body: SavingsPlanOrderAliasModel,
-    options?: SavingsPlanOrderAliasCreateOptionalParams
+    options?: SavingsPlanOrderAliasCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SavingsPlanOrderAliasCreateResponse>,
+    SimplePollerLike<
+      OperationState<SavingsPlanOrderAliasCreateResponse>,
       SavingsPlanOrderAliasCreateResponse
     >
   >;
@@ -44,7 +44,7 @@ export interface SavingsPlanOrderAlias {
   beginCreateAndWait(
     savingsPlanOrderAliasName: string,
     body: SavingsPlanOrderAliasModel,
-    options?: SavingsPlanOrderAliasCreateOptionalParams
+    options?: SavingsPlanOrderAliasCreateOptionalParams,
   ): Promise<SavingsPlanOrderAliasCreateResponse>;
   /**
    * Get a savings plan.
@@ -53,6 +53,6 @@ export interface SavingsPlanOrderAlias {
    */
   get(
     savingsPlanOrderAliasName: string,
-    options?: SavingsPlanOrderAliasGetOptionalParams
+    options?: SavingsPlanOrderAliasGetOptionalParams,
   ): Promise<SavingsPlanOrderAliasGetResponse>;
 }

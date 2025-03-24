@@ -11,14 +11,18 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { BillingBenefitsRP } from "../billingBenefitsRP.js";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   ReservationOrderAliasRequest,
   ReservationOrderAliasCreateOptionalParams,
   ReservationOrderAliasCreateResponse,
   ReservationOrderAliasGetOptionalParams,
-  ReservationOrderAliasGetResponse
+  ReservationOrderAliasGetResponse,
 } from "../models/index.js";
 
 /** Class containing ReservationOrderAlias operations. */
@@ -42,30 +46,29 @@ export class ReservationOrderAliasImpl implements ReservationOrderAlias {
   async beginCreate(
     reservationOrderAliasName: string,
     body: ReservationOrderAliasRequest,
-    options?: ReservationOrderAliasCreateOptionalParams
+    options?: ReservationOrderAliasCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReservationOrderAliasCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReservationOrderAliasCreateResponse>,
       ReservationOrderAliasCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReservationOrderAliasCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -74,8 +77,8 @@ export class ReservationOrderAliasImpl implements ReservationOrderAlias {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -83,20 +86,23 @@ export class ReservationOrderAliasImpl implements ReservationOrderAlias {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { reservationOrderAliasName, body, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { reservationOrderAliasName, body, options },
+      spec: createOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ReservationOrderAliasCreateResponse,
+      OperationState<ReservationOrderAliasCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -111,12 +117,12 @@ export class ReservationOrderAliasImpl implements ReservationOrderAlias {
   async beginCreateAndWait(
     reservationOrderAliasName: string,
     body: ReservationOrderAliasRequest,
-    options?: ReservationOrderAliasCreateOptionalParams
+    options?: ReservationOrderAliasCreateOptionalParams,
   ): Promise<ReservationOrderAliasCreateResponse> {
     const poller = await this.beginCreate(
       reservationOrderAliasName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -128,11 +134,11 @@ export class ReservationOrderAliasImpl implements ReservationOrderAlias {
    */
   get(
     reservationOrderAliasName: string,
-    options?: ReservationOrderAliasGetOptionalParams
+    options?: ReservationOrderAliasGetOptionalParams,
   ): Promise<ReservationOrderAliasGetResponse> {
     return this.client.sendOperationRequest(
       { reservationOrderAliasName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -140,47 +146,45 @@ export class ReservationOrderAliasImpl implements ReservationOrderAlias {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.BillingBenefits/reservationOrderAliases/{reservationOrderAliasName}",
+  path: "/providers/Microsoft.BillingBenefits/reservationOrderAliases/{reservationOrderAliasName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationOrderAliasResponse
+      bodyMapper: Mappers.ReservationOrderAliasResponse,
     },
     201: {
-      bodyMapper: Mappers.ReservationOrderAliasResponse
+      bodyMapper: Mappers.ReservationOrderAliasResponse,
     },
     202: {
-      bodyMapper: Mappers.ReservationOrderAliasResponse
+      bodyMapper: Mappers.ReservationOrderAliasResponse,
     },
     204: {
-      bodyMapper: Mappers.ReservationOrderAliasResponse
+      bodyMapper: Mappers.ReservationOrderAliasResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.reservationOrderAliasName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.BillingBenefits/reservationOrderAliases/{reservationOrderAliasName}",
+  path: "/providers/Microsoft.BillingBenefits/reservationOrderAliases/{reservationOrderAliasName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationOrderAliasResponse
+      bodyMapper: Mappers.ReservationOrderAliasResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.reservationOrderAliasName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

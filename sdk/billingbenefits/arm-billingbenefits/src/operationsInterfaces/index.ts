@@ -11,3 +11,5 @@ export * from "./savingsPlanOrderAlias.js";
 export * from "./savingsPlanOrder.js";
 export * from "./savingsPlan.js";
 export * from "./reservationOrderAlias.js";
+export * from "./discounts.js";
+export * from "./discountOperations.js";

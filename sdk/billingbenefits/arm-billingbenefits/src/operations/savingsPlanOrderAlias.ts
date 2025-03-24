@@ -11,14 +11,18 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { BillingBenefitsRP } from "../billingBenefitsRP.js";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   SavingsPlanOrderAliasModel,
   SavingsPlanOrderAliasCreateOptionalParams,
   SavingsPlanOrderAliasCreateResponse,
   SavingsPlanOrderAliasGetOptionalParams,
-  SavingsPlanOrderAliasGetResponse
+  SavingsPlanOrderAliasGetResponse,
 } from "../models/index.js";
 
 /** Class containing SavingsPlanOrderAlias operations. */
@@ -43,30 +47,29 @@ export class SavingsPlanOrderAliasImpl implements SavingsPlanOrderAlias {
   async beginCreate(
     savingsPlanOrderAliasName: string,
     body: SavingsPlanOrderAliasModel,
-    options?: SavingsPlanOrderAliasCreateOptionalParams
+    options?: SavingsPlanOrderAliasCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SavingsPlanOrderAliasCreateResponse>,
+    SimplePollerLike<
+      OperationState<SavingsPlanOrderAliasCreateResponse>,
       SavingsPlanOrderAliasCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SavingsPlanOrderAliasCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -75,8 +78,8 @@ export class SavingsPlanOrderAliasImpl implements SavingsPlanOrderAlias {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -84,20 +87,23 @@ export class SavingsPlanOrderAliasImpl implements SavingsPlanOrderAlias {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { savingsPlanOrderAliasName, body, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { savingsPlanOrderAliasName, body, options },
+      spec: createOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SavingsPlanOrderAliasCreateResponse,
+      OperationState<SavingsPlanOrderAliasCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -113,12 +119,12 @@ export class SavingsPlanOrderAliasImpl implements SavingsPlanOrderAlias {
   async beginCreateAndWait(
     savingsPlanOrderAliasName: string,
     body: SavingsPlanOrderAliasModel,
-    options?: SavingsPlanOrderAliasCreateOptionalParams
+    options?: SavingsPlanOrderAliasCreateOptionalParams,
   ): Promise<SavingsPlanOrderAliasCreateResponse> {
     const poller = await this.beginCreate(
       savingsPlanOrderAliasName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -130,11 +136,11 @@ export class SavingsPlanOrderAliasImpl implements SavingsPlanOrderAlias {
    */
   get(
     savingsPlanOrderAliasName: string,
-    options?: SavingsPlanOrderAliasGetOptionalParams
+    options?: SavingsPlanOrderAliasGetOptionalParams,
   ): Promise<SavingsPlanOrderAliasGetResponse> {
     return this.client.sendOperationRequest(
       { savingsPlanOrderAliasName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -142,47 +148,45 @@ export class SavingsPlanOrderAliasImpl implements SavingsPlanOrderAlias {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.BillingBenefits/savingsPlanOrderAliases/{savingsPlanOrderAliasName}",
+  path: "/providers/Microsoft.BillingBenefits/savingsPlanOrderAliases/{savingsPlanOrderAliasName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SavingsPlanOrderAliasModel
+      bodyMapper: Mappers.SavingsPlanOrderAliasModel,
     },
     201: {
-      bodyMapper: Mappers.SavingsPlanOrderAliasModel
+      bodyMapper: Mappers.SavingsPlanOrderAliasModel,
     },
     202: {
-      bodyMapper: Mappers.SavingsPlanOrderAliasModel
+      bodyMapper: Mappers.SavingsPlanOrderAliasModel,
     },
     204: {
-      bodyMapper: Mappers.SavingsPlanOrderAliasModel
+      bodyMapper: Mappers.SavingsPlanOrderAliasModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.savingsPlanOrderAliasName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.BillingBenefits/savingsPlanOrderAliases/{savingsPlanOrderAliasName}",
+  path: "/providers/Microsoft.BillingBenefits/savingsPlanOrderAliases/{savingsPlanOrderAliasName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SavingsPlanOrderAliasModel
+      bodyMapper: Mappers.SavingsPlanOrderAliasModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.savingsPlanOrderAliasName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

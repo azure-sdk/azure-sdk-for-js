@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ReservationOrderAliasRequest,
   ReservationOrderAliasCreateOptionalParams,
   ReservationOrderAliasCreateResponse,
   ReservationOrderAliasGetOptionalParams,
-  ReservationOrderAliasGetResponse
+  ReservationOrderAliasGetResponse,
 } from "../models/index.js";
 
 /** Interface representing a ReservationOrderAlias. */
@@ -26,10 +26,10 @@ export interface ReservationOrderAlias {
   beginCreate(
     reservationOrderAliasName: string,
     body: ReservationOrderAliasRequest,
-    options?: ReservationOrderAliasCreateOptionalParams
+    options?: ReservationOrderAliasCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReservationOrderAliasCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReservationOrderAliasCreateResponse>,
       ReservationOrderAliasCreateResponse
     >
   >;
@@ -42,7 +42,7 @@ export interface ReservationOrderAlias {
   beginCreateAndWait(
     reservationOrderAliasName: string,
     body: ReservationOrderAliasRequest,
-    options?: ReservationOrderAliasCreateOptionalParams
+    options?: ReservationOrderAliasCreateOptionalParams,
   ): Promise<ReservationOrderAliasCreateResponse>;
   /**
    * Get a reservation order alias.
@@ -51,6 +51,6 @@ export interface ReservationOrderAlias {
    */
   get(
     reservationOrderAliasName: string,
-    options?: ReservationOrderAliasGetOptionalParams
+    options?: ReservationOrderAliasGetOptionalParams,
   ): Promise<ReservationOrderAliasGetResponse>;
 }

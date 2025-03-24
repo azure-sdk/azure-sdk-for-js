@@ -6,9 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { RecorderStartOptions } from "@azure-tools/test-recorder";
-import { Recorder } from "@azure-tools/test-recorder";
-import { afterEach, beforeEach, describe, it, assert } from "vitest";
+import {
+  Recorder,
+  RecorderStartOptions,
+} from "@azure-tools/test-recorder";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -19,25 +20,21 @@ const replaceableVariables: Record<string, string> = {
 
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables,
-  removeCentralSanitizers: [
-    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
-    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
-  ],
 };
 
 describe("My test", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderOptions);
-  });
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+    });
 
   afterEach(async () => {
-    await recorder.stop();
-  });
+      await recorder.stop();
+    });
 
-  it("sample test", async () => {
-    assert(true);
+  it("sample test", async function () {
+    console.log("Hi, I'm a test!");
   });
 });
