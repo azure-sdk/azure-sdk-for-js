@@ -46,7 +46,6 @@ import {
   VirtualMachineInstancesRestoreCheckpointResponse,
   VirtualMachineInstancesStartOptionalParams,
   VirtualMachineInstancesStartResponse,
-  StopVirtualMachineOptions,
   VirtualMachineInstancesStopOptionalParams,
   VirtualMachineInstancesStopResponse,
   VirtualMachineInstancesListNextResponse,
@@ -842,12 +841,10 @@ export class VirtualMachineInstancesImpl implements VirtualMachineInstances {
   /**
    * The operation to power off (stop) a virtual machine instance.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
-   * @param body The content of the action request
    * @param options The options parameters.
    */
   async beginStop(
     resourceUri: string,
-    body: StopVirtualMachineOptions,
     options?: VirtualMachineInstancesStopOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -895,7 +892,7 @@ export class VirtualMachineInstancesImpl implements VirtualMachineInstances {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceUri, body, options },
+      args: { resourceUri, options },
       spec: stopOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -913,15 +910,13 @@ export class VirtualMachineInstancesImpl implements VirtualMachineInstances {
   /**
    * The operation to power off (stop) a virtual machine instance.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
-   * @param body The content of the action request
    * @param options The options parameters.
    */
   async beginStopAndWait(
     resourceUri: string,
-    body: StopVirtualMachineOptions,
     options?: VirtualMachineInstancesStopOptionalParams,
   ): Promise<VirtualMachineInstancesStopResponse> {
-    const poller = await this.beginStop(resourceUri, body, options);
+    const poller = await this.beginStop(resourceUri, options);
     return poller.pollUntilDone();
   }
 
