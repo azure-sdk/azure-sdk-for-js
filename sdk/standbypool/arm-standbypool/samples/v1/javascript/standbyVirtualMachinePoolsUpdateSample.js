@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a StandbyVirtualMachinePoolResource
  *
  * @summary update a StandbyVirtualMachinePoolResource
- * x-ms-original-file: 2024-03-01/StandbyVirtualMachinePools_Update.json
+ * x-ms-original-file: 2025-03-01/StandbyVirtualMachinePools_Update.json
  */
 async function standbyVirtualMachinePoolsUpdate() {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function standbyVirtualMachinePoolsUpdate() {
 }
 
 async function main() {
-  standbyVirtualMachinePoolsUpdate();
+  await standbyVirtualMachinePoolsUpdate();
 }
 
 main().catch(console.error);
