@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+export { SystemEventsClient } from "./systemEventsClient.js";
 export {
   ApiCenterApiDefinitionAddedEventData,
   ApiCenterApiSpecification,
@@ -68,6 +69,8 @@ export {
   AcsChatMessageEventBase,
   AcsChatMessageReceivedEventData,
   AcsChatMessageEventInThreadBase,
+  AcsChatAzureBotCommandReceivedInThreadEventData,
+  AcsChatTypingIndicatorReceivedInThreadEventData,
   AcsChatMessageReceivedInThreadEventData,
   AcsChatMessageEditedEventData,
   AcsChatMessageEditedInThreadEventData,
@@ -152,10 +155,10 @@ export {
   AcsMessageChannelKind,
   AcsMessageReceivedEventData,
   AcsMessageMediaContent,
+  AcsMessageReactionContent,
   AcsMessageContext,
   AcsMessageButtonContent,
   AcsMessageInteractiveContent,
-  AcsMessageReactionContent,
   KnownAcsInteractiveReplyKind,
   AcsInteractiveReplyKind,
   AcsMessageInteractiveButtonReplyContent,
@@ -213,6 +216,16 @@ export {
   HealthcareDicomImageCreatedEventData,
   HealthcareDicomImageDeletedEventData,
   HealthcareDicomImageUpdatedEventData,
+  KeyVaultCertificateNewVersionCreatedEventData,
+  KeyVaultCertificateNearExpiryEventData,
+  KeyVaultCertificateExpiredEventData,
+  KeyVaultKeyNewVersionCreatedEventData,
+  KeyVaultKeyNearExpiryEventData,
+  KeyVaultKeyExpiredEventData,
+  KeyVaultSecretNewVersionCreatedEventData,
+  KeyVaultSecretNearExpiryEventData,
+  KeyVaultSecretExpiredEventData,
+  KeyVaultAccessPolicyChangedEventData,
   MachineLearningServicesModelRegisteredEventData,
   MachineLearningServicesModelDeployedEventData,
   MachineLearningServicesRunCompletedEventData,
@@ -251,6 +264,9 @@ export {
   StorageBlobRenamedEventData,
   StorageDirectoryRenamedEventData,
   StorageLifecyclePolicyCompletedEventData,
+  StorageLifecyclePolicyRunSummary,
+  KnownStorageLifecycleCompletionStatus,
+  StorageLifecycleCompletionStatus,
   StorageLifecyclePolicyActionSummaryDetail,
   StorageBlobTierChangedEventData,
   StorageAsyncOperationInitiatedEventData,
@@ -304,26 +320,11 @@ export {
   ResourceNotificationsOperationalDetails,
   ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventData,
   ResourceNotificationsHealthResourcesAnnotatedEventData,
-  ResourceNotificationsResourceManagementCreatedOrUpdatedEventData,
-  ResourceNotificationsResourceDeletedEventData,
   ResourceNotificationsResourceDeletedDetails,
+  ResourceNotificationsResourceDeletedEventData,
+  ResourceNotificationsResourceManagementCreatedOrUpdatedEventData,
   ResourceNotificationsResourceManagementDeletedEventData,
+  ResourceNotificationsContainerServiceEventResourcesScheduledEventData,
   KnownServiceApiVersions,
-} from "./generated/index.js";
-
-export {
-  CloudEvent,
-  EventGridEvent,
-  KeyVaultCertificateNewVersionCreatedEventData,
-  KeyVaultCertificateNearExpiryEventData,
-  KeyVaultCertificateExpiredEventData,
-  KeyVaultKeyNewVersionCreatedEventData,
-  KeyVaultKeyNearExpiryEventData,
-  KeyVaultKeyExpiredEventData,
-  KeyVaultSecretNewVersionCreatedEventData,
-  KeyVaultSecretNearExpiryEventData,
-  KeyVaultAccessPolicyChangedEventData,
-  KeyVaultSecretExpiredEventData,
-} from "./models.js";
-
-export { isSystemEvent, KnownSystemEventTypes, SystemEventNameToEventData } from "./predicates.js";
+} from "./models/index.js";
+export { SystemEventsClientOptionalParams } from "./api/index.js";

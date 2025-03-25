@@ -31,9 +31,7 @@ export interface ApiCenterApiSpecification {
   version?: string;
 }
 
-export function apiCenterApiSpecificationDeserializer(
-  item: any,
-): ApiCenterApiSpecification {
+export function apiCenterApiSpecificationDeserializer(item: any): ApiCenterApiSpecification {
   return {
     name: item["name"],
     version: item["version"],
@@ -429,13 +427,13 @@ export function apiManagementGatewayApiRemovedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AppConfiguration.KeyValueModified event. */
 export interface AppConfigurationKeyValueModifiedEventData {
   /** The key used to identify the key-value that was modified. */
-  key?: string;
+  key: string;
   /** The label, if any, used to identify the key-value that was modified. */
-  label?: string;
+  label: string | null;
   /** The etag representing the new state of the key-value. */
-  etag?: string;
+  etag: string;
   /** The sync token representing the server state after the event. */
-  syncToken?: string;
+  syncToken: string;
 }
 
 export function appConfigurationKeyValueModifiedEventDataDeserializer(
@@ -452,13 +450,13 @@ export function appConfigurationKeyValueModifiedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AppConfiguration.KeyValueDeleted event. */
 export interface AppConfigurationKeyValueDeletedEventData {
   /** The key used to identify the key-value that was deleted. */
-  key?: string;
+  key: string;
   /** The label, if any, used to identify the key-value that was deleted. */
-  label?: string;
+  label: string;
   /** The etag representing the key-value that was deleted. */
-  etag?: string;
+  etag: string;
   /** The sync token representing the server state after the event. */
-  syncToken?: string;
+  syncToken: string;
 }
 
 export function appConfigurationKeyValueDeletedEventDataDeserializer(
@@ -475,11 +473,11 @@ export function appConfigurationKeyValueDeletedEventDataDeserializer(
 /** Schema of common properties of snapshot events */
 export interface AppConfigurationSnapshotEventData {
   /** The name of the snapshot. */
-  name?: string;
+  name: string;
   /** The etag representing the new state of the snapshot. */
-  etag?: string;
+  etag: string;
   /** The sync token representing the server state after the event. */
-  syncToken?: string;
+  syncToken: string;
 }
 
 export function appConfigurationSnapshotEventDataDeserializer(
@@ -526,17 +524,14 @@ export interface AvsPrivateCloudEventData {
   operationId: string;
 }
 
-export function avsPrivateCloudEventDataDeserializer(
-  item: any,
-): AvsPrivateCloudEventData {
+export function avsPrivateCloudEventDataDeserializer(item: any): AvsPrivateCloudEventData {
   return {
     operationId: item["operationId"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.PrivateCloudUpdating event. */
-export interface AvsPrivateCloudUpdatingEventData
-  extends AvsPrivateCloudEventData {}
+export interface AvsPrivateCloudUpdatingEventData extends AvsPrivateCloudEventData {}
 
 export function avsPrivateCloudUpdatingEventDataDeserializer(
   item: any,
@@ -547,8 +542,7 @@ export function avsPrivateCloudUpdatingEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.PrivateCloudUpdated event. */
-export interface AvsPrivateCloudUpdatedEventData
-  extends AvsPrivateCloudEventData {}
+export interface AvsPrivateCloudUpdatedEventData extends AvsPrivateCloudEventData {}
 
 export function avsPrivateCloudUpdatedEventDataDeserializer(
   item: any,
@@ -559,8 +553,7 @@ export function avsPrivateCloudUpdatedEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.PrivateCloudFailed event. */
-export interface AvsPrivateCloudFailedEventData
-  extends AvsPrivateCloudEventData {
+export interface AvsPrivateCloudFailedEventData extends AvsPrivateCloudEventData {
   /** Failure reason of an event. */
   failureMessage?: string;
 }
@@ -586,9 +579,7 @@ export interface AvsClusterEventData {
   inMaintenanceHostNames?: string[];
 }
 
-export function avsClusterEventDataDeserializer(
-  item: any,
-): AvsClusterEventData {
+export function avsClusterEventDataDeserializer(item: any): AvsClusterEventData {
   return {
     operationId: item["operationId"],
     addedHostNames: !item["addedHostNames"]
@@ -612,9 +603,7 @@ export function avsClusterEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ClusterCreated event. */
 export interface AvsClusterCreatedEventData extends AvsClusterEventData {}
 
-export function avsClusterCreatedEventDataDeserializer(
-  item: any,
-): AvsClusterCreatedEventData {
+export function avsClusterCreatedEventDataDeserializer(item: any): AvsClusterCreatedEventData {
   return {
     operationId: item["operationId"],
     addedHostNames: !item["addedHostNames"]
@@ -638,9 +627,7 @@ export function avsClusterCreatedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ClusterDeleted event. */
 export interface AvsClusterDeletedEventData extends AvsClusterEventData {}
 
-export function avsClusterDeletedEventDataDeserializer(
-  item: any,
-): AvsClusterDeletedEventData {
+export function avsClusterDeletedEventDataDeserializer(item: any): AvsClusterDeletedEventData {
   return {
     operationId: item["operationId"],
     addedHostNames: !item["addedHostNames"]
@@ -664,9 +651,7 @@ export function avsClusterDeletedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ClusterUpdating event. */
 export interface AvsClusterUpdatingEventData extends AvsClusterEventData {}
 
-export function avsClusterUpdatingEventDataDeserializer(
-  item: any,
-): AvsClusterUpdatingEventData {
+export function avsClusterUpdatingEventDataDeserializer(item: any): AvsClusterUpdatingEventData {
   return {
     operationId: item["operationId"],
     addedHostNames: !item["addedHostNames"]
@@ -690,9 +675,7 @@ export function avsClusterUpdatingEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ClusterUpdated event. */
 export interface AvsClusterUpdatedEventData extends AvsClusterEventData {}
 
-export function avsClusterUpdatedEventDataDeserializer(
-  item: any,
-): AvsClusterUpdatedEventData {
+export function avsClusterUpdatedEventDataDeserializer(item: any): AvsClusterUpdatedEventData {
   return {
     operationId: item["operationId"],
     addedHostNames: !item["addedHostNames"]
@@ -719,9 +702,7 @@ export interface AvsClusterFailedEventData extends AvsClusterEventData {
   failureMessage?: string;
 }
 
-export function avsClusterFailedEventDataDeserializer(
-  item: any,
-): AvsClusterFailedEventData {
+export function avsClusterFailedEventDataDeserializer(item: any): AvsClusterFailedEventData {
   return {
     operationId: item["operationId"],
     addedHostNames: !item["addedHostNames"]
@@ -753,9 +734,7 @@ export interface AvsScriptExecutionEventData {
   output?: string[];
 }
 
-export function avsScriptExecutionEventDataDeserializer(
-  item: any,
-): AvsScriptExecutionEventData {
+export function avsScriptExecutionEventDataDeserializer(item: any): AvsScriptExecutionEventData {
   return {
     operationId: item["operationId"],
     cmdletId: item["cmdletId"],
@@ -768,8 +747,7 @@ export function avsScriptExecutionEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ScriptExecutionStarted event. */
-export interface AvsScriptExecutionStartedEventData
-  extends AvsScriptExecutionEventData {}
+export interface AvsScriptExecutionStartedEventData extends AvsScriptExecutionEventData {}
 
 export function avsScriptExecutionStartedEventDataDeserializer(
   item: any,
@@ -786,8 +764,7 @@ export function avsScriptExecutionStartedEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ScriptExecutionFinished event. */
-export interface AvsScriptExecutionFinishedEventData
-  extends AvsScriptExecutionEventData {
+export interface AvsScriptExecutionFinishedEventData extends AvsScriptExecutionEventData {
   /** Named outputs of completed execution, if any. */
   namedOutputs: Record<string, string>;
 }
@@ -808,8 +785,7 @@ export function avsScriptExecutionFinishedEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ScriptExecutionCancelled event. */
-export interface AvsScriptExecutionCancelledEventData
-  extends AvsScriptExecutionEventData {}
+export interface AvsScriptExecutionCancelledEventData extends AvsScriptExecutionEventData {}
 
 export function avsScriptExecutionCancelledEventDataDeserializer(
   item: any,
@@ -826,8 +802,7 @@ export function avsScriptExecutionCancelledEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ScriptExecutionFailed event. */
-export interface AvsScriptExecutionFailedEventData
-  extends AvsScriptExecutionEventData {
+export interface AvsScriptExecutionFailedEventData extends AvsScriptExecutionEventData {
   /** Failure reason of an event. */
   failureMessage?: string;
 }
@@ -867,21 +842,13 @@ export interface AcsIncomingCallEventData {
   correlationId?: string;
 }
 
-export function acsIncomingCallEventDataDeserializer(
-  item: any,
-): AcsIncomingCallEventData {
+export function acsIncomingCallEventDataDeserializer(item: any): AcsIncomingCallEventData {
   return {
-    toCommunicationIdentifier: communicationIdentifierModelDeserializer(
-      item["to"],
-    ),
-    fromCommunicationIdentifier: communicationIdentifierModelDeserializer(
-      item["from"],
-    ),
+    toCommunicationIdentifier: communicationIdentifierModelDeserializer(item["to"]),
+    fromCommunicationIdentifier: communicationIdentifierModelDeserializer(item["from"]),
     serverCallId: item["serverCallId"],
     callerDisplayName: item["callerDisplayName"],
-    customContext: acsIncomingCallCustomContextDeserializer(
-      item["customContext"],
-    ),
+    customContext: acsIncomingCallCustomContextDeserializer(item["customContext"]),
     incomingCallContext: item["incomingCallContext"],
     onBehalfOfCallee: !item["onBehalfOfCallee"]
       ? item["onBehalfOfCallee"]
@@ -893,48 +860,46 @@ export function acsIncomingCallEventDataDeserializer(
 /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
 export interface CommunicationIdentifierModel {
   /** The identifier kind. Only required in responses. */
-  kind: CommunicationIdentifierModelKind;
+  kind?: CommunicationIdentifierModelKind;
   /** Raw Id of the identifier. Optional in requests, required in responses. */
-  rawId?: string;
+  rawId: string;
   /** The communication user. */
   communicationUser: CommunicationUserIdentifierModel;
   /** The phone number. */
-  phoneNumber: PhoneNumberIdentifierModel;
+  phoneNumber?: PhoneNumberIdentifierModel;
   /** The Microsoft Teams user. */
-  microsoftTeamsUser: MicrosoftTeamsUserIdentifierModel;
+  microsoftTeamsUser?: MicrosoftTeamsUserIdentifierModel;
   /** The Microsoft Teams application. */
-  microsoftTeamsApp: MicrosoftTeamsAppIdentifierModel;
+  microsoftTeamsApp?: MicrosoftTeamsAppIdentifierModel;
 }
 
-export function communicationIdentifierModelDeserializer(
-  item: any,
-): CommunicationIdentifierModel {
+export function communicationIdentifierModelDeserializer(item: any): CommunicationIdentifierModel {
   return {
     kind: item["kind"],
     rawId: item["rawId"],
-    communicationUser: communicationUserIdentifierModelDeserializer(
-      item["communicationUser"],
-    ),
-    phoneNumber: phoneNumberIdentifierModelDeserializer(item["phoneNumber"]),
-    microsoftTeamsUser: microsoftTeamsUserIdentifierModelDeserializer(
-      item["microsoftTeamsUser"],
-    ),
-    microsoftTeamsApp: microsoftTeamsAppIdentifierModelDeserializer(
-      item["microsoftTeamsApp"],
-    ),
+    communicationUser: communicationUserIdentifierModelDeserializer(item["communicationUser"]),
+    phoneNumber: !item["phoneNumber"]
+      ? item["phoneNumber"]
+      : phoneNumberIdentifierModelDeserializer(item["phoneNumber"]),
+    microsoftTeamsUser: !item["microsoftTeamsUser"]
+      ? item["microsoftTeamsUser"]
+      : microsoftTeamsUserIdentifierModelDeserializer(item["microsoftTeamsUser"]),
+    microsoftTeamsApp: !item["microsoftTeamsApp"]
+      ? item["microsoftTeamsApp"]
+      : microsoftTeamsAppIdentifierModelDeserializer(item["microsoftTeamsApp"]),
   };
 }
 
 /** Communication model identifier kind */
 export enum KnownCommunicationIdentifierModelKind {
   /** Unknown */
-  unknown = "unknown",
+  Unknown = "unknown",
   /** Communication User */
-  communicationUser = "communicationUser",
+  CommunicationUser = "communicationUser",
   /** Phone Number */
-  phoneNumber = "phoneNumber",
+  PhoneNumber = "phoneNumber",
   /** Microsoft Teams User */
-  microsoftTeamsUser = "microsoftTeamsUser",
+  MicrosoftTeamsUser = "microsoftTeamsUser",
 }
 
 /**
@@ -969,9 +934,7 @@ export interface PhoneNumberIdentifierModel {
   value: string;
 }
 
-export function phoneNumberIdentifierModelDeserializer(
-  item: any,
-): PhoneNumberIdentifierModel {
+export function phoneNumberIdentifierModelDeserializer(item: any): PhoneNumberIdentifierModel {
   return {
     value: item["value"],
   };
@@ -1000,11 +963,11 @@ export function microsoftTeamsUserIdentifierModelDeserializer(
 /** Communication cloud environment model. */
 export enum KnownCommunicationCloudEnvironmentModel {
   /** Public */
-  "public" = "public",
+  Public = "public",
   /** Dod */
-  dod = "dod",
+  Dod = "dod",
   /** Gcch */
-  gcch = "gcch",
+  Gcch = "gcch",
 }
 
 /**
@@ -1043,9 +1006,7 @@ export interface AcsIncomingCallCustomContext {
   voipHeaders: Record<string, string>;
 }
 
-export function acsIncomingCallCustomContextDeserializer(
-  item: any,
-): AcsIncomingCallCustomContext {
+export function acsIncomingCallCustomContextDeserializer(item: any): AcsIncomingCallCustomContext {
   return {
     sipHeaders: item["sipHeaders"],
     voipHeaders: item["voipHeaders"],
@@ -1058,9 +1019,7 @@ export interface AcsUserDisconnectedEventData {
   userCommunicationIdentifier: CommunicationIdentifierModel;
 }
 
-export function acsUserDisconnectedEventDataDeserializer(
-  item: any,
-): AcsUserDisconnectedEventData {
+export function acsUserDisconnectedEventDataDeserializer(item: any): AcsUserDisconnectedEventData {
   return {
     userCommunicationIdentifier: communicationIdentifierModelDeserializer(
       item["userCommunicationIdentifier"],
@@ -1075,7 +1034,7 @@ export interface AcsChatEventBase {
   /** The transaction id will be used as co-relation vector */
   transactionId?: string;
   /** The chat thread id */
-  threadId?: string;
+  threadId: string;
 }
 
 export function acsChatEventBaseDeserializer(item: any): AcsChatEventBase {
@@ -1093,12 +1052,10 @@ export interface AcsChatEventInThreadBase {
   /** The transaction id will be used as co-relation vector */
   transactionId?: string;
   /** The chat thread id */
-  threadId?: string;
+  threadId: string;
 }
 
-export function acsChatEventInThreadBaseDeserializer(
-  item: any,
-): AcsChatEventInThreadBase {
+export function acsChatEventInThreadBaseDeserializer(item: any): AcsChatEventInThreadBase {
   return {
     transactionId: item["transactionId"],
     threadId: item["threadId"],
@@ -1108,7 +1065,7 @@ export function acsChatEventInThreadBaseDeserializer(
 /** Schema of common properties of all chat message events */
 export interface AcsChatMessageEventBase extends AcsChatEventBase {
   /** The chat message id */
-  messageId?: string;
+  messageId: string;
   /** The communication identifier of the sender */
   senderCommunicationIdentifier: CommunicationIdentifierModel;
   /** The display name of the sender */
@@ -1116,14 +1073,12 @@ export interface AcsChatMessageEventBase extends AcsChatEventBase {
   /** The original compose time of the message */
   composeTime: Date;
   /** The type of the message */
-  type?: string;
+  type: string;
   /** The version of the message */
-  version?: number;
+  version: number;
 }
 
-export function acsChatMessageEventBaseDeserializer(
-  item: any,
-): AcsChatMessageEventBase {
+export function acsChatMessageEventBaseDeserializer(item: any): AcsChatMessageEventBase {
   return {
     recipientCommunicationIdentifier: communicationIdentifierModelDeserializer(
       item["recipientCommunicationIdentifier"],
@@ -1142,12 +1097,11 @@ export function acsChatMessageEventBaseDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageReceived event. */
-export interface AcsChatMessageReceivedEventData
-  extends AcsChatMessageEventBase {
+export interface AcsChatMessageReceivedEventData extends AcsChatMessageEventBase {
   /** The body of the chat message */
-  messageBody?: string;
+  messageBody: string;
   /** The chat message metadata */
-  metadata: Record<string, string>;
+  metadata?: Record<string, string>;
 }
 
 export function acsChatMessageReceivedEventDataDeserializer(
@@ -1173,10 +1127,9 @@ export function acsChatMessageReceivedEventDataDeserializer(
 }
 
 /** Schema of common properties of all thread-level chat message events */
-export interface AcsChatMessageEventInThreadBase
-  extends AcsChatEventInThreadBase {
+export interface AcsChatMessageEventInThreadBase extends AcsChatEventInThreadBase {
   /** The chat message id */
-  messageId?: string;
+  messageId: string;
   /** The communication identifier of the sender */
   senderCommunicationIdentifier: CommunicationIdentifierModel;
   /** The display name of the sender */
@@ -1184,9 +1137,9 @@ export interface AcsChatMessageEventInThreadBase
   /** The original compose time of the message */
   composeTime: Date;
   /** The type of the message */
-  type?: string;
+  type: string;
   /** The version of the message */
-  version?: number;
+  version: number;
 }
 
 export function acsChatMessageEventInThreadBaseDeserializer(
@@ -1206,13 +1159,61 @@ export function acsChatMessageEventInThreadBaseDeserializer(
   };
 }
 
-/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageReceivedInThread event. */
-export interface AcsChatMessageReceivedInThreadEventData
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatAzureBotCommandReceivedInThread event. */
+export interface AcsChatAzureBotCommandReceivedInThreadEventData
   extends AcsChatMessageEventInThreadBase {
   /** The body of the chat message */
-  messageBody?: string;
+  messageBody: string;
   /** The chat message metadata */
-  metadata: Record<string, string>;
+  metadata?: Record<string, string>;
+}
+
+export function acsChatAzureBotCommandReceivedInThreadEventDataDeserializer(
+  item: any,
+): AcsChatAzureBotCommandReceivedInThreadEventData {
+  return {
+    messageId: item["messageId"],
+    senderCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["senderCommunicationIdentifier"],
+    ),
+    senderDisplayName: item["senderDisplayName"],
+    composeTime: new Date(item["composeTime"]),
+    type: item["type"],
+    version: item["version"],
+    transactionId: item["transactionId"],
+    threadId: item["threadId"],
+    messageBody: item["messageBody"],
+    metadata: item["metadata"],
+  };
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatTypingIndicatorReceivedInThread event. */
+export interface AcsChatTypingIndicatorReceivedInThreadEventData extends AcsChatEventInThreadBase {
+  /** The communication identifier of the sender */
+  senderCommunicationIdentifier: CommunicationIdentifierModel;
+  /** The display name of the sender */
+  senderDisplayName?: string;
+}
+
+export function acsChatTypingIndicatorReceivedInThreadEventDataDeserializer(
+  item: any,
+): AcsChatTypingIndicatorReceivedInThreadEventData {
+  return {
+    transactionId: item["transactionId"],
+    threadId: item["threadId"],
+    senderCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["senderCommunicationIdentifier"],
+    ),
+    senderDisplayName: item["senderDisplayName"],
+  };
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageReceivedInThread event. */
+export interface AcsChatMessageReceivedInThreadEventData extends AcsChatMessageEventInThreadBase {
+  /** The body of the chat message */
+  messageBody: string;
+  /** The chat message metadata */
+  metadata?: Record<string, string>;
 }
 
 export function acsChatMessageReceivedInThreadEventDataDeserializer(
@@ -1237,9 +1238,9 @@ export function acsChatMessageReceivedInThreadEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageEdited event. */
 export interface AcsChatMessageEditedEventData extends AcsChatMessageEventBase {
   /** The body of the chat message */
-  messageBody?: string;
+  messageBody: string;
   /** The chat message metadata */
-  metadata: Record<string, string>;
+  metadata?: Record<string, string>;
   /** The time at which the message was edited */
   editTime: Date;
 }
@@ -1268,12 +1269,11 @@ export function acsChatMessageEditedEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageEditedInThread event. */
-export interface AcsChatMessageEditedInThreadEventData
-  extends AcsChatMessageEventInThreadBase {
+export interface AcsChatMessageEditedInThreadEventData extends AcsChatMessageEventInThreadBase {
   /** The body of the chat message */
-  messageBody?: string;
+  messageBody: string;
   /** The chat message metadata */
-  metadata: Record<string, string>;
+  metadata?: Record<string, string>;
   /** The time at which the message was edited */
   editTime: Date;
 }
@@ -1299,8 +1299,7 @@ export function acsChatMessageEditedInThreadEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageDeleted event. */
-export interface AcsChatMessageDeletedEventData
-  extends AcsChatMessageEventBase {
+export interface AcsChatMessageDeletedEventData extends AcsChatMessageEventBase {
   /** The time at which the message was deleted */
   deleteTime: Date;
 }
@@ -1327,8 +1326,7 @@ export function acsChatMessageDeletedEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageDeletedInThread event. */
-export interface AcsChatMessageDeletedInThreadEventData
-  extends AcsChatMessageEventInThreadBase {
+export interface AcsChatMessageDeletedInThreadEventData extends AcsChatMessageEventInThreadBase {
   /** The time at which the message was deleted */
   deleteTime: Date;
 }
@@ -1359,9 +1357,7 @@ export interface AcsChatThreadEventBase extends AcsChatEventBase {
   version?: number;
 }
 
-export function acsChatThreadEventBaseDeserializer(
-  item: any,
-): AcsChatThreadEventBase {
+export function acsChatThreadEventBaseDeserializer(item: any): AcsChatThreadEventBase {
   return {
     recipientCommunicationIdentifier: communicationIdentifierModelDeserializer(
       item["recipientCommunicationIdentifier"],
@@ -1374,14 +1370,13 @@ export function acsChatThreadEventBaseDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadCreatedWithUser event. */
-export interface AcsChatThreadCreatedWithUserEventData
-  extends AcsChatThreadEventBase {
+export interface AcsChatThreadCreatedWithUserEventData extends AcsChatThreadEventBase {
   /** The communication identifier of the user who created the thread */
   createdByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The thread properties */
   properties: Record<string, any>;
   /** The thread metadata */
-  metadata: Record<string, string>;
+  metadata?: Record<string, string>;
   /** The list of properties of participants who are part of the thread */
   participants: AcsChatThreadParticipant[];
 }
@@ -1402,9 +1397,7 @@ export function acsChatThreadCreatedWithUserEventDataDeserializer(
     ),
     properties: item["properties"],
     metadata: item["metadata"],
-    participants: acsChatThreadParticipantArrayDeserializer(
-      item["participants"],
-    ),
+    participants: acsChatThreadParticipantArrayDeserializer(item["participants"]),
   };
 }
 
@@ -1423,25 +1416,21 @@ export interface AcsChatThreadParticipant {
   /** The communication identifier of the user */
   participantCommunicationIdentifier: CommunicationIdentifierModel;
   /** The metadata of the user */
-  metadata: Record<string, string>;
+  metadata?: Record<string, string>;
 }
 
-export function acsChatThreadParticipantDeserializer(
-  item: any,
-): AcsChatThreadParticipant {
+export function acsChatThreadParticipantDeserializer(item: any): AcsChatThreadParticipant {
   return {
     displayName: item["displayName"],
-    participantCommunicationIdentifier:
-      communicationIdentifierModelDeserializer(
-        item["participantCommunicationIdentifier"],
-      ),
+    participantCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["participantCommunicationIdentifier"],
+    ),
     metadata: item["metadata"],
   };
 }
 
 /** Schema of common properties of all chat thread events */
-export interface AcsChatThreadEventInThreadBase
-  extends AcsChatEventInThreadBase {
+export interface AcsChatThreadEventInThreadBase extends AcsChatEventInThreadBase {
   /** The original creation time of the thread */
   createTime: Date;
   /** The version of the thread */
@@ -1460,14 +1449,13 @@ export function acsChatThreadEventInThreadBaseDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadCreated event. */
-export interface AcsChatThreadCreatedEventData
-  extends AcsChatThreadEventInThreadBase {
+export interface AcsChatThreadCreatedEventData extends AcsChatThreadEventInThreadBase {
   /** The communication identifier of the user who created the thread */
   createdByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The thread properties */
   properties: Record<string, any>;
   /** The thread metadata */
-  metadata: Record<string, string>;
+  metadata?: Record<string, string>;
   /** The list of properties of participants who are part of the thread */
   participants: AcsChatThreadParticipant[];
 }
@@ -1485,15 +1473,12 @@ export function acsChatThreadCreatedEventDataDeserializer(
     ),
     properties: item["properties"],
     metadata: item["metadata"],
-    participants: acsChatThreadParticipantArrayDeserializer(
-      item["participants"],
-    ),
+    participants: acsChatThreadParticipantArrayDeserializer(item["participants"]),
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadWithUserDeleted event. */
-export interface AcsChatThreadWithUserDeletedEventData
-  extends AcsChatThreadEventBase {
+export interface AcsChatThreadWithUserDeletedEventData extends AcsChatThreadEventBase {
   /** The communication identifier of the user who deleted the thread */
   deletedByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The deletion time of the thread */
@@ -1519,8 +1504,7 @@ export function acsChatThreadWithUserDeletedEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadDeleted event. */
-export interface AcsChatThreadDeletedEventData
-  extends AcsChatThreadEventInThreadBase {
+export interface AcsChatThreadDeletedEventData extends AcsChatThreadEventInThreadBase {
   /** The communication identifier of the user who deleted the thread */
   deletedByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The deletion time of the thread */
@@ -1543,14 +1527,13 @@ export function acsChatThreadDeletedEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser event. */
-export interface AcsChatThreadPropertiesUpdatedPerUserEventData
-  extends AcsChatThreadEventBase {
+export interface AcsChatThreadPropertiesUpdatedPerUserEventData extends AcsChatThreadEventBase {
   /** The communication identifier of the user who updated the thread properties */
   editedByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The time at which the properties of the thread were updated */
   editTime: Date;
   /** The thread metadata */
-  metadata: Record<string, string>;
+  metadata?: Record<string, string>;
   /** The updated thread properties */
   properties: Record<string, any>;
 }
@@ -1576,8 +1559,7 @@ export function acsChatThreadPropertiesUpdatedPerUserEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadPropertiesUpdated event. */
-export interface AcsChatThreadPropertiesUpdatedEventData
-  extends AcsChatThreadEventInThreadBase {
+export interface AcsChatThreadPropertiesUpdatedEventData extends AcsChatThreadEventInThreadBase {
   /** The communication identifier of the user who updated the thread properties */
   editedByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The time at which the properties of the thread were updated */
@@ -1606,8 +1588,7 @@ export function acsChatThreadPropertiesUpdatedEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatParticipantAddedToThreadWithUser event. */
-export interface AcsChatParticipantAddedToThreadWithUserEventData
-  extends AcsChatThreadEventBase {
+export interface AcsChatParticipantAddedToThreadWithUserEventData extends AcsChatThreadEventBase {
   /** The time at which the user was added to the thread */
   time: Date;
   /** The communication identifier of the user who added the user */
@@ -1631,9 +1612,7 @@ export function acsChatParticipantAddedToThreadWithUserEventDataDeserializer(
     addedByCommunicationIdentifier: communicationIdentifierModelDeserializer(
       item["addedByCommunicationIdentifier"],
     ),
-    participantAdded: acsChatThreadParticipantDeserializer(
-      item["participantAdded"],
-    ),
+    participantAdded: acsChatThreadParticipantDeserializer(item["participantAdded"]),
   };
 }
 
@@ -1663,15 +1642,12 @@ export function acsChatParticipantRemovedFromThreadWithUserEventDataDeserializer
     removedByCommunicationIdentifier: communicationIdentifierModelDeserializer(
       item["removedByCommunicationIdentifier"],
     ),
-    participantRemoved: acsChatThreadParticipantDeserializer(
-      item["participantRemoved"],
-    ),
+    participantRemoved: acsChatThreadParticipantDeserializer(item["participantRemoved"]),
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadParticipantAdded event. */
-export interface AcsChatParticipantAddedToThreadEventData
-  extends AcsChatEventInThreadBase {
+export interface AcsChatParticipantAddedToThreadEventData extends AcsChatEventInThreadBase {
   /** The time at which the user was added to the thread */
   time: Date;
   /** The communication identifier of the user who added the user */
@@ -1692,16 +1668,13 @@ export function acsChatParticipantAddedToThreadEventDataDeserializer(
     addedByCommunicationIdentifier: communicationIdentifierModelDeserializer(
       item["addedByCommunicationIdentifier"],
     ),
-    participantAdded: acsChatThreadParticipantDeserializer(
-      item["participantAdded"],
-    ),
+    participantAdded: acsChatThreadParticipantDeserializer(item["participantAdded"]),
     version: item["version"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadParticipantRemoved event. */
-export interface AcsChatParticipantRemovedFromThreadEventData
-  extends AcsChatEventInThreadBase {
+export interface AcsChatParticipantRemovedFromThreadEventData extends AcsChatEventInThreadBase {
   /** The time at which the user was removed to the thread */
   time: Date;
   /** The communication identifier of the user who removed the user */
@@ -1722,9 +1695,7 @@ export function acsChatParticipantRemovedFromThreadEventDataDeserializer(
     removedByCommunicationIdentifier: communicationIdentifierModelDeserializer(
       item["removedByCommunicationIdentifier"],
     ),
-    participantRemoved: acsChatThreadParticipantDeserializer(
-      item["participantRemoved"],
-    ),
+    participantRemoved: acsChatThreadParticipantDeserializer(item["participantRemoved"]),
     version: item["version"],
   };
 }
@@ -1770,9 +1741,7 @@ export function acsSmsDeliveryReportReceivedEventDataDeserializer(
     to: item["to"],
     deliveryStatus: item["deliveryStatus"],
     deliveryStatusDetails: item["deliveryStatusDetails"],
-    deliveryAttempts: acsSmsDeliveryAttemptArrayDeserializer(
-      item["deliveryAttempts"],
-    ),
+    deliveryAttempts: acsSmsDeliveryAttemptArrayDeserializer(item["deliveryAttempts"]),
     receivedTimestamp: new Date(item["receivedTimestamp"]),
     tag: item["tag"],
   };
@@ -1796,9 +1765,7 @@ export interface AcsSmsDeliveryAttempt {
   segmentsFailed?: number;
 }
 
-export function acsSmsDeliveryAttemptDeserializer(
-  item: any,
-): AcsSmsDeliveryAttempt {
+export function acsSmsDeliveryAttemptDeserializer(item: any): AcsSmsDeliveryAttempt {
   return {
     timestamp: new Date(item["timestamp"]),
     segmentsSucceeded: item["segmentsSucceeded"],
@@ -1816,9 +1783,7 @@ export interface AcsSmsReceivedEventData extends AcsSmsEventBase {
   segmentCount: number;
 }
 
-export function acsSmsReceivedEventDataDeserializer(
-  item: any,
-): AcsSmsReceivedEventData {
+export function acsSmsReceivedEventDataDeserializer(item: any): AcsSmsReceivedEventData {
   return {
     messageId: item["messageId"],
     from: item["from"],
@@ -1851,9 +1816,7 @@ export function acsRecordingFileStatusUpdatedEventDataDeserializer(
   item: any,
 ): AcsRecordingFileStatusUpdatedEventData {
   return {
-    recordingStorageInfo: acsRecordingStorageInfoDeserializer(
-      item["recordingStorageInfo"],
-    ),
+    recordingStorageInfo: acsRecordingStorageInfoDeserializer(item["recordingStorageInfo"]),
     recordingStartTime: new Date(item["recordingStartTime"]),
     recordingDurationMs: item["recordingDurationMs"],
     recordingContentType: item["recordingContentType"],
@@ -1869,13 +1832,9 @@ export interface AcsRecordingStorageInfo {
   recordingChunks: AcsRecordingChunkInfo[];
 }
 
-export function acsRecordingStorageInfoDeserializer(
-  item: any,
-): AcsRecordingStorageInfo {
+export function acsRecordingStorageInfoDeserializer(item: any): AcsRecordingStorageInfo {
   return {
-    recordingChunks: acsRecordingChunkInfoArrayDeserializer(
-      item["recordingChunks"],
-    ),
+    recordingChunks: acsRecordingChunkInfoArrayDeserializer(item["recordingChunks"]),
   };
 }
 
@@ -1903,9 +1862,7 @@ export interface AcsRecordingChunkInfo {
   deleteLocation?: string;
 }
 
-export function acsRecordingChunkInfoDeserializer(
-  item: any,
-): AcsRecordingChunkInfo {
+export function acsRecordingChunkInfoDeserializer(item: any): AcsRecordingChunkInfo {
   return {
     documentId: item["documentId"],
     index: item["index"],
@@ -2089,9 +2046,9 @@ export function acsEmailEngagementTrackingReportReceivedEventDataDeserializer(
 /** The type of engagement user have with email. */
 export enum KnownAcsUserEngagement {
   /** View */
-  view = "view",
+  View = "view",
   /** Click */
-  click = "click",
+  Click = "click",
 }
 
 /**
@@ -2132,9 +2089,7 @@ export interface AcsRouterJobEventData extends AcsRouterEventData {
   tags: Record<string, string>;
 }
 
-export function acsRouterJobEventDataDeserializer(
-  item: any,
-): AcsRouterJobEventData {
+export function acsRouterJobEventDataDeserializer(item: any): AcsRouterJobEventData {
   return {
     jobId: item["jobId"],
     channelReference: item["channelReference"],
@@ -2169,8 +2124,7 @@ export function acsRouterJobCancelledEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobClassificationFailed event */
-export interface AcsRouterJobClassificationFailedEventData
-  extends AcsRouterJobEventData {
+export interface AcsRouterJobClassificationFailedEventData extends AcsRouterJobEventData {
   /** Router Job Classification Policy Id */
   classificationPolicyId?: string;
   /** Router Job Classification Failed Errors */
@@ -2214,9 +2168,7 @@ export interface AcsRouterCommunicationError {
   details: AcsRouterCommunicationError[];
 }
 
-export function acsRouterCommunicationErrorDeserializer(
-  item: any,
-): AcsRouterCommunicationError {
+export function acsRouterCommunicationErrorDeserializer(item: any): AcsRouterCommunicationError {
   return {
     code: item["code"],
     message: item["message"],
@@ -2267,9 +2219,7 @@ export interface AcsRouterQueueDetails {
   labels: Record<string, string>;
 }
 
-export function acsRouterQueueDetailsDeserializer(
-  item: any,
-): AcsRouterQueueDetails {
+export function acsRouterQueueDetailsDeserializer(item: any): AcsRouterQueueDetails {
   return {
     id: item["id"],
     name: item["name"],
@@ -2301,9 +2251,7 @@ export interface AcsRouterWorkerSelector {
   expirationTime: Date;
 }
 
-export function acsRouterWorkerSelectorDeserializer(
-  item: any,
-): AcsRouterWorkerSelector {
+export function acsRouterWorkerSelectorDeserializer(item: any): AcsRouterWorkerSelector {
   return {
     key: item["key"],
     labelOperator: item["labelOperator"],
@@ -2372,9 +2320,7 @@ export interface AcsRouterJobClosedEventData extends AcsRouterJobEventData {
   dispositionCode?: string;
 }
 
-export function acsRouterJobClosedEventDataDeserializer(
-  item: any,
-): AcsRouterJobClosedEventData {
+export function acsRouterJobClosedEventDataDeserializer(item: any): AcsRouterJobClosedEventData {
   return {
     queueId: item["queueId"],
     labels: item["labels"],
@@ -2414,9 +2360,7 @@ export function acsRouterJobCompletedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobDeleted event */
 export interface AcsRouterJobDeletedEventData extends AcsRouterJobEventData {}
 
-export function acsRouterJobDeletedEventDataDeserializer(
-  item: any,
-): AcsRouterJobDeletedEventData {
+export function acsRouterJobDeletedEventDataDeserializer(item: any): AcsRouterJobDeletedEventData {
   return {
     queueId: item["queueId"],
     labels: item["labels"],
@@ -2428,8 +2372,7 @@ export function acsRouterJobDeletedEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobExceptionTriggered event */
-export interface AcsRouterJobExceptionTriggeredEventData
-  extends AcsRouterJobEventData {
+export interface AcsRouterJobExceptionTriggeredEventData extends AcsRouterJobEventData {
   /** Router Job Exception Triggered Rule Key */
   ruleKey?: string;
   /** Router Job Exception Triggered Rule Id */
@@ -2461,9 +2404,7 @@ export interface AcsRouterJobQueuedEventData extends AcsRouterJobEventData {
   requestedWorkerSelectors: AcsRouterWorkerSelector[];
 }
 
-export function acsRouterJobQueuedEventDataDeserializer(
-  item: any,
-): AcsRouterJobQueuedEventData {
+export function acsRouterJobQueuedEventDataDeserializer(item: any): AcsRouterJobQueuedEventData {
   return {
     queueId: item["queueId"],
     labels: item["labels"],
@@ -2567,8 +2508,7 @@ export enum KnownAcsRouterJobStatus {
 export type AcsRouterJobStatus = string;
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobSchedulingFailed event */
-export interface AcsRouterJobSchedulingFailedEventData
-  extends AcsRouterJobEventData {
+export interface AcsRouterJobSchedulingFailedEventData extends AcsRouterJobEventData {
   /** Router Job Priority */
   priority?: number;
   /** Router Job Scheduling Failed Attached Worker Selector Expired */
@@ -2627,8 +2567,7 @@ export function acsRouterJobUnassignedEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobWaitingForActivation event */
-export interface AcsRouterJobWaitingForActivationEventData
-  extends AcsRouterJobEventData {
+export interface AcsRouterJobWaitingForActivationEventData extends AcsRouterJobEventData {
   /** Router Job Waiting For Activation Priority */
   priority?: number;
   /** Router Job Waiting For Activation Worker Selector Expired */
@@ -2664,8 +2603,7 @@ export function acsRouterJobWaitingForActivationEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobWorkerSelectorsExpired event */
-export interface AcsRouterJobWorkerSelectorsExpiredEventData
-  extends AcsRouterJobEventData {
+export interface AcsRouterJobWorkerSelectorsExpiredEventData extends AcsRouterJobEventData {
   /** Router Job Worker Selectors Expired Requested Worker Selectors */
   expiredRequestedWorkerSelectors: AcsRouterWorkerSelector[];
   /** Router Job Worker Selectors Expired Attached Worker Selectors */
@@ -2697,9 +2635,7 @@ export interface AcsRouterWorkerEventData extends AcsRouterEventData {
   workerId?: string;
 }
 
-export function acsRouterWorkerEventDataDeserializer(
-  item: any,
-): AcsRouterWorkerEventData {
+export function acsRouterWorkerEventDataDeserializer(item: any): AcsRouterWorkerEventData {
   return {
     jobId: item["jobId"],
     channelReference: item["channelReference"],
@@ -2709,8 +2645,7 @@ export function acsRouterWorkerEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerDeleted event */
-export interface AcsRouterWorkerDeletedEventData
-  extends AcsRouterWorkerEventData {}
+export interface AcsRouterWorkerDeletedEventData extends AcsRouterWorkerEventData {}
 
 export function acsRouterWorkerDeletedEventDataDeserializer(
   item: any,
@@ -2738,8 +2673,7 @@ export function acsRouterWorkerDeregisteredEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerOfferAccepted event */
-export interface AcsRouterWorkerOfferAcceptedEventData
-  extends AcsRouterWorkerEventData {
+export interface AcsRouterWorkerOfferAcceptedEventData extends AcsRouterWorkerEventData {
   /** Router Worker Offer Accepted Queue Id */
   queueId?: string;
   /** Router Worker Offer Accepted Offer Id */
@@ -2778,8 +2712,7 @@ export function acsRouterWorkerOfferAcceptedEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerOfferDeclined event */
-export interface AcsRouterWorkerOfferDeclinedEventData
-  extends AcsRouterWorkerEventData {
+export interface AcsRouterWorkerOfferDeclinedEventData extends AcsRouterWorkerEventData {
   /** Router Worker Offer Declined Queue Id */
   queueId?: string;
   /** Router Worker Offer Declined Offer Id */
@@ -2800,8 +2733,7 @@ export function acsRouterWorkerOfferDeclinedEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerOfferExpired event */
-export interface AcsRouterWorkerOfferExpiredEventData
-  extends AcsRouterWorkerEventData {
+export interface AcsRouterWorkerOfferExpiredEventData extends AcsRouterWorkerEventData {
   /** Router Worker Offer Expired Queue Id */
   queueId?: string;
   /** Router Worker Offer Expired Offer Id */
@@ -2822,8 +2754,7 @@ export function acsRouterWorkerOfferExpiredEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerOfferIssued event */
-export interface AcsRouterWorkerOfferIssuedEventData
-  extends AcsRouterWorkerEventData {
+export interface AcsRouterWorkerOfferIssuedEventData extends AcsRouterWorkerEventData {
   /** Router Worker Offer Issued Queue Id */
   queueId?: string;
   /** Router Worker Offer Issued Offer Id */
@@ -2865,8 +2796,7 @@ export function acsRouterWorkerOfferIssuedEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerOfferRevoked event */
-export interface AcsRouterWorkerOfferRevokedEventData
-  extends AcsRouterWorkerEventData {
+export interface AcsRouterWorkerOfferRevokedEventData extends AcsRouterWorkerEventData {
   /** Router Worker Offer Revoked Queue Id */
   queueId?: string;
   /** Router Worker Offer Revoked Offer Id */
@@ -2907,9 +2837,7 @@ export function acsRouterWorkerRegisteredEventDataDeserializer(
 ): AcsRouterWorkerRegisteredEventData {
   return {
     workerId: item["workerId"],
-    queueAssignments: acsRouterQueueDetailsArrayDeserializer(
-      item["queueAssignments"],
-    ),
+    queueAssignments: acsRouterQueueDetailsArrayDeserializer(item["queueAssignments"]),
     channelConfigurations: acsRouterChannelConfigurationArrayDeserializer(
       item["channelConfigurations"],
     ),
@@ -2978,9 +2906,7 @@ export function acsRouterWorkerUpdatedEventDataDeserializer(
 ): AcsRouterWorkerUpdatedEventData {
   return {
     workerId: item["workerId"],
-    queueAssignments: acsRouterQueueDetailsArrayDeserializer(
-      item["queueAssignments"],
-    ),
+    queueAssignments: acsRouterQueueDetailsArrayDeserializer(item["queueAssignments"]),
     channelConfigurations: acsRouterChannelConfigurationArrayDeserializer(
       item["channelConfigurations"],
     ),
@@ -3035,16 +2961,12 @@ export interface AcsMessageEventData {
   error?: AcsMessageChannelEventError;
 }
 
-export function acsMessageEventDataDeserializer(
-  item: any,
-): AcsMessageEventData {
+export function acsMessageEventDataDeserializer(item: any): AcsMessageEventData {
   return {
     from: item["from"],
     to: item["to"],
     receivedTimeStamp: new Date(item["receivedTimeStamp"]),
-    error: !item["error"]
-      ? item["error"]
-      : acsMessageChannelEventErrorDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : acsMessageChannelEventErrorDeserializer(item["error"]),
   };
 }
 
@@ -3056,9 +2978,7 @@ export interface AcsMessageChannelEventError {
   channelMessage?: string;
 }
 
-export function acsMessageChannelEventErrorDeserializer(
-  item: any,
-): AcsMessageChannelEventError {
+export function acsMessageChannelEventErrorDeserializer(item: any): AcsMessageChannelEventError {
   return {
     channelCode: item["channelCode"],
     channelMessage: item["channelMessage"],
@@ -3066,8 +2986,7 @@ export function acsMessageChannelEventErrorDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.AdvancedMessageDeliveryStatusUpdated event. */
-export interface AcsMessageDeliveryStatusUpdatedEventData
-  extends AcsMessageEventData {
+export interface AcsMessageDeliveryStatusUpdatedEventData extends AcsMessageEventData {
   /** The message id */
   messageId?: string;
   /** The updated message status */
@@ -3083,9 +3002,7 @@ export function acsMessageDeliveryStatusUpdatedEventDataDeserializer(
     from: item["from"],
     to: item["to"],
     receivedTimeStamp: new Date(item["receivedTimeStamp"]),
-    error: !item["error"]
-      ? item["error"]
-      : acsMessageChannelEventErrorDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : acsMessageChannelEventErrorDeserializer(item["error"]),
     messageId: item["messageId"],
     status: item["status"],
     channelKind: item["channelType"],
@@ -3095,17 +3012,17 @@ export function acsMessageDeliveryStatusUpdatedEventDataDeserializer(
 /** Message delivery status */
 export enum KnownAcsMessageDeliveryStatus {
   /** Read */
-  read = "read",
+  Read = "read",
   /** Delivered */
-  delivered = "delivered",
+  Delivered = "delivered",
   /** Failed */
-  failed = "failed",
+  Failed = "failed",
   /** Sent */
-  sent = "sent",
+  Sent = "sent",
   /** Warning */
-  warning = "warning",
+  Warning = "warning",
   /** Unknown */
-  unknown = "unknown",
+  Unknown = "unknown",
 }
 
 /**
@@ -3125,7 +3042,7 @@ export type AcsMessageDeliveryStatus = string;
 /** Message channel kind */
 export enum KnownAcsMessageChannelKind {
   /** Updated message channel type is WhatsApp */
-  whatsapp = "whatsapp",
+  Whatsapp = "whatsapp",
 }
 
 /**
@@ -3159,16 +3076,12 @@ export interface AcsMessageReceivedEventData extends AcsMessageEventData {
   interactiveContent?: AcsMessageInteractiveContent;
 }
 
-export function acsMessageReceivedEventDataDeserializer(
-  item: any,
-): AcsMessageReceivedEventData {
+export function acsMessageReceivedEventDataDeserializer(item: any): AcsMessageReceivedEventData {
   return {
     from: item["from"],
     to: item["to"],
     receivedTimeStamp: new Date(item["receivedTimeStamp"]),
-    error: !item["error"]
-      ? item["error"]
-      : acsMessageChannelEventErrorDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : acsMessageChannelEventErrorDeserializer(item["error"]),
     content: item["content"],
     messageId: item["messageId"],
     channelKind: item["channelType"],
@@ -3179,12 +3092,8 @@ export function acsMessageReceivedEventDataDeserializer(
     reaction: !item["reaction"]
       ? item["reaction"]
       : acsMessageReactionContentDeserializer(item["reaction"]),
-    context: !item["context"]
-      ? item["context"]
-      : acsMessageContextDeserializer(item["context"]),
-    button: !item["button"]
-      ? item["button"]
-      : acsMessageButtonContentDeserializer(item["button"]),
+    context: !item["context"] ? item["context"] : acsMessageContextDeserializer(item["context"]),
+    button: !item["button"] ? item["button"] : acsMessageButtonContentDeserializer(item["button"]),
     interactiveContent: !item["interactive"]
       ? item["interactive"]
       : acsMessageInteractiveContentDeserializer(item["interactive"]),
@@ -3205,9 +3114,7 @@ export interface AcsMessageMediaContent {
   animated?: boolean;
 }
 
-export function acsMessageMediaContentDeserializer(
-  item: any,
-): AcsMessageMediaContent {
+export function acsMessageMediaContentDeserializer(item: any): AcsMessageMediaContent {
   return {
     mimeType: item["mimeType"],
     mediaId: item["id"],
@@ -3225,9 +3132,7 @@ export interface AcsMessageReactionContent {
   emoji?: string;
 }
 
-export function acsMessageReactionContentDeserializer(
-  item: any,
-): AcsMessageReactionContent {
+export function acsMessageReactionContentDeserializer(item: any): AcsMessageReactionContent {
   return {
     messageId: item["messageId"],
     emoji: item["emoji"],
@@ -3257,9 +3162,7 @@ export interface AcsMessageButtonContent {
   payload?: string;
 }
 
-export function acsMessageButtonContentDeserializer(
-  item: any,
-): AcsMessageButtonContent {
+export function acsMessageButtonContentDeserializer(item: any): AcsMessageButtonContent {
   return {
     text: item["text"],
     payload: item["payload"],
@@ -3276,16 +3179,12 @@ export interface AcsMessageInteractiveContent {
   listReply?: AcsMessageInteractiveListReplyContent;
 }
 
-export function acsMessageInteractiveContentDeserializer(
-  item: any,
-): AcsMessageInteractiveContent {
+export function acsMessageInteractiveContentDeserializer(item: any): AcsMessageInteractiveContent {
   return {
     replyKind: item["type"],
     buttonReply: !item["buttonReply"]
       ? item["buttonReply"]
-      : acsMessageInteractiveButtonReplyContentDeserializer(
-          item["buttonReply"],
-        ),
+      : acsMessageInteractiveButtonReplyContentDeserializer(item["buttonReply"]),
     listReply: !item["listReply"]
       ? item["listReply"]
       : acsMessageInteractiveListReplyContentDeserializer(item["listReply"]),
@@ -3295,11 +3194,11 @@ export function acsMessageInteractiveContentDeserializer(
 /** Interactive reply kind */
 export enum KnownAcsInteractiveReplyKind {
   /** Messaged interactive reply type is ButtonReply */
-  buttonReply = "buttonReply",
+  ButtonReply = "buttonReply",
   /** Messaged interactive reply type is ListReply */
-  listReply = "listReply",
+  ListReply = "listReply",
   /** Messaged interactive reply type is Unknown */
-  unknown = "unknown",
+  Unknown = "unknown",
 }
 
 /**
@@ -3372,9 +3271,7 @@ export interface ContainerRegistryEventData {
   connectedRegistry?: ContainerRegistryEventConnectedRegistry;
 }
 
-export function containerRegistryEventDataDeserializer(
-  item: any,
-): ContainerRegistryEventData {
+export function containerRegistryEventDataDeserializer(item: any): ContainerRegistryEventData {
   return {
     id: item["id"],
     timestamp: new Date(item["timestamp"]),
@@ -3384,17 +3281,13 @@ export function containerRegistryEventDataDeserializer(
     request: !item["request"]
       ? item["request"]
       : containerRegistryEventRequestDeserializer(item["request"]),
-    actor: !item["actor"]
-      ? item["actor"]
-      : containerRegistryEventActorDeserializer(item["actor"]),
+    actor: !item["actor"] ? item["actor"] : containerRegistryEventActorDeserializer(item["actor"]),
     source: !item["source"]
       ? item["source"]
       : containerRegistryEventSourceDeserializer(item["source"]),
     connectedRegistry: !item["connectedRegistry"]
       ? item["connectedRegistry"]
-      : containerRegistryEventConnectedRegistryDeserializer(
-          item["connectedRegistry"],
-        ),
+      : containerRegistryEventConnectedRegistryDeserializer(item["connectedRegistry"]),
   };
 }
 
@@ -3416,9 +3309,7 @@ export interface ContainerRegistryEventTarget {
   tag?: string;
 }
 
-export function containerRegistryEventTargetDeserializer(
-  item: any,
-): ContainerRegistryEventTarget {
+export function containerRegistryEventTargetDeserializer(item: any): ContainerRegistryEventTarget {
   return {
     mediaType: item["mediaType"],
     size: item["size"],
@@ -3462,9 +3353,7 @@ export interface ContainerRegistryEventActor {
   name?: string;
 }
 
-export function containerRegistryEventActorDeserializer(
-  item: any,
-): ContainerRegistryEventActor {
+export function containerRegistryEventActorDeserializer(item: any): ContainerRegistryEventActor {
   return {
     name: item["name"],
   };
@@ -3478,9 +3367,7 @@ export interface ContainerRegistryEventSource {
   instanceID?: string;
 }
 
-export function containerRegistryEventSourceDeserializer(
-  item: any,
-): ContainerRegistryEventSource {
+export function containerRegistryEventSourceDeserializer(item: any): ContainerRegistryEventSource {
   return {
     addr: item["addr"],
     instanceID: item["instanceID"],
@@ -3502,8 +3389,7 @@ export function containerRegistryEventConnectedRegistryDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerRegistry.ImagePushed event. */
-export interface ContainerRegistryImagePushedEventData
-  extends ContainerRegistryEventData {}
+export interface ContainerRegistryImagePushedEventData extends ContainerRegistryEventData {}
 
 export function containerRegistryImagePushedEventDataDeserializer(
   item: any,
@@ -3517,23 +3403,18 @@ export function containerRegistryImagePushedEventDataDeserializer(
     request: !item["request"]
       ? item["request"]
       : containerRegistryEventRequestDeserializer(item["request"]),
-    actor: !item["actor"]
-      ? item["actor"]
-      : containerRegistryEventActorDeserializer(item["actor"]),
+    actor: !item["actor"] ? item["actor"] : containerRegistryEventActorDeserializer(item["actor"]),
     source: !item["source"]
       ? item["source"]
       : containerRegistryEventSourceDeserializer(item["source"]),
     connectedRegistry: !item["connectedRegistry"]
       ? item["connectedRegistry"]
-      : containerRegistryEventConnectedRegistryDeserializer(
-          item["connectedRegistry"],
-        ),
+      : containerRegistryEventConnectedRegistryDeserializer(item["connectedRegistry"]),
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerRegistry.ImageDeleted event. */
-export interface ContainerRegistryImageDeletedEventData
-  extends ContainerRegistryEventData {}
+export interface ContainerRegistryImageDeletedEventData extends ContainerRegistryEventData {}
 
 export function containerRegistryImageDeletedEventDataDeserializer(
   item: any,
@@ -3547,17 +3428,13 @@ export function containerRegistryImageDeletedEventDataDeserializer(
     request: !item["request"]
       ? item["request"]
       : containerRegistryEventRequestDeserializer(item["request"]),
-    actor: !item["actor"]
-      ? item["actor"]
-      : containerRegistryEventActorDeserializer(item["actor"]),
+    actor: !item["actor"] ? item["actor"] : containerRegistryEventActorDeserializer(item["actor"]),
     source: !item["source"]
       ? item["source"]
       : containerRegistryEventSourceDeserializer(item["source"]),
     connectedRegistry: !item["connectedRegistry"]
       ? item["connectedRegistry"]
-      : containerRegistryEventConnectedRegistryDeserializer(
-          item["connectedRegistry"],
-        ),
+      : containerRegistryEventConnectedRegistryDeserializer(item["connectedRegistry"]),
   };
 }
 
@@ -3588,9 +3465,7 @@ export function containerRegistryArtifactEventDataDeserializer(
     target: containerRegistryArtifactEventTargetDeserializer(item["target"]),
     connectedRegistry: !item["connectedRegistry"]
       ? item["connectedRegistry"]
-      : containerRegistryEventConnectedRegistryDeserializer(
-          item["connectedRegistry"],
-        ),
+      : containerRegistryEventConnectedRegistryDeserializer(item["connectedRegistry"]),
   };
 }
 
@@ -3627,8 +3502,7 @@ export function containerRegistryArtifactEventTargetDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerRegistry.ChartPushed event. */
-export interface ContainerRegistryChartPushedEventData
-  extends ContainerRegistryArtifactEventData {}
+export interface ContainerRegistryChartPushedEventData extends ContainerRegistryArtifactEventData {}
 
 export function containerRegistryChartPushedEventDataDeserializer(
   item: any,
@@ -3641,9 +3515,7 @@ export function containerRegistryChartPushedEventDataDeserializer(
     target: containerRegistryArtifactEventTargetDeserializer(item["target"]),
     connectedRegistry: !item["connectedRegistry"]
       ? item["connectedRegistry"]
-      : containerRegistryEventConnectedRegistryDeserializer(
-          item["connectedRegistry"],
-        ),
+      : containerRegistryEventConnectedRegistryDeserializer(item["connectedRegistry"]),
   };
 }
 
@@ -3662,20 +3534,18 @@ export function containerRegistryChartDeletedEventDataDeserializer(
     target: containerRegistryArtifactEventTargetDeserializer(item["target"]),
     connectedRegistry: !item["connectedRegistry"]
       ? item["connectedRegistry"]
-      : containerRegistryEventConnectedRegistryDeserializer(
-          item["connectedRegistry"],
-        ),
+      : containerRegistryEventConnectedRegistryDeserializer(item["connectedRegistry"]),
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerService.NewKubernetesVersionAvailable event */
 export interface ContainerServiceNewKubernetesVersionAvailableEventData {
   /** The highest PATCH Kubernetes version for the highest MINOR version supported by ManagedCluster resource */
-  latestSupportedKubernetesVersion?: string;
+  latestSupportedKubernetesVersion: string;
   /** The highest PATCH Kubernetes version for the MINOR version considered stable for the ManagedCluster resource */
-  latestStableKubernetesVersion?: string;
+  latestStableKubernetesVersion: string;
   /** The highest PATCH Kubernetes version for the lowest applicable MINOR version available for the ManagedCluster resource */
-  lowestMinorKubernetesVersion?: string;
+  lowestMinorKubernetesVersion: string;
   /** The highest PATCH Kubernetes version considered preview for the ManagedCluster resource. There might not be any version in preview at the time of publishing the event */
   latestPreviewKubernetesVersion?: string;
 }
@@ -3694,7 +3564,7 @@ export function containerServiceNewKubernetesVersionAvailableEventDataDeserializ
 /** Schema of common properties of cluster support events */
 export interface ContainerServiceClusterSupportEventData {
   /** The Kubernetes version of the ManagedCluster resource */
-  kubernetesVersion?: string;
+  kubernetesVersion: string;
 }
 
 export function containerServiceClusterSupportEventDataDeserializer(
@@ -3732,7 +3602,7 @@ export function containerServiceClusterSupportEndingEventDataDeserializer(
 /** Schema of common properties of node pool rolling events */
 export interface ContainerServiceNodePoolRollingEventData {
   /** The name of the node pool in the ManagedCluster resource */
-  nodePoolName?: string;
+  nodePoolName: string;
 }
 
 export function containerServiceNodePoolRollingEventDataDeserializer(
@@ -3789,9 +3659,7 @@ export interface DataBoxCopyStartedEventData {
   stageTime: Date;
 }
 
-export function dataBoxCopyStartedEventDataDeserializer(
-  item: any,
-): DataBoxCopyStartedEventData {
+export function dataBoxCopyStartedEventDataDeserializer(item: any): DataBoxCopyStartedEventData {
   return {
     serialNumber: item["serialNumber"],
     stageName: item["stageName"],
@@ -3863,19 +3731,19 @@ export function dataBoxOrderCompletedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.EventHub.CaptureFileCreated event. */
 export interface EventHubCaptureFileCreatedEventData {
   /** The path to the capture file. */
-  fileUrl?: string;
+  fileUrl: string;
   /** The file type of the capture file. */
-  fileType?: string;
+  fileType: string;
   /** The shard ID. */
-  partitionId?: string;
+  partitionId: string;
   /** The file size. */
-  sizeInBytes?: number;
+  sizeInBytes: number;
   /** The number of events in the file. */
-  eventCount?: number;
+  eventCount: number;
   /** The smallest sequence number from the queue. */
-  firstSequenceNumber?: number;
+  firstSequenceNumber: number;
   /** The last sequence number from the queue. */
-  lastSequenceNumber?: number;
+  lastSequenceNumber: number;
   /** The first time from the queue. */
   firstEnqueueTime: Date;
   /** The last time from the queue. */
@@ -3912,24 +3780,18 @@ export interface MapsGeofenceEvent {
 
 export function mapsGeofenceEventDeserializer(item: any): MapsGeofenceEvent {
   return {
-    expiredGeofenceGeometryId: item["expiredGeofenceGeometryId"].map(
-      (p: any) => {
-        return p;
-      },
-    ),
+    expiredGeofenceGeometryId: item["expiredGeofenceGeometryId"].map((p: any) => {
+      return p;
+    }),
     geometries: mapsGeofenceGeometryArrayDeserializer(item["geometries"]),
-    invalidPeriodGeofenceGeometryId: item[
-      "invalidPeriodGeofenceGeometryId"
-    ].map((p: any) => {
+    invalidPeriodGeofenceGeometryId: item["invalidPeriodGeofenceGeometryId"].map((p: any) => {
       return p;
     }),
     isEventPublished: item["isEventPublished"],
   };
 }
 
-export function mapsGeofenceGeometryArrayDeserializer(
-  result: Array<MapsGeofenceGeometry>,
-): any[] {
+export function mapsGeofenceGeometryArrayDeserializer(result: Array<MapsGeofenceGeometry>): any[] {
   return result.map((item) => {
     return mapsGeofenceGeometryDeserializer(item);
   });
@@ -3951,9 +3813,7 @@ export interface MapsGeofenceGeometry {
   udId?: string;
 }
 
-export function mapsGeofenceGeometryDeserializer(
-  item: any,
-): MapsGeofenceGeometry {
+export function mapsGeofenceGeometryDeserializer(item: any): MapsGeofenceGeometry {
   return {
     deviceId: item["deviceId"],
     distance: item["distance"],
@@ -3967,19 +3827,13 @@ export function mapsGeofenceGeometryDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Maps.GeofenceEntered event. */
 export interface MapsGeofenceEnteredEventData extends MapsGeofenceEvent {}
 
-export function mapsGeofenceEnteredEventDataDeserializer(
-  item: any,
-): MapsGeofenceEnteredEventData {
+export function mapsGeofenceEnteredEventDataDeserializer(item: any): MapsGeofenceEnteredEventData {
   return {
-    expiredGeofenceGeometryId: item["expiredGeofenceGeometryId"].map(
-      (p: any) => {
-        return p;
-      },
-    ),
+    expiredGeofenceGeometryId: item["expiredGeofenceGeometryId"].map((p: any) => {
+      return p;
+    }),
     geometries: mapsGeofenceGeometryArrayDeserializer(item["geometries"]),
-    invalidPeriodGeofenceGeometryId: item[
-      "invalidPeriodGeofenceGeometryId"
-    ].map((p: any) => {
+    invalidPeriodGeofenceGeometryId: item["invalidPeriodGeofenceGeometryId"].map((p: any) => {
       return p;
     }),
     isEventPublished: item["isEventPublished"],
@@ -3989,19 +3843,13 @@ export function mapsGeofenceEnteredEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Maps.GeofenceExited event. */
 export interface MapsGeofenceExitedEventData extends MapsGeofenceEvent {}
 
-export function mapsGeofenceExitedEventDataDeserializer(
-  item: any,
-): MapsGeofenceExitedEventData {
+export function mapsGeofenceExitedEventDataDeserializer(item: any): MapsGeofenceExitedEventData {
   return {
-    expiredGeofenceGeometryId: item["expiredGeofenceGeometryId"].map(
-      (p: any) => {
-        return p;
-      },
-    ),
+    expiredGeofenceGeometryId: item["expiredGeofenceGeometryId"].map((p: any) => {
+      return p;
+    }),
     geometries: mapsGeofenceGeometryArrayDeserializer(item["geometries"]),
-    invalidPeriodGeofenceGeometryId: item[
-      "invalidPeriodGeofenceGeometryId"
-    ].map((p: any) => {
+    invalidPeriodGeofenceGeometryId: item["invalidPeriodGeofenceGeometryId"].map((p: any) => {
       return p;
     }),
     isEventPublished: item["isEventPublished"],
@@ -4011,19 +3859,13 @@ export function mapsGeofenceExitedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Maps.GeofenceResult event. */
 export interface MapsGeofenceResultEventData extends MapsGeofenceEvent {}
 
-export function mapsGeofenceResultEventDataDeserializer(
-  item: any,
-): MapsGeofenceResultEventData {
+export function mapsGeofenceResultEventDataDeserializer(item: any): MapsGeofenceResultEventData {
   return {
-    expiredGeofenceGeometryId: item["expiredGeofenceGeometryId"].map(
-      (p: any) => {
-        return p;
-      },
-    ),
+    expiredGeofenceGeometryId: item["expiredGeofenceGeometryId"].map((p: any) => {
+      return p;
+    }),
     geometries: mapsGeofenceGeometryArrayDeserializer(item["geometries"]),
-    invalidPeriodGeofenceGeometryId: item[
-      "invalidPeriodGeofenceGeometryId"
-    ].map((p: any) => {
+    invalidPeriodGeofenceGeometryId: item["invalidPeriodGeofenceGeometryId"].map((p: any) => {
       return p;
     }),
     isEventPublished: item["isEventPublished"],
@@ -4040,9 +3882,7 @@ export interface DeviceLifeCycleEvent {
   twin: DeviceTwinInfo;
 }
 
-export function deviceLifeCycleEventDeserializer(
-  item: any,
-): DeviceLifeCycleEvent {
+export function deviceLifeCycleEventDeserializer(item: any): DeviceLifeCycleEvent {
   return {
     deviceId: item["deviceId"],
     hubName: item["hubName"],
@@ -4088,9 +3928,7 @@ export function deviceTwinInfoDeserializer(item: any): DeviceTwinInfo {
     status: item["status"],
     statusUpdateTime: item["statusUpdateTime"],
     version: item["version"],
-    x509Thumbprint: deviceTwinInfoX509ThumbprintDeserializer(
-      item["x509Thumbprint"],
-    ),
+    x509Thumbprint: deviceTwinInfoX509ThumbprintDeserializer(item["x509Thumbprint"]),
   };
 }
 
@@ -4102,9 +3940,7 @@ export interface DeviceTwinInfoProperties {
   reported: DeviceTwin;
 }
 
-export function deviceTwinInfoPropertiesDeserializer(
-  item: any,
-): DeviceTwinInfoProperties {
+export function deviceTwinInfoPropertiesDeserializer(item: any): DeviceTwinInfoProperties {
   return {
     desired: deviceTwinDeserializer(item["desired"]),
     reported: deviceTwinDeserializer(item["reported"]),
@@ -4146,9 +3982,7 @@ export interface DeviceTwinInfoX509Thumbprint {
   secondaryThumbprint: string;
 }
 
-export function deviceTwinInfoX509ThumbprintDeserializer(
-  item: any,
-): DeviceTwinInfoX509Thumbprint {
+export function deviceTwinInfoX509ThumbprintDeserializer(item: any): DeviceTwinInfoX509Thumbprint {
   return {
     primaryThumbprint: item["primaryThumbprint"],
     secondaryThumbprint: item["secondaryThumbprint"],
@@ -4167,9 +4001,7 @@ export interface DeviceConnectionStateEvent {
   deviceConnectionStateEventInfo: DeviceConnectionStateEventInfo;
 }
 
-export function deviceConnectionStateEventDeserializer(
-  item: any,
-): DeviceConnectionStateEvent {
+export function deviceConnectionStateEventDeserializer(item: any): DeviceConnectionStateEvent {
   return {
     deviceId: item["deviceId"],
     moduleId: item["moduleId"],
@@ -4204,9 +4036,7 @@ export interface DeviceTelemetryEvent {
   systemProperties: Record<string, string>;
 }
 
-export function deviceTelemetryEventDeserializer(
-  item: any,
-): DeviceTelemetryEvent {
+export function deviceTelemetryEventDeserializer(item: any): DeviceTelemetryEvent {
   return {
     body: item["body"],
     properties: item["properties"],
@@ -4217,9 +4047,7 @@ export function deviceTelemetryEventDeserializer(
 /** Event data for Microsoft.Devices.DeviceCreated event. */
 export interface IotHubDeviceCreatedEventData extends DeviceLifeCycleEvent {}
 
-export function iotHubDeviceCreatedEventDataDeserializer(
-  item: any,
-): IotHubDeviceCreatedEventData {
+export function iotHubDeviceCreatedEventDataDeserializer(item: any): IotHubDeviceCreatedEventData {
   return {
     deviceId: item["deviceId"],
     hubName: item["hubName"],
@@ -4230,9 +4058,7 @@ export function iotHubDeviceCreatedEventDataDeserializer(
 /** Event data for Microsoft.Devices.DeviceDeleted event. */
 export interface IotHubDeviceDeletedEventData extends DeviceLifeCycleEvent {}
 
-export function iotHubDeviceDeletedEventDataDeserializer(
-  item: any,
-): IotHubDeviceDeletedEventData {
+export function iotHubDeviceDeletedEventDataDeserializer(item: any): IotHubDeviceDeletedEventData {
   return {
     deviceId: item["deviceId"],
     hubName: item["hubName"],
@@ -4241,8 +4067,7 @@ export function iotHubDeviceDeletedEventDataDeserializer(
 }
 
 /** Event data for Microsoft.Devices.DeviceConnected event. */
-export interface IotHubDeviceConnectedEventData
-  extends DeviceConnectionStateEvent {}
+export interface IotHubDeviceConnectedEventData extends DeviceConnectionStateEvent {}
 
 export function iotHubDeviceConnectedEventDataDeserializer(
   item: any,
@@ -4258,8 +4083,7 @@ export function iotHubDeviceConnectedEventDataDeserializer(
 }
 
 /** Event data for Microsoft.Devices.DeviceDisconnected event. */
-export interface IotHubDeviceDisconnectedEventData
-  extends DeviceConnectionStateEvent {}
+export interface IotHubDeviceDisconnectedEventData extends DeviceConnectionStateEvent {}
 
 export function iotHubDeviceDisconnectedEventDataDeserializer(
   item: any,
@@ -5116,9 +4940,7 @@ export interface KeyVaultKeyExpiredEventData {
   exp: number;
 }
 
-export function keyVaultKeyExpiredEventDataDeserializer(
-  item: any,
-): KeyVaultKeyExpiredEventData {
+export function keyVaultKeyExpiredEventDataDeserializer(item: any): KeyVaultKeyExpiredEventData {
   return {
     id: item["Id"],
     vaultName: item["VaultName"],
@@ -5261,13 +5083,13 @@ export function keyVaultAccessPolicyChangedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.MachineLearningServices.ModelRegistered event. */
 export interface MachineLearningServicesModelRegisteredEventData {
   /** The name of the model that was registered. */
-  modelName?: string;
+  modelName: string;
   /** The version of the model that was registered. */
-  modelVersion?: string;
+  modelVersion: string;
   /** The tags of the model that was registered. */
-  modelTags: Record<string, any>;
+  modelTags?: Record<string, any>;
   /** The properties of the model that was registered. */
-  modelProperties: Record<string, any>;
+  modelProperties?: Record<string, any>;
 }
 
 export function machineLearningServicesModelRegisteredEventDataDeserializer(
@@ -5284,15 +5106,15 @@ export function machineLearningServicesModelRegisteredEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.MachineLearningServices.ModelDeployed event. */
 export interface MachineLearningServicesModelDeployedEventData {
   /** The name of the deployed service. */
-  serviceName?: string;
+  serviceName: string;
   /** The compute type (e.g. ACI, AKS) of the deployed service. */
-  serviceComputeType?: string;
+  serviceComputeType: string;
   /** A common separated list of model IDs. The IDs of the models deployed in the service. */
-  modelIds?: string;
+  modelIds: string;
   /** The tags of the deployed service. */
-  serviceTags: Record<string, any>;
+  serviceTags?: Record<string, any>;
   /** The properties of the deployed service. */
-  serviceProperties: Record<string, any>;
+  serviceProperties?: Record<string, any>;
 }
 
 export function machineLearningServicesModelDeployedEventDataDeserializer(
@@ -5310,17 +5132,17 @@ export function machineLearningServicesModelDeployedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.MachineLearningServices.RunCompleted event. */
 export interface MachineLearningServicesRunCompletedEventData {
   /** The ID of the experiment that the run belongs to. */
-  experimentId?: string;
+  experimentId: string;
   /** The name of the experiment that the run belongs to. */
-  experimentName?: string;
+  experimentName: string;
   /** The ID of the Run that was completed. */
-  runId?: string;
+  runId: string;
   /** The Run Type of the completed Run. */
-  runType?: string;
+  runType: string;
   /** The tags of the completed Run. */
-  runTags: Record<string, any>;
+  runTags?: Record<string, any>;
   /** The properties of the completed Run. */
-  runProperties: Record<string, any>;
+  runProperties?: Record<string, any>;
 }
 
 export function machineLearningServicesRunCompletedEventDataDeserializer(
@@ -5339,21 +5161,21 @@ export function machineLearningServicesRunCompletedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.MachineLearningServices.DatasetDriftDetected event. */
 export interface MachineLearningServicesDatasetDriftDetectedEventData {
   /** The ID of the data drift monitor that triggered the event. */
-  dataDriftId?: string;
+  dataDriftId: string;
   /** The name of the data drift monitor that triggered the event. */
-  dataDriftName?: string;
+  dataDriftName: string;
   /** The ID of the Run that detected data drift. */
-  runId?: string;
+  runId: string;
   /** The ID of the base Dataset used to detect drift. */
-  baseDatasetId?: string;
+  baseDatasetId: string;
   /** The ID of the target Dataset used to detect drift. */
-  targetDatasetId?: string;
+  targetDatasetId: string;
   /** The coefficient result that triggered the event. */
-  driftCoefficient?: number;
+  driftCoefficient: number;
   /** The start time of the target dataset time series that resulted in drift detection. */
-  startTime: Date;
+  startTime: Date | null;
   /** The end time of the target dataset time series that resulted in drift detection. */
-  endTime: Date;
+  endTime: Date | null;
 }
 
 export function machineLearningServicesDatasetDriftDetectedEventDataDeserializer(
@@ -5366,27 +5188,27 @@ export function machineLearningServicesDatasetDriftDetectedEventDataDeserializer
     baseDatasetId: item["baseDatasetId"],
     targetDatasetId: item["targetDatasetId"],
     driftCoefficient: item["driftCoefficient"],
-    startTime: new Date(item["startTime"]),
-    endTime: new Date(item["endTime"]),
+    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
+    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.MachineLearningServices.RunStatusChanged event. */
 export interface MachineLearningServicesRunStatusChangedEventData {
   /** The ID of the experiment that the Machine Learning Run belongs to. */
-  experimentId?: string;
+  experimentId: string;
   /** The name of the experiment that the Machine Learning Run belongs to. */
-  experimentName?: string;
+  experimentName: string;
   /** The ID of the Machine Learning Run. */
-  runId?: string;
+  runId: string;
   /** The Run Type of the Machine Learning Run. */
-  runType?: string;
+  runType: string;
   /** The tags of the Machine Learning Run. */
-  runTags: Record<string, any>;
+  runTags?: Record<string, any>;
   /** The properties of the Machine Learning Run. */
-  runProperties: Record<string, any>;
+  runProperties?: Record<string, any>;
   /** The status of the Machine Learning Run. */
-  runStatus?: string;
+  runStatus: string;
 }
 
 export function machineLearningServicesRunStatusChangedEventDataDeserializer(
@@ -5513,9 +5335,7 @@ export function redisPatchingCompletedEventDataDeserializer(
   item: any,
 ): RedisPatchingCompletedEventData {
   return {
-    timestamp: !item["timestamp"]
-      ? item["timestamp"]
-      : new Date(item["timestamp"]),
+    timestamp: !item["timestamp"] ? item["timestamp"] : new Date(item["timestamp"]),
     name: item["name"],
     status: item["status"],
   };
@@ -5535,9 +5355,7 @@ export function redisScalingCompletedEventDataDeserializer(
   item: any,
 ): RedisScalingCompletedEventData {
   return {
-    timestamp: !item["timestamp"]
-      ? item["timestamp"]
-      : new Date(item["timestamp"]),
+    timestamp: !item["timestamp"] ? item["timestamp"] : new Date(item["timestamp"]),
     name: item["name"],
     status: item["status"],
   };
@@ -5557,9 +5375,7 @@ export function redisExportRDBCompletedEventDataDeserializer(
   item: any,
 ): RedisExportRDBCompletedEventData {
   return {
-    timestamp: !item["timestamp"]
-      ? item["timestamp"]
-      : new Date(item["timestamp"]),
+    timestamp: !item["timestamp"] ? item["timestamp"] : new Date(item["timestamp"]),
     name: item["name"],
     status: item["status"],
   };
@@ -5579,9 +5395,7 @@ export function redisImportRDBCompletedEventDataDeserializer(
   item: any,
 ): RedisImportRDBCompletedEventData {
   return {
-    timestamp: !item["timestamp"]
-      ? item["timestamp"]
-      : new Date(item["timestamp"]),
+    timestamp: !item["timestamp"] ? item["timestamp"] : new Date(item["timestamp"]),
     name: item["name"],
     status: item["status"],
   };
@@ -5641,9 +5455,7 @@ export interface ResourceAuthorization {
   evidence: Record<string, string>;
 }
 
-export function resourceAuthorizationDeserializer(
-  item: any,
-): ResourceAuthorization {
+export function resourceAuthorizationDeserializer(item: any): ResourceAuthorization {
   return {
     scope: item["scope"],
     action: item["action"],
@@ -5663,9 +5475,7 @@ export interface ResourceHttpRequest {
   url?: string;
 }
 
-export function resourceHttpRequestDeserializer(
-  item: any,
-): ResourceHttpRequest {
+export function resourceHttpRequestDeserializer(item: any): ResourceHttpRequest {
   return {
     clientRequestId: item["clientRequestId"],
     clientIpAddress: item["clientIpAddress"],
@@ -5744,9 +5554,7 @@ export interface ResourceWriteCancelEventData {
   httpRequest: ResourceHttpRequest;
 }
 
-export function resourceWriteCancelEventDataDeserializer(
-  item: any,
-): ResourceWriteCancelEventData {
+export function resourceWriteCancelEventDataDeserializer(item: any): ResourceWriteCancelEventData {
   return {
     tenantId: item["tenantId"],
     subscriptionId: item["subscriptionId"],
@@ -6221,9 +6029,7 @@ export interface StorageBlobCreatedEventData {
   storageDiagnostics: Record<string, any>;
 }
 
-export function storageBlobCreatedEventDataDeserializer(
-  item: any,
-): StorageBlobCreatedEventData {
+export function storageBlobCreatedEventDataDeserializer(item: any): StorageBlobCreatedEventData {
   return {
     api: item["api"],
     clientRequestId: item["clientRequestId"],
@@ -6290,9 +6096,7 @@ export interface StorageBlobDeletedEventData {
   storageDiagnostics: Record<string, any>;
 }
 
-export function storageBlobDeletedEventDataDeserializer(
-  item: any,
-): StorageBlobDeletedEventData {
+export function storageBlobDeletedEventDataDeserializer(item: any): StorageBlobDeletedEventData {
   return {
     api: item["api"],
     clientRequestId: item["clientRequestId"],
@@ -6396,9 +6200,7 @@ export interface StorageBlobRenamedEventData {
   storageDiagnostics: Record<string, any>;
 }
 
-export function storageBlobRenamedEventDataDeserializer(
-  item: any,
-): StorageBlobRenamedEventData {
+export function storageBlobRenamedEventDataDeserializer(item: any): StorageBlobRenamedEventData {
   return {
     api: item["api"],
     clientRequestId: item["clientRequestId"],
@@ -6467,12 +6269,8 @@ export function storageLifecyclePolicyCompletedEventDataDeserializer(
 ): StorageLifecyclePolicyCompletedEventData {
   return {
     scheduleTime: item["scheduleTime"],
-    policyRunSummary: storageLifecyclePolicyRunSummaryDeserializer(
-      item["policyRunSummary"],
-    ),
-    deleteSummary: storageLifecyclePolicyActionSummaryDetailDeserializer(
-      item["deleteSummary"],
-    ),
+    policyRunSummary: storageLifecyclePolicyRunSummaryDeserializer(item["policyRunSummary"]),
+    deleteSummary: storageLifecyclePolicyActionSummaryDetailDeserializer(item["deleteSummary"]),
     tierToCoolSummary: storageLifecyclePolicyActionSummaryDetailDeserializer(
       item["tierToCoolSummary"],
     ),
@@ -6712,9 +6510,7 @@ export interface StorageTaskQueuedEventData {
   taskExecutionId?: string;
 }
 
-export function storageTaskQueuedEventDataDeserializer(
-  item: any,
-): StorageTaskQueuedEventData {
+export function storageTaskQueuedEventDataDeserializer(item: any): StorageTaskQueuedEventData {
   return {
     queuedDateTime: new Date(item["queuedDateTime"]),
     taskExecutionId: item["taskExecutionId"],
@@ -6842,13 +6638,9 @@ export interface WebAppUpdatedEventData {
   verb?: string;
 }
 
-export function webAppUpdatedEventDataDeserializer(
-  item: any,
-): WebAppUpdatedEventData {
+export function webAppUpdatedEventDataDeserializer(item: any): WebAppUpdatedEventData {
   return {
-    appEventTypeDetail: appEventTypeDetailDeserializer(
-      item["appEventTypeDetail"],
-    ),
+    appEventTypeDetail: appEventTypeDetailDeserializer(item["appEventTypeDetail"]),
     name: item["name"],
     clientRequestId: item["clientRequestId"],
     correlationRequestId: item["correlationRequestId"],
@@ -6880,9 +6672,7 @@ export function webBackupOperationStartedEventDataDeserializer(
   item: any,
 ): WebBackupOperationStartedEventData {
   return {
-    appEventTypeDetail: appEventTypeDetailDeserializer(
-      item["appEventTypeDetail"],
-    ),
+    appEventTypeDetail: appEventTypeDetailDeserializer(item["appEventTypeDetail"]),
     name: item["name"],
     clientRequestId: item["clientRequestId"],
     correlationRequestId: item["correlationRequestId"],
@@ -6914,9 +6704,7 @@ export function webBackupOperationCompletedEventDataDeserializer(
   item: any,
 ): WebBackupOperationCompletedEventData {
   return {
-    appEventTypeDetail: appEventTypeDetailDeserializer(
-      item["appEventTypeDetail"],
-    ),
+    appEventTypeDetail: appEventTypeDetailDeserializer(item["appEventTypeDetail"]),
     name: item["name"],
     clientRequestId: item["clientRequestId"],
     correlationRequestId: item["correlationRequestId"],
@@ -6948,9 +6736,7 @@ export function webBackupOperationFailedEventDataDeserializer(
   item: any,
 ): WebBackupOperationFailedEventData {
   return {
-    appEventTypeDetail: appEventTypeDetailDeserializer(
-      item["appEventTypeDetail"],
-    ),
+    appEventTypeDetail: appEventTypeDetailDeserializer(item["appEventTypeDetail"]),
     name: item["name"],
     clientRequestId: item["clientRequestId"],
     correlationRequestId: item["correlationRequestId"],
@@ -6982,9 +6768,7 @@ export function webRestoreOperationStartedEventDataDeserializer(
   item: any,
 ): WebRestoreOperationStartedEventData {
   return {
-    appEventTypeDetail: appEventTypeDetailDeserializer(
-      item["appEventTypeDetail"],
-    ),
+    appEventTypeDetail: appEventTypeDetailDeserializer(item["appEventTypeDetail"]),
     name: item["name"],
     clientRequestId: item["clientRequestId"],
     correlationRequestId: item["correlationRequestId"],
@@ -7016,9 +6800,7 @@ export function webRestoreOperationCompletedEventDataDeserializer(
   item: any,
 ): WebRestoreOperationCompletedEventData {
   return {
-    appEventTypeDetail: appEventTypeDetailDeserializer(
-      item["appEventTypeDetail"],
-    ),
+    appEventTypeDetail: appEventTypeDetailDeserializer(item["appEventTypeDetail"]),
     name: item["name"],
     clientRequestId: item["clientRequestId"],
     correlationRequestId: item["correlationRequestId"],
@@ -7050,9 +6832,7 @@ export function webRestoreOperationFailedEventDataDeserializer(
   item: any,
 ): WebRestoreOperationFailedEventData {
   return {
-    appEventTypeDetail: appEventTypeDetailDeserializer(
-      item["appEventTypeDetail"],
-    ),
+    appEventTypeDetail: appEventTypeDetailDeserializer(item["appEventTypeDetail"]),
     name: item["name"],
     clientRequestId: item["clientRequestId"],
     correlationRequestId: item["correlationRequestId"],
@@ -7080,13 +6860,9 @@ export interface WebSlotSwapStartedEventData {
   verb?: string;
 }
 
-export function webSlotSwapStartedEventDataDeserializer(
-  item: any,
-): WebSlotSwapStartedEventData {
+export function webSlotSwapStartedEventDataDeserializer(item: any): WebSlotSwapStartedEventData {
   return {
-    appEventTypeDetail: appEventTypeDetailDeserializer(
-      item["appEventTypeDetail"],
-    ),
+    appEventTypeDetail: appEventTypeDetailDeserializer(item["appEventTypeDetail"]),
     name: item["name"],
     clientRequestId: item["clientRequestId"],
     correlationRequestId: item["correlationRequestId"],
@@ -7118,9 +6894,7 @@ export function webSlotSwapCompletedEventDataDeserializer(
   item: any,
 ): WebSlotSwapCompletedEventData {
   return {
-    appEventTypeDetail: appEventTypeDetailDeserializer(
-      item["appEventTypeDetail"],
-    ),
+    appEventTypeDetail: appEventTypeDetailDeserializer(item["appEventTypeDetail"]),
     name: item["name"],
     clientRequestId: item["clientRequestId"],
     correlationRequestId: item["correlationRequestId"],
@@ -7148,13 +6922,9 @@ export interface WebSlotSwapFailedEventData {
   verb?: string;
 }
 
-export function webSlotSwapFailedEventDataDeserializer(
-  item: any,
-): WebSlotSwapFailedEventData {
+export function webSlotSwapFailedEventDataDeserializer(item: any): WebSlotSwapFailedEventData {
   return {
-    appEventTypeDetail: appEventTypeDetailDeserializer(
-      item["appEventTypeDetail"],
-    ),
+    appEventTypeDetail: appEventTypeDetailDeserializer(item["appEventTypeDetail"]),
     name: item["name"],
     clientRequestId: item["clientRequestId"],
     correlationRequestId: item["correlationRequestId"],
@@ -7186,9 +6956,7 @@ export function webSlotSwapWithPreviewStartedEventDataDeserializer(
   item: any,
 ): WebSlotSwapWithPreviewStartedEventData {
   return {
-    appEventTypeDetail: appEventTypeDetailDeserializer(
-      item["appEventTypeDetail"],
-    ),
+    appEventTypeDetail: appEventTypeDetailDeserializer(item["appEventTypeDetail"]),
     name: item["name"],
     clientRequestId: item["clientRequestId"],
     correlationRequestId: item["correlationRequestId"],
@@ -7220,9 +6988,7 @@ export function webSlotSwapWithPreviewCancelledEventDataDeserializer(
   item: any,
 ): WebSlotSwapWithPreviewCancelledEventData {
   return {
-    appEventTypeDetail: appEventTypeDetailDeserializer(
-      item["appEventTypeDetail"],
-    ),
+    appEventTypeDetail: appEventTypeDetailDeserializer(item["appEventTypeDetail"]),
     name: item["name"],
     clientRequestId: item["clientRequestId"],
     correlationRequestId: item["correlationRequestId"],
@@ -7425,9 +7191,7 @@ export interface SubscriptionDeletedEventData {
   eventSubscriptionId: string;
 }
 
-export function subscriptionDeletedEventDataDeserializer(
-  item: any,
-): SubscriptionDeletedEventData {
+export function subscriptionDeletedEventDataDeserializer(item: any): SubscriptionDeletedEventData {
   return {
     eventSubscriptionId: item["eventSubscriptionId"],
   };
@@ -7447,9 +7211,7 @@ export interface EventGridMqttClientEventData {
   namespaceName: string;
 }
 
-export function eventGridMqttClientEventDataDeserializer(
-  item: any,
-): EventGridMqttClientEventData {
+export function eventGridMqttClientEventDataDeserializer(item: any): EventGridMqttClientEventData {
   return {
     clientAuthenticationName: item["clientAuthenticationName"],
     clientName: item["clientName"],
@@ -7458,8 +7220,7 @@ export function eventGridMqttClientEventDataDeserializer(
 }
 
 /** Event data for Microsoft.EventGrid.MQTTClientCreatedOrUpdated event. */
-export interface EventGridMqttClientCreatedOrUpdatedEventData
-  extends EventGridMqttClientEventData {
+export interface EventGridMqttClientCreatedOrUpdatedEventData extends EventGridMqttClientEventData {
   /** Configured state of the client. The value could be Enabled or Disabled */
   state: EventGridMqttClientState;
   /** Time the client resource is created based on the provider's UTC time. */
@@ -7507,8 +7268,7 @@ export enum KnownEventGridMqttClientState {
 export type EventGridMqttClientState = string;
 
 /** Event data for Microsoft.EventGrid.MQTTClientDeleted event. */
-export interface EventGridMqttClientDeletedEventData
-  extends EventGridMqttClientEventData {}
+export interface EventGridMqttClientDeletedEventData extends EventGridMqttClientEventData {}
 
 export function eventGridMqttClientDeletedEventDataDeserializer(
   item: any,
@@ -7521,8 +7281,7 @@ export function eventGridMqttClientDeletedEventDataDeserializer(
 }
 
 /** Event data for Microsoft.EventGrid.MQTTClientSessionConnected event. */
-export interface EventGridMqttClientSessionConnectedEventData
-  extends EventGridMqttClientEventData {
+export interface EventGridMqttClientSessionConnectedEventData extends EventGridMqttClientEventData {
   /**
    * Unique identifier for the MQTT client's session. This case-sensitive string can
    * be up to 128 characters long, and supports UTF-8 characters.
@@ -7641,9 +7400,7 @@ export function resourceNotificationsResourceUpdatedEventDataDeserializer(
   item: any,
 ): ResourceNotificationsResourceUpdatedEventData {
   return {
-    resourceDetails: resourceNotificationsResourceUpdatedDetailsDeserializer(
-      item["resourceInfo"],
-    ),
+    resourceDetails: resourceNotificationsResourceUpdatedDetailsDeserializer(item["resourceInfo"]),
     operationalDetails: resourceNotificationsOperationalDetailsDeserializer(
       item["operationalInfo"],
     ),
@@ -7709,9 +7466,7 @@ export function resourceNotificationsHealthResourcesAvailabilityStatusChangedEve
   item: any,
 ): ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventData {
   return {
-    resourceDetails: resourceNotificationsResourceUpdatedDetailsDeserializer(
-      item["resourceInfo"],
-    ),
+    resourceDetails: resourceNotificationsResourceUpdatedDetailsDeserializer(item["resourceInfo"]),
     operationalDetails: resourceNotificationsOperationalDetailsDeserializer(
       item["operationalInfo"],
     ),
@@ -7730,9 +7485,7 @@ export function resourceNotificationsHealthResourcesAnnotatedEventDataDeserializ
   item: any,
 ): ResourceNotificationsHealthResourcesAnnotatedEventData {
   return {
-    resourceDetails: resourceNotificationsResourceUpdatedDetailsDeserializer(
-      item["resourceInfo"],
-    ),
+    resourceDetails: resourceNotificationsResourceUpdatedDetailsDeserializer(item["resourceInfo"]),
     operationalDetails: resourceNotificationsOperationalDetailsDeserializer(
       item["operationalInfo"],
     ),
@@ -7778,9 +7531,7 @@ export function resourceNotificationsResourceDeletedEventDataDeserializer(
   item: any,
 ): ResourceNotificationsResourceDeletedEventData {
   return {
-    resourceDetails: resourceNotificationsResourceDeletedDetailsDeserializer(
-      item["resourceInfo"],
-    ),
+    resourceDetails: resourceNotificationsResourceDeletedDetailsDeserializer(item["resourceInfo"]),
     operationalDetails: resourceNotificationsOperationalDetailsDeserializer(
       item["operationalInfo"],
     ),
@@ -7798,9 +7549,7 @@ export function resourceNotificationsResourceManagementCreatedOrUpdatedEventData
   item: any,
 ): ResourceNotificationsResourceManagementCreatedOrUpdatedEventData {
   return {
-    resourceDetails: resourceNotificationsResourceUpdatedDetailsDeserializer(
-      item["resourceInfo"],
-    ),
+    resourceDetails: resourceNotificationsResourceUpdatedDetailsDeserializer(item["resourceInfo"]),
     operationalDetails: resourceNotificationsOperationalDetailsDeserializer(
       item["operationalInfo"],
     ),
@@ -7819,9 +7568,7 @@ export function resourceNotificationsResourceManagementDeletedEventDataDeseriali
   item: any,
 ): ResourceNotificationsResourceManagementDeletedEventData {
   return {
-    resourceDetails: resourceNotificationsResourceDeletedDetailsDeserializer(
-      item["resourceInfo"],
-    ),
+    resourceDetails: resourceNotificationsResourceDeletedDetailsDeserializer(item["resourceInfo"]),
     operationalDetails: resourceNotificationsOperationalDetailsDeserializer(
       item["operationalInfo"],
     ),
@@ -7836,9 +7583,7 @@ export function resourceNotificationsContainerServiceEventResourcesScheduledEven
   item: any,
 ): ResourceNotificationsContainerServiceEventResourcesScheduledEventData {
   return {
-    resourceDetails: resourceNotificationsResourceUpdatedDetailsDeserializer(
-      item["resourceInfo"],
-    ),
+    resourceDetails: resourceNotificationsResourceUpdatedDetailsDeserializer(item["resourceInfo"]),
     operationalDetails: resourceNotificationsOperationalDetailsDeserializer(
       item["operationalInfo"],
     ),
@@ -7848,6 +7593,6 @@ export function resourceNotificationsContainerServiceEventResourcesScheduledEven
 
 /** Known values of {@link ServiceApiVersions} that the service accepts. */
 export enum KnownServiceApiVersions {
-  v2018_01_01 = "2018-01-01",
-  v2024_01_01 = "2024-01-01",
+  V20180101 = "2018-01-01",
+  V20240101 = "2024-01-01",
 }
