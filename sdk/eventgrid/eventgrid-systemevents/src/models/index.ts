@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { SystemEventsClient } from "./systemEventsClient.js";
 export {
   ApiCenterApiDefinitionAddedEventData,
   ApiCenterApiSpecification,
@@ -69,6 +68,8 @@ export {
   AcsChatMessageEventBase,
   AcsChatMessageReceivedEventData,
   AcsChatMessageEventInThreadBase,
+  AcsChatAzureBotCommandReceivedInThreadEventData,
+  AcsChatTypingIndicatorReceivedInThreadEventData,
   AcsChatMessageReceivedInThreadEventData,
   AcsChatMessageEditedEventData,
   AcsChatMessageEditedInThreadEventData,
@@ -324,5 +325,4 @@ export {
   ResourceNotificationsResourceManagementDeletedEventData,
   ResourceNotificationsContainerServiceEventResourcesScheduledEventData,
   KnownServiceApiVersions,
-} from "./models/index.js";
-export { SystemEventsClientOptionalParams } from "./api/index.js";
+} from "./models.js";
