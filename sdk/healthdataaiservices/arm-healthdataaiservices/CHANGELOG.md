@@ -1,5 +1,19 @@
 # Release History
     
+## 2.0.0 (2025-03-25)
+    
+### Features Added
+
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Enum KnownVersions has a new value V20240920
+
+### Breaking Changes
+
+  - Enum KnownVersions no longer has value V2024_09_20
+    
+    
 ## 1.0.0 (2024-11-25)
 
 ### Features Added
