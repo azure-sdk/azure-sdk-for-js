@@ -12,38 +12,38 @@ import { MhsmRegions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { KeyVaultManagementClient } from "../keyVaultManagementClient.js";
+import { AzureStorageResourceManagementAPI } from "../azureStorageResourceManagementAPI.js";
 import {
   MhsmGeoReplicatedRegion,
   MhsmRegionsListByResourceNextOptionalParams,
   MhsmRegionsListByResourceOptionalParams,
   MhsmRegionsListByResourceResponse,
-  MhsmRegionsListByResourceNextResponse
+  MhsmRegionsListByResourceNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing MhsmRegions operations. */
 export class MhsmRegionsImpl implements MhsmRegions {
-  private readonly client: KeyVaultManagementClient;
+  private readonly client: AzureStorageResourceManagementAPI;
 
   /**
    * Initialize a new instance of the class MhsmRegions class.
    * @param client Reference to the service client
    */
-  constructor(client: KeyVaultManagementClient) {
+  constructor(client: AzureStorageResourceManagementAPI) {
     this.client = client;
   }
 
   /**
    * The List operation gets information about the regions associated with the managed HSM Pool.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name Name of the managed HSM Pool
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
    * @param options The options parameters.
    */
   public listByResource(
     resourceGroupName: string,
     name: string,
-    options?: MhsmRegionsListByResourceOptionalParams
+    options?: MhsmRegionsListByResourceOptionalParams,
   ): PagedAsyncIterableIterator<MhsmGeoReplicatedRegion> {
     const iter = this.listByResourcePagingAll(resourceGroupName, name, options);
     return {
@@ -61,9 +61,9 @@ export class MhsmRegionsImpl implements MhsmRegions {
           resourceGroupName,
           name,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -71,7 +71,7 @@ export class MhsmRegionsImpl implements MhsmRegions {
     resourceGroupName: string,
     name: string,
     options?: MhsmRegionsListByResourceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<MhsmGeoReplicatedRegion[]> {
     let result: MhsmRegionsListByResourceResponse;
     let continuationToken = settings?.continuationToken;
@@ -87,7 +87,7 @@ export class MhsmRegionsImpl implements MhsmRegions {
         resourceGroupName,
         name,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -99,12 +99,12 @@ export class MhsmRegionsImpl implements MhsmRegions {
   private async *listByResourcePagingAll(
     resourceGroupName: string,
     name: string,
-    options?: MhsmRegionsListByResourceOptionalParams
+    options?: MhsmRegionsListByResourceOptionalParams,
   ): AsyncIterableIterator<MhsmGeoReplicatedRegion> {
     for await (const page of this.listByResourcePagingPage(
       resourceGroupName,
       name,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -112,25 +112,25 @@ export class MhsmRegionsImpl implements MhsmRegions {
 
   /**
    * The List operation gets information about the regions associated with the managed HSM Pool.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name Name of the managed HSM Pool
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
    * @param options The options parameters.
    */
   private _listByResource(
     resourceGroupName: string,
     name: string,
-    options?: MhsmRegionsListByResourceOptionalParams
+    options?: MhsmRegionsListByResourceOptionalParams,
   ): Promise<MhsmRegionsListByResourceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, options },
-      listByResourceOperationSpec
+      listByResourceOperationSpec,
     );
   }
 
   /**
    * ListByResourceNext
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name Name of the managed HSM Pool
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
    * @param nextLink The nextLink from the previous successful call to the ListByResource method.
    * @param options The options parameters.
    */
@@ -138,11 +138,11 @@ export class MhsmRegionsImpl implements MhsmRegions {
     resourceGroupName: string,
     name: string,
     nextLink: string,
-    options?: MhsmRegionsListByResourceNextOptionalParams
+    options?: MhsmRegionsListByResourceNextOptionalParams,
   ): Promise<MhsmRegionsListByResourceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, nextLink, options },
-      listByResourceNextOperationSpec
+      listByResourceNextOperationSpec,
     );
   }
 }
@@ -150,45 +150,44 @@ export class MhsmRegionsImpl implements MhsmRegions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/regions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/regions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MhsmRegionsListResult
+      bodyMapper: Mappers.MhsmRegionsListResult,
     },
     default: {
-      bodyMapper: Mappers.ManagedHsmError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.name,
     Parameters.resourceGroupName,
-    Parameters.name1
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MhsmRegionsListResult
+      bodyMapper: Mappers.MhsmRegionsListResult,
     },
     default: {
-      bodyMapper: Mappers.ManagedHsmError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.name1
+    Parameters.subscriptionId,
+    Parameters.name,
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
