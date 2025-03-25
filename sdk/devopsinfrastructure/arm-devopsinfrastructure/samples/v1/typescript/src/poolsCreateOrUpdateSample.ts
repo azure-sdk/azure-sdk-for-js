@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a Pool
  *
  * @summary create a Pool
- * x-ms-original-file: 2024-10-19/CreateOrUpdatePool.json
+ * x-ms-original-file: 2025-01-21/CreateOrUpdatePool.json
  */
 async function poolsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -23,7 +23,7 @@ async function poolsCreateOrUpdate(): Promise<void> {
         "/subscriptions/222e81d0-cf38-4dab-baa5-289bf16baaa4/resourceGroups/rg-1es-devcenter/providers/Microsoft.DevCenter/projects/1ES",
       organizationProfile: {
         kind: "AzureDevOps",
-        organizations: [{ url: "https://mseng.visualstudio.com" }],
+        organizations: [{ url: "https://mseng.visualstudio.com", openAccess: true }],
       },
       agentProfile: { kind: "Stateless" },
       fabricProfile: {
@@ -31,10 +31,17 @@ async function poolsCreateOrUpdate(): Promise<void> {
         sku: { name: "Standard_D4ads_v5" },
         images: [
           {
-            resourceId:
-              "/MicrosoftWindowsServer/WindowsServer/2019-Datacenter/latest",
+            resourceId: "/MicrosoftWindowsServer/WindowsServer/2019-Datacenter/latest",
+            ephemeralType: "Automatic",
           },
         ],
+        osProfile: {
+          secretsManagementSettings: {
+            certificateStoreName: "Root",
+            observedCertificates: ["https://abc.vault.azure.net/secrets/one"],
+            keyExportable: false,
+          },
+        },
       },
     },
   });
@@ -42,7 +49,7 @@ async function poolsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  poolsCreateOrUpdate();
+  await poolsCreateOrUpdate();
 }
 
 main().catch(console.error);
