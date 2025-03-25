@@ -17,6 +17,9 @@ export {
   SystemData,
   KnownCreatedByType,
   CreatedByType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   PrivateEndpointConnectionResource,
   PrivateEndpointConnectionProperties,
   PrivateEndpoint,
@@ -47,21 +50,23 @@ export {
   ActionType,
   KnownVersions,
 } from "./models/index.js";
+export { HealthDataAIServicesClientOptionalParams } from "./api/index.js";
 export {
-  HealthDataAIServicesClientOptionalParams,
-  OperationsListOptionalParams,
-  DeidServicesGetOptionalParams,
-  DeidServicesListByResourceGroupOptionalParams,
-  DeidServicesListBySubscriptionOptionalParams,
-  DeidServicesCreateOptionalParams,
-  DeidServicesUpdateOptionalParams,
   DeidServicesDeleteOptionalParams,
-  PrivateEndpointConnectionsGetOptionalParams,
-  PrivateEndpointConnectionsCreateOptionalParams,
-  PrivateEndpointConnectionsDeleteOptionalParams,
+  DeidServicesUpdateOptionalParams,
+  DeidServicesCreateOptionalParams,
+  DeidServicesListBySubscriptionOptionalParams,
+  DeidServicesListByResourceGroupOptionalParams,
+  DeidServicesGetOptionalParams,
+} from "./api/deidServices/index.js";
+export { OperationsListOptionalParams } from "./api/operations/index.js";
+export {
   PrivateEndpointConnectionsListByDeidServiceOptionalParams,
-  PrivateLinksListByDeidServiceOptionalParams,
-} from "./api/index.js";
+  PrivateEndpointConnectionsDeleteOptionalParams,
+  PrivateEndpointConnectionsCreateOptionalParams,
+  PrivateEndpointConnectionsGetOptionalParams,
+} from "./api/privateEndpointConnections/index.js";
+export { PrivateLinksListByDeidServiceOptionalParams } from "./api/privateLinks/index.js";
 export {
   DeidServicesOperations,
   OperationsOperations,
