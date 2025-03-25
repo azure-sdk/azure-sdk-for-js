@@ -62,6 +62,8 @@ export interface AvailabilitySetListItem {
 
 /** Defines the resource properties. */
 export interface OsProfileForVmInstance {
+  /** Gets or sets the admin username. */
+  adminUsername?: string;
   /**
    * Admin password of the virtual machine.
    * This value contains a credential. Consider obscuring before showing to users
@@ -84,6 +86,26 @@ export interface OsProfileForVmInstance {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly osVersion?: string;
+  /** Gets or sets the domain name. */
+  domainName?: string;
+  /** Gets or sets the domain username. */
+  domainUsername?: string;
+  /**
+   * Password of the domain the VM has to join.
+   * This value contains a credential. Consider obscuring before showing to users
+   */
+  domainPassword?: string;
+  /** Gets or sets the workgroup. */
+  workgroup?: string;
+  /**
+   * Gets or sets the product key.Input format xxxxx-xxxxx-xxxxx-xxxxx-xxxxx
+   * This value contains a credential. Consider obscuring before showing to users
+   */
+  productKey?: string;
+  /** Gets or sets the index value of the timezone. */
+  timezone?: number;
+  /** Get or sets the commands to be run once at the time of creation separated by semicolons. */
+  runOnceCommands?: string;
 }
 
 /** Defines the resource properties. */
@@ -495,6 +517,8 @@ export interface GuestAgentProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /** The resource id of the private link scope this machine is assigned to, if any. */
+  privateLinkScopeResourceId?: string;
 }
 
 /** Username / Password Credentials to connect to guest. */
@@ -696,6 +720,11 @@ export interface CloudCapacity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly vmCount?: number;
+  /**
+   * StorageGB gives the storage in GB present in the cloud.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly storageGB?: number;
 }
 
 /** The StorageQoSPolicy definition. */
@@ -1018,6 +1047,11 @@ export interface VirtualMachineInventoryItem extends InventoryItemProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly powerState?: string;
+  /**
+   * Gets vm generation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly generation?: number;
   /** Gets or sets the nic ip addresses. */
   ipAddresses?: string[];
   /** Cloud inventory resource details where the VM is present. */
@@ -1774,6 +1808,8 @@ export type VirtualMachineInstancesStartResponse =
 /** Optional parameters. */
 export interface VirtualMachineInstancesStopOptionalParams
   extends coreClient.OperationOptions {
+  /** The content of the action request */
+  body?: StopVirtualMachineOptions;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */

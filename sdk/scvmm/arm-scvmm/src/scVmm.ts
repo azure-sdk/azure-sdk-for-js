@@ -86,7 +86,7 @@ export class ScVmm extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-scvmm/1.0.1`;
+    const packageDetails = `azsdk-js-arm-scvmm/2.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -140,7 +140,7 @@ export class ScVmm extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-10-07";
+    this.apiVersion = options.apiVersion || "2025-03-13";
     this.virtualMachineInstances = new VirtualMachineInstancesImpl(this);
     this.guestAgents = new GuestAgentsImpl(this);
     this.vmInstanceHybridIdentityMetadatas =

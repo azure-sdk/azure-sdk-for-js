@@ -59,7 +59,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-10-07",
+    defaultValue: "2025-03-13",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -138,7 +138,7 @@ export const body2: OperationParameter = {
 };
 
 export const body3: OperationParameter = {
-  parameterPath: "body",
+  parameterPath: ["options", "body"],
   mapper: StopVirtualMachineOptionsMapper,
 };
 
