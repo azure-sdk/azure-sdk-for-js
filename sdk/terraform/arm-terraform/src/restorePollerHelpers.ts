@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AzureTerraformClient } from "./azureTerraformClient.js";
-import { _terraformExportTerraformDeserialize } from "./api/terraform/index.js";
+import { _exportTerraformDeserialize } from "./api/terraform/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -77,7 +77,7 @@ interface DeserializationHelper {
 
 const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/providers/Microsoft.AzureTerraform/exportTerraform": {
-    deserializer: _terraformExportTerraformDeserialize,
+    deserializer: _exportTerraformDeserialize,
     expectedStatuses: ["202", "200"],
   },
 };
