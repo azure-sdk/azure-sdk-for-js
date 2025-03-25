@@ -22,6 +22,9 @@ export {
   SystemData,
   KnownCreatedByType,
   CreatedByType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   Quota,
   QuotaProperties,
   FreeTrialProperties,
@@ -48,21 +51,25 @@ export {
   ActionType,
   KnownVersions,
 } from "./models/index.js";
+export { AzurePlaywrightServiceClientOptionalParams } from "./api/index.js";
 export {
-  AzurePlaywrightServiceClientOptionalParams,
-  OperationsListOptionalParams,
-  AccountsGetOptionalParams,
-  AccountsCreateOrUpdateOptionalParams,
-  AccountsUpdateOptionalParams,
-  AccountsDeleteOptionalParams,
-  AccountsListByResourceGroupOptionalParams,
-  AccountsListBySubscriptionOptionalParams,
-  AccountsCheckNameAvailabilityOptionalParams,
-  QuotasGetOptionalParams,
-  QuotasListBySubscriptionOptionalParams,
-  AccountQuotasGetOptionalParams,
   AccountQuotasListByAccountOptionalParams,
-} from "./api/index.js";
+  AccountQuotasGetOptionalParams,
+} from "./api/accountQuotas/index.js";
+export {
+  AccountsCheckNameAvailabilityOptionalParams,
+  AccountsListBySubscriptionOptionalParams,
+  AccountsListByResourceGroupOptionalParams,
+  AccountsDeleteOptionalParams,
+  AccountsUpdateOptionalParams,
+  AccountsCreateOrUpdateOptionalParams,
+  AccountsGetOptionalParams,
+} from "./api/accounts/index.js";
+export { OperationsListOptionalParams } from "./api/operations/index.js";
+export {
+  QuotasListBySubscriptionOptionalParams,
+  QuotasGetOptionalParams,
+} from "./api/quotas/index.js";
 export {
   AccountQuotasOperations,
   AccountsOperations,
