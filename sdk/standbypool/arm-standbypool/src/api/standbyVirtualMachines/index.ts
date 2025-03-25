@@ -2,118 +2,56 @@
 // Licensed under the MIT License.
 
 import {
-  StandbyVirtualMachineResource,
-  _StandbyVirtualMachineResourceListResult,
-} from "../../models/models.js";
-import { StandbyPoolContext as Client } from "../index.js";
+  StandbyPoolManagementContext as Client,
+  StandbyVirtualMachinesGetOptionalParams,
+  StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOptionalParams,
+} from "../index.js";
 import {
-  StreamableMethod,
-  operationOptionsToRequestParameters,
-  PathUncheckedResponse,
-  createRestError,
-} from "@azure-rest/core-client";
+  errorResponseDeserializer,
+  StandbyVirtualMachineResource,
+  standbyVirtualMachineResourceDeserializer,
+  _StandbyVirtualMachineResourceListResult,
+  _standbyVirtualMachineResourceListResultDeserializer,
+} from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
-  StandbyVirtualMachinesGetOptionalParams,
-  StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOptionalParams,
-} from "../../models/options.js";
-
-export function _standbyVirtualMachinesGetSend(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  standbyVirtualMachinePoolName: string,
-  standbyVirtualMachineName: string,
-  options: StandbyVirtualMachinesGetOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyVirtualMachinePools/{standbyVirtualMachinePoolName}/standbyVirtualMachines/{standbyVirtualMachineName}",
-      subscriptionId,
-      resourceGroupName,
-      standbyVirtualMachinePoolName,
-      standbyVirtualMachineName,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _standbyVirtualMachinesGetDeserialize(
-  result: PathUncheckedResponse,
-): Promise<StandbyVirtualMachineResource> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return {
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !result.body.properties
-      ? undefined
-      : {
-          virtualMachineResourceId: result.body.properties?.["virtualMachineResourceId"],
-          provisioningState: result.body.properties?.["provisioningState"],
-        },
-  };
-}
-
-/** Get a StandbyVirtualMachineResource */
-export async function standbyVirtualMachinesGet(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  standbyVirtualMachinePoolName: string,
-  standbyVirtualMachineName: string,
-  options: StandbyVirtualMachinesGetOptionalParams = { requestOptions: {} },
-): Promise<StandbyVirtualMachineResource> {
-  const result = await _standbyVirtualMachinesGetSend(
-    context,
-    subscriptionId,
-    resourceGroupName,
-    standbyVirtualMachinePoolName,
-    standbyVirtualMachineName,
-    options,
-  );
-  return _standbyVirtualMachinesGetDeserialize(result);
-}
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _standbyVirtualMachinesListByStandbyVirtualMachinePoolResourceSend(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   standbyVirtualMachinePoolName: string,
   options: StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyVirtualMachinePools/{standbyVirtualMachinePoolName}/standbyVirtualMachines",
-      subscriptionId,
-      resourceGroupName,
-      standbyVirtualMachinePoolName,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyVirtualMachinePools/{standbyVirtualMachinePoolName}/standbyVirtualMachines{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      standbyVirtualMachinePoolName: standbyVirtualMachinePoolName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _standbyVirtualMachinesListByStandbyVirtualMachinePoolResourceDeserialize(
@@ -121,47 +59,17 @@ export async function _standbyVirtualMachinesListByStandbyVirtualMachinePoolReso
 ): Promise<_StandbyVirtualMachineResourceListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
-  return {
-    value: result.body["value"].map((p: any) => {
-      return {
-        id: p["id"],
-        name: p["name"],
-        type: p["type"],
-        systemData: !p.systemData
-          ? undefined
-          : {
-              createdBy: p.systemData?.["createdBy"],
-              createdByType: p.systemData?.["createdByType"],
-              createdAt:
-                p.systemData?.["createdAt"] !== undefined
-                  ? new Date(p.systemData?.["createdAt"])
-                  : undefined,
-              lastModifiedBy: p.systemData?.["lastModifiedBy"],
-              lastModifiedByType: p.systemData?.["lastModifiedByType"],
-              lastModifiedAt:
-                p.systemData?.["lastModifiedAt"] !== undefined
-                  ? new Date(p.systemData?.["lastModifiedAt"])
-                  : undefined,
-            },
-        properties: !p.properties
-          ? undefined
-          : {
-              virtualMachineResourceId: p.properties?.["virtualMachineResourceId"],
-              provisioningState: p.properties?.["provisioningState"],
-            },
-      };
-    }),
-    nextLink: result.body["nextLink"],
-  };
+  return _standbyVirtualMachineResourceListResultDeserializer(result.body);
 }
 
 /** List StandbyVirtualMachineResource resources by StandbyVirtualMachinePoolResource */
 export function standbyVirtualMachinesListByStandbyVirtualMachinePoolResource(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   standbyVirtualMachinePoolName: string,
   options: StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOptionalParams = {
@@ -173,7 +81,6 @@ export function standbyVirtualMachinesListByStandbyVirtualMachinePoolResource(
     () =>
       _standbyVirtualMachinesListByStandbyVirtualMachinePoolResourceSend(
         context,
-        subscriptionId,
         resourceGroupName,
         standbyVirtualMachinePoolName,
         options,
@@ -182,4 +89,64 @@ export function standbyVirtualMachinesListByStandbyVirtualMachinePoolResource(
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
+}
+
+export function _standbyVirtualMachinesGetSend(
+  context: Client,
+  resourceGroupName: string,
+  standbyVirtualMachinePoolName: string,
+  standbyVirtualMachineName: string,
+  options: StandbyVirtualMachinesGetOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyVirtualMachinePools/{standbyVirtualMachinePoolName}/standbyVirtualMachines/{standbyVirtualMachineName}{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      standbyVirtualMachinePoolName: standbyVirtualMachinePoolName,
+      standbyVirtualMachineName: standbyVirtualMachineName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _standbyVirtualMachinesGetDeserialize(
+  result: PathUncheckedResponse,
+): Promise<StandbyVirtualMachineResource> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return standbyVirtualMachineResourceDeserializer(result.body);
+}
+
+/** Get a StandbyVirtualMachineResource */
+export async function standbyVirtualMachinesGet(
+  context: Client,
+  resourceGroupName: string,
+  standbyVirtualMachinePoolName: string,
+  standbyVirtualMachineName: string,
+  options: StandbyVirtualMachinesGetOptionalParams = { requestOptions: {} },
+): Promise<StandbyVirtualMachineResource> {
+  const result = await _standbyVirtualMachinesGetSend(
+    context,
+    resourceGroupName,
+    standbyVirtualMachinePoolName,
+    standbyVirtualMachineName,
+    options,
+  );
+  return _standbyVirtualMachinesGetDeserialize(result);
 }
