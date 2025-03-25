@@ -8,135 +8,223 @@
 
 import * as coreClient from "@azure/core-client";
 
-export type DraModelCustomPropertiesUnion =
-  | DraModelCustomProperties
-  | VMwareDraModelCustomProperties;
-export type EventModelCustomPropertiesUnion =
-  | EventModelCustomProperties
-  | HyperVToAzStackHCIEventModelCustomProperties;
 export type FabricModelCustomPropertiesUnion =
   | FabricModelCustomProperties
   | AzStackHCIFabricModelCustomProperties
   | HyperVMigrateFabricModelCustomProperties
   | VMwareMigrateFabricModelCustomProperties;
-export type PolicyModelCustomPropertiesUnion =
-  | PolicyModelCustomProperties
-  | HyperVToAzStackHCIPolicyModelCustomProperties
-  | VMwareToAzStackHCIPolicyModelCustomProperties;
+export type FabricAgentModelCustomPropertiesUnion =
+  | FabricAgentModelCustomProperties
+  | VMwareFabricAgentModelCustomProperties;
+export type EventModelCustomPropertiesUnion =
+  | EventModelCustomProperties
+  | HyperVToAzStackHCIEventModelCustomProperties
+  | VMwareToAzStackHCIEventModelCustomProperties;
+export type JobModelCustomPropertiesUnion =
+  | JobModelCustomProperties
+  | FailoverJobModelCustomProperties
+  | TestFailoverCleanupJobModelCustomProperties
+  | TestFailoverJobModelCustomProperties;
 export type ProtectedItemModelCustomPropertiesUnion =
   | ProtectedItemModelCustomProperties
   | HyperVToAzStackHCIProtectedItemModelCustomProperties
   | VMwareToAzStackHCIProtectedItemModelCustomProperties;
+export type ProtectedItemModelCustomPropertiesUpdateUnion =
+  | ProtectedItemModelCustomPropertiesUpdate
+  | HyperVToAzStackHCIProtectedItemModelCustomPropertiesUpdate
+  | VMwareToAzStackHCIProtectedItemModelCustomPropertiesUpdate;
 export type PlannedFailoverModelCustomPropertiesUnion =
   | PlannedFailoverModelCustomProperties
   | HyperVToAzStackHCIPlannedFailoverModelCustomProperties
   | VMwareToAzStackHCIPlannedFailoverModelCustomProperties;
 export type RecoveryPointModelCustomPropertiesUnion =
   | RecoveryPointModelCustomProperties
-  | HyperVToAzStackHCIRecoveryPointModelCustomProperties;
+  | HyperVToAzStackHCIRecoveryPointModelCustomProperties
+  | VMwareToAzStackHCIRecoveryPointModelCustomProperties;
 export type ReplicationExtensionModelCustomPropertiesUnion =
   | ReplicationExtensionModelCustomProperties
   | HyperVToAzStackHCIReplicationExtensionModelCustomProperties
   | VMwareToAzStackHCIReplicationExtensionModelCustomProperties;
-export type WorkflowModelCustomPropertiesUnion =
-  | WorkflowModelCustomProperties
-  | FailoverWorkflowModelCustomProperties
-  | TestFailoverCleanupWorkflowModelCustomProperties
-  | TestFailoverWorkflowModelCustomProperties;
+export type PolicyModelCustomPropertiesUnion =
+  | PolicyModelCustomProperties
+  | HyperVToAzStackHCIPolicyModelCustomProperties
+  | VMwareToAzStackHCIPolicyModelCustomProperties;
 
-/** Dra model. */
-export interface DraModel {
-  /** Dra model properties. */
-  properties: DraModelProperties;
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface OperationListResult {
   /**
-   * Gets or sets the Id of the resource.
+   * List of operations supported by the resource provider
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly id?: string;
+  readonly value?: Operation[];
   /**
-   * Gets or sets the name of the resource.
+   * URL to get the next set of operation list results (if there are any).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
+  /**
+   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * Gets or sets the type of the resource.
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+  /**
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: Origin;
+  /**
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionType?: ActionType;
+}
+
+/** Localized display information for this particular operation. */
+export interface OperationDisplay {
+  /**
+   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provider?: string;
+  /**
+   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resource?: string;
+  /**
+   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly systemData?: DraModelSystemData;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
 }
 
-/** Dra model properties. */
-export interface DraModelProperties {
+/** Check name availability model. */
+export interface CheckNameAvailabilityModel {
+  /** Gets or sets the resource name. */
+  name?: string;
+  /** Gets or sets the resource type. */
+  type?: string;
+}
+
+/** Check name availability response model. */
+export interface CheckNameAvailabilityResponseModel {
+  /** Gets or sets a value indicating whether resource name is available or not. */
+  nameAvailable?: boolean;
+  /** Gets or sets the reason for resource name unavailability. */
+  reason?: string;
+  /** Gets or sets the message for resource name unavailability. */
+  message?: string;
+}
+
+/** The response of a FabricModel list operation. */
+export interface FabricModelListResult {
+  /** The FabricModel items on this page */
+  value: FabricModel[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Fabric model properties. */
+export interface FabricModelProperties {
   /**
-   * Gets or sets the Dra correlation Id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationId?: string;
-  /** Gets or sets the machine Id where Dra is running. */
-  machineId: string;
-  /** Gets or sets the machine name where Dra is running. */
-  machineName: string;
-  /** Identity model. */
-  authenticationIdentity: IdentityModel;
-  /** Identity model. */
-  resourceAccessIdentity: IdentityModel;
-  /**
-   * Gets or sets a value indicating whether Dra is responsive.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isResponsive?: boolean;
-  /**
-   * Gets or sets the time when last heartbeat was sent by the Dra.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastHeartbeat?: Date;
-  /**
-   * Gets or sets the Dra version.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly versionNumber?: string;
-  /**
-   * Gets or sets the provisioning state of the Dra.
+   * Gets or sets the provisioning state of the fabric.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Gets or sets the service endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceEndpoint?: string;
+  /**
+   * Gets or sets the service resource Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceResourceId?: string;
+  /**
+   * Gets or sets the fabric health.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly health?: HealthStatus;
   /**
    * Gets or sets the list of health errors.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly healthErrors?: HealthErrorModel[];
-  /** Dra model custom properties. */
-  customProperties: DraModelCustomPropertiesUnion;
-}
-
-/** Identity model. */
-export interface IdentityModel {
-  /** Gets or sets the tenant Id of the SPN with which Dra communicates to service. */
-  tenantId: string;
-  /**
-   * Gets or sets the client/application Id of the SPN with which Dra communicates to
-   * service.
-   */
-  applicationId: string;
-  /** Gets or sets the object Id of the SPN with which Dra communicates to service. */
-  objectId: string;
-  /** Gets or sets the audience of the SPN with which Dra communicates to service. */
-  audience: string;
-  /** Gets or sets the authority of the SPN with which Dra communicates to service. */
-  aadAuthority: string;
+  /** Fabric model custom properties. */
+  customProperties: FabricModelCustomPropertiesUnion;
 }
 
 /** Health error model. */
 export interface HealthErrorModel {
   /** Gets or sets the type of affected resource type. */
   affectedResourceType?: string;
-  /**
-   * Gets or sets the list of affected resource correlation Ids. This can be used to
-   * uniquely identify the count of items affected by a specific category and severity
-   * as well as count of item affected by an specific issue.
-   */
+  /** Gets or sets the list of affected resource correlation Ids. This can be used to uniquely identify the count of items affected by a specific category and severity as well as count of item affected by an specific issue. */
   affectedResourceCorrelationIds?: string[];
   /** Gets or sets a list of child health errors associated with this error. */
   childErrors?: InnerHealthErrorModel[];
@@ -256,89 +344,128 @@ export interface InnerHealthErrorModel {
   readonly recommendation?: string;
 }
 
-/** Dra model custom properties. */
-export interface DraModelCustomProperties {
+/** Fabric model custom properties. */
+export interface FabricModelCustomProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  instanceType: "VMware";
+  instanceType: "AzStackHCI" | "HyperVMigrate" | "VMwareMigrate";
 }
 
-/** System data required to be defined for Azure resources. */
-export interface SystemDataModel {
-  /** Gets or sets identity that created the resource. */
-  createdBy?: string;
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
   /**
-   * Gets or sets the type of identity that created the resource: user, application,
-   * managedIdentity.
-   */
-  createdByType?: string;
-  /** Gets or sets the timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** Gets or sets the identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /**
-   * Gets or sets the type of identity that last modified the resource: user, application,
-   * managedIdentity.
-   */
-  lastModifiedByType?: string;
-  /** Gets or sets the timestamp of resource last modification (UTC). */
-  lastModifiedAt?: Date;
-}
-
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /**
-   * The error code.
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly code?: string;
+  readonly id?: string;
   /**
-   * The error message.
+   * The name of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly message?: string;
+  readonly name?: string;
   /**
-   * The error target.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorDetail[];
-  /**
-   * The error additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
   /**
-   * The additional info.
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly info?: Record<string, unknown>;
+  readonly systemData?: SystemData;
 }
 
-/** Dra model collection. */
-export interface DraModelCollection {
-  /** Gets or sets the list of Dras. */
-  value?: DraModel[];
-  /** Gets or sets the value of next link. */
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** The response of a VaultModel list operation. */
+export interface VaultModelListResult {
+  /** The VaultModel items on this page */
+  value: VaultModel[];
+  /** The link to the next page of items */
   nextLink?: string;
+}
+
+/** Vault properties. */
+export interface VaultModelProperties {
+  /**
+   * Gets or sets the provisioning state of the vault.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Gets or sets the service resource Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceResourceId?: string;
+  /** Gets or sets the type of vault. */
+  vaultType?: ReplicationVaultType;
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /**
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentity | null;
+  };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
+/** Deployment preflight model. */
+export interface DeploymentPreflightModel {
+  /** Gets or sets the list of resources. */
+  resources?: DeploymentPreflightResource[];
+}
+
+/** Deployment preflight resource. */
+export interface DeploymentPreflightResource {
+  /** Gets or sets the resource name. */
+  name?: string;
+  /** Gets or sets the resource type. */
+  type?: string;
+  /** Gets or sets the location of the resource. */
+  location?: string;
+  /** Gets or sets the Api version. */
+  apiVersion?: string;
+  /** Gets or sets the properties of the resource. */
+  properties?: any;
 }
 
 /** Defines the operation status. */
@@ -347,10 +474,7 @@ export interface OperationStatus {
   id?: string;
   /** Gets or sets the operation name. */
   name?: string;
-  /**
-   * Gets or sets the status of the operation. ARM expects the terminal status to be one of
-   * Succeeded/ Failed/ Canceled. All other values imply that the operation is still running.
-   */
+  /** Gets or sets the status of the operation. ARM expects the terminal status to be one of Succeeded/ Failed/ Canceled. All other values imply that the operation is still running. */
   status?: string;
   /** Gets or sets the start time. */
   startTime?: string;
@@ -358,10 +482,12 @@ export interface OperationStatus {
   endTime?: string;
 }
 
-/** Email configuration model. */
-export interface EmailConfigurationModel {
-  /** Email configuration model properties. */
-  properties: EmailConfigurationModelProperties;
+/** Fabric model update. */
+export interface FabricModelUpdate {
+  /** Gets or sets the resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Fabric model properties. */
+  properties?: FabricModelProperties;
   /**
    * Gets or sets the Id of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -377,8 +503,137 @@ export interface EmailConfigurationModel {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly systemData?: EmailConfigurationModelSystemData;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** The response of a FabricAgentModel list operation. */
+export interface FabricAgentModelListResult {
+  /** The FabricAgentModel items on this page */
+  value: FabricAgentModel[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Fabric agent model properties. */
+export interface FabricAgentModelProperties {
+  /**
+   * Gets or sets the fabric agent correlation Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
+  /** Gets or sets the machine Id where fabric agent is running. */
+  machineId: string;
+  /** Gets or sets the machine name where fabric agent is running. */
+  machineName: string;
+  /** Identity model. */
+  authenticationIdentity: IdentityModel;
+  /** Identity model. */
+  resourceAccessIdentity: IdentityModel;
+  /**
+   * Gets or sets a value indicating whether the fabric agent is responsive.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isResponsive?: boolean;
+  /**
+   * Gets or sets the time when last heartbeat was sent by the fabric agent.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastHeartbeat?: Date;
+  /**
+   * Gets or sets the fabric agent version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly versionNumber?: string;
+  /**
+   * Gets or sets the provisioning state of the fabric agent.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Gets or sets the list of health errors.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly healthErrors?: HealthErrorModel[];
+  /** Fabric agent model custom properties. */
+  customProperties: FabricAgentModelCustomPropertiesUnion;
+}
+
+/** Identity model. */
+export interface IdentityModel {
+  /** Gets or sets the tenant Id of the SPN with which fabric agent communicates to service. */
+  tenantId: string;
+  /** Gets or sets the client/application Id of the SPN with which fabric agent communicates to service. */
+  applicationId: string;
+  /** Gets or sets the object Id of the SPN with which fabric agent communicates to service. */
+  objectId: string;
+  /** Gets or sets the audience of the SPN with which fabric agent communicates to service. */
+  audience: string;
+  /** Gets or sets the authority of the SPN with which fabric agent communicates to service. */
+  aadAuthority: string;
+}
+
+/** Fabric agent model custom properties. */
+export interface FabricAgentModelCustomProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  instanceType: "VMware";
+}
+
+/** Vault model update. */
+export interface VaultModelUpdate {
+  /** Gets or sets the resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Vault properties. */
+  properties?: VaultModelProperties;
+  /** Vault identity. */
+  identity?: VaultIdentityModel;
+  /**
+   * Gets or sets the Id of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Gets or sets the name of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Gets or sets the type of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Vault model. */
+export interface VaultIdentityModel {
+  /** Gets or sets the identityType which can be either SystemAssigned or None. */
+  type: VaultIdentityType;
+  /**
+   * Gets or sets the object ID of the service principal object for the managed identity that is used to grant role-based access to an Azure resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * Gets or sets a Globally Unique Identifier (GUID) that represents the Azure AD tenant where the resource is now a member.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+}
+
+/** The response of a EmailConfigurationModel list operation. */
+export interface EmailConfigurationModelListResult {
+  /** The EmailConfigurationModel items on this page */
+  value: EmailConfigurationModel[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** Email configuration model properties. */
@@ -389,37 +644,19 @@ export interface EmailConfigurationModelProperties {
   customEmailAddresses?: string[];
   /** Gets or sets the locale for the email notification. */
   locale?: string;
+  /**
+   * Gets or sets the provisioning state of the email configuration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
 }
 
-/** Email configuration model collection. */
-export interface EmailConfigurationModelCollection {
-  /** Gets or sets the list of email configurations. */
-  value?: EmailConfigurationModel[];
-  /** Gets or sets the value of next link. */
+/** The response of a EventModel list operation. */
+export interface EventModelListResult {
+  /** The EventModel items on this page */
+  value: EventModel[];
+  /** The link to the next page of items */
   nextLink?: string;
-}
-
-/** Event model. */
-export interface EventModel {
-  /** Event model properties. */
-  properties: EventModelProperties;
-  /**
-   * Gets or sets the Id of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Gets or sets the name of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Gets or sets the type of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly systemData?: EventModelSystemData;
 }
 
 /** Event model properties. */
@@ -471,188 +708,368 @@ export interface EventModelProperties {
   readonly healthErrors?: HealthErrorModel[];
   /** Event model custom properties. */
   customProperties: EventModelCustomPropertiesUnion;
+  /**
+   * Gets or sets the provisioning state of the event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** Event model custom properties. */
 export interface EventModelCustomProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  instanceType: "HyperVToAzStackHCI";
-}
-
-/** Event model collection. */
-export interface EventModelCollection {
-  /** Gets or sets the list of events. */
-  value?: EventModel[];
-  /** Gets or sets the value of next link. */
-  nextLink?: string;
-}
-
-/** Fabric model. */
-export interface FabricModel {
-  /** Gets or sets the location of the fabric. */
-  location: string;
-  /** Gets or sets the resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** Fabric model properties. */
-  properties: FabricModelProperties;
-  /**
-   * Gets or sets the Id of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Gets or sets the name of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Gets or sets the type of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly systemData?: FabricModelSystemData;
-}
-
-/** Fabric model properties. */
-export interface FabricModelProperties {
-  /**
-   * Gets or sets the provisioning state of the fabric.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * Gets or sets the service endpoint.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serviceEndpoint?: string;
-  /**
-   * Gets or sets the service resource Id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serviceResourceId?: string;
-  /**
-   * Gets or sets the fabric health.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly health?: HealthStatus;
-  /**
-   * Gets or sets the list of health errors.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly healthErrors?: HealthErrorModel[];
-  /** Fabric model custom properties. */
-  customProperties: FabricModelCustomPropertiesUnion;
-}
-
-/** Fabric model custom properties. */
-export interface FabricModelCustomProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  instanceType: "AzStackHCI" | "HyperVMigrate" | "VMwareMigrate";
-}
-
-/** Fabric model for update. */
-export interface FabricModelUpdate {
-  /** Gets or sets the resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** Fabric model properties. */
-  properties?: FabricModelProperties;
-  /**
-   * Gets or sets the Id of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Gets or sets the name of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Gets or sets the type of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly systemData?: FabricModelUpdateSystemData;
-}
-
-/** Fabric model collection. */
-export interface FabricModelCollection {
-  /** Gets or sets the list of fabrics. */
-  value?: FabricModel[];
-  /** Gets or sets the value of next link. */
-  nextLink?: string;
-}
-
-/** Policy model. */
-export interface PolicyModel {
-  /** Policy model properties. */
-  properties: PolicyModelProperties;
-  /**
-   * Gets or sets the Id of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Gets or sets the name of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Gets or sets the type of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly systemData?: PolicyModelSystemData;
-}
-
-/** Policy model properties. */
-export interface PolicyModelProperties {
-  /**
-   * Gets or sets the provisioning state of the policy.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** Policy model custom properties. */
-  customProperties: PolicyModelCustomPropertiesUnion;
-}
-
-/** Policy model custom properties. */
-export interface PolicyModelCustomProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVToAzStackHCI" | "VMwareToAzStackHCI";
 }
 
-/** Policy model collection. */
-export interface PolicyModelCollection {
-  /** Gets or sets the list of policies. */
-  value?: PolicyModel[];
-  /** Gets or sets the value of next link. */
+/** The response of a JobModel list operation. */
+export interface JobModelListResult {
+  /** The JobModel items on this page */
+  value: JobModel[];
+  /** The link to the next page of items */
   nextLink?: string;
 }
 
-/** Protected item model. */
-export interface ProtectedItemModel {
-  /** Protected item model properties. */
-  properties: ProtectedItemModelProperties;
+/** Job model properties. */
+export interface JobModelProperties {
   /**
-   * Gets or sets the Id of the resource.
+   * Gets or sets the friendly display name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly id?: string;
+  readonly displayName?: string;
   /**
-   * Gets or sets the name of the resource.
+   * Gets or sets the job state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly name?: string;
+  readonly state?: JobState;
   /**
-   * Gets or sets the type of the resource.
+   * Gets or sets the start time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: Date;
+  /**
+   * Gets or sets the end time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: Date;
+  /**
+   * Gets or sets the affected object Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly objectId?: string;
+  /**
+   * Gets or sets the affected object name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly objectName?: string;
+  /**
+   * Gets or sets the affected object internal Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly objectInternalId?: string;
+  /**
+   * Gets or sets the affected object internal name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly objectInternalName?: string;
+  /**
+   * Gets or sets the object type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly objectType?: JobObjectType;
+  /**
+   * Gets or sets the replication provider.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replicationProviderId?: string;
+  /**
+   * Gets or sets the source fabric provider.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceFabricProviderId?: string;
+  /**
+   * Gets or sets the target fabric provider.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetFabricProviderId?: string;
+  /**
+   * Gets or sets the list of allowed actions on the job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly allowedActions?: string[];
+  /**
+   * Gets or sets the job activity id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly activityId?: string;
+  /**
+   * Gets or sets the list of tasks.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tasks?: TaskModel[];
+  /**
+   * Gets or sets the list of errors.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: ErrorModel[];
+  /** Job model custom properties. */
+  customProperties: JobModelCustomPropertiesUnion;
+  /**
+   * Gets or sets the provisioning state of the job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** Task model. */
+export interface TaskModel {
+  /**
+   * Gets or sets the task name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly taskName?: string;
+  /**
+   * Gets or sets the task state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: TaskState;
+  /**
+   * Gets or sets the start time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: Date;
+  /**
+   * Gets or sets the end time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: Date;
+  /** Task model custom properties. */
+  customProperties?: TaskModelCustomProperties;
+  /** Gets or sets the list of children job models. */
+  childrenJobs?: JobModel[];
+}
+
+/** Task model custom properties. */
+export interface TaskModelCustomProperties {
+  /** Gets or sets the instance type. */
+  instanceType: string;
+}
+
+/** Error model. */
+export interface ErrorModel {
+  /**
+   * Gets or sets the error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Gets or sets the error type.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly systemData?: ProtectedItemModelSystemData;
+  /**
+   * Gets or sets the error severity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly severity?: string;
+  /**
+   * Gets or sets the creation time of error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly creationTime?: Date;
+  /**
+   * Gets or sets the error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * Gets or sets the possible causes of error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly causes?: string;
+  /**
+   * Gets or sets the recommended action to resolve error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recommendation?: string;
+}
+
+/** Job model custom properties. */
+export interface JobModelCustomProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  instanceType:
+    | "FailoverJobDetails"
+    | "TestFailoverCleanupJobDetails"
+    | "TestFailoverJobDetails";
+  /**
+   * Gets or sets any custom properties of the affected object.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly affectedObjectDetails?: JobModelCustomPropertiesAffectedObjectDetails;
+}
+
+/** Gets or sets any custom properties of the affected object. */
+export interface JobModelCustomPropertiesAffectedObjectDetails {
+  description?: string;
+  type?: "object";
+}
+
+/** The response of a PrivateEndpointConnectionProxy list operation. */
+export interface PrivateEndpointConnectionProxyListResult {
+  /** The PrivateEndpointConnectionProxy items on this page */
+  value: PrivateEndpointConnectionProxy[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Represents private endpoint connection proxy request. */
+export interface PrivateEndpointConnectionProxyProperties {
+  /**
+   * Gets or sets the provisioning state of the private endpoint connection proxy.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Represent remote private endpoint information for the private endpoint connection proxy. */
+  remotePrivateEndpoint?: RemotePrivateEndpoint;
+}
+
+/** Represent remote private endpoint information for the private endpoint connection proxy. */
+export interface RemotePrivateEndpoint {
+  /** Gets or sets private link service proxy id. */
+  id: string;
+  /** Gets or sets the list of Private Link Service Connections and gets populated for Auto approval flow. */
+  privateLinkServiceConnections?: PrivateLinkServiceConnection[];
+  /** Gets or sets the list of Manual Private Link Service Connections and gets populated for Manual approval flow. */
+  manualPrivateLinkServiceConnections?: PrivateLinkServiceConnection[];
+  /** Gets or sets the list of private link service proxies. */
+  privateLinkServiceProxies?: PrivateLinkServiceProxy[];
+  /** Gets or sets the list of Connection Details. This is the connection details for private endpoint. */
+  connectionDetails?: ConnectionDetails[];
+}
+
+/** Represents of an NRP private link service connection. */
+export interface PrivateLinkServiceConnection {
+  /** Gets or sets private link service connection name. */
+  name?: string;
+  /** Gets or sets group ids. */
+  groupIds?: string[];
+  /** Gets or sets the request message for the private link service connection. */
+  requestMessage?: string;
+}
+
+/** Represents NRP private link service proxy. */
+export interface PrivateLinkServiceProxy {
+  /** Gets or sets private link service proxy id. */
+  id?: string;
+  /** Represents Private link service connection state. */
+  remotePrivateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /** Represent remote private endpoint connection. */
+  remotePrivateEndpointConnection?: RemotePrivateEndpointConnection;
+  /** Gets or sets group connectivity information. */
+  groupConnectivityInformation?: GroupConnectivityInformation[];
+}
+
+/** Represents Private link service connection state. */
+export interface PrivateLinkServiceConnectionState {
+  /** Gets or sets the status. */
+  status?: PrivateEndpointConnectionStatus;
+  /** Gets or sets description. */
+  description?: string;
+  /** Gets or sets actions required. */
+  actionsRequired?: string;
+}
+
+/** Represent remote private endpoint connection. */
+export interface RemotePrivateEndpointConnection {
+  /** Gets or sets the remote private endpoint connection id. */
+  id?: string;
+}
+
+/** Represents of a connection's group information. */
+export interface GroupConnectivityInformation {
+  /** Gets or sets group id. */
+  groupId?: string;
+  /** Gets or sets member name. */
+  memberName?: string;
+  /** Gets or sets customer visible FQDNs. */
+  customerVisibleFqdns?: string[];
+  /** Gets or sets Internal Fqdn. */
+  internalFqdn?: string;
+  /** Gets or sets the redirect map id. */
+  redirectMapId?: string;
+  /** Gets or sets the private link service arm region. */
+  privateLinkServiceArmRegion?: string;
+}
+
+/** Private endpoint connection details at member level. */
+export interface ConnectionDetails {
+  /** Gets or sets id. */
+  id?: string;
+  /** Gets or sets private IP address. */
+  privateIpAddress?: string;
+  /** Gets or sets link identifier. */
+  linkIdentifier?: string;
+  /** Gets or sets group id. */
+  groupId?: string;
+  /** Gets or sets member name. */
+  memberName?: string;
+}
+
+/** The response of a PrivateEndpointConnection list operation. */
+export interface PrivateEndpointConnectionListResult {
+  /** The PrivateEndpointConnection items on this page */
+  value: PrivateEndpointConnection[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Represents Private endpoint connection response properties. */
+export interface PrivateEndpointConnectionResponseProperties {
+  /**
+   * Gets or sets provisioning state of the private endpoint connection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Represent private Endpoint network resource that is linked to the Private Endpoint connection. */
+  privateEndpoint?: PrivateEndpoint;
+  /** Represents Private link service connection state. */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+}
+
+/** Represent private Endpoint network resource that is linked to the Private Endpoint connection. */
+export interface PrivateEndpoint {
+  /** Gets or sets the id. */
+  id?: string;
+}
+
+/** The response of a PrivateLinkResource list operation. */
+export interface PrivateLinkResourceListResult {
+  /** The PrivateLinkResource items on this page */
+  value: PrivateLinkResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Represents private link resource properties. */
+export interface PrivateLinkResourceProperties {
+  /** Gets or sets the group id. */
+  groupId?: string;
+  /** Gets or sets the required member. This translates to how many Private IPs should be created for each privately linkable resource. */
+  requiredMembers?: string[];
+  /** Gets or sets the private DNS zone names. */
+  requiredZoneNames?: string[];
+  /**
+   * Gets or sets the provisioning state of the private link resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** The response of a ProtectedItemModel list operation. */
+export interface ProtectedItemModelListResult {
+  /** The ProtectedItemModel items on this page */
+  value: ProtectedItemModel[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** Protected item model properties. */
@@ -667,7 +1084,7 @@ export interface ProtectedItemModelProperties {
    */
   readonly correlationId?: string;
   /**
-   * Gets or sets the provisioning state of the Dra.
+   * Gets or sets the provisioning state of the fabric agent.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
@@ -727,15 +1144,15 @@ export interface ProtectedItemModelProperties {
    */
   readonly targetFabricId?: string;
   /**
-   * Gets or sets the DRA Id.
+   * Gets or sets the fabric agent Id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly draId?: string;
+  readonly fabricAgentId?: string;
   /**
-   * Gets or sets the target DRA Id.
+   * Gets or sets the target fabric agent Id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly targetDraId?: string;
+  readonly targetFabricAgentId?: string;
   /**
    * Gets or sets a value indicating whether resynchronization is required or not.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -756,19 +1173,31 @@ export interface ProtectedItemModelProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastSuccessfulTestFailoverTime?: Date;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly currentJob?: ProtectedItemModelPropertiesCurrentJob;
+  /**
+   * Gets or sets the current scenario.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentJob?: ProtectedItemJobProperties;
   /**
    * Gets or sets the allowed scenarios on the protected item.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly allowedJobs?: string[];
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly lastFailedEnableProtectionJob?: ProtectedItemModelPropertiesLastFailedEnableProtectionJob;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly lastFailedPlannedFailoverJob?: ProtectedItemModelPropertiesLastFailedPlannedFailoverJob;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly lastTestFailoverJob?: ProtectedItemModelPropertiesLastTestFailoverJob;
+  /**
+   * Gets or sets the last failed enabled protection job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastFailedEnableProtectionJob?: ProtectedItemJobProperties;
+  /**
+   * Gets or sets the last failed planned failover job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastFailedPlannedFailoverJob?: ProtectedItemJobProperties;
+  /**
+   * Gets or sets the last test failover job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastTestFailoverJob?: ProtectedItemJobProperties;
   /**
    * Gets or sets protected item replication health.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -791,32 +1220,32 @@ export interface ProtectedItemJobProperties {
    */
   readonly scenarioName?: string;
   /**
-   * Gets or sets workflow Id.
+   * Gets or sets job Id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
-   * Gets or sets workflow name.
+   * Gets or sets job name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * Gets or sets the workflow friendly display name.
+   * Gets or sets the job friendly display name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly displayName?: string;
   /**
-   * Gets or sets workflow state.
+   * Gets or sets job state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly state?: string;
   /**
-   * Gets or sets start time of the workflow.
+   * Gets or sets start time of the job.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly startTime?: Date;
   /**
-   * Gets or sets end time of the workflow.
+   * Gets or sets end time of the job.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly endTime?: Date;
@@ -828,12 +1257,42 @@ export interface ProtectedItemModelCustomProperties {
   instanceType: "HyperVToAzStackHCI" | "VMwareToAzStackHCI";
 }
 
-/** Protected item model collection. */
-export interface ProtectedItemModelCollection {
-  /** Gets or sets the list of protected items. */
-  value?: ProtectedItemModel[];
-  /** Gets or sets the value of next link. */
-  nextLink?: string;
+/** Protected item model update. */
+export interface ProtectedItemModelUpdate {
+  /** Protected item model properties. */
+  properties?: ProtectedItemModelPropertiesUpdate;
+  /**
+   * Gets or sets the Id of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Gets or sets the name of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Gets or sets the type of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Protected item model properties update. */
+export interface ProtectedItemModelPropertiesUpdate {
+  /** Protected item model custom properties update. */
+  customProperties?: ProtectedItemModelCustomPropertiesUpdateUnion;
+}
+
+/** Protected item model custom properties. */
+export interface ProtectedItemModelCustomPropertiesUpdate {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  instanceType: "HyperVToAzStackHCI" | "VMwareToAzStackHCI";
 }
 
 /** Planned failover model. */
@@ -854,27 +1313,12 @@ export interface PlannedFailoverModelCustomProperties {
   instanceType: "HyperVToAzStackHCI" | "VMwareToAzStackHCI";
 }
 
-/** Recovery point model. */
-export interface RecoveryPointModel {
-  /** Recovery point model properties. */
-  properties: RecoveryPointModelProperties;
-  /**
-   * Gets or sets the Id of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Gets or sets the name of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Gets or sets the type of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly systemData?: RecoveryPointModelSystemData;
+/** The response of a RecoveryPointModel list operation. */
+export interface RecoveryPointModelListResult {
+  /** The RecoveryPointModel items on this page */
+  value: RecoveryPointModel[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** Recovery point model properties. */
@@ -885,43 +1329,27 @@ export interface RecoveryPointModelProperties {
   recoveryPointType: RecoveryPointType;
   /** Recovery point model custom properties. */
   customProperties: RecoveryPointModelCustomPropertiesUnion;
+  /**
+   * Gets or sets the provisioning state of the recovery point item.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** Recovery point model custom properties. */
 export interface RecoveryPointModelCustomProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  instanceType: "HyperVToAzStackHCI";
+  instanceType:
+    | "HyperVToAzStackHCI"
+    | "VMwareToAzStackHCIRecoveryPointModelCustomProperties";
 }
 
-/** Recovery point model collection. */
-export interface RecoveryPointModelCollection {
-  /** Gets or sets the list of recovery points. */
-  value?: RecoveryPointModel[];
-  /** Gets or sets the value of next link. */
+/** The response of a ReplicationExtensionModel list operation. */
+export interface ReplicationExtensionModelListResult {
+  /** The ReplicationExtensionModel items on this page */
+  value: ReplicationExtensionModel[];
+  /** The link to the next page of items */
   nextLink?: string;
-}
-
-/** Replication extension model. */
-export interface ReplicationExtensionModel {
-  /** Replication extension model properties. */
-  properties: ReplicationExtensionModelProperties;
-  /**
-   * Gets or sets the Id of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Gets or sets the name of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Gets or sets the type of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly systemData?: ReplicationExtensionModelSystemData;
 }
 
 /** Replication extension model properties. */
@@ -941,392 +1369,29 @@ export interface ReplicationExtensionModelCustomProperties {
   instanceType: "HyperVToAzStackHCI" | "VMwareToAzStackHCI";
 }
 
-/** Replication extension model collection. */
-export interface ReplicationExtensionModelCollection {
-  /** Gets or sets the list of replication extensions. */
-  value?: ReplicationExtensionModel[];
-  /** Gets or sets the value of next link. */
+/** The response of a PolicyModel list operation. */
+export interface PolicyModelListResult {
+  /** The PolicyModel items on this page */
+  value: PolicyModel[];
+  /** The link to the next page of items */
   nextLink?: string;
 }
 
-/** Check name availability model. */
-export interface CheckNameAvailabilityModel {
-  /** Gets or sets the resource name. */
-  name?: string;
-  /** Gets or sets the resource type. */
-  type?: string;
-}
-
-/** Check name availability response model. */
-export interface CheckNameAvailabilityResponseModel {
-  /** Gets or sets a value indicating whether resource name is available or not. */
-  nameAvailable?: boolean;
-  /** Gets or sets the reason for resource name unavailability. */
-  reason?: string;
-  /** Gets or sets the message for resource name unavailability. */
-  message?: string;
-}
-
-/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
-export interface OperationListResult {
+/** Policy model properties. */
+export interface PolicyModelProperties {
   /**
-   * List of operations supported by the resource provider
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: Operation[];
-  /**
-   * URL to get the next set of operation list results (if there are any).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Details of a REST API operation, returned from the Resource Provider Operations API */
-export interface Operation {
-  /**
-   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isDataAction?: boolean;
-  /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
-  /**
-   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly origin?: Origin;
-  /**
-   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly actionType?: ActionType;
-}
-
-/** Localized display information for this particular operation. */
-export interface OperationDisplay {
-  /**
-   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provider?: string;
-  /**
-   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resource?: string;
-  /**
-   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operation?: string;
-  /**
-   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-}
-
-/** Deployment preflight model. */
-export interface DeploymentPreflightModel {
-  /** Gets or sets the list of resources. */
-  resources?: DeploymentPreflightResource[];
-}
-
-/** Deployment preflight resource. */
-export interface DeploymentPreflightResource {
-  /** Gets or sets the resource name. */
-  name?: string;
-  /** Gets or sets the resource type. */
-  type?: string;
-  /** Gets or sets the location of the resource. */
-  location?: string;
-  /** Gets or sets the Api version. */
-  apiVersion?: string;
-}
-
-/** Vault model. */
-export interface VaultModel {
-  /** Gets or sets the location of the vault. */
-  location: string;
-  /** Gets or sets the resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** Vault properties. */
-  properties?: VaultModelProperties;
-  /**
-   * Gets or sets the Id of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Gets or sets the name of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Gets or sets the type of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly systemData?: VaultModelSystemData;
-}
-
-/** Vault properties. */
-export interface VaultModelProperties {
-  /**
-   * Gets or sets the provisioning state of the vault.
+   * Gets or sets the provisioning state of the policy.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-  /**
-   * Gets or sets the service resource Id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serviceResourceId?: string;
-  /** Gets or sets the type of vault. */
-  vaultType?: ReplicationVaultType;
+  /** Policy model custom properties. */
+  customProperties: PolicyModelCustomPropertiesUnion;
 }
 
-/** Vault model for update. */
-export interface VaultModelUpdate {
-  /** Gets or sets the resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** Vault properties. */
-  properties?: VaultModelProperties;
-  /**
-   * Gets or sets the Id of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Gets or sets the name of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Gets or sets the type of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly systemData?: VaultModelUpdateSystemData;
-}
-
-/** Vault model collection. */
-export interface VaultModelCollection {
-  /** Gets or sets the list of vaults. */
-  value?: VaultModel[];
-  /** Gets or sets the value of next link. */
-  nextLink?: string;
-}
-
-/** Workflow model. */
-export interface WorkflowModel {
-  /** Workflow model properties. */
-  properties: WorkflowModelProperties;
-  /**
-   * Gets or sets the Id of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Gets or sets the name of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Gets or sets the type of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly systemData?: WorkflowModelSystemData;
-}
-
-/** Workflow model properties. */
-export interface WorkflowModelProperties {
-  /**
-   * Gets or sets the friendly display name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-  /**
-   * Gets or sets the workflow state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: WorkflowState;
-  /**
-   * Gets or sets the start time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startTime?: Date;
-  /**
-   * Gets or sets the end time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endTime?: Date;
-  /**
-   * Gets or sets the affected object Id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly objectId?: string;
-  /**
-   * Gets or sets the affected object name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly objectName?: string;
-  /**
-   * Gets or sets the affected object internal Id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly objectInternalId?: string;
-  /**
-   * Gets or sets the affected object internal name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly objectInternalName?: string;
-  /**
-   * Gets or sets the object type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly objectType?: WorkflowObjectType;
-  /**
-   * Gets or sets the replication provider.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly replicationProviderId?: string;
-  /**
-   * Gets or sets the source fabric provider.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceFabricProviderId?: string;
-  /**
-   * Gets or sets the target fabric provider.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetFabricProviderId?: string;
-  /**
-   * Gets or sets the list of allowed actions on the workflow.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly allowedActions?: string[];
-  /**
-   * Gets or sets the workflow activity id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly activityId?: string;
-  /**
-   * Gets or sets the list of tasks.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tasks?: TaskModel[];
-  /**
-   * Gets or sets the list of errors.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly errors?: ErrorModel[];
-  /** Workflow model custom properties. */
-  customProperties: WorkflowModelCustomPropertiesUnion;
-}
-
-/** Task model. */
-export interface TaskModel {
-  /**
-   * Gets or sets the task name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly taskName?: string;
-  /**
-   * Gets or sets the task state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: TaskState;
-  /**
-   * Gets or sets the start time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startTime?: Date;
-  /**
-   * Gets or sets the end time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endTime?: Date;
-  /** Task model custom properties. */
-  customProperties?: TaskModelCustomProperties;
-  /** Gets or sets the list of children workflow models. */
-  childrenWorkflows?: WorkflowModel[];
-}
-
-/** Task model custom properties. */
-export interface TaskModelCustomProperties {
-  /** Gets or sets the instance type. */
-  instanceType: string;
-}
-
-/** Error model. */
-export interface ErrorModel {
-  /**
-   * Gets or sets the error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * Gets or sets the error type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Gets or sets the error severity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly severity?: string;
-  /**
-   * Gets or sets the creation time of error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly creationTime?: Date;
-  /**
-   * Gets or sets the error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * Gets or sets the possible causes of error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly causes?: string;
-  /**
-   * Gets or sets the recommended action to resolve error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly recommendation?: string;
-}
-
-/** Workflow model custom properties. */
-export interface WorkflowModelCustomProperties {
+/** Policy model custom properties. */
+export interface PolicyModelCustomProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  instanceType:
-    | "FailoverWorkflowDetails"
-    | "TestFailoverCleanupWorkflowDetails"
-    | "TestFailoverWorkflowDetails";
-  /**
-   * Gets or sets any custom properties of the affected object.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly affectedObjectDetails?: { [propertyName: string]: string };
-}
-
-/** Workflow model collection. */
-export interface WorkflowModelCollection {
-  /** Gets or sets the list of workflows. */
-  value?: WorkflowModel[];
-  /** Gets or sets the value of next link. */
-  nextLink?: string;
+  instanceType: "HyperVToAzStackHCI" | "VMwareToAzStackHCI";
 }
 
 /** AzStackHCI cluster properties. */
@@ -1347,6 +1412,16 @@ export interface StorageContainerProperties {
   name: string;
   /** Gets or sets the ClusterSharedVolumePath. */
   clusterSharedVolumePath: string;
+}
+
+/** Disk controller. */
+export interface DiskControllerInputs {
+  /** Gets or sets the controller name (IDE,SCSI). */
+  controllerName: string;
+  /** Gets or sets the controller ID. */
+  controllerId: number;
+  /** Gets or sets the controller Location. */
+  controllerLocation: number;
 }
 
 /** Failover properties of the protected item. */
@@ -1394,10 +1469,7 @@ export interface HyperVToAzStackHCIDiskInput {
   diskId: string;
   /** Gets or sets the target storage account ARM Id. */
   storageContainerId?: string;
-  /**
-   * Gets or sets a value indicating whether dynamic sizing is enabled on the virtual hard
-   * disk.
-   */
+  /** Gets or sets a value indicating whether dynamic sizing is enabled on the virtual hard disk. */
   isDynamic?: boolean;
   /** Gets or sets the disk size in GB. */
   diskSizeGB: number;
@@ -1405,6 +1477,16 @@ export interface HyperVToAzStackHCIDiskInput {
   diskFileFormat: string;
   /** Gets or sets a value indicating whether disk is os disk. */
   isOsDisk: boolean;
+  /** Gets or sets a value of disk block size. */
+  diskBlockSize?: number;
+  /** Gets or sets a value of disk logical sector size. */
+  diskLogicalSectorSize?: number;
+  /** Gets or sets a value of disk physical sector size. */
+  diskPhysicalSectorSize?: number;
+  /** Gets or sets a value of disk identifier. */
+  diskIdentifier?: string;
+  /** Disk controller. */
+  diskController?: DiskControllerInputs;
 }
 
 /** HyperVToAzStackHCI NIC properties. */
@@ -1417,11 +1499,15 @@ export interface HyperVToAzStackHCINicInput {
    */
   readonly networkName?: string;
   /** Gets or sets the target network Id within AzStackHCI Cluster. */
-  targetNetworkId: string;
+  targetNetworkId?: string;
   /** Gets or sets the target test network Id within AzStackHCI Cluster. */
-  testNetworkId: string;
+  testNetworkId?: string;
   /** Gets or sets the selection type of the NIC. */
   selectionTypeForFailover: VMNicSelection;
+  /** Gets or sets a value indicating whether static ip migration is enabled. */
+  isStaticIpMigrationEnabled?: boolean;
+  /** Gets or sets a value indicating whether mac address migration is enabled. */
+  isMacMigrationEnabled?: boolean;
 }
 
 /** HyperVToAzStackHCI protected disk properties. */
@@ -1472,8 +1558,7 @@ export interface HyperVToAzStackHCIProtectedDiskProperties {
    */
   readonly capacityInBytes?: number;
   /**
-   * Gets or sets a value indicating whether dynamic sizing is enabled on the virtual hard
-   * disk.
+   * Gets or sets a value indicating whether dynamic sizing is enabled on the virtual hard disk.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isDynamic?: boolean;
@@ -1482,6 +1567,21 @@ export interface HyperVToAzStackHCIProtectedDiskProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly diskType?: string;
+  /**
+   * Gets or sets a value of disk block size.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diskBlockSize?: number;
+  /**
+   * Gets or sets a value of disk logical sector size.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diskLogicalSectorSize?: number;
+  /**
+   * Gets or sets a value of disk physical sector size.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diskPhysicalSectorSize?: number;
 }
 
 /** Protected item dynamic memory config. */
@@ -1528,51 +1628,13 @@ export interface HyperVToAzStackHCIProtectedNicProperties {
   readonly selectionTypeForFailover?: VMNicSelection;
 }
 
-/** Operation model. */
-export interface OperationModel {
-  /** Gets or sets the name of the operation. */
-  name?: string;
-  /**
-   * Gets or sets a value indicating whether the action is specific to data plane or
-   * control plane.
-   */
-  isDataAction?: boolean;
-  /** Gets or sets the executor of the operation. */
-  origin?: string;
-  /** Operation model properties. */
-  display?: OperationModelProperties;
-}
-
-/** Operation model properties. */
-export interface OperationModelProperties {
-  /** Gets or sets the resource provider name. */
-  provider?: string;
-  /** Gets or sets resource name. */
-  resource?: string;
-  /** Gets or sets the operation. */
-  operation?: string;
-  /** Gets or sets the description. */
-  description?: string;
-}
-
-/** Available operations of the service. */
-export interface OperationModelCollection {
-  /** Gets or sets the list of operations. */
-  value?: OperationModel[];
-  /** Gets or sets the value of next link. */
-  nextLink?: string;
-}
-
 /** VMwareToAzStack disk input. */
 export interface VMwareToAzStackHCIDiskInput {
   /** Gets or sets the disk Id. */
   diskId: string;
   /** Gets or sets the target storage account ARM Id. */
   storageContainerId?: string;
-  /**
-   * Gets or sets a value indicating whether dynamic sizing is enabled on the virtual hard
-   * disk.
-   */
+  /** Gets or sets a value indicating whether dynamic sizing is enabled on the virtual hard disk. */
   isDynamic?: boolean;
   /** Gets or sets the disk size in GB. */
   diskSizeGB: number;
@@ -1580,6 +1642,16 @@ export interface VMwareToAzStackHCIDiskInput {
   diskFileFormat: string;
   /** Gets or sets a value indicating whether disk is os disk. */
   isOsDisk: boolean;
+  /** Gets or sets a value of disk block size. */
+  diskBlockSize?: number;
+  /** Gets or sets a value of disk logical sector size. */
+  diskLogicalSectorSize?: number;
+  /** Gets or sets a value of disk physical sector size. */
+  diskPhysicalSectorSize?: number;
+  /** Gets or sets a value of disk identifier. */
+  diskIdentifier?: string;
+  /** Disk controller. */
+  diskController?: DiskControllerInputs;
 }
 
 /** VMwareToAzStackHCI NIC properties. */
@@ -1594,11 +1666,15 @@ export interface VMwareToAzStackHCINicInput {
    */
   readonly networkName?: string;
   /** Gets or sets the target network Id within AzStackHCI Cluster. */
-  targetNetworkId: string;
+  targetNetworkId?: string;
   /** Gets or sets the target test network Id within AzStackHCI Cluster. */
-  testNetworkId: string;
+  testNetworkId?: string;
   /** Gets or sets the selection type of the NIC. */
   selectionTypeForFailover: VMNicSelection;
+  /** Gets or sets a value indicating whether static ip migration is enabled. */
+  isStaticIpMigrationEnabled?: boolean;
+  /** Gets or sets a value indicating whether mac address migration is enabled. */
+  isMacMigrationEnabled?: boolean;
 }
 
 /** VMwareToAzStackHCI protected disk properties. */
@@ -1649,8 +1725,7 @@ export interface VMwareToAzStackHCIProtectedDiskProperties {
    */
   readonly capacityInBytes?: number;
   /**
-   * Gets or sets a value indicating whether dynamic sizing is enabled on the virtual hard
-   * disk.
+   * Gets or sets a value indicating whether dynamic sizing is enabled on the virtual hard disk.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isDynamic?: boolean;
@@ -1659,6 +1734,21 @@ export interface VMwareToAzStackHCIProtectedDiskProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly diskType?: string;
+  /**
+   * Gets or sets a value of disk block size.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diskBlockSize?: number;
+  /**
+   * Gets or sets a value of disk logical sector size.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diskLogicalSectorSize?: number;
+  /**
+   * Gets or sets a value of disk physical sector size.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diskPhysicalSectorSize?: number;
 }
 
 /** VMwareToAzStackHCI NIC properties. */
@@ -1700,77 +1790,6 @@ export interface VMwareToAzStackHCIProtectedNicProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly selectionTypeForFailover?: VMNicSelection;
-}
-
-/** VMware DRA model custom properties. */
-export interface VMwareDraModelCustomProperties
-  extends DraModelCustomProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  instanceType: "VMware";
-  /** Gets or sets the BIOS Id of the DRA machine. */
-  biosId: string;
-  /** Identity model. */
-  marsAuthenticationIdentity: IdentityModel;
-}
-
-export interface DraModelSystemData extends SystemDataModel {}
-
-export interface EmailConfigurationModelSystemData extends SystemDataModel {}
-
-export interface EventModelSystemData extends SystemDataModel {}
-
-export interface FabricModelSystemData extends SystemDataModel {}
-
-export interface FabricModelUpdateSystemData extends SystemDataModel {}
-
-export interface PolicyModelSystemData extends SystemDataModel {}
-
-export interface ProtectedItemModelSystemData extends SystemDataModel {}
-
-export interface RecoveryPointModelSystemData extends SystemDataModel {}
-
-export interface ReplicationExtensionModelSystemData extends SystemDataModel {}
-
-export interface VaultModelSystemData extends SystemDataModel {}
-
-export interface VaultModelUpdateSystemData extends SystemDataModel {}
-
-export interface WorkflowModelSystemData extends SystemDataModel {}
-
-/**
- * HyperV to  AzStackHCI event model custom properties. This class provides provider specific
- * details for events of type DataContract.HealthEvents.HealthEventType.ProtectedItemHealth and
- * DataContract.HealthEvents.HealthEventType.AgentHealth.
- */
-export interface HyperVToAzStackHCIEventModelCustomProperties
-  extends EventModelCustomProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  instanceType: "HyperVToAzStackHCI";
-  /**
-   * Gets or sets the friendly name of the source which has raised this health event.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly eventSourceFriendlyName?: string;
-  /**
-   * Gets or sets the protected item friendly name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly protectedItemFriendlyName?: string;
-  /**
-   * Gets or sets the source appliance name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceApplianceName?: string;
-  /**
-   * Gets or sets the source target name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetApplianceName?: string;
-  /**
-   * Gets or sets the server type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverType?: string;
 }
 
 /** AzStackHCI fabric model custom properties. */
@@ -1843,49 +1862,127 @@ export interface VMwareMigrateFabricModelCustomProperties
   migrationSolutionId: string;
 }
 
-/** HyperV To AzStackHCI Policy model custom properties. */
-export interface HyperVToAzStackHCIPolicyModelCustomProperties
-  extends PolicyModelCustomProperties {
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+/** VMware fabric agent model custom properties. */
+export interface VMwareFabricAgentModelCustomProperties
+  extends FabricAgentModelCustomProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  instanceType: "VMware";
+  /** Gets or sets the BIOS Id of the fabric agent machine. */
+  biosId: string;
+  /** Identity model. */
+  marsAuthenticationIdentity: IdentityModel;
+}
+
+/** HyperV to  AzStackHCI event model custom properties. This class provides provider specific details for events of type DataContract.HealthEvents.HealthEventType.ProtectedItemHealth and DataContract.HealthEvents.HealthEventType.AgentHealth. */
+export interface HyperVToAzStackHCIEventModelCustomProperties
+  extends EventModelCustomProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVToAzStackHCI";
   /**
-   * Gets or sets the duration in minutes until which the recovery points need to be
-   * stored.
+   * Gets or sets the friendly name of the source which has raised this health event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  recoveryPointHistoryInMinutes: number;
-  /** Gets or sets the crash consistent snapshot frequency (in minutes). */
-  crashConsistentFrequencyInMinutes: number;
-  /** Gets or sets the app consistent snapshot frequency (in minutes). */
-  appConsistentFrequencyInMinutes: number;
+  readonly eventSourceFriendlyName?: string;
+  /**
+   * Gets or sets the protected item friendly name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly protectedItemFriendlyName?: string;
+  /**
+   * Gets or sets the source appliance name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceApplianceName?: string;
+  /**
+   * Gets or sets the source target name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetApplianceName?: string;
+  /**
+   * Gets or sets the server type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverType?: string;
 }
 
-/** VMware To AzStackHCI Policy model custom properties. */
-export interface VMwareToAzStackHCIPolicyModelCustomProperties
-  extends PolicyModelCustomProperties {
+/** VMware to  AzStackHCI event model custom properties. This class provides provider specific details for events of type DataContract.HealthEvents.HealthEventType.ProtectedItemHealth and DataContract.HealthEvents.HealthEventType.AgentHealth. */
+export interface VMwareToAzStackHCIEventModelCustomProperties
+  extends EventModelCustomProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "VMwareToAzStackHCI";
   /**
-   * Gets or sets the duration in minutes until which the recovery points need to be
-   * stored.
+   * Gets or sets the friendly name of the source which has raised this health event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  recoveryPointHistoryInMinutes: number;
-  /** Gets or sets the crash consistent snapshot frequency (in minutes). */
-  crashConsistentFrequencyInMinutes: number;
-  /** Gets or sets the app consistent snapshot frequency (in minutes). */
-  appConsistentFrequencyInMinutes: number;
+  readonly eventSourceFriendlyName?: string;
+  /**
+   * Gets or sets the protected item friendly name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly protectedItemFriendlyName?: string;
+  /**
+   * Gets or sets the source appliance name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceApplianceName?: string;
+  /**
+   * Gets or sets the source target name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetApplianceName?: string;
+  /**
+   * Gets or sets the server type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverType?: string;
 }
 
-export interface ProtectedItemModelPropertiesCurrentJob
-  extends ProtectedItemJobProperties {}
+/** Failover job model custom properties. */
+export interface FailoverJobModelCustomProperties
+  extends JobModelCustomProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  instanceType: "FailoverJobDetails";
+  /**
+   * Gets or sets the failed over protected item details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly protectedItemDetails?: FailoverProtectedItemProperties[];
+}
 
-export interface ProtectedItemModelPropertiesLastFailedEnableProtectionJob
-  extends ProtectedItemJobProperties {}
+/** Test failover cleanup job model custom properties. */
+export interface TestFailoverCleanupJobModelCustomProperties
+  extends JobModelCustomProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  instanceType: "TestFailoverCleanupJobDetails";
+  /**
+   * Gets or sets the test failover cleanup comments.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly comments?: string;
+}
 
-export interface ProtectedItemModelPropertiesLastFailedPlannedFailoverJob
-  extends ProtectedItemJobProperties {}
-
-export interface ProtectedItemModelPropertiesLastTestFailoverJob
-  extends ProtectedItemJobProperties {}
+/** Test failover job model custom properties. */
+export interface TestFailoverJobModelCustomProperties
+  extends JobModelCustomProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  instanceType: "TestFailoverJobDetails";
+  /**
+   * Gets or sets the test VM details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly protectedItemDetails?: FailoverProtectedItemProperties[];
+}
 
 /** HyperV to AzStackHCI Protected item model custom properties. */
 export interface HyperVToAzStackHCIProtectedItemModelCustomProperties
@@ -1949,10 +2046,10 @@ export interface HyperVToAzStackHCIProtectedItemModelCustomProperties
   targetMemoryInMegaBytes?: number;
   /** Gets or sets the Run As account Id. */
   runAsAccountId: string;
-  /** Gets or sets the source DRA name. */
-  sourceDraName: string;
-  /** Gets or sets the target DRA name. */
-  targetDraName: string;
+  /** Gets or sets the source fabric agent name. */
+  sourceFabricAgentName: string;
+  /** Gets or sets the target fabric agent name. */
+  targetFabricAgentName: string;
   /**
    * Gets or sets the source appliance name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2001,14 +2098,12 @@ export interface HyperVToAzStackHCIProtectedItemModelCustomProperties
    */
   readonly lastRecoveryPointId?: string;
   /**
-   * Gets or sets the initial replication progress percentage. This is calculated based on
-   * total bytes processed for all disks in the source VM.
+   * Gets or sets the initial replication progress percentage. This is calculated based on total bytes processed for all disks in the source VM.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly initialReplicationProgressPercentage?: number;
   /**
-   * Gets or sets the resync progress percentage. This is calculated based on total bytes
-   * processed for all disks in the source VM.
+   * Gets or sets the resync progress percentage. This is calculated based on total bytes processed for all disks in the source VM.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resyncProgressPercentage?: number;
@@ -2133,10 +2228,10 @@ export interface VMwareToAzStackHCIProtectedItemModelCustomProperties
   readonly sourceMemoryInMegaBytes?: number;
   /** Gets or sets the run as account Id. */
   runAsAccountId: string;
-  /** Gets or sets the source DRA name. */
-  sourceDraName: string;
-  /** Gets or sets the target DRA name. */
-  targetDraName: string;
+  /** Gets or sets the source fabric agent name. */
+  sourceFabricAgentName: string;
+  /** Gets or sets the target fabric agent name. */
+  targetFabricAgentName: string;
   /**
    * Gets or sets the source appliance name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2163,8 +2258,7 @@ export interface VMwareToAzStackHCIProtectedItemModelCustomProperties
    */
   readonly lastRecoveryPointId?: string;
   /**
-   * Gets or sets the initial replication progress percentage. This is calculated based on
-   * total bytes processed for all disks in the source VM.
+   * Gets or sets the initial replication progress percentage. This is calculated based on total bytes processed for all disks in the source VM.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly initialReplicationProgressPercentage?: number;
@@ -2179,8 +2273,7 @@ export interface VMwareToAzStackHCIProtectedItemModelCustomProperties
    */
   readonly resumeProgressPercentage?: number;
   /**
-   * Gets or sets the resync progress percentage. This is calculated based on total bytes
-   * processed for all disks in the source VM.
+   * Gets or sets the resync progress percentage. This is calculated based on total bytes processed for all disks in the source VM.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resyncProgressPercentage?: number;
@@ -2213,6 +2306,44 @@ export interface VMwareToAzStackHCIProtectedItemModelCustomProperties
   readonly lastReplicationUpdateTime?: Date;
 }
 
+/** HyperV to AzStackHCI Protected item model custom properties. */
+export interface HyperVToAzStackHCIProtectedItemModelCustomPropertiesUpdate
+  extends ProtectedItemModelCustomPropertiesUpdate {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  instanceType: "HyperVToAzStackHCI";
+  /** Gets or sets the list of VM NIC to replicate. */
+  nicsToInclude?: HyperVToAzStackHCINicInput[];
+  /** Gets or sets the target CPU cores. */
+  targetCpuCores?: number;
+  /** Gets or sets a value indicating whether memory is dynamical. */
+  isDynamicRam?: boolean;
+  /** Protected item dynamic memory config. */
+  dynamicMemoryConfig?: ProtectedItemDynamicMemoryConfig;
+  /** Gets or sets the target memory in mega-bytes. */
+  targetMemoryInMegaBytes?: number;
+  /** Gets or sets the type of the OS. */
+  osType?: string;
+}
+
+/** VMware to AzStackHCI Protected item model custom properties. */
+export interface VMwareToAzStackHCIProtectedItemModelCustomPropertiesUpdate
+  extends ProtectedItemModelCustomPropertiesUpdate {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  instanceType: "VMwareToAzStackHCI";
+  /** Gets or sets the list of VM NIC to replicate. */
+  nicsToInclude?: VMwareToAzStackHCINicInput[];
+  /** Gets or sets the target CPU cores. */
+  targetCpuCores?: number;
+  /** Gets or sets a value indicating whether memory is dynamical. */
+  isDynamicRam?: boolean;
+  /** Protected item dynamic memory config. */
+  dynamicMemoryConfig?: ProtectedItemDynamicMemoryConfig;
+  /** Gets or sets the target memory in mega-bytes. */
+  targetMemoryInMegaBytes?: number;
+  /** Gets or sets the type of the OS. */
+  osType?: string;
+}
+
 /** HyperV to AzStackHCI planned failover model custom properties. */
 export interface HyperVToAzStackHCIPlannedFailoverModelCustomProperties
   extends PlannedFailoverModelCustomProperties {
@@ -2236,6 +2367,18 @@ export interface HyperVToAzStackHCIRecoveryPointModelCustomProperties
   extends RecoveryPointModelCustomProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "HyperVToAzStackHCI";
+  /**
+   * Gets or sets the list of the disk Ids.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diskIds?: string[];
+}
+
+/** VMware to AzStackHCI recovery point model custom properties. */
+export interface VMwareToAzStackHCIRecoveryPointModelCustomProperties
+  extends RecoveryPointModelCustomProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  instanceType: "VMwareToAzStackHCIRecoveryPointModelCustomProperties";
   /**
    * Gets or sets the list of the disk Ids.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2393,407 +2536,257 @@ export interface VMwareToAzStackHCIReplicationExtensionModelCustomProperties
   readonly resourceGroup?: string;
 }
 
-/** Failover workflow model custom properties. */
-export interface FailoverWorkflowModelCustomProperties
-  extends WorkflowModelCustomProperties {
+/** HyperV To AzStackHCI Policy model custom properties. */
+export interface HyperVToAzStackHCIPolicyModelCustomProperties
+  extends PolicyModelCustomProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  instanceType: "FailoverWorkflowDetails";
-  /**
-   * Gets or sets the failed over protected item details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly protectedItemDetails?: FailoverProtectedItemProperties[];
+  instanceType: "HyperVToAzStackHCI";
+  /** Gets or sets the duration in minutes until which the recovery points need to be stored. */
+  recoveryPointHistoryInMinutes: number;
+  /** Gets or sets the crash consistent snapshot frequency (in minutes). */
+  crashConsistentFrequencyInMinutes: number;
+  /** Gets or sets the app consistent snapshot frequency (in minutes). */
+  appConsistentFrequencyInMinutes: number;
 }
 
-/** Test failover cleanup workflow model custom properties. */
-export interface TestFailoverCleanupWorkflowModelCustomProperties
-  extends WorkflowModelCustomProperties {
+/** VMware To AzStackHCI Policy model custom properties. */
+export interface VMwareToAzStackHCIPolicyModelCustomProperties
+  extends PolicyModelCustomProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  instanceType: "TestFailoverCleanupWorkflowDetails";
-  /**
-   * Gets or sets the test failover cleanup comments.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly comments?: string;
+  instanceType: "VMwareToAzStackHCI";
+  /** Gets or sets the duration in minutes until which the recovery points need to be stored. */
+  recoveryPointHistoryInMinutes: number;
+  /** Gets or sets the crash consistent snapshot frequency (in minutes). */
+  crashConsistentFrequencyInMinutes: number;
+  /** Gets or sets the app consistent snapshot frequency (in minutes). */
+  appConsistentFrequencyInMinutes: number;
 }
 
-/** Test failover workflow model custom properties. */
-export interface TestFailoverWorkflowModelCustomProperties
-  extends WorkflowModelCustomProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  instanceType: "TestFailoverWorkflowDetails";
-  /**
-   * Gets or sets the test VM details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly protectedItemDetails?: FailoverProtectedItemProperties[];
+/** Fabric model. */
+export interface FabricModel extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: FabricModelProperties;
 }
 
-/** Defines headers for Dra_delete operation. */
-export interface DraDeleteHeaders {
-  /** Tracking URL for long running operation. */
+/** Vault model. */
+export interface VaultModel extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: VaultModelProperties;
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
+}
+
+/** Fabric agent model. */
+export interface FabricAgentModel extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: FabricAgentModelProperties;
+}
+
+/** Email configuration model. */
+export interface EmailConfigurationModel extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: EmailConfigurationModelProperties;
+}
+
+/** Event model. */
+export interface EventModel extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: EventModelProperties;
+}
+
+/** Job model. */
+export interface JobModel extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: JobModelProperties;
+}
+
+/** Represents private endpoint connection proxy request. */
+export interface PrivateEndpointConnectionProxy extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: PrivateEndpointConnectionProxyProperties;
+  /** Gets or sets ETag. */
+  etag?: string;
+}
+
+/** Represents private endpoint connection. */
+export interface PrivateEndpointConnection extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: PrivateEndpointConnectionResponseProperties;
+}
+
+/** Represents private link resource. */
+export interface PrivateLinkResource extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: PrivateLinkResourceProperties;
+}
+
+/** Protected item model. */
+export interface ProtectedItemModel extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ProtectedItemModelProperties;
+}
+
+/** Recovery point model. */
+export interface RecoveryPointModel extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: RecoveryPointModelProperties;
+}
+
+/** Replication extension model. */
+export interface ReplicationExtensionModel extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ReplicationExtensionModelProperties;
+}
+
+/** Policy model. */
+export interface PolicyModel extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: PolicyModelProperties;
+}
+
+/** Defines headers for Fabric_create operation. */
+export interface FabricCreateHeaders {
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
-  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for Fabric_update operation. */
 export interface FabricUpdateHeaders {
-  /** Tracking URL for long running operation. */
-  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for Fabric_delete operation. */
 export interface FabricDeleteHeaders {
-  /** Tracking URL for long running operation. */
-  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Defines headers for Policy_delete operation. */
-export interface PolicyDeleteHeaders {
-  /** Tracking URL for long running operation. */
+/** Defines headers for Vault_create operation. */
+export interface VaultCreateHeaders {
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
-  location?: string;
-}
-
-/** Defines headers for ProtectedItem_delete operation. */
-export interface ProtectedItemDeleteHeaders {
-  /** Tracking URL for long running operation. */
-  azureAsyncOperation?: string;
-  location?: string;
-}
-
-/** Defines headers for ProtectedItem_plannedFailover operation. */
-export interface ProtectedItemPlannedFailoverHeaders {
-  /** Tracking URL for long running operation. */
-  azureAsyncOperation?: string;
-  location?: string;
-}
-
-/** Defines headers for ReplicationExtension_delete operation. */
-export interface ReplicationExtensionDeleteHeaders {
-  /** Tracking URL for long running operation. */
-  azureAsyncOperation?: string;
-  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for Vault_update operation. */
 export interface VaultUpdateHeaders {
-  /** Tracking URL for long running operation. */
-  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for Vault_delete operation. */
 export interface VaultDeleteHeaders {
-  /** Tracking URL for long running operation. */
-  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Known values of {@link ProvisioningState} that the service accepts. */
-export enum KnownProvisioningState {
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Creating */
-  Creating = "Creating",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Deleted */
-  Deleted = "Deleted",
-  /** Failed */
-  Failed = "Failed",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Updating */
-  Updating = "Updating"
+/** Defines headers for FabricAgent_create operation. */
+export interface FabricAgentCreateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/**
- * Defines values for ProvisioningState. \
- * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Canceled** \
- * **Creating** \
- * **Deleting** \
- * **Deleted** \
- * **Failed** \
- * **Succeeded** \
- * **Updating**
- */
-export type ProvisioningState = string;
-
-/** Known values of {@link HealthStatus} that the service accepts. */
-export enum KnownHealthStatus {
-  /** Normal */
-  Normal = "Normal",
-  /** Warning */
-  Warning = "Warning",
-  /** Critical */
-  Critical = "Critical"
+/** Defines headers for FabricAgent_delete operation. */
+export interface FabricAgentDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/**
- * Defines values for HealthStatus. \
- * {@link KnownHealthStatus} can be used interchangeably with HealthStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Normal** \
- * **Warning** \
- * **Critical**
- */
-export type HealthStatus = string;
-
-/** Known values of {@link ProtectionState} that the service accepts. */
-export enum KnownProtectionState {
-  /** UnprotectedStatesBegin */
-  UnprotectedStatesBegin = "UnprotectedStatesBegin",
-  /** EnablingProtection */
-  EnablingProtection = "EnablingProtection",
-  /** EnablingFailed */
-  EnablingFailed = "EnablingFailed",
-  /** DisablingProtection */
-  DisablingProtection = "DisablingProtection",
-  /** MarkedForDeletion */
-  MarkedForDeletion = "MarkedForDeletion",
-  /** DisablingFailed */
-  DisablingFailed = "DisablingFailed",
-  /** UnprotectedStatesEnd */
-  UnprotectedStatesEnd = "UnprotectedStatesEnd",
-  /** InitialReplicationStatesBegin */
-  InitialReplicationStatesBegin = "InitialReplicationStatesBegin",
-  /** InitialReplicationInProgress */
-  InitialReplicationInProgress = "InitialReplicationInProgress",
-  /** InitialReplicationCompletedOnPrimary */
-  InitialReplicationCompletedOnPrimary = "InitialReplicationCompletedOnPrimary",
-  /** InitialReplicationCompletedOnRecovery */
-  InitialReplicationCompletedOnRecovery = "InitialReplicationCompletedOnRecovery",
-  /** InitialReplicationFailed */
-  InitialReplicationFailed = "InitialReplicationFailed",
-  /** InitialReplicationStatesEnd */
-  InitialReplicationStatesEnd = "InitialReplicationStatesEnd",
-  /** ProtectedStatesBegin */
-  ProtectedStatesBegin = "ProtectedStatesBegin",
-  /** Protected */
-  Protected = "Protected",
-  /** ProtectedStatesEnd */
-  ProtectedStatesEnd = "ProtectedStatesEnd",
-  /** PlannedFailoverTransitionStatesBegin */
-  PlannedFailoverTransitionStatesBegin = "PlannedFailoverTransitionStatesBegin",
-  /** PlannedFailoverInitiated */
-  PlannedFailoverInitiated = "PlannedFailoverInitiated",
-  /** PlannedFailoverCompleting */
-  PlannedFailoverCompleting = "PlannedFailoverCompleting",
-  /** PlannedFailoverCompleted */
-  PlannedFailoverCompleted = "PlannedFailoverCompleted",
-  /** PlannedFailoverFailed */
-  PlannedFailoverFailed = "PlannedFailoverFailed",
-  /** PlannedFailoverCompletionFailed */
-  PlannedFailoverCompletionFailed = "PlannedFailoverCompletionFailed",
-  /** PlannedFailoverTransitionStatesEnd */
-  PlannedFailoverTransitionStatesEnd = "PlannedFailoverTransitionStatesEnd",
-  /** UnplannedFailoverTransitionStatesBegin */
-  UnplannedFailoverTransitionStatesBegin = "UnplannedFailoverTransitionStatesBegin",
-  /** UnplannedFailoverInitiated */
-  UnplannedFailoverInitiated = "UnplannedFailoverInitiated",
-  /** UnplannedFailoverCompleting */
-  UnplannedFailoverCompleting = "UnplannedFailoverCompleting",
-  /** UnplannedFailoverCompleted */
-  UnplannedFailoverCompleted = "UnplannedFailoverCompleted",
-  /** UnplannedFailoverFailed */
-  UnplannedFailoverFailed = "UnplannedFailoverFailed",
-  /** UnplannedFailoverCompletionFailed */
-  UnplannedFailoverCompletionFailed = "UnplannedFailoverCompletionFailed",
-  /** UnplannedFailoverTransitionStatesEnd */
-  UnplannedFailoverTransitionStatesEnd = "UnplannedFailoverTransitionStatesEnd",
-  /** CommitFailoverStatesBegin */
-  CommitFailoverStatesBegin = "CommitFailoverStatesBegin",
-  /** CommitFailoverInProgressOnPrimary */
-  CommitFailoverInProgressOnPrimary = "CommitFailoverInProgressOnPrimary",
-  /** CommitFailoverInProgressOnRecovery */
-  CommitFailoverInProgressOnRecovery = "CommitFailoverInProgressOnRecovery",
-  /** CommitFailoverCompleted */
-  CommitFailoverCompleted = "CommitFailoverCompleted",
-  /** CommitFailoverFailedOnPrimary */
-  CommitFailoverFailedOnPrimary = "CommitFailoverFailedOnPrimary",
-  /** CommitFailoverFailedOnRecovery */
-  CommitFailoverFailedOnRecovery = "CommitFailoverFailedOnRecovery",
-  /** CommitFailoverStatesEnd */
-  CommitFailoverStatesEnd = "CommitFailoverStatesEnd",
-  /** CancelFailoverStatesBegin */
-  CancelFailoverStatesBegin = "CancelFailoverStatesBegin",
-  /** CancelFailoverInProgressOnPrimary */
-  CancelFailoverInProgressOnPrimary = "CancelFailoverInProgressOnPrimary",
-  /** CancelFailoverInProgressOnRecovery */
-  CancelFailoverInProgressOnRecovery = "CancelFailoverInProgressOnRecovery",
-  /** CancelFailoverFailedOnPrimary */
-  CancelFailoverFailedOnPrimary = "CancelFailoverFailedOnPrimary",
-  /** CancelFailoverFailedOnRecovery */
-  CancelFailoverFailedOnRecovery = "CancelFailoverFailedOnRecovery",
-  /** CancelFailoverStatesEnd */
-  CancelFailoverStatesEnd = "CancelFailoverStatesEnd",
-  /** ChangeRecoveryPointStatesBegin */
-  ChangeRecoveryPointStatesBegin = "ChangeRecoveryPointStatesBegin",
-  /** ChangeRecoveryPointInitiated */
-  ChangeRecoveryPointInitiated = "ChangeRecoveryPointInitiated",
-  /** ChangeRecoveryPointCompleted */
-  ChangeRecoveryPointCompleted = "ChangeRecoveryPointCompleted",
-  /** ChangeRecoveryPointFailed */
-  ChangeRecoveryPointFailed = "ChangeRecoveryPointFailed",
-  /** ChangeRecoveryPointStatesEnd */
-  ChangeRecoveryPointStatesEnd = "ChangeRecoveryPointStatesEnd",
-  /** ReprotectStatesBegin */
-  ReprotectStatesBegin = "ReprotectStatesBegin",
-  /** ReprotectInitiated */
-  ReprotectInitiated = "ReprotectInitiated",
-  /** ReprotectFailed */
-  ReprotectFailed = "ReprotectFailed",
-  /** ReprotectStatesEnd */
-  ReprotectStatesEnd = "ReprotectStatesEnd"
+/** Defines headers for PrivateEndpointConnectionProxies_delete operation. */
+export interface PrivateEndpointConnectionProxiesDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/**
- * Defines values for ProtectionState. \
- * {@link KnownProtectionState} can be used interchangeably with ProtectionState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **UnprotectedStatesBegin** \
- * **EnablingProtection** \
- * **EnablingFailed** \
- * **DisablingProtection** \
- * **MarkedForDeletion** \
- * **DisablingFailed** \
- * **UnprotectedStatesEnd** \
- * **InitialReplicationStatesBegin** \
- * **InitialReplicationInProgress** \
- * **InitialReplicationCompletedOnPrimary** \
- * **InitialReplicationCompletedOnRecovery** \
- * **InitialReplicationFailed** \
- * **InitialReplicationStatesEnd** \
- * **ProtectedStatesBegin** \
- * **Protected** \
- * **ProtectedStatesEnd** \
- * **PlannedFailoverTransitionStatesBegin** \
- * **PlannedFailoverInitiated** \
- * **PlannedFailoverCompleting** \
- * **PlannedFailoverCompleted** \
- * **PlannedFailoverFailed** \
- * **PlannedFailoverCompletionFailed** \
- * **PlannedFailoverTransitionStatesEnd** \
- * **UnplannedFailoverTransitionStatesBegin** \
- * **UnplannedFailoverInitiated** \
- * **UnplannedFailoverCompleting** \
- * **UnplannedFailoverCompleted** \
- * **UnplannedFailoverFailed** \
- * **UnplannedFailoverCompletionFailed** \
- * **UnplannedFailoverTransitionStatesEnd** \
- * **CommitFailoverStatesBegin** \
- * **CommitFailoverInProgressOnPrimary** \
- * **CommitFailoverInProgressOnRecovery** \
- * **CommitFailoverCompleted** \
- * **CommitFailoverFailedOnPrimary** \
- * **CommitFailoverFailedOnRecovery** \
- * **CommitFailoverStatesEnd** \
- * **CancelFailoverStatesBegin** \
- * **CancelFailoverInProgressOnPrimary** \
- * **CancelFailoverInProgressOnRecovery** \
- * **CancelFailoverFailedOnPrimary** \
- * **CancelFailoverFailedOnRecovery** \
- * **CancelFailoverStatesEnd** \
- * **ChangeRecoveryPointStatesBegin** \
- * **ChangeRecoveryPointInitiated** \
- * **ChangeRecoveryPointCompleted** \
- * **ChangeRecoveryPointFailed** \
- * **ChangeRecoveryPointStatesEnd** \
- * **ReprotectStatesBegin** \
- * **ReprotectInitiated** \
- * **ReprotectFailed** \
- * **ReprotectStatesEnd**
- */
-export type ProtectionState = string;
-
-/** Known values of {@link TestFailoverState} that the service accepts. */
-export enum KnownTestFailoverState {
-  /** None */
-  None = "None",
-  /** TestFailoverInitiated */
-  TestFailoverInitiated = "TestFailoverInitiated",
-  /** TestFailoverCompleting */
-  TestFailoverCompleting = "TestFailoverCompleting",
-  /** TestFailoverCompleted */
-  TestFailoverCompleted = "TestFailoverCompleted",
-  /** TestFailoverFailed */
-  TestFailoverFailed = "TestFailoverFailed",
-  /** TestFailoverCompletionFailed */
-  TestFailoverCompletionFailed = "TestFailoverCompletionFailed",
-  /** TestFailoverCleanupInitiated */
-  TestFailoverCleanupInitiated = "TestFailoverCleanupInitiated",
-  /** TestFailoverCleanupCompleting */
-  TestFailoverCleanupCompleting = "TestFailoverCleanupCompleting",
-  /** MarkedForDeletion */
-  MarkedForDeletion = "MarkedForDeletion"
+/** Defines headers for PrivateEndpointConnections_delete operation. */
+export interface PrivateEndpointConnectionsDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/**
- * Defines values for TestFailoverState. \
- * {@link KnownTestFailoverState} can be used interchangeably with TestFailoverState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **TestFailoverInitiated** \
- * **TestFailoverCompleting** \
- * **TestFailoverCompleted** \
- * **TestFailoverFailed** \
- * **TestFailoverCompletionFailed** \
- * **TestFailoverCleanupInitiated** \
- * **TestFailoverCleanupCompleting** \
- * **MarkedForDeletion**
- */
-export type TestFailoverState = string;
-
-/** Known values of {@link ResynchronizationState} that the service accepts. */
-export enum KnownResynchronizationState {
-  /** None */
-  None = "None",
-  /** ResynchronizationInitiated */
-  ResynchronizationInitiated = "ResynchronizationInitiated",
-  /** ResynchronizationCompleted */
-  ResynchronizationCompleted = "ResynchronizationCompleted",
-  /** ResynchronizationFailed */
-  ResynchronizationFailed = "ResynchronizationFailed"
+/** Defines headers for ProtectedItem_create operation. */
+export interface ProtectedItemCreateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/**
- * Defines values for ResynchronizationState. \
- * {@link KnownResynchronizationState} can be used interchangeably with ResynchronizationState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **ResynchronizationInitiated** \
- * **ResynchronizationCompleted** \
- * **ResynchronizationFailed**
- */
-export type ResynchronizationState = string;
-
-/** Known values of {@link RecoveryPointType} that the service accepts. */
-export enum KnownRecoveryPointType {
-  /** ApplicationConsistent */
-  ApplicationConsistent = "ApplicationConsistent",
-  /** CrashConsistent */
-  CrashConsistent = "CrashConsistent"
+/** Defines headers for ProtectedItem_update operation. */
+export interface ProtectedItemUpdateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/**
- * Defines values for RecoveryPointType. \
- * {@link KnownRecoveryPointType} can be used interchangeably with RecoveryPointType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ApplicationConsistent** \
- * **CrashConsistent**
- */
-export type RecoveryPointType = string;
+/** Defines headers for ProtectedItem_delete operation. */
+export interface ProtectedItemDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for ProtectedItem_plannedFailover operation. */
+export interface ProtectedItemPlannedFailoverHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for ReplicationExtension_create operation. */
+export interface ReplicationExtensionCreateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for ReplicationExtension_delete operation. */
+export interface ReplicationExtensionDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Policy_create operation. */
+export interface PolicyCreateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Policy_delete operation. */
+export interface PolicyDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
@@ -2802,7 +2795,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -2819,7 +2812,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -2831,12 +2824,90 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  /** Resource creation has been canceled */
+  Canceled = "Canceled",
+  /** Resource is being created. */
+  Creating = "Creating",
+  /** Resource is being deleted. */
+  Deleting = "Deleting",
+  /** Resource has been deleted. */
+  Deleted = "Deleted",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation\/update succeeded. */
+  Succeeded = "Succeeded",
+  /** Resource is being updated. */
+  Updating = "Updating",
+}
+
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Canceled**: Resource creation has been canceled \
+ * **Creating**: Resource is being created. \
+ * **Deleting**: Resource is being deleted. \
+ * **Deleted**: Resource has been deleted. \
+ * **Failed**: Resource creation failed. \
+ * **Succeeded**: Resource creation\/update succeeded. \
+ * **Updating**: Resource is being updated.
+ */
+export type ProvisioningState = string;
+
+/** Known values of {@link HealthStatus} that the service accepts. */
+export enum KnownHealthStatus {
+  /** Healthy Status. */
+  Normal = "Normal",
+  /** Warning Status. */
+  Warning = "Warning",
+  /** Critical Status. */
+  Critical = "Critical",
+}
+
+/**
+ * Defines values for HealthStatus. \
+ * {@link KnownHealthStatus} can be used interchangeably with HealthStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Normal**: Healthy Status. \
+ * **Warning**: Warning Status. \
+ * **Critical**: Critical Status.
+ */
+export type HealthStatus = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
 /** Known values of {@link ReplicationVaultType} that the service accepts. */
 export enum KnownReplicationVaultType {
-  /** DisasterRecovery */
+  /** Disaster recovery vault. */
   DisasterRecovery = "DisasterRecovery",
-  /** Migrate */
-  Migrate = "Migrate"
+  /** Migrate vault. */
+  Migrate = "Migrate",
 }
 
 /**
@@ -2844,100 +2915,145 @@ export enum KnownReplicationVaultType {
  * {@link KnownReplicationVaultType} can be used interchangeably with ReplicationVaultType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **DisasterRecovery** \
- * **Migrate**
+ * **DisasterRecovery**: Disaster recovery vault. \
+ * **Migrate**: Migrate vault.
  */
 export type ReplicationVaultType = string;
 
-/** Known values of {@link WorkflowState} that the service accepts. */
-export enum KnownWorkflowState {
-  /** Pending */
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned,UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
+
+/** Known values of {@link VaultIdentityType} that the service accepts. */
+export enum KnownVaultIdentityType {
+  /** No identity. */
+  None = "None",
+  /** System assigned identity. */
+  SystemAssigned = "SystemAssigned",
+  /** User assigned identity. */
+  UserAssigned = "UserAssigned",
+}
+
+/**
+ * Defines values for VaultIdentityType. \
+ * {@link KnownVaultIdentityType} can be used interchangeably with VaultIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No identity. \
+ * **SystemAssigned**: System assigned identity. \
+ * **UserAssigned**: User assigned identity.
+ */
+export type VaultIdentityType = string;
+
+/** Known values of {@link JobState} that the service accepts. */
+export enum KnownJobState {
+  /** Job has not been started. */
   Pending = "Pending",
-  /** Started */
+  /** Job is in progress. */
   Started = "Started",
-  /** Cancelling */
+  /** Job cancellation is in progress. */
   Cancelling = "Cancelling",
-  /** Succeeded */
+  /** Job has completed successfully. */
   Succeeded = "Succeeded",
-  /** Failed */
+  /** Job failed. */
   Failed = "Failed",
-  /** Cancelled */
+  /** Job has been cancelled. */
   Cancelled = "Cancelled",
-  /** CompletedWithInformation */
+  /** Job has completed with information. */
   CompletedWithInformation = "CompletedWithInformation",
-  /** CompletedWithWarnings */
+  /** Job has completed with warnings. */
   CompletedWithWarnings = "CompletedWithWarnings",
-  /** CompletedWithErrors */
-  CompletedWithErrors = "CompletedWithErrors"
+  /** Job has completed with errors. */
+  CompletedWithErrors = "CompletedWithErrors",
 }
 
 /**
- * Defines values for WorkflowState. \
- * {@link KnownWorkflowState} can be used interchangeably with WorkflowState,
+ * Defines values for JobState. \
+ * {@link KnownJobState} can be used interchangeably with JobState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Pending** \
- * **Started** \
- * **Cancelling** \
- * **Succeeded** \
- * **Failed** \
- * **Cancelled** \
- * **CompletedWithInformation** \
- * **CompletedWithWarnings** \
- * **CompletedWithErrors**
+ * **Pending**: Job has not been started. \
+ * **Started**: Job is in progress. \
+ * **Cancelling**: Job cancellation is in progress. \
+ * **Succeeded**: Job has completed successfully. \
+ * **Failed**: Job failed. \
+ * **Cancelled**: Job has been cancelled. \
+ * **CompletedWithInformation**: Job has completed with information. \
+ * **CompletedWithWarnings**: Job has completed with warnings. \
+ * **CompletedWithErrors**: Job has completed with errors.
  */
-export type WorkflowState = string;
+export type JobState = string;
 
-/** Known values of {@link WorkflowObjectType} that the service accepts. */
-export enum KnownWorkflowObjectType {
-  /** AvsDiskPool */
+/** Known values of {@link JobObjectType} that the service accepts. */
+export enum KnownJobObjectType {
+  /** AVS disk pool. */
   AvsDiskPool = "AvsDiskPool",
-  /** Dra */
-  Dra = "Dra",
-  /** Fabric */
+  /** Fabric agent level workflow. */
+  FabricAgent = "FabricAgent",
+  /** Fabric level job. */
   Fabric = "Fabric",
-  /** Policy */
+  /** Policy level job. */
   Policy = "Policy",
-  /** ProtectedItem */
+  /** Protected item level job. */
   ProtectedItem = "ProtectedItem",
-  /** RecoveryPlan */
+  /** Recovery plan level job. */
   RecoveryPlan = "RecoveryPlan",
-  /** ReplicationExtension */
+  /** Replication extension level job. */
   ReplicationExtension = "ReplicationExtension",
-  /** Vault */
-  Vault = "Vault"
+  /** Vault level job. */
+  Vault = "Vault",
 }
 
 /**
- * Defines values for WorkflowObjectType. \
- * {@link KnownWorkflowObjectType} can be used interchangeably with WorkflowObjectType,
+ * Defines values for JobObjectType. \
+ * {@link KnownJobObjectType} can be used interchangeably with JobObjectType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **AvsDiskPool** \
- * **Dra** \
- * **Fabric** \
- * **Policy** \
- * **ProtectedItem** \
- * **RecoveryPlan** \
- * **ReplicationExtension** \
- * **Vault**
+ * **AvsDiskPool**: AVS disk pool. \
+ * **FabricAgent**: Fabric agent level workflow. \
+ * **Fabric**: Fabric level job. \
+ * **Policy**: Policy level job. \
+ * **ProtectedItem**: Protected item level job. \
+ * **RecoveryPlan**: Recovery plan level job. \
+ * **ReplicationExtension**: Replication extension level job. \
+ * **Vault**: Vault level job.
  */
-export type WorkflowObjectType = string;
+export type JobObjectType = string;
 
 /** Known values of {@link TaskState} that the service accepts. */
 export enum KnownTaskState {
-  /** Pending */
+  /** Task has not been started. */
   Pending = "Pending",
-  /** Started */
+  /** Task is in progress. */
   Started = "Started",
-  /** Succeeded */
+  /** Task has completed successfully. */
   Succeeded = "Succeeded",
-  /** Failed */
+  /** Task failed. */
   Failed = "Failed",
-  /** Cancelled */
+  /** Task has been cancelled. */
   Cancelled = "Cancelled",
-  /** Skipped */
-  Skipped = "Skipped"
+  /** Task has been skipped. */
+  Skipped = "Skipped",
 }
 
 /**
@@ -2945,25 +3061,298 @@ export enum KnownTaskState {
  * {@link KnownTaskState} can be used interchangeably with TaskState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Pending** \
- * **Started** \
- * **Succeeded** \
- * **Failed** \
- * **Cancelled** \
- * **Skipped**
+ * **Pending**: Task has not been started. \
+ * **Started**: Task is in progress. \
+ * **Succeeded**: Task has completed successfully. \
+ * **Failed**: Task failed. \
+ * **Cancelled**: Task has been cancelled. \
+ * **Skipped**: Task has been skipped.
  */
 export type TaskState = string;
 
+/** Known values of {@link PrivateEndpointConnectionStatus} that the service accepts. */
+export enum KnownPrivateEndpointConnectionStatus {
+  /** Approved Status. */
+  Approved = "Approved",
+  /** Disconnected Status. */
+  Disconnected = "Disconnected",
+  /** Pending Status. */
+  Pending = "Pending",
+  /** Rejected Status. */
+  Rejected = "Rejected",
+}
+
+/**
+ * Defines values for PrivateEndpointConnectionStatus. \
+ * {@link KnownPrivateEndpointConnectionStatus} can be used interchangeably with PrivateEndpointConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Approved**: Approved Status. \
+ * **Disconnected**: Disconnected Status. \
+ * **Pending**: Pending Status. \
+ * **Rejected**: Rejected Status.
+ */
+export type PrivateEndpointConnectionStatus = string;
+
+/** Known values of {@link ProtectionState} that the service accepts. */
+export enum KnownProtectionState {
+  /** Begin marker for unprotected states. */
+  UnprotectedStatesBegin = "UnprotectedStatesBegin",
+  /** Enable protection is in progress. */
+  EnablingProtection = "EnablingProtection",
+  /** Enable protection failed. */
+  EnablingFailed = "EnablingFailed",
+  /** Disabling protection is in progress. */
+  DisablingProtection = "DisablingProtection",
+  /** Disabling protection succeeded. This is a transient state before the protected item is deleted. */
+  MarkedForDeletion = "MarkedForDeletion",
+  /** Disable protection failed. */
+  DisablingFailed = "DisablingFailed",
+  /** End marker for unprotected states. */
+  UnprotectedStatesEnd = "UnprotectedStatesEnd",
+  /** Begin marker for initial replication states. */
+  InitialReplicationStatesBegin = "InitialReplicationStatesBegin",
+  /** Initial replication is in progress. */
+  InitialReplicationInProgress = "InitialReplicationInProgress",
+  /** Initial replication has completed on the primary side. */
+  InitialReplicationCompletedOnPrimary = "InitialReplicationCompletedOnPrimary",
+  /** Initial replication has completed on the recovery side. */
+  InitialReplicationCompletedOnRecovery = "InitialReplicationCompletedOnRecovery",
+  /** Initial replication failed and would need to be started again. */
+  InitialReplicationFailed = "InitialReplicationFailed",
+  /** End marker for initial replication states. */
+  InitialReplicationStatesEnd = "InitialReplicationStatesEnd",
+  /** Begin marker for protected steady-state states. */
+  ProtectedStatesBegin = "ProtectedStatesBegin",
+  /** Protected item is protected and replication is on-going. Any issues with replication will be surfaced separately via the health property and will not affect the state. */
+  Protected = "Protected",
+  /** End marker for protected steady-state states. */
+  ProtectedStatesEnd = "ProtectedStatesEnd",
+  /** Begin marker for planned failover transition states. */
+  PlannedFailoverTransitionStatesBegin = "PlannedFailoverTransitionStatesBegin",
+  /** Planned failover has been initiated. */
+  PlannedFailoverInitiated = "PlannedFailoverInitiated",
+  /** Planned failover preparing protected entities is in progress. */
+  PlannedFailoverCompleting = "PlannedFailoverCompleting",
+  /** Planned failover has been completed successfully. */
+  PlannedFailoverCompleted = "PlannedFailoverCompleted",
+  /** Planned failover initiation failed. */
+  PlannedFailoverFailed = "PlannedFailoverFailed",
+  /** Planned failover preparing protected entities failed. */
+  PlannedFailoverCompletionFailed = "PlannedFailoverCompletionFailed",
+  /** End marker for planned failover transition states. */
+  PlannedFailoverTransitionStatesEnd = "PlannedFailoverTransitionStatesEnd",
+  /** Begin marker for unplanned failover transition states. */
+  UnplannedFailoverTransitionStatesBegin = "UnplannedFailoverTransitionStatesBegin",
+  /** Unplanned failover has been initiated. */
+  UnplannedFailoverInitiated = "UnplannedFailoverInitiated",
+  /** Unplanned failover preparing protected entities is in progress. */
+  UnplannedFailoverCompleting = "UnplannedFailoverCompleting",
+  /** Unplanned failover preparing protected entities is in progress. */
+  UnplannedFailoverCompleted = "UnplannedFailoverCompleted",
+  /** Unplanned failover initiation failed. */
+  UnplannedFailoverFailed = "UnplannedFailoverFailed",
+  /** Unplanned failover preparing protected entities failed. */
+  UnplannedFailoverCompletionFailed = "UnplannedFailoverCompletionFailed",
+  /** End marker for unplanned failover transition states. */
+  UnplannedFailoverTransitionStatesEnd = "UnplannedFailoverTransitionStatesEnd",
+  /** Begin marker for commit failover states. */
+  CommitFailoverStatesBegin = "CommitFailoverStatesBegin",
+  /** Commit failover is in progress on the primary side. */
+  CommitFailoverInProgressOnPrimary = "CommitFailoverInProgressOnPrimary",
+  /** Commit failover is in progress on the recovery side. */
+  CommitFailoverInProgressOnRecovery = "CommitFailoverInProgressOnRecovery",
+  /** Commit failover has been completed successfully. */
+  CommitFailoverCompleted = "CommitFailoverCompleted",
+  /** Commit failover failed on the primary side. */
+  CommitFailoverFailedOnPrimary = "CommitFailoverFailedOnPrimary",
+  /** Commit failover failed on the recovery side. */
+  CommitFailoverFailedOnRecovery = "CommitFailoverFailedOnRecovery",
+  /** End marker for commit failover states. */
+  CommitFailoverStatesEnd = "CommitFailoverStatesEnd",
+  /** Begin marker for cancel failover states. */
+  CancelFailoverStatesBegin = "CancelFailoverStatesBegin",
+  /** Cancel failover is in progress on the primary side. */
+  CancelFailoverInProgressOnPrimary = "CancelFailoverInProgressOnPrimary",
+  /** Cancel failover is in progress on the recovery side. */
+  CancelFailoverInProgressOnRecovery = "CancelFailoverInProgressOnRecovery",
+  /** Cancel failover failed on the primary side. */
+  CancelFailoverFailedOnPrimary = "CancelFailoverFailedOnPrimary",
+  /** Cancel failover failed on the recovery side. */
+  CancelFailoverFailedOnRecovery = "CancelFailoverFailedOnRecovery",
+  /** End marker for cancel failover states. */
+  CancelFailoverStatesEnd = "CancelFailoverStatesEnd",
+  /** Begin marker for change recovery point states. */
+  ChangeRecoveryPointStatesBegin = "ChangeRecoveryPointStatesBegin",
+  /** Change recovery point has been initiated.. */
+  ChangeRecoveryPointInitiated = "ChangeRecoveryPointInitiated",
+  /** Change recovery point has been completed successfully. */
+  ChangeRecoveryPointCompleted = "ChangeRecoveryPointCompleted",
+  /** Change recovery point has failed. */
+  ChangeRecoveryPointFailed = "ChangeRecoveryPointFailed",
+  /** End marker for change recovery point states. */
+  ChangeRecoveryPointStatesEnd = "ChangeRecoveryPointStatesEnd",
+  /** Begin marker for reprotect states. */
+  ReprotectStatesBegin = "ReprotectStatesBegin",
+  /** Reprotect has been initiated. */
+  ReprotectInitiated = "ReprotectInitiated",
+  /** Reprotect has failed. */
+  ReprotectFailed = "ReprotectFailed",
+  /** End marker for reprotect states. */
+  ReprotectStatesEnd = "ReprotectStatesEnd",
+}
+
+/**
+ * Defines values for ProtectionState. \
+ * {@link KnownProtectionState} can be used interchangeably with ProtectionState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **UnprotectedStatesBegin**: Begin marker for unprotected states. \
+ * **EnablingProtection**: Enable protection is in progress. \
+ * **EnablingFailed**: Enable protection failed. \
+ * **DisablingProtection**: Disabling protection is in progress. \
+ * **MarkedForDeletion**: Disabling protection succeeded. This is a transient state before the protected item is deleted. \
+ * **DisablingFailed**: Disable protection failed. \
+ * **UnprotectedStatesEnd**: End marker for unprotected states. \
+ * **InitialReplicationStatesBegin**: Begin marker for initial replication states. \
+ * **InitialReplicationInProgress**: Initial replication is in progress. \
+ * **InitialReplicationCompletedOnPrimary**: Initial replication has completed on the primary side. \
+ * **InitialReplicationCompletedOnRecovery**: Initial replication has completed on the recovery side. \
+ * **InitialReplicationFailed**: Initial replication failed and would need to be started again. \
+ * **InitialReplicationStatesEnd**: End marker for initial replication states. \
+ * **ProtectedStatesBegin**: Begin marker for protected steady-state states. \
+ * **Protected**: Protected item is protected and replication is on-going. Any issues with replication will be surfaced separately via the health property and will not affect the state. \
+ * **ProtectedStatesEnd**: End marker for protected steady-state states. \
+ * **PlannedFailoverTransitionStatesBegin**: Begin marker for planned failover transition states. \
+ * **PlannedFailoverInitiated**: Planned failover has been initiated. \
+ * **PlannedFailoverCompleting**: Planned failover preparing protected entities is in progress. \
+ * **PlannedFailoverCompleted**: Planned failover has been completed successfully. \
+ * **PlannedFailoverFailed**: Planned failover initiation failed. \
+ * **PlannedFailoverCompletionFailed**: Planned failover preparing protected entities failed. \
+ * **PlannedFailoverTransitionStatesEnd**: End marker for planned failover transition states. \
+ * **UnplannedFailoverTransitionStatesBegin**: Begin marker for unplanned failover transition states. \
+ * **UnplannedFailoverInitiated**: Unplanned failover has been initiated. \
+ * **UnplannedFailoverCompleting**: Unplanned failover preparing protected entities is in progress. \
+ * **UnplannedFailoverCompleted**: Unplanned failover preparing protected entities is in progress. \
+ * **UnplannedFailoverFailed**: Unplanned failover initiation failed. \
+ * **UnplannedFailoverCompletionFailed**: Unplanned failover preparing protected entities failed. \
+ * **UnplannedFailoverTransitionStatesEnd**: End marker for unplanned failover transition states. \
+ * **CommitFailoverStatesBegin**: Begin marker for commit failover states. \
+ * **CommitFailoverInProgressOnPrimary**: Commit failover is in progress on the primary side. \
+ * **CommitFailoverInProgressOnRecovery**: Commit failover is in progress on the recovery side. \
+ * **CommitFailoverCompleted**: Commit failover has been completed successfully. \
+ * **CommitFailoverFailedOnPrimary**: Commit failover failed on the primary side. \
+ * **CommitFailoverFailedOnRecovery**: Commit failover failed on the recovery side. \
+ * **CommitFailoverStatesEnd**: End marker for commit failover states. \
+ * **CancelFailoverStatesBegin**: Begin marker for cancel failover states. \
+ * **CancelFailoverInProgressOnPrimary**: Cancel failover is in progress on the primary side. \
+ * **CancelFailoverInProgressOnRecovery**: Cancel failover is in progress on the recovery side. \
+ * **CancelFailoverFailedOnPrimary**: Cancel failover failed on the primary side. \
+ * **CancelFailoverFailedOnRecovery**: Cancel failover failed on the recovery side. \
+ * **CancelFailoverStatesEnd**: End marker for cancel failover states. \
+ * **ChangeRecoveryPointStatesBegin**: Begin marker for change recovery point states. \
+ * **ChangeRecoveryPointInitiated**: Change recovery point has been initiated.. \
+ * **ChangeRecoveryPointCompleted**: Change recovery point has been completed successfully. \
+ * **ChangeRecoveryPointFailed**: Change recovery point has failed. \
+ * **ChangeRecoveryPointStatesEnd**: End marker for change recovery point states. \
+ * **ReprotectStatesBegin**: Begin marker for reprotect states. \
+ * **ReprotectInitiated**: Reprotect has been initiated. \
+ * **ReprotectFailed**: Reprotect has failed. \
+ * **ReprotectStatesEnd**: End marker for reprotect states.
+ */
+export type ProtectionState = string;
+
+/** Known values of {@link TestFailoverState} that the service accepts. */
+export enum KnownTestFailoverState {
+  /** Test failover is not active. */
+  None = "None",
+  /** Test failover has been initiated. */
+  TestFailoverInitiated = "TestFailoverInitiated",
+  /** Preparing test protected entities is in progress. */
+  TestFailoverCompleting = "TestFailoverCompleting",
+  /** Test failover has been completed successfully. */
+  TestFailoverCompleted = "TestFailoverCompleted",
+  /** Test failover initiation failed.. */
+  TestFailoverFailed = "TestFailoverFailed",
+  /** Preparing test protected entities failed. */
+  TestFailoverCompletionFailed = "TestFailoverCompletionFailed",
+  /** Test failover cleanup has been initiated. */
+  TestFailoverCleanupInitiated = "TestFailoverCleanupInitiated",
+  /** Cleaning up test protected entities is in progress. */
+  TestFailoverCleanupCompleting = "TestFailoverCleanupCompleting",
+  /** Test failover cleanup has completed\/failed. This is a transient state before the state is moved back to None. */
+  MarkedForDeletion = "MarkedForDeletion",
+}
+
+/**
+ * Defines values for TestFailoverState. \
+ * {@link KnownTestFailoverState} can be used interchangeably with TestFailoverState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: Test failover is not active. \
+ * **TestFailoverInitiated**: Test failover has been initiated. \
+ * **TestFailoverCompleting**: Preparing test protected entities is in progress. \
+ * **TestFailoverCompleted**: Test failover has been completed successfully. \
+ * **TestFailoverFailed**: Test failover initiation failed.. \
+ * **TestFailoverCompletionFailed**: Preparing test protected entities failed. \
+ * **TestFailoverCleanupInitiated**: Test failover cleanup has been initiated. \
+ * **TestFailoverCleanupCompleting**: Cleaning up test protected entities is in progress. \
+ * **MarkedForDeletion**: Test failover cleanup has completed\/failed. This is a transient state before the state is moved back to None.
+ */
+export type TestFailoverState = string;
+
+/** Known values of {@link ResynchronizationState} that the service accepts. */
+export enum KnownResynchronizationState {
+  /** Resynchronization is not active. */
+  None = "None",
+  /** Resynchronization has been initiated. */
+  ResynchronizationInitiated = "ResynchronizationInitiated",
+  /** Resynchronization has been completed successfully. */
+  ResynchronizationCompleted = "ResynchronizationCompleted",
+  /** Resynchronization has failed and would need to be started again. */
+  ResynchronizationFailed = "ResynchronizationFailed",
+}
+
+/**
+ * Defines values for ResynchronizationState. \
+ * {@link KnownResynchronizationState} can be used interchangeably with ResynchronizationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: Resynchronization is not active. \
+ * **ResynchronizationInitiated**: Resynchronization has been initiated. \
+ * **ResynchronizationCompleted**: Resynchronization has been completed successfully. \
+ * **ResynchronizationFailed**: Resynchronization has failed and would need to be started again.
+ */
+export type ResynchronizationState = string;
+
+/** Known values of {@link RecoveryPointType} that the service accepts. */
+export enum KnownRecoveryPointType {
+  /** Application consistent recovery point. */
+  ApplicationConsistent = "ApplicationConsistent",
+  /** Crash consistent recovery point. */
+  CrashConsistent = "CrashConsistent",
+}
+
+/**
+ * Defines values for RecoveryPointType. \
+ * {@link KnownRecoveryPointType} can be used interchangeably with RecoveryPointType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ApplicationConsistent**: Application consistent recovery point. \
+ * **CrashConsistent**: Crash consistent recovery point.
+ */
+export type RecoveryPointType = string;
+
 /** Known values of {@link VMNicSelection} that the service accepts. */
 export enum KnownVMNicSelection {
-  /** NotSelected */
+  /** Not Selected. */
   NotSelected = "NotSelected",
-  /** SelectedByUser */
+  /** Selected by user. */
   SelectedByUser = "SelectedByUser",
-  /** SelectedByDefault */
+  /** Default selection by ASR. */
   SelectedByDefault = "SelectedByDefault",
-  /** SelectedByUserOverride */
-  SelectedByUserOverride = "SelectedByUserOverride"
+  /** NIC configuration overridden by user. Differs from SelectedByUser in the sense that the legacy SelectedByUser is used both for explicit modification by user and implicit approval of user if the settings are used for TFO\/FO. SelectedByUserOverride implies user overriding at least one of the configurations. */
+  SelectedByUserOverride = "SelectedByUserOverride",
 }
 
 /**
@@ -2971,19 +3360,19 @@ export enum KnownVMNicSelection {
  * {@link KnownVMNicSelection} can be used interchangeably with VMNicSelection,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **NotSelected** \
- * **SelectedByUser** \
- * **SelectedByDefault** \
- * **SelectedByUserOverride**
+ * **NotSelected**: Not Selected. \
+ * **SelectedByUser**: Selected by user. \
+ * **SelectedByDefault**: Default selection by ASR. \
+ * **SelectedByUserOverride**: NIC configuration overridden by user. Differs from SelectedByUser in the sense that the legacy SelectedByUser is used both for explicit modification by user and implicit approval of user if the settings are used for TFO\/FO. SelectedByUserOverride implies user overriding at least one of the configurations.
  */
 export type VMNicSelection = string;
 
 /** Known values of {@link ProtectedItemActiveLocation} that the service accepts. */
 export enum KnownProtectedItemActiveLocation {
-  /** Primary */
+  /** Protected item is active on Primary. */
   Primary = "Primary",
-  /** Recovery */
-  Recovery = "Recovery"
+  /** Protected item is active on Recovery. */
+  Recovery = "Recovery",
 }
 
 /**
@@ -2991,19 +3380,19 @@ export enum KnownProtectedItemActiveLocation {
  * {@link KnownProtectedItemActiveLocation} can be used interchangeably with ProtectedItemActiveLocation,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Primary** \
- * **Recovery**
+ * **Primary**: Protected item is active on Primary. \
+ * **Recovery**: Protected item is active on Recovery.
  */
 export type ProtectedItemActiveLocation = string;
 
 /** Known values of {@link VMwareToAzureMigrateResyncState} that the service accepts. */
 export enum KnownVMwareToAzureMigrateResyncState {
-  /** None */
+  /** None state. */
   None = "None",
-  /** PreparedForResynchronization */
+  /** Prepared for resynchronization state. */
   PreparedForResynchronization = "PreparedForResynchronization",
-  /** StartedResynchronization */
-  StartedResynchronization = "StartedResynchronization"
+  /** Started resynchronization state. */
+  StartedResynchronization = "StartedResynchronization",
 }
 
 /**
@@ -3011,116 +3400,52 @@ export enum KnownVMwareToAzureMigrateResyncState {
  * {@link KnownVMwareToAzureMigrateResyncState} can be used interchangeably with VMwareToAzureMigrateResyncState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None** \
- * **PreparedForResynchronization** \
- * **StartedResynchronization**
+ * **None**: None state. \
+ * **PreparedForResynchronization**: Prepared for resynchronization state. \
+ * **StartedResynchronization**: Started resynchronization state.
  */
 export type VMwareToAzureMigrateResyncState = string;
 
 /** Optional parameters. */
-export interface DraGetOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type DraGetResponse = DraModel;
-
-/** Optional parameters. */
-export interface DraCreateOptionalParams extends coreClient.OperationOptions {
-  /** Dra model. */
-  body?: DraModel;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type DraCreateResponse = DraModel;
-
-/** Optional parameters. */
-export interface DraDeleteOptionalParams extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the delete operation. */
-export type DraDeleteResponse = DraDeleteHeaders;
-
-/** Optional parameters. */
-export interface DraListOptionalParams extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type DraListResponse = DraModelCollection;
+export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface DraListNextOptionalParams
+export interface OperationsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type DraListNextResponse = DraModelCollection;
+export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface DraOperationStatusGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type DraOperationStatusGetResponse = OperationStatus;
-
-/** Optional parameters. */
-export interface EmailConfigurationGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type EmailConfigurationGetResponse = EmailConfigurationModel;
-
-/** Optional parameters. */
-export interface EmailConfigurationCreateOptionalParams
+export interface CheckNameAvailabilityPostOptionalParams
   extends coreClient.OperationOptions {
-  /** EmailConfiguration model. */
-  body?: EmailConfigurationModel;
+  /** Resource details. */
+  body?: CheckNameAvailabilityModel;
 }
 
-/** Contains response data for the create operation. */
-export type EmailConfigurationCreateResponse = EmailConfigurationModel;
+/** Contains response data for the post operation. */
+export type CheckNameAvailabilityPostResponse =
+  CheckNameAvailabilityResponseModel;
 
 /** Optional parameters. */
-export interface EmailConfigurationListOptionalParams
+export interface FabricListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the list operation. */
-export type EmailConfigurationListResponse = EmailConfigurationModelCollection;
+/** Contains response data for the listBySubscription operation. */
+export type FabricListBySubscriptionResponse = FabricModelListResult;
 
 /** Optional parameters. */
-export interface EmailConfigurationListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type EmailConfigurationListNextResponse = EmailConfigurationModelCollection;
-
-/** Optional parameters. */
-export interface EventGetOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type EventGetResponse = EventModel;
-
-/** Optional parameters. */
-export interface EventListOptionalParams extends coreClient.OperationOptions {
-  /** Filter string. */
-  filter?: string;
-  /** Continuation token. */
+export interface FabricListOptionalParams extends coreClient.OperationOptions {
+  /** Continuation token from the previous call. */
   continuationToken?: string;
 }
 
 /** Contains response data for the list operation. */
-export type EventListResponse = EventModelCollection;
-
-/** Optional parameters. */
-export interface EventListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type EventListNextResponse = EventModelCollection;
+export type FabricListResponse = FabricModelListResult;
 
 /** Optional parameters. */
 export interface FabricGetOptionalParams extends coreClient.OperationOptions {}
@@ -3131,8 +3456,6 @@ export type FabricGetResponse = FabricModel;
 /** Optional parameters. */
 export interface FabricCreateOptionalParams
   extends coreClient.OperationOptions {
-  /** Fabric properties. */
-  body?: FabricModel;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3145,8 +3468,6 @@ export type FabricCreateResponse = FabricModel;
 /** Optional parameters. */
 export interface FabricUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** Fabric properties. */
-  body?: FabricModelUpdate;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3169,44 +3490,509 @@ export interface FabricDeleteOptionalParams
 export type FabricDeleteResponse = FabricDeleteHeaders;
 
 /** Optional parameters. */
-export interface FabricListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token from the previous call. */
-  continuationToken?: string;
-}
-
-/** Contains response data for the listBySubscription operation. */
-export type FabricListBySubscriptionResponse = FabricModelCollection;
-
-/** Optional parameters. */
-export interface FabricListOptionalParams extends coreClient.OperationOptions {
-  /** Continuation token from the previous call. */
-  continuationToken?: string;
-}
-
-/** Contains response data for the list operation. */
-export type FabricListResponse = FabricModelCollection;
-
-/** Optional parameters. */
 export interface FabricListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type FabricListBySubscriptionNextResponse = FabricModelCollection;
+export type FabricListBySubscriptionNextResponse = FabricModelListResult;
 
 /** Optional parameters. */
 export interface FabricListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type FabricListNextResponse = FabricModelCollection;
+export type FabricListNextResponse = FabricModelListResult;
 
 /** Optional parameters. */
-export interface FabricOperationsStatusGetOptionalParams
+export interface VaultListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type VaultListBySubscriptionResponse = VaultModelListResult;
+
+/** Optional parameters. */
+export interface VaultListOptionalParams extends coreClient.OperationOptions {
+  /** Continuation token from the previous call. */
+  continuationToken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type VaultListResponse = VaultModelListResult;
+
+/** Optional parameters. */
+export interface VaultGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VaultGetResponse = VaultModel;
+
+/** Optional parameters. */
+export interface VaultCreateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type VaultCreateResponse = VaultModel;
+
+/** Optional parameters. */
+export interface VaultUpdateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type VaultUpdateResponse = VaultModel;
+
+/** Optional parameters. */
+export interface VaultDeleteOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type VaultDeleteResponse = VaultDeleteHeaders;
+
+/** Optional parameters. */
+export interface VaultListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type VaultListBySubscriptionNextResponse = VaultModelListResult;
+
+/** Optional parameters. */
+export interface VaultListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type VaultListNextResponse = VaultModelListResult;
+
+/** Optional parameters. */
+export interface DeploymentPreflightPostOptionalParams
+  extends coreClient.OperationOptions {
+  /** Deployment preflight model. */
+  body?: DeploymentPreflightModel;
+}
+
+/** Contains response data for the post operation. */
+export type DeploymentPreflightPostResponse = DeploymentPreflightModel;
+
+/** Optional parameters. */
+export interface LocationBasedOperationResultsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type FabricOperationsStatusGetResponse = OperationStatus;
+export type LocationBasedOperationResultsGetResponse = OperationStatus;
+
+/** Optional parameters. */
+export interface OperationResultsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type OperationResultsGetResponse = OperationStatus;
+
+/** Optional parameters. */
+export interface FabricAgentListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type FabricAgentListResponse = FabricAgentModelListResult;
+
+/** Optional parameters. */
+export interface FabricAgentGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type FabricAgentGetResponse = FabricAgentModel;
+
+/** Optional parameters. */
+export interface FabricAgentCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type FabricAgentCreateResponse = FabricAgentModel;
+
+/** Optional parameters. */
+export interface FabricAgentDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type FabricAgentDeleteResponse = FabricAgentDeleteHeaders;
+
+/** Optional parameters. */
+export interface FabricAgentListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type FabricAgentListNextResponse = FabricAgentModelListResult;
+
+/** Optional parameters. */
+export interface EmailConfigurationListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type EmailConfigurationListResponse = EmailConfigurationModelListResult;
+
+/** Optional parameters. */
+export interface EmailConfigurationGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type EmailConfigurationGetResponse = EmailConfigurationModel;
+
+/** Optional parameters. */
+export interface EmailConfigurationCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type EmailConfigurationCreateResponse = EmailConfigurationModel;
+
+/** Optional parameters. */
+export interface EmailConfigurationListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type EmailConfigurationListNextResponse =
+  EmailConfigurationModelListResult;
+
+/** Optional parameters. */
+export interface EventListOptionalParams extends coreClient.OperationOptions {
+  /** Continuation token. */
+  continuationToken?: string;
+  /** OData options. */
+  odataOptions?: string;
+  /** Page size. */
+  pageSize?: number;
+}
+
+/** Contains response data for the list operation. */
+export type EventListResponse = EventModelListResult;
+
+/** Optional parameters. */
+export interface EventGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type EventGetResponse = EventModel;
+
+/** Optional parameters. */
+export interface EventListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type EventListNextResponse = EventModelListResult;
+
+/** Optional parameters. */
+export interface JobListOptionalParams extends coreClient.OperationOptions {
+  /** Continuation token. */
+  continuationToken?: string;
+  /** OData options. */
+  odataOptions?: string;
+  /** Page size. */
+  pageSize?: number;
+}
+
+/** Contains response data for the list operation. */
+export type JobListResponse = JobModelListResult;
+
+/** Optional parameters. */
+export interface JobGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type JobGetResponse = JobModel;
+
+/** Optional parameters. */
+export interface JobListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type JobListNextResponse = JobModelListResult;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionProxiesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type PrivateEndpointConnectionProxiesListResponse =
+  PrivateEndpointConnectionProxyListResult;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionProxiesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateEndpointConnectionProxiesGetResponse =
+  PrivateEndpointConnectionProxy;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionProxiesCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type PrivateEndpointConnectionProxiesCreateResponse =
+  PrivateEndpointConnectionProxy;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionProxiesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type PrivateEndpointConnectionProxiesDeleteResponse =
+  PrivateEndpointConnectionProxiesDeleteHeaders;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionProxiesValidateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the validate operation. */
+export type PrivateEndpointConnectionProxiesValidateResponse =
+  PrivateEndpointConnectionProxy;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionProxiesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type PrivateEndpointConnectionProxiesListNextResponse =
+  PrivateEndpointConnectionProxyListResult;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type PrivateEndpointConnectionsListResponse =
+  PrivateEndpointConnectionListResult;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type PrivateEndpointConnectionsUpdateResponse =
+  PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type PrivateEndpointConnectionsDeleteResponse =
+  PrivateEndpointConnectionsDeleteHeaders;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type PrivateEndpointConnectionsListNextResponse =
+  PrivateEndpointConnectionListResult;
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type PrivateLinkResourcesListResponse = PrivateLinkResourceListResult;
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateLinkResourcesGetResponse = PrivateLinkResource;
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type PrivateLinkResourcesListNextResponse =
+  PrivateLinkResourceListResult;
+
+/** Optional parameters. */
+export interface ProtectedItemListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token. */
+  continuationToken?: string;
+  /** OData options. */
+  odataOptions?: string;
+  /** Page size. */
+  pageSize?: number;
+}
+
+/** Contains response data for the list operation. */
+export type ProtectedItemListResponse = ProtectedItemModelListResult;
+
+/** Optional parameters. */
+export interface ProtectedItemGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ProtectedItemGetResponse = ProtectedItemModel;
+
+/** Optional parameters. */
+export interface ProtectedItemCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type ProtectedItemCreateResponse = ProtectedItemModel;
+
+/** Optional parameters. */
+export interface ProtectedItemUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type ProtectedItemUpdateResponse = ProtectedItemModel;
+
+/** Optional parameters. */
+export interface ProtectedItemDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** A flag indicating whether to do force delete or not. */
+  forceDelete?: boolean;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type ProtectedItemDeleteResponse = ProtectedItemDeleteHeaders;
+
+/** Optional parameters. */
+export interface ProtectedItemPlannedFailoverOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the plannedFailover operation. */
+export type ProtectedItemPlannedFailoverResponse = PlannedFailoverModel;
+
+/** Optional parameters. */
+export interface ProtectedItemListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ProtectedItemListNextResponse = ProtectedItemModelListResult;
+
+/** Optional parameters. */
+export interface RecoveryPointListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type RecoveryPointListResponse = RecoveryPointModelListResult;
+
+/** Optional parameters. */
+export interface RecoveryPointGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RecoveryPointGetResponse = RecoveryPointModel;
+
+/** Optional parameters. */
+export interface RecoveryPointListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type RecoveryPointListNextResponse = RecoveryPointModelListResult;
+
+/** Optional parameters. */
+export interface ReplicationExtensionListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ReplicationExtensionListResponse =
+  ReplicationExtensionModelListResult;
+
+/** Optional parameters. */
+export interface ReplicationExtensionGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ReplicationExtensionGetResponse = ReplicationExtensionModel;
+
+/** Optional parameters. */
+export interface ReplicationExtensionCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type ReplicationExtensionCreateResponse = ReplicationExtensionModel;
+
+/** Optional parameters. */
+export interface ReplicationExtensionDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type ReplicationExtensionDeleteResponse =
+  ReplicationExtensionDeleteHeaders;
+
+/** Optional parameters. */
+export interface ReplicationExtensionListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ReplicationExtensionListNextResponse =
+  ReplicationExtensionModelListResult;
+
+/** Optional parameters. */
+export interface PolicyListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type PolicyListResponse = PolicyModelListResult;
 
 /** Optional parameters. */
 export interface PolicyGetOptionalParams extends coreClient.OperationOptions {}
@@ -3217,8 +4003,6 @@ export type PolicyGetResponse = PolicyModel;
 /** Optional parameters. */
 export interface PolicyCreateOptionalParams
   extends coreClient.OperationOptions {
-  /** Policy model. */
-  body?: PolicyModel;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3241,319 +4025,11 @@ export interface PolicyDeleteOptionalParams
 export type PolicyDeleteResponse = PolicyDeleteHeaders;
 
 /** Optional parameters. */
-export interface PolicyListOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type PolicyListResponse = PolicyModelCollection;
-
-/** Optional parameters. */
 export interface PolicyListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type PolicyListNextResponse = PolicyModelCollection;
-
-/** Optional parameters. */
-export interface PolicyOperationStatusGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type PolicyOperationStatusGetResponse = OperationStatus;
-
-/** Optional parameters. */
-export interface ProtectedItemGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ProtectedItemGetResponse = ProtectedItemModel;
-
-/** Optional parameters. */
-export interface ProtectedItemCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Protected item model. */
-  body?: ProtectedItemModel;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type ProtectedItemCreateResponse = ProtectedItemModel;
-
-/** Optional parameters. */
-export interface ProtectedItemDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** A flag indicating whether to do force delete or not. */
-  forceDelete?: boolean;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the delete operation. */
-export type ProtectedItemDeleteResponse = ProtectedItemDeleteHeaders;
-
-/** Optional parameters. */
-export interface ProtectedItemListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ProtectedItemListResponse = ProtectedItemModelCollection;
-
-/** Optional parameters. */
-export interface ProtectedItemPlannedFailoverOptionalParams
-  extends coreClient.OperationOptions {
-  /** Planned failover model. */
-  body?: PlannedFailoverModel;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the plannedFailover operation. */
-export type ProtectedItemPlannedFailoverResponse = PlannedFailoverModel;
-
-/** Optional parameters. */
-export interface ProtectedItemListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ProtectedItemListNextResponse = ProtectedItemModelCollection;
-
-/** Optional parameters. */
-export interface ProtectedItemOperationStatusGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ProtectedItemOperationStatusGetResponse = OperationStatus;
-
-/** Optional parameters. */
-export interface RecoveryPointsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type RecoveryPointsGetResponse = RecoveryPointModel;
-
-/** Optional parameters. */
-export interface RecoveryPointsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type RecoveryPointsListResponse = RecoveryPointModelCollection;
-
-/** Optional parameters. */
-export interface RecoveryPointsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type RecoveryPointsListNextResponse = RecoveryPointModelCollection;
-
-/** Optional parameters. */
-export interface ReplicationExtensionGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ReplicationExtensionGetResponse = ReplicationExtensionModel;
-
-/** Optional parameters. */
-export interface ReplicationExtensionCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Replication extension model. */
-  body?: ReplicationExtensionModel;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type ReplicationExtensionCreateResponse = ReplicationExtensionModel;
-
-/** Optional parameters. */
-export interface ReplicationExtensionDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the delete operation. */
-export type ReplicationExtensionDeleteResponse = ReplicationExtensionDeleteHeaders;
-
-/** Optional parameters. */
-export interface ReplicationExtensionListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ReplicationExtensionListResponse = ReplicationExtensionModelCollection;
-
-/** Optional parameters. */
-export interface ReplicationExtensionListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ReplicationExtensionListNextResponse = ReplicationExtensionModelCollection;
-
-/** Optional parameters. */
-export interface ReplicationExtensionOperationStatusGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ReplicationExtensionOperationStatusGetResponse = OperationStatus;
-
-/** Optional parameters. */
-export interface CheckNameAvailabilityOptionalParams
-  extends coreClient.OperationOptions {
-  /** Resource details. */
-  body?: CheckNameAvailabilityModel;
-}
-
-/** Contains response data for the checkNameAvailability operation. */
-export type CheckNameAvailabilityResponse = CheckNameAvailabilityResponseModel;
-
-/** Optional parameters. */
-export interface DeploymentPreflightOptionalParams
-  extends coreClient.OperationOptions {
-  /** Deployment preflight model. */
-  body?: DeploymentPreflightModel;
-}
-
-/** Contains response data for the deploymentPreflight operation. */
-export type DeploymentPreflightResponse = DeploymentPreflightModel;
-
-/** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type OperationsListResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type OperationsListNextResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface VaultGetOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type VaultGetResponse = VaultModel;
-
-/** Optional parameters. */
-export interface VaultCreateOptionalParams extends coreClient.OperationOptions {
-  /** Vault properties. */
-  body?: VaultModel;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type VaultCreateResponse = VaultModel;
-
-/** Optional parameters. */
-export interface VaultUpdateOptionalParams extends coreClient.OperationOptions {
-  /** Vault properties. */
-  body?: VaultModelUpdate;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type VaultUpdateResponse = VaultModel;
-
-/** Optional parameters. */
-export interface VaultDeleteOptionalParams extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the delete operation. */
-export type VaultDeleteResponse = VaultDeleteHeaders;
-
-/** Optional parameters. */
-export interface VaultListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token from the previous call. */
-  continuationToken?: string;
-}
-
-/** Contains response data for the listBySubscription operation. */
-export type VaultListBySubscriptionResponse = VaultModelCollection;
-
-/** Optional parameters. */
-export interface VaultListOptionalParams extends coreClient.OperationOptions {
-  /** Continuation token from the previous call. */
-  continuationToken?: string;
-}
-
-/** Contains response data for the list operation. */
-export type VaultListResponse = VaultModelCollection;
-
-/** Optional parameters. */
-export interface VaultListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type VaultListBySubscriptionNextResponse = VaultModelCollection;
-
-/** Optional parameters. */
-export interface VaultListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type VaultListNextResponse = VaultModelCollection;
-
-/** Optional parameters. */
-export interface VaultOperationStatusGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type VaultOperationStatusGetResponse = OperationStatus;
-
-/** Optional parameters. */
-export interface WorkflowGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type WorkflowGetResponse = WorkflowModel;
-
-/** Optional parameters. */
-export interface WorkflowListOptionalParams
-  extends coreClient.OperationOptions {
-  /** Filter string. */
-  filter?: string;
-  /** Continuation token. */
-  continuationToken?: string;
-}
-
-/** Contains response data for the list operation. */
-export type WorkflowListResponse = WorkflowModelCollection;
-
-/** Optional parameters. */
-export interface WorkflowListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type WorkflowListNextResponse = WorkflowModelCollection;
-
-/** Optional parameters. */
-export interface WorkflowOperationStatusGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type WorkflowOperationStatusGetResponse = OperationStatus;
+export type PolicyListNextResponse = PolicyModelListResult;
 
 /** Optional parameters. */
 export interface AzureSiteRecoveryManagementServiceAPIOptionalParams

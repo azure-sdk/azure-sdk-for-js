@@ -8,30 +8,28 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { EmailConfiguration } from "../operationsInterfaces/index.js";
+import { PrivateLinkResources } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI.js";
 import {
-  EmailConfigurationModel,
-  EmailConfigurationListNextOptionalParams,
-  EmailConfigurationListOptionalParams,
-  EmailConfigurationListResponse,
-  EmailConfigurationGetOptionalParams,
-  EmailConfigurationGetResponse,
-  EmailConfigurationCreateOptionalParams,
-  EmailConfigurationCreateResponse,
-  EmailConfigurationListNextResponse,
+  PrivateLinkResource,
+  PrivateLinkResourcesListNextOptionalParams,
+  PrivateLinkResourcesListOptionalParams,
+  PrivateLinkResourcesListResponse,
+  PrivateLinkResourcesGetOptionalParams,
+  PrivateLinkResourcesGetResponse,
+  PrivateLinkResourcesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing EmailConfiguration operations. */
-export class EmailConfigurationImpl implements EmailConfiguration {
+/** Class containing PrivateLinkResources operations. */
+export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   private readonly client: AzureSiteRecoveryManagementServiceAPI;
 
   /**
-   * Initialize a new instance of the class EmailConfiguration class.
+   * Initialize a new instance of the class PrivateLinkResources class.
    * @param client Reference to the service client
    */
   constructor(client: AzureSiteRecoveryManagementServiceAPI) {
@@ -39,7 +37,7 @@ export class EmailConfigurationImpl implements EmailConfiguration {
   }
 
   /**
-   * Gets the list of alert configuration settings for the given vault.
+   * Gets the list of private link resources.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
    * @param options The options parameters.
@@ -47,8 +45,8 @@ export class EmailConfigurationImpl implements EmailConfiguration {
   public list(
     resourceGroupName: string,
     vaultName: string,
-    options?: EmailConfigurationListOptionalParams,
-  ): PagedAsyncIterableIterator<EmailConfigurationModel> {
+    options?: PrivateLinkResourcesListOptionalParams,
+  ): PagedAsyncIterableIterator<PrivateLinkResource> {
     const iter = this.listPagingAll(resourceGroupName, vaultName, options);
     return {
       next() {
@@ -74,10 +72,10 @@ export class EmailConfigurationImpl implements EmailConfiguration {
   private async *listPagingPage(
     resourceGroupName: string,
     vaultName: string,
-    options?: EmailConfigurationListOptionalParams,
+    options?: PrivateLinkResourcesListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<EmailConfigurationModel[]> {
-    let result: EmailConfigurationListResponse;
+  ): AsyncIterableIterator<PrivateLinkResource[]> {
+    let result: PrivateLinkResourcesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, vaultName, options);
@@ -103,8 +101,8 @@ export class EmailConfigurationImpl implements EmailConfiguration {
   private async *listPagingAll(
     resourceGroupName: string,
     vaultName: string,
-    options?: EmailConfigurationListOptionalParams,
-  ): AsyncIterableIterator<EmailConfigurationModel> {
+    options?: PrivateLinkResourcesListOptionalParams,
+  ): AsyncIterableIterator<PrivateLinkResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       vaultName,
@@ -115,7 +113,7 @@ export class EmailConfigurationImpl implements EmailConfiguration {
   }
 
   /**
-   * Gets the list of alert configuration settings for the given vault.
+   * Gets the list of private link resources.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
    * @param options The options parameters.
@@ -123,8 +121,8 @@ export class EmailConfigurationImpl implements EmailConfiguration {
   private _list(
     resourceGroupName: string,
     vaultName: string,
-    options?: EmailConfigurationListOptionalParams,
-  ): Promise<EmailConfigurationListResponse> {
+    options?: PrivateLinkResourcesListOptionalParams,
+  ): Promise<PrivateLinkResourcesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, options },
       listOperationSpec,
@@ -132,42 +130,21 @@ export class EmailConfigurationImpl implements EmailConfiguration {
   }
 
   /**
-   * Gets the details of the alert configuration setting.
+   * Gets the details of site recovery private link resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
-   * @param emailConfigurationName The email configuration name.
+   * @param privateLinkResourceName The private link name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     vaultName: string,
-    emailConfigurationName: string,
-    options?: EmailConfigurationGetOptionalParams,
-  ): Promise<EmailConfigurationGetResponse> {
+    privateLinkResourceName: string,
+    options?: PrivateLinkResourcesGetOptionalParams,
+  ): Promise<PrivateLinkResourcesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, emailConfigurationName, options },
+      { resourceGroupName, vaultName, privateLinkResourceName, options },
       getOperationSpec,
-    );
-  }
-
-  /**
-   * Creates an alert configuration setting for the given vault.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param vaultName The vault name.
-   * @param emailConfigurationName The email configuration name.
-   * @param body EmailConfiguration model.
-   * @param options The options parameters.
-   */
-  create(
-    resourceGroupName: string,
-    vaultName: string,
-    emailConfigurationName: string,
-    body: EmailConfigurationModel,
-    options?: EmailConfigurationCreateOptionalParams,
-  ): Promise<EmailConfigurationCreateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, emailConfigurationName, body, options },
-      createOperationSpec,
     );
   }
 
@@ -182,8 +159,8 @@ export class EmailConfigurationImpl implements EmailConfiguration {
     resourceGroupName: string,
     vaultName: string,
     nextLink: string,
-    options?: EmailConfigurationListNextOptionalParams,
-  ): Promise<EmailConfigurationListNextResponse> {
+    options?: PrivateLinkResourcesListNextOptionalParams,
+  ): Promise<PrivateLinkResourcesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, nextLink, options },
       listNextOperationSpec,
@@ -194,11 +171,11 @@ export class EmailConfigurationImpl implements EmailConfiguration {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/alertSettings",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/privateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EmailConfigurationModelListResult,
+      bodyMapper: Mappers.PrivateLinkResourceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -215,11 +192,11 @@ const listOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/alertSettings/{emailConfigurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/privateLinkResources/{privateLinkResourceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EmailConfigurationModel,
+      bodyMapper: Mappers.PrivateLinkResource,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -231,36 +208,9 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.emailConfigurationName,
+    Parameters.privateLinkResourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer,
-};
-const createOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/alertSettings/{emailConfigurationName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.EmailConfigurationModel,
-    },
-    201: {
-      bodyMapper: Mappers.EmailConfigurationModel,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.body7,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName,
-    Parameters.emailConfigurationName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -268,7 +218,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EmailConfigurationModelListResult,
+      bodyMapper: Mappers.PrivateLinkResourceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

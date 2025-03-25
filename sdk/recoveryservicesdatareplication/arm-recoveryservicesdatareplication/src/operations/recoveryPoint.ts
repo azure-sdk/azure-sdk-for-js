@@ -8,30 +8,28 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { EmailConfiguration } from "../operationsInterfaces/index.js";
+import { RecoveryPoint } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI.js";
 import {
-  EmailConfigurationModel,
-  EmailConfigurationListNextOptionalParams,
-  EmailConfigurationListOptionalParams,
-  EmailConfigurationListResponse,
-  EmailConfigurationGetOptionalParams,
-  EmailConfigurationGetResponse,
-  EmailConfigurationCreateOptionalParams,
-  EmailConfigurationCreateResponse,
-  EmailConfigurationListNextResponse,
+  RecoveryPointModel,
+  RecoveryPointListNextOptionalParams,
+  RecoveryPointListOptionalParams,
+  RecoveryPointListResponse,
+  RecoveryPointGetOptionalParams,
+  RecoveryPointGetResponse,
+  RecoveryPointListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing EmailConfiguration operations. */
-export class EmailConfigurationImpl implements EmailConfiguration {
+/** Class containing RecoveryPoint operations. */
+export class RecoveryPointImpl implements RecoveryPoint {
   private readonly client: AzureSiteRecoveryManagementServiceAPI;
 
   /**
-   * Initialize a new instance of the class EmailConfiguration class.
+   * Initialize a new instance of the class RecoveryPoint class.
    * @param client Reference to the service client
    */
   constructor(client: AzureSiteRecoveryManagementServiceAPI) {
@@ -39,17 +37,24 @@ export class EmailConfigurationImpl implements EmailConfiguration {
   }
 
   /**
-   * Gets the list of alert configuration settings for the given vault.
+   * Gets the list of recovery points of the given protected item.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
+   * @param protectedItemName The protected item name.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     vaultName: string,
-    options?: EmailConfigurationListOptionalParams,
-  ): PagedAsyncIterableIterator<EmailConfigurationModel> {
-    const iter = this.listPagingAll(resourceGroupName, vaultName, options);
+    protectedItemName: string,
+    options?: RecoveryPointListOptionalParams,
+  ): PagedAsyncIterableIterator<RecoveryPointModel> {
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      vaultName,
+      protectedItemName,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -64,6 +69,7 @@ export class EmailConfigurationImpl implements EmailConfiguration {
         return this.listPagingPage(
           resourceGroupName,
           vaultName,
+          protectedItemName,
           options,
           settings,
         );
@@ -74,13 +80,19 @@ export class EmailConfigurationImpl implements EmailConfiguration {
   private async *listPagingPage(
     resourceGroupName: string,
     vaultName: string,
-    options?: EmailConfigurationListOptionalParams,
+    protectedItemName: string,
+    options?: RecoveryPointListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<EmailConfigurationModel[]> {
-    let result: EmailConfigurationListResponse;
+  ): AsyncIterableIterator<RecoveryPointModel[]> {
+    let result: RecoveryPointListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, vaultName, options);
+      result = await this._list(
+        resourceGroupName,
+        vaultName,
+        protectedItemName,
+        options,
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -90,6 +102,7 @@ export class EmailConfigurationImpl implements EmailConfiguration {
       result = await this._listNext(
         resourceGroupName,
         vaultName,
+        protectedItemName,
         continuationToken,
         options,
       );
@@ -103,11 +116,13 @@ export class EmailConfigurationImpl implements EmailConfiguration {
   private async *listPagingAll(
     resourceGroupName: string,
     vaultName: string,
-    options?: EmailConfigurationListOptionalParams,
-  ): AsyncIterableIterator<EmailConfigurationModel> {
+    protectedItemName: string,
+    options?: RecoveryPointListOptionalParams,
+  ): AsyncIterableIterator<RecoveryPointModel> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       vaultName,
+      protectedItemName,
       options,
     )) {
       yield* page;
@@ -115,59 +130,48 @@ export class EmailConfigurationImpl implements EmailConfiguration {
   }
 
   /**
-   * Gets the list of alert configuration settings for the given vault.
+   * Gets the list of recovery points of the given protected item.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
+   * @param protectedItemName The protected item name.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     vaultName: string,
-    options?: EmailConfigurationListOptionalParams,
-  ): Promise<EmailConfigurationListResponse> {
+    protectedItemName: string,
+    options?: RecoveryPointListOptionalParams,
+  ): Promise<RecoveryPointListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, options },
+      { resourceGroupName, vaultName, protectedItemName, options },
       listOperationSpec,
     );
   }
 
   /**
-   * Gets the details of the alert configuration setting.
+   * Gets the details of the recovery point of a protected item.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
-   * @param emailConfigurationName The email configuration name.
+   * @param protectedItemName The protected item name.
+   * @param recoveryPointName The recovery point name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     vaultName: string,
-    emailConfigurationName: string,
-    options?: EmailConfigurationGetOptionalParams,
-  ): Promise<EmailConfigurationGetResponse> {
+    protectedItemName: string,
+    recoveryPointName: string,
+    options?: RecoveryPointGetOptionalParams,
+  ): Promise<RecoveryPointGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, emailConfigurationName, options },
+      {
+        resourceGroupName,
+        vaultName,
+        protectedItemName,
+        recoveryPointName,
+        options,
+      },
       getOperationSpec,
-    );
-  }
-
-  /**
-   * Creates an alert configuration setting for the given vault.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param vaultName The vault name.
-   * @param emailConfigurationName The email configuration name.
-   * @param body EmailConfiguration model.
-   * @param options The options parameters.
-   */
-  create(
-    resourceGroupName: string,
-    vaultName: string,
-    emailConfigurationName: string,
-    body: EmailConfigurationModel,
-    options?: EmailConfigurationCreateOptionalParams,
-  ): Promise<EmailConfigurationCreateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, emailConfigurationName, body, options },
-      createOperationSpec,
     );
   }
 
@@ -175,17 +179,19 @@ export class EmailConfigurationImpl implements EmailConfiguration {
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
+   * @param protectedItemName The protected item name.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     vaultName: string,
+    protectedItemName: string,
     nextLink: string,
-    options?: EmailConfigurationListNextOptionalParams,
-  ): Promise<EmailConfigurationListNextResponse> {
+    options?: RecoveryPointListNextOptionalParams,
+  ): Promise<RecoveryPointListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, nextLink, options },
+      { resourceGroupName, vaultName, protectedItemName, nextLink, options },
       listNextOperationSpec,
     );
   }
@@ -194,11 +200,11 @@ export class EmailConfigurationImpl implements EmailConfiguration {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/alertSettings",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/protectedItems/{protectedItemName}/recoveryPoints",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EmailConfigurationModelListResult,
+      bodyMapper: Mappers.RecoveryPointModelListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -210,16 +216,17 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
+    Parameters.protectedItemName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/alertSettings/{emailConfigurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/protectedItems/{protectedItemName}/recoveryPoints/{recoveryPointName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EmailConfigurationModel,
+      bodyMapper: Mappers.RecoveryPointModel,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -231,36 +238,10 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.emailConfigurationName,
+    Parameters.protectedItemName,
+    Parameters.recoveryPointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer,
-};
-const createOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/alertSettings/{emailConfigurationName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.EmailConfigurationModel,
-    },
-    201: {
-      bodyMapper: Mappers.EmailConfigurationModel,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.body7,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName,
-    Parameters.emailConfigurationName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -268,7 +249,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EmailConfigurationModelListResult,
+      bodyMapper: Mappers.RecoveryPointModelListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -280,6 +261,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
+    Parameters.protectedItemName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

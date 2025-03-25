@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { ReplicationExtension } from "../operationsInterfaces/index.js";
+import { PrivateEndpointConnectionProxies } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -20,26 +20,30 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  ReplicationExtensionModel,
-  ReplicationExtensionListNextOptionalParams,
-  ReplicationExtensionListOptionalParams,
-  ReplicationExtensionListResponse,
-  ReplicationExtensionGetOptionalParams,
-  ReplicationExtensionGetResponse,
-  ReplicationExtensionCreateOptionalParams,
-  ReplicationExtensionCreateResponse,
-  ReplicationExtensionDeleteOptionalParams,
-  ReplicationExtensionDeleteResponse,
-  ReplicationExtensionListNextResponse,
+  PrivateEndpointConnectionProxy,
+  PrivateEndpointConnectionProxiesListNextOptionalParams,
+  PrivateEndpointConnectionProxiesListOptionalParams,
+  PrivateEndpointConnectionProxiesListResponse,
+  PrivateEndpointConnectionProxiesGetOptionalParams,
+  PrivateEndpointConnectionProxiesGetResponse,
+  PrivateEndpointConnectionProxiesCreateOptionalParams,
+  PrivateEndpointConnectionProxiesCreateResponse,
+  PrivateEndpointConnectionProxiesDeleteOptionalParams,
+  PrivateEndpointConnectionProxiesDeleteResponse,
+  PrivateEndpointConnectionProxiesValidateOptionalParams,
+  PrivateEndpointConnectionProxiesValidateResponse,
+  PrivateEndpointConnectionProxiesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ReplicationExtension operations. */
-export class ReplicationExtensionImpl implements ReplicationExtension {
+/** Class containing PrivateEndpointConnectionProxies operations. */
+export class PrivateEndpointConnectionProxiesImpl
+  implements PrivateEndpointConnectionProxies
+{
   private readonly client: AzureSiteRecoveryManagementServiceAPI;
 
   /**
-   * Initialize a new instance of the class ReplicationExtension class.
+   * Initialize a new instance of the class PrivateEndpointConnectionProxies class.
    * @param client Reference to the service client
    */
   constructor(client: AzureSiteRecoveryManagementServiceAPI) {
@@ -47,7 +51,7 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
   }
 
   /**
-   * Gets the list of replication extensions in the given vault.
+   * Gets the all private endpoint connections proxies.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
    * @param options The options parameters.
@@ -55,8 +59,8 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
   public list(
     resourceGroupName: string,
     vaultName: string,
-    options?: ReplicationExtensionListOptionalParams,
-  ): PagedAsyncIterableIterator<ReplicationExtensionModel> {
+    options?: PrivateEndpointConnectionProxiesListOptionalParams,
+  ): PagedAsyncIterableIterator<PrivateEndpointConnectionProxy> {
     const iter = this.listPagingAll(resourceGroupName, vaultName, options);
     return {
       next() {
@@ -82,10 +86,10 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
   private async *listPagingPage(
     resourceGroupName: string,
     vaultName: string,
-    options?: ReplicationExtensionListOptionalParams,
+    options?: PrivateEndpointConnectionProxiesListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<ReplicationExtensionModel[]> {
-    let result: ReplicationExtensionListResponse;
+  ): AsyncIterableIterator<PrivateEndpointConnectionProxy[]> {
+    let result: PrivateEndpointConnectionProxiesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, vaultName, options);
@@ -111,8 +115,8 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
   private async *listPagingAll(
     resourceGroupName: string,
     vaultName: string,
-    options?: ReplicationExtensionListOptionalParams,
-  ): AsyncIterableIterator<ReplicationExtensionModel> {
+    options?: PrivateEndpointConnectionProxiesListOptionalParams,
+  ): AsyncIterableIterator<PrivateEndpointConnectionProxy> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       vaultName,
@@ -123,7 +127,7 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
   }
 
   /**
-   * Gets the list of replication extensions in the given vault.
+   * Gets the all private endpoint connections proxies.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
    * @param options The options parameters.
@@ -131,8 +135,8 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
   private _list(
     resourceGroupName: string,
     vaultName: string,
-    options?: ReplicationExtensionListOptionalParams,
-  ): Promise<ReplicationExtensionListResponse> {
+    options?: PrivateEndpointConnectionProxiesListOptionalParams,
+  ): Promise<PrivateEndpointConnectionProxiesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, options },
       listOperationSpec,
@@ -140,48 +144,79 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
   }
 
   /**
-   * Gets the details of the replication extension.
+   * Gets the private endpoint connection proxy details.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
-   * @param replicationExtensionName The replication extension name.
+   * @param privateEndpointConnectionProxyName The private endpoint connection proxy name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     vaultName: string,
-    replicationExtensionName: string,
-    options?: ReplicationExtensionGetOptionalParams,
-  ): Promise<ReplicationExtensionGetResponse> {
+    privateEndpointConnectionProxyName: string,
+    options?: PrivateEndpointConnectionProxiesGetOptionalParams,
+  ): Promise<PrivateEndpointConnectionProxiesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, replicationExtensionName, options },
+      {
+        resourceGroupName,
+        vaultName,
+        privateEndpointConnectionProxyName,
+        options,
+      },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates the replication extension in the given vault.
+   * Create a new private endpoint connection proxy which includes both auto and manual approval types.
+   * Creating the proxy resource will also create a private endpoint connection resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
-   * @param replicationExtensionName The replication extension name.
-   * @param body Replication extension model.
+   * @param privateEndpointConnectionProxyName The private endpoint connection proxy name.
+   * @param body Private endpoint connection creation input.
    * @param options The options parameters.
    */
-  async beginCreate(
+  create(
     resourceGroupName: string,
     vaultName: string,
-    replicationExtensionName: string,
-    body: ReplicationExtensionModel,
-    options?: ReplicationExtensionCreateOptionalParams,
+    privateEndpointConnectionProxyName: string,
+    body: PrivateEndpointConnectionProxy,
+    options?: PrivateEndpointConnectionProxiesCreateOptionalParams,
+  ): Promise<PrivateEndpointConnectionProxiesCreateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        vaultName,
+        privateEndpointConnectionProxyName,
+        body,
+        options,
+      },
+      createOperationSpec,
+    );
+  }
+
+  /**
+   * Returns the operation to track the deletion of private endpoint connection proxy.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The vault name.
+   * @param privateEndpointConnectionProxyName The private endpoint connection proxy name.
+   * @param options The options parameters.
+   */
+  async beginDelete(
+    resourceGroupName: string,
+    vaultName: string,
+    privateEndpointConnectionProxyName: string,
+    options?: PrivateEndpointConnectionProxiesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ReplicationExtensionCreateResponse>,
-      ReplicationExtensionCreateResponse
+      OperationState<PrivateEndpointConnectionProxiesDeleteResponse>,
+      PrivateEndpointConnectionProxiesDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ReplicationExtensionCreateResponse> => {
+    ): Promise<PrivateEndpointConnectionProxiesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -221,113 +256,14 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
       args: {
         resourceGroupName,
         vaultName,
-        replicationExtensionName,
-        body,
+        privateEndpointConnectionProxyName,
         options,
       },
-      spec: createOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      ReplicationExtensionCreateResponse,
-      OperationState<ReplicationExtensionCreateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Creates the replication extension in the given vault.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param vaultName The vault name.
-   * @param replicationExtensionName The replication extension name.
-   * @param body Replication extension model.
-   * @param options The options parameters.
-   */
-  async beginCreateAndWait(
-    resourceGroupName: string,
-    vaultName: string,
-    replicationExtensionName: string,
-    body: ReplicationExtensionModel,
-    options?: ReplicationExtensionCreateOptionalParams,
-  ): Promise<ReplicationExtensionCreateResponse> {
-    const poller = await this.beginCreate(
-      resourceGroupName,
-      vaultName,
-      replicationExtensionName,
-      body,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Deletes the replication extension in the given vault.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param vaultName The vault name.
-   * @param replicationExtensionName The replication extension name.
-   * @param options The options parameters.
-   */
-  async beginDelete(
-    resourceGroupName: string,
-    vaultName: string,
-    replicationExtensionName: string,
-    options?: ReplicationExtensionDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ReplicationExtensionDeleteResponse>,
-      ReplicationExtensionDeleteResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<ReplicationExtensionDeleteResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, vaultName, replicationExtensionName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      ReplicationExtensionDeleteResponse,
-      OperationState<ReplicationExtensionDeleteResponse>
+      PrivateEndpointConnectionProxiesDeleteResponse,
+      OperationState<PrivateEndpointConnectionProxiesDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -338,25 +274,52 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
   }
 
   /**
-   * Deletes the replication extension in the given vault.
+   * Returns the operation to track the deletion of private endpoint connection proxy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
-   * @param replicationExtensionName The replication extension name.
+   * @param privateEndpointConnectionProxyName The private endpoint connection proxy name.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     vaultName: string,
-    replicationExtensionName: string,
-    options?: ReplicationExtensionDeleteOptionalParams,
-  ): Promise<ReplicationExtensionDeleteResponse> {
+    privateEndpointConnectionProxyName: string,
+    options?: PrivateEndpointConnectionProxiesDeleteOptionalParams,
+  ): Promise<PrivateEndpointConnectionProxiesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       vaultName,
-      replicationExtensionName,
+      privateEndpointConnectionProxyName,
       options,
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Returns remote private endpoint connection information after validation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The vault name.
+   * @param privateEndpointConnectionProxyName The private endpoint connection proxy name.
+   * @param body The private endpoint connection proxy input.
+   * @param options The options parameters.
+   */
+  validate(
+    resourceGroupName: string,
+    vaultName: string,
+    privateEndpointConnectionProxyName: string,
+    body: PrivateEndpointConnectionProxy,
+    options?: PrivateEndpointConnectionProxiesValidateOptionalParams,
+  ): Promise<PrivateEndpointConnectionProxiesValidateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        vaultName,
+        privateEndpointConnectionProxyName,
+        body,
+        options,
+      },
+      validateOperationSpec,
+    );
   }
 
   /**
@@ -370,8 +333,8 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
     resourceGroupName: string,
     vaultName: string,
     nextLink: string,
-    options?: ReplicationExtensionListNextOptionalParams,
-  ): Promise<ReplicationExtensionListNextResponse> {
+    options?: PrivateEndpointConnectionProxiesListNextOptionalParams,
+  ): Promise<PrivateEndpointConnectionProxiesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, nextLink, options },
       listNextOperationSpec,
@@ -382,11 +345,11 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/replicationExtensions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/privateEndpointConnectionProxies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplicationExtensionModelListResult,
+      bodyMapper: Mappers.PrivateEndpointConnectionProxyListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -403,11 +366,11 @@ const listOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/replicationExtensions/{replicationExtensionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/privateEndpointConnectionProxies/{privateEndpointConnectionProxyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplicationExtensionModel,
+      bodyMapper: Mappers.PrivateEndpointConnectionProxy,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -419,59 +382,53 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.replicationExtensionName,
+    Parameters.privateEndpointConnectionProxyName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/replicationExtensions/{replicationExtensionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/privateEndpointConnectionProxies/{privateEndpointConnectionProxyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplicationExtensionModel,
+      bodyMapper: Mappers.PrivateEndpointConnectionProxy,
     },
     201: {
-      bodyMapper: Mappers.ReplicationExtensionModel,
-    },
-    202: {
-      bodyMapper: Mappers.ReplicationExtensionModel,
-    },
-    204: {
-      bodyMapper: Mappers.ReplicationExtensionModel,
+      bodyMapper: Mappers.PrivateEndpointConnectionProxy,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body13,
+  requestBody: Parameters.body8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.replicationExtensionName,
+    Parameters.privateEndpointConnectionProxyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/replicationExtensions/{replicationExtensionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/privateEndpointConnectionProxies/{privateEndpointConnectionProxyName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.ReplicationExtensionDeleteHeaders,
+      headersMapper: Mappers.PrivateEndpointConnectionProxiesDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.ReplicationExtensionDeleteHeaders,
+      headersMapper: Mappers.PrivateEndpointConnectionProxiesDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.ReplicationExtensionDeleteHeaders,
+      headersMapper: Mappers.PrivateEndpointConnectionProxiesDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.ReplicationExtensionDeleteHeaders,
+      headersMapper: Mappers.PrivateEndpointConnectionProxiesDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -483,9 +440,33 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.replicationExtensionName,
+    Parameters.privateEndpointConnectionProxyName,
   ],
   headerParameters: [Parameters.accept],
+  serializer,
+};
+const validateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/privateEndpointConnectionProxies/{privateEndpointConnectionProxyName}/validate",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnectionProxy,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body8,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vaultName,
+    Parameters.privateEndpointConnectionProxyName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -493,7 +474,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplicationExtensionModelListResult,
+      bodyMapper: Mappers.PrivateEndpointConnectionProxyListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

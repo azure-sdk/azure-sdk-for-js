@@ -11,63 +11,55 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  DraImpl,
-  DraOperationStatusImpl,
+  OperationsImpl,
+  CheckNameAvailabilityImpl,
+  FabricImpl,
+  VaultImpl,
+  DeploymentPreflightImpl,
+  LocationBasedOperationResultsImpl,
+  OperationResultsImpl,
+  FabricAgentImpl,
   EmailConfigurationImpl,
   EventImpl,
-  FabricImpl,
-  FabricOperationsStatusImpl,
-  PolicyImpl,
-  PolicyOperationStatusImpl,
+  JobImpl,
+  PrivateEndpointConnectionProxiesImpl,
+  PrivateEndpointConnectionsImpl,
+  PrivateLinkResourcesImpl,
   ProtectedItemImpl,
-  ProtectedItemOperationStatusImpl,
-  RecoveryPointsImpl,
+  RecoveryPointImpl,
   ReplicationExtensionImpl,
-  ReplicationExtensionOperationStatusImpl,
-  OperationsImpl,
-  VaultImpl,
-  VaultOperationStatusImpl,
-  WorkflowImpl,
-  WorkflowOperationStatusImpl
+  PolicyImpl,
 } from "./operations/index.js";
 import {
-  Dra,
-  DraOperationStatus,
+  Operations,
+  CheckNameAvailability,
+  Fabric,
+  Vault,
+  DeploymentPreflight,
+  LocationBasedOperationResults,
+  OperationResults,
+  FabricAgent,
   EmailConfiguration,
   Event,
-  Fabric,
-  FabricOperationsStatus,
-  Policy,
-  PolicyOperationStatus,
+  Job,
+  PrivateEndpointConnectionProxies,
+  PrivateEndpointConnections,
+  PrivateLinkResources,
   ProtectedItem,
-  ProtectedItemOperationStatus,
-  RecoveryPoints,
+  RecoveryPoint,
   ReplicationExtension,
-  ReplicationExtensionOperationStatus,
-  Operations,
-  Vault,
-  VaultOperationStatus,
-  Workflow,
-  WorkflowOperationStatus
+  Policy,
 } from "./operationsInterfaces/index.js";
-import * as Parameters from "./models/parameters.js";
-import * as Mappers from "./models/mappers.js";
-import {
-  AzureSiteRecoveryManagementServiceAPIOptionalParams,
-  CheckNameAvailabilityOptionalParams,
-  CheckNameAvailabilityResponse,
-  DeploymentPreflightOptionalParams,
-  DeploymentPreflightResponse
-} from "./models/index.js";
+import { AzureSiteRecoveryManagementServiceAPIOptionalParams } from "./models/index.js";
 
 export class AzureSiteRecoveryManagementServiceAPI extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
   apiVersion: string;
+  subscriptionId: string;
 
   /**
    * Initializes a new instance of the AzureSiteRecoveryManagementServiceAPI class.
@@ -78,7 +70,7 @@ export class AzureSiteRecoveryManagementServiceAPI extends coreClient.ServiceCli
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: AzureSiteRecoveryManagementServiceAPIOptionalParams
+    options?: AzureSiteRecoveryManagementServiceAPIOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -93,10 +85,10 @@ export class AzureSiteRecoveryManagementServiceAPI extends coreClient.ServiceCli
     }
     const defaults: AzureSiteRecoveryManagementServiceAPIOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-recoveryservicesdatareplication/1.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-recoveryservicesdatareplication/1.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -106,20 +98,21 @@ export class AzureSiteRecoveryManagementServiceAPI extends coreClient.ServiceCli
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -129,7 +122,7 @@ export class AzureSiteRecoveryManagementServiceAPI extends coreClient.ServiceCli
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -139,9 +132,9 @@ export class AzureSiteRecoveryManagementServiceAPI extends coreClient.ServiceCli
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -149,29 +142,28 @@ export class AzureSiteRecoveryManagementServiceAPI extends coreClient.ServiceCli
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-02-16-preview";
-    this.dra = new DraImpl(this);
-    this.draOperationStatus = new DraOperationStatusImpl(this);
+    this.apiVersion = options.apiVersion || "2024-09-01";
+    this.operations = new OperationsImpl(this);
+    this.checkNameAvailability = new CheckNameAvailabilityImpl(this);
+    this.fabric = new FabricImpl(this);
+    this.vault = new VaultImpl(this);
+    this.deploymentPreflight = new DeploymentPreflightImpl(this);
+    this.locationBasedOperationResults = new LocationBasedOperationResultsImpl(
+      this,
+    );
+    this.operationResults = new OperationResultsImpl(this);
+    this.fabricAgent = new FabricAgentImpl(this);
     this.emailConfiguration = new EmailConfigurationImpl(this);
     this.event = new EventImpl(this);
-    this.fabric = new FabricImpl(this);
-    this.fabricOperationsStatus = new FabricOperationsStatusImpl(this);
-    this.policy = new PolicyImpl(this);
-    this.policyOperationStatus = new PolicyOperationStatusImpl(this);
+    this.job = new JobImpl(this);
+    this.privateEndpointConnectionProxies =
+      new PrivateEndpointConnectionProxiesImpl(this);
+    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
+    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.protectedItem = new ProtectedItemImpl(this);
-    this.protectedItemOperationStatus = new ProtectedItemOperationStatusImpl(
-      this
-    );
-    this.recoveryPoints = new RecoveryPointsImpl(this);
+    this.recoveryPoint = new RecoveryPointImpl(this);
     this.replicationExtension = new ReplicationExtensionImpl(this);
-    this.replicationExtensionOperationStatus = new ReplicationExtensionOperationStatusImpl(
-      this
-    );
-    this.operations = new OperationsImpl(this);
-    this.vault = new VaultImpl(this);
-    this.vaultOperationStatus = new VaultOperationStatusImpl(this);
-    this.workflow = new WorkflowImpl(this);
-    this.workflowOperationStatus = new WorkflowOperationStatusImpl(this);
+    this.policy = new PolicyImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -184,7 +176,7 @@ export class AzureSiteRecoveryManagementServiceAPI extends coreClient.ServiceCli
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -198,109 +190,27 @@ export class AzureSiteRecoveryManagementServiceAPI extends coreClient.ServiceCli
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  /**
-   * Checks the resource name availability.
-   * @param location The name of the Azure region.
-   * @param options The options parameters.
-   */
-  checkNameAvailability(
-    location: string,
-    options?: CheckNameAvailabilityOptionalParams
-  ): Promise<CheckNameAvailabilityResponse> {
-    return this.sendOperationRequest(
-      { location, options },
-      checkNameAvailabilityOperationSpec
-    );
-  }
-
-  /**
-   * Performs resource deployment validation.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentId Deployment Id.
-   * @param options The options parameters.
-   */
-  deploymentPreflight(
-    resourceGroupName: string,
-    deploymentId: string,
-    options?: DeploymentPreflightOptionalParams
-  ): Promise<DeploymentPreflightResponse> {
-    return this.sendOperationRequest(
-      { resourceGroupName, deploymentId, options },
-      deploymentPreflightOperationSpec
-    );
-  }
-
-  dra: Dra;
-  draOperationStatus: DraOperationStatus;
+  operations: Operations;
+  checkNameAvailability: CheckNameAvailability;
+  fabric: Fabric;
+  vault: Vault;
+  deploymentPreflight: DeploymentPreflight;
+  locationBasedOperationResults: LocationBasedOperationResults;
+  operationResults: OperationResults;
+  fabricAgent: FabricAgent;
   emailConfiguration: EmailConfiguration;
   event: Event;
-  fabric: Fabric;
-  fabricOperationsStatus: FabricOperationsStatus;
-  policy: Policy;
-  policyOperationStatus: PolicyOperationStatus;
+  job: Job;
+  privateEndpointConnectionProxies: PrivateEndpointConnectionProxies;
+  privateEndpointConnections: PrivateEndpointConnections;
+  privateLinkResources: PrivateLinkResources;
   protectedItem: ProtectedItem;
-  protectedItemOperationStatus: ProtectedItemOperationStatus;
-  recoveryPoints: RecoveryPoints;
+  recoveryPoint: RecoveryPoint;
   replicationExtension: ReplicationExtension;
-  replicationExtensionOperationStatus: ReplicationExtensionOperationStatus;
-  operations: Operations;
-  vault: Vault;
-  vaultOperationStatus: VaultOperationStatus;
-  workflow: Workflow;
-  workflowOperationStatus: WorkflowOperationStatus;
+  policy: Policy;
 }
-// Operation Specifications
-const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
-
-const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DataReplication/locations/{location}/checkNameAvailability",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CheckNameAvailabilityResponseModel
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body8,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deploymentPreflightOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/deployments/{deploymentId}/preflight",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeploymentPreflightModel
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body9,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deploymentId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
