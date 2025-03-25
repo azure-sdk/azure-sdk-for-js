@@ -1,15 +1,33 @@
 # Release History
-
-## 2.0.1 (Unreleased)
-
+    
+## 3.0.0-beta.1 (2025-03-25)
+Compared with version 2.0.0
+    
 ### Features Added
+
+  - Added Interface FrontendUpdateProperties
+  - Added Interface IpAccessRule
+  - Added Interface IpAccessRulesPolicy
+  - Added Interface IpAccessRulesSecurityPolicy
+  - Added Type Alias IpAccessRuleAction
+  - Interface FrontendProperties has a new optional parameter securityPolicyConfigurations
+  - Interface FrontendUpdate has a new optional parameter properties
+  - Interface SecurityPolicyConfigurations has a new optional parameter ipAccessRulesSecurityPolicy
+  - Interface SecurityPolicyProperties has a new optional parameter ipAccessRulesPolicy
+  - Interface SecurityPolicyUpdateProperties has a new optional parameter ipAccessRulesPolicy
+  - Added Enum KnownIpAccessRuleAction
+  - Enum KnownPolicyType has a new value IpAccessRules
+  - Enum KnownVersions has a new value V20231101
+  - Enum KnownVersions has a new value V20240501Preview
+  - Enum KnownVersions has a new value V20250301Preview
+  - Enum KnownVersions has a new value V20250501
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Enum KnownVersions no longer has value V2023_11_01
+  - Enum KnownVersions no longer has value V2025_05_01
+    
+    
 ## 2.0.0 (2025-02-07)
     
 ### Features Added
