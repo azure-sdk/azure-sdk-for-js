@@ -7,14 +7,9 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { CodeSigningClient, CodeSigningClientOptionalParams } from "./codeSigningClient.js";
+export { CodeSigningClient } from "./codeSigningClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Resource,
-  SystemData,
-  KnownCreatedByType,
-  CreatedByType,
-  ProxyResource,
   CertificateProfile,
   CertificateProfileProperties,
   KnownProfileType,
@@ -29,15 +24,24 @@ export {
   Revocation,
   KnownRevocationStatus,
   RevocationStatus,
+  ProxyResource,
+  Resource,
+  SystemData,
+  KnownCreatedByType,
+  CreatedByType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   RevokeCertificate,
-  TrackedResource,
   CodeSigningAccount,
   CodeSigningAccountProperties,
   AccountSku,
   KnownSkuName,
   SkuName,
+  TrackedResource,
   CodeSigningAccountPatch,
   CodeSigningAccountPatchProperties,
+  AccountSkuPatch,
   CheckNameAvailability,
   CheckNameAvailabilityResult,
   KnownNameUnavailabilityReason,
@@ -48,20 +52,26 @@ export {
   Origin,
   KnownActionType,
   ActionType,
-  OperationsListOptionalParams,
-  CodeSigningAccountsGetOptionalParams,
-  CodeSigningAccountsCreateOptionalParams,
-  CodeSigningAccountsUpdateOptionalParams,
-  CodeSigningAccountsDeleteOptionalParams,
-  CodeSigningAccountsListByResourceGroupOptionalParams,
-  CodeSigningAccountsListBySubscriptionOptionalParams,
-  CodeSigningAccountsCheckNameAvailabilityOptionalParams,
-  CertificateProfilesGetOptionalParams,
-  CertificateProfilesCreateOptionalParams,
-  CertificateProfilesDeleteOptionalParams,
-  CertificateProfilesListByCodeSigningAccountOptionalParams,
-  CertificateProfilesRevokeCertificateOptionalParams,
+  KnownVersions,
 } from "./models/index.js";
+export { CodeSigningClientOptionalParams } from "./api/index.js";
+export {
+  CertificateProfilesRevokeCertificateOptionalParams,
+  CertificateProfilesListByCodeSigningAccountOptionalParams,
+  CertificateProfilesDeleteOptionalParams,
+  CertificateProfilesCreateOptionalParams,
+  CertificateProfilesGetOptionalParams,
+} from "./api/certificateProfiles/index.js";
+export {
+  CodeSigningAccountsCheckNameAvailabilityOptionalParams,
+  CodeSigningAccountsListBySubscriptionOptionalParams,
+  CodeSigningAccountsListByResourceGroupOptionalParams,
+  CodeSigningAccountsDeleteOptionalParams,
+  CodeSigningAccountsUpdateOptionalParams,
+  CodeSigningAccountsCreateOptionalParams,
+  CodeSigningAccountsGetOptionalParams,
+} from "./api/codeSigningAccounts/index.js";
+export { OperationsListOptionalParams } from "./api/operations/index.js";
 export {
   CertificateProfilesOperations,
   CodeSigningAccountsOperations,
