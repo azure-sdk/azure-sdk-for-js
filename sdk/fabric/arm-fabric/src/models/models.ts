@@ -16,6 +16,12 @@ export function _operationListResultDeserializer(item: any): _OperationListResul
   };
 }
 
+export function operationArrayDeserializer(result: Array<Operation>): any[] {
+  return result.map((item) => {
+    return operationDeserializer(item);
+  });
+}
+
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
@@ -23,11 +29,11 @@ export interface Operation {
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
   readonly isDataAction?: boolean;
   /** Localized display information for this particular operation. */
-  readonly display?: OperationDisplay;
+  display?: OperationDisplay;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
   readonly origin?: Origin;
   /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: ActionType;
+  readonly actionType?: ActionType;
 }
 
 export function operationDeserializer(item: any): Operation {
@@ -97,10 +103,76 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 
-export function operationArrayDeserializer(result: Array<Operation>): any[] {
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+export function errorResponseDeserializer(item: any): ErrorResponse {
+  return {
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+  };
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+export function errorDetailDeserializer(item: any): ErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
+  };
+}
+
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
   return result.map((item) => {
-    return operationDeserializer(item);
+    return errorDetailDeserializer(item);
   });
+}
+
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+  return result.map((item) => {
+    return errorAdditionalInfoDeserializer(item);
+  });
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: Record<string, any>;
+}
+
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+  return {
+    type: item["type"],
+    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+  };
+}
+
+/** model interface _ErrorAdditionalInfoInfo */
+export interface _ErrorAdditionalInfoInfo {}
+
+export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
+  return item;
 }
 
 /** Fabric Capacity resource */
@@ -153,51 +225,41 @@ export function fabricCapacityPropertiesSerializer(item: FabricCapacityPropertie
 
 export function fabricCapacityPropertiesDeserializer(item: any): FabricCapacityProperties {
   return {
-    provisioningState: !item["provisioningState"]
-      ? item["provisioningState"]
-      : provisioningStateDeserializer(item["provisioningState"]),
+    provisioningState: item["provisioningState"],
     state: item["state"],
     administration: capacityAdministrationDeserializer(item["administration"]),
   };
 }
 
-/** Known values of {@link ProvisioningState} that the service accepts. */
+/** The provisioning state of the Fabric capacity resource. */
 export enum KnownProvisioningState {
-  /** Succeeded */
+  /** Resource has been created. */
   Succeeded = "Succeeded",
-  /** Failed */
+  /** Resource creation failed. */
   Failed = "Failed",
-  /** Canceled */
+  /** Resource creation was canceled. */
   Canceled = "Canceled",
-  /** Deleting */
+  /** Resource is deleting */
   Deleting = "Deleting",
-  /** Provisioning */
+  /** Resource is provisioning */
   Provisioning = "Provisioning",
-  /** Updating */
+  /** Resource is updating */
   Updating = "Updating",
 }
 
 /**
- * The provisioning state of a resource type. \
- * {@link KnownProvisioningState} can be used interchangeably with ResourceProvisioningState,
+ * The provisioning state of the Fabric capacity resource. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Deleting** \
- * **Provisioning** \
- * **Updating**
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
+ * **Deleting**: Resource is deleting \
+ * **Provisioning**: Resource is provisioning \
+ * **Updating**: Resource is updating
  */
-/** Alias for ProvisioningState */
 export type ProvisioningState = string;
-export function provisioningStateSerializer(item: ProvisioningState): any {
-  return item;
-}
-
-export function provisioningStateDeserializer(item: any): ProvisioningState {
-  return item;
-}
 
 /** The state of the Fabric capacity resource. */
 export enum KnownResourceState {
@@ -538,6 +600,14 @@ export function _rpSkuEnumerationForExistingResourceResultDeserializer(
   };
 }
 
+export function rpSkuDetailsForExistingResourceArrayDeserializer(
+  result: Array<RpSkuDetailsForExistingResource>,
+): any[] {
+  return result.map((item) => {
+    return rpSkuDetailsForExistingResourceDeserializer(item);
+  });
+}
+
 /** An object that represents SKU details for existing resources */
 export interface RpSkuDetailsForExistingResource {
   /** The resource type */
@@ -555,14 +625,6 @@ export function rpSkuDetailsForExistingResourceDeserializer(
   };
 }
 
-export function rpSkuDetailsForExistingResourceArrayDeserializer(
-  result: Array<RpSkuDetailsForExistingResource>,
-): any[] {
-  return result.map((item) => {
-    return rpSkuDetailsForExistingResourceDeserializer(item);
-  });
-}
-
 /** An object that represents enumerating SKUs for new resources. */
 export interface _RpSkuEnumerationForNewResourceResult {
   /** The collection of available SKUs for new resources */
@@ -578,6 +640,14 @@ export function _rpSkuEnumerationForNewResourceResultDeserializer(
     value: rpSkuDetailsForNewResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
+}
+
+export function rpSkuDetailsForNewResourceArrayDeserializer(
+  result: Array<RpSkuDetailsForNewResource>,
+): any[] {
+  return result.map((item) => {
+    return rpSkuDetailsForNewResourceDeserializer(item);
+  });
 }
 
 /** The SKU details */
@@ -600,10 +670,65 @@ export function rpSkuDetailsForNewResourceDeserializer(item: any): RpSkuDetailsF
   };
 }
 
-export function rpSkuDetailsForNewResourceArrayDeserializer(
-  result: Array<RpSkuDetailsForNewResource>,
-): any[] {
+/** Paged collection of Quota items */
+export interface _PagedQuota {
+  /** The Quota items on this page */
+  value: Quota[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _pagedQuotaDeserializer(item: any): _PagedQuota {
+  return {
+    value: quotaArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function quotaArrayDeserializer(result: Array<Quota>): any[] {
   return result.map((item) => {
-    return rpSkuDetailsForNewResourceDeserializer(item);
+    return quotaDeserializer(item);
   });
+}
+
+/** Describes Resource Quota */
+export interface Quota {
+  /** The name of the quota. */
+  readonly name?: QuotaName;
+  /** The unit of usage measurement. */
+  unit: string;
+  /** The current usage of the resource. */
+  currentValue: number;
+  /** The maximum permitted usage of the resource. */
+  limit: number;
+}
+
+export function quotaDeserializer(item: any): Quota {
+  return {
+    name: !item["name"] ? item["name"] : quotaNameDeserializer(item["name"]),
+    unit: item["unit"],
+    currentValue: item["currentValue"],
+    limit: item["limit"],
+  };
+}
+
+/** The Quota Names */
+export interface QuotaName {
+  /** The name of the resource. */
+  value?: string;
+  /** The localized name of the resource. */
+  localizedValue?: string;
+}
+
+export function quotaNameDeserializer(item: any): QuotaName {
+  return {
+    value: item["value"],
+    localizedValue: item["localizedValue"],
+  };
+}
+
+/** The available API versions. */
+export enum KnownVersions {
+  /** 2025-01-15-preview version */
+  V20250115Preview = "2025-01-15-preview",
 }
