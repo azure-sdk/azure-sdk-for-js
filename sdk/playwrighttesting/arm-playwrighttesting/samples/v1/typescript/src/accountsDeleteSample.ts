@@ -18,7 +18,7 @@ async function accountsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  accountsDelete();
+  await accountsDelete();
 }
 
 main().catch(console.error);

@@ -23,7 +23,7 @@ async function accountQuotasGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  accountQuotasGet();
+  await accountQuotasGet();
 }
 
 main().catch(console.error);

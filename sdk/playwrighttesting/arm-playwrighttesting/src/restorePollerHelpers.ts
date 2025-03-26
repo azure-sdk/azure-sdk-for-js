@@ -3,9 +3,9 @@
 
 import { AzurePlaywrightServiceClient } from "./azurePlaywrightServiceClient.js";
 import {
-  _accountsCreateOrUpdateDeserialize,
   _accountsDeleteDeserialize,
-} from "./api/accounts/index.js";
+  _accountsCreateOrUpdateDeserialize,
+} from "./api/accounts/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -79,15 +79,15 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzurePlaywrightService/accounts/{accountName}":
-    {
-      deserializer: _accountsCreateOrUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzurePlaywrightService/accounts/{accountName}":
     {
       deserializer: _accountsDeleteDeserialize,
       expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzurePlaywrightService/accounts/{accountName}":
+    {
+      deserializer: _accountsCreateOrUpdateDeserialize,
+      expectedStatuses: ["200", "201"],
     },
 };
 

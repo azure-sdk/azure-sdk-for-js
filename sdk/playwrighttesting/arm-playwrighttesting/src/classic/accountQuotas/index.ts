@@ -2,16 +2,25 @@
 // Licensed under the MIT License.
 
 import { AzurePlaywrightServiceContext } from "../../api/azurePlaywrightServiceContext.js";
-import { accountQuotasGet, accountQuotasListByAccount } from "../../api/accountQuotas/index.js";
 import { AccountQuota, QuotaNames } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import {
-  AccountQuotasGetOptionalParams,
   AccountQuotasListByAccountOptionalParams,
-} from "../../api/options.js";
+  AccountQuotasGetOptionalParams,
+} from "../../api/accountQuotas/options.js";
+import {
+  accountQuotasListByAccount,
+  accountQuotasGet,
+} from "../../api/accountQuotas/operations.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AccountQuotas operations. */
 export interface AccountQuotasOperations {
+  /** List quotas for a given account. */
+  listByAccount: (
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountQuotasListByAccountOptionalParams,
+  ) => PagedAsyncIterableIterator<AccountQuota>;
   /** Get quota by name for an account. */
   get: (
     resourceGroupName: string,
@@ -19,37 +28,28 @@ export interface AccountQuotasOperations {
     quotaName: QuotaNames,
     options?: AccountQuotasGetOptionalParams,
   ) => Promise<AccountQuota>;
-  /** List quotas for a given account. */
-  listByAccount: (
-    resourceGroupName: string,
-    accountName: string,
-    options?: AccountQuotasListByAccountOptionalParams,
-  ) => PagedAsyncIterableIterator<AccountQuota>;
 }
 
-export function getAccountQuotas(context: AzurePlaywrightServiceContext, subscriptionId: string) {
+function _getAccountQuotas(context: AzurePlaywrightServiceContext) {
   return {
+    listByAccount: (
+      resourceGroupName: string,
+      accountName: string,
+      options?: AccountQuotasListByAccountOptionalParams,
+    ) => accountQuotasListByAccount(context, resourceGroupName, accountName, options),
     get: (
       resourceGroupName: string,
       accountName: string,
       quotaName: QuotaNames,
       options?: AccountQuotasGetOptionalParams,
-    ) =>
-      accountQuotasGet(context, subscriptionId, resourceGroupName, accountName, quotaName, options),
-    listByAccount: (
-      resourceGroupName: string,
-      accountName: string,
-      options?: AccountQuotasListByAccountOptionalParams,
-    ) =>
-      accountQuotasListByAccount(context, subscriptionId, resourceGroupName, accountName, options),
+    ) => accountQuotasGet(context, resourceGroupName, accountName, quotaName, options),
   };
 }
 
-export function getAccountQuotasOperations(
+export function _getAccountQuotasOperations(
   context: AzurePlaywrightServiceContext,
-  subscriptionId: string,
 ): AccountQuotasOperations {
   return {
-    ...getAccountQuotas(context, subscriptionId),
+    ..._getAccountQuotas(context),
   };
 }
