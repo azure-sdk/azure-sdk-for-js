@@ -73,6 +73,9 @@ export {
   SystemData,
   KnownCreatedByType,
   CreatedByType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   DataflowResource,
   DataflowProperties,
   DataflowOperation,
@@ -169,6 +172,9 @@ export {
   InstanceResource,
   InstanceProperties,
   SchemaRegistryRef,
+  InstanceFeature,
+  KnownInstanceFeatureMode,
+  InstanceFeatureMode,
   ManagedServiceIdentity,
   KnownManagedServiceIdentityType,
   ManagedServiceIdentityType,
@@ -183,44 +189,58 @@ export {
   ActionType,
   KnownVersions,
 } from "./models/index.js";
+export { IoTOperationsClientOptionalParams } from "./api/index.js";
 export {
-  IoTOperationsClientOptionalParams,
-  OperationsListOptionalParams,
-  InstanceGetOptionalParams,
-  InstanceCreateOrUpdateOptionalParams,
-  InstanceUpdateOptionalParams,
-  InstanceDeleteOptionalParams,
-  InstanceListByResourceGroupOptionalParams,
-  InstanceListBySubscriptionOptionalParams,
-  BrokerGetOptionalParams,
-  BrokerCreateOrUpdateOptionalParams,
-  BrokerDeleteOptionalParams,
   BrokerListByResourceGroupOptionalParams,
-  BrokerListenerGetOptionalParams,
-  BrokerListenerCreateOrUpdateOptionalParams,
-  BrokerListenerDeleteOptionalParams,
-  BrokerListenerListByResourceGroupOptionalParams,
-  BrokerAuthenticationGetOptionalParams,
-  BrokerAuthenticationCreateOrUpdateOptionalParams,
-  BrokerAuthenticationDeleteOptionalParams,
+  BrokerDeleteOptionalParams,
+  BrokerCreateOrUpdateOptionalParams,
+  BrokerGetOptionalParams,
+} from "./api/broker/index.js";
+export {
   BrokerAuthenticationListByResourceGroupOptionalParams,
-  BrokerAuthorizationGetOptionalParams,
-  BrokerAuthorizationCreateOrUpdateOptionalParams,
-  BrokerAuthorizationDeleteOptionalParams,
+  BrokerAuthenticationDeleteOptionalParams,
+  BrokerAuthenticationCreateOrUpdateOptionalParams,
+  BrokerAuthenticationGetOptionalParams,
+} from "./api/brokerAuthentication/index.js";
+export {
   BrokerAuthorizationListByResourceGroupOptionalParams,
-  DataflowProfileGetOptionalParams,
-  DataflowProfileCreateOrUpdateOptionalParams,
-  DataflowProfileDeleteOptionalParams,
-  DataflowProfileListByResourceGroupOptionalParams,
-  DataflowGetOptionalParams,
-  DataflowCreateOrUpdateOptionalParams,
-  DataflowDeleteOptionalParams,
+  BrokerAuthorizationDeleteOptionalParams,
+  BrokerAuthorizationCreateOrUpdateOptionalParams,
+  BrokerAuthorizationGetOptionalParams,
+} from "./api/brokerAuthorization/index.js";
+export {
+  BrokerListenerListByResourceGroupOptionalParams,
+  BrokerListenerDeleteOptionalParams,
+  BrokerListenerCreateOrUpdateOptionalParams,
+  BrokerListenerGetOptionalParams,
+} from "./api/brokerListener/index.js";
+export {
   DataflowListByResourceGroupOptionalParams,
-  DataflowEndpointGetOptionalParams,
-  DataflowEndpointCreateOrUpdateOptionalParams,
-  DataflowEndpointDeleteOptionalParams,
+  DataflowDeleteOptionalParams,
+  DataflowCreateOrUpdateOptionalParams,
+  DataflowGetOptionalParams,
+} from "./api/dataflow/index.js";
+export {
   DataflowEndpointListByResourceGroupOptionalParams,
-} from "./api/index.js";
+  DataflowEndpointDeleteOptionalParams,
+  DataflowEndpointCreateOrUpdateOptionalParams,
+  DataflowEndpointGetOptionalParams,
+} from "./api/dataflowEndpoint/index.js";
+export {
+  DataflowProfileListByResourceGroupOptionalParams,
+  DataflowProfileDeleteOptionalParams,
+  DataflowProfileCreateOrUpdateOptionalParams,
+  DataflowProfileGetOptionalParams,
+} from "./api/dataflowProfile/index.js";
+export {
+  InstanceListBySubscriptionOptionalParams,
+  InstanceListByResourceGroupOptionalParams,
+  InstanceDeleteOptionalParams,
+  InstanceUpdateOptionalParams,
+  InstanceCreateOrUpdateOptionalParams,
+  InstanceGetOptionalParams,
+} from "./api/instance/index.js";
+export { OperationsListOptionalParams } from "./api/operations/index.js";
 export {
   BrokerOperations,
   BrokerAuthenticationOperations,
