@@ -17,15 +17,12 @@ export type Action = string;
 export type ActionType = string;
 
 // @public
-export type AutoScalePolicyEnforcement = string;
-
-// @public
-export interface AutoScaleProperties {
-    scaleUpProperties?: ScaleUpProperties;
-}
-
-// @public
 export type CreatedByType = string;
+
+// @public
+export interface DiskSnapshotList {
+    diskSnapshotIds?: string[];
+}
 
 // @public
 export interface ElasticSan extends TrackedResource {
@@ -74,7 +71,6 @@ export interface ElasticSanManagementOptionalParams extends coreClient.ServiceCl
 
 // @public
 export interface ElasticSanProperties {
-    autoScaleProperties?: AutoScaleProperties;
     availabilityZones?: string[];
     baseSizeTiB: number;
     extendedCapacitySizeTiB: number;
@@ -183,7 +179,6 @@ export interface ElasticSanUpdate {
 
 // @public
 export interface ElasticSanUpdateProperties {
-    autoScaleProperties?: AutoScaleProperties;
     baseSizeTiB?: number;
     extendedCapacitySizeTiB?: number;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -266,13 +261,6 @@ export enum KnownAction {
 // @public
 export enum KnownActionType {
     Internal = "Internal"
-}
-
-// @public
-export enum KnownAutoScalePolicyEnforcement {
-    Disabled = "Disabled",
-    Enabled = "Enabled",
-    None = "None"
 }
 
 // @public
@@ -431,6 +419,11 @@ export type OperationsListResponse = OperationListResult;
 export type Origin = string;
 
 // @public
+export interface PreValidationResponse {
+    validationStatus?: string;
+}
+
+// @public
 export interface PrivateEndpoint {
     readonly id?: string;
 }
@@ -555,14 +548,6 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
-}
-
-// @public
-export interface ScaleUpProperties {
-    autoScalePolicyEnforcement?: AutoScalePolicyEnforcement;
-    capacityUnitScaleUpLimitTiB?: number;
-    increaseCapacityUnitByTiB?: number;
-    unusedSizeTiB?: number;
 }
 
 // @public
@@ -718,6 +703,10 @@ export interface VolumeGroups {
     beginCreateAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeGroup, options?: VolumeGroupsCreateOptionalParams): Promise<VolumeGroupsCreateResponse>;
     beginDelete(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, options?: VolumeGroupsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, options?: VolumeGroupsDeleteOptionalParams): Promise<void>;
+    beginPreBackup(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeNameList, options?: VolumeGroupsPreBackupOptionalParams): Promise<SimplePollerLike<OperationState<VolumeGroupsPreBackupResponse>, VolumeGroupsPreBackupResponse>>;
+    beginPreBackupAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeNameList, options?: VolumeGroupsPreBackupOptionalParams): Promise<VolumeGroupsPreBackupResponse>;
+    beginPreRestore(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: DiskSnapshotList, options?: VolumeGroupsPreRestoreOptionalParams): Promise<SimplePollerLike<OperationState<VolumeGroupsPreRestoreResponse>, VolumeGroupsPreRestoreResponse>>;
+    beginPreRestoreAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: DiskSnapshotList, options?: VolumeGroupsPreRestoreOptionalParams): Promise<VolumeGroupsPreRestoreResponse>;
     beginUpdate(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeGroupUpdate, options?: VolumeGroupsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VolumeGroupsUpdateResponse>, VolumeGroupsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeGroupUpdate, options?: VolumeGroupsUpdateOptionalParams): Promise<VolumeGroupsUpdateResponse>;
     get(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, options?: VolumeGroupsGetOptionalParams): Promise<VolumeGroupsGetResponse>;
@@ -767,6 +756,36 @@ export interface VolumeGroupsListByElasticSanOptionalParams extends coreClient.O
 export type VolumeGroupsListByElasticSanResponse = VolumeGroupList;
 
 // @public
+export interface VolumeGroupsPreBackupHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VolumeGroupsPreBackupOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VolumeGroupsPreBackupResponse = PreValidationResponse;
+
+// @public
+export interface VolumeGroupsPreRestoreHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VolumeGroupsPreRestoreOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VolumeGroupsPreRestoreResponse = PreValidationResponse;
+
+// @public
 export interface VolumeGroupsUpdateHeaders {
     // (undocumented)
     location?: string;
@@ -800,6 +819,11 @@ export interface VolumeGroupUpdateProperties {
 export interface VolumeList {
     readonly nextLink?: string;
     value?: Volume[];
+}
+
+// @public
+export interface VolumeNameList {
+    volumeNames?: string[];
 }
 
 // @public
