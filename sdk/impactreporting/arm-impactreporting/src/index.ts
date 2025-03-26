@@ -60,25 +60,31 @@ export {
   ActionType,
   KnownVersions,
 } from "./models/index.js";
+export { ImpactClientOptionalParams } from "./api/index.js";
 export {
-  ImpactClientOptionalParams,
   ConnectorsListBySubscriptionOptionalParams,
   ConnectorsDeleteOptionalParams,
   ConnectorsUpdateOptionalParams,
   ConnectorsCreateOrUpdateOptionalParams,
   ConnectorsGetOptionalParams,
+} from "./api/connectors/index.js";
+export {
+  ImpactCategoriesListBySubscriptionOptionalParams,
+  ImpactCategoriesGetOptionalParams,
+} from "./api/impactCategories/index.js";
+export {
   InsightsDeleteOptionalParams,
   InsightsCreateOptionalParams,
   InsightsListBySubscriptionOptionalParams,
   InsightsGetOptionalParams,
-  ImpactCategoriesListBySubscriptionOptionalParams,
-  ImpactCategoriesGetOptionalParams,
+} from "./api/insights/index.js";
+export { OperationsListOptionalParams } from "./api/operations/index.js";
+export {
   WorkloadImpactsListBySubscriptionOptionalParams,
   WorkloadImpactsDeleteOptionalParams,
   WorkloadImpactsGetOptionalParams,
   WorkloadImpactsCreateOptionalParams,
-  OperationsListOptionalParams,
-} from "./api/index.js";
+} from "./api/workloadImpacts/index.js";
 export {
   ConnectorsOperations,
   ImpactCategoriesOperations,
