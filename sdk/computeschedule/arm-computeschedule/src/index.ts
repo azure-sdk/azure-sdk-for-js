@@ -26,6 +26,9 @@ export {
   KnownOperationState,
   OperationState,
   ResourceOperationError,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   SubmitHibernateRequest,
   HibernateResourceOperationResponse,
   SubmitStartRequest,
@@ -49,8 +52,9 @@ export {
   ActionType,
   KnownVersions,
 } from "./models/index.js";
+export { ComputeScheduleClientOptionalParams } from "./api/index.js";
+export { OperationsListOptionalParams } from "./api/operations/index.js";
 export {
-  ComputeScheduleClientOptionalParams,
   ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams,
   ScheduledActionsVirtualMachinesCancelOperationsOptionalParams,
   ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams,
@@ -60,7 +64,6 @@ export {
   ScheduledActionsVirtualMachinesSubmitStartOptionalParams,
   ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams,
   ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams,
-  OperationsListOptionalParams,
-} from "./api/index.js";
+} from "./api/scheduledActions/index.js";
 export { OperationsOperations, ScheduledActionsOperations } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
