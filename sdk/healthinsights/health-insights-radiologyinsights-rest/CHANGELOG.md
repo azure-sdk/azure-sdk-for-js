@@ -1,71 +1,55 @@
 # Release History
+    
+## 2.0.0 (2025-03-26)
+    
+### Features Added
 
-## 1.0.0 (2024-08-15)
+  - Added operation group SimplePollerLike
+  - Added Interface AssessmentValueRange
+  - Added Interface AssessmentValueRangeOutput
+  - Added Interface AzureHealthInsightsClientOptions
+  - Added Interface CreateJobExpandQueryParam
+  - Added Interface Element_2
+  - Added Interface GetJobExpandQueryParam
+  - Added Interface GuidanceInference
+  - Added Interface GuidanceInferenceOutput
+  - Added Interface GuidanceOptions
+  - Added Interface GuidanceOptionsOutput
+  - Added Interface PresentGuidanceInformation
+  - Added Interface PresentGuidanceInformationOutput
+  - Added Interface QualityMeasureInference
+  - Added Interface QualityMeasureInferenceOutput
+  - Added Interface QualityMeasureOptions
+  - Added Interface QualityMeasureOptionsOutput
+  - Added Interface ScoringAndAssessmentInference
+  - Added Interface ScoringAndAssessmentInferenceOutput
+  - Added Type Alias GuidanceRankingType
+  - Added Type Alias QualityMeasureComplianceType
+  - Added Type Alias ScoringAndAssessmentCategoryType
+  - Interface RadiologyInsightsInferenceOptions has a new optional parameter guidanceOptions
+  - Interface RadiologyInsightsInferenceOptions has a new optional parameter qualityMeasureOptions
+  - Interface RadiologyInsightsInferenceOptionsOutput has a new optional parameter guidanceOptions
+  - Interface RadiologyInsightsInferenceOptionsOutput has a new optional parameter qualityMeasureOptions
+  - Added function overload "export function isUnexpected(response: GetJob200Response | GetJobDefaultResponse): response is GetJobDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: CreateJob200Response | CreateJob201Response | CreateJobLogicalResponse | CreateJobDefaultResponse): response is CreateJobDefaultResponse;"
 
- - GA release
- 
- ### Features Added
-- Added sample code for all Inference types
-- Added tests for all Inference types
-- Rename param endpoint to endpointParam
-- Rename const baseUrl to endpointUrl
+### Breaking Changes
 
- ### Breaking Changes
-
-- Client Changes
-    - POST call replaced with PUT (this change is taken care of automatically by the SDK)
-    - Adding TokenCredential remove KeyCredential
-    - Credential through DefaultAzureCredential  and Managed Identities
-
-- Request changes:
-    - Renamed 'createdDateTime' into 'createdAt'
-    - Patients 'info' renamed into Patients 'details'
-    - Unique ID (String) required to be added in the request parameters as a unique job id
-    - Renamed 'RadiologyInsightsResultOutput' into 'RadiologyInsightsJobOutput' with the status being a 'JobStatusOutput' in stead of a string
-    - Retired 'RepeatabilityResultOutput'
-
-- Response changes:
-  - for RadiologyInsightsJobOutput
-    - Renamed 'createdDateTime' into 'createdAt'
-    - Renamed 'expirationDateTime' into 'expiresAt'
-    - Renamed 'lastUpdateDateTime' into 'updatedAt'
-
-  - for ElementOutput
-    - added field 'kind' as a string
-
-  - for ContactPointOutput
-    - 'system' field is now a 'ContactPointSystemOutput' and no longer a string
-    - 'use' field is now a 'ContactPointUseOutput' and no longer a string
-
-  - for DomainResourceOutputParent
-    - 'status' field is now a 'ObservationStatusCodeTypeOutput' and no longer a string, limited to 4 options (registered | preliminary | final | amended)
-
-  - for ConditionOutput
-    - 'status' field is now a 'ResearchStudyStatusCodeTypeOutput' and no longer a string
-
-  - for FollowupRecommendationInferenceOutput
-    - Renamed 'effectiveDateTime' field into 'effectiveAt'
-
-  - for RecommendationFindingOutput
-    - 'recommendationFindingStatus' field is now a RecommendationFindingStatusTypeOutput and no longer a string
-    - 'extension' field added
-
-  - for ProcedureRecommendationOutputParent
-    - 'extension' field added
-
-  - for FollowupCommunication
-    - Renamed 'dateTime' field into 'communicatedAt'
-    - 'recipient' field is now a 'MedicalProfessionalTypeOutput' and no longer a string[]
-
-## 1.0.0-beta.1 (2024-03-05)
-
-### Other Changes
-
-- Public Preview release
-- Test example for Critical Result
-
-The package of @azure-rest/health-insights-radiologyinsights is using our next generation design principles.
-- First release of package, see [README](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/README.md) for details.
-- To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
-- To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
-- To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+  - Operation GetJob.put has a new signature
+  - Interface HealthInsightsErrorResponseOutput no longer has parameter requestId
+  - Type of parameter expand of interface CreateJobQueryParamProperties is changed from string to CreateJobExpandQueryParam
+  - Type of parameter valueTime of interface Extension is changed from Date | string to string
+  - Type of parameter expand of interface GetJobQueryParamProperties is changed from string to GetJobExpandQueryParam
+  - Type of parameter valueTime of interface Observation is changed from Date | string to string
+  - Type of parameter valueTime of interface ObservationComponent is changed from Date | string to string
+  - Type of parameter birthDate of interface PatientDetails is changed from Date | string to string
+  - Removed Enum ClinicalDocumentTypeEnum
+  - Removed Enum ClinicalDocumentTypeOutputEnum
+  - Removed function buildMultiCollection
+  - Function getLongRunningPoller has a new signature
+  - Removed function overload "export function isUnexpected(response: GetJob200Response | GetJobDefaultResponse): response is GetJobDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: CreateJob200Response | CreateJob201Response | CreateJobLogicalResponse | CreateJobDefaultResponse): response is CreateJobDefaultResponse;"
+  - Removed Type Alias DocumentType
+  - Type alias "ClinicalDocumentType" has been changed
+  - Type alias "ClinicalDocumentTypeOutput" has been changed
+    
