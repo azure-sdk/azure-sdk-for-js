@@ -1,0 +1,156 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { WorkloadsContext } from "../../api/workloadsContext.js";
+import { ServerInstance, UpdateServerInstanceRequest } from "../../models/models.js";
+import {
+  ServerInstancesListBySapInstanceOptionalParams,
+  ServerInstancesDeleteOptionalParams,
+  ServerInstancesUpdateOptionalParams,
+  ServerInstancesCreateOptionalParams,
+  ServerInstancesGetOptionalParams,
+} from "../../api/serverInstances/options.js";
+import {
+  serverInstancesListBySapInstance,
+  serverInstancesDelete,
+  serverInstancesUpdate,
+  serverInstancesCreate,
+  serverInstancesGet,
+} from "../../api/serverInstances/operations.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
+
+/** Interface representing a ServerInstances operations. */
+export interface ServerInstancesOperations {
+  /** Lists the Server Instance resources for the given SAP Instance resource. */
+  listBySapInstance: (
+    resourceGroupName: string,
+    sapDiscoverySiteName: string,
+    sapInstanceName: string,
+    options?: ServerInstancesListBySapInstanceOptionalParams,
+  ) => PagedAsyncIterableIterator<ServerInstance>;
+  /** Deletes the Server Instance resource. <br><br>;This will be used by service only. Delete operation on this resource by end user will return a Bad Request error. You can delete the parent resource, which is the SAP Migration discovery site resource, using the delete operation on it. */
+  delete: (
+    resourceGroupName: string,
+    sapDiscoverySiteName: string,
+    sapInstanceName: string,
+    serverInstanceName: string,
+    options?: ServerInstancesDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** Updates the Server Instance resource. This operation on a resource by end user will return a Bad Request error. */
+  update: (
+    resourceGroupName: string,
+    sapDiscoverySiteName: string,
+    sapInstanceName: string,
+    serverInstanceName: string,
+    properties: UpdateServerInstanceRequest,
+    options?: ServerInstancesUpdateOptionalParams,
+  ) => Promise<ServerInstance>;
+  /** Creates the Server Instance resource. <br><br>;This will be used by service only. PUT operation on this resource by end user will return a Bad Request error. */
+  create: (
+    resourceGroupName: string,
+    sapDiscoverySiteName: string,
+    sapInstanceName: string,
+    serverInstanceName: string,
+    resource: ServerInstance,
+    options?: ServerInstancesCreateOptionalParams,
+  ) => PollerLike<OperationState<ServerInstance>, ServerInstance>;
+  /** Gets the Server Instance resource. */
+  get: (
+    resourceGroupName: string,
+    sapDiscoverySiteName: string,
+    sapInstanceName: string,
+    serverInstanceName: string,
+    options?: ServerInstancesGetOptionalParams,
+  ) => Promise<ServerInstance>;
+}
+
+function _getServerInstances(context: WorkloadsContext) {
+  return {
+    listBySapInstance: (
+      resourceGroupName: string,
+      sapDiscoverySiteName: string,
+      sapInstanceName: string,
+      options?: ServerInstancesListBySapInstanceOptionalParams,
+    ) =>
+      serverInstancesListBySapInstance(
+        context,
+        resourceGroupName,
+        sapDiscoverySiteName,
+        sapInstanceName,
+        options,
+      ),
+    delete: (
+      resourceGroupName: string,
+      sapDiscoverySiteName: string,
+      sapInstanceName: string,
+      serverInstanceName: string,
+      options?: ServerInstancesDeleteOptionalParams,
+    ) =>
+      serverInstancesDelete(
+        context,
+        resourceGroupName,
+        sapDiscoverySiteName,
+        sapInstanceName,
+        serverInstanceName,
+        options,
+      ),
+    update: (
+      resourceGroupName: string,
+      sapDiscoverySiteName: string,
+      sapInstanceName: string,
+      serverInstanceName: string,
+      properties: UpdateServerInstanceRequest,
+      options?: ServerInstancesUpdateOptionalParams,
+    ) =>
+      serverInstancesUpdate(
+        context,
+        resourceGroupName,
+        sapDiscoverySiteName,
+        sapInstanceName,
+        serverInstanceName,
+        properties,
+        options,
+      ),
+    create: (
+      resourceGroupName: string,
+      sapDiscoverySiteName: string,
+      sapInstanceName: string,
+      serverInstanceName: string,
+      resource: ServerInstance,
+      options?: ServerInstancesCreateOptionalParams,
+    ) =>
+      serverInstancesCreate(
+        context,
+        resourceGroupName,
+        sapDiscoverySiteName,
+        sapInstanceName,
+        serverInstanceName,
+        resource,
+        options,
+      ),
+    get: (
+      resourceGroupName: string,
+      sapDiscoverySiteName: string,
+      sapInstanceName: string,
+      serverInstanceName: string,
+      options?: ServerInstancesGetOptionalParams,
+    ) =>
+      serverInstancesGet(
+        context,
+        resourceGroupName,
+        sapDiscoverySiteName,
+        sapInstanceName,
+        serverInstanceName,
+        options,
+      ),
+  };
+}
+
+export function _getServerInstancesOperations(
+  context: WorkloadsContext,
+): ServerInstancesOperations {
+  return {
+    ..._getServerInstances(context),
+  };
+}
