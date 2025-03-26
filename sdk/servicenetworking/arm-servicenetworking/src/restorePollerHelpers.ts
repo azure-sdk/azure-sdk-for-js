@@ -5,19 +5,19 @@ import { ServiceNetworkingManagementClient } from "./serviceNetworkingManagement
 import {
   _trafficControllerInterfaceDeleteDeserialize,
   _trafficControllerInterfaceCreateOrUpdateDeserialize,
-} from "./api/trafficControllerInterface/index.js";
+} from "./api/trafficControllerInterface/operations.js";
 import {
   _securityPoliciesInterfaceDeleteDeserialize,
   _securityPoliciesInterfaceCreateOrUpdateDeserialize,
-} from "./api/securityPoliciesInterface/index.js";
+} from "./api/securityPoliciesInterface/operations.js";
 import {
   _frontendsInterfaceDeleteDeserialize,
   _frontendsInterfaceCreateOrUpdateDeserialize,
-} from "./api/frontendsInterface/index.js";
+} from "./api/frontendsInterface/operations.js";
 import {
   _associationsInterfaceDeleteDeserialize,
   _associationsInterfaceCreateOrUpdateDeserialize,
-} from "./api/associationsInterface/index.js";
+} from "./api/associationsInterface/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";

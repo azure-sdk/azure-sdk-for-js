@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ServiceNetworkingManagementContext } from "../../api/serviceNetworkingManagementContext.js";
+import { TrafficController, TrafficControllerUpdate } from "../../models/models.js";
 import {
   TrafficControllerInterfaceListBySubscriptionOptionalParams,
   TrafficControllerInterfaceListByResourceGroupOptionalParams,
@@ -8,8 +10,7 @@ import {
   TrafficControllerInterfaceUpdateOptionalParams,
   TrafficControllerInterfaceCreateOrUpdateOptionalParams,
   TrafficControllerInterfaceGetOptionalParams,
-} from "../../api/options.js";
-import { ServiceNetworkingManagementContext } from "../../api/serviceNetworkingManagementContext.js";
+} from "../../api/trafficControllerInterface/options.js";
 import {
   trafficControllerInterfaceListBySubscription,
   trafficControllerInterfaceListByResourceGroup,
@@ -17,8 +18,7 @@ import {
   trafficControllerInterfaceUpdate,
   trafficControllerInterfaceCreateOrUpdate,
   trafficControllerInterfaceGet,
-} from "../../api/trafficControllerInterface/index.js";
-import { TrafficController, TrafficControllerUpdate } from "../../models/models.js";
+} from "../../api/trafficControllerInterface/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
