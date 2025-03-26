@@ -14,6 +14,7 @@ import {
 import {
   AutonomousDatabase as AutonomousDatabaseMapper,
   AutonomousDatabaseUpdate as AutonomousDatabaseUpdateMapper,
+  DisasterRecoveryConfigurationDetails as DisasterRecoveryConfigurationDetailsMapper,
   PeerDbDetails as PeerDbDetailsMapper,
   GenerateAutonomousDatabaseWalletDetails as GenerateAutonomousDatabaseWalletDetailsMapper,
   RestoreAutonomousDatabaseDetails as RestoreAutonomousDatabaseDetailsMapper,
@@ -23,8 +24,14 @@ import {
   CloudVmClusterUpdate as CloudVmClusterUpdateMapper,
   AddRemoveDbNode as AddRemoveDbNodeMapper,
   PrivateIpAddressesFilter as PrivateIpAddressesFilterMapper,
+  ExadbVmCluster as ExadbVmClusterMapper,
+  ExadbVmClusterUpdate as ExadbVmClusterUpdateMapper,
+  RemoveVirtualMachineFromExadbVmClusterDetails as RemoveVirtualMachineFromExadbVmClusterDetailsMapper,
+  ExascaleDbStorageVault as ExascaleDbStorageVaultMapper,
+  ExascaleDbStorageVaultTagsUpdate as ExascaleDbStorageVaultTagsUpdateMapper,
   OracleSubscription as OracleSubscriptionMapper,
   OracleSubscriptionUpdate as OracleSubscriptionUpdateMapper,
+  AzureSubscriptions as AzureSubscriptionsMapper,
   AutonomousDatabaseBackup as AutonomousDatabaseBackupMapper,
   AutonomousDatabaseBackupUpdate as AutonomousDatabaseBackupUpdateMapper,
   DbNodeAction as DbNodeActionMapper,
@@ -58,7 +65,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-09-01",
+    defaultValue: "2025-03-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -145,15 +152,20 @@ export const properties: OperationParameter = {
 
 export const body: OperationParameter = {
   parameterPath: "body",
-  mapper: PeerDbDetailsMapper,
+  mapper: DisasterRecoveryConfigurationDetailsMapper,
 };
 
 export const body1: OperationParameter = {
   parameterPath: "body",
-  mapper: GenerateAutonomousDatabaseWalletDetailsMapper,
+  mapper: PeerDbDetailsMapper,
 };
 
 export const body2: OperationParameter = {
+  parameterPath: "body",
+  mapper: GenerateAutonomousDatabaseWalletDetailsMapper,
+};
+
+export const body3: OperationParameter = {
   parameterPath: "body",
   mapper: RestoreAutonomousDatabaseDetailsMapper,
 };
@@ -206,14 +218,67 @@ export const properties2: OperationParameter = {
   mapper: CloudVmClusterUpdateMapper,
 };
 
-export const body3: OperationParameter = {
+export const body4: OperationParameter = {
   parameterPath: "body",
   mapper: AddRemoveDbNodeMapper,
 };
 
-export const body4: OperationParameter = {
+export const body5: OperationParameter = {
   parameterPath: "body",
   mapper: PrivateIpAddressesFilterMapper,
+};
+
+export const exadbVmClusterName: OperationURLParameter = {
+  parameterPath: "exadbVmClusterName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(".*"),
+    },
+    serializedName: "exadbVmClusterName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource3: OperationParameter = {
+  parameterPath: "resource",
+  mapper: ExadbVmClusterMapper,
+};
+
+export const properties3: OperationParameter = {
+  parameterPath: "properties",
+  mapper: ExadbVmClusterUpdateMapper,
+};
+
+export const body6: OperationParameter = {
+  parameterPath: "body",
+  mapper: RemoveVirtualMachineFromExadbVmClusterDetailsMapper,
+};
+
+export const exascaleDbStorageVaultName: OperationURLParameter = {
+  parameterPath: "exascaleDbStorageVaultName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(".*"),
+    },
+    serializedName: "exascaleDbStorageVaultName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource4: OperationParameter = {
+  parameterPath: "resource",
+  mapper: ExascaleDbStorageVaultMapper,
+};
+
+export const properties4: OperationParameter = {
+  parameterPath: "properties",
+  mapper: ExascaleDbStorageVaultTagsUpdateMapper,
 };
 
 export const location: OperationURLParameter = {
@@ -272,6 +337,16 @@ export const autonomousdbversionsname: OperationURLParameter = {
   },
 };
 
+export const zone: OperationQueryParameter = {
+  parameterPath: ["options", "zone"],
+  mapper: {
+    serializedName: "zone",
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const dbsystemshapename: OperationURLParameter = {
   parameterPath: "dbsystemshapename",
   mapper: {
@@ -316,6 +391,30 @@ export const dnsprivatezonename: OperationURLParameter = {
   },
 };
 
+export const shape: OperationQueryParameter = {
+  parameterPath: ["options", "shape"],
+  mapper: {
+    serializedName: "shape",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const flexComponentName: OperationURLParameter = {
+  parameterPath: "flexComponentName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,24}$"),
+    },
+    serializedName: "flexComponentName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const giversionname: OperationURLParameter = {
   parameterPath: "giversionname",
   mapper: {
@@ -323,6 +422,30 @@ export const giversionname: OperationURLParameter = {
       Pattern: new RegExp(".*"),
     },
     serializedName: "giversionname",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const shapeFamily: OperationQueryParameter = {
+  parameterPath: ["options", "shapeFamily"],
+  mapper: {
+    serializedName: "shapeFamily",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const giMinorVersionName: OperationURLParameter = {
+  parameterPath: "giMinorVersionName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,24}$"),
+    },
+    serializedName: "giMinorVersionName",
     required: true,
     type: {
       name: "String",
@@ -344,14 +467,19 @@ export const systemversionname: OperationURLParameter = {
   },
 };
 
-export const resource3: OperationParameter = {
+export const resource5: OperationParameter = {
   parameterPath: "resource",
   mapper: OracleSubscriptionMapper,
 };
 
-export const properties3: OperationParameter = {
+export const properties5: OperationParameter = {
   parameterPath: "properties",
   mapper: OracleSubscriptionUpdateMapper,
+};
+
+export const body7: OperationParameter = {
+  parameterPath: "body",
+  mapper: AzureSubscriptionsMapper,
 };
 
 export const adbbackupid: OperationURLParameter = {
@@ -368,12 +496,12 @@ export const adbbackupid: OperationURLParameter = {
   },
 };
 
-export const resource4: OperationParameter = {
+export const resource6: OperationParameter = {
   parameterPath: "resource",
   mapper: AutonomousDatabaseBackupMapper,
 };
 
-export const properties4: OperationParameter = {
+export const properties6: OperationParameter = {
   parameterPath: "properties",
   mapper: AutonomousDatabaseBackupUpdateMapper,
 };
@@ -410,7 +538,7 @@ export const dbnodeocid: OperationURLParameter = {
   },
 };
 
-export const body5: OperationParameter = {
+export const body8: OperationParameter = {
   parameterPath: "body",
   mapper: DbNodeActionMapper,
 };
@@ -431,7 +559,21 @@ export const virtualnetworkaddressname: OperationURLParameter = {
   },
 };
 
-export const resource5: OperationParameter = {
+export const resource7: OperationParameter = {
   parameterPath: "resource",
   mapper: VirtualNetworkAddressMapper,
+};
+
+export const exascaleDbNodeName: OperationURLParameter = {
+  parameterPath: "exascaleDbNodeName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(".*"),
+    },
+    serializedName: "exascaleDbNodeName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };

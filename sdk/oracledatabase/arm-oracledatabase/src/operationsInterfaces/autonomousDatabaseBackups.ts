@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AutonomousDatabaseBackup,
-  AutonomousDatabaseBackupsListByAutonomousDatabaseOptionalParams,
+  AutonomousDatabaseBackupsListByParentOptionalParams,
   AutonomousDatabaseBackupsGetOptionalParams,
   AutonomousDatabaseBackupsGetResponse,
   AutonomousDatabaseBackupsCreateOrUpdateOptionalParams,
@@ -31,10 +31,10 @@ export interface AutonomousDatabaseBackups {
    * @param autonomousdatabasename The database name.
    * @param options The options parameters.
    */
-  listByAutonomousDatabase(
+  listByParent(
     resourceGroupName: string,
     autonomousdatabasename: string,
-    options?: AutonomousDatabaseBackupsListByAutonomousDatabaseOptionalParams,
+    options?: AutonomousDatabaseBackupsListByParentOptionalParams,
   ): PagedAsyncIterableIterator<AutonomousDatabaseBackup>;
   /**
    * Get a AutonomousDatabaseBackup

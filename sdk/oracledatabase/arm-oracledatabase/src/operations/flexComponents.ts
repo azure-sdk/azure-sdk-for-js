@@ -8,28 +8,28 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { DnsPrivateZones } from "../operationsInterfaces/index.js";
+import { FlexComponents } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { OracleDatabaseManagementClient } from "../oracleDatabaseManagementClient.js";
 import {
-  DnsPrivateZone,
-  DnsPrivateZonesListByLocationNextOptionalParams,
-  DnsPrivateZonesListByLocationOptionalParams,
-  DnsPrivateZonesListByLocationResponse,
-  DnsPrivateZonesGetOptionalParams,
-  DnsPrivateZonesGetResponse,
-  DnsPrivateZonesListByLocationNextResponse,
+  FlexComponent,
+  FlexComponentsListByParentNextOptionalParams,
+  FlexComponentsListByParentOptionalParams,
+  FlexComponentsListByParentResponse,
+  FlexComponentsGetOptionalParams,
+  FlexComponentsGetResponse,
+  FlexComponentsListByParentNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing DnsPrivateZones operations. */
-export class DnsPrivateZonesImpl implements DnsPrivateZones {
+/** Class containing FlexComponents operations. */
+export class FlexComponentsImpl implements FlexComponents {
   private readonly client: OracleDatabaseManagementClient;
 
   /**
-   * Initialize a new instance of the class DnsPrivateZones class.
+   * Initialize a new instance of the class FlexComponents class.
    * @param client Reference to the service client
    */
   constructor(client: OracleDatabaseManagementClient) {
@@ -37,15 +37,15 @@ export class DnsPrivateZonesImpl implements DnsPrivateZones {
   }
 
   /**
-   * List DnsPrivateZone resources by SubscriptionLocationResource
+   * List FlexComponent resources by SubscriptionLocationResource
    * @param location The name of the Azure region.
    * @param options The options parameters.
    */
-  public listByLocation(
+  public listByParent(
     location: string,
-    options?: DnsPrivateZonesListByLocationOptionalParams,
-  ): PagedAsyncIterableIterator<DnsPrivateZone> {
-    const iter = this.listByLocationPagingAll(location, options);
+    options?: FlexComponentsListByParentOptionalParams,
+  ): PagedAsyncIterableIterator<FlexComponent> {
+    const iter = this.listByParentPagingAll(location, options);
     return {
       next() {
         return iter.next();
@@ -57,27 +57,27 @@ export class DnsPrivateZonesImpl implements DnsPrivateZones {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByLocationPagingPage(location, options, settings);
+        return this.listByParentPagingPage(location, options, settings);
       },
     };
   }
 
-  private async *listByLocationPagingPage(
+  private async *listByParentPagingPage(
     location: string,
-    options?: DnsPrivateZonesListByLocationOptionalParams,
+    options?: FlexComponentsListByParentOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<DnsPrivateZone[]> {
-    let result: DnsPrivateZonesListByLocationResponse;
+  ): AsyncIterableIterator<FlexComponent[]> {
+    let result: FlexComponentsListByParentResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByLocation(location, options);
+      result = await this._listByParent(location, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByLocationNext(
+      result = await this._listByParentNext(
         location,
         continuationToken,
         options,
@@ -89,79 +89,79 @@ export class DnsPrivateZonesImpl implements DnsPrivateZones {
     }
   }
 
-  private async *listByLocationPagingAll(
+  private async *listByParentPagingAll(
     location: string,
-    options?: DnsPrivateZonesListByLocationOptionalParams,
-  ): AsyncIterableIterator<DnsPrivateZone> {
-    for await (const page of this.listByLocationPagingPage(location, options)) {
+    options?: FlexComponentsListByParentOptionalParams,
+  ): AsyncIterableIterator<FlexComponent> {
+    for await (const page of this.listByParentPagingPage(location, options)) {
       yield* page;
     }
   }
 
   /**
-   * List DnsPrivateZone resources by SubscriptionLocationResource
+   * List FlexComponent resources by SubscriptionLocationResource
    * @param location The name of the Azure region.
    * @param options The options parameters.
    */
-  private _listByLocation(
+  private _listByParent(
     location: string,
-    options?: DnsPrivateZonesListByLocationOptionalParams,
-  ): Promise<DnsPrivateZonesListByLocationResponse> {
+    options?: FlexComponentsListByParentOptionalParams,
+  ): Promise<FlexComponentsListByParentResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listByLocationOperationSpec,
+      listByParentOperationSpec,
     );
   }
 
   /**
-   * Get a DnsPrivateZone
+   * Get a FlexComponent
    * @param location The name of the Azure region.
-   * @param dnsprivatezonename DnsPrivateZone name
+   * @param flexComponentName The name of the FlexComponent
    * @param options The options parameters.
    */
   get(
     location: string,
-    dnsprivatezonename: string,
-    options?: DnsPrivateZonesGetOptionalParams,
-  ): Promise<DnsPrivateZonesGetResponse> {
+    flexComponentName: string,
+    options?: FlexComponentsGetOptionalParams,
+  ): Promise<FlexComponentsGetResponse> {
     return this.client.sendOperationRequest(
-      { location, dnsprivatezonename, options },
+      { location, flexComponentName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * ListByLocationNext
+   * ListByParentNext
    * @param location The name of the Azure region.
-   * @param nextLink The nextLink from the previous successful call to the ListByLocation method.
+   * @param nextLink The nextLink from the previous successful call to the ListByParent method.
    * @param options The options parameters.
    */
-  private _listByLocationNext(
+  private _listByParentNext(
     location: string,
     nextLink: string,
-    options?: DnsPrivateZonesListByLocationNextOptionalParams,
-  ): Promise<DnsPrivateZonesListByLocationNextResponse> {
+    options?: FlexComponentsListByParentNextOptionalParams,
+  ): Promise<FlexComponentsListByParentNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listByLocationNextOperationSpec,
+      listByParentNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByLocationOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Oracle.Database/locations/{location}/dnsPrivateZones",
+const listByParentOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Oracle.Database/locations/{location}/flexComponents",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DnsPrivateZoneListResult,
+      bodyMapper: Mappers.FlexComponentListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.shape],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -171,11 +171,11 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Oracle.Database/locations/{location}/dnsPrivateZones/{dnsprivatezonename}",
+  path: "/subscriptions/{subscriptionId}/providers/Oracle.Database/locations/{location}/flexComponents/{flexComponentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DnsPrivateZone,
+      bodyMapper: Mappers.FlexComponent,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -186,17 +186,17 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location,
-    Parameters.dnsprivatezonename,
+    Parameters.flexComponentName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByLocationNextOperationSpec: coreClient.OperationSpec = {
+const listByParentNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DnsPrivateZoneListResult,
+      bodyMapper: Mappers.FlexComponentListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

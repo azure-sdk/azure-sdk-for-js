@@ -18,7 +18,7 @@ import {
 /** Interface representing a DbSystemShapes. */
 export interface DbSystemShapes {
   /**
-   * List DbSystemShape resources by Location
+   * List DbSystemShape resources by SubscriptionLocationResource
    * @param location The name of the Azure region.
    * @param options The options parameters.
    */

@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualNetworkAddress,
-  VirtualNetworkAddressesListByCloudVmClusterOptionalParams,
+  VirtualNetworkAddressesListByParentOptionalParams,
   VirtualNetworkAddressesGetOptionalParams,
   VirtualNetworkAddressesGetResponse,
   VirtualNetworkAddressesCreateOrUpdateOptionalParams,
@@ -28,10 +28,10 @@ export interface VirtualNetworkAddresses {
    * @param cloudvmclustername CloudVmCluster name
    * @param options The options parameters.
    */
-  listByCloudVmCluster(
+  listByParent(
     resourceGroupName: string,
     cloudvmclustername: string,
-    options?: VirtualNetworkAddressesListByCloudVmClusterOptionalParams,
+    options?: VirtualNetworkAddressesListByParentOptionalParams,
   ): PagedAsyncIterableIterator<VirtualNetworkAddress>;
   /**
    * Get a VirtualNetworkAddress

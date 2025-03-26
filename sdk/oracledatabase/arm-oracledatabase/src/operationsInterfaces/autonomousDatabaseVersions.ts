@@ -18,7 +18,7 @@ import {
 /** Interface representing a AutonomousDatabaseVersions. */
 export interface AutonomousDatabaseVersions {
   /**
-   * List AutonomousDbVersion resources by Location
+   * List AutonomousDbVersion resources by SubscriptionLocationResource
    * @param location The name of the Azure region.
    * @param options The options parameters.
    */

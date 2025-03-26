@@ -33,6 +33,9 @@ import {
   OracleSubscriptionsUpdateResponse,
   OracleSubscriptionsDeleteOptionalParams,
   OracleSubscriptionsDeleteResponse,
+  AzureSubscriptions,
+  OracleSubscriptionsAddAzureSubscriptionsOptionalParams,
+  OracleSubscriptionsAddAzureSubscriptionsResponse,
   OracleSubscriptionsListActivationLinksOptionalParams,
   OracleSubscriptionsListActivationLinksResponse,
   OracleSubscriptionsListCloudAccountDetailsOptionalParams,
@@ -375,6 +378,88 @@ export class OracleSubscriptionsImpl implements OracleSubscriptions {
   }
 
   /**
+   * Add Azure Subscriptions
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  async beginAddAzureSubscriptions(
+    body: AzureSubscriptions,
+    options?: OracleSubscriptionsAddAzureSubscriptionsOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<OracleSubscriptionsAddAzureSubscriptionsResponse>,
+      OracleSubscriptionsAddAzureSubscriptionsResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<OracleSubscriptionsAddAzureSubscriptionsResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { body, options },
+      spec: addAzureSubscriptionsOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      OracleSubscriptionsAddAzureSubscriptionsResponse,
+      OperationState<OracleSubscriptionsAddAzureSubscriptionsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Add Azure Subscriptions
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  async beginAddAzureSubscriptionsAndWait(
+    body: AzureSubscriptions,
+    options?: OracleSubscriptionsAddAzureSubscriptionsOptionalParams,
+  ): Promise<OracleSubscriptionsAddAzureSubscriptionsResponse> {
+    const poller = await this.beginAddAzureSubscriptions(body, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
    * List Activation Links
    * @param options The options parameters.
    */
@@ -678,7 +763,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.resource3,
+  requestBody: Parameters.resource5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -705,7 +790,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.properties3,
+  requestBody: Parameters.properties5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -735,6 +820,33 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
+  serializer,
+};
+const addAzureSubscriptionsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Oracle.Database/oracleSubscriptions/default/addAzureSubscriptions",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.OracleSubscriptionsAddAzureSubscriptionsHeaders,
+    },
+    201: {
+      headersMapper: Mappers.OracleSubscriptionsAddAzureSubscriptionsHeaders,
+    },
+    202: {
+      headersMapper: Mappers.OracleSubscriptionsAddAzureSubscriptionsHeaders,
+    },
+    204: {
+      headersMapper: Mappers.OracleSubscriptionsAddAzureSubscriptionsHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body7,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };
 const listActivationLinksOperationSpec: coreClient.OperationSpec = {

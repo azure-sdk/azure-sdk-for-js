@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { DbNodes } from "../operationsInterfaces/index.js";
+import { ExascaleDbNodes } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -20,25 +20,25 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  DbNode,
-  DbNodesListByParentNextOptionalParams,
-  DbNodesListByParentOptionalParams,
-  DbNodesListByParentResponse,
-  DbNodesGetOptionalParams,
-  DbNodesGetResponse,
+  ExascaleDbNode,
+  ExascaleDbNodesListByParentNextOptionalParams,
+  ExascaleDbNodesListByParentOptionalParams,
+  ExascaleDbNodesListByParentResponse,
+  ExascaleDbNodesGetOptionalParams,
+  ExascaleDbNodesGetResponse,
   DbNodeAction,
-  DbNodesActionOptionalParams,
-  DbNodesActionResponse,
-  DbNodesListByParentNextResponse,
+  ExascaleDbNodesActionOptionalParams,
+  ExascaleDbNodesActionResponse,
+  ExascaleDbNodesListByParentNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing DbNodes operations. */
-export class DbNodesImpl implements DbNodes {
+/** Class containing ExascaleDbNodes operations. */
+export class ExascaleDbNodesImpl implements ExascaleDbNodes {
   private readonly client: OracleDatabaseManagementClient;
 
   /**
-   * Initialize a new instance of the class DbNodes class.
+   * Initialize a new instance of the class ExascaleDbNodes class.
    * @param client Reference to the service client
    */
   constructor(client: OracleDatabaseManagementClient) {
@@ -46,19 +46,19 @@ export class DbNodesImpl implements DbNodes {
   }
 
   /**
-   * List DbNode resources by CloudVmCluster
+   * List ExascaleDbNode resources by ExadbVmCluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param cloudvmclustername CloudVmCluster name
+   * @param exadbVmClusterName The name of the ExadbVmCluster
    * @param options The options parameters.
    */
   public listByParent(
     resourceGroupName: string,
-    cloudvmclustername: string,
-    options?: DbNodesListByParentOptionalParams,
-  ): PagedAsyncIterableIterator<DbNode> {
+    exadbVmClusterName: string,
+    options?: ExascaleDbNodesListByParentOptionalParams,
+  ): PagedAsyncIterableIterator<ExascaleDbNode> {
     const iter = this.listByParentPagingAll(
       resourceGroupName,
-      cloudvmclustername,
+      exadbVmClusterName,
       options,
     );
     return {
@@ -74,7 +74,7 @@ export class DbNodesImpl implements DbNodes {
         }
         return this.listByParentPagingPage(
           resourceGroupName,
-          cloudvmclustername,
+          exadbVmClusterName,
           options,
           settings,
         );
@@ -84,16 +84,16 @@ export class DbNodesImpl implements DbNodes {
 
   private async *listByParentPagingPage(
     resourceGroupName: string,
-    cloudvmclustername: string,
-    options?: DbNodesListByParentOptionalParams,
+    exadbVmClusterName: string,
+    options?: ExascaleDbNodesListByParentOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<DbNode[]> {
-    let result: DbNodesListByParentResponse;
+  ): AsyncIterableIterator<ExascaleDbNode[]> {
+    let result: ExascaleDbNodesListByParentResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByParent(
         resourceGroupName,
-        cloudvmclustername,
+        exadbVmClusterName,
         options,
       );
       let page = result.value || [];
@@ -104,7 +104,7 @@ export class DbNodesImpl implements DbNodes {
     while (continuationToken) {
       result = await this._listByParentNext(
         resourceGroupName,
-        cloudvmclustername,
+        exadbVmClusterName,
         continuationToken,
         options,
       );
@@ -117,12 +117,12 @@ export class DbNodesImpl implements DbNodes {
 
   private async *listByParentPagingAll(
     resourceGroupName: string,
-    cloudvmclustername: string,
-    options?: DbNodesListByParentOptionalParams,
-  ): AsyncIterableIterator<DbNode> {
+    exadbVmClusterName: string,
+    options?: ExascaleDbNodesListByParentOptionalParams,
+  ): AsyncIterableIterator<ExascaleDbNode> {
     for await (const page of this.listByParentPagingPage(
       resourceGroupName,
-      cloudvmclustername,
+      exadbVmClusterName,
       options,
     )) {
       yield* page;
@@ -130,65 +130,65 @@ export class DbNodesImpl implements DbNodes {
   }
 
   /**
-   * List DbNode resources by CloudVmCluster
+   * List ExascaleDbNode resources by ExadbVmCluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param cloudvmclustername CloudVmCluster name
+   * @param exadbVmClusterName The name of the ExadbVmCluster
    * @param options The options parameters.
    */
   private _listByParent(
     resourceGroupName: string,
-    cloudvmclustername: string,
-    options?: DbNodesListByParentOptionalParams,
-  ): Promise<DbNodesListByParentResponse> {
+    exadbVmClusterName: string,
+    options?: ExascaleDbNodesListByParentOptionalParams,
+  ): Promise<ExascaleDbNodesListByParentResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, cloudvmclustername, options },
+      { resourceGroupName, exadbVmClusterName, options },
       listByParentOperationSpec,
     );
   }
 
   /**
-   * Get a DbNode
+   * Get a ExascaleDbNode
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param cloudvmclustername CloudVmCluster name
-   * @param dbnodeocid DbNode OCID.
+   * @param exadbVmClusterName The name of the ExadbVmCluster
+   * @param exascaleDbNodeName The name of the ExascaleDbNode
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    cloudvmclustername: string,
-    dbnodeocid: string,
-    options?: DbNodesGetOptionalParams,
-  ): Promise<DbNodesGetResponse> {
+    exadbVmClusterName: string,
+    exascaleDbNodeName: string,
+    options?: ExascaleDbNodesGetOptionalParams,
+  ): Promise<ExascaleDbNodesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, cloudvmclustername, dbnodeocid, options },
+      { resourceGroupName, exadbVmClusterName, exascaleDbNodeName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * VM actions on DbNode of VM Cluster by the provided filter
+   * VM actions on DbNode of ExadbVmCluster by the provided filter
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param cloudvmclustername CloudVmCluster name
-   * @param dbnodeocid DbNode OCID.
+   * @param exadbVmClusterName The name of the ExadbVmCluster
+   * @param exascaleDbNodeName The name of the ExascaleDbNode
    * @param body The content of the action request
    * @param options The options parameters.
    */
   async beginAction(
     resourceGroupName: string,
-    cloudvmclustername: string,
-    dbnodeocid: string,
+    exadbVmClusterName: string,
+    exascaleDbNodeName: string,
     body: DbNodeAction,
-    options?: DbNodesActionOptionalParams,
+    options?: ExascaleDbNodesActionOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<DbNodesActionResponse>,
-      DbNodesActionResponse
+      OperationState<ExascaleDbNodesActionResponse>,
+      ExascaleDbNodesActionResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<DbNodesActionResponse> => {
+    ): Promise<ExascaleDbNodesActionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -227,16 +227,16 @@ export class DbNodesImpl implements DbNodes {
       sendOperationFn,
       args: {
         resourceGroupName,
-        cloudvmclustername,
-        dbnodeocid,
+        exadbVmClusterName,
+        exascaleDbNodeName,
         body,
         options,
       },
       spec: actionOperationSpec,
     });
     const poller = await createHttpPoller<
-      DbNodesActionResponse,
-      OperationState<DbNodesActionResponse>
+      ExascaleDbNodesActionResponse,
+      OperationState<ExascaleDbNodesActionResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -247,24 +247,24 @@ export class DbNodesImpl implements DbNodes {
   }
 
   /**
-   * VM actions on DbNode of VM Cluster by the provided filter
+   * VM actions on DbNode of ExadbVmCluster by the provided filter
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param cloudvmclustername CloudVmCluster name
-   * @param dbnodeocid DbNode OCID.
+   * @param exadbVmClusterName The name of the ExadbVmCluster
+   * @param exascaleDbNodeName The name of the ExascaleDbNode
    * @param body The content of the action request
    * @param options The options parameters.
    */
   async beginActionAndWait(
     resourceGroupName: string,
-    cloudvmclustername: string,
-    dbnodeocid: string,
+    exadbVmClusterName: string,
+    exascaleDbNodeName: string,
     body: DbNodeAction,
-    options?: DbNodesActionOptionalParams,
-  ): Promise<DbNodesActionResponse> {
+    options?: ExascaleDbNodesActionOptionalParams,
+  ): Promise<ExascaleDbNodesActionResponse> {
     const poller = await this.beginAction(
       resourceGroupName,
-      cloudvmclustername,
-      dbnodeocid,
+      exadbVmClusterName,
+      exascaleDbNodeName,
       body,
       options,
     );
@@ -274,18 +274,18 @@ export class DbNodesImpl implements DbNodes {
   /**
    * ListByParentNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param cloudvmclustername CloudVmCluster name
+   * @param exadbVmClusterName The name of the ExadbVmCluster
    * @param nextLink The nextLink from the previous successful call to the ListByParent method.
    * @param options The options parameters.
    */
   private _listByParentNext(
     resourceGroupName: string,
-    cloudvmclustername: string,
+    exadbVmClusterName: string,
     nextLink: string,
-    options?: DbNodesListByParentNextOptionalParams,
-  ): Promise<DbNodesListByParentNextResponse> {
+    options?: ExascaleDbNodesListByParentNextOptionalParams,
+  ): Promise<ExascaleDbNodesListByParentNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, cloudvmclustername, nextLink, options },
+      { resourceGroupName, exadbVmClusterName, nextLink, options },
       listByParentNextOperationSpec,
     );
   }
@@ -294,11 +294,11 @@ export class DbNodesImpl implements DbNodes {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByParentOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudVmClusters/{cloudvmclustername}/dbNodes",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/exadbVmClusters/{exadbVmClusterName}/dbNodes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DbNodeListResult,
+      bodyMapper: Mappers.ExascaleDbNodeListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -309,17 +309,17 @@ const listByParentOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cloudvmclustername,
+    Parameters.exadbVmClusterName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudVmClusters/{cloudvmclustername}/dbNodes/{dbnodeocid}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/exadbVmClusters/{exadbVmClusterName}/dbNodes/{exascaleDbNodeName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DbNode,
+      bodyMapper: Mappers.ExascaleDbNode,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -330,27 +330,27 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cloudvmclustername,
-    Parameters.dbnodeocid,
+    Parameters.exadbVmClusterName,
+    Parameters.exascaleDbNodeName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const actionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudVmClusters/{cloudvmclustername}/dbNodes/{dbnodeocid}/action",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/exadbVmClusters/{exadbVmClusterName}/dbNodes/{exascaleDbNodeName}/action",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DbNode,
+      bodyMapper: Mappers.DbActionResponse,
     },
     201: {
-      bodyMapper: Mappers.DbNode,
+      bodyMapper: Mappers.DbActionResponse,
     },
     202: {
-      bodyMapper: Mappers.DbNode,
+      bodyMapper: Mappers.DbActionResponse,
     },
     204: {
-      bodyMapper: Mappers.DbNode,
+      bodyMapper: Mappers.DbActionResponse,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -362,8 +362,8 @@ const actionOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cloudvmclustername,
-    Parameters.dbnodeocid,
+    Parameters.exadbVmClusterName,
+    Parameters.exascaleDbNodeName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -374,7 +374,7 @@ const listByParentNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DbNodeListResult,
+      bodyMapper: Mappers.ExascaleDbNodeListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -385,7 +385,7 @@ const listByParentNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cloudvmclustername,
+    Parameters.exadbVmClusterName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

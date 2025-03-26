@@ -18,7 +18,7 @@ import {
 /** Interface representing a DnsPrivateZones. */
 export interface DnsPrivateZones {
   /**
-   * List DnsPrivateZone resources by Location
+   * List DnsPrivateZone resources by SubscriptionLocationResource
    * @param location The name of the Azure region.
    * @param options The options parameters.
    */

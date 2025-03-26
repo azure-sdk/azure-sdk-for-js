@@ -18,7 +18,7 @@ import {
 /** Interface representing a AutonomousDatabaseCharacterSets. */
 export interface AutonomousDatabaseCharacterSets {
   /**
-   * List AutonomousDatabaseCharacterSet resources by Location
+   * List AutonomousDatabaseCharacterSet resources by SubscriptionLocationResource
    * @param location The name of the Azure region.
    * @param options The options parameters.
    */

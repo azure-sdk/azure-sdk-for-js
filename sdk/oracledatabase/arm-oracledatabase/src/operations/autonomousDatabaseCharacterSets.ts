@@ -39,7 +39,7 @@ export class AutonomousDatabaseCharacterSetsImpl
   }
 
   /**
-   * List AutonomousDatabaseCharacterSet resources by Location
+   * List AutonomousDatabaseCharacterSet resources by SubscriptionLocationResource
    * @param location The name of the Azure region.
    * @param options The options parameters.
    */
@@ -101,7 +101,7 @@ export class AutonomousDatabaseCharacterSetsImpl
   }
 
   /**
-   * List AutonomousDatabaseCharacterSet resources by Location
+   * List AutonomousDatabaseCharacterSet resources by SubscriptionLocationResource
    * @param location The name of the Azure region.
    * @param options The options parameters.
    */

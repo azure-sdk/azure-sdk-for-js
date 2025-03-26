@@ -8,28 +8,28 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { DnsPrivateZones } from "../operationsInterfaces/index.js";
+import { GiMinorVersions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { OracleDatabaseManagementClient } from "../oracleDatabaseManagementClient.js";
 import {
-  DnsPrivateZone,
-  DnsPrivateZonesListByLocationNextOptionalParams,
-  DnsPrivateZonesListByLocationOptionalParams,
-  DnsPrivateZonesListByLocationResponse,
-  DnsPrivateZonesGetOptionalParams,
-  DnsPrivateZonesGetResponse,
-  DnsPrivateZonesListByLocationNextResponse,
+  GiMinorVersion,
+  GiMinorVersionsListByParentNextOptionalParams,
+  GiMinorVersionsListByParentOptionalParams,
+  GiMinorVersionsListByParentResponse,
+  GiMinorVersionsGetOptionalParams,
+  GiMinorVersionsGetResponse,
+  GiMinorVersionsListByParentNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing DnsPrivateZones operations. */
-export class DnsPrivateZonesImpl implements DnsPrivateZones {
+/** Class containing GiMinorVersions operations. */
+export class GiMinorVersionsImpl implements GiMinorVersions {
   private readonly client: OracleDatabaseManagementClient;
 
   /**
-   * Initialize a new instance of the class DnsPrivateZones class.
+   * Initialize a new instance of the class GiMinorVersions class.
    * @param client Reference to the service client
    */
   constructor(client: OracleDatabaseManagementClient) {
@@ -37,15 +37,17 @@ export class DnsPrivateZonesImpl implements DnsPrivateZones {
   }
 
   /**
-   * List DnsPrivateZone resources by SubscriptionLocationResource
+   * List GiMinorVersion resources by GiVersion
    * @param location The name of the Azure region.
+   * @param giversionname GiVersion name
    * @param options The options parameters.
    */
-  public listByLocation(
+  public listByParent(
     location: string,
-    options?: DnsPrivateZonesListByLocationOptionalParams,
-  ): PagedAsyncIterableIterator<DnsPrivateZone> {
-    const iter = this.listByLocationPagingAll(location, options);
+    giversionname: string,
+    options?: GiMinorVersionsListByParentOptionalParams,
+  ): PagedAsyncIterableIterator<GiMinorVersion> {
+    const iter = this.listByParentPagingAll(location, giversionname, options);
     return {
       next() {
         return iter.next();
@@ -57,28 +59,35 @@ export class DnsPrivateZonesImpl implements DnsPrivateZones {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByLocationPagingPage(location, options, settings);
+        return this.listByParentPagingPage(
+          location,
+          giversionname,
+          options,
+          settings,
+        );
       },
     };
   }
 
-  private async *listByLocationPagingPage(
+  private async *listByParentPagingPage(
     location: string,
-    options?: DnsPrivateZonesListByLocationOptionalParams,
+    giversionname: string,
+    options?: GiMinorVersionsListByParentOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<DnsPrivateZone[]> {
-    let result: DnsPrivateZonesListByLocationResponse;
+  ): AsyncIterableIterator<GiMinorVersion[]> {
+    let result: GiMinorVersionsListByParentResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByLocation(location, options);
+      result = await this._listByParent(location, giversionname, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByLocationNext(
+      result = await this._listByParentNext(
         location,
+        giversionname,
         continuationToken,
         options,
       );
@@ -89,93 +98,109 @@ export class DnsPrivateZonesImpl implements DnsPrivateZones {
     }
   }
 
-  private async *listByLocationPagingAll(
+  private async *listByParentPagingAll(
     location: string,
-    options?: DnsPrivateZonesListByLocationOptionalParams,
-  ): AsyncIterableIterator<DnsPrivateZone> {
-    for await (const page of this.listByLocationPagingPage(location, options)) {
+    giversionname: string,
+    options?: GiMinorVersionsListByParentOptionalParams,
+  ): AsyncIterableIterator<GiMinorVersion> {
+    for await (const page of this.listByParentPagingPage(
+      location,
+      giversionname,
+      options,
+    )) {
       yield* page;
     }
   }
 
   /**
-   * List DnsPrivateZone resources by SubscriptionLocationResource
+   * List GiMinorVersion resources by GiVersion
    * @param location The name of the Azure region.
+   * @param giversionname GiVersion name
    * @param options The options parameters.
    */
-  private _listByLocation(
+  private _listByParent(
     location: string,
-    options?: DnsPrivateZonesListByLocationOptionalParams,
-  ): Promise<DnsPrivateZonesListByLocationResponse> {
+    giversionname: string,
+    options?: GiMinorVersionsListByParentOptionalParams,
+  ): Promise<GiMinorVersionsListByParentResponse> {
     return this.client.sendOperationRequest(
-      { location, options },
-      listByLocationOperationSpec,
+      { location, giversionname, options },
+      listByParentOperationSpec,
     );
   }
 
   /**
-   * Get a DnsPrivateZone
+   * Get a GiMinorVersion
    * @param location The name of the Azure region.
-   * @param dnsprivatezonename DnsPrivateZone name
+   * @param giversionname GiVersion name
+   * @param giMinorVersionName The name of the GiMinorVersion
    * @param options The options parameters.
    */
   get(
     location: string,
-    dnsprivatezonename: string,
-    options?: DnsPrivateZonesGetOptionalParams,
-  ): Promise<DnsPrivateZonesGetResponse> {
+    giversionname: string,
+    giMinorVersionName: string,
+    options?: GiMinorVersionsGetOptionalParams,
+  ): Promise<GiMinorVersionsGetResponse> {
     return this.client.sendOperationRequest(
-      { location, dnsprivatezonename, options },
+      { location, giversionname, giMinorVersionName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * ListByLocationNext
+   * ListByParentNext
    * @param location The name of the Azure region.
-   * @param nextLink The nextLink from the previous successful call to the ListByLocation method.
+   * @param giversionname GiVersion name
+   * @param nextLink The nextLink from the previous successful call to the ListByParent method.
    * @param options The options parameters.
    */
-  private _listByLocationNext(
+  private _listByParentNext(
     location: string,
+    giversionname: string,
     nextLink: string,
-    options?: DnsPrivateZonesListByLocationNextOptionalParams,
-  ): Promise<DnsPrivateZonesListByLocationNextResponse> {
+    options?: GiMinorVersionsListByParentNextOptionalParams,
+  ): Promise<GiMinorVersionsListByParentNextResponse> {
     return this.client.sendOperationRequest(
-      { location, nextLink, options },
-      listByLocationNextOperationSpec,
+      { location, giversionname, nextLink, options },
+      listByParentNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByLocationOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Oracle.Database/locations/{location}/dnsPrivateZones",
+const listByParentOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Oracle.Database/locations/{location}/giVersions/{giversionname}/giMinorVersions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DnsPrivateZoneListResult,
+      bodyMapper: Mappers.GiMinorVersionListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.zone,
+    Parameters.shapeFamily,
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location,
+    Parameters.giversionname,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Oracle.Database/locations/{location}/dnsPrivateZones/{dnsprivatezonename}",
+  path: "/subscriptions/{subscriptionId}/providers/Oracle.Database/locations/{location}/giVersions/{giversionname}/giMinorVersions/{giMinorVersionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DnsPrivateZone,
+      bodyMapper: Mappers.GiMinorVersion,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -186,17 +211,18 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location,
-    Parameters.dnsprivatezonename,
+    Parameters.giversionname,
+    Parameters.giMinorVersionName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByLocationNextOperationSpec: coreClient.OperationSpec = {
+const listByParentNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DnsPrivateZoneListResult,
+      bodyMapper: Mappers.GiMinorVersionListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -207,6 +233,7 @@ const listByLocationNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.location,
+    Parameters.giversionname,
   ],
   headerParameters: [Parameters.accept],
   serializer,

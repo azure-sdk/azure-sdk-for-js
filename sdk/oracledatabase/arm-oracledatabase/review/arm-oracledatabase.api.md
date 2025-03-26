@@ -25,6 +25,9 @@ export interface AddRemoveDbNode {
 }
 
 // @public
+export type AddSubscriptionOperationState = string;
+
+// @public
 export interface AllConnectionStringType {
     high?: string;
     low?: string;
@@ -85,11 +88,12 @@ export interface AutonomousDatabaseBackups {
     beginUpdate(resourceGroupName: string, autonomousdatabasename: string, adbbackupid: string, properties: AutonomousDatabaseBackupUpdate, options?: AutonomousDatabaseBackupsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AutonomousDatabaseBackupsUpdateResponse>, AutonomousDatabaseBackupsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, autonomousdatabasename: string, adbbackupid: string, properties: AutonomousDatabaseBackupUpdate, options?: AutonomousDatabaseBackupsUpdateOptionalParams): Promise<AutonomousDatabaseBackupsUpdateResponse>;
     get(resourceGroupName: string, autonomousdatabasename: string, adbbackupid: string, options?: AutonomousDatabaseBackupsGetOptionalParams): Promise<AutonomousDatabaseBackupsGetResponse>;
-    listByAutonomousDatabase(resourceGroupName: string, autonomousdatabasename: string, options?: AutonomousDatabaseBackupsListByAutonomousDatabaseOptionalParams): PagedAsyncIterableIterator<AutonomousDatabaseBackup>;
+    listByParent(resourceGroupName: string, autonomousdatabasename: string, options?: AutonomousDatabaseBackupsListByParentOptionalParams): PagedAsyncIterableIterator<AutonomousDatabaseBackup>;
 }
 
 // @public
 export interface AutonomousDatabaseBackupsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
     retryAfter?: number;
 }
 
@@ -125,18 +129,18 @@ export interface AutonomousDatabaseBackupsGetOptionalParams extends coreClient.O
 export type AutonomousDatabaseBackupsGetResponse = AutonomousDatabaseBackup;
 
 // @public
-export interface AutonomousDatabaseBackupsListByAutonomousDatabaseNextOptionalParams extends coreClient.OperationOptions {
+export interface AutonomousDatabaseBackupsListByParentNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AutonomousDatabaseBackupsListByAutonomousDatabaseNextResponse = AutonomousDatabaseBackupListResult;
+export type AutonomousDatabaseBackupsListByParentNextResponse = AutonomousDatabaseBackupListResult;
 
 // @public
-export interface AutonomousDatabaseBackupsListByAutonomousDatabaseOptionalParams extends coreClient.OperationOptions {
+export interface AutonomousDatabaseBackupsListByParentOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AutonomousDatabaseBackupsListByAutonomousDatabaseResponse = AutonomousDatabaseBackupListResult;
+export type AutonomousDatabaseBackupsListByParentResponse = AutonomousDatabaseBackupListResult;
 
 // @public
 export interface AutonomousDatabaseBackupsUpdateHeaders {
@@ -157,13 +161,8 @@ export type AutonomousDatabaseBackupsUpdateResponse = AutonomousDatabaseBackup;
 export type AutonomousDatabaseBackupType = string;
 
 // @public
-export interface AutonomousDatabaseBackupUpdate {
-    properties?: AutonomousDatabaseBackupUpdateProperties;
-}
-
-// @public
-export interface AutonomousDatabaseBackupUpdateProperties {
-    retentionPeriodInDays?: number;
+export interface AutonomousDatabaseBackupUpdate extends ProxyResource {
+    properties?: AutonomousDatabaseBackupProperties;
 }
 
 // @public
@@ -184,7 +183,7 @@ export interface AutonomousDatabaseBaseProperties {
     cpuCoreCount?: number;
     customerContacts?: CustomerContact[];
     databaseEdition?: DatabaseEditionType;
-    dataBaseType: "Clone" | "Regular";
+    dataBaseType: "Clone" | "CrossRegionDisasterRecovery" | "CloneFromBackupTimestamp" | "Regular";
     readonly dataSafeStatus?: DataSafeStatusType;
     dataStorageSizeInGbs?: number;
     dataStorageSizeInTbs?: number;
@@ -222,6 +221,7 @@ export interface AutonomousDatabaseBaseProperties {
     privateEndpointLabel?: string;
     readonly provisionableCpus?: number[];
     readonly provisioningState?: AzureResourceProvisioningState;
+    readonly remoteDisasterRecoveryConfiguration?: DisasterRecoveryConfigurationDetails;
     role?: RoleType;
     scheduledOperations?: ScheduledOperationsType;
     readonly serviceConsoleUrl?: string;
@@ -231,6 +231,7 @@ export interface AutonomousDatabaseBaseProperties {
     readonly timeCreated?: Date;
     readonly timeDataGuardRoleChanged?: string;
     readonly timeDeletionOfFreeAutonomousDatabase?: string;
+    readonly timeDisasterRecoveryRoleChanged?: Date;
     readonly timeLocalDataGuardEnabled?: string;
     readonly timeMaintenanceBegin?: Date;
     readonly timeMaintenanceEnd?: Date;
@@ -246,7 +247,7 @@ export interface AutonomousDatabaseBaseProperties {
 }
 
 // @public (undocumented)
-export type AutonomousDatabaseBasePropertiesUnion = AutonomousDatabaseBaseProperties | AutonomousDatabaseCloneProperties | AutonomousDatabaseProperties;
+export type AutonomousDatabaseBasePropertiesUnion = AutonomousDatabaseBaseProperties | AutonomousDatabaseCloneProperties | AutonomousDatabaseCrossRegionDisasterRecoveryProperties | AutonomousDatabaseFromBackupTimestampProperties | AutonomousDatabaseProperties;
 
 // @public
 export interface AutonomousDatabaseCharacterSet extends ProxyResource {
@@ -261,7 +262,7 @@ export interface AutonomousDatabaseCharacterSetListResult {
 
 // @public
 export interface AutonomousDatabaseCharacterSetProperties {
-    readonly characterSet: string;
+    characterSet: string;
 }
 
 // @public
@@ -305,6 +306,27 @@ export interface AutonomousDatabaseCloneProperties extends AutonomousDatabaseBas
 }
 
 // @public
+export interface AutonomousDatabaseCrossRegionDisasterRecoveryProperties extends AutonomousDatabaseBaseProperties {
+    dataBaseType: "CrossRegionDisasterRecovery";
+    isReplicateAutomaticBackups?: boolean;
+    remoteDisasterRecoveryType: DisasterRecoveryType;
+    source: "CrossRegionDisasterRecovery";
+    sourceId: string;
+    sourceLocation?: string;
+    sourceOcid?: string;
+}
+
+// @public
+export interface AutonomousDatabaseFromBackupTimestampProperties extends AutonomousDatabaseBaseProperties {
+    cloneType: CloneType;
+    dataBaseType: "CloneFromBackupTimestamp";
+    source: "BackupFromTimestamp";
+    sourceId: string;
+    timestamp?: Date;
+    useLatestAvailableBackupTimeStamp?: boolean;
+}
+
+// @public
 export type AutonomousDatabaseLifecycleState = string;
 
 // @public
@@ -326,7 +348,7 @@ export interface AutonomousDatabaseNationalCharacterSetListResult {
 
 // @public
 export interface AutonomousDatabaseNationalCharacterSetProperties {
-    readonly characterSet: string;
+    characterSet: string;
 }
 
 // @public
@@ -363,6 +385,8 @@ export interface AutonomousDatabaseProperties extends AutonomousDatabaseBaseProp
 
 // @public
 export interface AutonomousDatabases {
+    beginChangeDisasterRecoveryConfiguration(resourceGroupName: string, autonomousdatabasename: string, body: DisasterRecoveryConfigurationDetails, options?: AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams): Promise<SimplePollerLike<OperationState<AutonomousDatabasesChangeDisasterRecoveryConfigurationResponse>, AutonomousDatabasesChangeDisasterRecoveryConfigurationResponse>>;
+    beginChangeDisasterRecoveryConfigurationAndWait(resourceGroupName: string, autonomousdatabasename: string, body: DisasterRecoveryConfigurationDetails, options?: AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams): Promise<AutonomousDatabasesChangeDisasterRecoveryConfigurationResponse>;
     beginCreateOrUpdate(resourceGroupName: string, autonomousdatabasename: string, resource: AutonomousDatabase, options?: AutonomousDatabasesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AutonomousDatabasesCreateOrUpdateResponse>, AutonomousDatabasesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, autonomousdatabasename: string, resource: AutonomousDatabase, options?: AutonomousDatabasesCreateOrUpdateOptionalParams): Promise<AutonomousDatabasesCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, autonomousdatabasename: string, options?: AutonomousDatabasesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<AutonomousDatabasesDeleteResponse>, AutonomousDatabasesDeleteResponse>>;
@@ -384,7 +408,23 @@ export interface AutonomousDatabases {
 }
 
 // @public
+export interface AutonomousDatabasesChangeDisasterRecoveryConfigurationHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AutonomousDatabasesChangeDisasterRecoveryConfigurationResponse = AutonomousDatabase;
+
+// @public
 export interface AutonomousDatabasesCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
     retryAfter?: number;
 }
 
@@ -618,12 +658,12 @@ export interface AutonomousDbVersionListResult {
 
 // @public
 export interface AutonomousDbVersionProperties {
-    readonly dbWorkload?: WorkloadType;
-    readonly isDefaultForFree?: boolean;
-    readonly isDefaultForPaid?: boolean;
-    readonly isFreeTierEnabled?: boolean;
-    readonly isPaidEnabled?: boolean;
-    readonly version: string;
+    dbWorkload?: WorkloadType;
+    isDefaultForFree?: boolean;
+    isDefaultForPaid?: boolean;
+    isFreeTierEnabled?: boolean;
+    isPaidEnabled?: boolean;
+    version: string;
 }
 
 // @public
@@ -631,6 +671,11 @@ export type AutonomousMaintenanceScheduleType = string;
 
 // @public
 export type AzureResourceProvisioningState = string;
+
+// @public
+export interface AzureSubscriptions {
+    azureSubscriptionIds: string[];
+}
 
 // @public
 export type CloneType = string;
@@ -665,11 +710,14 @@ export interface CloudExadataInfrastructureProperties {
     readonly additionalStorageCount?: number;
     readonly availableStorageSizeInGbs?: number;
     computeCount?: number;
+    readonly computeModel?: ComputeModel;
     readonly cpuCount?: number;
     customerContacts?: CustomerContact[];
+    databaseServerType?: string;
     readonly dataStorageSizeInTbs?: number;
     readonly dbNodeStorageSizeInGbs?: number;
     readonly dbServerVersion?: string;
+    readonly definedFileSystemConfiguration?: DefinedFileSystemConfiguration[];
     displayName: string;
     readonly estimatedPatchingTime?: EstimatedPatchingTime;
     readonly lastMaintenanceRunId?: string;
@@ -689,6 +737,7 @@ export interface CloudExadataInfrastructureProperties {
     readonly provisioningState?: AzureResourceProvisioningState;
     shape: string;
     storageCount?: number;
+    storageServerType?: string;
     readonly storageServerVersion?: string;
     readonly timeCreated?: string;
     readonly totalStorageSizeInGbs?: number;
@@ -726,6 +775,7 @@ export type CloudExadataInfrastructuresAddStorageCapacityResponse = CloudExadata
 
 // @public
 export interface CloudExadataInfrastructuresCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
     retryAfter?: number;
 }
 
@@ -841,6 +891,7 @@ export interface CloudVmClusterProperties {
     cloudExadataInfrastructureId: string;
     clusterName?: string;
     readonly compartmentId?: string;
+    readonly computeModel?: ComputeModel;
     computeNodes?: string[];
     cpuCoreCount: number;
     dataCollectionOptions?: DataCollectionOptions;
@@ -851,6 +902,7 @@ export interface CloudVmClusterProperties {
     readonly diskRedundancy?: DiskRedundancy;
     displayName: string;
     domain?: string;
+    fileSystemConfigurationDetails?: FileSystemConfigurationDetails[];
     giVersion: string;
     hostname: string;
     readonly iormConfigCache?: ExadataIormConfig;
@@ -922,6 +974,7 @@ export type CloudVmClustersAddVmsResponse = CloudVmCluster;
 
 // @public
 export interface CloudVmClustersCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
     retryAfter?: number;
 }
 
@@ -1037,6 +1090,7 @@ export interface CloudVmClusterUpdateProperties {
     dataStorageSizeInTbs?: number;
     dbNodeStorageSizeInGbs?: number;
     displayName?: string;
+    fileSystemConfigurationDetails?: FileSystemConfigurationDetails[];
     licenseModel?: LicenseModel;
     memorySizeInGbs?: number;
     ocpuCount?: number;
@@ -1109,6 +1163,11 @@ export interface DayOfWeekUpdate {
 }
 
 // @public
+export interface DbActionResponse {
+    readonly provisioningState?: AzureResourceProvisioningState;
+}
+
+// @public
 export interface DbIormConfig {
     dbName?: string;
     flashCacheLimit?: string;
@@ -1129,6 +1188,11 @@ export interface DbNodeAction {
 export type DbNodeActionEnum = string;
 
 // @public
+export interface DbNodeDetails {
+    dbNodeId: string;
+}
+
+// @public
 export interface DbNodeListResult {
     nextLink?: string;
     value: DbNode[];
@@ -1139,29 +1203,29 @@ export type DbNodeMaintenanceType = string;
 
 // @public
 export interface DbNodeProperties {
-    readonly additionalDetails?: string;
-    readonly backupIpId?: string;
-    readonly backupVnic2Id?: string;
-    readonly backupVnicId?: string;
-    readonly cpuCoreCount?: number;
-    readonly dbNodeStorageSizeInGbs?: number;
-    readonly dbServerId?: string;
-    readonly dbSystemId: string;
-    readonly faultDomain?: string;
-    readonly hostIpId?: string;
-    readonly hostname?: string;
-    readonly lifecycleDetails?: string;
-    readonly lifecycleState?: DbNodeProvisioningState;
-    readonly maintenanceType?: DbNodeMaintenanceType;
-    readonly memorySizeInGbs?: number;
-    readonly ocid: string;
+    additionalDetails?: string;
+    backupIpId?: string;
+    backupVnic2Id?: string;
+    backupVnicId?: string;
+    cpuCoreCount?: number;
+    dbNodeStorageSizeInGbs?: number;
+    dbServerId?: string;
+    dbSystemId: string;
+    faultDomain?: string;
+    hostIpId?: string;
+    hostname?: string;
+    lifecycleDetails?: string;
+    lifecycleState: DbNodeProvisioningState;
+    maintenanceType?: DbNodeMaintenanceType;
+    memorySizeInGbs?: number;
+    ocid: string;
     readonly provisioningState?: ResourceProvisioningState;
-    readonly softwareStorageSizeInGb?: number;
-    readonly timeCreated?: Date;
-    readonly timeMaintenanceWindowEnd?: Date;
-    readonly timeMaintenanceWindowStart?: Date;
-    readonly vnic2Id?: string;
-    readonly vnicId?: string;
+    softwareStorageSizeInGb?: number;
+    timeCreated: Date;
+    timeMaintenanceWindowEnd?: Date;
+    timeMaintenanceWindowStart?: Date;
+    vnic2Id?: string;
+    vnicId: string;
 }
 
 // @public
@@ -1172,7 +1236,7 @@ export interface DbNodes {
     beginAction(resourceGroupName: string, cloudvmclustername: string, dbnodeocid: string, body: DbNodeAction, options?: DbNodesActionOptionalParams): Promise<SimplePollerLike<OperationState<DbNodesActionResponse>, DbNodesActionResponse>>;
     beginActionAndWait(resourceGroupName: string, cloudvmclustername: string, dbnodeocid: string, body: DbNodeAction, options?: DbNodesActionOptionalParams): Promise<DbNodesActionResponse>;
     get(resourceGroupName: string, cloudvmclustername: string, dbnodeocid: string, options?: DbNodesGetOptionalParams): Promise<DbNodesGetResponse>;
-    listByCloudVmCluster(resourceGroupName: string, cloudvmclustername: string, options?: DbNodesListByCloudVmClusterOptionalParams): PagedAsyncIterableIterator<DbNode>;
+    listByParent(resourceGroupName: string, cloudvmclustername: string, options?: DbNodesListByParentOptionalParams): PagedAsyncIterableIterator<DbNode>;
 }
 
 // @public
@@ -1198,18 +1262,18 @@ export interface DbNodesGetOptionalParams extends coreClient.OperationOptions {
 export type DbNodesGetResponse = DbNode;
 
 // @public
-export interface DbNodesListByCloudVmClusterNextOptionalParams extends coreClient.OperationOptions {
+export interface DbNodesListByParentNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type DbNodesListByCloudVmClusterNextResponse = DbNodeListResult;
+export type DbNodesListByParentNextResponse = DbNodeListResult;
 
 // @public
-export interface DbNodesListByCloudVmClusterOptionalParams extends coreClient.OperationOptions {
+export interface DbNodesListByParentOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type DbNodesListByCloudVmClusterResponse = DbNodeListResult;
+export type DbNodesListByParentResponse = DbNodeListResult;
 
 // @public
 export interface DbServer extends ProxyResource {
@@ -1238,6 +1302,7 @@ export interface DbServerProperties {
     readonly autonomousVirtualMachineIds?: string[];
     readonly autonomousVmClusterIds?: string[];
     readonly compartmentId?: string;
+    readonly computeModel?: ComputeModel;
     readonly cpuCoreCount?: number;
     readonly dbNodeIds?: string[];
     readonly dbNodeStorageSizeInGbs?: number;
@@ -1263,7 +1328,7 @@ export type DbServerProvisioningState = string;
 // @public
 export interface DbServers {
     get(resourceGroupName: string, cloudexadatainfrastructurename: string, dbserverocid: string, options?: DbServersGetOptionalParams): Promise<DbServersGetResponse>;
-    listByCloudExadataInfrastructure(resourceGroupName: string, cloudexadatainfrastructurename: string, options?: DbServersListByCloudExadataInfrastructureOptionalParams): PagedAsyncIterableIterator<DbServer>;
+    listByParent(resourceGroupName: string, cloudexadatainfrastructurename: string, options?: DbServersListByParentOptionalParams): PagedAsyncIterableIterator<DbServer>;
 }
 
 // @public
@@ -1274,18 +1339,18 @@ export interface DbServersGetOptionalParams extends coreClient.OperationOptions 
 export type DbServersGetResponse = DbServer;
 
 // @public
-export interface DbServersListByCloudExadataInfrastructureNextOptionalParams extends coreClient.OperationOptions {
+export interface DbServersListByParentNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type DbServersListByCloudExadataInfrastructureNextResponse = DbServerListResult;
+export type DbServersListByParentNextResponse = DbServerListResult;
 
 // @public
-export interface DbServersListByCloudExadataInfrastructureOptionalParams extends coreClient.OperationOptions {
+export interface DbServersListByParentOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type DbServersListByCloudExadataInfrastructureResponse = DbServerListResult;
+export type DbServersListByParentResponse = DbServerListResult;
 
 // @public
 export interface DbSystemShape extends ProxyResource {
@@ -1300,26 +1365,30 @@ export interface DbSystemShapeListResult {
 
 // @public
 export interface DbSystemShapeProperties {
-    readonly availableCoreCount: number;
-    readonly availableCoreCountPerNode?: number;
-    readonly availableDataStorageInTbs?: number;
-    readonly availableDataStoragePerServerInTbs?: number;
-    readonly availableDbNodePerNodeInGbs?: number;
-    readonly availableDbNodeStorageInGbs?: number;
-    readonly availableMemoryInGbs?: number;
-    readonly availableMemoryPerNodeInGbs?: number;
-    readonly coreCountIncrement?: number;
-    readonly maximumNodeCount?: number;
-    readonly maxStorageCount?: number;
-    readonly minCoreCountPerNode?: number;
-    readonly minDataStorageInTbs?: number;
-    readonly minDbNodeStoragePerNodeInGbs?: number;
-    readonly minimumCoreCount?: number;
-    readonly minimumNodeCount?: number;
-    readonly minMemoryPerNodeInGbs?: number;
-    readonly minStorageCount?: number;
-    readonly runtimeMinimumCoreCount?: number;
-    readonly shapeFamily?: string;
+    areServerTypesSupported?: boolean;
+    availableCoreCount: number;
+    availableCoreCountPerNode?: number;
+    availableDataStorageInTbs?: number;
+    availableDataStoragePerServerInTbs?: number;
+    availableDbNodePerNodeInGbs?: number;
+    availableDbNodeStorageInGbs?: number;
+    availableMemoryInGbs?: number;
+    availableMemoryPerNodeInGbs?: number;
+    computeModel?: ComputeModel;
+    coreCountIncrement?: number;
+    displayName?: string;
+    maximumNodeCount?: number;
+    maxStorageCount?: number;
+    minCoreCountPerNode?: number;
+    minDataStorageInTbs?: number;
+    minDbNodeStoragePerNodeInGbs?: number;
+    minimumCoreCount?: number;
+    minimumNodeCount?: number;
+    minMemoryPerNodeInGbs?: number;
+    minStorageCount?: number;
+    runtimeMinimumCoreCount?: number;
+    shapeFamily?: string;
+    shapeName: string;
 }
 
 // @public
@@ -1344,10 +1413,27 @@ export type DbSystemShapesListByLocationNextResponse = DbSystemShapeListResult;
 
 // @public
 export interface DbSystemShapesListByLocationOptionalParams extends coreClient.OperationOptions {
+    zone?: string;
 }
 
 // @public
 export type DbSystemShapesListByLocationResponse = DbSystemShapeListResult;
+
+// @public
+export interface DefinedFileSystemConfiguration {
+    isBackupPartition?: boolean;
+    isResizable?: boolean;
+    minSizeGb?: number;
+    mountPoint?: string;
+}
+
+// @public
+export interface DisasterRecoveryConfigurationDetails {
+    disasterRecoveryType?: DisasterRecoveryType;
+    isReplicateAutomaticBackups?: boolean;
+    isSnapshotStandby?: boolean;
+    timeSnapshotStandbyEnabledTill?: Date;
+}
 
 // @public
 export type DisasterRecoveryType = string;
@@ -1368,14 +1454,14 @@ export interface DnsPrivateViewListResult {
 
 // @public
 export interface DnsPrivateViewProperties {
-    readonly displayName?: string;
-    readonly isProtected: boolean;
-    readonly lifecycleState?: DnsPrivateViewsLifecycleState;
-    readonly ocid: string;
+    displayName: string;
+    isProtected: boolean;
+    lifecycleState: DnsPrivateViewsLifecycleState;
+    ocid: string;
     readonly provisioningState?: ResourceProvisioningState;
-    readonly self: string;
-    readonly timeCreated: Date;
-    readonly timeUpdated: Date;
+    self: string;
+    timeCreated: Date;
+    timeUpdated: Date;
 }
 
 // @public
@@ -1421,16 +1507,16 @@ export interface DnsPrivateZoneListResult {
 
 // @public
 export interface DnsPrivateZoneProperties {
-    readonly isProtected: boolean;
-    readonly lifecycleState?: DnsPrivateZonesLifecycleState;
-    readonly ocid: string;
+    isProtected: boolean;
+    lifecycleState: DnsPrivateZonesLifecycleState;
+    ocid: string;
     readonly provisioningState?: ResourceProvisioningState;
-    readonly self: string;
-    readonly serial: number;
-    readonly timeCreated: Date;
-    readonly version: string;
-    readonly viewId?: string;
-    readonly zoneType: ZoneType;
+    self: string;
+    serial: number;
+    timeCreated: Date;
+    version: string;
+    viewId?: string;
+    zoneType: ZoneType;
 }
 
 // @public
@@ -1500,6 +1586,470 @@ export interface ExadataIormConfig {
 }
 
 // @public
+export interface ExadbVmCluster extends TrackedResource {
+    properties?: ExadbVmClusterProperties;
+    zones?: string[];
+}
+
+// @public
+export type ExadbVmClusterLifecycleState = string;
+
+// @public
+export interface ExadbVmClusterListResult {
+    nextLink?: string;
+    value: ExadbVmCluster[];
+}
+
+// @public
+export interface ExadbVmClusterProperties {
+    backupSubnetCidr?: string;
+    readonly backupSubnetOcid?: string;
+    clusterName?: string;
+    dataCollectionOptions?: DataCollectionOptions;
+    displayName: string;
+    domain?: string;
+    enabledEcpuCount: number;
+    exascaleDbStorageVaultId: string;
+    readonly giVersion?: string;
+    gridImageOcid?: string;
+    readonly gridImageType?: GridImageType;
+    hostname: string;
+    readonly iormConfigCache?: ExadataIormConfig;
+    licenseModel?: LicenseModel;
+    readonly lifecycleDetails?: string;
+    readonly lifecycleState?: ExadbVmClusterLifecycleState;
+    readonly listenerPort?: number;
+    readonly memorySizeInGbs?: number;
+    nodeCount: number;
+    nsgCidrs?: NsgCidr[];
+    readonly nsgUrl?: string;
+    readonly ocid?: string;
+    readonly ociUrl?: string;
+    privateZoneOcid?: string;
+    readonly provisioningState?: AzureResourceProvisioningState;
+    readonly scanDnsName?: string;
+    readonly scanDnsRecordId?: string;
+    readonly scanIpIds?: string[];
+    scanListenerPortTcp?: number;
+    scanListenerPortTcpSsl?: number;
+    shape: string;
+    readonly snapshotFileSystemStorage?: ExadbVmClusterStorageDetails;
+    sshPublicKeys: string[];
+    subnetId: string;
+    readonly subnetOcid?: string;
+    systemVersion?: string;
+    timeZone?: string;
+    totalEcpuCount: number;
+    readonly totalFileSystemStorage?: ExadbVmClusterStorageDetails;
+    readonly vipIds?: string[];
+    vmFileSystemStorage: ExadbVmClusterStorageDetails;
+    vnetId: string;
+    readonly zoneOcid?: string;
+}
+
+// @public
+export interface ExadbVmClusters {
+    beginCreateOrUpdate(resourceGroupName: string, exadbVmClusterName: string, resource: ExadbVmCluster, options?: ExadbVmClustersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ExadbVmClustersCreateOrUpdateResponse>, ExadbVmClustersCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, exadbVmClusterName: string, resource: ExadbVmCluster, options?: ExadbVmClustersCreateOrUpdateOptionalParams): Promise<ExadbVmClustersCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, exadbVmClusterName: string, options?: ExadbVmClustersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ExadbVmClustersDeleteResponse>, ExadbVmClustersDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, exadbVmClusterName: string, options?: ExadbVmClustersDeleteOptionalParams): Promise<ExadbVmClustersDeleteResponse>;
+    beginRemoveVms(resourceGroupName: string, exadbVmClusterName: string, body: RemoveVirtualMachineFromExadbVmClusterDetails, options?: ExadbVmClustersRemoveVmsOptionalParams): Promise<SimplePollerLike<OperationState<ExadbVmClustersRemoveVmsResponse>, ExadbVmClustersRemoveVmsResponse>>;
+    beginRemoveVmsAndWait(resourceGroupName: string, exadbVmClusterName: string, body: RemoveVirtualMachineFromExadbVmClusterDetails, options?: ExadbVmClustersRemoveVmsOptionalParams): Promise<ExadbVmClustersRemoveVmsResponse>;
+    beginUpdate(resourceGroupName: string, exadbVmClusterName: string, properties: ExadbVmClusterUpdate, options?: ExadbVmClustersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ExadbVmClustersUpdateResponse>, ExadbVmClustersUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, exadbVmClusterName: string, properties: ExadbVmClusterUpdate, options?: ExadbVmClustersUpdateOptionalParams): Promise<ExadbVmClustersUpdateResponse>;
+    get(resourceGroupName: string, exadbVmClusterName: string, options?: ExadbVmClustersGetOptionalParams): Promise<ExadbVmClustersGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: ExadbVmClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ExadbVmCluster>;
+    listBySubscription(options?: ExadbVmClustersListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ExadbVmCluster>;
+}
+
+// @public
+export interface ExadbVmClustersCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ExadbVmClustersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ExadbVmClustersCreateOrUpdateResponse = ExadbVmCluster;
+
+// @public
+export interface ExadbVmClustersDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ExadbVmClustersDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ExadbVmClustersDeleteResponse = ExadbVmClustersDeleteHeaders;
+
+// @public
+export interface ExadbVmClustersGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExadbVmClustersGetResponse = ExadbVmCluster;
+
+// @public
+export interface ExadbVmClustersListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExadbVmClustersListByResourceGroupNextResponse = ExadbVmClusterListResult;
+
+// @public
+export interface ExadbVmClustersListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExadbVmClustersListByResourceGroupResponse = ExadbVmClusterListResult;
+
+// @public
+export interface ExadbVmClustersListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExadbVmClustersListBySubscriptionNextResponse = ExadbVmClusterListResult;
+
+// @public
+export interface ExadbVmClustersListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExadbVmClustersListBySubscriptionResponse = ExadbVmClusterListResult;
+
+// @public
+export interface ExadbVmClustersRemoveVmsHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ExadbVmClustersRemoveVmsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ExadbVmClustersRemoveVmsResponse = ExadbVmCluster;
+
+// @public
+export interface ExadbVmClusterStorageDetails {
+    totalSizeInGbs: number;
+}
+
+// @public
+export interface ExadbVmClustersUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ExadbVmClustersUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ExadbVmClustersUpdateResponse = ExadbVmCluster;
+
+// @public
+export interface ExadbVmClusterUpdate {
+    properties?: ExadbVmClusterUpdateProperties;
+    tags?: {
+        [propertyName: string]: string;
+    };
+    zones?: string[];
+}
+
+// @public
+export interface ExadbVmClusterUpdateProperties {
+    nodeCount?: number;
+}
+
+// @public
+export interface ExascaleDbNode extends ProxyResource {
+    properties?: ExascaleDbNodeProperties;
+}
+
+// @public
+export interface ExascaleDbNodeListResult {
+    nextLink?: string;
+    value: ExascaleDbNode[];
+}
+
+// @public
+export interface ExascaleDbNodeProperties {
+    additionalDetails?: string;
+    cpuCoreCount?: number;
+    dbNodeStorageSizeInGbs?: number;
+    faultDomain?: string;
+    hostname?: string;
+    lifecycleState?: DbNodeProvisioningState;
+    maintenanceType?: string;
+    memorySizeInGbs?: number;
+    ocid: string;
+    softwareStorageSizeInGb?: number;
+    timeMaintenanceWindowEnd?: Date;
+    timeMaintenanceWindowStart?: Date;
+    totalCpuCoreCount?: number;
+}
+
+// @public
+export interface ExascaleDbNodes {
+    beginAction(resourceGroupName: string, exadbVmClusterName: string, exascaleDbNodeName: string, body: DbNodeAction, options?: ExascaleDbNodesActionOptionalParams): Promise<SimplePollerLike<OperationState<ExascaleDbNodesActionResponse>, ExascaleDbNodesActionResponse>>;
+    beginActionAndWait(resourceGroupName: string, exadbVmClusterName: string, exascaleDbNodeName: string, body: DbNodeAction, options?: ExascaleDbNodesActionOptionalParams): Promise<ExascaleDbNodesActionResponse>;
+    get(resourceGroupName: string, exadbVmClusterName: string, exascaleDbNodeName: string, options?: ExascaleDbNodesGetOptionalParams): Promise<ExascaleDbNodesGetResponse>;
+    listByParent(resourceGroupName: string, exadbVmClusterName: string, options?: ExascaleDbNodesListByParentOptionalParams): PagedAsyncIterableIterator<ExascaleDbNode>;
+}
+
+// @public
+export interface ExascaleDbNodesActionHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ExascaleDbNodesActionOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ExascaleDbNodesActionResponse = DbActionResponse;
+
+// @public
+export interface ExascaleDbNodesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExascaleDbNodesGetResponse = ExascaleDbNode;
+
+// @public
+export interface ExascaleDbNodesListByParentNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExascaleDbNodesListByParentNextResponse = ExascaleDbNodeListResult;
+
+// @public
+export interface ExascaleDbNodesListByParentOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExascaleDbNodesListByParentResponse = ExascaleDbNodeListResult;
+
+// @public
+export interface ExascaleDbStorageDetails {
+    availableSizeInGbs?: number;
+    totalSizeInGbs?: number;
+}
+
+// @public
+export interface ExascaleDbStorageInputDetails {
+    totalSizeInGbs: number;
+}
+
+// @public
+export interface ExascaleDbStorageVault extends TrackedResource {
+    properties?: ExascaleDbStorageVaultProperties;
+    zones?: string[];
+}
+
+// @public
+export type ExascaleDbStorageVaultLifecycleState = string;
+
+// @public
+export interface ExascaleDbStorageVaultListResult {
+    nextLink?: string;
+    value: ExascaleDbStorageVault[];
+}
+
+// @public
+export interface ExascaleDbStorageVaultProperties {
+    additionalFlashCacheInPercent?: number;
+    description?: string;
+    displayName: string;
+    readonly highCapacityDatabaseStorage?: ExascaleDbStorageDetails;
+    highCapacityDatabaseStorageInput: ExascaleDbStorageInputDetails;
+    readonly lifecycleDetails?: string;
+    readonly lifecycleState?: ExascaleDbStorageVaultLifecycleState;
+    readonly ocid?: string;
+    readonly ociUrl?: string;
+    readonly provisioningState?: AzureResourceProvisioningState;
+    timeZone?: string;
+    readonly vmClusterCount?: number;
+}
+
+// @public
+export interface ExascaleDbStorageVaults {
+    beginCreate(resourceGroupName: string, exascaleDbStorageVaultName: string, resource: ExascaleDbStorageVault, options?: ExascaleDbStorageVaultsCreateOptionalParams): Promise<SimplePollerLike<OperationState<ExascaleDbStorageVaultsCreateResponse>, ExascaleDbStorageVaultsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, exascaleDbStorageVaultName: string, resource: ExascaleDbStorageVault, options?: ExascaleDbStorageVaultsCreateOptionalParams): Promise<ExascaleDbStorageVaultsCreateResponse>;
+    beginDelete(resourceGroupName: string, exascaleDbStorageVaultName: string, options?: ExascaleDbStorageVaultsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ExascaleDbStorageVaultsDeleteResponse>, ExascaleDbStorageVaultsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, exascaleDbStorageVaultName: string, options?: ExascaleDbStorageVaultsDeleteOptionalParams): Promise<ExascaleDbStorageVaultsDeleteResponse>;
+    beginUpdate(resourceGroupName: string, exascaleDbStorageVaultName: string, properties: ExascaleDbStorageVaultTagsUpdate, options?: ExascaleDbStorageVaultsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ExascaleDbStorageVaultsUpdateResponse>, ExascaleDbStorageVaultsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, exascaleDbStorageVaultName: string, properties: ExascaleDbStorageVaultTagsUpdate, options?: ExascaleDbStorageVaultsUpdateOptionalParams): Promise<ExascaleDbStorageVaultsUpdateResponse>;
+    get(resourceGroupName: string, exascaleDbStorageVaultName: string, options?: ExascaleDbStorageVaultsGetOptionalParams): Promise<ExascaleDbStorageVaultsGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: ExascaleDbStorageVaultsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ExascaleDbStorageVault>;
+    listBySubscription(options?: ExascaleDbStorageVaultsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ExascaleDbStorageVault>;
+}
+
+// @public
+export interface ExascaleDbStorageVaultsCreateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ExascaleDbStorageVaultsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ExascaleDbStorageVaultsCreateResponse = ExascaleDbStorageVault;
+
+// @public
+export interface ExascaleDbStorageVaultsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ExascaleDbStorageVaultsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ExascaleDbStorageVaultsDeleteResponse = ExascaleDbStorageVaultsDeleteHeaders;
+
+// @public
+export interface ExascaleDbStorageVaultsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExascaleDbStorageVaultsGetResponse = ExascaleDbStorageVault;
+
+// @public
+export interface ExascaleDbStorageVaultsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExascaleDbStorageVaultsListByResourceGroupNextResponse = ExascaleDbStorageVaultListResult;
+
+// @public
+export interface ExascaleDbStorageVaultsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExascaleDbStorageVaultsListByResourceGroupResponse = ExascaleDbStorageVaultListResult;
+
+// @public
+export interface ExascaleDbStorageVaultsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExascaleDbStorageVaultsListBySubscriptionNextResponse = ExascaleDbStorageVaultListResult;
+
+// @public
+export interface ExascaleDbStorageVaultsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExascaleDbStorageVaultsListBySubscriptionResponse = ExascaleDbStorageVaultListResult;
+
+// @public
+export interface ExascaleDbStorageVaultsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ExascaleDbStorageVaultsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ExascaleDbStorageVaultsUpdateResponse = ExascaleDbStorageVault;
+
+// @public
+export interface ExascaleDbStorageVaultTagsUpdate {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface FileSystemConfigurationDetails {
+    fileSystemSizeGb?: number;
+    mountPoint?: string;
+}
+
+// @public
+export interface FlexComponent extends ProxyResource {
+    properties?: FlexComponentProperties;
+}
+
+// @public
+export interface FlexComponentListResult {
+    nextLink?: string;
+    value: FlexComponent[];
+}
+
+// @public
+export interface FlexComponentProperties {
+    readonly availableCoreCount?: number;
+    readonly availableDbStorageInGbs?: number;
+    readonly availableLocalStorageInGbs?: number;
+    readonly availableMemoryInGbs?: number;
+    readonly computeModel?: string;
+    readonly descriptionSummary?: string;
+    readonly hardwareType?: HardwareType;
+    readonly minimumCoreCount?: number;
+    readonly runtimeMinimumCoreCount?: number;
+    readonly shape?: string;
+}
+
+// @public
+export interface FlexComponents {
+    get(location: string, flexComponentName: string, options?: FlexComponentsGetOptionalParams): Promise<FlexComponentsGetResponse>;
+    listByParent(location: string, options?: FlexComponentsListByParentOptionalParams): PagedAsyncIterableIterator<FlexComponent>;
+}
+
+// @public
+export interface FlexComponentsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FlexComponentsGetResponse = FlexComponent;
+
+// @public
+export interface FlexComponentsListByParentNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FlexComponentsListByParentNextResponse = FlexComponentListResult;
+
+// @public
+export interface FlexComponentsListByParentOptionalParams extends coreClient.OperationOptions {
+    shape?: SystemShapes;
+}
+
+// @public
+export type FlexComponentsListByParentResponse = FlexComponentListResult;
+
+// @public
 export interface GenerateAutonomousDatabaseWalletDetails {
     generateType?: GenerateType;
     isRegional?: boolean;
@@ -1511,6 +2061,52 @@ export type GenerateType = string;
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export interface GiMinorVersion extends ProxyResource {
+    properties?: GiMinorVersionProperties;
+}
+
+// @public
+export interface GiMinorVersionListResult {
+    nextLink?: string;
+    value: GiMinorVersion[];
+}
+
+// @public
+export interface GiMinorVersionProperties {
+    gridImageOcid?: string;
+    version: string;
+}
+
+// @public
+export interface GiMinorVersions {
+    get(location: string, giversionname: string, giMinorVersionName: string, options?: GiMinorVersionsGetOptionalParams): Promise<GiMinorVersionsGetResponse>;
+    listByParent(location: string, giversionname: string, options?: GiMinorVersionsListByParentOptionalParams): PagedAsyncIterableIterator<GiMinorVersion>;
+}
+
+// @public
+export interface GiMinorVersionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GiMinorVersionsGetResponse = GiMinorVersion;
+
+// @public
+export interface GiMinorVersionsListByParentNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GiMinorVersionsListByParentNextResponse = GiMinorVersionListResult;
+
+// @public
+export interface GiMinorVersionsListByParentOptionalParams extends coreClient.OperationOptions {
+    shapeFamily?: ShapeFamily;
+    zone?: string;
+}
+
+// @public
+export type GiMinorVersionsListByParentResponse = GiMinorVersionListResult;
 
 // @public
 export interface GiVersion extends ProxyResource {
@@ -1525,7 +2121,7 @@ export interface GiVersionListResult {
 
 // @public
 export interface GiVersionProperties {
-    readonly version: string;
+    version: string;
 }
 
 // @public
@@ -1550,10 +2146,18 @@ export type GiVersionsListByLocationNextResponse = GiVersionListResult;
 
 // @public
 export interface GiVersionsListByLocationOptionalParams extends coreClient.OperationOptions {
+    shape?: SystemShapes;
+    zone?: string;
 }
 
 // @public
 export type GiVersionsListByLocationResponse = GiVersionListResult;
+
+// @public
+export type GridImageType = string;
+
+// @public
+export type HardwareType = string;
 
 // @public
 export type HostFormatType = string;
@@ -1567,6 +2171,13 @@ export type IormLifecycleState = string;
 // @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownAddSubscriptionOperationState {
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public
@@ -1691,6 +2302,8 @@ export enum KnownDatabaseEditionType {
 // @public
 export enum KnownDataBaseType {
     Clone = "Clone",
+    CloneFromBackupTimestamp = "CloneFromBackupTimestamp",
+    CrossRegionDisasterRecovery = "CrossRegionDisasterRecovery",
     Regular = "Regular"
 }
 
@@ -1788,9 +2401,42 @@ export enum KnownDnsPrivateZonesLifecycleState {
 }
 
 // @public
+export enum KnownExadbVmClusterLifecycleState {
+    Available = "Available",
+    Failed = "Failed",
+    MaintenanceInProgress = "MaintenanceInProgress",
+    Provisioning = "Provisioning",
+    Terminated = "Terminated",
+    Terminating = "Terminating",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownExascaleDbStorageVaultLifecycleState {
+    Available = "Available",
+    Failed = "Failed",
+    Provisioning = "Provisioning",
+    Terminated = "Terminated",
+    Terminating = "Terminating",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownGenerateType {
     All = "All",
     Single = "Single"
+}
+
+// @public
+export enum KnownGridImageType {
+    CustomImage = "CustomImage",
+    ReleaseUpdate = "ReleaseUpdate"
+}
+
+// @public
+export enum KnownHardwareType {
+    Cell = "CELL",
+    Compute = "COMPUTE"
 }
 
 // @public
@@ -1942,6 +2588,12 @@ export enum KnownSessionModeType {
 }
 
 // @public
+export enum KnownShapeFamily {
+    Exadata = "EXADATA",
+    ExadbXs = "EXADB_XS"
+}
+
+// @public
 export enum KnownSourceType {
     BackupFromId = "BackupFromId",
     BackupFromTimestamp = "BackupFromTimestamp",
@@ -1957,6 +2609,13 @@ export enum KnownSyntaxFormatType {
     Ezconnect = "Ezconnect",
     Ezconnectplus = "Ezconnectplus",
     Long = "Long"
+}
+
+// @public
+export enum KnownSystemShapes {
+    ExadataX11M = "Exadata.X11M",
+    ExadataX9M = "Exadata.X9M",
+    ExaDbXs = "ExaDbXS"
 }
 
 // @public
@@ -2124,6 +2783,16 @@ export class OracleDatabaseManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     dnsPrivateZones: DnsPrivateZones;
     // (undocumented)
+    exadbVmClusters: ExadbVmClusters;
+    // (undocumented)
+    exascaleDbNodes: ExascaleDbNodes;
+    // (undocumented)
+    exascaleDbStorageVaults: ExascaleDbStorageVaults;
+    // (undocumented)
+    flexComponents: FlexComponents;
+    // (undocumented)
+    giMinorVersions: GiMinorVersions;
+    // (undocumented)
     giVersions: GiVersions;
     // (undocumented)
     operations: Operations;
@@ -2158,9 +2827,12 @@ export interface OracleSubscriptionListResult {
 
 // @public
 export interface OracleSubscriptionProperties {
+    readonly addSubscriptionOperationState?: AddSubscriptionOperationState;
+    readonly azureSubscriptionIds?: string[];
     readonly cloudAccountId?: string;
     readonly cloudAccountState?: CloudAccountProvisioningState;
     intent?: Intent;
+    readonly lastOperationStatusDetail?: string;
     productCode?: string;
     readonly provisioningState?: OracleSubscriptionProvisioningState;
     readonly saasSubscriptionId?: string;
@@ -2172,6 +2844,8 @@ export type OracleSubscriptionProvisioningState = string;
 
 // @public
 export interface OracleSubscriptions {
+    beginAddAzureSubscriptions(body: AzureSubscriptions, options?: OracleSubscriptionsAddAzureSubscriptionsOptionalParams): Promise<SimplePollerLike<OperationState<OracleSubscriptionsAddAzureSubscriptionsResponse>, OracleSubscriptionsAddAzureSubscriptionsResponse>>;
+    beginAddAzureSubscriptionsAndWait(body: AzureSubscriptions, options?: OracleSubscriptionsAddAzureSubscriptionsOptionalParams): Promise<OracleSubscriptionsAddAzureSubscriptionsResponse>;
     beginCreateOrUpdate(resource: OracleSubscription, options?: OracleSubscriptionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<OracleSubscriptionsCreateOrUpdateResponse>, OracleSubscriptionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resource: OracleSubscription, options?: OracleSubscriptionsCreateOrUpdateOptionalParams): Promise<OracleSubscriptionsCreateOrUpdateResponse>;
     beginDelete(options?: OracleSubscriptionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<OracleSubscriptionsDeleteResponse>, OracleSubscriptionsDeleteResponse>>;
@@ -2189,7 +2863,23 @@ export interface OracleSubscriptions {
 }
 
 // @public
+export interface OracleSubscriptionsAddAzureSubscriptionsHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface OracleSubscriptionsAddAzureSubscriptionsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type OracleSubscriptionsAddAzureSubscriptionsResponse = OracleSubscriptionsAddAzureSubscriptionsHeaders;
+
+// @public
 export interface OracleSubscriptionsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
     retryAfter?: number;
 }
 
@@ -2319,6 +3009,8 @@ export type PatchingMode = string;
 // @public
 export interface PeerDbDetails {
     peerDbId?: string;
+    peerDbLocation?: string;
+    peerDbOcid?: string;
 }
 
 // @public
@@ -2393,6 +3085,11 @@ export type RefreshableModelType = string;
 export type RefreshableStatusType = string;
 
 // @public
+export interface RemoveVirtualMachineFromExadbVmClusterDetails {
+    dbNodes: DbNodeDetails[];
+}
+
+// @public
 export type RepeatCadenceType = string;
 
 // @public
@@ -2448,6 +3145,9 @@ export interface ScheduledOperationsTypeUpdate {
 export type SessionModeType = string;
 
 // @public
+export type ShapeFamily = string;
+
+// @public
 export type SourceType = string;
 
 // @public
@@ -2464,6 +3164,9 @@ export interface SystemData {
 }
 
 // @public
+export type SystemShapes = string;
+
+// @public
 export interface SystemVersion extends ProxyResource {
     properties?: SystemVersionProperties;
 }
@@ -2476,7 +3179,7 @@ export interface SystemVersionListResult {
 
 // @public
 export interface SystemVersionProperties {
-    readonly systemVersion: string;
+    systemVersion: string;
 }
 
 // @public
@@ -2554,11 +3257,12 @@ export interface VirtualNetworkAddresses {
     beginDelete(resourceGroupName: string, cloudvmclustername: string, virtualnetworkaddressname: string, options?: VirtualNetworkAddressesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkAddressesDeleteResponse>, VirtualNetworkAddressesDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, cloudvmclustername: string, virtualnetworkaddressname: string, options?: VirtualNetworkAddressesDeleteOptionalParams): Promise<VirtualNetworkAddressesDeleteResponse>;
     get(resourceGroupName: string, cloudvmclustername: string, virtualnetworkaddressname: string, options?: VirtualNetworkAddressesGetOptionalParams): Promise<VirtualNetworkAddressesGetResponse>;
-    listByCloudVmCluster(resourceGroupName: string, cloudvmclustername: string, options?: VirtualNetworkAddressesListByCloudVmClusterOptionalParams): PagedAsyncIterableIterator<VirtualNetworkAddress>;
+    listByParent(resourceGroupName: string, cloudvmclustername: string, options?: VirtualNetworkAddressesListByParentOptionalParams): PagedAsyncIterableIterator<VirtualNetworkAddress>;
 }
 
 // @public
 export interface VirtualNetworkAddressesCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
     retryAfter?: number;
 }
 
@@ -2594,18 +3298,18 @@ export interface VirtualNetworkAddressesGetOptionalParams extends coreClient.Ope
 export type VirtualNetworkAddressesGetResponse = VirtualNetworkAddress;
 
 // @public
-export interface VirtualNetworkAddressesListByCloudVmClusterNextOptionalParams extends coreClient.OperationOptions {
+export interface VirtualNetworkAddressesListByParentNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type VirtualNetworkAddressesListByCloudVmClusterNextResponse = VirtualNetworkAddressListResult;
+export type VirtualNetworkAddressesListByParentNextResponse = VirtualNetworkAddressListResult;
 
 // @public
-export interface VirtualNetworkAddressesListByCloudVmClusterOptionalParams extends coreClient.OperationOptions {
+export interface VirtualNetworkAddressesListByParentOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type VirtualNetworkAddressesListByCloudVmClusterResponse = VirtualNetworkAddressListResult;
+export type VirtualNetworkAddressesListByParentResponse = VirtualNetworkAddressListResult;
 
 // @public
 export type VirtualNetworkAddressLifecycleState = string;
