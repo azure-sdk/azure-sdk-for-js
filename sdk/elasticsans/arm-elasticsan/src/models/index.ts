@@ -249,8 +249,6 @@ export interface ElasticSanProperties {
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /** Allow or disallow public network access to ElasticSan. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. */
   publicNetworkAccess?: PublicNetworkAccess;
-  /** Auto Scale Properties for Elastic San Appliance. */
-  autoScaleProperties?: AutoScaleProperties;
 }
 
 /** The SKU name. Required for account creation; optional for update. */
@@ -335,24 +333,6 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
-/** The auto scale settings on Elastic San Appliance. */
-export interface AutoScaleProperties {
-  /** Scale up settings on Elastic San Appliance. */
-  scaleUpProperties?: ScaleUpProperties;
-}
-
-/** Scale up properties on Elastic San Appliance. */
-export interface ScaleUpProperties {
-  /** Unused size on Elastic San appliance in TiB. */
-  unusedSizeTiB?: number;
-  /** Unit to increase Capacity Unit on Elastic San appliance in TiB. */
-  increaseCapacityUnitByTiB?: number;
-  /** Maximum scale up size on Elastic San appliance in TiB. */
-  capacityUnitScaleUpLimitTiB?: number;
-  /** Enable or Disable scale up setting on Elastic San Appliance. */
-  autoScalePolicyEnforcement?: AutoScalePolicyEnforcement;
-}
-
 /** Response for ElasticSan update request. */
 export interface ElasticSanUpdate {
   /** Properties of ElasticSan. */
@@ -369,8 +349,6 @@ export interface ElasticSanUpdateProperties {
   extendedCapacitySizeTiB?: number;
   /** Allow or disallow public network access to ElasticSan Account. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. */
   publicNetworkAccess?: PublicNetworkAccess;
-  /** Auto Scale Properties for Elastic San Appliance. */
-  autoScaleProperties?: AutoScaleProperties;
 }
 
 /** List of Volume Groups */
@@ -681,6 +659,24 @@ export interface SnapshotCreationData {
   sourceId: string;
 }
 
+/** object to hold array of volume names */
+export interface VolumeNameList {
+  /** array of volume names */
+  volumeNames?: string[];
+}
+
+/** response object for pre validation api */
+export interface PreValidationResponse {
+  /** a status value indicating success or failure of validation */
+  validationStatus?: string;
+}
+
+/** object to hold array of Disk Snapshot ARM IDs */
+export interface DiskSnapshotList {
+  /** array of DiskSnapshot ARM IDs */
+  diskSnapshotIds?: string[];
+}
+
 /**  Response for PrivateEndpoint Connection object */
 export interface PrivateEndpointConnection extends Resource {
   /** Private Endpoint Connection Properties. */
@@ -747,6 +743,16 @@ export interface VolumeGroupsUpdateHeaders {
 
 /** Defines headers for VolumeGroups_delete operation. */
 export interface VolumeGroupsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for VolumeGroups_preBackup operation. */
+export interface VolumeGroupsPreBackupHeaders {
+  location?: string;
+}
+
+/** Defines headers for VolumeGroups_preRestore operation. */
+export interface VolumeGroupsPreRestoreHeaders {
   location?: string;
 }
 
@@ -940,27 +946,6 @@ export enum KnownPublicNetworkAccess {
  * **Disabled**
  */
 export type PublicNetworkAccess = string;
-
-/** Known values of {@link AutoScalePolicyEnforcement} that the service accepts. */
-export enum KnownAutoScalePolicyEnforcement {
-  /** None */
-  None = "None",
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled",
-}
-
-/**
- * Defines values for AutoScalePolicyEnforcement. \
- * {@link KnownAutoScalePolicyEnforcement} can be used interchangeably with AutoScalePolicyEnforcement,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **Enabled** \
- * **Disabled**
- */
-export type AutoScalePolicyEnforcement = string;
 
 /** Known values of {@link IdentityType} that the service accepts. */
 export enum KnownIdentityType {
@@ -1263,6 +1248,30 @@ export interface VolumeGroupsGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type VolumeGroupsGetResponse = VolumeGroup;
+
+/** Optional parameters. */
+export interface VolumeGroupsPreBackupOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the preBackup operation. */
+export type VolumeGroupsPreBackupResponse = PreValidationResponse;
+
+/** Optional parameters. */
+export interface VolumeGroupsPreRestoreOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the preRestore operation. */
+export type VolumeGroupsPreRestoreResponse = PreValidationResponse;
 
 /** Optional parameters. */
 export interface VolumeGroupsListByElasticSanNextOptionalParams
