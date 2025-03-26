@@ -8,14 +8,14 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list StandbyVirtualMachinePoolResource resources by resource group
  *
  * @summary list StandbyVirtualMachinePoolResource resources by resource group
- * x-ms-original-file: 2024-03-01/StandbyVirtualMachinePools_ListByResourceGroup.json
+ * x-ms-original-file: 2025-03-01/StandbyVirtualMachinePools_ListByResourceGroup.json
  */
 async function standbyVirtualMachinePoolsListByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000009";
   const client = new StandbyPoolManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.standbyVirtualMachinePools.listByResourceGroup("rgstandbypool")) {
+  for await (const item of client.standbyVirtualMachinePools.listByResourceGroup("rgstandbypool")) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function standbyVirtualMachinePoolsListByResourceGroup() {
 }
 
 async function main() {
-  standbyVirtualMachinePoolsListByResourceGroup();
+  await standbyVirtualMachinePoolsListByResourceGroup();
 }
 
 main().catch(console.error);

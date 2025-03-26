@@ -1,20 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StandbyPoolContext } from "../../api/standbyPoolManagementContext.js";
+import { StandbyPoolManagementContext } from "../../api/standbyPoolManagementContext.js";
 import { StandbyContainerGroupPoolRuntimeViewResource } from "../../models/models.js";
 import {
-  standbyContainerGroupPoolRuntimeViewsGet,
-  standbyContainerGroupPoolRuntimeViewsListByStandbyPool,
-} from "../../api/standbyContainerGroupPoolRuntimeViews/index.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import {
-  StandbyContainerGroupPoolRuntimeViewsGetOptionalParams,
   StandbyContainerGroupPoolRuntimeViewsListByStandbyPoolOptionalParams,
-} from "../../models/options.js";
+  StandbyContainerGroupPoolRuntimeViewsGetOptionalParams,
+} from "../../api/standbyContainerGroupPoolRuntimeViews/options.js";
+import {
+  standbyContainerGroupPoolRuntimeViewsListByStandbyPool,
+  standbyContainerGroupPoolRuntimeViewsGet,
+} from "../../api/standbyContainerGroupPoolRuntimeViews/operations.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a StandbyContainerGroupPoolRuntimeViews operations. */
 export interface StandbyContainerGroupPoolRuntimeViewsOperations {
+  /** List StandbyContainerGroupPoolRuntimeViewResource resources by StandbyContainerGroupPoolResource */
+  listByStandbyPool: (
+    resourceGroupName: string,
+    standbyContainerGroupPoolName: string,
+    options?: StandbyContainerGroupPoolRuntimeViewsListByStandbyPoolOptionalParams,
+  ) => PagedAsyncIterableIterator<StandbyContainerGroupPoolRuntimeViewResource>;
   /** Get a StandbyContainerGroupPoolRuntimeViewResource */
   get: (
     resourceGroupName: string,
@@ -22,19 +28,21 @@ export interface StandbyContainerGroupPoolRuntimeViewsOperations {
     runtimeView: string,
     options?: StandbyContainerGroupPoolRuntimeViewsGetOptionalParams,
   ) => Promise<StandbyContainerGroupPoolRuntimeViewResource>;
-  /** List StandbyContainerGroupPoolRuntimeViewResource resources by StandbyContainerGroupPoolResource */
-  listByStandbyPool: (
-    resourceGroupName: string,
-    standbyContainerGroupPoolName: string,
-    options?: StandbyContainerGroupPoolRuntimeViewsListByStandbyPoolOptionalParams,
-  ) => PagedAsyncIterableIterator<StandbyContainerGroupPoolRuntimeViewResource>;
 }
 
-export function getStandbyContainerGroupPoolRuntimeViews(
-  context: StandbyPoolContext,
-  subscriptionId: string,
-) {
+function _getStandbyContainerGroupPoolRuntimeViews(context: StandbyPoolManagementContext) {
   return {
+    listByStandbyPool: (
+      resourceGroupName: string,
+      standbyContainerGroupPoolName: string,
+      options?: StandbyContainerGroupPoolRuntimeViewsListByStandbyPoolOptionalParams,
+    ) =>
+      standbyContainerGroupPoolRuntimeViewsListByStandbyPool(
+        context,
+        resourceGroupName,
+        standbyContainerGroupPoolName,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       standbyContainerGroupPoolName: string,
@@ -43,32 +51,18 @@ export function getStandbyContainerGroupPoolRuntimeViews(
     ) =>
       standbyContainerGroupPoolRuntimeViewsGet(
         context,
-        subscriptionId,
         resourceGroupName,
         standbyContainerGroupPoolName,
         runtimeView,
         options,
       ),
-    listByStandbyPool: (
-      resourceGroupName: string,
-      standbyContainerGroupPoolName: string,
-      options?: StandbyContainerGroupPoolRuntimeViewsListByStandbyPoolOptionalParams,
-    ) =>
-      standbyContainerGroupPoolRuntimeViewsListByStandbyPool(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        standbyContainerGroupPoolName,
-        options,
-      ),
   };
 }
 
-export function getStandbyContainerGroupPoolRuntimeViewsOperations(
-  context: StandbyPoolContext,
-  subscriptionId: string,
+export function _getStandbyContainerGroupPoolRuntimeViewsOperations(
+  context: StandbyPoolManagementContext,
 ): StandbyContainerGroupPoolRuntimeViewsOperations {
   return {
-    ...getStandbyContainerGroupPoolRuntimeViews(context, subscriptionId),
+    ..._getStandbyContainerGroupPoolRuntimeViews(context),
   };
 }

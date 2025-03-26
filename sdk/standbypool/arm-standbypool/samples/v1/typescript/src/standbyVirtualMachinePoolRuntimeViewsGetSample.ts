@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a StandbyVirtualMachinePoolRuntimeViewResource
  *
  * @summary get a StandbyVirtualMachinePoolRuntimeViewResource
- * x-ms-original-file: 2024-03-01/StandbyVirtualMachinePoolRuntimeViews_Get.json
+ * x-ms-original-file: 2025-03-01/StandbyVirtualMachinePoolRuntimeViews_Get.json
  */
 async function standbyVirtualMachinePoolRuntimeViewsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -23,7 +23,7 @@ async function standbyVirtualMachinePoolRuntimeViewsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  standbyVirtualMachinePoolRuntimeViewsGet();
+  await standbyVirtualMachinePoolRuntimeViewsGet();
 }
 
 main().catch(console.error);
