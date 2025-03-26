@@ -2,32 +2,39 @@
 // Licensed under the MIT License.
 
 import { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
-import {
-  brokerListenerGet,
-  brokerListenerCreateOrUpdate,
-  brokerListenerDelete,
-  brokerListenerListByResourceGroup,
-} from "../../api/brokerListener/index.js";
 import { BrokerListenerResource } from "../../models/models.js";
+import {
+  BrokerListenerListByResourceGroupOptionalParams,
+  BrokerListenerDeleteOptionalParams,
+  BrokerListenerCreateOrUpdateOptionalParams,
+  BrokerListenerGetOptionalParams,
+} from "../../api/brokerListener/options.js";
+import {
+  brokerListenerListByResourceGroup,
+  brokerListenerDelete,
+  brokerListenerCreateOrUpdate,
+  brokerListenerGet,
+} from "../../api/brokerListener/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
-import {
-  BrokerListenerGetOptionalParams,
-  BrokerListenerCreateOrUpdateOptionalParams,
-  BrokerListenerDeleteOptionalParams,
-  BrokerListenerListByResourceGroupOptionalParams,
-} from "../../api/options.js";
 
 /** Interface representing a BrokerListener operations. */
 export interface BrokerListenerOperations {
-  /** Get a BrokerListenerResource */
-  get: (
+  /** List BrokerListenerResource resources by BrokerResource */
+  listByResourceGroup: (
+    resourceGroupName: string,
+    instanceName: string,
+    brokerName: string,
+    options?: BrokerListenerListByResourceGroupOptionalParams,
+  ) => PagedAsyncIterableIterator<BrokerListenerResource>;
+  /** Delete a BrokerListenerResource */
+  delete: (
     resourceGroupName: string,
     instanceName: string,
     brokerName: string,
     listenerName: string,
-    options?: BrokerListenerGetOptionalParams,
-  ) => Promise<BrokerListenerResource>;
+    options?: BrokerListenerDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
   /** Create a BrokerListenerResource */
   createOrUpdate: (
     resourceGroupName: string,
@@ -37,35 +44,40 @@ export interface BrokerListenerOperations {
     resource: BrokerListenerResource,
     options?: BrokerListenerCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<BrokerListenerResource>, BrokerListenerResource>;
-  /** Delete a BrokerListenerResource */
-  delete: (
+  /** Get a BrokerListenerResource */
+  get: (
     resourceGroupName: string,
     instanceName: string,
     brokerName: string,
     listenerName: string,
-    options?: BrokerListenerDeleteOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** List BrokerListenerResource resources by BrokerResource */
-  listByResourceGroup: (
-    resourceGroupName: string,
-    instanceName: string,
-    brokerName: string,
-    options?: BrokerListenerListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<BrokerListenerResource>;
+    options?: BrokerListenerGetOptionalParams,
+  ) => Promise<BrokerListenerResource>;
 }
 
-export function getBrokerListener(context: IoTOperationsContext, subscriptionId: string) {
+function _getBrokerListener(context: IoTOperationsContext) {
   return {
-    get: (
+    listByResourceGroup: (
+      resourceGroupName: string,
+      instanceName: string,
+      brokerName: string,
+      options?: BrokerListenerListByResourceGroupOptionalParams,
+    ) =>
+      brokerListenerListByResourceGroup(
+        context,
+        resourceGroupName,
+        instanceName,
+        brokerName,
+        options,
+      ),
+    delete: (
       resourceGroupName: string,
       instanceName: string,
       brokerName: string,
       listenerName: string,
-      options?: BrokerListenerGetOptionalParams,
+      options?: BrokerListenerDeleteOptionalParams,
     ) =>
-      brokerListenerGet(
+      brokerListenerDelete(
         context,
-        subscriptionId,
         resourceGroupName,
         instanceName,
         brokerName,
@@ -82,7 +94,6 @@ export function getBrokerListener(context: IoTOperationsContext, subscriptionId:
     ) =>
       brokerListenerCreateOrUpdate(
         context,
-        subscriptionId,
         resourceGroupName,
         instanceName,
         brokerName,
@@ -90,44 +101,28 @@ export function getBrokerListener(context: IoTOperationsContext, subscriptionId:
         resource,
         options,
       ),
-    delete: (
+    get: (
       resourceGroupName: string,
       instanceName: string,
       brokerName: string,
       listenerName: string,
-      options?: BrokerListenerDeleteOptionalParams,
+      options?: BrokerListenerGetOptionalParams,
     ) =>
-      brokerListenerDelete(
+      brokerListenerGet(
         context,
-        subscriptionId,
         resourceGroupName,
         instanceName,
         brokerName,
         listenerName,
         options,
       ),
-    listByResourceGroup: (
-      resourceGroupName: string,
-      instanceName: string,
-      brokerName: string,
-      options?: BrokerListenerListByResourceGroupOptionalParams,
-    ) =>
-      brokerListenerListByResourceGroup(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        brokerName,
-        options,
-      ),
   };
 }
 
-export function getBrokerListenerOperations(
+export function _getBrokerListenerOperations(
   context: IoTOperationsContext,
-  subscriptionId: string,
 ): BrokerListenerOperations {
   return {
-    ...getBrokerListener(context, subscriptionId),
+    ..._getBrokerListener(context),
   };
 }
