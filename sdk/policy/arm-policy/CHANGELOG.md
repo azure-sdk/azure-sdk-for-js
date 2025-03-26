@@ -1,5 +1,147 @@
 # Release History
+    
+## 6.0.0 (2025-03-26)
+    
+### Features Added
 
+  - Added operation group PolicyDefinitionVersions
+  - Added operation group PolicySetDefinitionVersions
+  - Added operation group PolicyTokens
+  - Added Interface ErrorDetail
+  - Added Interface ExternalEvaluationEndpointInvocationResult
+  - Added Interface ExternalEvaluationEndpointSettings
+  - Added Interface ExternalEvaluationEnforcementSettings
+  - Added Interface Override
+  - Added Interface PolicyDefinitionVersion
+  - Added Interface PolicyDefinitionVersionListResult
+  - Added Interface PolicyDefinitionVersionsCreateOrUpdateAtManagementGroupOptionalParams
+  - Added Interface PolicyDefinitionVersionsCreateOrUpdateOptionalParams
+  - Added Interface PolicyDefinitionVersionsDeleteAtManagementGroupOptionalParams
+  - Added Interface PolicyDefinitionVersionsDeleteOptionalParams
+  - Added Interface PolicyDefinitionVersionsGetAtManagementGroupOptionalParams
+  - Added Interface PolicyDefinitionVersionsGetBuiltInOptionalParams
+  - Added Interface PolicyDefinitionVersionsGetOptionalParams
+  - Added Interface PolicyDefinitionVersionsListAllAtManagementGroupOptionalParams
+  - Added Interface PolicyDefinitionVersionsListAllBuiltinsOptionalParams
+  - Added Interface PolicyDefinitionVersionsListAllOptionalParams
+  - Added Interface PolicyDefinitionVersionsListBuiltInNextOptionalParams
+  - Added Interface PolicyDefinitionVersionsListBuiltInOptionalParams
+  - Added Interface PolicyDefinitionVersionsListByManagementGroupNextOptionalParams
+  - Added Interface PolicyDefinitionVersionsListByManagementGroupOptionalParams
+  - Added Interface PolicyDefinitionVersionsListNextOptionalParams
+  - Added Interface PolicyDefinitionVersionsListOptionalParams
+  - Added Interface PolicyLogInfo
+  - Added Interface PolicySetDefinitionVersion
+  - Added Interface PolicySetDefinitionVersionListResult
+  - Added Interface PolicySetDefinitionVersionsCreateOrUpdateAtManagementGroupOptionalParams
+  - Added Interface PolicySetDefinitionVersionsCreateOrUpdateOptionalParams
+  - Added Interface PolicySetDefinitionVersionsDeleteAtManagementGroupOptionalParams
+  - Added Interface PolicySetDefinitionVersionsDeleteOptionalParams
+  - Added Interface PolicySetDefinitionVersionsGetAtManagementGroupOptionalParams
+  - Added Interface PolicySetDefinitionVersionsGetBuiltInOptionalParams
+  - Added Interface PolicySetDefinitionVersionsGetOptionalParams
+  - Added Interface PolicySetDefinitionVersionsListAllAtManagementGroupOptionalParams
+  - Added Interface PolicySetDefinitionVersionsListAllBuiltinsOptionalParams
+  - Added Interface PolicySetDefinitionVersionsListAllOptionalParams
+  - Added Interface PolicySetDefinitionVersionsListBuiltInNextOptionalParams
+  - Added Interface PolicySetDefinitionVersionsListBuiltInOptionalParams
+  - Added Interface PolicySetDefinitionVersionsListByManagementGroupNextOptionalParams
+  - Added Interface PolicySetDefinitionVersionsListByManagementGroupOptionalParams
+  - Added Interface PolicySetDefinitionVersionsListNextOptionalParams
+  - Added Interface PolicySetDefinitionVersionsListOptionalParams
+  - Added Interface PolicyTokenOperation
+  - Added Interface PolicyTokenRequest
+  - Added Interface PolicyTokenResponse
+  - Added Interface PolicyTokensAcquireOptionalParams
+  - Added Interface ResourceSelector
+  - Added Interface Selector
+  - Added Type Alias AssignmentType
+  - Added Type Alias ExternalEndpointResult
+  - Added Type Alias OverrideKind
+  - Added Type Alias PolicyDefinitionVersionsCreateOrUpdateAtManagementGroupResponse
+  - Added Type Alias PolicyDefinitionVersionsCreateOrUpdateResponse
+  - Added Type Alias PolicyDefinitionVersionsGetAtManagementGroupResponse
+  - Added Type Alias PolicyDefinitionVersionsGetBuiltInResponse
+  - Added Type Alias PolicyDefinitionVersionsGetResponse
+  - Added Type Alias PolicyDefinitionVersionsListAllAtManagementGroupResponse
+  - Added Type Alias PolicyDefinitionVersionsListAllBuiltinsResponse
+  - Added Type Alias PolicyDefinitionVersionsListAllResponse
+  - Added Type Alias PolicyDefinitionVersionsListBuiltInNextResponse
+  - Added Type Alias PolicyDefinitionVersionsListBuiltInResponse
+  - Added Type Alias PolicyDefinitionVersionsListByManagementGroupNextResponse
+  - Added Type Alias PolicyDefinitionVersionsListByManagementGroupResponse
+  - Added Type Alias PolicyDefinitionVersionsListNextResponse
+  - Added Type Alias PolicyDefinitionVersionsListResponse
+  - Added Type Alias PolicySetDefinitionVersionsCreateOrUpdateAtManagementGroupResponse
+  - Added Type Alias PolicySetDefinitionVersionsCreateOrUpdateResponse
+  - Added Type Alias PolicySetDefinitionVersionsGetAtManagementGroupResponse
+  - Added Type Alias PolicySetDefinitionVersionsGetBuiltInResponse
+  - Added Type Alias PolicySetDefinitionVersionsGetResponse
+  - Added Type Alias PolicySetDefinitionVersionsListAllAtManagementGroupResponse
+  - Added Type Alias PolicySetDefinitionVersionsListAllBuiltinsResponse
+  - Added Type Alias PolicySetDefinitionVersionsListAllResponse
+  - Added Type Alias PolicySetDefinitionVersionsListBuiltInNextResponse
+  - Added Type Alias PolicySetDefinitionVersionsListBuiltInResponse
+  - Added Type Alias PolicySetDefinitionVersionsListByManagementGroupNextResponse
+  - Added Type Alias PolicySetDefinitionVersionsListByManagementGroupResponse
+  - Added Type Alias PolicySetDefinitionVersionsListNextResponse
+  - Added Type Alias PolicySetDefinitionVersionsListResponse
+  - Added Type Alias PolicyTokenResult
+  - Added Type Alias PolicyTokensAcquireResponse
+  - Added Type Alias SelectorKind
+  - Interface ErrorResponse has a new optional parameter error
+  - Interface ParameterDefinitionsValue has a new optional parameter schema
+  - Interface PolicyAssignment has a new optional parameter assignmentType
+  - Interface PolicyAssignment has a new optional parameter definitionVersion
+  - Interface PolicyAssignment has a new optional parameter effectiveDefinitionVersion
+  - Interface PolicyAssignment has a new optional parameter instanceId
+  - Interface PolicyAssignment has a new optional parameter latestDefinitionVersion
+  - Interface PolicyAssignment has a new optional parameter overrides
+  - Interface PolicyAssignment has a new optional parameter resourceSelectors
+  - Interface PolicyAssignmentsGetOptionalParams has a new optional parameter expand
+  - Interface PolicyAssignmentsListForManagementGroupOptionalParams has a new optional parameter expand
+  - Interface PolicyAssignmentsListForResourceGroupOptionalParams has a new optional parameter expand
+  - Interface PolicyAssignmentsListForResourceOptionalParams has a new optional parameter expand
+  - Interface PolicyAssignmentsListOptionalParams has a new optional parameter expand
+  - Interface PolicyAssignmentUpdate has a new optional parameter overrides
+  - Interface PolicyAssignmentUpdate has a new optional parameter resourceSelectors
+  - Interface PolicyClientOptionalParams has a new optional parameter apiVersion
+  - Interface PolicyDefinition has a new optional parameter externalEvaluationEnforcementSettings
+  - Interface PolicyDefinition has a new optional parameter version
+  - Interface PolicyDefinition has a new optional parameter versions
+  - Interface PolicyDefinitionReference has a new optional parameter definitionVersion
+  - Interface PolicyDefinitionReference has a new optional parameter effectiveDefinitionVersion
+  - Interface PolicyDefinitionReference has a new optional parameter latestDefinitionVersion
+  - Interface PolicySetDefinition has a new optional parameter version
+  - Interface PolicySetDefinition has a new optional parameter versions
+  - Interface PolicySetDefinitionsGetAtManagementGroupOptionalParams has a new optional parameter expand
+  - Interface PolicySetDefinitionsGetBuiltInOptionalParams has a new optional parameter expand
+  - Interface PolicySetDefinitionsGetOptionalParams has a new optional parameter expand
+  - Interface PolicySetDefinitionsListBuiltInOptionalParams has a new optional parameter expand
+  - Interface PolicySetDefinitionsListByManagementGroupOptionalParams has a new optional parameter expand
+  - Interface PolicySetDefinitionsListOptionalParams has a new optional parameter expand
+  - Added Enum KnownAssignmentType
+  - Added Enum KnownExternalEndpointResult
+  - Added Enum KnownOverrideKind
+  - Added Enum KnownPolicyTokenResult
+  - Added Enum KnownSelectorKind
+  - Enum KnownEnforcementMode has a new value Enroll
+
+### Breaking Changes
+
+  - Removed operation group DataPolicyManifests
+  - Removed operation group PolicyExemptions
+  - Interface ErrorResponse no longer has parameter additionalInfo
+  - Interface ErrorResponse no longer has parameter code
+  - Interface ErrorResponse no longer has parameter details
+  - Interface ErrorResponse no longer has parameter message
+  - Interface ErrorResponse no longer has parameter target
+  - Class PolicyClient no longer has parameter dataPolicyManifests
+  - Class PolicyClient no longer has parameter policyExemptions
+  - Removed Enum KnownAliasPathAttributes
+  - Removed Enum KnownAliasPathTokenType
+  - Removed Enum KnownExemptionCategory
+    
 ## 5.2.0-beta.1 (2025-01-13)
 
 ### Features Added
