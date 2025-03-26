@@ -21,16 +21,16 @@ import {
 import { createLroSpec } from "../lroImpl.js";
 import {
   VirtualNetworkAddress,
-  VirtualNetworkAddressesListByCloudVmClusterNextOptionalParams,
-  VirtualNetworkAddressesListByCloudVmClusterOptionalParams,
-  VirtualNetworkAddressesListByCloudVmClusterResponse,
+  VirtualNetworkAddressesListByParentNextOptionalParams,
+  VirtualNetworkAddressesListByParentOptionalParams,
+  VirtualNetworkAddressesListByParentResponse,
   VirtualNetworkAddressesGetOptionalParams,
   VirtualNetworkAddressesGetResponse,
   VirtualNetworkAddressesCreateOrUpdateOptionalParams,
   VirtualNetworkAddressesCreateOrUpdateResponse,
   VirtualNetworkAddressesDeleteOptionalParams,
   VirtualNetworkAddressesDeleteResponse,
-  VirtualNetworkAddressesListByCloudVmClusterNextResponse,
+  VirtualNetworkAddressesListByParentNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,12 +52,12 @@ export class VirtualNetworkAddressesImpl implements VirtualNetworkAddresses {
    * @param cloudvmclustername CloudVmCluster name
    * @param options The options parameters.
    */
-  public listByCloudVmCluster(
+  public listByParent(
     resourceGroupName: string,
     cloudvmclustername: string,
-    options?: VirtualNetworkAddressesListByCloudVmClusterOptionalParams,
+    options?: VirtualNetworkAddressesListByParentOptionalParams,
   ): PagedAsyncIterableIterator<VirtualNetworkAddress> {
-    const iter = this.listByCloudVmClusterPagingAll(
+    const iter = this.listByParentPagingAll(
       resourceGroupName,
       cloudvmclustername,
       options,
@@ -73,7 +73,7 @@ export class VirtualNetworkAddressesImpl implements VirtualNetworkAddresses {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByCloudVmClusterPagingPage(
+        return this.listByParentPagingPage(
           resourceGroupName,
           cloudvmclustername,
           options,
@@ -83,16 +83,16 @@ export class VirtualNetworkAddressesImpl implements VirtualNetworkAddresses {
     };
   }
 
-  private async *listByCloudVmClusterPagingPage(
+  private async *listByParentPagingPage(
     resourceGroupName: string,
     cloudvmclustername: string,
-    options?: VirtualNetworkAddressesListByCloudVmClusterOptionalParams,
+    options?: VirtualNetworkAddressesListByParentOptionalParams,
     settings?: PageSettings,
   ): AsyncIterableIterator<VirtualNetworkAddress[]> {
-    let result: VirtualNetworkAddressesListByCloudVmClusterResponse;
+    let result: VirtualNetworkAddressesListByParentResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByCloudVmCluster(
+      result = await this._listByParent(
         resourceGroupName,
         cloudvmclustername,
         options,
@@ -103,7 +103,7 @@ export class VirtualNetworkAddressesImpl implements VirtualNetworkAddresses {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByCloudVmClusterNext(
+      result = await this._listByParentNext(
         resourceGroupName,
         cloudvmclustername,
         continuationToken,
@@ -116,12 +116,12 @@ export class VirtualNetworkAddressesImpl implements VirtualNetworkAddresses {
     }
   }
 
-  private async *listByCloudVmClusterPagingAll(
+  private async *listByParentPagingAll(
     resourceGroupName: string,
     cloudvmclustername: string,
-    options?: VirtualNetworkAddressesListByCloudVmClusterOptionalParams,
+    options?: VirtualNetworkAddressesListByParentOptionalParams,
   ): AsyncIterableIterator<VirtualNetworkAddress> {
-    for await (const page of this.listByCloudVmClusterPagingPage(
+    for await (const page of this.listByParentPagingPage(
       resourceGroupName,
       cloudvmclustername,
       options,
@@ -136,14 +136,14 @@ export class VirtualNetworkAddressesImpl implements VirtualNetworkAddresses {
    * @param cloudvmclustername CloudVmCluster name
    * @param options The options parameters.
    */
-  private _listByCloudVmCluster(
+  private _listByParent(
     resourceGroupName: string,
     cloudvmclustername: string,
-    options?: VirtualNetworkAddressesListByCloudVmClusterOptionalParams,
-  ): Promise<VirtualNetworkAddressesListByCloudVmClusterResponse> {
+    options?: VirtualNetworkAddressesListByParentOptionalParams,
+  ): Promise<VirtualNetworkAddressesListByParentResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, cloudvmclustername, options },
-      listByCloudVmClusterOperationSpec,
+      listByParentOperationSpec,
     );
   }
 
@@ -378,28 +378,28 @@ export class VirtualNetworkAddressesImpl implements VirtualNetworkAddresses {
   }
 
   /**
-   * ListByCloudVmClusterNext
+   * ListByParentNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cloudvmclustername CloudVmCluster name
-   * @param nextLink The nextLink from the previous successful call to the ListByCloudVmCluster method.
+   * @param nextLink The nextLink from the previous successful call to the ListByParent method.
    * @param options The options parameters.
    */
-  private _listByCloudVmClusterNext(
+  private _listByParentNext(
     resourceGroupName: string,
     cloudvmclustername: string,
     nextLink: string,
-    options?: VirtualNetworkAddressesListByCloudVmClusterNextOptionalParams,
-  ): Promise<VirtualNetworkAddressesListByCloudVmClusterNextResponse> {
+    options?: VirtualNetworkAddressesListByParentNextOptionalParams,
+  ): Promise<VirtualNetworkAddressesListByParentNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, cloudvmclustername, nextLink, options },
-      listByCloudVmClusterNextOperationSpec,
+      listByParentNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByCloudVmClusterOperationSpec: coreClient.OperationSpec = {
+const listByParentOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudVmClusters/{cloudvmclustername}/virtualNetworkAddresses",
   httpMethod: "GET",
   responses: {
@@ -462,7 +462,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.resource5,
+  requestBody: Parameters.resource7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -506,7 +506,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByCloudVmClusterNextOperationSpec: coreClient.OperationSpec = {
+const listByParentNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

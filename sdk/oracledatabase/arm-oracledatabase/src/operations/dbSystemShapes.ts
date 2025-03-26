@@ -37,7 +37,7 @@ export class DbSystemShapesImpl implements DbSystemShapes {
   }
 
   /**
-   * List DbSystemShape resources by Location
+   * List DbSystemShape resources by SubscriptionLocationResource
    * @param location The name of the Azure region.
    * @param options The options parameters.
    */
@@ -99,7 +99,7 @@ export class DbSystemShapesImpl implements DbSystemShapes {
   }
 
   /**
-   * List DbSystemShape resources by Location
+   * List DbSystemShape resources by SubscriptionLocationResource
    * @param location The name of the Azure region.
    * @param options The options parameters.
    */
@@ -161,7 +161,7 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.zone],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -36,6 +36,9 @@ import {
   AutonomousDatabasesUpdateResponse,
   AutonomousDatabasesDeleteOptionalParams,
   AutonomousDatabasesDeleteResponse,
+  DisasterRecoveryConfigurationDetails,
+  AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams,
+  AutonomousDatabasesChangeDisasterRecoveryConfigurationResponse,
   PeerDbDetails,
   AutonomousDatabasesFailoverOptionalParams,
   AutonomousDatabasesFailoverResponse,
@@ -509,6 +512,101 @@ export class AutonomousDatabasesImpl implements AutonomousDatabases {
     const poller = await this.beginDelete(
       resourceGroupName,
       autonomousdatabasename,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Perform ChangeDisasterRecoveryConfiguration action on Autonomous Database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param autonomousdatabasename The database name.
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  async beginChangeDisasterRecoveryConfiguration(
+    resourceGroupName: string,
+    autonomousdatabasename: string,
+    body: DisasterRecoveryConfigurationDetails,
+    options?: AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AutonomousDatabasesChangeDisasterRecoveryConfigurationResponse>,
+      AutonomousDatabasesChangeDisasterRecoveryConfigurationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<AutonomousDatabasesChangeDisasterRecoveryConfigurationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, autonomousdatabasename, body, options },
+      spec: changeDisasterRecoveryConfigurationOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      AutonomousDatabasesChangeDisasterRecoveryConfigurationResponse,
+      OperationState<AutonomousDatabasesChangeDisasterRecoveryConfigurationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Perform ChangeDisasterRecoveryConfiguration action on Autonomous Database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param autonomousdatabasename The database name.
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  async beginChangeDisasterRecoveryConfigurationAndWait(
+    resourceGroupName: string,
+    autonomousdatabasename: string,
+    body: DisasterRecoveryConfigurationDetails,
+    options?: AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams,
+  ): Promise<AutonomousDatabasesChangeDisasterRecoveryConfigurationResponse> {
+    const poller = await this.beginChangeDisasterRecoveryConfiguration(
+      resourceGroupName,
+      autonomousdatabasename,
+      body,
       options,
     );
     return poller.pollUntilDone();
@@ -1094,6 +1192,39 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
+const changeDisasterRecoveryConfigurationOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/autonomousDatabases/{autonomousdatabasename}/changeDisasterRecoveryConfiguration",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.AutonomousDatabase,
+      },
+      201: {
+        bodyMapper: Mappers.AutonomousDatabase,
+      },
+      202: {
+        bodyMapper: Mappers.AutonomousDatabase,
+      },
+      204: {
+        bodyMapper: Mappers.AutonomousDatabase,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
+    },
+    requestBody: Parameters.body,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.autonomousdatabasename,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };
 const failoverOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/autonomousDatabases/{autonomousdatabasename}/failover",
   httpMethod: "POST",
@@ -1114,7 +1245,7 @@ const failoverOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body,
+  requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1137,7 +1268,7 @@ const generateWalletOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body1,
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1169,7 +1300,7 @@ const restoreOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body2,
+  requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1231,7 +1362,7 @@ const switchoverOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body,
+  requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

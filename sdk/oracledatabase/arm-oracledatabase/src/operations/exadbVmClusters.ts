@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { CloudVmClusters } from "../operationsInterfaces/index.js";
+import { ExadbVmClusters } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -20,41 +20,36 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  CloudVmCluster,
-  CloudVmClustersListBySubscriptionNextOptionalParams,
-  CloudVmClustersListBySubscriptionOptionalParams,
-  CloudVmClustersListBySubscriptionResponse,
-  CloudVmClustersListByResourceGroupNextOptionalParams,
-  CloudVmClustersListByResourceGroupOptionalParams,
-  CloudVmClustersListByResourceGroupResponse,
-  CloudVmClustersGetOptionalParams,
-  CloudVmClustersGetResponse,
-  CloudVmClustersCreateOrUpdateOptionalParams,
-  CloudVmClustersCreateOrUpdateResponse,
-  CloudVmClusterUpdate,
-  CloudVmClustersUpdateOptionalParams,
-  CloudVmClustersUpdateResponse,
-  CloudVmClustersDeleteOptionalParams,
-  CloudVmClustersDeleteResponse,
-  AddRemoveDbNode,
-  CloudVmClustersAddVmsOptionalParams,
-  CloudVmClustersAddVmsResponse,
-  PrivateIpAddressesFilter,
-  CloudVmClustersListPrivateIpAddressesOptionalParams,
-  CloudVmClustersListPrivateIpAddressesResponse,
-  CloudVmClustersRemoveVmsOptionalParams,
-  CloudVmClustersRemoveVmsResponse,
-  CloudVmClustersListBySubscriptionNextResponse,
-  CloudVmClustersListByResourceGroupNextResponse,
+  ExadbVmCluster,
+  ExadbVmClustersListBySubscriptionNextOptionalParams,
+  ExadbVmClustersListBySubscriptionOptionalParams,
+  ExadbVmClustersListBySubscriptionResponse,
+  ExadbVmClustersListByResourceGroupNextOptionalParams,
+  ExadbVmClustersListByResourceGroupOptionalParams,
+  ExadbVmClustersListByResourceGroupResponse,
+  ExadbVmClustersGetOptionalParams,
+  ExadbVmClustersGetResponse,
+  ExadbVmClustersCreateOrUpdateOptionalParams,
+  ExadbVmClustersCreateOrUpdateResponse,
+  ExadbVmClusterUpdate,
+  ExadbVmClustersUpdateOptionalParams,
+  ExadbVmClustersUpdateResponse,
+  ExadbVmClustersDeleteOptionalParams,
+  ExadbVmClustersDeleteResponse,
+  RemoveVirtualMachineFromExadbVmClusterDetails,
+  ExadbVmClustersRemoveVmsOptionalParams,
+  ExadbVmClustersRemoveVmsResponse,
+  ExadbVmClustersListBySubscriptionNextResponse,
+  ExadbVmClustersListByResourceGroupNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing CloudVmClusters operations. */
-export class CloudVmClustersImpl implements CloudVmClusters {
+/** Class containing ExadbVmClusters operations. */
+export class ExadbVmClustersImpl implements ExadbVmClusters {
   private readonly client: OracleDatabaseManagementClient;
 
   /**
-   * Initialize a new instance of the class CloudVmClusters class.
+   * Initialize a new instance of the class ExadbVmClusters class.
    * @param client Reference to the service client
    */
   constructor(client: OracleDatabaseManagementClient) {
@@ -62,12 +57,12 @@ export class CloudVmClustersImpl implements CloudVmClusters {
   }
 
   /**
-   * List CloudVmCluster resources by subscription ID
+   * List ExadbVmCluster resources by subscription ID
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: CloudVmClustersListBySubscriptionOptionalParams,
-  ): PagedAsyncIterableIterator<CloudVmCluster> {
+    options?: ExadbVmClustersListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<ExadbVmCluster> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
@@ -86,10 +81,10 @@ export class CloudVmClustersImpl implements CloudVmClusters {
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: CloudVmClustersListBySubscriptionOptionalParams,
+    options?: ExadbVmClustersListBySubscriptionOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<CloudVmCluster[]> {
-    let result: CloudVmClustersListBySubscriptionResponse;
+  ): AsyncIterableIterator<ExadbVmCluster[]> {
+    let result: ExadbVmClustersListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listBySubscription(options);
@@ -108,22 +103,22 @@ export class CloudVmClustersImpl implements CloudVmClusters {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: CloudVmClustersListBySubscriptionOptionalParams,
-  ): AsyncIterableIterator<CloudVmCluster> {
+    options?: ExadbVmClustersListBySubscriptionOptionalParams,
+  ): AsyncIterableIterator<ExadbVmCluster> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * List CloudVmCluster resources by resource group
+   * List ExadbVmCluster resources by resource group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: CloudVmClustersListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<CloudVmCluster> {
+    options?: ExadbVmClustersListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<ExadbVmCluster> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -147,10 +142,10 @@ export class CloudVmClustersImpl implements CloudVmClusters {
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: CloudVmClustersListByResourceGroupOptionalParams,
+    options?: ExadbVmClustersListByResourceGroupOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<CloudVmCluster[]> {
-    let result: CloudVmClustersListByResourceGroupResponse;
+  ): AsyncIterableIterator<ExadbVmCluster[]> {
+    let result: ExadbVmClustersListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
@@ -174,8 +169,8 @@ export class CloudVmClustersImpl implements CloudVmClusters {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: CloudVmClustersListByResourceGroupOptionalParams,
-  ): AsyncIterableIterator<CloudVmCluster> {
+    options?: ExadbVmClustersListByResourceGroupOptionalParams,
+  ): AsyncIterableIterator<ExadbVmCluster> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options,
@@ -185,12 +180,12 @@ export class CloudVmClustersImpl implements CloudVmClusters {
   }
 
   /**
-   * List CloudVmCluster resources by subscription ID
+   * List ExadbVmCluster resources by subscription ID
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: CloudVmClustersListBySubscriptionOptionalParams,
-  ): Promise<CloudVmClustersListBySubscriptionResponse> {
+    options?: ExadbVmClustersListBySubscriptionOptionalParams,
+  ): Promise<ExadbVmClustersListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
       listBySubscriptionOperationSpec,
@@ -198,14 +193,14 @@ export class CloudVmClustersImpl implements CloudVmClusters {
   }
 
   /**
-   * List CloudVmCluster resources by resource group
+   * List ExadbVmCluster resources by resource group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: CloudVmClustersListByResourceGroupOptionalParams,
-  ): Promise<CloudVmClustersListByResourceGroupResponse> {
+    options?: ExadbVmClustersListByResourceGroupOptionalParams,
+  ): Promise<ExadbVmClustersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec,
@@ -213,44 +208,44 @@ export class CloudVmClustersImpl implements CloudVmClusters {
   }
 
   /**
-   * Get a CloudVmCluster
+   * Get a ExadbVmCluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param cloudvmclustername CloudVmCluster name
+   * @param exadbVmClusterName The name of the ExadbVmCluster
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    cloudvmclustername: string,
-    options?: CloudVmClustersGetOptionalParams,
-  ): Promise<CloudVmClustersGetResponse> {
+    exadbVmClusterName: string,
+    options?: ExadbVmClustersGetOptionalParams,
+  ): Promise<ExadbVmClustersGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, cloudvmclustername, options },
+      { resourceGroupName, exadbVmClusterName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Create a CloudVmCluster
+   * Create a ExadbVmCluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param cloudvmclustername CloudVmCluster name
+   * @param exadbVmClusterName The name of the ExadbVmCluster
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    cloudvmclustername: string,
-    resource: CloudVmCluster,
-    options?: CloudVmClustersCreateOrUpdateOptionalParams,
+    exadbVmClusterName: string,
+    resource: ExadbVmCluster,
+    options?: ExadbVmClustersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<CloudVmClustersCreateOrUpdateResponse>,
-      CloudVmClustersCreateOrUpdateResponse
+      OperationState<ExadbVmClustersCreateOrUpdateResponse>,
+      ExadbVmClustersCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<CloudVmClustersCreateOrUpdateResponse> => {
+    ): Promise<ExadbVmClustersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -287,12 +282,12 @@ export class CloudVmClustersImpl implements CloudVmClusters {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, cloudvmclustername, resource, options },
+      args: { resourceGroupName, exadbVmClusterName, resource, options },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      CloudVmClustersCreateOrUpdateResponse,
-      OperationState<CloudVmClustersCreateOrUpdateResponse>
+      ExadbVmClustersCreateOrUpdateResponse,
+      OperationState<ExadbVmClustersCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -303,21 +298,21 @@ export class CloudVmClustersImpl implements CloudVmClusters {
   }
 
   /**
-   * Create a CloudVmCluster
+   * Create a ExadbVmCluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param cloudvmclustername CloudVmCluster name
+   * @param exadbVmClusterName The name of the ExadbVmCluster
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    cloudvmclustername: string,
-    resource: CloudVmCluster,
-    options?: CloudVmClustersCreateOrUpdateOptionalParams,
-  ): Promise<CloudVmClustersCreateOrUpdateResponse> {
+    exadbVmClusterName: string,
+    resource: ExadbVmCluster,
+    options?: ExadbVmClustersCreateOrUpdateOptionalParams,
+  ): Promise<ExadbVmClustersCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      cloudvmclustername,
+      exadbVmClusterName,
       resource,
       options,
     );
@@ -325,27 +320,27 @@ export class CloudVmClustersImpl implements CloudVmClusters {
   }
 
   /**
-   * Update a CloudVmCluster
+   * Update a ExadbVmCluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param cloudvmclustername CloudVmCluster name
+   * @param exadbVmClusterName The name of the ExadbVmCluster
    * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    cloudvmclustername: string,
-    properties: CloudVmClusterUpdate,
-    options?: CloudVmClustersUpdateOptionalParams,
+    exadbVmClusterName: string,
+    properties: ExadbVmClusterUpdate,
+    options?: ExadbVmClustersUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<CloudVmClustersUpdateResponse>,
-      CloudVmClustersUpdateResponse
+      OperationState<ExadbVmClustersUpdateResponse>,
+      ExadbVmClustersUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<CloudVmClustersUpdateResponse> => {
+    ): Promise<ExadbVmClustersUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -382,12 +377,12 @@ export class CloudVmClustersImpl implements CloudVmClusters {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, cloudvmclustername, properties, options },
+      args: { resourceGroupName, exadbVmClusterName, properties, options },
       spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
-      CloudVmClustersUpdateResponse,
-      OperationState<CloudVmClustersUpdateResponse>
+      ExadbVmClustersUpdateResponse,
+      OperationState<ExadbVmClustersUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -398,21 +393,21 @@ export class CloudVmClustersImpl implements CloudVmClusters {
   }
 
   /**
-   * Update a CloudVmCluster
+   * Update a ExadbVmCluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param cloudvmclustername CloudVmCluster name
+   * @param exadbVmClusterName The name of the ExadbVmCluster
    * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    cloudvmclustername: string,
-    properties: CloudVmClusterUpdate,
-    options?: CloudVmClustersUpdateOptionalParams,
-  ): Promise<CloudVmClustersUpdateResponse> {
+    exadbVmClusterName: string,
+    properties: ExadbVmClusterUpdate,
+    options?: ExadbVmClustersUpdateOptionalParams,
+  ): Promise<ExadbVmClustersUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      cloudvmclustername,
+      exadbVmClusterName,
       properties,
       options,
     );
@@ -420,25 +415,25 @@ export class CloudVmClustersImpl implements CloudVmClusters {
   }
 
   /**
-   * Delete a CloudVmCluster
+   * Delete a ExadbVmCluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param cloudvmclustername CloudVmCluster name
+   * @param exadbVmClusterName The name of the ExadbVmCluster
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    cloudvmclustername: string,
-    options?: CloudVmClustersDeleteOptionalParams,
+    exadbVmClusterName: string,
+    options?: ExadbVmClustersDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<CloudVmClustersDeleteResponse>,
-      CloudVmClustersDeleteResponse
+      OperationState<ExadbVmClustersDeleteResponse>,
+      ExadbVmClustersDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<CloudVmClustersDeleteResponse> => {
+    ): Promise<ExadbVmClustersDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -475,12 +470,12 @@ export class CloudVmClustersImpl implements CloudVmClusters {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, cloudvmclustername, options },
+      args: { resourceGroupName, exadbVmClusterName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      CloudVmClustersDeleteResponse,
-      OperationState<CloudVmClustersDeleteResponse>
+      ExadbVmClustersDeleteResponse,
+      OperationState<ExadbVmClustersDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -491,160 +486,46 @@ export class CloudVmClustersImpl implements CloudVmClusters {
   }
 
   /**
-   * Delete a CloudVmCluster
+   * Delete a ExadbVmCluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param cloudvmclustername CloudVmCluster name
+   * @param exadbVmClusterName The name of the ExadbVmCluster
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    cloudvmclustername: string,
-    options?: CloudVmClustersDeleteOptionalParams,
-  ): Promise<CloudVmClustersDeleteResponse> {
+    exadbVmClusterName: string,
+    options?: ExadbVmClustersDeleteOptionalParams,
+  ): Promise<ExadbVmClustersDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      cloudvmclustername,
+      exadbVmClusterName,
       options,
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Add VMs to the VM Cluster
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param cloudvmclustername CloudVmCluster name
-   * @param body The content of the action request
-   * @param options The options parameters.
-   */
-  async beginAddVms(
-    resourceGroupName: string,
-    cloudvmclustername: string,
-    body: AddRemoveDbNode,
-    options?: CloudVmClustersAddVmsOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<CloudVmClustersAddVmsResponse>,
-      CloudVmClustersAddVmsResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<CloudVmClustersAddVmsResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, cloudvmclustername, body, options },
-      spec: addVmsOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      CloudVmClustersAddVmsResponse,
-      OperationState<CloudVmClustersAddVmsResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Add VMs to the VM Cluster
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param cloudvmclustername CloudVmCluster name
-   * @param body The content of the action request
-   * @param options The options parameters.
-   */
-  async beginAddVmsAndWait(
-    resourceGroupName: string,
-    cloudvmclustername: string,
-    body: AddRemoveDbNode,
-    options?: CloudVmClustersAddVmsOptionalParams,
-  ): Promise<CloudVmClustersAddVmsResponse> {
-    const poller = await this.beginAddVms(
-      resourceGroupName,
-      cloudvmclustername,
-      body,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * List Private IP Addresses by the provided filter
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param cloudvmclustername CloudVmCluster name
-   * @param body The content of the action request
-   * @param options The options parameters.
-   */
-  listPrivateIpAddresses(
-    resourceGroupName: string,
-    cloudvmclustername: string,
-    body: PrivateIpAddressesFilter,
-    options?: CloudVmClustersListPrivateIpAddressesOptionalParams,
-  ): Promise<CloudVmClustersListPrivateIpAddressesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, cloudvmclustername, body, options },
-      listPrivateIpAddressesOperationSpec,
-    );
   }
 
   /**
    * Remove VMs from the VM Cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param cloudvmclustername CloudVmCluster name
+   * @param exadbVmClusterName The name of the ExadbVmCluster
    * @param body The content of the action request
    * @param options The options parameters.
    */
   async beginRemoveVms(
     resourceGroupName: string,
-    cloudvmclustername: string,
-    body: AddRemoveDbNode,
-    options?: CloudVmClustersRemoveVmsOptionalParams,
+    exadbVmClusterName: string,
+    body: RemoveVirtualMachineFromExadbVmClusterDetails,
+    options?: ExadbVmClustersRemoveVmsOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<CloudVmClustersRemoveVmsResponse>,
-      CloudVmClustersRemoveVmsResponse
+      OperationState<ExadbVmClustersRemoveVmsResponse>,
+      ExadbVmClustersRemoveVmsResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<CloudVmClustersRemoveVmsResponse> => {
+    ): Promise<ExadbVmClustersRemoveVmsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -681,12 +562,12 @@ export class CloudVmClustersImpl implements CloudVmClusters {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, cloudvmclustername, body, options },
+      args: { resourceGroupName, exadbVmClusterName, body, options },
       spec: removeVmsOperationSpec,
     });
     const poller = await createHttpPoller<
-      CloudVmClustersRemoveVmsResponse,
-      OperationState<CloudVmClustersRemoveVmsResponse>
+      ExadbVmClustersRemoveVmsResponse,
+      OperationState<ExadbVmClustersRemoveVmsResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -699,19 +580,19 @@ export class CloudVmClustersImpl implements CloudVmClusters {
   /**
    * Remove VMs from the VM Cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param cloudvmclustername CloudVmCluster name
+   * @param exadbVmClusterName The name of the ExadbVmCluster
    * @param body The content of the action request
    * @param options The options parameters.
    */
   async beginRemoveVmsAndWait(
     resourceGroupName: string,
-    cloudvmclustername: string,
-    body: AddRemoveDbNode,
-    options?: CloudVmClustersRemoveVmsOptionalParams,
-  ): Promise<CloudVmClustersRemoveVmsResponse> {
+    exadbVmClusterName: string,
+    body: RemoveVirtualMachineFromExadbVmClusterDetails,
+    options?: ExadbVmClustersRemoveVmsOptionalParams,
+  ): Promise<ExadbVmClustersRemoveVmsResponse> {
     const poller = await this.beginRemoveVms(
       resourceGroupName,
-      cloudvmclustername,
+      exadbVmClusterName,
       body,
       options,
     );
@@ -725,8 +606,8 @@ export class CloudVmClustersImpl implements CloudVmClusters {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: CloudVmClustersListBySubscriptionNextOptionalParams,
-  ): Promise<CloudVmClustersListBySubscriptionNextResponse> {
+    options?: ExadbVmClustersListBySubscriptionNextOptionalParams,
+  ): Promise<ExadbVmClustersListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listBySubscriptionNextOperationSpec,
@@ -742,8 +623,8 @@ export class CloudVmClustersImpl implements CloudVmClusters {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: CloudVmClustersListByResourceGroupNextOptionalParams,
-  ): Promise<CloudVmClustersListByResourceGroupNextResponse> {
+    options?: ExadbVmClustersListByResourceGroupNextOptionalParams,
+  ): Promise<ExadbVmClustersListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec,
@@ -754,11 +635,11 @@ export class CloudVmClustersImpl implements CloudVmClusters {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Oracle.Database/cloudVmClusters",
+  path: "/subscriptions/{subscriptionId}/providers/Oracle.Database/exadbVmClusters",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CloudVmClusterListResult,
+      bodyMapper: Mappers.ExadbVmClusterListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -770,11 +651,11 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudVmClusters",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/exadbVmClusters",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CloudVmClusterListResult,
+      bodyMapper: Mappers.ExadbVmClusterListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -790,11 +671,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudVmClusters/{cloudvmclustername}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/exadbVmClusters/{exadbVmClusterName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CloudVmCluster,
+      bodyMapper: Mappers.ExadbVmCluster,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -805,90 +686,90 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cloudvmclustername,
+    Parameters.exadbVmClusterName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudVmClusters/{cloudvmclustername}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/exadbVmClusters/{exadbVmClusterName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.CloudVmCluster,
+      bodyMapper: Mappers.ExadbVmCluster,
     },
     201: {
-      bodyMapper: Mappers.CloudVmCluster,
+      bodyMapper: Mappers.ExadbVmCluster,
     },
     202: {
-      bodyMapper: Mappers.CloudVmCluster,
+      bodyMapper: Mappers.ExadbVmCluster,
     },
     204: {
-      bodyMapper: Mappers.CloudVmCluster,
+      bodyMapper: Mappers.ExadbVmCluster,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.resource2,
+  requestBody: Parameters.resource3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cloudvmclustername,
+    Parameters.exadbVmClusterName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudVmClusters/{cloudvmclustername}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/exadbVmClusters/{exadbVmClusterName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.CloudVmCluster,
+      bodyMapper: Mappers.ExadbVmCluster,
     },
     201: {
-      bodyMapper: Mappers.CloudVmCluster,
+      bodyMapper: Mappers.ExadbVmCluster,
     },
     202: {
-      bodyMapper: Mappers.CloudVmCluster,
+      bodyMapper: Mappers.ExadbVmCluster,
     },
     204: {
-      bodyMapper: Mappers.CloudVmCluster,
+      bodyMapper: Mappers.ExadbVmCluster,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.properties2,
+  requestBody: Parameters.properties3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cloudvmclustername,
+    Parameters.exadbVmClusterName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudVmClusters/{cloudvmclustername}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/exadbVmClusters/{exadbVmClusterName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.CloudVmClustersDeleteHeaders,
+      headersMapper: Mappers.ExadbVmClustersDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.CloudVmClustersDeleteHeaders,
+      headersMapper: Mappers.ExadbVmClustersDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.CloudVmClustersDeleteHeaders,
+      headersMapper: Mappers.ExadbVmClustersDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.CloudVmClustersDeleteHeaders,
+      headersMapper: Mappers.ExadbVmClustersDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -899,103 +780,38 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cloudvmclustername,
+    Parameters.exadbVmClusterName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const addVmsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudVmClusters/{cloudvmclustername}/addVms",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CloudVmCluster,
-    },
-    201: {
-      bodyMapper: Mappers.CloudVmCluster,
-    },
-    202: {
-      bodyMapper: Mappers.CloudVmCluster,
-    },
-    204: {
-      bodyMapper: Mappers.CloudVmCluster,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.body4,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.cloudvmclustername,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const listPrivateIpAddressesOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudVmClusters/{cloudvmclustername}/listPrivateIpAddresses",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: {
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PrivateIpAddressProperties",
-            },
-          },
-        },
-      },
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.body5,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.cloudvmclustername,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
 const removeVmsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudVmClusters/{cloudvmclustername}/removeVms",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/exadbVmClusters/{exadbVmClusterName}/removeVms",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CloudVmCluster,
+      bodyMapper: Mappers.ExadbVmCluster,
     },
     201: {
-      bodyMapper: Mappers.CloudVmCluster,
+      bodyMapper: Mappers.ExadbVmCluster,
     },
     202: {
-      bodyMapper: Mappers.CloudVmCluster,
+      bodyMapper: Mappers.ExadbVmCluster,
     },
     204: {
-      bodyMapper: Mappers.CloudVmCluster,
+      bodyMapper: Mappers.ExadbVmCluster,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body4,
+  requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cloudvmclustername,
+    Parameters.exadbVmClusterName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -1006,7 +822,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CloudVmClusterListResult,
+      bodyMapper: Mappers.ExadbVmClusterListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -1025,7 +841,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CloudVmClusterListResult,
+      bodyMapper: Mappers.ExadbVmClusterListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

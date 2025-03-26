@@ -8,33 +8,37 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  GiVersion,
-  GiVersionsListByLocationOptionalParams,
-  GiVersionsGetOptionalParams,
-  GiVersionsGetResponse,
+  GiMinorVersion,
+  GiMinorVersionsListByParentOptionalParams,
+  GiMinorVersionsGetOptionalParams,
+  GiMinorVersionsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a GiVersions. */
-export interface GiVersions {
+/** Interface representing a GiMinorVersions. */
+export interface GiMinorVersions {
   /**
-   * List GiVersion resources by SubscriptionLocationResource
-   * @param location The name of the Azure region.
-   * @param options The options parameters.
-   */
-  listByLocation(
-    location: string,
-    options?: GiVersionsListByLocationOptionalParams,
-  ): PagedAsyncIterableIterator<GiVersion>;
-  /**
-   * Get a GiVersion
+   * List GiMinorVersion resources by GiVersion
    * @param location The name of the Azure region.
    * @param giversionname GiVersion name
+   * @param options The options parameters.
+   */
+  listByParent(
+    location: string,
+    giversionname: string,
+    options?: GiMinorVersionsListByParentOptionalParams,
+  ): PagedAsyncIterableIterator<GiMinorVersion>;
+  /**
+   * Get a GiMinorVersion
+   * @param location The name of the Azure region.
+   * @param giversionname GiVersion name
+   * @param giMinorVersionName The name of the GiMinorVersion
    * @param options The options parameters.
    */
   get(
     location: string,
     giversionname: string,
-    options?: GiVersionsGetOptionalParams,
-  ): Promise<GiVersionsGetResponse>;
+    giMinorVersionName: string,
+    options?: GiMinorVersionsGetOptionalParams,
+  ): Promise<GiMinorVersionsGetResponse>;
 }

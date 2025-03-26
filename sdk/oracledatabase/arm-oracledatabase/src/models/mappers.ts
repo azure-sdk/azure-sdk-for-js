@@ -419,6 +419,20 @@ export const AutonomousDatabaseBaseProperties: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      timeDisasterRecoveryRoleChanged: {
+        serializedName: "timeDisasterRecoveryRoleChanged",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      remoteDisasterRecoveryConfiguration: {
+        serializedName: "remoteDisasterRecoveryConfiguration",
+        type: {
+          name: "Composite",
+          className: "DisasterRecoveryConfigurationDetails",
+        },
+      },
       localStandbyDb: {
         serializedName: "localStandbyDb",
         type: {
@@ -858,6 +872,40 @@ export const CustomerContact: coreClient.CompositeMapper = {
     },
   },
 };
+
+export const DisasterRecoveryConfigurationDetails: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DisasterRecoveryConfigurationDetails",
+      modelProperties: {
+        disasterRecoveryType: {
+          serializedName: "disasterRecoveryType",
+          type: {
+            name: "String",
+          },
+        },
+        timeSnapshotStandbyEnabledTill: {
+          serializedName: "timeSnapshotStandbyEnabledTill",
+          type: {
+            name: "DateTime",
+          },
+        },
+        isSnapshotStandby: {
+          serializedName: "isSnapshotStandby",
+          type: {
+            name: "Boolean",
+          },
+        },
+        isReplicateAutomaticBackups: {
+          serializedName: "isReplicateAutomaticBackups",
+          type: {
+            name: "Boolean",
+          },
+        },
+      },
+    },
+  };
 
 export const AutonomousDatabaseStandbySummary: coreClient.CompositeMapper = {
   type: {
@@ -1384,6 +1432,19 @@ export const CloudExadataInfrastructureProperties: coreClient.CompositeMapper =
       name: "Composite",
       className: "CloudExadataInfrastructureProperties",
       modelProperties: {
+        definedFileSystemConfiguration: {
+          serializedName: "definedFileSystemConfiguration",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "DefinedFileSystemConfiguration",
+              },
+            },
+          },
+        },
         ocid: {
           constraints: {
             MaxLength: 255,
@@ -1620,9 +1681,69 @@ export const CloudExadataInfrastructureProperties: coreClient.CompositeMapper =
             name: "String",
           },
         },
+        databaseServerType: {
+          constraints: {
+            MaxLength: 255,
+            MinLength: 1,
+          },
+          serializedName: "databaseServerType",
+          type: {
+            name: "String",
+          },
+        },
+        storageServerType: {
+          constraints: {
+            MaxLength: 255,
+            MinLength: 1,
+          },
+          serializedName: "storageServerType",
+          type: {
+            name: "String",
+          },
+        },
+        computeModel: {
+          serializedName: "computeModel",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
       },
     },
   };
+
+export const DefinedFileSystemConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DefinedFileSystemConfiguration",
+    modelProperties: {
+      isBackupPartition: {
+        serializedName: "isBackupPartition",
+        type: {
+          name: "Boolean",
+        },
+      },
+      isResizable: {
+        serializedName: "isResizable",
+        type: {
+          name: "Boolean",
+        },
+      },
+      minSizeGb: {
+        serializedName: "minSizeGb",
+        type: {
+          name: "Number",
+        },
+      },
+      mountPoint: {
+        serializedName: "mountPoint",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
 
 export const MaintenanceWindow: coreClient.CompositeMapper = {
   type: {
@@ -1850,6 +1971,18 @@ export const CloudVmClusterProperties: coreClient.CompositeMapper = {
         serializedName: "storageSizeInGbs",
         type: {
           name: "Number",
+        },
+      },
+      fileSystemConfigurationDetails: {
+        serializedName: "fileSystemConfigurationDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FileSystemConfigurationDetails",
+            },
+          },
         },
       },
       dataStorageSizeInTbs: {
@@ -2234,6 +2367,34 @@ export const CloudVmClusterProperties: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      computeModel: {
+        serializedName: "computeModel",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const FileSystemConfigurationDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FileSystemConfigurationDetails",
+    modelProperties: {
+      mountPoint: {
+        serializedName: "mountPoint",
+        type: {
+          name: "String",
+        },
+      },
+      fileSystemSizeGb: {
+        serializedName: "fileSystemSizeGb",
+        type: {
+          name: "Number",
+        },
+      },
     },
   },
 };
@@ -2396,6 +2557,610 @@ export const DbIormConfig: coreClient.CompositeMapper = {
   },
 };
 
+export const ExadbVmClusterListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExadbVmClusterListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExadbVmCluster",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ExadbVmClusterProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExadbVmClusterProperties",
+    modelProperties: {
+      ocid: {
+        constraints: {
+          MaxLength: 255,
+          MinLength: 1,
+        },
+        serializedName: "ocid",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      clusterName: {
+        constraints: {
+          MaxLength: 11,
+          MinLength: 1,
+        },
+        serializedName: "clusterName",
+        type: {
+          name: "String",
+        },
+      },
+      backupSubnetCidr: {
+        constraints: {
+          MaxLength: 32,
+          MinLength: 1,
+        },
+        serializedName: "backupSubnetCidr",
+        type: {
+          name: "String",
+        },
+      },
+      nsgUrl: {
+        serializedName: "nsgUrl",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      lifecycleState: {
+        serializedName: "lifecycleState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      vnetId: {
+        serializedName: "vnetId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      subnetId: {
+        serializedName: "subnetId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      dataCollectionOptions: {
+        serializedName: "dataCollectionOptions",
+        type: {
+          name: "Composite",
+          className: "DataCollectionOptions",
+        },
+      },
+      displayName: {
+        constraints: {
+          MaxLength: 255,
+          MinLength: 1,
+        },
+        serializedName: "displayName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      domain: {
+        serializedName: "domain",
+        type: {
+          name: "String",
+        },
+      },
+      enabledEcpuCount: {
+        constraints: {
+          InclusiveMinimum: 0,
+        },
+        serializedName: "enabledEcpuCount",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+      exascaleDbStorageVaultId: {
+        serializedName: "exascaleDbStorageVaultId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      gridImageOcid: {
+        constraints: {
+          MaxLength: 255,
+          MinLength: 1,
+        },
+        serializedName: "gridImageOcid",
+        type: {
+          name: "String",
+        },
+      },
+      gridImageType: {
+        serializedName: "gridImageType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      giVersion: {
+        constraints: {
+          MaxLength: 255,
+          MinLength: 1,
+        },
+        serializedName: "giVersion",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      hostname: {
+        constraints: {
+          MaxLength: 12,
+          MinLength: 1,
+        },
+        serializedName: "hostname",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      licenseModel: {
+        serializedName: "licenseModel",
+        type: {
+          name: "String",
+        },
+      },
+      memorySizeInGbs: {
+        serializedName: "memorySizeInGbs",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      nodeCount: {
+        serializedName: "nodeCount",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+      nsgCidrs: {
+        serializedName: "nsgCidrs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NsgCidr",
+            },
+          },
+        },
+      },
+      zoneOcid: {
+        constraints: {
+          MaxLength: 255,
+          MinLength: 1,
+        },
+        serializedName: "zoneOcid",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      privateZoneOcid: {
+        constraints: {
+          MaxLength: 255,
+          MinLength: 1,
+        },
+        serializedName: "privateZoneOcid",
+        type: {
+          name: "String",
+        },
+      },
+      scanListenerPortTcp: {
+        serializedName: "scanListenerPortTcp",
+        type: {
+          name: "Number",
+        },
+      },
+      scanListenerPortTcpSsl: {
+        serializedName: "scanListenerPortTcpSsl",
+        type: {
+          name: "Number",
+        },
+      },
+      listenerPort: {
+        serializedName: "listenerPort",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      shape: {
+        serializedName: "shape",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      sshPublicKeys: {
+        serializedName: "sshPublicKeys",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      systemVersion: {
+        constraints: {
+          MaxLength: 255,
+          MinLength: 1,
+        },
+        serializedName: "systemVersion",
+        type: {
+          name: "String",
+        },
+      },
+      timeZone: {
+        constraints: {
+          MaxLength: 255,
+          MinLength: 1,
+        },
+        serializedName: "timeZone",
+        type: {
+          name: "String",
+        },
+      },
+      totalEcpuCount: {
+        constraints: {
+          InclusiveMinimum: 2,
+        },
+        serializedName: "totalEcpuCount",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+      vmFileSystemStorage: {
+        serializedName: "vmFileSystemStorage",
+        type: {
+          name: "Composite",
+          className: "ExadbVmClusterStorageDetails",
+        },
+      },
+      lifecycleDetails: {
+        serializedName: "lifecycleDetails",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      scanDnsName: {
+        constraints: {
+          MaxLength: 72,
+          MinLength: 1,
+        },
+        serializedName: "scanDnsName",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      scanIpIds: {
+        serializedName: "scanIpIds",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      scanDnsRecordId: {
+        constraints: {
+          MaxLength: 255,
+          MinLength: 1,
+        },
+        serializedName: "scanDnsRecordId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      snapshotFileSystemStorage: {
+        serializedName: "snapshotFileSystemStorage",
+        type: {
+          name: "Composite",
+          className: "ExadbVmClusterStorageDetails",
+        },
+      },
+      totalFileSystemStorage: {
+        serializedName: "totalFileSystemStorage",
+        type: {
+          name: "Composite",
+          className: "ExadbVmClusterStorageDetails",
+        },
+      },
+      vipIds: {
+        serializedName: "vipIds",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      ociUrl: {
+        serializedName: "ociUrl",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      iormConfigCache: {
+        serializedName: "iormConfigCache",
+        type: {
+          name: "Composite",
+          className: "ExadataIormConfig",
+        },
+      },
+      backupSubnetOcid: {
+        constraints: {
+          MaxLength: 255,
+          MinLength: 1,
+        },
+        serializedName: "backupSubnetOcid",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      subnetOcid: {
+        constraints: {
+          MaxLength: 255,
+          MinLength: 1,
+        },
+        serializedName: "subnetOcid",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ExadbVmClusterStorageDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExadbVmClusterStorageDetails",
+    modelProperties: {
+      totalSizeInGbs: {
+        serializedName: "totalSizeInGbs",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const ExascaleDbStorageVaultListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExascaleDbStorageVaultListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExascaleDbStorageVault",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ExascaleDbStorageVaultProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExascaleDbStorageVaultProperties",
+    modelProperties: {
+      additionalFlashCacheInPercent: {
+        constraints: {
+          InclusiveMinimum: 0,
+        },
+        serializedName: "additionalFlashCacheInPercent",
+        type: {
+          name: "Number",
+        },
+      },
+      description: {
+        constraints: {
+          MaxLength: 400,
+          MinLength: 1,
+        },
+        serializedName: "description",
+        type: {
+          name: "String",
+        },
+      },
+      displayName: {
+        constraints: {
+          MaxLength: 255,
+          MinLength: 1,
+        },
+        serializedName: "displayName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      highCapacityDatabaseStorageInput: {
+        serializedName: "highCapacityDatabaseStorageInput",
+        type: {
+          name: "Composite",
+          className: "ExascaleDbStorageInputDetails",
+        },
+      },
+      highCapacityDatabaseStorage: {
+        serializedName: "highCapacityDatabaseStorage",
+        type: {
+          name: "Composite",
+          className: "ExascaleDbStorageDetails",
+        },
+      },
+      timeZone: {
+        constraints: {
+          MaxLength: 255,
+          MinLength: 1,
+        },
+        serializedName: "timeZone",
+        type: {
+          name: "String",
+        },
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      lifecycleState: {
+        serializedName: "lifecycleState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      lifecycleDetails: {
+        serializedName: "lifecycleDetails",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      vmClusterCount: {
+        serializedName: "vmClusterCount",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      ocid: {
+        constraints: {
+          MaxLength: 255,
+          MinLength: 1,
+        },
+        serializedName: "ocid",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      ociUrl: {
+        serializedName: "ociUrl",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ExascaleDbStorageInputDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExascaleDbStorageInputDetails",
+    modelProperties: {
+      totalSizeInGbs: {
+        serializedName: "totalSizeInGbs",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const ExascaleDbStorageDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExascaleDbStorageDetails",
+    modelProperties: {
+      availableSizeInGbs: {
+        serializedName: "availableSizeInGbs",
+        type: {
+          name: "Number",
+        },
+      },
+      totalSizeInGbs: {
+        serializedName: "totalSizeInGbs",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
 export const AutonomousDatabaseCharacterSetListResult: coreClient.CompositeMapper =
   {
     type: {
@@ -2438,7 +3203,6 @@ export const AutonomousDatabaseCharacterSetProperties: coreClient.CompositeMappe
           },
           serializedName: "characterSet",
           required: true,
-          readOnly: true,
           type: {
             name: "String",
           },
@@ -2489,7 +3253,6 @@ export const AutonomousDatabaseNationalCharacterSetProperties: coreClient.Compos
           },
           serializedName: "characterSet",
           required: true,
-          readOnly: true,
           type: {
             name: "String",
           },
@@ -2538,42 +3301,36 @@ export const AutonomousDbVersionProperties: coreClient.CompositeMapper = {
         },
         serializedName: "version",
         required: true,
-        readOnly: true,
         type: {
           name: "String",
         },
       },
       dbWorkload: {
         serializedName: "dbWorkload",
-        readOnly: true,
         type: {
           name: "String",
         },
       },
       isDefaultForFree: {
         serializedName: "isDefaultForFree",
-        readOnly: true,
         type: {
           name: "Boolean",
         },
       },
       isDefaultForPaid: {
         serializedName: "isDefaultForPaid",
-        readOnly: true,
         type: {
           name: "Boolean",
         },
       },
       isFreeTierEnabled: {
         serializedName: "isFreeTierEnabled",
-        readOnly: true,
         type: {
           name: "Boolean",
         },
       },
       isPaidEnabled: {
         serializedName: "isPaidEnabled",
-        readOnly: true,
         type: {
           name: "Boolean",
         },
@@ -2621,7 +3378,17 @@ export const DbSystemShapeProperties: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "shapeFamily",
-        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      shapeName: {
+        constraints: {
+          MaxLength: 255,
+          MinLength: 1,
+        },
+        serializedName: "shapeName",
+        required: true,
         type: {
           name: "String",
         },
@@ -2629,135 +3396,138 @@ export const DbSystemShapeProperties: coreClient.CompositeMapper = {
       availableCoreCount: {
         serializedName: "availableCoreCount",
         required: true,
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       minimumCoreCount: {
         serializedName: "minimumCoreCount",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       runtimeMinimumCoreCount: {
         serializedName: "runtimeMinimumCoreCount",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       coreCountIncrement: {
         serializedName: "coreCountIncrement",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       minStorageCount: {
         serializedName: "minStorageCount",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       maxStorageCount: {
         serializedName: "maxStorageCount",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       availableDataStoragePerServerInTbs: {
         serializedName: "availableDataStoragePerServerInTbs",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       availableMemoryPerNodeInGbs: {
         serializedName: "availableMemoryPerNodeInGbs",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       availableDbNodePerNodeInGbs: {
         serializedName: "availableDbNodePerNodeInGbs",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       minCoreCountPerNode: {
         serializedName: "minCoreCountPerNode",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       availableMemoryInGbs: {
         serializedName: "availableMemoryInGbs",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       minMemoryPerNodeInGbs: {
         serializedName: "minMemoryPerNodeInGbs",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       availableDbNodeStorageInGbs: {
         serializedName: "availableDbNodeStorageInGbs",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       minDbNodeStoragePerNodeInGbs: {
         serializedName: "minDbNodeStoragePerNodeInGbs",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       availableDataStorageInTbs: {
         serializedName: "availableDataStorageInTbs",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       minDataStorageInTbs: {
         serializedName: "minDataStorageInTbs",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       minimumNodeCount: {
         serializedName: "minimumNodeCount",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       maximumNodeCount: {
         serializedName: "maximumNodeCount",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       availableCoreCountPerNode: {
         serializedName: "availableCoreCountPerNode",
-        readOnly: true,
         type: {
           name: "Number",
+        },
+      },
+      computeModel: {
+        serializedName: "computeModel",
+        type: {
+          name: "String",
+        },
+      },
+      areServerTypesSupported: {
+        serializedName: "areServerTypesSupported",
+        type: {
+          name: "Boolean",
+        },
+      },
+      displayName: {
+        constraints: {
+          MaxLength: 255,
+          MinLength: 1,
+        },
+        serializedName: "displayName",
+        type: {
+          name: "String",
         },
       },
     },
@@ -2804,14 +3574,13 @@ export const DnsPrivateViewProperties: coreClient.CompositeMapper = {
         },
         serializedName: "ocid",
         required: true,
-        readOnly: true,
         type: {
           name: "String",
         },
       },
       displayName: {
         serializedName: "displayName",
-        readOnly: true,
+        required: true,
         type: {
           name: "String",
         },
@@ -2819,14 +3588,13 @@ export const DnsPrivateViewProperties: coreClient.CompositeMapper = {
       isProtected: {
         serializedName: "isProtected",
         required: true,
-        readOnly: true,
         type: {
           name: "Boolean",
         },
       },
       lifecycleState: {
         serializedName: "lifecycleState",
-        readOnly: true,
+        required: true,
         type: {
           name: "String",
         },
@@ -2834,7 +3602,6 @@ export const DnsPrivateViewProperties: coreClient.CompositeMapper = {
       self: {
         serializedName: "self",
         required: true,
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -2842,7 +3609,6 @@ export const DnsPrivateViewProperties: coreClient.CompositeMapper = {
       timeCreated: {
         serializedName: "timeCreated",
         required: true,
-        readOnly: true,
         type: {
           name: "DateTime",
         },
@@ -2850,7 +3616,6 @@ export const DnsPrivateViewProperties: coreClient.CompositeMapper = {
       timeUpdated: {
         serializedName: "timeUpdated",
         required: true,
-        readOnly: true,
         type: {
           name: "DateTime",
         },
@@ -2906,7 +3671,6 @@ export const DnsPrivateZoneProperties: coreClient.CompositeMapper = {
         },
         serializedName: "ocid",
         required: true,
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -2914,14 +3678,13 @@ export const DnsPrivateZoneProperties: coreClient.CompositeMapper = {
       isProtected: {
         serializedName: "isProtected",
         required: true,
-        readOnly: true,
         type: {
           name: "Boolean",
         },
       },
       lifecycleState: {
         serializedName: "lifecycleState",
-        readOnly: true,
+        required: true,
         type: {
           name: "String",
         },
@@ -2929,7 +3692,6 @@ export const DnsPrivateZoneProperties: coreClient.CompositeMapper = {
       self: {
         serializedName: "self",
         required: true,
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -2937,7 +3699,6 @@ export const DnsPrivateZoneProperties: coreClient.CompositeMapper = {
       serial: {
         serializedName: "serial",
         required: true,
-        readOnly: true,
         type: {
           name: "Number",
         },
@@ -2945,7 +3706,6 @@ export const DnsPrivateZoneProperties: coreClient.CompositeMapper = {
       version: {
         serializedName: "version",
         required: true,
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -2956,7 +3716,6 @@ export const DnsPrivateZoneProperties: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "viewId",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -2964,7 +3723,6 @@ export const DnsPrivateZoneProperties: coreClient.CompositeMapper = {
       zoneType: {
         serializedName: "zoneType",
         required: true,
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -2972,13 +3730,127 @@ export const DnsPrivateZoneProperties: coreClient.CompositeMapper = {
       timeCreated: {
         serializedName: "timeCreated",
         required: true,
-        readOnly: true,
         type: {
           name: "DateTime",
         },
       },
       provisioningState: {
         serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const FlexComponentListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FlexComponentListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FlexComponent",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const FlexComponentProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FlexComponentProperties",
+    modelProperties: {
+      minimumCoreCount: {
+        serializedName: "minimumCoreCount",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      availableCoreCount: {
+        serializedName: "availableCoreCount",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      availableDbStorageInGbs: {
+        serializedName: "availableDbStorageInGbs",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      runtimeMinimumCoreCount: {
+        serializedName: "runtimeMinimumCoreCount",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      shape: {
+        constraints: {
+          MaxLength: 255,
+          MinLength: 1,
+        },
+        serializedName: "shape",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      availableMemoryInGbs: {
+        serializedName: "availableMemoryInGbs",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      availableLocalStorageInGbs: {
+        serializedName: "availableLocalStorageInGbs",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      computeModel: {
+        serializedName: "computeModel",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      hardwareType: {
+        serializedName: "hardwareType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      descriptionSummary: {
+        constraints: {
+          MaxLength: 255,
+          MinLength: 1,
+        },
+        serializedName: "descriptionSummary",
         readOnly: true,
         type: {
           name: "String",
@@ -3028,7 +3900,64 @@ export const GiVersionProperties: coreClient.CompositeMapper = {
         },
         serializedName: "version",
         required: true,
-        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const GiMinorVersionListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GiMinorVersionListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GiMinorVersion",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const GiMinorVersionProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GiMinorVersionProperties",
+    modelProperties: {
+      version: {
+        constraints: {
+          MaxLength: 255,
+          MinLength: 1,
+        },
+        serializedName: "version",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      gridImageOcid: {
+        constraints: {
+          MaxLength: 255,
+          MinLength: 1,
+        },
+        serializedName: "gridImageOcid",
         type: {
           name: "String",
         },
@@ -3073,7 +4002,6 @@ export const SystemVersionProperties: coreClient.CompositeMapper = {
       systemVersion: {
         serializedName: "systemVersion",
         required: true,
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -3161,6 +4089,32 @@ export const OracleSubscriptionProperties: coreClient.CompositeMapper = {
       },
       intent: {
         serializedName: "intent",
+        type: {
+          name: "String",
+        },
+      },
+      azureSubscriptionIds: {
+        serializedName: "azureSubscriptionIds",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      addSubscriptionOperationState: {
+        serializedName: "addSubscriptionOperationState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      lastOperationStatusDetail: {
+        serializedName: "lastOperationStatusDetail",
+        readOnly: true,
         type: {
           name: "String",
         },
@@ -3288,6 +4242,27 @@ export const OracleSubscriptionUpdateProperties: coreClient.CompositeMapper = {
         serializedName: "intent",
         type: {
           name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AzureSubscriptions: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureSubscriptions",
+    modelProperties: {
+      azureSubscriptionIds: {
+        serializedName: "azureSubscriptionIds",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
         },
       },
     },
@@ -3803,10 +4778,6 @@ export const AutonomousDatabaseBackupProperties: coreClient.CompositeMapper = {
         },
       },
       retentionPeriodInDays: {
-        constraints: {
-          InclusiveMaximum: 3650,
-          InclusiveMinimum: 60,
-        },
         serializedName: "retentionPeriodInDays",
         type: {
           name: "Number",
@@ -3858,42 +4829,6 @@ export const AutonomousDatabaseBackupProperties: coreClient.CompositeMapper = {
   },
 };
 
-export const AutonomousDatabaseBackupUpdate: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AutonomousDatabaseBackupUpdate",
-    modelProperties: {
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "AutonomousDatabaseBackupUpdateProperties",
-        },
-      },
-    },
-  },
-};
-
-export const AutonomousDatabaseBackupUpdateProperties: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "AutonomousDatabaseBackupUpdateProperties",
-      modelProperties: {
-        retentionPeriodInDays: {
-          constraints: {
-            InclusiveMaximum: 3650,
-            InclusiveMinimum: 60,
-          },
-          serializedName: "retentionPeriodInDays",
-          type: {
-            name: "Number",
-          },
-        },
-      },
-    },
-  };
-
 export const PeerDbDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3905,6 +4840,18 @@ export const PeerDbDetails: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "peerDbId",
+        type: {
+          name: "String",
+        },
+      },
+      peerDbOcid: {
+        serializedName: "peerDbOcid",
+        type: {
+          name: "String",
+        },
+      },
+      peerDbLocation: {
+        serializedName: "peerDbLocation",
         type: {
           name: "String",
         },
@@ -4288,6 +5235,13 @@ export const DbServerProperties: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      computeModel: {
+        serializedName: "computeModel",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -4365,6 +5319,18 @@ export const CloudVmClusterUpdateProperties: coreClient.CompositeMapper = {
         serializedName: "storageSizeInGbs",
         type: {
           name: "Number",
+        },
+      },
+      fileSystemConfigurationDetails: {
+        serializedName: "fileSystemConfigurationDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FileSystemConfigurationDetails",
+            },
+          },
         },
       },
       dataStorageSizeInTbs: {
@@ -4515,14 +5481,12 @@ export const DbNodeProperties: coreClient.CompositeMapper = {
         },
         serializedName: "ocid",
         required: true,
-        readOnly: true,
         type: {
           name: "String",
         },
       },
       additionalDetails: {
         serializedName: "additionalDetails",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -4533,7 +5497,6 @@ export const DbNodeProperties: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "backupIpId",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -4544,7 +5507,6 @@ export const DbNodeProperties: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "backupVnic2Id",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -4555,21 +5517,18 @@ export const DbNodeProperties: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "backupVnicId",
-        readOnly: true,
         type: {
           name: "String",
         },
       },
       cpuCoreCount: {
         serializedName: "cpuCoreCount",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       dbNodeStorageSizeInGbs: {
         serializedName: "dbNodeStorageSizeInGbs",
-        readOnly: true,
         type: {
           name: "Number",
         },
@@ -4580,7 +5539,6 @@ export const DbNodeProperties: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "dbServerId",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -4592,7 +5550,6 @@ export const DbNodeProperties: coreClient.CompositeMapper = {
         },
         serializedName: "dbSystemId",
         required: true,
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -4603,7 +5560,6 @@ export const DbNodeProperties: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "faultDomain",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -4614,70 +5570,62 @@ export const DbNodeProperties: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "hostIpId",
-        readOnly: true,
         type: {
           name: "String",
         },
       },
       hostname: {
         serializedName: "hostname",
-        readOnly: true,
         type: {
           name: "String",
         },
       },
       lifecycleState: {
         serializedName: "lifecycleState",
-        readOnly: true,
+        required: true,
         type: {
           name: "String",
         },
       },
       lifecycleDetails: {
         serializedName: "lifecycleDetails",
-        readOnly: true,
         type: {
           name: "String",
         },
       },
       maintenanceType: {
         serializedName: "maintenanceType",
-        readOnly: true,
         type: {
           name: "String",
         },
       },
       memorySizeInGbs: {
         serializedName: "memorySizeInGbs",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       softwareStorageSizeInGb: {
         serializedName: "softwareStorageSizeInGb",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       timeCreated: {
         serializedName: "timeCreated",
-        readOnly: true,
+        required: true,
         type: {
           name: "DateTime",
         },
       },
       timeMaintenanceWindowEnd: {
         serializedName: "timeMaintenanceWindowEnd",
-        readOnly: true,
         type: {
           name: "DateTime",
         },
       },
       timeMaintenanceWindowStart: {
         serializedName: "timeMaintenanceWindowStart",
-        readOnly: true,
         type: {
           name: "DateTime",
         },
@@ -4688,7 +5636,6 @@ export const DbNodeProperties: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "vnic2Id",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -4699,7 +5646,7 @@ export const DbNodeProperties: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "vnicId",
-        readOnly: true,
+        required: true,
         type: {
           name: "String",
         },
@@ -4913,6 +5860,250 @@ export const VirtualNetworkAddressProperties: coreClient.CompositeMapper = {
   },
 };
 
+export const ExadbVmClusterUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExadbVmClusterUpdate",
+    modelProperties: {
+      zones: {
+        serializedName: "zones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ExadbVmClusterUpdateProperties",
+        },
+      },
+    },
+  },
+};
+
+export const ExadbVmClusterUpdateProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExadbVmClusterUpdateProperties",
+    modelProperties: {
+      nodeCount: {
+        serializedName: "nodeCount",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const ExascaleDbNodeListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExascaleDbNodeListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExascaleDbNode",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ExascaleDbNodeProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExascaleDbNodeProperties",
+    modelProperties: {
+      ocid: {
+        constraints: {
+          MaxLength: 255,
+          MinLength: 1,
+        },
+        serializedName: "ocid",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      additionalDetails: {
+        serializedName: "additionalDetails",
+        type: {
+          name: "String",
+        },
+      },
+      cpuCoreCount: {
+        serializedName: "cpuCoreCount",
+        type: {
+          name: "Number",
+        },
+      },
+      dbNodeStorageSizeInGbs: {
+        serializedName: "dbNodeStorageSizeInGbs",
+        type: {
+          name: "Number",
+        },
+      },
+      faultDomain: {
+        constraints: {
+          MaxLength: 255,
+          MinLength: 1,
+        },
+        serializedName: "faultDomain",
+        type: {
+          name: "String",
+        },
+      },
+      hostname: {
+        serializedName: "hostname",
+        type: {
+          name: "String",
+        },
+      },
+      lifecycleState: {
+        serializedName: "lifecycleState",
+        type: {
+          name: "String",
+        },
+      },
+      maintenanceType: {
+        serializedName: "maintenanceType",
+        type: {
+          name: "String",
+        },
+      },
+      memorySizeInGbs: {
+        serializedName: "memorySizeInGbs",
+        type: {
+          name: "Number",
+        },
+      },
+      softwareStorageSizeInGb: {
+        serializedName: "softwareStorageSizeInGb",
+        type: {
+          name: "Number",
+        },
+      },
+      timeMaintenanceWindowEnd: {
+        serializedName: "timeMaintenanceWindowEnd",
+        type: {
+          name: "DateTime",
+        },
+      },
+      timeMaintenanceWindowStart: {
+        serializedName: "timeMaintenanceWindowStart",
+        type: {
+          name: "DateTime",
+        },
+      },
+      totalCpuCoreCount: {
+        serializedName: "totalCpuCoreCount",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const DbActionResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DbActionResponse",
+    modelProperties: {
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RemoveVirtualMachineFromExadbVmClusterDetails: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "RemoveVirtualMachineFromExadbVmClusterDetails",
+      modelProperties: {
+        dbNodes: {
+          serializedName: "dbNodes",
+          required: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "DbNodeDetails",
+              },
+            },
+          },
+        },
+      },
+    },
+  };
+
+export const DbNodeDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DbNodeDetails",
+    modelProperties: {
+      dbNodeId: {
+        serializedName: "dbNodeId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ExascaleDbStorageVaultTagsUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExascaleDbStorageVaultTagsUpdate",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
+};
+
 export const SystemVersionsFilter: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5056,6 +6247,114 @@ export const AutonomousDatabaseCloneProperties: coreClient.CompositeMapper = {
   },
 };
 
+export const AutonomousDatabaseCrossRegionDisasterRecoveryProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "CrossRegionDisasterRecovery",
+    type: {
+      name: "Composite",
+      className: "AutonomousDatabaseCrossRegionDisasterRecoveryProperties",
+      uberParent: "AutonomousDatabaseBaseProperties",
+      polymorphicDiscriminator:
+        AutonomousDatabaseBaseProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...AutonomousDatabaseBaseProperties.type.modelProperties,
+        source: {
+          defaultValue: "CrossRegionDisasterRecovery",
+          isConstant: true,
+          serializedName: "source",
+          type: {
+            name: "String",
+          },
+        },
+        sourceId: {
+          serializedName: "sourceId",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        sourceLocation: {
+          serializedName: "sourceLocation",
+          type: {
+            name: "String",
+          },
+        },
+        sourceOcid: {
+          constraints: {
+            MaxLength: 255,
+            MinLength: 1,
+          },
+          serializedName: "sourceOcid",
+          type: {
+            name: "String",
+          },
+        },
+        remoteDisasterRecoveryType: {
+          serializedName: "remoteDisasterRecoveryType",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        isReplicateAutomaticBackups: {
+          serializedName: "isReplicateAutomaticBackups",
+          type: {
+            name: "Boolean",
+          },
+        },
+      },
+    },
+  };
+
+export const AutonomousDatabaseFromBackupTimestampProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "CloneFromBackupTimestamp",
+    type: {
+      name: "Composite",
+      className: "AutonomousDatabaseFromBackupTimestampProperties",
+      uberParent: "AutonomousDatabaseBaseProperties",
+      polymorphicDiscriminator:
+        AutonomousDatabaseBaseProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...AutonomousDatabaseBaseProperties.type.modelProperties,
+        source: {
+          defaultValue: "BackupFromTimestamp",
+          isConstant: true,
+          serializedName: "source",
+          type: {
+            name: "String",
+          },
+        },
+        sourceId: {
+          serializedName: "sourceId",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        cloneType: {
+          serializedName: "cloneType",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        timestamp: {
+          serializedName: "timestamp",
+          type: {
+            name: "DateTime",
+          },
+        },
+        useLatestAvailableBackupTimeStamp: {
+          serializedName: "useLatestAvailableBackupTimeStamp",
+          type: {
+            name: "Boolean",
+          },
+        },
+      },
+    },
+  };
+
 export const AutonomousDatabaseProperties: coreClient.CompositeMapper = {
   serializedName: "Regular",
   type: {
@@ -5167,6 +6466,62 @@ export const CloudVmCluster: coreClient.CompositeMapper = {
   },
 };
 
+export const ExadbVmCluster: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExadbVmCluster",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ExadbVmClusterProperties",
+        },
+      },
+      zones: {
+        serializedName: "zones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ExascaleDbStorageVault: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExascaleDbStorageVault",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ExascaleDbStorageVaultProperties",
+        },
+      },
+      zones: {
+        serializedName: "zones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
 export const AutonomousDatabaseCharacterSet: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5270,6 +6625,23 @@ export const DnsPrivateZone: coreClient.CompositeMapper = {
   },
 };
 
+export const FlexComponent: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FlexComponent",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "FlexComponentProperties",
+        },
+      },
+    },
+  },
+};
+
 export const GiVersion: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5281,6 +6653,23 @@ export const GiVersion: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "GiVersionProperties",
+        },
+      },
+    },
+  },
+};
+
+export const GiMinorVersion: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GiMinorVersion",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "GiMinorVersionProperties",
         },
       },
     },
@@ -5345,6 +6734,23 @@ export const AutonomousDatabaseBackup: coreClient.CompositeMapper = {
   },
 };
 
+export const AutonomousDatabaseBackupUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutonomousDatabaseBackupUpdate",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "AutonomousDatabaseBackupProperties",
+        },
+      },
+    },
+  },
+};
+
 export const DbServer: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5396,12 +6802,35 @@ export const VirtualNetworkAddress: coreClient.CompositeMapper = {
   },
 };
 
+export const ExascaleDbNode: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExascaleDbNode",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ExascaleDbNodeProperties",
+        },
+      },
+    },
+  },
+};
+
 export const AutonomousDatabasesCreateOrUpdateHeaders: coreClient.CompositeMapper =
   {
     type: {
       name: "Composite",
       className: "AutonomousDatabasesCreateOrUpdateHeaders",
       modelProperties: {
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
         retryAfter: {
           serializedName: "retry-after",
           type: {
@@ -5453,6 +6882,29 @@ export const AutonomousDatabasesDeleteHeaders: coreClient.CompositeMapper = {
     },
   },
 };
+
+export const AutonomousDatabasesChangeDisasterRecoveryConfigurationHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className:
+        "AutonomousDatabasesChangeDisasterRecoveryConfigurationHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
+      },
+    },
+  };
 
 export const AutonomousDatabasesFailoverHeaders: coreClient.CompositeMapper = {
   type: {
@@ -5545,6 +6997,12 @@ export const CloudExadataInfrastructuresCreateOrUpdateHeaders: coreClient.Compos
       name: "Composite",
       className: "CloudExadataInfrastructuresCreateOrUpdateHeaders",
       modelProperties: {
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
         retryAfter: {
           serializedName: "retry-after",
           type: {
@@ -5627,6 +7085,12 @@ export const CloudVmClustersCreateOrUpdateHeaders: coreClient.CompositeMapper =
       name: "Composite",
       className: "CloudVmClustersCreateOrUpdateHeaders",
       modelProperties: {
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
         retryAfter: {
           serializedName: "retry-after",
           type: {
@@ -5721,12 +7185,169 @@ export const CloudVmClustersRemoveVmsHeaders: coreClient.CompositeMapper = {
   },
 };
 
+export const ExadbVmClustersCreateOrUpdateHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ExadbVmClustersCreateOrUpdateHeaders",
+      modelProperties: {
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
+      },
+    },
+  };
+
+export const ExadbVmClustersUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExadbVmClustersUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const ExadbVmClustersDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExadbVmClustersDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const ExadbVmClustersRemoveVmsHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExadbVmClustersRemoveVmsHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const ExascaleDbStorageVaultsCreateHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ExascaleDbStorageVaultsCreateHeaders",
+      modelProperties: {
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
+      },
+    },
+  };
+
+export const ExascaleDbStorageVaultsUpdateHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ExascaleDbStorageVaultsUpdateHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
+      },
+    },
+  };
+
+export const ExascaleDbStorageVaultsDeleteHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ExascaleDbStorageVaultsDeleteHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
+      },
+    },
+  };
+
 export const OracleSubscriptionsCreateOrUpdateHeaders: coreClient.CompositeMapper =
   {
     type: {
       name: "Composite",
       className: "OracleSubscriptionsCreateOrUpdateHeaders",
       modelProperties: {
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
         retryAfter: {
           serializedName: "retry-after",
           type: {
@@ -5778,6 +7399,28 @@ export const OracleSubscriptionsDeleteHeaders: coreClient.CompositeMapper = {
     },
   },
 };
+
+export const OracleSubscriptionsAddAzureSubscriptionsHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "OracleSubscriptionsAddAzureSubscriptionsHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
+      },
+    },
+  };
 
 export const OracleSubscriptionsListActivationLinksHeaders: coreClient.CompositeMapper =
   {
@@ -5851,6 +7494,12 @@ export const AutonomousDatabaseBackupsCreateOrUpdateHeaders: coreClient.Composit
       name: "Composite",
       className: "AutonomousDatabaseBackupsCreateOrUpdateHeaders",
       modelProperties: {
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
         retryAfter: {
           serializedName: "retry-after",
           type: {
@@ -5932,6 +7581,12 @@ export const VirtualNetworkAddressesCreateOrUpdateHeaders: coreClient.CompositeM
       name: "Composite",
       className: "VirtualNetworkAddressesCreateOrUpdateHeaders",
       modelProperties: {
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
         retryAfter: {
           serializedName: "retry-after",
           type: {
@@ -5964,8 +7619,33 @@ export const VirtualNetworkAddressesDeleteHeaders: coreClient.CompositeMapper =
     },
   };
 
+export const ExascaleDbNodesActionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExascaleDbNodesActionHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
 export let discriminators = {
   AutonomousDatabaseBaseProperties: AutonomousDatabaseBaseProperties,
   "AutonomousDatabaseBaseProperties.Clone": AutonomousDatabaseCloneProperties,
+  "AutonomousDatabaseBaseProperties.CrossRegionDisasterRecovery":
+    AutonomousDatabaseCrossRegionDisasterRecoveryProperties,
+  "AutonomousDatabaseBaseProperties.CloneFromBackupTimestamp":
+    AutonomousDatabaseFromBackupTimestampProperties,
   "AutonomousDatabaseBaseProperties.Regular": AutonomousDatabaseProperties,
 };

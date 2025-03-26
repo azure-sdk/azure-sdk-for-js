@@ -11,6 +11,8 @@ import * as coreClient from "@azure/core-client";
 export type AutonomousDatabaseBasePropertiesUnion =
   | AutonomousDatabaseBaseProperties
   | AutonomousDatabaseCloneProperties
+  | AutonomousDatabaseCrossRegionDisasterRecoveryProperties
+  | AutonomousDatabaseFromBackupTimestampProperties
   | AutonomousDatabaseProperties;
 
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
@@ -137,7 +139,11 @@ export interface AutonomousDatabaseListResult {
 /** Autonomous Database base resource model. */
 export interface AutonomousDatabaseBaseProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  dataBaseType: "Clone" | "Regular";
+  dataBaseType:
+    | "Clone"
+    | "CrossRegionDisasterRecovery"
+    | "CloneFromBackupTimestamp"
+    | "Regular";
   /**
    * Admin password.
    * This value contains a credential. Consider obscuring before showing to users
@@ -170,11 +176,11 @@ export interface AutonomousDatabaseBaseProperties {
   /** Indicates if auto scaling is enabled for the Autonomous Database storage. */
   isAutoScalingForStorageEnabled?: boolean;
   /**
-   * The list of [OCIDs](https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of standby databases located in Autonomous Data Guard remote regions that are associated with the source database. Note that for Autonomous Database Serverless instances, standby databases located in the same region as the source primary database do not have OCIDs.
+   * The list of Azure resource IDs of standby databases located in Autonomous Data Guard remote regions that are associated with the source database. Note that for Autonomous Database Serverless instances, standby databases located in the same region as the source primary database do not have Azure IDs.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly peerDbIds?: string[];
-  /** The database OCID of the Disaster Recovery peer database, which is located in a different region from the current peer database. */
+  /** The Azure resource ID of the Disaster Recovery peer database, which is located in a different region from the current peer database. */
   peerDbId?: string;
   /** Indicates whether the Autonomous Database has local or called in-region Data Guard enabled. */
   isLocalDataGuardEnabled?: boolean;
@@ -188,6 +194,16 @@ export interface AutonomousDatabaseBaseProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly localDisasterRecoveryType?: DisasterRecoveryType;
+  /**
+   * The date and time the Disaster Recovery role was switched for the standby Autonomous Database.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly timeDisasterRecoveryRoleChanged?: Date;
+  /**
+   * Indicates remote disaster recovery configuration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly remoteDisasterRecoveryConfiguration?: DisasterRecoveryConfigurationDetails;
   /**
    * Local Autonomous Disaster Recovery standby database details.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -417,6 +433,18 @@ export interface CustomerContact {
   email: string;
 }
 
+/** Configurations of a Disaster Recovery Details */
+export interface DisasterRecoveryConfigurationDetails {
+  /** Indicates the disaster recovery (DR) type of the Autonomous Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover. */
+  disasterRecoveryType?: DisasterRecoveryType;
+  /** Time and date stored as an RFC 3339 formatted timestamp string. For example, 2022-01-01T12:00:00.000Z would set a limit for the snapshot standby to be converted back to a cross-region standby database. */
+  timeSnapshotStandbyEnabledTill?: Date;
+  /** Indicates if user wants to convert to a snapshot standby. For example, true would set a standby database to snapshot standby database. False would set a snapshot standby database back to regular standby database. */
+  isSnapshotStandby?: boolean;
+  /** If true, 7 days worth of backups are replicated across regions for Cross-Region ADB or Backup-Based DR between Primary and Standby. If false, the backups taken on the Primary are not replicated to the Standby database. */
+  isReplicateAutomaticBackups?: boolean;
+}
+
 /** Autonomous Disaster Recovery standby database details. */
 export interface AutonomousDatabaseStandbySummary {
   /** The amount of time, in seconds, that the data of the standby database lags the data of the primary database. Can be used to determine the potential data loss in the event of a failover. */
@@ -584,6 +612,11 @@ export interface CloudExadataInfrastructureListResult {
 /** CloudExadataInfrastructure resource model */
 export interface CloudExadataInfrastructureProperties {
   /**
+   * Defined file system configurations
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly definedFileSystemConfiguration?: DefinedFileSystemConfiguration[];
+  /**
    * Exadata infra ocid
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -720,6 +753,27 @@ export interface CloudExadataInfrastructureProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly monthlyStorageServerVersion?: string;
+  /** The database server model type of the cloud Exadata infrastructure resource. */
+  databaseServerType?: string;
+  /** The storage server model type of the cloud Exadata infrastructure resource. */
+  storageServerType?: string;
+  /**
+   * The compute model of the Exadata Infrastructure
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly computeModel?: ComputeModel;
+}
+
+/** Predefined configurations for the file system */
+export interface DefinedFileSystemConfiguration {
+  /** Checks if the data can be backed up */
+  isBackupPartition?: boolean;
+  /** Checks if the mount path is resizable */
+  isResizable?: boolean;
+  /** Minimum size of mount path in Gb */
+  minSizeGb?: number;
+  /** Mount path for the file system */
+  mountPoint?: string;
 }
 
 /** MaintenanceWindow resource properties */
@@ -803,6 +857,8 @@ export interface CloudVmClusterProperties {
   readonly nodeCount?: number;
   /** The data disk group size to be allocated in GBs per VM. */
   storageSizeInGbs?: number;
+  /** Array of mount path and size. */
+  fileSystemConfigurationDetails?: FileSystemConfigurationDetails[];
   /** The data disk group size to be allocated in TBs. */
   dataStorageSizeInTbs?: number;
   /** The local node storage to be allocated in GBs. */
@@ -939,6 +995,19 @@ export interface CloudVmClusterProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly subnetOcid?: string;
+  /**
+   * The compute model of the VM Cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly computeModel?: ComputeModel;
+}
+
+/** File configuration options */
+export interface FileSystemConfigurationDetails {
+  /** Mount path */
+  mountPoint?: string;
+  /** Size of the VM */
+  fileSystemSizeGb?: number;
 }
 
 /** A rule for allowing inbound (INGRESS) IP packets */
@@ -989,6 +1058,241 @@ export interface DbIormConfig {
   share?: number;
 }
 
+/** The response of a ExadbVmCluster list operation. */
+export interface ExadbVmClusterListResult {
+  /** The ExadbVmCluster items on this page */
+  value: ExadbVmCluster[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** ExadbVmCluster resource model */
+export interface ExadbVmClusterProperties {
+  /**
+   * ExadbVmCluster ocid
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ocid?: string;
+  /** The cluster name for Exadata VM cluster on Exascale Infrastructure. The cluster name must begin with an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive. */
+  clusterName?: string;
+  /** Client OCI backup subnet CIDR, default is 192.168.252.0/22 */
+  backupSubnetCidr?: string;
+  /**
+   * HTTPS link to OCI Network Security Group exposed to Azure Customer via the Azure Interface.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nsgUrl?: string;
+  /**
+   * Exadata VM cluster on Exascale Infrastructure provisioning state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: AzureResourceProvisioningState;
+  /**
+   * CloudVmCluster lifecycle state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lifecycleState?: ExadbVmClusterLifecycleState;
+  /** VNET for network connectivity */
+  vnetId: string;
+  /** Client subnet */
+  subnetId: string;
+  /** Indicates user preferences for the various diagnostic collection options for the VM cluster/Cloud VM cluster/VMBM DBCS. */
+  dataCollectionOptions?: DataCollectionOptions;
+  /** Display Name */
+  displayName: string;
+  /** A domain name used for the Exadata VM cluster on Exascale Infrastructure */
+  domain?: string;
+  /** The number of ECPUs to enable for an Exadata VM cluster on Exascale Infrastructure. */
+  enabledEcpuCount: number;
+  /** The Azure Resource ID of the Exadata Database Storage Vault. */
+  exascaleDbStorageVaultId: string;
+  /** Grid Setup will be done using this Grid Image OCID. Can be obtained using giMinorVersions API */
+  gridImageOcid?: string;
+  /**
+   * The type of Grid Image
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly gridImageType?: GridImageType;
+  /**
+   * Oracle Grid Infrastructure (GI) software version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly giVersion?: string;
+  /** The hostname for the  Exadata VM cluster on Exascale Infrastructure. */
+  hostname: string;
+  /** The Oracle license model that applies to the Exadata VM cluster on Exascale Infrastructure. The default is LICENSE_INCLUDED. */
+  licenseModel?: LicenseModel;
+  /**
+   * The memory that you want to be allocated in GBs. Memory is calculated based on 11 GB per VM core reserved.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly memorySizeInGbs?: number;
+  /** The number of nodes in the Exadata VM cluster on Exascale Infrastructure. */
+  nodeCount: number;
+  /** CIDR blocks for additional NSG ingress rules. The VNET CIDRs used to provision the VM Cluster will be added by default. */
+  nsgCidrs?: NsgCidr[];
+  /**
+   * The OCID of the zone the Exadata VM cluster on Exascale Infrastructure is associated with.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly zoneOcid?: string;
+  /** The OCID of the zone the Exadata VM cluster on Exascale Infrastructure is associated with. */
+  privateZoneOcid?: string;
+  /** The TCP Single Client Access Name (SCAN) port. The default port is 1521. */
+  scanListenerPortTcp?: number;
+  /** The TCPS Single Client Access Name (SCAN) port. The default port is 2484. */
+  scanListenerPortTcpSsl?: number;
+  /**
+   * The port number configured for the listener on the Exadata VM cluster on Exascale Infrastructure.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly listenerPort?: number;
+  /** The shape of the Exadata VM cluster on Exascale Infrastructure resource */
+  shape: string;
+  /** The public key portion of one or more key pairs used for SSH access to the Exadata VM cluster on Exascale Infrastructure. */
+  sshPublicKeys: string[];
+  /** Operating system version of the image. */
+  systemVersion?: string;
+  /** The time zone of the Exadata VM cluster on Exascale Infrastructure. For details, see [Exadata Infrastructure Time Zones](/Content/Database/References/timezones.htm). */
+  timeZone?: string;
+  /** The number of Total ECPUs for an Exadata VM cluster on Exascale Infrastructure. */
+  totalEcpuCount: number;
+  /** Filesystem storage details. */
+  vmFileSystemStorage: ExadbVmClusterStorageDetails;
+  /**
+   * Additional information about the current lifecycle state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lifecycleDetails?: string;
+  /**
+   * The FQDN of the DNS record for the SCAN IP addresses that are associated with the Exadata VM cluster on Exascale Infrastructure.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scanDnsName?: string;
+  /**
+   * The Single Client Access Name (SCAN) IP addresses associated with the Exadata VM cluster on Exascale Infrastructure. SCAN IP addresses are typically used for load balancing and are not assigned to any interface. Oracle Clusterware directs the requests to the appropriate nodes in the cluster. **Note:** For a single-node DB system, this list is empty.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scanIpIds?: string[];
+  /**
+   * The OCID of the DNS record for the SCAN IP addresses that are associated with the Exadata VM cluster on Exascale Infrastructure.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scanDnsRecordId?: string;
+  /**
+   * Snapshot filesystem storage details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly snapshotFileSystemStorage?: ExadbVmClusterStorageDetails;
+  /**
+   * Total file system storage details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalFileSystemStorage?: ExadbVmClusterStorageDetails;
+  /**
+   * The virtual IP (VIP) addresses associated with the Exadata VM cluster on Exascale Infrastructure. The Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the Exadata Cloud Service instance to enable failover. If one node fails, the VIP is reassigned to another active node in the cluster. **Note:** For a single-node DB system, this list is empty.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vipIds?: string[];
+  /**
+   * HTTPS link to OCI resources exposed to Azure Customer via Azure Interface.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ociUrl?: string;
+  /**
+   * iormConfigCache details for Exadata VM cluster on Exascale Infrastructure.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly iormConfigCache?: ExadataIormConfig;
+  /**
+   * Cluster backup subnet ocid
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly backupSubnetOcid?: string;
+  /**
+   * Cluster subnet ocid
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subnetOcid?: string;
+}
+
+/** Storage Details on the Exadata VM cluster. */
+export interface ExadbVmClusterStorageDetails {
+  /** Total Capacity */
+  totalSizeInGbs: number;
+}
+
+/** The response of a ExascaleDbStorageVault list operation. */
+export interface ExascaleDbStorageVaultListResult {
+  /** The ExascaleDbStorageVault items on this page */
+  value: ExascaleDbStorageVault[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** ExascaleDbStorageVault resource model */
+export interface ExascaleDbStorageVaultProperties {
+  /** The size of additional Flash Cache in percentage of High Capacity database storage. */
+  additionalFlashCacheInPercent?: number;
+  /** Exadata Database Storage Vault description. */
+  description?: string;
+  /** The user-friendly name for the Exadata Database Storage Vault. The name does not need to be unique. */
+  displayName: string;
+  /** Create exadata Database Storage Details */
+  highCapacityDatabaseStorageInput: ExascaleDbStorageInputDetails;
+  /**
+   * Response exadata Database Storage Details
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly highCapacityDatabaseStorage?: ExascaleDbStorageDetails;
+  /** The time zone that you want to use for the Exadata Database Storage Vault */
+  timeZone?: string;
+  /**
+   * Exadata Database Storage Vault provisioning state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: AzureResourceProvisioningState;
+  /**
+   * Exadata Database Storage Vault lifecycle state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lifecycleState?: ExascaleDbStorageVaultLifecycleState;
+  /**
+   * Additional information about the current lifecycle state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lifecycleDetails?: string;
+  /**
+   * The number of Exadata VM clusters used the Exadata Database Storage Vault.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vmClusterCount?: number;
+  /**
+   * The OCID of the Exadata Database Storage Vault.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ocid?: string;
+  /**
+   * HTTPS link to OCI resources exposed to Azure Customer via Azure Interface.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ociUrl?: string;
+}
+
+/** Create exadata Database Storage Details model */
+export interface ExascaleDbStorageInputDetails {
+  /** Total Capacity */
+  totalSizeInGbs: number;
+}
+
+/** Exadata Database Storage Details */
+export interface ExascaleDbStorageDetails {
+  /** Available Capacity */
+  availableSizeInGbs?: number;
+  /** Total Capacity */
+  totalSizeInGbs?: number;
+}
+
 /** The response of a AutonomousDatabaseCharacterSet list operation. */
 export interface AutonomousDatabaseCharacterSetListResult {
   /** The AutonomousDatabaseCharacterSet items on this page */
@@ -999,11 +1303,8 @@ export interface AutonomousDatabaseCharacterSetListResult {
 
 /** AutonomousDatabaseCharacterSet resource model */
 export interface AutonomousDatabaseCharacterSetProperties {
-  /**
-   * The Oracle Autonomous Database supported character sets.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly characterSet: string;
+  /** The Oracle Autonomous Database supported character sets. */
+  characterSet: string;
 }
 
 /** The response of a AutonomousDatabaseNationalCharacterSet list operation. */
@@ -1016,11 +1317,8 @@ export interface AutonomousDatabaseNationalCharacterSetListResult {
 
 /** AutonomousDatabaseNationalCharacterSet resource model */
 export interface AutonomousDatabaseNationalCharacterSetProperties {
-  /**
-   * The Oracle Autonomous Database supported national character sets.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly characterSet: string;
+  /** The Oracle Autonomous Database supported national character sets. */
+  characterSet: string;
 }
 
 /** The response of a AutonomousDbVersion list operation. */
@@ -1033,36 +1331,18 @@ export interface AutonomousDbVersionListResult {
 
 /** AutonomousDbVersion resource model */
 export interface AutonomousDbVersionProperties {
-  /**
-   * Supported Autonomous Db versions.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly version: string;
-  /**
-   * The Autonomous Database workload type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dbWorkload?: WorkloadType;
-  /**
-   * True if this version of the Oracle Database software's default is free.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isDefaultForFree?: boolean;
-  /**
-   * True if this version of the Oracle Database software's default is paid.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isDefaultForPaid?: boolean;
-  /**
-   * True if this version of the Oracle Database software can be used for Always-Free Autonomous Databases.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isFreeTierEnabled?: boolean;
-  /**
-   * True if this version of the Oracle Database software has payments enabled.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isPaidEnabled?: boolean;
+  /** Supported Autonomous Db versions. */
+  version: string;
+  /** The Autonomous Database workload type */
+  dbWorkload?: WorkloadType;
+  /** True if this version of the Oracle Database software's default is free. */
+  isDefaultForFree?: boolean;
+  /** True if this version of the Oracle Database software's default is paid. */
+  isDefaultForPaid?: boolean;
+  /** True if this version of the Oracle Database software can be used for Always-Free Autonomous Databases. */
+  isFreeTierEnabled?: boolean;
+  /** True if this version of the Oracle Database software has payments enabled. */
+  isPaidEnabled?: boolean;
 }
 
 /** The response of a DbSystemShape list operation. */
@@ -1075,106 +1355,54 @@ export interface DbSystemShapeListResult {
 
 /** DbSystemShape resource model */
 export interface DbSystemShapeProperties {
-  /**
-   * The family of the shape used for the DB system.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly shapeFamily?: string;
-  /**
-   * The maximum number of CPU cores that can be enabled on the DB system for this shape.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly availableCoreCount: number;
-  /**
-   * The minimum number of CPU cores that can be enabled on the DB system for this shape.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly minimumCoreCount?: number;
-  /**
-   * The runtime minimum number of CPU cores that can be enabled on the DB system for this shape.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly runtimeMinimumCoreCount?: number;
-  /**
-   * The discrete number by which the CPU core count for this shape can be increased or decreased.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly coreCountIncrement?: number;
-  /**
-   * The minimum number of Exadata storage servers available for the Exadata infrastructure.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly minStorageCount?: number;
-  /**
-   * The maximum number of Exadata storage servers available for the Exadata infrastructure.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly maxStorageCount?: number;
-  /**
-   * The maximum data storage available per storage server for this shape. Only applicable to ExaCC Elastic shapes.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly availableDataStoragePerServerInTbs?: number;
-  /**
-   * The maximum memory available per database node for this shape. Only applicable to ExaCC Elastic shapes.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly availableMemoryPerNodeInGbs?: number;
-  /**
-   * The maximum Db Node storage available per database node for this shape. Only applicable to ExaCC Elastic shapes.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly availableDbNodePerNodeInGbs?: number;
-  /**
-   * The minimum number of CPU cores that can be enabled per node for this shape.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly minCoreCountPerNode?: number;
-  /**
-   * The maximum memory that can be enabled for this shape.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly availableMemoryInGbs?: number;
-  /**
-   * The minimum memory that need be allocated per node for this shape.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly minMemoryPerNodeInGbs?: number;
-  /**
-   * The maximum Db Node storage that can be enabled for this shape.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly availableDbNodeStorageInGbs?: number;
-  /**
-   * The minimum Db Node storage that need be allocated per node for this shape.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly minDbNodeStoragePerNodeInGbs?: number;
-  /**
-   * The maximum DATA storage that can be enabled for this shape.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly availableDataStorageInTbs?: number;
-  /**
-   * The minimum data storage that need be allocated for this shape.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly minDataStorageInTbs?: number;
-  /**
-   * The minimum number of database nodes available for this shape.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly minimumNodeCount?: number;
-  /**
-   * The maximum number of database nodes available for this shape.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly maximumNodeCount?: number;
-  /**
-   * The maximum number of CPU cores per database node that can be enabled for this shape. Only applicable to the flex Exadata shape and ExaCC Elastic shapes.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly availableCoreCountPerNode?: number;
+  /** The family of the shape used for the DB system. */
+  shapeFamily?: string;
+  /** The shape used for the DB system. */
+  shapeName: string;
+  /** The maximum number of CPU cores that can be enabled on the DB system for this shape. */
+  availableCoreCount: number;
+  /** The minimum number of CPU cores that can be enabled on the DB system for this shape. */
+  minimumCoreCount?: number;
+  /** The runtime minimum number of CPU cores that can be enabled on the DB system for this shape. */
+  runtimeMinimumCoreCount?: number;
+  /** The discrete number by which the CPU core count for this shape can be increased or decreased. */
+  coreCountIncrement?: number;
+  /** The minimum number of Exadata storage servers available for the Exadata infrastructure. */
+  minStorageCount?: number;
+  /** The maximum number of Exadata storage servers available for the Exadata infrastructure. */
+  maxStorageCount?: number;
+  /** The maximum data storage available per storage server for this shape. Only applicable to ExaCC Elastic shapes. */
+  availableDataStoragePerServerInTbs?: number;
+  /** The maximum memory available per database node for this shape. Only applicable to ExaCC Elastic shapes. */
+  availableMemoryPerNodeInGbs?: number;
+  /** The maximum Db Node storage available per database node for this shape. Only applicable to ExaCC Elastic shapes. */
+  availableDbNodePerNodeInGbs?: number;
+  /** The minimum number of CPU cores that can be enabled per node for this shape. */
+  minCoreCountPerNode?: number;
+  /** The maximum memory that can be enabled for this shape. */
+  availableMemoryInGbs?: number;
+  /** The minimum memory that need be allocated per node for this shape. */
+  minMemoryPerNodeInGbs?: number;
+  /** The maximum Db Node storage that can be enabled for this shape. */
+  availableDbNodeStorageInGbs?: number;
+  /** The minimum Db Node storage that need be allocated per node for this shape. */
+  minDbNodeStoragePerNodeInGbs?: number;
+  /** The maximum DATA storage that can be enabled for this shape. */
+  availableDataStorageInTbs?: number;
+  /** The minimum data storage that need be allocated for this shape. */
+  minDataStorageInTbs?: number;
+  /** The minimum number of database nodes available for this shape. */
+  minimumNodeCount?: number;
+  /** The maximum number of database nodes available for this shape. */
+  maximumNodeCount?: number;
+  /** The maximum number of CPU cores per database node that can be enabled for this shape. Only applicable to the flex Exadata shape and ExaCC Elastic shapes. */
+  availableCoreCountPerNode?: number;
+  /** The compute model of the Exadata Infrastructure */
+  computeModel?: ComputeModel;
+  /** Indicates if the shape supports database and storage server types */
+  areServerTypesSupported?: boolean;
+  /** The display name of the shape used for the DB system */
+  displayName?: string;
 }
 
 /** The response of a DnsPrivateView list operation. */
@@ -1187,41 +1415,20 @@ export interface DnsPrivateViewListResult {
 
 /** Views resource model */
 export interface DnsPrivateViewProperties {
-  /**
-   * The OCID of the view
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ocid: string;
-  /**
-   * The display name of the view resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-  /**
-   * A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isProtected: boolean;
-  /**
-   * Views lifecycleState
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lifecycleState?: DnsPrivateViewsLifecycleState;
-  /**
-   * The canonical absolute URL of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly self: string;
-  /**
-   * views timeCreated
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timeCreated: Date;
-  /**
-   * views timeCreated
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timeUpdated: Date;
+  /** The OCID of the view */
+  ocid: string;
+  /** The display name of the view resource */
+  displayName: string;
+  /** A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed. */
+  isProtected: boolean;
+  /** Views lifecycleState */
+  lifecycleState: DnsPrivateViewsLifecycleState;
+  /** The canonical absolute URL of the resource. */
+  self: string;
+  /** views timeCreated */
+  timeCreated: Date;
+  /** views timeCreated */
+  timeUpdated: Date;
   /**
    * Azure resource provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1239,56 +1446,91 @@ export interface DnsPrivateZoneListResult {
 
 /** Zones resource model */
 export interface DnsPrivateZoneProperties {
-  /**
-   * The OCID of the Zone
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ocid: string;
-  /**
-   * A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isProtected: boolean;
-  /**
-   * Zones lifecycleState
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lifecycleState?: DnsPrivateZonesLifecycleState;
-  /**
-   * The canonical absolute URL of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly self: string;
-  /**
-   * The current serial of the zone. As seen in the zone's SOA record.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serial: number;
-  /**
-   * Version is the never-repeating, totally-orderable, version of the zone, from which the serial field of the zone's SOA record is derived.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly version: string;
-  /**
-   * The OCID of the private view containing the zone. This value will be null for zones in the global DNS, which are publicly resolvable and not part of a private view.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly viewId?: string;
-  /**
-   * The type of the zone. Must be either PRIMARY or SECONDARY. SECONDARY is only supported for GLOBAL zones.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly zoneType: ZoneType;
-  /**
-   * Zones timeCreated
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timeCreated: Date;
+  /** The OCID of the Zone */
+  ocid: string;
+  /** A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed. */
+  isProtected: boolean;
+  /** Zones lifecycleState */
+  lifecycleState: DnsPrivateZonesLifecycleState;
+  /** The canonical absolute URL of the resource. */
+  self: string;
+  /** The current serial of the zone. As seen in the zone's SOA record. */
+  serial: number;
+  /** Version is the never-repeating, totally-orderable, version of the zone, from which the serial field of the zone's SOA record is derived. */
+  version: string;
+  /** The OCID of the private view containing the zone. This value will be null for zones in the global DNS, which are publicly resolvable and not part of a private view. */
+  viewId?: string;
+  /** The type of the zone. Must be either PRIMARY or SECONDARY. SECONDARY is only supported for GLOBAL zones. */
+  zoneType: ZoneType;
+  /** Zones timeCreated */
+  timeCreated: Date;
   /**
    * Azure resource provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ResourceProvisioningState;
+}
+
+/** The response of a FlexComponent list operation. */
+export interface FlexComponentListResult {
+  /** The FlexComponent items on this page */
+  value: FlexComponent[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** FlexComponent resource model */
+export interface FlexComponentProperties {
+  /**
+   * The minimum number of CPU cores that can be enabled on the DB Server for this Flex Component.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly minimumCoreCount?: number;
+  /**
+   * The maximum number of CPU cores that can be enabled on the DB Server for this Flex Component.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly availableCoreCount?: number;
+  /**
+   * The maximum storage that can be enabled on the Storage Server for this Flex Component.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly availableDbStorageInGbs?: number;
+  /**
+   * The runtime minimum number of CPU cores that can be enabled for this Flex Component.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly runtimeMinimumCoreCount?: number;
+  /**
+   * The name of the DB system shape for this Flex Component.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly shape?: string;
+  /**
+   * The maximum memory size that can be enabled on the DB Server for this Flex Component.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly availableMemoryInGbs?: number;
+  /**
+   * The maximum local storage that can be enabled on the DB Server for this Flex Component.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly availableLocalStorageInGbs?: number;
+  /**
+   * The compute model of the DB Server for this Flex Component.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly computeModel?: string;
+  /**
+   * The hardware type of the DB (Compute) or Storage (Cell) Server for this Flex Component.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hardwareType?: HardwareType;
+  /**
+   * The description summary for this Flex Component.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly descriptionSummary?: string;
 }
 
 /** The response of a GiVersion list operation. */
@@ -1301,11 +1543,24 @@ export interface GiVersionListResult {
 
 /** GiVersion resource model */
 export interface GiVersionProperties {
-  /**
-   * A valid Oracle Grid Infrastructure (GI) software version.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly version: string;
+  /** A valid Oracle Grid Infrastructure (GI) software version. */
+  version: string;
+}
+
+/** The response of a GiMinorVersion list operation. */
+export interface GiMinorVersionListResult {
+  /** The GiMinorVersion items on this page */
+  value: GiMinorVersion[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The Oracle Grid Infrastructure (GI) minor version properties */
+export interface GiMinorVersionProperties {
+  /** A valid Oracle Grid Infrastructure (GI) software version. */
+  version: string;
+  /** Grid Infrastructure Image Id */
+  gridImageOcid?: string;
 }
 
 /** The response of a SystemVersion list operation. */
@@ -1318,11 +1573,8 @@ export interface SystemVersionListResult {
 
 /** System Version Resource model */
 export interface SystemVersionProperties {
-  /**
-   * A valid Oracle System Version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemVersion: string;
+  /** A valid Oracle System Version */
+  systemVersion: string;
 }
 
 /** The response of a OracleSubscription list operation. */
@@ -1361,6 +1613,21 @@ export interface OracleSubscriptionProperties {
   productCode?: string;
   /** Intent for the update operation */
   intent?: Intent;
+  /**
+   * Azure subscriptions to be added
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly azureSubscriptionIds?: string[];
+  /**
+   * State of the add Azure subscription operation on Oracle subscription
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly addSubscriptionOperationState?: AddSubscriptionOperationState;
+  /**
+   * Status details of the last operation on Oracle subscription
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastOperationStatusDetail?: string;
 }
 
 /** Plan for the resource. */
@@ -1381,7 +1648,7 @@ export interface Plan {
 export interface OracleSubscriptionUpdate {
   /** Details of the resource plan. */
   plan?: PlanUpdate;
-  /** The updatable properties of the OracleSubscription. */
+  /** The resource-specific properties for this resource. */
   properties?: OracleSubscriptionUpdateProperties;
 }
 
@@ -1405,6 +1672,12 @@ export interface OracleSubscriptionUpdateProperties {
   productCode?: string;
   /** Intent for the update operation */
   intent?: Intent;
+}
+
+/** Azure Subscriptions model */
+export interface AzureSubscriptions {
+  /** Azure Subscription Ids to be updated */
+  azureSubscriptionIds: string[];
 }
 
 /** Activation Links model */
@@ -1503,7 +1776,7 @@ export interface SaasSubscriptionDetails {
 export interface AutonomousDatabaseUpdate {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** The updatable properties of the AutonomousDatabase. */
+  /** The resource-specific properties for this resource. */
   properties?: AutonomousDatabaseUpdateProperties;
 }
 
@@ -1532,7 +1805,7 @@ export interface AutonomousDatabaseUpdateProperties {
   isAutoScalingEnabled?: boolean;
   /** Indicates if auto scaling is enabled for the Autonomous Database storage. */
   isAutoScalingForStorageEnabled?: boolean;
-  /** The database OCID of the Disaster Recovery peer database, which is located in a different region from the current peer database. */
+  /** The Azure resource ID of the Disaster Recovery peer database, which is located in a different region from the current peer database. */
   peerDbId?: string;
   /** Indicates whether the Autonomous Database has local or called in-region Data Guard enabled. */
   isLocalDataGuardEnabled?: boolean;
@@ -1628,7 +1901,7 @@ export interface AutonomousDatabaseBackupProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lifecycleState?: AutonomousDatabaseBackupLifecycleState;
-  /** Retention period, in days, for long-term backups. */
+  /** Retention period, in days */
   retentionPeriodInDays?: number;
   /**
    * The backup size in terabytes (TB).
@@ -1662,22 +1935,14 @@ export interface AutonomousDatabaseBackupProperties {
   readonly provisioningState?: AzureResourceProvisioningState;
 }
 
-/** The type used for update operations of the AutonomousDatabaseBackup. */
-export interface AutonomousDatabaseBackupUpdate {
-  /** The updatable properties of the AutonomousDatabaseBackup. */
-  properties?: AutonomousDatabaseBackupUpdateProperties;
-}
-
-/** The updatable properties of the AutonomousDatabaseBackup. */
-export interface AutonomousDatabaseBackupUpdateProperties {
-  /** Retention period, in days, for long-term backups. */
-  retentionPeriodInDays?: number;
-}
-
 /** PeerDb Details */
 export interface PeerDbDetails {
-  /** The database OCID of the Disaster Recovery peer database, which is located in a different region from the current peer database. */
+  /** The Azure resource ID of the Disaster Recovery peer database, which is located in a different region from the current peer database. */
   peerDbId?: string;
+  /** Ocid of the Disaster Recovery peer database, which is located in a different region from the current peer database. */
+  peerDbOcid?: string;
+  /** The location of the Disaster Recovery peer database. */
+  peerDbLocation?: string;
 }
 
 /** Autonomous Database Generate Wallet resource model. */
@@ -1711,7 +1976,7 @@ export interface CloudExadataInfrastructureUpdate {
   zones?: string[];
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** The updatable properties of the CloudExadataInfrastructure. */
+  /** The resource-specific properties for this resource. */
   properties?: CloudExadataInfrastructureUpdateProperties;
 }
 
@@ -1839,6 +2104,11 @@ export interface DbServerProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ResourceProvisioningState;
+  /**
+   * The compute model of the Exadata Infrastructure
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly computeModel?: ComputeModel;
 }
 
 /** DbServer Patching Properties */
@@ -1869,7 +2139,7 @@ export interface DbServerPatchingDetails {
 export interface CloudVmClusterUpdate {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** The updatable properties of the CloudVmCluster. */
+  /** The resource-specific properties for this resource. */
   properties?: CloudVmClusterUpdateProperties;
 }
 
@@ -1877,6 +2147,8 @@ export interface CloudVmClusterUpdate {
 export interface CloudVmClusterUpdateProperties {
   /** The data disk group size to be allocated in GBs per VM. */
   storageSizeInGbs?: number;
+  /** Array of mount path and size. */
+  fileSystemConfigurationDetails?: FileSystemConfigurationDetails[];
   /** The data disk group size to be allocated in TBs. */
   dataStorageSizeInTbs?: number;
   /** The local node storage to be allocated in GBs. */
@@ -1915,116 +2187,50 @@ export interface DbNodeListResult {
 
 /** The properties of DbNodeResource */
 export interface DbNodeProperties {
-  /**
-   * DbNode OCID
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ocid: string;
-  /**
-   * Additional information about the planned maintenance.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalDetails?: string;
-  /**
-   * The OCID of the backup IP address associated with the database node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly backupIpId?: string;
-  /**
-   * The OCID of the second backup VNIC.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly backupVnic2Id?: string;
-  /**
-   * The OCID of the backup VNIC.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly backupVnicId?: string;
-  /**
-   * The number of CPU cores enabled on the Db node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cpuCoreCount?: number;
-  /**
-   * The allocated local node storage in GBs on the Db node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dbNodeStorageSizeInGbs?: number;
-  /**
-   * The OCID of the Exacc Db server associated with the database node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dbServerId?: string;
-  /**
-   * The OCID of the DB system.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dbSystemId: string;
-  /**
-   * The name of the Fault Domain the instance is contained in.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly faultDomain?: string;
-  /**
-   * The OCID of the host IP address associated with the database node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hostIpId?: string;
-  /**
-   * The host name for the database node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hostname?: string;
-  /**
-   * The current state of the database node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lifecycleState?: DbNodeProvisioningState;
-  /**
-   * Lifecycle details of Db Node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lifecycleDetails?: string;
-  /**
-   * The type of database node maintenance.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly maintenanceType?: DbNodeMaintenanceType;
-  /**
-   * The allocated memory in GBs on the Db node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly memorySizeInGbs?: number;
-  /**
-   * The size (in GB) of the block storage volume allocation for the DB system. This attribute applies only for virtual machine DB systems.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly softwareStorageSizeInGb?: number;
-  /**
-   * The date and time that the database node was created.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timeCreated?: Date;
-  /**
-   * End date and time of maintenance window.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timeMaintenanceWindowEnd?: Date;
-  /**
-   * Start date and time of maintenance window.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timeMaintenanceWindowStart?: Date;
-  /**
-   * The OCID of the second VNIC.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly vnic2Id?: string;
-  /**
-   * The OCID of the VNIC.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly vnicId?: string;
+  /** DbNode OCID */
+  ocid: string;
+  /** Additional information about the planned maintenance. */
+  additionalDetails?: string;
+  /** The OCID of the backup IP address associated with the database node. */
+  backupIpId?: string;
+  /** The OCID of the second backup VNIC. */
+  backupVnic2Id?: string;
+  /** The OCID of the backup VNIC. */
+  backupVnicId?: string;
+  /** The number of CPU cores enabled on the Db node. */
+  cpuCoreCount?: number;
+  /** The allocated local node storage in GBs on the Db node. */
+  dbNodeStorageSizeInGbs?: number;
+  /** The OCID of the Exacc Db server associated with the database node. */
+  dbServerId?: string;
+  /** The OCID of the DB system. */
+  dbSystemId: string;
+  /** The name of the Fault Domain the instance is contained in. */
+  faultDomain?: string;
+  /** The OCID of the host IP address associated with the database node. */
+  hostIpId?: string;
+  /** The host name for the database node. */
+  hostname?: string;
+  /** The current state of the database node. */
+  lifecycleState: DbNodeProvisioningState;
+  /** Lifecycle details of Db Node. */
+  lifecycleDetails?: string;
+  /** The type of database node maintenance. */
+  maintenanceType?: DbNodeMaintenanceType;
+  /** The allocated memory in GBs on the Db node. */
+  memorySizeInGbs?: number;
+  /** The size (in GB) of the block storage volume allocation for the DB system. This attribute applies only for virtual machine DB systems. */
+  softwareStorageSizeInGb?: number;
+  /** The date and time that the database node was created. */
+  timeCreated: Date;
+  /** End date and time of maintenance window. */
+  timeMaintenanceWindowEnd?: Date;
+  /** Start date and time of maintenance window. */
+  timeMaintenanceWindowStart?: Date;
+  /** The OCID of the second VNIC. */
+  vnic2Id?: string;
+  /** The OCID of the VNIC. */
+  vnicId: string;
   /**
    * Azure resource provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2106,6 +2312,87 @@ export interface VirtualNetworkAddressProperties {
   readonly timeAssigned?: Date;
 }
 
+/** The type used for update operations of the ExadbVmCluster. */
+export interface ExadbVmClusterUpdate {
+  /** The availability zones. */
+  zones?: string[];
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The resource-specific properties for this resource. */
+  properties?: ExadbVmClusterUpdateProperties;
+}
+
+/** The updatable properties of the ExadbVmCluster. */
+export interface ExadbVmClusterUpdateProperties {
+  /** The number of nodes in the Exadata VM cluster on Exascale Infrastructure. */
+  nodeCount?: number;
+}
+
+/** The response of a ExascaleDbNode list operation. */
+export interface ExascaleDbNodeListResult {
+  /** The ExascaleDbNode items on this page */
+  value: ExascaleDbNode[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The properties of DbNodeResource */
+export interface ExascaleDbNodeProperties {
+  /** DbNode OCID */
+  ocid: string;
+  /** Additional information about the planned maintenance. */
+  additionalDetails?: string;
+  /** The number of CPU cores enabled on the Db node. */
+  cpuCoreCount?: number;
+  /** The allocated local node storage in GBs on the Db node. */
+  dbNodeStorageSizeInGbs?: number;
+  /** The name of the Fault Domain the instance is contained in. */
+  faultDomain?: string;
+  /** The host name for the database node. */
+  hostname?: string;
+  /** The current state of the database node. */
+  lifecycleState?: DbNodeProvisioningState;
+  /** The type of database node maintenance. */
+  maintenanceType?: string;
+  /** The allocated memory in GBs on the Db node. */
+  memorySizeInGbs?: number;
+  /** The size (in GB) of the block storage volume allocation for the DB system. This attribute applies only for virtual machine DB systems. */
+  softwareStorageSizeInGb?: number;
+  /** End date and time of maintenance window. */
+  timeMaintenanceWindowEnd?: Date;
+  /** Start date and time of maintenance window. */
+  timeMaintenanceWindowStart?: Date;
+  /** The total number of CPU cores reserved on the Db node. */
+  totalCpuCoreCount?: number;
+}
+
+/** ExascaleDbNode action response */
+export interface DbActionResponse {
+  /**
+   * ExascaleDbNode provisioning state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: AzureResourceProvisioningState;
+}
+
+/** Details of removing Virtual Machines from the Exadata VM cluster on Exascale Infrastructure. Applies to Exadata Database Service on Exascale Infrastructure only. */
+export interface RemoveVirtualMachineFromExadbVmClusterDetails {
+  /** The list of ExaCS DB nodes for the Exadata VM cluster on Exascale Infrastructure to be removed. */
+  dbNodes: DbNodeDetails[];
+}
+
+/** Details of the ExaCS Db node. Applies to Exadata Database Service on Exascale Infrastructure only. */
+export interface DbNodeDetails {
+  /** Exascale DbNode Azure Resource ID */
+  dbNodeId: string;
+}
+
+/** The type used for updating tags in ExascaleDbStorageVault resources. */
+export interface ExascaleDbStorageVaultTagsUpdate {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+}
+
 /** SystemVersions filter */
 export interface SystemVersionsFilter {
   /** Grid Infrastructure version */
@@ -2142,7 +2429,7 @@ export interface AutonomousDatabaseCloneProperties
   dataBaseType: "Clone";
   /** The source of the database. */
   source?: SourceType;
-  /** The Azure ID of the Autonomous Database that was cloned to create the current Autonomous Database. */
+  /** The Azure resource ID of the Autonomous Database that was cloned to create the current Autonomous Database. */
   sourceId: string;
   /** The Autonomous Database clone type. */
   cloneType: CloneType;
@@ -2165,6 +2452,42 @@ export interface AutonomousDatabaseCloneProperties
   readonly refreshableStatus?: RefreshableStatusType;
   /** The time and date as an RFC3339 formatted string, e.g., 2022-01-01T12:00:00.000Z, to set the limit for a refreshable clone to be reconnected to its source database. */
   timeUntilReconnectCloneEnabled?: string;
+}
+
+/** Autonomous Database Cross Region Disaster Recovery resource model. */
+export interface AutonomousDatabaseCrossRegionDisasterRecoveryProperties
+  extends AutonomousDatabaseBaseProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataBaseType: "CrossRegionDisasterRecovery";
+  /** The source of the database. */
+  source: "CrossRegionDisasterRecovery";
+  /** The Azure ID of the source Autonomous Database that will be used to create a new peer database for the DR association. */
+  sourceId: string;
+  /** The name of the region where source Autonomous Database exists. */
+  sourceLocation?: string;
+  /** The source database ocid */
+  sourceOcid?: string;
+  /** Indicates the cross-region disaster recovery (DR) type of the standby Autonomous Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover. */
+  remoteDisasterRecoveryType: DisasterRecoveryType;
+  /** If true, 7 days worth of backups are replicated across regions for Cross-Region ADB or Backup-Based DR between Primary and Standby. If false, the backups taken on the Primary are not replicated to the Standby database. */
+  isReplicateAutomaticBackups?: boolean;
+}
+
+/** Autonomous Database From Backup Timestamp resource model. */
+export interface AutonomousDatabaseFromBackupTimestampProperties
+  extends AutonomousDatabaseBaseProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataBaseType: "CloneFromBackupTimestamp";
+  /** The source of the database. */
+  source: "BackupFromTimestamp";
+  /** The ID of the source Autonomous Database that you will clone to create a new Autonomous Database. */
+  sourceId: string;
+  /** The Autonomous Database clone type. */
+  cloneType: CloneType;
+  /** The timestamp specified for the point-in-time clone of the source Autonomous Database. The timestamp must be in the past. */
+  timestamp?: Date;
+  /** Clone from latest available backup timestamp. */
+  useLatestAvailableBackupTimeStamp?: boolean;
 }
 
 /** Autonomous Database resource model. */
@@ -2205,6 +2528,22 @@ export interface CloudVmCluster extends TrackedResource {
   properties?: CloudVmClusterProperties;
 }
 
+/** ExadbVmCluster resource definition */
+export interface ExadbVmCluster extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ExadbVmClusterProperties;
+  /** The availability zones. */
+  zones?: string[];
+}
+
+/** ExascaleDbStorageVault resource definition */
+export interface ExascaleDbStorageVault extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ExascaleDbStorageVaultProperties;
+  /** The availability zones. */
+  zones?: string[];
+}
+
 /** AutonomousDatabaseCharacterSets resource definition */
 export interface AutonomousDatabaseCharacterSet extends ProxyResource {
   /** The resource-specific properties for this resource. */
@@ -2241,10 +2580,22 @@ export interface DnsPrivateZone extends ProxyResource {
   properties?: DnsPrivateZoneProperties;
 }
 
+/** FlexComponent Resource Definition */
+export interface FlexComponent extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: FlexComponentProperties;
+}
+
 /** GiVersion resource definition */
 export interface GiVersion extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: GiVersionProperties;
+}
+
+/** The Oracle Grid Infrastructure (GI) minor version resource definition. */
+export interface GiMinorVersion extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: GiMinorVersionProperties;
 }
 
 /** SystemVersion resource Definition */
@@ -2267,6 +2618,12 @@ export interface AutonomousDatabaseBackup extends ProxyResource {
   properties?: AutonomousDatabaseBackupProperties;
 }
 
+/** AutonomousDatabaseBackup resource definition */
+export interface AutonomousDatabaseBackupUpdate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: AutonomousDatabaseBackupProperties;
+}
+
 /** DbServer resource model */
 export interface DbServer extends ProxyResource {
   /** The resource-specific properties for this resource. */
@@ -2285,8 +2642,16 @@ export interface VirtualNetworkAddress extends ProxyResource {
   properties?: VirtualNetworkAddressProperties;
 }
 
+/** The DbNode resource belonging to ExadbVmCluster */
+export interface ExascaleDbNode extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ExascaleDbNodeProperties;
+}
+
 /** Defines headers for AutonomousDatabases_createOrUpdate operation. */
 export interface AutonomousDatabasesCreateOrUpdateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
 }
@@ -2301,6 +2666,14 @@ export interface AutonomousDatabasesUpdateHeaders {
 
 /** Defines headers for AutonomousDatabases_delete operation. */
 export interface AutonomousDatabasesDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for AutonomousDatabases_changeDisasterRecoveryConfiguration operation. */
+export interface AutonomousDatabasesChangeDisasterRecoveryConfigurationHeaders {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
@@ -2341,6 +2714,8 @@ export interface AutonomousDatabasesSwitchoverHeaders {
 
 /** Defines headers for CloudExadataInfrastructures_createOrUpdate operation. */
 export interface CloudExadataInfrastructuresCreateOrUpdateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
 }
@@ -2371,6 +2746,8 @@ export interface CloudExadataInfrastructuresAddStorageCapacityHeaders {
 
 /** Defines headers for CloudVmClusters_createOrUpdate operation. */
 export interface CloudVmClustersCreateOrUpdateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
 }
@@ -2407,8 +2784,66 @@ export interface CloudVmClustersRemoveVmsHeaders {
   retryAfter?: number;
 }
 
+/** Defines headers for ExadbVmClusters_createOrUpdate operation. */
+export interface ExadbVmClustersCreateOrUpdateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for ExadbVmClusters_update operation. */
+export interface ExadbVmClustersUpdateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for ExadbVmClusters_delete operation. */
+export interface ExadbVmClustersDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for ExadbVmClusters_removeVms operation. */
+export interface ExadbVmClustersRemoveVmsHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for ExascaleDbStorageVaults_create operation. */
+export interface ExascaleDbStorageVaultsCreateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for ExascaleDbStorageVaults_update operation. */
+export interface ExascaleDbStorageVaultsUpdateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for ExascaleDbStorageVaults_delete operation. */
+export interface ExascaleDbStorageVaultsDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
 /** Defines headers for OracleSubscriptions_createOrUpdate operation. */
 export interface OracleSubscriptionsCreateOrUpdateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
 }
@@ -2423,6 +2858,14 @@ export interface OracleSubscriptionsUpdateHeaders {
 
 /** Defines headers for OracleSubscriptions_delete operation. */
 export interface OracleSubscriptionsDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for OracleSubscriptions_addAzureSubscriptions operation. */
+export interface OracleSubscriptionsAddAzureSubscriptionsHeaders {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
@@ -2455,6 +2898,8 @@ export interface OracleSubscriptionsListSaasSubscriptionDetailsHeaders {
 
 /** Defines headers for AutonomousDatabaseBackups_createOrUpdate operation. */
 export interface AutonomousDatabaseBackupsCreateOrUpdateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
 }
@@ -2485,12 +2930,22 @@ export interface DbNodesActionHeaders {
 
 /** Defines headers for VirtualNetworkAddresses_createOrUpdate operation. */
 export interface VirtualNetworkAddressesCreateOrUpdateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
 }
 
 /** Defines headers for VirtualNetworkAddresses_delete operation. */
 export interface VirtualNetworkAddressesDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for ExascaleDbNodes_action operation. */
+export interface ExascaleDbNodesActionHeaders {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
@@ -2539,6 +2994,10 @@ export enum KnownDataBaseType {
   Regular = "Regular",
   /** Clone DB */
   Clone = "Clone",
+  /** Clone DB from backup timestamp */
+  CloneFromBackupTimestamp = "CloneFromBackupTimestamp",
+  /** Cross Region Disaster Recovery */
+  CrossRegionDisasterRecovery = "CrossRegionDisasterRecovery",
 }
 
 /**
@@ -2547,7 +3006,9 @@ export enum KnownDataBaseType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Regular**: Regular DB \
- * **Clone**: Clone DB
+ * **Clone**: Clone DB \
+ * **CloneFromBackupTimestamp**: Clone DB from backup timestamp \
+ * **CrossRegionDisasterRecovery**: Cross Region Disaster Recovery
  */
 export type DataBaseType = string;
 
@@ -3307,6 +3768,87 @@ export enum KnownObjective {
  */
 export type Objective = string;
 
+/** Known values of {@link ExadbVmClusterLifecycleState} that the service accepts. */
+export enum KnownExadbVmClusterLifecycleState {
+  /** Indicates that resource in Provisioning state */
+  Provisioning = "Provisioning",
+  /** Indicates that resource in Available state */
+  Available = "Available",
+  /** Indicates that resource in Updating state */
+  Updating = "Updating",
+  /** Indicates that resource in Terminating state */
+  Terminating = "Terminating",
+  /** Indicates that resource in Terminated state */
+  Terminated = "Terminated",
+  /** Indicates that resource Maintenance in progress state */
+  MaintenanceInProgress = "MaintenanceInProgress",
+  /** Indicates that resource in Failed state */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for ExadbVmClusterLifecycleState. \
+ * {@link KnownExadbVmClusterLifecycleState} can be used interchangeably with ExadbVmClusterLifecycleState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Provisioning**: Indicates that resource in Provisioning state \
+ * **Available**: Indicates that resource in Available state \
+ * **Updating**: Indicates that resource in Updating state \
+ * **Terminating**: Indicates that resource in Terminating state \
+ * **Terminated**: Indicates that resource in Terminated state \
+ * **MaintenanceInProgress**: Indicates that resource Maintenance in progress state \
+ * **Failed**: Indicates that resource in Failed state
+ */
+export type ExadbVmClusterLifecycleState = string;
+
+/** Known values of {@link GridImageType} that the service accepts. */
+export enum KnownGridImageType {
+  /** Release update */
+  ReleaseUpdate = "ReleaseUpdate",
+  /** Custom image */
+  CustomImage = "CustomImage",
+}
+
+/**
+ * Defines values for GridImageType. \
+ * {@link KnownGridImageType} can be used interchangeably with GridImageType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ReleaseUpdate**: Release update \
+ * **CustomImage**: Custom image
+ */
+export type GridImageType = string;
+
+/** Known values of {@link ExascaleDbStorageVaultLifecycleState} that the service accepts. */
+export enum KnownExascaleDbStorageVaultLifecycleState {
+  /** Indicates that resource in Provisioning state */
+  Provisioning = "Provisioning",
+  /** Indicates that resource in Available state */
+  Available = "Available",
+  /** Indicates that resource in Updating state */
+  Updating = "Updating",
+  /** Indicates that resource in Terminating state */
+  Terminating = "Terminating",
+  /** Indicates that resource in Terminated state */
+  Terminated = "Terminated",
+  /** Indicates that resource in Failed state */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for ExascaleDbStorageVaultLifecycleState. \
+ * {@link KnownExascaleDbStorageVaultLifecycleState} can be used interchangeably with ExascaleDbStorageVaultLifecycleState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Provisioning**: Indicates that resource in Provisioning state \
+ * **Available**: Indicates that resource in Available state \
+ * **Updating**: Indicates that resource in Updating state \
+ * **Terminating**: Indicates that resource in Terminating state \
+ * **Terminated**: Indicates that resource in Terminated state \
+ * **Failed**: Indicates that resource in Failed state
+ */
+export type ExascaleDbStorageVaultLifecycleState = string;
+
 /** Known values of {@link DnsPrivateViewsLifecycleState} that the service accepts. */
 export enum KnownDnsPrivateViewsLifecycleState {
   /** DNS Private View is active */
@@ -3397,6 +3939,63 @@ export enum KnownZoneType {
  */
 export type ZoneType = string;
 
+/** Known values of {@link SystemShapes} that the service accepts. */
+export enum KnownSystemShapes {
+  /** Exadata X9M shape */
+  ExadataX9M = "Exadata.X9M",
+  /** Exadata X11M shape */
+  ExadataX11M = "Exadata.X11M",
+  /** Exadata DB on Exascale Infrastructure shape */
+  ExaDbXs = "ExaDbXS",
+}
+
+/**
+ * Defines values for SystemShapes. \
+ * {@link KnownSystemShapes} can be used interchangeably with SystemShapes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Exadata.X9M**: Exadata X9M shape \
+ * **Exadata.X11M**: Exadata X11M shape \
+ * **ExaDbXS**: Exadata DB on Exascale Infrastructure shape
+ */
+export type SystemShapes = string;
+
+/** Known values of {@link HardwareType} that the service accepts. */
+export enum KnownHardwareType {
+  /** Hardware type is Database Server */
+  Compute = "COMPUTE",
+  /** Hardware type is Storage Server */
+  Cell = "CELL",
+}
+
+/**
+ * Defines values for HardwareType. \
+ * {@link KnownHardwareType} can be used interchangeably with HardwareType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **COMPUTE**: Hardware type is Database Server \
+ * **CELL**: Hardware type is Storage Server
+ */
+export type HardwareType = string;
+
+/** Known values of {@link ShapeFamily} that the service accepts. */
+export enum KnownShapeFamily {
+  /** Family value for Exadata Shape */
+  Exadata = "EXADATA",
+  /** Family value for Exadb XS Shape */
+  ExadbXs = "EXADB_XS",
+}
+
+/**
+ * Defines values for ShapeFamily. \
+ * {@link KnownShapeFamily} can be used interchangeably with ShapeFamily,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **EXADATA**: Family value for Exadata Shape \
+ * **EXADB_XS**: Family value for Exadb XS Shape
+ */
+export type ShapeFamily = string;
+
 /** Known values of {@link OracleSubscriptionProvisioningState} that the service accepts. */
 export enum KnownOracleSubscriptionProvisioningState {
   /** Resource has been created. */
@@ -3456,6 +4055,27 @@ export enum KnownIntent {
  * **Reset**: Reset intent
  */
 export type Intent = string;
+
+/** Known values of {@link AddSubscriptionOperationState} that the service accepts. */
+export enum KnownAddSubscriptionOperationState {
+  /** Succeeded - State when Add Subscription operation succeeded */
+  Succeeded = "Succeeded",
+  /** Updating - State when Add Subscription operation is being Updated */
+  Updating = "Updating",
+  /** Failed - State when Add Subscription operation failed */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for AddSubscriptionOperationState. \
+ * {@link KnownAddSubscriptionOperationState} can be used interchangeably with AddSubscriptionOperationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Succeeded - State when Add Subscription operation succeeded \
+ * **Updating**: Updating - State when Add Subscription operation is being Updated \
+ * **Failed**: Failed - State when Add Subscription operation failed
+ */
+export type AddSubscriptionOperationState = string;
 
 /** Known values of {@link AutonomousDatabaseBackupLifecycleState} that the service accepts. */
 export enum KnownAutonomousDatabaseBackupLifecycleState {
@@ -3886,6 +4506,19 @@ export type AutonomousDatabasesDeleteResponse =
   AutonomousDatabasesDeleteHeaders;
 
 /** Optional parameters. */
+export interface AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the changeDisasterRecoveryConfiguration operation. */
+export type AutonomousDatabasesChangeDisasterRecoveryConfigurationResponse =
+  AutonomousDatabase;
+
+/** Optional parameters. */
 export interface AutonomousDatabasesFailoverOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -4156,6 +4789,169 @@ export type CloudVmClustersListByResourceGroupNextResponse =
   CloudVmClusterListResult;
 
 /** Optional parameters. */
+export interface ExadbVmClustersListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type ExadbVmClustersListBySubscriptionResponse =
+  ExadbVmClusterListResult;
+
+/** Optional parameters. */
+export interface ExadbVmClustersListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type ExadbVmClustersListByResourceGroupResponse =
+  ExadbVmClusterListResult;
+
+/** Optional parameters. */
+export interface ExadbVmClustersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ExadbVmClustersGetResponse = ExadbVmCluster;
+
+/** Optional parameters. */
+export interface ExadbVmClustersCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ExadbVmClustersCreateOrUpdateResponse = ExadbVmCluster;
+
+/** Optional parameters. */
+export interface ExadbVmClustersUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type ExadbVmClustersUpdateResponse = ExadbVmCluster;
+
+/** Optional parameters. */
+export interface ExadbVmClustersDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type ExadbVmClustersDeleteResponse = ExadbVmClustersDeleteHeaders;
+
+/** Optional parameters. */
+export interface ExadbVmClustersRemoveVmsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the removeVms operation. */
+export type ExadbVmClustersRemoveVmsResponse = ExadbVmCluster;
+
+/** Optional parameters. */
+export interface ExadbVmClustersListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type ExadbVmClustersListBySubscriptionNextResponse =
+  ExadbVmClusterListResult;
+
+/** Optional parameters. */
+export interface ExadbVmClustersListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type ExadbVmClustersListByResourceGroupNextResponse =
+  ExadbVmClusterListResult;
+
+/** Optional parameters. */
+export interface ExascaleDbStorageVaultsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type ExascaleDbStorageVaultsListBySubscriptionResponse =
+  ExascaleDbStorageVaultListResult;
+
+/** Optional parameters. */
+export interface ExascaleDbStorageVaultsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type ExascaleDbStorageVaultsListByResourceGroupResponse =
+  ExascaleDbStorageVaultListResult;
+
+/** Optional parameters. */
+export interface ExascaleDbStorageVaultsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ExascaleDbStorageVaultsGetResponse = ExascaleDbStorageVault;
+
+/** Optional parameters. */
+export interface ExascaleDbStorageVaultsCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type ExascaleDbStorageVaultsCreateResponse = ExascaleDbStorageVault;
+
+/** Optional parameters. */
+export interface ExascaleDbStorageVaultsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type ExascaleDbStorageVaultsUpdateResponse = ExascaleDbStorageVault;
+
+/** Optional parameters. */
+export interface ExascaleDbStorageVaultsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type ExascaleDbStorageVaultsDeleteResponse =
+  ExascaleDbStorageVaultsDeleteHeaders;
+
+/** Optional parameters. */
+export interface ExascaleDbStorageVaultsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type ExascaleDbStorageVaultsListBySubscriptionNextResponse =
+  ExascaleDbStorageVaultListResult;
+
+/** Optional parameters. */
+export interface ExascaleDbStorageVaultsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type ExascaleDbStorageVaultsListByResourceGroupNextResponse =
+  ExascaleDbStorageVaultListResult;
+
+/** Optional parameters. */
 export interface AutonomousDatabaseCharacterSetsListByLocationOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -4228,7 +5024,10 @@ export type AutonomousDatabaseVersionsListByLocationNextResponse =
 
 /** Optional parameters. */
 export interface DbSystemShapesListByLocationOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Filters the result for the given Azure Availability Zone */
+  zone?: string;
+}
 
 /** Contains response data for the listByLocation operation. */
 export type DbSystemShapesListByLocationResponse = DbSystemShapeListResult;
@@ -4292,8 +5091,37 @@ export type DnsPrivateZonesListByLocationNextResponse =
   DnsPrivateZoneListResult;
 
 /** Optional parameters. */
-export interface GiVersionsListByLocationOptionalParams
+export interface FlexComponentsListByParentOptionalParams
+  extends coreClient.OperationOptions {
+  /** If provided, filters the results for the given shape */
+  shape?: SystemShapes;
+}
+
+/** Contains response data for the listByParent operation. */
+export type FlexComponentsListByParentResponse = FlexComponentListResult;
+
+/** Optional parameters. */
+export interface FlexComponentsGetOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type FlexComponentsGetResponse = FlexComponent;
+
+/** Optional parameters. */
+export interface FlexComponentsListByParentNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByParentNext operation. */
+export type FlexComponentsListByParentNextResponse = FlexComponentListResult;
+
+/** Optional parameters. */
+export interface GiVersionsListByLocationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Filters the result for the given Azure Availability Zone */
+  zone?: string;
+  /** If provided, filters the results for the given shape */
+  shape?: SystemShapes;
+}
 
 /** Contains response data for the listByLocation operation. */
 export type GiVersionsListByLocationResponse = GiVersionListResult;
@@ -4311,6 +5139,32 @@ export interface GiVersionsListByLocationNextOptionalParams
 
 /** Contains response data for the listByLocationNext operation. */
 export type GiVersionsListByLocationNextResponse = GiVersionListResult;
+
+/** Optional parameters. */
+export interface GiMinorVersionsListByParentOptionalParams
+  extends coreClient.OperationOptions {
+  /** Filters the result for the given Azure Availability Zone */
+  zone?: string;
+  /** If provided, filters the results to the set of database versions which are supported for the given shape family. */
+  shapeFamily?: ShapeFamily;
+}
+
+/** Contains response data for the listByParent operation. */
+export type GiMinorVersionsListByParentResponse = GiMinorVersionListResult;
+
+/** Optional parameters. */
+export interface GiMinorVersionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GiMinorVersionsGetResponse = GiMinorVersion;
+
+/** Optional parameters. */
+export interface GiMinorVersionsListByParentNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByParentNext operation. */
+export type GiMinorVersionsListByParentNextResponse = GiMinorVersionListResult;
 
 /** Optional parameters. */
 export interface SystemVersionsListByLocationOptionalParams
@@ -4386,6 +5240,19 @@ export type OracleSubscriptionsDeleteResponse =
   OracleSubscriptionsDeleteHeaders;
 
 /** Optional parameters. */
+export interface OracleSubscriptionsAddAzureSubscriptionsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the addAzureSubscriptions operation. */
+export type OracleSubscriptionsAddAzureSubscriptionsResponse =
+  OracleSubscriptionsAddAzureSubscriptionsHeaders;
+
+/** Optional parameters. */
 export interface OracleSubscriptionsListActivationLinksOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -4432,11 +5299,11 @@ export type OracleSubscriptionsListBySubscriptionNextResponse =
   OracleSubscriptionListResult;
 
 /** Optional parameters. */
-export interface AutonomousDatabaseBackupsListByAutonomousDatabaseOptionalParams
+export interface AutonomousDatabaseBackupsListByParentOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByAutonomousDatabase operation. */
-export type AutonomousDatabaseBackupsListByAutonomousDatabaseResponse =
+/** Contains response data for the listByParent operation. */
+export type AutonomousDatabaseBackupsListByParentResponse =
   AutonomousDatabaseBackupListResult;
 
 /** Optional parameters. */
@@ -4485,20 +5352,19 @@ export type AutonomousDatabaseBackupsDeleteResponse =
   AutonomousDatabaseBackupsDeleteHeaders;
 
 /** Optional parameters. */
-export interface AutonomousDatabaseBackupsListByAutonomousDatabaseNextOptionalParams
+export interface AutonomousDatabaseBackupsListByParentNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByAutonomousDatabaseNext operation. */
-export type AutonomousDatabaseBackupsListByAutonomousDatabaseNextResponse =
+/** Contains response data for the listByParentNext operation. */
+export type AutonomousDatabaseBackupsListByParentNextResponse =
   AutonomousDatabaseBackupListResult;
 
 /** Optional parameters. */
-export interface DbServersListByCloudExadataInfrastructureOptionalParams
+export interface DbServersListByParentOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByCloudExadataInfrastructure operation. */
-export type DbServersListByCloudExadataInfrastructureResponse =
-  DbServerListResult;
+/** Contains response data for the listByParent operation. */
+export type DbServersListByParentResponse = DbServerListResult;
 
 /** Optional parameters. */
 export interface DbServersGetOptionalParams
@@ -4508,19 +5374,18 @@ export interface DbServersGetOptionalParams
 export type DbServersGetResponse = DbServer;
 
 /** Optional parameters. */
-export interface DbServersListByCloudExadataInfrastructureNextOptionalParams
+export interface DbServersListByParentNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByCloudExadataInfrastructureNext operation. */
-export type DbServersListByCloudExadataInfrastructureNextResponse =
-  DbServerListResult;
+/** Contains response data for the listByParentNext operation. */
+export type DbServersListByParentNextResponse = DbServerListResult;
 
 /** Optional parameters. */
-export interface DbNodesListByCloudVmClusterOptionalParams
+export interface DbNodesListByParentOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByCloudVmCluster operation. */
-export type DbNodesListByCloudVmClusterResponse = DbNodeListResult;
+/** Contains response data for the listByParent operation. */
+export type DbNodesListByParentResponse = DbNodeListResult;
 
 /** Optional parameters. */
 export interface DbNodesGetOptionalParams extends coreClient.OperationOptions {}
@@ -4541,18 +5406,18 @@ export interface DbNodesActionOptionalParams
 export type DbNodesActionResponse = DbNode;
 
 /** Optional parameters. */
-export interface DbNodesListByCloudVmClusterNextOptionalParams
+export interface DbNodesListByParentNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByCloudVmClusterNext operation. */
-export type DbNodesListByCloudVmClusterNextResponse = DbNodeListResult;
+/** Contains response data for the listByParentNext operation. */
+export type DbNodesListByParentNextResponse = DbNodeListResult;
 
 /** Optional parameters. */
-export interface VirtualNetworkAddressesListByCloudVmClusterOptionalParams
+export interface VirtualNetworkAddressesListByParentOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByCloudVmCluster operation. */
-export type VirtualNetworkAddressesListByCloudVmClusterResponse =
+/** Contains response data for the listByParent operation. */
+export type VirtualNetworkAddressesListByParentResponse =
   VirtualNetworkAddressListResult;
 
 /** Optional parameters. */
@@ -4589,12 +5454,45 @@ export type VirtualNetworkAddressesDeleteResponse =
   VirtualNetworkAddressesDeleteHeaders;
 
 /** Optional parameters. */
-export interface VirtualNetworkAddressesListByCloudVmClusterNextOptionalParams
+export interface VirtualNetworkAddressesListByParentNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByCloudVmClusterNext operation. */
-export type VirtualNetworkAddressesListByCloudVmClusterNextResponse =
+/** Contains response data for the listByParentNext operation. */
+export type VirtualNetworkAddressesListByParentNextResponse =
   VirtualNetworkAddressListResult;
+
+/** Optional parameters. */
+export interface ExascaleDbNodesListByParentOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByParent operation. */
+export type ExascaleDbNodesListByParentResponse = ExascaleDbNodeListResult;
+
+/** Optional parameters. */
+export interface ExascaleDbNodesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ExascaleDbNodesGetResponse = ExascaleDbNode;
+
+/** Optional parameters. */
+export interface ExascaleDbNodesActionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the action operation. */
+export type ExascaleDbNodesActionResponse = DbActionResponse;
+
+/** Optional parameters. */
+export interface ExascaleDbNodesListByParentNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByParentNext operation. */
+export type ExascaleDbNodesListByParentNextResponse = ExascaleDbNodeListResult;
 
 /** Optional parameters. */
 export interface OracleDatabaseManagementClientOptionalParams

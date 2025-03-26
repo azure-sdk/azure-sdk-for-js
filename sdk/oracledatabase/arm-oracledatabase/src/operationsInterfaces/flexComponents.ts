@@ -8,33 +8,33 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  DnsPrivateView,
-  DnsPrivateViewsListByLocationOptionalParams,
-  DnsPrivateViewsGetOptionalParams,
-  DnsPrivateViewsGetResponse,
+  FlexComponent,
+  FlexComponentsListByParentOptionalParams,
+  FlexComponentsGetOptionalParams,
+  FlexComponentsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a DnsPrivateViews. */
-export interface DnsPrivateViews {
+/** Interface representing a FlexComponents. */
+export interface FlexComponents {
   /**
-   * List DnsPrivateView resources by SubscriptionLocationResource
+   * List FlexComponent resources by SubscriptionLocationResource
    * @param location The name of the Azure region.
    * @param options The options parameters.
    */
-  listByLocation(
+  listByParent(
     location: string,
-    options?: DnsPrivateViewsListByLocationOptionalParams,
-  ): PagedAsyncIterableIterator<DnsPrivateView>;
+    options?: FlexComponentsListByParentOptionalParams,
+  ): PagedAsyncIterableIterator<FlexComponent>;
   /**
-   * Get a DnsPrivateView
+   * Get a FlexComponent
    * @param location The name of the Azure region.
-   * @param dnsprivateviewocid DnsPrivateView OCID
+   * @param flexComponentName The name of the FlexComponent
    * @param options The options parameters.
    */
   get(
     location: string,
-    dnsprivateviewocid: string,
-    options?: DnsPrivateViewsGetOptionalParams,
-  ): Promise<DnsPrivateViewsGetResponse>;
+    flexComponentName: string,
+    options?: FlexComponentsGetOptionalParams,
+  ): Promise<FlexComponentsGetResponse>;
 }

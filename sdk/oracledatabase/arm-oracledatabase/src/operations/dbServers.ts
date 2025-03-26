@@ -15,12 +15,12 @@ import * as Parameters from "../models/parameters.js";
 import { OracleDatabaseManagementClient } from "../oracleDatabaseManagementClient.js";
 import {
   DbServer,
-  DbServersListByCloudExadataInfrastructureNextOptionalParams,
-  DbServersListByCloudExadataInfrastructureOptionalParams,
-  DbServersListByCloudExadataInfrastructureResponse,
+  DbServersListByParentNextOptionalParams,
+  DbServersListByParentOptionalParams,
+  DbServersListByParentResponse,
   DbServersGetOptionalParams,
   DbServersGetResponse,
-  DbServersListByCloudExadataInfrastructureNextResponse,
+  DbServersListByParentNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,12 +42,12 @@ export class DbServersImpl implements DbServers {
    * @param cloudexadatainfrastructurename CloudExadataInfrastructure name
    * @param options The options parameters.
    */
-  public listByCloudExadataInfrastructure(
+  public listByParent(
     resourceGroupName: string,
     cloudexadatainfrastructurename: string,
-    options?: DbServersListByCloudExadataInfrastructureOptionalParams,
+    options?: DbServersListByParentOptionalParams,
   ): PagedAsyncIterableIterator<DbServer> {
-    const iter = this.listByCloudExadataInfrastructurePagingAll(
+    const iter = this.listByParentPagingAll(
       resourceGroupName,
       cloudexadatainfrastructurename,
       options,
@@ -63,7 +63,7 @@ export class DbServersImpl implements DbServers {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByCloudExadataInfrastructurePagingPage(
+        return this.listByParentPagingPage(
           resourceGroupName,
           cloudexadatainfrastructurename,
           options,
@@ -73,16 +73,16 @@ export class DbServersImpl implements DbServers {
     };
   }
 
-  private async *listByCloudExadataInfrastructurePagingPage(
+  private async *listByParentPagingPage(
     resourceGroupName: string,
     cloudexadatainfrastructurename: string,
-    options?: DbServersListByCloudExadataInfrastructureOptionalParams,
+    options?: DbServersListByParentOptionalParams,
     settings?: PageSettings,
   ): AsyncIterableIterator<DbServer[]> {
-    let result: DbServersListByCloudExadataInfrastructureResponse;
+    let result: DbServersListByParentResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByCloudExadataInfrastructure(
+      result = await this._listByParent(
         resourceGroupName,
         cloudexadatainfrastructurename,
         options,
@@ -93,7 +93,7 @@ export class DbServersImpl implements DbServers {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByCloudExadataInfrastructureNext(
+      result = await this._listByParentNext(
         resourceGroupName,
         cloudexadatainfrastructurename,
         continuationToken,
@@ -106,12 +106,12 @@ export class DbServersImpl implements DbServers {
     }
   }
 
-  private async *listByCloudExadataInfrastructurePagingAll(
+  private async *listByParentPagingAll(
     resourceGroupName: string,
     cloudexadatainfrastructurename: string,
-    options?: DbServersListByCloudExadataInfrastructureOptionalParams,
+    options?: DbServersListByParentOptionalParams,
   ): AsyncIterableIterator<DbServer> {
-    for await (const page of this.listByCloudExadataInfrastructurePagingPage(
+    for await (const page of this.listByParentPagingPage(
       resourceGroupName,
       cloudexadatainfrastructurename,
       options,
@@ -126,14 +126,14 @@ export class DbServersImpl implements DbServers {
    * @param cloudexadatainfrastructurename CloudExadataInfrastructure name
    * @param options The options parameters.
    */
-  private _listByCloudExadataInfrastructure(
+  private _listByParent(
     resourceGroupName: string,
     cloudexadatainfrastructurename: string,
-    options?: DbServersListByCloudExadataInfrastructureOptionalParams,
-  ): Promise<DbServersListByCloudExadataInfrastructureResponse> {
+    options?: DbServersListByParentOptionalParams,
+  ): Promise<DbServersListByParentResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, cloudexadatainfrastructurename, options },
-      listByCloudExadataInfrastructureOperationSpec,
+      listByParentOperationSpec,
     );
   }
 
@@ -162,50 +162,48 @@ export class DbServersImpl implements DbServers {
   }
 
   /**
-   * ListByCloudExadataInfrastructureNext
+   * ListByParentNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cloudexadatainfrastructurename CloudExadataInfrastructure name
-   * @param nextLink The nextLink from the previous successful call to the
-   *                 ListByCloudExadataInfrastructure method.
+   * @param nextLink The nextLink from the previous successful call to the ListByParent method.
    * @param options The options parameters.
    */
-  private _listByCloudExadataInfrastructureNext(
+  private _listByParentNext(
     resourceGroupName: string,
     cloudexadatainfrastructurename: string,
     nextLink: string,
-    options?: DbServersListByCloudExadataInfrastructureNextOptionalParams,
-  ): Promise<DbServersListByCloudExadataInfrastructureNextResponse> {
+    options?: DbServersListByParentNextOptionalParams,
+  ): Promise<DbServersListByParentNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, cloudexadatainfrastructurename, nextLink, options },
-      listByCloudExadataInfrastructureNextOperationSpec,
+      listByParentNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByCloudExadataInfrastructureOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudExadataInfrastructures/{cloudexadatainfrastructurename}/dbServers",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.DbServerListResult,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
+const listByParentOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudExadataInfrastructures/{cloudexadatainfrastructurename}/dbServers",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DbServerListResult,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.cloudexadatainfrastructurename,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.cloudexadatainfrastructurename,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudExadataInfrastructures/{cloudexadatainfrastructurename}/dbServers/{dbserverocid}",
   httpMethod: "GET",
@@ -228,25 +226,24 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByCloudExadataInfrastructureNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.DbServerListResult,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
+const listByParentNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DbServerListResult,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.nextLink,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.cloudexadatainfrastructurename,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.cloudexadatainfrastructurename,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};

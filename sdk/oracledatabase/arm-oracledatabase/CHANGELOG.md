@@ -1,15 +1,197 @@
 # Release History
-
-## 1.0.1 (Unreleased)
-
+    
+## 2.0.0 (2025-03-26)
+    
 ### Features Added
+
+  - Added operation group ExadbVmClusters
+  - Added operation group ExascaleDbNodes
+  - Added operation group ExascaleDbStorageVaults
+  - Added operation group FlexComponents
+  - Added operation group GiMinorVersions
+  - Added operation AutonomousDatabaseBackups.listByParent
+  - Added operation AutonomousDatabases.beginChangeDisasterRecoveryConfiguration
+  - Added operation AutonomousDatabases.beginChangeDisasterRecoveryConfigurationAndWait
+  - Added operation DbNodes.listByParent
+  - Added operation DbServers.listByParent
+  - Added operation OracleSubscriptions.beginAddAzureSubscriptions
+  - Added operation OracleSubscriptions.beginAddAzureSubscriptionsAndWait
+  - Added operation VirtualNetworkAddresses.listByParent
+  - Added Interface AutonomousDatabaseBackupsListByParentNextOptionalParams
+  - Added Interface AutonomousDatabaseBackupsListByParentOptionalParams
+  - Added Interface AutonomousDatabaseCrossRegionDisasterRecoveryProperties
+  - Added Interface AutonomousDatabaseFromBackupTimestampProperties
+  - Added Interface AutonomousDatabasesChangeDisasterRecoveryConfigurationHeaders
+  - Added Interface AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams
+  - Added Interface AzureSubscriptions
+  - Added Interface DbActionResponse
+  - Added Interface DbNodeDetails
+  - Added Interface DbNodesListByParentNextOptionalParams
+  - Added Interface DbNodesListByParentOptionalParams
+  - Added Interface DbServersListByParentNextOptionalParams
+  - Added Interface DbServersListByParentOptionalParams
+  - Added Interface DefinedFileSystemConfiguration
+  - Added Interface DisasterRecoveryConfigurationDetails
+  - Added Interface ExadbVmCluster
+  - Added Interface ExadbVmClusterListResult
+  - Added Interface ExadbVmClusterProperties
+  - Added Interface ExadbVmClustersCreateOrUpdateHeaders
+  - Added Interface ExadbVmClustersCreateOrUpdateOptionalParams
+  - Added Interface ExadbVmClustersDeleteHeaders
+  - Added Interface ExadbVmClustersDeleteOptionalParams
+  - Added Interface ExadbVmClustersGetOptionalParams
+  - Added Interface ExadbVmClustersListByResourceGroupNextOptionalParams
+  - Added Interface ExadbVmClustersListByResourceGroupOptionalParams
+  - Added Interface ExadbVmClustersListBySubscriptionNextOptionalParams
+  - Added Interface ExadbVmClustersListBySubscriptionOptionalParams
+  - Added Interface ExadbVmClustersRemoveVmsHeaders
+  - Added Interface ExadbVmClustersRemoveVmsOptionalParams
+  - Added Interface ExadbVmClusterStorageDetails
+  - Added Interface ExadbVmClustersUpdateHeaders
+  - Added Interface ExadbVmClustersUpdateOptionalParams
+  - Added Interface ExadbVmClusterUpdate
+  - Added Interface ExadbVmClusterUpdateProperties
+  - Added Interface ExascaleDbNode
+  - Added Interface ExascaleDbNodeListResult
+  - Added Interface ExascaleDbNodeProperties
+  - Added Interface ExascaleDbNodesActionHeaders
+  - Added Interface ExascaleDbNodesActionOptionalParams
+  - Added Interface ExascaleDbNodesGetOptionalParams
+  - Added Interface ExascaleDbNodesListByParentNextOptionalParams
+  - Added Interface ExascaleDbNodesListByParentOptionalParams
+  - Added Interface ExascaleDbStorageDetails
+  - Added Interface ExascaleDbStorageInputDetails
+  - Added Interface ExascaleDbStorageVault
+  - Added Interface ExascaleDbStorageVaultListResult
+  - Added Interface ExascaleDbStorageVaultProperties
+  - Added Interface ExascaleDbStorageVaultsCreateHeaders
+  - Added Interface ExascaleDbStorageVaultsCreateOptionalParams
+  - Added Interface ExascaleDbStorageVaultsDeleteHeaders
+  - Added Interface ExascaleDbStorageVaultsDeleteOptionalParams
+  - Added Interface ExascaleDbStorageVaultsGetOptionalParams
+  - Added Interface ExascaleDbStorageVaultsListByResourceGroupNextOptionalParams
+  - Added Interface ExascaleDbStorageVaultsListByResourceGroupOptionalParams
+  - Added Interface ExascaleDbStorageVaultsListBySubscriptionNextOptionalParams
+  - Added Interface ExascaleDbStorageVaultsListBySubscriptionOptionalParams
+  - Added Interface ExascaleDbStorageVaultsUpdateHeaders
+  - Added Interface ExascaleDbStorageVaultsUpdateOptionalParams
+  - Added Interface ExascaleDbStorageVaultTagsUpdate
+  - Added Interface FileSystemConfigurationDetails
+  - Added Interface FlexComponent
+  - Added Interface FlexComponentListResult
+  - Added Interface FlexComponentProperties
+  - Added Interface FlexComponentsGetOptionalParams
+  - Added Interface FlexComponentsListByParentNextOptionalParams
+  - Added Interface FlexComponentsListByParentOptionalParams
+  - Added Interface GiMinorVersion
+  - Added Interface GiMinorVersionListResult
+  - Added Interface GiMinorVersionProperties
+  - Added Interface GiMinorVersionsGetOptionalParams
+  - Added Interface GiMinorVersionsListByParentNextOptionalParams
+  - Added Interface GiMinorVersionsListByParentOptionalParams
+  - Added Interface OracleSubscriptionsAddAzureSubscriptionsHeaders
+  - Added Interface OracleSubscriptionsAddAzureSubscriptionsOptionalParams
+  - Added Interface RemoveVirtualMachineFromExadbVmClusterDetails
+  - Added Interface VirtualNetworkAddressesListByParentNextOptionalParams
+  - Added Interface VirtualNetworkAddressesListByParentOptionalParams
+  - Added Type Alias AddSubscriptionOperationState
+  - Added Type Alias AutonomousDatabaseBackupsListByParentNextResponse
+  - Added Type Alias AutonomousDatabaseBackupsListByParentResponse
+  - Added Type Alias AutonomousDatabasesChangeDisasterRecoveryConfigurationResponse
+  - Added Type Alias DbNodesListByParentNextResponse
+  - Added Type Alias DbNodesListByParentResponse
+  - Added Type Alias DbServersListByParentNextResponse
+  - Added Type Alias DbServersListByParentResponse
+  - Added Type Alias ExadbVmClusterLifecycleState
+  - Added Type Alias ExadbVmClustersCreateOrUpdateResponse
+  - Added Type Alias ExadbVmClustersDeleteResponse
+  - Added Type Alias ExadbVmClustersGetResponse
+  - Added Type Alias ExadbVmClustersListByResourceGroupNextResponse
+  - Added Type Alias ExadbVmClustersListByResourceGroupResponse
+  - Added Type Alias ExadbVmClustersListBySubscriptionNextResponse
+  - Added Type Alias ExadbVmClustersListBySubscriptionResponse
+  - Added Type Alias ExadbVmClustersRemoveVmsResponse
+  - Added Type Alias ExadbVmClustersUpdateResponse
+  - Added Type Alias ExascaleDbNodesActionResponse
+  - Added Type Alias ExascaleDbNodesGetResponse
+  - Added Type Alias ExascaleDbNodesListByParentNextResponse
+  - Added Type Alias ExascaleDbNodesListByParentResponse
+  - Added Type Alias ExascaleDbStorageVaultLifecycleState
+  - Added Type Alias ExascaleDbStorageVaultsCreateResponse
+  - Added Type Alias ExascaleDbStorageVaultsDeleteResponse
+  - Added Type Alias ExascaleDbStorageVaultsGetResponse
+  - Added Type Alias ExascaleDbStorageVaultsListByResourceGroupNextResponse
+  - Added Type Alias ExascaleDbStorageVaultsListByResourceGroupResponse
+  - Added Type Alias ExascaleDbStorageVaultsListBySubscriptionNextResponse
+  - Added Type Alias ExascaleDbStorageVaultsListBySubscriptionResponse
+  - Added Type Alias ExascaleDbStorageVaultsUpdateResponse
+  - Added Type Alias FlexComponentsGetResponse
+  - Added Type Alias FlexComponentsListByParentNextResponse
+  - Added Type Alias FlexComponentsListByParentResponse
+  - Added Type Alias GiMinorVersionsGetResponse
+  - Added Type Alias GiMinorVersionsListByParentNextResponse
+  - Added Type Alias GiMinorVersionsListByParentResponse
+  - Added Type Alias GridImageType
+  - Added Type Alias HardwareType
+  - Added Type Alias OracleSubscriptionsAddAzureSubscriptionsResponse
+  - Added Type Alias ShapeFamily
+  - Added Type Alias SystemShapes
+  - Added Type Alias VirtualNetworkAddressesListByParentNextResponse
+  - Added Type Alias VirtualNetworkAddressesListByParentResponse
+  - Interface AutonomousDatabaseBackupsCreateOrUpdateHeaders has a new optional parameter azureAsyncOperation
+  - Interface AutonomousDatabaseBaseProperties has a new optional parameter remoteDisasterRecoveryConfiguration
+  - Interface AutonomousDatabaseBaseProperties has a new optional parameter timeDisasterRecoveryRoleChanged
+  - Interface AutonomousDatabasesCreateOrUpdateHeaders has a new optional parameter azureAsyncOperation
+  - Interface CloudExadataInfrastructureProperties has a new optional parameter computeModel
+  - Interface CloudExadataInfrastructureProperties has a new optional parameter databaseServerType
+  - Interface CloudExadataInfrastructureProperties has a new optional parameter definedFileSystemConfiguration
+  - Interface CloudExadataInfrastructureProperties has a new optional parameter storageServerType
+  - Interface CloudExadataInfrastructuresCreateOrUpdateHeaders has a new optional parameter azureAsyncOperation
+  - Interface CloudVmClusterProperties has a new optional parameter computeModel
+  - Interface CloudVmClusterProperties has a new optional parameter fileSystemConfigurationDetails
+  - Interface CloudVmClustersCreateOrUpdateHeaders has a new optional parameter azureAsyncOperation
+  - Interface CloudVmClusterUpdateProperties has a new optional parameter fileSystemConfigurationDetails
+  - Interface DbServerProperties has a new optional parameter computeModel
+  - Interface DbSystemShapeProperties has a new optional parameter areServerTypesSupported
+  - Interface DbSystemShapeProperties has a new optional parameter computeModel
+  - Interface DbSystemShapeProperties has a new optional parameter displayName
+  - Interface DbSystemShapesListByLocationOptionalParams has a new optional parameter zone
+  - Interface GiVersionsListByLocationOptionalParams has a new optional parameter shape
+  - Interface GiVersionsListByLocationOptionalParams has a new optional parameter zone
+  - Interface OracleSubscriptionProperties has a new optional parameter addSubscriptionOperationState
+  - Interface OracleSubscriptionProperties has a new optional parameter azureSubscriptionIds
+  - Interface OracleSubscriptionProperties has a new optional parameter lastOperationStatusDetail
+  - Interface OracleSubscriptionsCreateOrUpdateHeaders has a new optional parameter azureAsyncOperation
+  - Interface PeerDbDetails has a new optional parameter peerDbLocation
+  - Interface PeerDbDetails has a new optional parameter peerDbOcid
+  - Interface VirtualNetworkAddressesCreateOrUpdateHeaders has a new optional parameter azureAsyncOperation
+  - Type of parameter dataBaseType of interface AutonomousDatabaseBaseProperties is changed from "Clone" | "Regular" to "Clone" | "CrossRegionDisasterRecovery" | "CloneFromBackupTimestamp" | "Regular"
+  - Added Enum KnownAddSubscriptionOperationState
+  - Added Enum KnownExadbVmClusterLifecycleState
+  - Added Enum KnownExascaleDbStorageVaultLifecycleState
+  - Added Enum KnownGridImageType
+  - Added Enum KnownHardwareType
+  - Added Enum KnownShapeFamily
+  - Added Enum KnownSystemShapes
+  - Enum KnownDataBaseType has a new value CloneFromBackupTimestamp
+  - Enum KnownDataBaseType has a new value CrossRegionDisasterRecovery
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation AutonomousDatabaseBackups.listByAutonomousDatabase
+  - Removed operation DbNodes.listByCloudVmCluster
+  - Removed operation DbServers.listByCloudExadataInfrastructure
+  - Removed operation VirtualNetworkAddresses.listByCloudVmCluster
+  - Interface DbSystemShapeProperties has a new required parameter shapeName
+  - Parameter lifecycleState of interface DbNodeProperties is now required
+  - Parameter timeCreated of interface DbNodeProperties is now required
+  - Parameter vnicId of interface DbNodeProperties is now required
+  - Parameter displayName of interface DnsPrivateViewProperties is now required
+  - Parameter lifecycleState of interface DnsPrivateViewProperties is now required
+  - Parameter lifecycleState of interface DnsPrivateZoneProperties is now required
+  - Type of parameter properties of interface AutonomousDatabaseBackupUpdate is changed from AutonomousDatabaseBackupUpdateProperties to AutonomousDatabaseBackupProperties
+    
+    
 ## 1.0.0 (2024-06-25)
 
 ### Features Added

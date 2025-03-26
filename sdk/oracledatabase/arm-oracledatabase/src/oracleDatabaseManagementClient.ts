@@ -19,38 +19,48 @@ import {
   AutonomousDatabasesImpl,
   CloudExadataInfrastructuresImpl,
   CloudVmClustersImpl,
+  ExadbVmClustersImpl,
+  ExascaleDbStorageVaultsImpl,
   AutonomousDatabaseCharacterSetsImpl,
   AutonomousDatabaseNationalCharacterSetsImpl,
   AutonomousDatabaseVersionsImpl,
   DbSystemShapesImpl,
   DnsPrivateViewsImpl,
   DnsPrivateZonesImpl,
+  FlexComponentsImpl,
   GiVersionsImpl,
+  GiMinorVersionsImpl,
   SystemVersionsImpl,
   OracleSubscriptionsImpl,
   AutonomousDatabaseBackupsImpl,
   DbServersImpl,
   DbNodesImpl,
   VirtualNetworkAddressesImpl,
+  ExascaleDbNodesImpl,
 } from "./operations/index.js";
 import {
   Operations,
   AutonomousDatabases,
   CloudExadataInfrastructures,
   CloudVmClusters,
+  ExadbVmClusters,
+  ExascaleDbStorageVaults,
   AutonomousDatabaseCharacterSets,
   AutonomousDatabaseNationalCharacterSets,
   AutonomousDatabaseVersions,
   DbSystemShapes,
   DnsPrivateViews,
   DnsPrivateZones,
+  FlexComponents,
   GiVersions,
+  GiMinorVersions,
   SystemVersions,
   OracleSubscriptions,
   AutonomousDatabaseBackups,
   DbServers,
   DbNodes,
   VirtualNetworkAddresses,
+  ExascaleDbNodes,
 } from "./operationsInterfaces/index.js";
 import { OracleDatabaseManagementClientOptionalParams } from "./models/index.js";
 
@@ -86,7 +96,7 @@ export class OracleDatabaseManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-oracledatabase/1.0.1`;
+    const packageDetails = `azsdk-js-arm-oracledatabase/2.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -140,13 +150,15 @@ export class OracleDatabaseManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-09-01";
+    this.apiVersion = options.apiVersion || "2025-03-01";
     this.operations = new OperationsImpl(this);
     this.autonomousDatabases = new AutonomousDatabasesImpl(this);
     this.cloudExadataInfrastructures = new CloudExadataInfrastructuresImpl(
       this,
     );
     this.cloudVmClusters = new CloudVmClustersImpl(this);
+    this.exadbVmClusters = new ExadbVmClustersImpl(this);
+    this.exascaleDbStorageVaults = new ExascaleDbStorageVaultsImpl(this);
     this.autonomousDatabaseCharacterSets =
       new AutonomousDatabaseCharacterSetsImpl(this);
     this.autonomousDatabaseNationalCharacterSets =
@@ -155,13 +167,16 @@ export class OracleDatabaseManagementClient extends coreClient.ServiceClient {
     this.dbSystemShapes = new DbSystemShapesImpl(this);
     this.dnsPrivateViews = new DnsPrivateViewsImpl(this);
     this.dnsPrivateZones = new DnsPrivateZonesImpl(this);
+    this.flexComponents = new FlexComponentsImpl(this);
     this.giVersions = new GiVersionsImpl(this);
+    this.giMinorVersions = new GiMinorVersionsImpl(this);
     this.systemVersions = new SystemVersionsImpl(this);
     this.oracleSubscriptions = new OracleSubscriptionsImpl(this);
     this.autonomousDatabaseBackups = new AutonomousDatabaseBackupsImpl(this);
     this.dbServers = new DbServersImpl(this);
     this.dbNodes = new DbNodesImpl(this);
     this.virtualNetworkAddresses = new VirtualNetworkAddressesImpl(this);
+    this.exascaleDbNodes = new ExascaleDbNodesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -197,17 +212,22 @@ export class OracleDatabaseManagementClient extends coreClient.ServiceClient {
   autonomousDatabases: AutonomousDatabases;
   cloudExadataInfrastructures: CloudExadataInfrastructures;
   cloudVmClusters: CloudVmClusters;
+  exadbVmClusters: ExadbVmClusters;
+  exascaleDbStorageVaults: ExascaleDbStorageVaults;
   autonomousDatabaseCharacterSets: AutonomousDatabaseCharacterSets;
   autonomousDatabaseNationalCharacterSets: AutonomousDatabaseNationalCharacterSets;
   autonomousDatabaseVersions: AutonomousDatabaseVersions;
   dbSystemShapes: DbSystemShapes;
   dnsPrivateViews: DnsPrivateViews;
   dnsPrivateZones: DnsPrivateZones;
+  flexComponents: FlexComponents;
   giVersions: GiVersions;
+  giMinorVersions: GiMinorVersions;
   systemVersions: SystemVersions;
   oracleSubscriptions: OracleSubscriptions;
   autonomousDatabaseBackups: AutonomousDatabaseBackups;
   dbServers: DbServers;
   dbNodes: DbNodes;
   virtualNetworkAddresses: VirtualNetworkAddresses;
+  exascaleDbNodes: ExascaleDbNodes;
 }

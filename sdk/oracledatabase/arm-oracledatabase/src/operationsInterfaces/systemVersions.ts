@@ -18,7 +18,7 @@ import {
 /** Interface representing a SystemVersions. */
 export interface SystemVersions {
   /**
-   * List SystemVersion resources by Location
+   * List SystemVersion resources by SubscriptionLocationResource
    * @param location The name of the Azure region.
    * @param options The options parameters.
    */

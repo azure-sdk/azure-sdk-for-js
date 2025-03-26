@@ -21,6 +21,9 @@ import {
   AutonomousDatabasesUpdateResponse,
   AutonomousDatabasesDeleteOptionalParams,
   AutonomousDatabasesDeleteResponse,
+  DisasterRecoveryConfigurationDetails,
+  AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams,
+  AutonomousDatabasesChangeDisasterRecoveryConfigurationResponse,
   PeerDbDetails,
   AutonomousDatabasesFailoverOptionalParams,
   AutonomousDatabasesFailoverResponse,
@@ -155,6 +158,37 @@ export interface AutonomousDatabases {
     autonomousdatabasename: string,
     options?: AutonomousDatabasesDeleteOptionalParams,
   ): Promise<AutonomousDatabasesDeleteResponse>;
+  /**
+   * Perform ChangeDisasterRecoveryConfiguration action on Autonomous Database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param autonomousdatabasename The database name.
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  beginChangeDisasterRecoveryConfiguration(
+    resourceGroupName: string,
+    autonomousdatabasename: string,
+    body: DisasterRecoveryConfigurationDetails,
+    options?: AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AutonomousDatabasesChangeDisasterRecoveryConfigurationResponse>,
+      AutonomousDatabasesChangeDisasterRecoveryConfigurationResponse
+    >
+  >;
+  /**
+   * Perform ChangeDisasterRecoveryConfiguration action on Autonomous Database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param autonomousdatabasename The database name.
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  beginChangeDisasterRecoveryConfigurationAndWait(
+    resourceGroupName: string,
+    autonomousdatabasename: string,
+    body: DisasterRecoveryConfigurationDetails,
+    options?: AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams,
+  ): Promise<AutonomousDatabasesChangeDisasterRecoveryConfigurationResponse>;
   /**
    * Perform failover action on Autonomous Database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

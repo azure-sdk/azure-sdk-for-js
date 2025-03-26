@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DbNode,
-  DbNodesListByCloudVmClusterOptionalParams,
+  DbNodesListByParentOptionalParams,
   DbNodesGetOptionalParams,
   DbNodesGetResponse,
   DbNodeAction,
@@ -27,10 +27,10 @@ export interface DbNodes {
    * @param cloudvmclustername CloudVmCluster name
    * @param options The options parameters.
    */
-  listByCloudVmCluster(
+  listByParent(
     resourceGroupName: string,
     cloudvmclustername: string,
-    options?: DbNodesListByCloudVmClusterOptionalParams,
+    options?: DbNodesListByParentOptionalParams,
   ): PagedAsyncIterableIterator<DbNode>;
   /**
    * Get a DbNode

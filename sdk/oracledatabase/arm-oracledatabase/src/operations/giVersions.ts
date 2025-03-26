@@ -37,7 +37,7 @@ export class GiVersionsImpl implements GiVersions {
   }
 
   /**
-   * List GiVersion resources by Location
+   * List GiVersion resources by SubscriptionLocationResource
    * @param location The name of the Azure region.
    * @param options The options parameters.
    */
@@ -99,7 +99,7 @@ export class GiVersionsImpl implements GiVersions {
   }
 
   /**
-   * List GiVersion resources by Location
+   * List GiVersion resources by SubscriptionLocationResource
    * @param location The name of the Azure region.
    * @param options The options parameters.
    */
@@ -161,7 +161,7 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.zone, Parameters.shape],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

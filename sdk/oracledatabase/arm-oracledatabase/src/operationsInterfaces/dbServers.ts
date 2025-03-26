@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   DbServer,
-  DbServersListByCloudExadataInfrastructureOptionalParams,
+  DbServersListByParentOptionalParams,
   DbServersGetOptionalParams,
   DbServersGetResponse,
 } from "../models/index.js";
@@ -23,10 +23,10 @@ export interface DbServers {
    * @param cloudexadatainfrastructurename CloudExadataInfrastructure name
    * @param options The options parameters.
    */
-  listByCloudExadataInfrastructure(
+  listByParent(
     resourceGroupName: string,
     cloudexadatainfrastructurename: string,
-    options?: DbServersListByCloudExadataInfrastructureOptionalParams,
+    options?: DbServersListByParentOptionalParams,
   ): PagedAsyncIterableIterator<DbServer>;
   /**
    * Get a DbServer

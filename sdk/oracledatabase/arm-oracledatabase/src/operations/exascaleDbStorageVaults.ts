@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { AutonomousDatabaseBackups } from "../operationsInterfaces/index.js";
+import { ExascaleDbStorageVaults } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -20,31 +20,33 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  AutonomousDatabaseBackup,
-  AutonomousDatabaseBackupsListByParentNextOptionalParams,
-  AutonomousDatabaseBackupsListByParentOptionalParams,
-  AutonomousDatabaseBackupsListByParentResponse,
-  AutonomousDatabaseBackupsGetOptionalParams,
-  AutonomousDatabaseBackupsGetResponse,
-  AutonomousDatabaseBackupsCreateOrUpdateOptionalParams,
-  AutonomousDatabaseBackupsCreateOrUpdateResponse,
-  AutonomousDatabaseBackupUpdate,
-  AutonomousDatabaseBackupsUpdateOptionalParams,
-  AutonomousDatabaseBackupsUpdateResponse,
-  AutonomousDatabaseBackupsDeleteOptionalParams,
-  AutonomousDatabaseBackupsDeleteResponse,
-  AutonomousDatabaseBackupsListByParentNextResponse,
+  ExascaleDbStorageVault,
+  ExascaleDbStorageVaultsListBySubscriptionNextOptionalParams,
+  ExascaleDbStorageVaultsListBySubscriptionOptionalParams,
+  ExascaleDbStorageVaultsListBySubscriptionResponse,
+  ExascaleDbStorageVaultsListByResourceGroupNextOptionalParams,
+  ExascaleDbStorageVaultsListByResourceGroupOptionalParams,
+  ExascaleDbStorageVaultsListByResourceGroupResponse,
+  ExascaleDbStorageVaultsGetOptionalParams,
+  ExascaleDbStorageVaultsGetResponse,
+  ExascaleDbStorageVaultsCreateOptionalParams,
+  ExascaleDbStorageVaultsCreateResponse,
+  ExascaleDbStorageVaultTagsUpdate,
+  ExascaleDbStorageVaultsUpdateOptionalParams,
+  ExascaleDbStorageVaultsUpdateResponse,
+  ExascaleDbStorageVaultsDeleteOptionalParams,
+  ExascaleDbStorageVaultsDeleteResponse,
+  ExascaleDbStorageVaultsListBySubscriptionNextResponse,
+  ExascaleDbStorageVaultsListByResourceGroupNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing AutonomousDatabaseBackups operations. */
-export class AutonomousDatabaseBackupsImpl
-  implements AutonomousDatabaseBackups
-{
+/** Class containing ExascaleDbStorageVaults operations. */
+export class ExascaleDbStorageVaultsImpl implements ExascaleDbStorageVaults {
   private readonly client: OracleDatabaseManagementClient;
 
   /**
-   * Initialize a new instance of the class AutonomousDatabaseBackups class.
+   * Initialize a new instance of the class ExascaleDbStorageVaults class.
    * @param client Reference to the service client
    */
   constructor(client: OracleDatabaseManagementClient) {
@@ -52,21 +54,13 @@ export class AutonomousDatabaseBackupsImpl
   }
 
   /**
-   * List AutonomousDatabaseBackup resources by AutonomousDatabase
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param autonomousdatabasename The database name.
+   * List ExascaleDbStorageVault resources by subscription ID
    * @param options The options parameters.
    */
-  public listByParent(
-    resourceGroupName: string,
-    autonomousdatabasename: string,
-    options?: AutonomousDatabaseBackupsListByParentOptionalParams,
-  ): PagedAsyncIterableIterator<AutonomousDatabaseBackup> {
-    const iter = this.listByParentPagingAll(
-      resourceGroupName,
-      autonomousdatabasename,
-      options,
-    );
+  public listBySubscription(
+    options?: ExascaleDbStorageVaultsListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<ExascaleDbStorageVault> {
+    const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
         return iter.next();
@@ -78,9 +72,64 @@ export class AutonomousDatabaseBackupsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByParentPagingPage(
+        return this.listBySubscriptionPagingPage(options, settings);
+      },
+    };
+  }
+
+  private async *listBySubscriptionPagingPage(
+    options?: ExascaleDbStorageVaultsListBySubscriptionOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<ExascaleDbStorageVault[]> {
+    let result: ExascaleDbStorageVaultsListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listBySubscriptionNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listBySubscriptionPagingAll(
+    options?: ExascaleDbStorageVaultsListBySubscriptionOptionalParams,
+  ): AsyncIterableIterator<ExascaleDbStorageVault> {
+    for await (const page of this.listBySubscriptionPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * List ExascaleDbStorageVault resources by resource group
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  public listByResourceGroup(
+    resourceGroupName: string,
+    options?: ExascaleDbStorageVaultsListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<ExascaleDbStorageVault> {
+    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
           resourceGroupName,
-          autonomousdatabasename,
           options,
           settings,
         );
@@ -88,29 +137,23 @@ export class AutonomousDatabaseBackupsImpl
     };
   }
 
-  private async *listByParentPagingPage(
+  private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    autonomousdatabasename: string,
-    options?: AutonomousDatabaseBackupsListByParentOptionalParams,
+    options?: ExascaleDbStorageVaultsListByResourceGroupOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<AutonomousDatabaseBackup[]> {
-    let result: AutonomousDatabaseBackupsListByParentResponse;
+  ): AsyncIterableIterator<ExascaleDbStorageVault[]> {
+    let result: ExascaleDbStorageVaultsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByParent(
-        resourceGroupName,
-        autonomousdatabasename,
-        options,
-      );
+      result = await this._listByResourceGroup(resourceGroupName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByParentNext(
+      result = await this._listByResourceGroupNext(
         resourceGroupName,
-        autonomousdatabasename,
         continuationToken,
         options,
       );
@@ -121,14 +164,12 @@ export class AutonomousDatabaseBackupsImpl
     }
   }
 
-  private async *listByParentPagingAll(
+  private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    autonomousdatabasename: string,
-    options?: AutonomousDatabaseBackupsListByParentOptionalParams,
-  ): AsyncIterableIterator<AutonomousDatabaseBackup> {
-    for await (const page of this.listByParentPagingPage(
+    options?: ExascaleDbStorageVaultsListByResourceGroupOptionalParams,
+  ): AsyncIterableIterator<ExascaleDbStorageVault> {
+    for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      autonomousdatabasename,
       options,
     )) {
       yield* page;
@@ -136,65 +177,72 @@ export class AutonomousDatabaseBackupsImpl
   }
 
   /**
-   * List AutonomousDatabaseBackup resources by AutonomousDatabase
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param autonomousdatabasename The database name.
+   * List ExascaleDbStorageVault resources by subscription ID
    * @param options The options parameters.
    */
-  private _listByParent(
-    resourceGroupName: string,
-    autonomousdatabasename: string,
-    options?: AutonomousDatabaseBackupsListByParentOptionalParams,
-  ): Promise<AutonomousDatabaseBackupsListByParentResponse> {
+  private _listBySubscription(
+    options?: ExascaleDbStorageVaultsListBySubscriptionOptionalParams,
+  ): Promise<ExascaleDbStorageVaultsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, autonomousdatabasename, options },
-      listByParentOperationSpec,
+      { options },
+      listBySubscriptionOperationSpec,
     );
   }
 
   /**
-   * Get a AutonomousDatabaseBackup
+   * List ExascaleDbStorageVault resources by resource group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param autonomousdatabasename The database name.
-   * @param adbbackupid AutonomousDatabaseBackup id
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: ExascaleDbStorageVaultsListByResourceGroupOptionalParams,
+  ): Promise<ExascaleDbStorageVaultsListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
+    );
+  }
+
+  /**
+   * Get a ExascaleDbStorageVault
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param exascaleDbStorageVaultName The name of the ExascaleDbStorageVault
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    autonomousdatabasename: string,
-    adbbackupid: string,
-    options?: AutonomousDatabaseBackupsGetOptionalParams,
-  ): Promise<AutonomousDatabaseBackupsGetResponse> {
+    exascaleDbStorageVaultName: string,
+    options?: ExascaleDbStorageVaultsGetOptionalParams,
+  ): Promise<ExascaleDbStorageVaultsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, autonomousdatabasename, adbbackupid, options },
+      { resourceGroupName, exascaleDbStorageVaultName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Create a AutonomousDatabaseBackup
+   * Create a ExascaleDbStorageVault
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param autonomousdatabasename The database name.
-   * @param adbbackupid AutonomousDatabaseBackup id
+   * @param exascaleDbStorageVaultName The name of the ExascaleDbStorageVault
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdate(
+  async beginCreate(
     resourceGroupName: string,
-    autonomousdatabasename: string,
-    adbbackupid: string,
-    resource: AutonomousDatabaseBackup,
-    options?: AutonomousDatabaseBackupsCreateOrUpdateOptionalParams,
+    exascaleDbStorageVaultName: string,
+    resource: ExascaleDbStorageVault,
+    options?: ExascaleDbStorageVaultsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<AutonomousDatabaseBackupsCreateOrUpdateResponse>,
-      AutonomousDatabaseBackupsCreateOrUpdateResponse
+      OperationState<ExascaleDbStorageVaultsCreateResponse>,
+      ExascaleDbStorageVaultsCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<AutonomousDatabaseBackupsCreateOrUpdateResponse> => {
+    ): Promise<ExascaleDbStorageVaultsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -233,16 +281,15 @@ export class AutonomousDatabaseBackupsImpl
       sendOperationFn,
       args: {
         resourceGroupName,
-        autonomousdatabasename,
-        adbbackupid,
+        exascaleDbStorageVaultName,
         resource,
         options,
       },
-      spec: createOrUpdateOperationSpec,
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
-      AutonomousDatabaseBackupsCreateOrUpdateResponse,
-      OperationState<AutonomousDatabaseBackupsCreateOrUpdateResponse>
+      ExascaleDbStorageVaultsCreateResponse,
+      OperationState<ExascaleDbStorageVaultsCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -253,24 +300,21 @@ export class AutonomousDatabaseBackupsImpl
   }
 
   /**
-   * Create a AutonomousDatabaseBackup
+   * Create a ExascaleDbStorageVault
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param autonomousdatabasename The database name.
-   * @param adbbackupid AutonomousDatabaseBackup id
+   * @param exascaleDbStorageVaultName The name of the ExascaleDbStorageVault
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdateAndWait(
+  async beginCreateAndWait(
     resourceGroupName: string,
-    autonomousdatabasename: string,
-    adbbackupid: string,
-    resource: AutonomousDatabaseBackup,
-    options?: AutonomousDatabaseBackupsCreateOrUpdateOptionalParams,
-  ): Promise<AutonomousDatabaseBackupsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
+    exascaleDbStorageVaultName: string,
+    resource: ExascaleDbStorageVault,
+    options?: ExascaleDbStorageVaultsCreateOptionalParams,
+  ): Promise<ExascaleDbStorageVaultsCreateResponse> {
+    const poller = await this.beginCreate(
       resourceGroupName,
-      autonomousdatabasename,
-      adbbackupid,
+      exascaleDbStorageVaultName,
       resource,
       options,
     );
@@ -278,29 +322,27 @@ export class AutonomousDatabaseBackupsImpl
   }
 
   /**
-   * Update a AutonomousDatabaseBackup
+   * Update a ExascaleDbStorageVault
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param autonomousdatabasename The database name.
-   * @param adbbackupid AutonomousDatabaseBackup id
+   * @param exascaleDbStorageVaultName The name of the ExascaleDbStorageVault
    * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    autonomousdatabasename: string,
-    adbbackupid: string,
-    properties: AutonomousDatabaseBackupUpdate,
-    options?: AutonomousDatabaseBackupsUpdateOptionalParams,
+    exascaleDbStorageVaultName: string,
+    properties: ExascaleDbStorageVaultTagsUpdate,
+    options?: ExascaleDbStorageVaultsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<AutonomousDatabaseBackupsUpdateResponse>,
-      AutonomousDatabaseBackupsUpdateResponse
+      OperationState<ExascaleDbStorageVaultsUpdateResponse>,
+      ExascaleDbStorageVaultsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<AutonomousDatabaseBackupsUpdateResponse> => {
+    ): Promise<ExascaleDbStorageVaultsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -339,16 +381,15 @@ export class AutonomousDatabaseBackupsImpl
       sendOperationFn,
       args: {
         resourceGroupName,
-        autonomousdatabasename,
-        adbbackupid,
+        exascaleDbStorageVaultName,
         properties,
         options,
       },
       spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
-      AutonomousDatabaseBackupsUpdateResponse,
-      OperationState<AutonomousDatabaseBackupsUpdateResponse>
+      ExascaleDbStorageVaultsUpdateResponse,
+      OperationState<ExascaleDbStorageVaultsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -359,24 +400,21 @@ export class AutonomousDatabaseBackupsImpl
   }
 
   /**
-   * Update a AutonomousDatabaseBackup
+   * Update a ExascaleDbStorageVault
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param autonomousdatabasename The database name.
-   * @param adbbackupid AutonomousDatabaseBackup id
+   * @param exascaleDbStorageVaultName The name of the ExascaleDbStorageVault
    * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    autonomousdatabasename: string,
-    adbbackupid: string,
-    properties: AutonomousDatabaseBackupUpdate,
-    options?: AutonomousDatabaseBackupsUpdateOptionalParams,
-  ): Promise<AutonomousDatabaseBackupsUpdateResponse> {
+    exascaleDbStorageVaultName: string,
+    properties: ExascaleDbStorageVaultTagsUpdate,
+    options?: ExascaleDbStorageVaultsUpdateOptionalParams,
+  ): Promise<ExascaleDbStorageVaultsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      autonomousdatabasename,
-      adbbackupid,
+      exascaleDbStorageVaultName,
       properties,
       options,
     );
@@ -384,27 +422,25 @@ export class AutonomousDatabaseBackupsImpl
   }
 
   /**
-   * Delete a AutonomousDatabaseBackup
+   * Delete a ExascaleDbStorageVault
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param autonomousdatabasename The database name.
-   * @param adbbackupid AutonomousDatabaseBackup id
+   * @param exascaleDbStorageVaultName The name of the ExascaleDbStorageVault
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    autonomousdatabasename: string,
-    adbbackupid: string,
-    options?: AutonomousDatabaseBackupsDeleteOptionalParams,
+    exascaleDbStorageVaultName: string,
+    options?: ExascaleDbStorageVaultsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<AutonomousDatabaseBackupsDeleteResponse>,
-      AutonomousDatabaseBackupsDeleteResponse
+      OperationState<ExascaleDbStorageVaultsDeleteResponse>,
+      ExascaleDbStorageVaultsDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<AutonomousDatabaseBackupsDeleteResponse> => {
+    ): Promise<ExascaleDbStorageVaultsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -441,12 +477,12 @@ export class AutonomousDatabaseBackupsImpl
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, autonomousdatabasename, adbbackupid, options },
+      args: { resourceGroupName, exascaleDbStorageVaultName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      AutonomousDatabaseBackupsDeleteResponse,
-      OperationState<AutonomousDatabaseBackupsDeleteResponse>
+      ExascaleDbStorageVaultsDeleteResponse,
+      OperationState<ExascaleDbStorageVaultsDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -457,55 +493,81 @@ export class AutonomousDatabaseBackupsImpl
   }
 
   /**
-   * Delete a AutonomousDatabaseBackup
+   * Delete a ExascaleDbStorageVault
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param autonomousdatabasename The database name.
-   * @param adbbackupid AutonomousDatabaseBackup id
+   * @param exascaleDbStorageVaultName The name of the ExascaleDbStorageVault
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    autonomousdatabasename: string,
-    adbbackupid: string,
-    options?: AutonomousDatabaseBackupsDeleteOptionalParams,
-  ): Promise<AutonomousDatabaseBackupsDeleteResponse> {
+    exascaleDbStorageVaultName: string,
+    options?: ExascaleDbStorageVaultsDeleteOptionalParams,
+  ): Promise<ExascaleDbStorageVaultsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      autonomousdatabasename,
-      adbbackupid,
+      exascaleDbStorageVaultName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * ListByParentNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param autonomousdatabasename The database name.
-   * @param nextLink The nextLink from the previous successful call to the ListByParent method.
+   * ListBySubscriptionNext
+   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
    */
-  private _listByParentNext(
-    resourceGroupName: string,
-    autonomousdatabasename: string,
+  private _listBySubscriptionNext(
     nextLink: string,
-    options?: AutonomousDatabaseBackupsListByParentNextOptionalParams,
-  ): Promise<AutonomousDatabaseBackupsListByParentNextResponse> {
+    options?: ExascaleDbStorageVaultsListBySubscriptionNextOptionalParams,
+  ): Promise<ExascaleDbStorageVaultsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, autonomousdatabasename, nextLink, options },
-      listByParentNextOperationSpec,
+      { nextLink, options },
+      listBySubscriptionNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListByResourceGroupNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroupNext(
+    resourceGroupName: string,
+    nextLink: string,
+    options?: ExascaleDbStorageVaultsListByResourceGroupNextOptionalParams,
+  ): Promise<ExascaleDbStorageVaultsListByResourceGroupNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, nextLink, options },
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByParentOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/autonomousDatabases/{autonomousdatabasename}/autonomousDatabaseBackups",
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Oracle.Database/exascaleDbStorageVaults",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AutonomousDatabaseBackupListResult,
+      bodyMapper: Mappers.ExascaleDbStorageVaultListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/exascaleDbStorageVaults",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ExascaleDbStorageVaultListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -516,17 +578,16 @@ const listByParentOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.autonomousdatabasename,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/autonomousDatabases/{autonomousdatabasename}/autonomousDatabaseBackups/{adbbackupid}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/exascaleDbStorageVaults/{exascaleDbStorageVaultName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AutonomousDatabaseBackup,
+      bodyMapper: Mappers.ExascaleDbStorageVault,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -537,93 +598,90 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.autonomousdatabasename,
-    Parameters.adbbackupid,
+    Parameters.exascaleDbStorageVaultName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/autonomousDatabases/{autonomousdatabasename}/autonomousDatabaseBackups/{adbbackupid}",
+const createOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/exascaleDbStorageVaults/{exascaleDbStorageVaultName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AutonomousDatabaseBackup,
+      bodyMapper: Mappers.ExascaleDbStorageVault,
     },
     201: {
-      bodyMapper: Mappers.AutonomousDatabaseBackup,
+      bodyMapper: Mappers.ExascaleDbStorageVault,
     },
     202: {
-      bodyMapper: Mappers.AutonomousDatabaseBackup,
+      bodyMapper: Mappers.ExascaleDbStorageVault,
     },
     204: {
-      bodyMapper: Mappers.AutonomousDatabaseBackup,
+      bodyMapper: Mappers.ExascaleDbStorageVault,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.resource6,
+  requestBody: Parameters.resource4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.autonomousdatabasename,
-    Parameters.adbbackupid,
+    Parameters.exascaleDbStorageVaultName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/autonomousDatabases/{autonomousdatabasename}/autonomousDatabaseBackups/{adbbackupid}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/exascaleDbStorageVaults/{exascaleDbStorageVaultName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.AutonomousDatabaseBackup,
+      bodyMapper: Mappers.ExascaleDbStorageVault,
     },
     201: {
-      bodyMapper: Mappers.AutonomousDatabaseBackup,
+      bodyMapper: Mappers.ExascaleDbStorageVault,
     },
     202: {
-      bodyMapper: Mappers.AutonomousDatabaseBackup,
+      bodyMapper: Mappers.ExascaleDbStorageVault,
     },
     204: {
-      bodyMapper: Mappers.AutonomousDatabaseBackup,
+      bodyMapper: Mappers.ExascaleDbStorageVault,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.properties6,
+  requestBody: Parameters.properties4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.autonomousdatabasename,
-    Parameters.adbbackupid,
+    Parameters.exascaleDbStorageVaultName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/autonomousDatabases/{autonomousdatabasename}/autonomousDatabaseBackups/{adbbackupid}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/exascaleDbStorageVaults/{exascaleDbStorageVaultName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.AutonomousDatabaseBackupsDeleteHeaders,
+      headersMapper: Mappers.ExascaleDbStorageVaultsDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.AutonomousDatabaseBackupsDeleteHeaders,
+      headersMapper: Mappers.ExascaleDbStorageVaultsDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.AutonomousDatabaseBackupsDeleteHeaders,
+      headersMapper: Mappers.ExascaleDbStorageVaultsDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.AutonomousDatabaseBackupsDeleteHeaders,
+      headersMapper: Mappers.ExascaleDbStorageVaultsDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -634,18 +692,36 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.autonomousdatabasename,
-    Parameters.adbbackupid,
+    Parameters.exascaleDbStorageVaultName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByParentNextOperationSpec: coreClient.OperationSpec = {
+const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AutonomousDatabaseBackupListResult,
+      bodyMapper: Mappers.ExascaleDbStorageVaultListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ExascaleDbStorageVaultListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -656,7 +732,6 @@ const listByParentNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.autonomousdatabasename,
   ],
   headerParameters: [Parameters.accept],
   serializer,
