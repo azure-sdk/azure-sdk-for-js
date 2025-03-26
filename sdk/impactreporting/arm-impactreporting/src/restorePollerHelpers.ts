@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { ImpactClient } from "./impactClient.js";
-import { _connectorsCreateOrUpdateDeserialize } from "./api/connectors/index.js";
-import { _workloadImpactsCreateDeserialize } from "./api/workloadImpacts/index.js";
+import { _connectorsCreateOrUpdateDeserialize } from "./api/connectors/operations.js";
+import { _workloadImpactsCreateDeserialize } from "./api/workloadImpacts/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";

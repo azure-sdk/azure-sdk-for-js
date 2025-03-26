@@ -2,23 +2,23 @@
 // Licensed under the MIT License.
 
 import { ImpactContext } from "../../api/impactContext.js";
-import {
-  connectorsListBySubscription,
-  connectorsDelete,
-  connectorsUpdate,
-  connectorsCreateOrUpdate,
-  connectorsGet,
-} from "../../api/connectors/index.js";
 import { Connector, ConnectorUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   ConnectorsListBySubscriptionOptionalParams,
   ConnectorsDeleteOptionalParams,
   ConnectorsUpdateOptionalParams,
   ConnectorsCreateOrUpdateOptionalParams,
   ConnectorsGetOptionalParams,
-} from "../../api/options.js";
+} from "../../api/connectors/options.js";
+import {
+  connectorsListBySubscription,
+  connectorsDelete,
+  connectorsUpdate,
+  connectorsCreateOrUpdate,
+  connectorsGet,
+} from "../../api/connectors/operations.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Connectors operations. */
 export interface ConnectorsOperations {

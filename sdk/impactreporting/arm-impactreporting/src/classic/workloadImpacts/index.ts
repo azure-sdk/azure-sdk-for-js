@@ -2,19 +2,19 @@
 // Licensed under the MIT License.
 
 import { ImpactContext } from "../../api/impactContext.js";
+import { WorkloadImpact } from "../../models/models.js";
 import {
   WorkloadImpactsListBySubscriptionOptionalParams,
   WorkloadImpactsDeleteOptionalParams,
   WorkloadImpactsGetOptionalParams,
   WorkloadImpactsCreateOptionalParams,
-} from "../../api/options.js";
+} from "../../api/workloadImpacts/options.js";
 import {
   workloadImpactsListBySubscription,
   workloadImpactsDelete,
   workloadImpactsGet,
   workloadImpactsCreate,
-} from "../../api/workloadImpacts/index.js";
-import { WorkloadImpact } from "../../models/models.js";
+} from "../../api/workloadImpacts/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 

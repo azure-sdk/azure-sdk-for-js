@@ -2,19 +2,19 @@
 // Licensed under the MIT License.
 
 import { ImpactContext } from "../../api/impactContext.js";
-import {
-  insightsDelete,
-  insightsCreate,
-  insightsListBySubscription,
-  insightsGet,
-} from "../../api/insights/index.js";
+import { Insight } from "../../models/models.js";
 import {
   InsightsDeleteOptionalParams,
   InsightsCreateOptionalParams,
   InsightsListBySubscriptionOptionalParams,
   InsightsGetOptionalParams,
-} from "../../api/options.js";
-import { Insight } from "../../models/models.js";
+} from "../../api/insights/options.js";
+import {
+  insightsDelete,
+  insightsCreate,
+  insightsListBySubscription,
+  insightsGet,
+} from "../../api/insights/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Insights operations. */
