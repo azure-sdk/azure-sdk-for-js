@@ -7,23 +7,30 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export {
-  StandbyPoolManagementClient,
-  StandbyPoolManagementClientOptionalParams,
-} from "./standbyPoolManagementClient.js";
+export { StandbyPoolManagementClient } from "./standbyPoolManagementClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
+  StandbyContainerGroupPoolRuntimeViewResource,
+  StandbyContainerGroupPoolRuntimeViewResourceProperties,
+  ContainerGroupInstanceCountSummary,
+  PoolContainerGroupStateCount,
+  KnownPoolContainerGroupState,
+  PoolContainerGroupState,
+  PoolStatus,
+  KnownHealthStateCode,
+  HealthStateCode,
+  KnownProvisioningState,
+  ProvisioningState,
+  StandbyContainerGroupPoolPrediction,
+  StandbyContainerGroupPoolForecastValues,
+  ProxyResource,
   Resource,
   SystemData,
   KnownCreatedByType,
   CreatedByType,
-  ProxyResource,
-  StandbyContainerGroupPoolRuntimeViewResource,
-  StandbyContainerGroupPoolRuntimeViewResourceProperties,
-  ContainerGroupInstanceCountSummary,
-  PoolResourceStateCount,
-  KnownProvisioningState,
-  TrackedResource,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   StandbyContainerGroupPoolResource,
   StandbyContainerGroupPoolResourceProperties,
   StandbyContainerGroupPoolElasticityProfile,
@@ -32,11 +39,17 @@ export {
   ContainerGroupProperties,
   ContainerGroupProfile,
   Subnet,
+  TrackedResource,
   StandbyContainerGroupPoolResourceUpdate,
   StandbyContainerGroupPoolResourceUpdateProperties,
   StandbyVirtualMachinePoolRuntimeViewResource,
   StandbyVirtualMachinePoolRuntimeViewResourceProperties,
   VirtualMachineInstanceCountSummary,
+  PoolVirtualMachineStateCount,
+  KnownPoolVirtualMachineState,
+  PoolVirtualMachineState,
+  StandbyVirtualMachinePoolPrediction,
+  StandbyVirtualMachinePoolForecastValues,
   StandbyVirtualMachineResource,
   StandbyVirtualMachineResourceProperties,
   StandbyVirtualMachinePoolResource,
@@ -52,27 +65,38 @@ export {
   Origin,
   KnownActionType,
   ActionType,
-  ProvisioningState,
-  OperationsListOptionalParams,
-  StandbyVirtualMachinePoolsGetOptionalParams,
-  StandbyVirtualMachinePoolsCreateOrUpdateOptionalParams,
-  StandbyVirtualMachinePoolsDeleteOptionalParams,
-  StandbyVirtualMachinePoolsUpdateOptionalParams,
-  StandbyVirtualMachinePoolsListByResourceGroupOptionalParams,
-  StandbyVirtualMachinePoolsListBySubscriptionOptionalParams,
-  StandbyVirtualMachinesGetOptionalParams,
-  StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOptionalParams,
-  StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams,
-  StandbyVirtualMachinePoolRuntimeViewsListByStandbyPoolOptionalParams,
-  StandbyContainerGroupPoolsGetOptionalParams,
-  StandbyContainerGroupPoolsCreateOrUpdateOptionalParams,
-  StandbyContainerGroupPoolsDeleteOptionalParams,
-  StandbyContainerGroupPoolsUpdateOptionalParams,
-  StandbyContainerGroupPoolsListByResourceGroupOptionalParams,
-  StandbyContainerGroupPoolsListBySubscriptionOptionalParams,
-  StandbyContainerGroupPoolRuntimeViewsGetOptionalParams,
-  StandbyContainerGroupPoolRuntimeViewsListByStandbyPoolOptionalParams,
+  KnownVersions,
 } from "./models/index.js";
+export { StandbyPoolManagementClientOptionalParams } from "./api/index.js";
+export { OperationsListOptionalParams } from "./api/operations/index.js";
+export {
+  StandbyContainerGroupPoolRuntimeViewsListByStandbyPoolOptionalParams,
+  StandbyContainerGroupPoolRuntimeViewsGetOptionalParams,
+} from "./api/standbyContainerGroupPoolRuntimeViews/index.js";
+export {
+  StandbyContainerGroupPoolsListBySubscriptionOptionalParams,
+  StandbyContainerGroupPoolsListByResourceGroupOptionalParams,
+  StandbyContainerGroupPoolsUpdateOptionalParams,
+  StandbyContainerGroupPoolsDeleteOptionalParams,
+  StandbyContainerGroupPoolsCreateOrUpdateOptionalParams,
+  StandbyContainerGroupPoolsGetOptionalParams,
+} from "./api/standbyContainerGroupPools/index.js";
+export {
+  StandbyVirtualMachinePoolRuntimeViewsListByStandbyPoolOptionalParams,
+  StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams,
+} from "./api/standbyVirtualMachinePoolRuntimeViews/index.js";
+export {
+  StandbyVirtualMachinePoolsListBySubscriptionOptionalParams,
+  StandbyVirtualMachinePoolsListByResourceGroupOptionalParams,
+  StandbyVirtualMachinePoolsUpdateOptionalParams,
+  StandbyVirtualMachinePoolsDeleteOptionalParams,
+  StandbyVirtualMachinePoolsCreateOrUpdateOptionalParams,
+  StandbyVirtualMachinePoolsGetOptionalParams,
+} from "./api/standbyVirtualMachinePools/index.js";
+export {
+  StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOptionalParams,
+  StandbyVirtualMachinesGetOptionalParams,
+} from "./api/standbyVirtualMachines/index.js";
 export {
   OperationsOperations,
   StandbyContainerGroupPoolRuntimeViewsOperations,
