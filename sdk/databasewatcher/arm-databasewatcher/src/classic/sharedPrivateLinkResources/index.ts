@@ -2,19 +2,19 @@
 // Licensed under the MIT License.
 
 import { DatabaseWatcherContext } from "../../api/databaseWatcherContext.js";
+import { SharedPrivateLinkResource } from "../../models/models.js";
 import {
   SharedPrivateLinkResourcesListByWatcherOptionalParams,
   SharedPrivateLinkResourcesDeleteOptionalParams,
   SharedPrivateLinkResourcesCreateOptionalParams,
   SharedPrivateLinkResourcesGetOptionalParams,
-} from "../../api/options.js";
+} from "../../api/sharedPrivateLinkResources/options.js";
 import {
   sharedPrivateLinkResourcesListByWatcher,
   sharedPrivateLinkResourcesDelete,
   sharedPrivateLinkResourcesCreate,
   sharedPrivateLinkResourcesGet,
-} from "../../api/sharedPrivateLinkResources/index.js";
-import { SharedPrivateLinkResource } from "../../models/models.js";
+} from "../../api/sharedPrivateLinkResources/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 

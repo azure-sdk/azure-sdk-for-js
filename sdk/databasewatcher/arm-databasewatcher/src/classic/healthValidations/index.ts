@@ -2,17 +2,17 @@
 // Licensed under the MIT License.
 
 import { DatabaseWatcherContext } from "../../api/databaseWatcherContext.js";
-import {
-  healthValidationsStartValidation,
-  healthValidationsListByParent,
-  healthValidationsGet,
-} from "../../api/healthValidations/index.js";
+import { HealthValidation } from "../../models/models.js";
 import {
   HealthValidationsStartValidationOptionalParams,
   HealthValidationsListByParentOptionalParams,
   HealthValidationsGetOptionalParams,
-} from "../../api/options.js";
-import { HealthValidation } from "../../models/models.js";
+} from "../../api/healthValidations/options.js";
+import {
+  healthValidationsStartValidation,
+  healthValidationsListByParent,
+  healthValidationsGet,
+} from "../../api/healthValidations/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 

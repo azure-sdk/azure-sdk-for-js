@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { DatabaseWatcherContext } from "../../api/databaseWatcherContext.js";
+import { Watcher, WatcherUpdate } from "../../models/models.js";
 import {
   WatchersStopOptionalParams,
   WatchersStartOptionalParams,
@@ -11,7 +12,7 @@ import {
   WatchersUpdateOptionalParams,
   WatchersCreateOrUpdateOptionalParams,
   WatchersGetOptionalParams,
-} from "../../api/options.js";
+} from "../../api/watchers/options.js";
 import {
   watchersStop,
   watchersStart,
@@ -21,8 +22,7 @@ import {
   watchersUpdate,
   watchersCreateOrUpdate,
   watchersGet,
-} from "../../api/watchers/index.js";
-import { Watcher, WatcherUpdate } from "../../models/models.js";
+} from "../../api/watchers/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 

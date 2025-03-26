@@ -2,20 +2,20 @@
 // Licensed under the MIT License.
 
 import { DatabaseWatcherContext } from "../../api/databaseWatcherContext.js";
-import {
-  alertRuleResourcesListByParent,
-  alertRuleResourcesDelete,
-  alertRuleResourcesCreateOrUpdate,
-  alertRuleResourcesGet,
-} from "../../api/alertRuleResources/index.js";
 import { AlertRuleResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import {
   AlertRuleResourcesListByParentOptionalParams,
   AlertRuleResourcesDeleteOptionalParams,
   AlertRuleResourcesCreateOrUpdateOptionalParams,
   AlertRuleResourcesGetOptionalParams,
-} from "../../api/options.js";
+} from "../../api/alertRuleResources/options.js";
+import {
+  alertRuleResourcesListByParent,
+  alertRuleResourcesDelete,
+  alertRuleResourcesCreateOrUpdate,
+  alertRuleResourcesGet,
+} from "../../api/alertRuleResources/operations.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AlertRuleResources operations. */
 export interface AlertRuleResourcesOperations {

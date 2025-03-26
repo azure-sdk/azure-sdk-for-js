@@ -5,15 +5,15 @@ import { DatabaseWatcherClient } from "./databaseWatcherClient.js";
 import {
   _sharedPrivateLinkResourcesDeleteDeserialize,
   _sharedPrivateLinkResourcesCreateDeserialize,
-} from "./api/sharedPrivateLinkResources/index.js";
-import { _healthValidationsStartValidationDeserialize } from "./api/healthValidations/index.js";
+} from "./api/sharedPrivateLinkResources/operations.js";
+import { _healthValidationsStartValidationDeserialize } from "./api/healthValidations/operations.js";
 import {
   _watchersStopDeserialize,
   _watchersStartDeserialize,
   _watchersDeleteDeserialize,
   _watchersUpdateDeserialize,
   _watchersCreateOrUpdateDeserialize,
-} from "./api/watchers/index.js";
+} from "./api/watchers/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
