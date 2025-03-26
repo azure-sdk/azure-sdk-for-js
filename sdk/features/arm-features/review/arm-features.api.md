@@ -37,9 +37,6 @@ export class FeatureClient extends coreClient.ServiceClient {
     // (undocumented)
     apiVersion: string;
     // (undocumented)
-    features: Features;
-    listOperations(options?: ListOperationsOptionalParams): PagedAsyncIterableIterator<Operation>;
-    // (undocumented)
     subscriptionFeatureRegistrations: SubscriptionFeatureRegistrations;
     // (undocumented)
     subscriptionId: string;
@@ -51,83 +48,6 @@ export interface FeatureClientOptionalParams extends coreClient.ServiceClientOpt
     apiVersion?: string;
     endpoint?: string;
 }
-
-// @public
-export interface FeatureOperationsListResult {
-    nextLink?: string;
-    value?: FeatureResult[];
-}
-
-// @public
-export interface FeatureProperties {
-    state?: string;
-}
-
-// @public
-export interface FeatureResult {
-    id?: string;
-    name?: string;
-    properties?: FeatureProperties;
-    type?: string;
-}
-
-// @public
-export interface Features {
-    get(resourceProviderNamespace: string, featureName: string, options?: FeaturesGetOptionalParams): Promise<FeaturesGetResponse>;
-    list(resourceProviderNamespace: string, options?: FeaturesListOptionalParams): PagedAsyncIterableIterator<FeatureResult>;
-    listAll(options?: FeaturesListAllOptionalParams): PagedAsyncIterableIterator<FeatureResult>;
-    register(resourceProviderNamespace: string, featureName: string, options?: FeaturesRegisterOptionalParams): Promise<FeaturesRegisterResponse>;
-    unregister(resourceProviderNamespace: string, featureName: string, options?: FeaturesUnregisterOptionalParams): Promise<FeaturesUnregisterResponse>;
-}
-
-// @public
-export interface FeaturesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FeaturesGetResponse = FeatureResult;
-
-// @public
-export interface FeaturesListAllNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FeaturesListAllNextResponse = FeatureOperationsListResult;
-
-// @public
-export interface FeaturesListAllOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FeaturesListAllResponse = FeatureOperationsListResult;
-
-// @public
-export interface FeaturesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FeaturesListNextResponse = FeatureOperationsListResult;
-
-// @public
-export interface FeaturesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FeaturesListResponse = FeatureOperationsListResult;
-
-// @public
-export interface FeaturesRegisterOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FeaturesRegisterResponse = FeatureResult;
-
-// @public
-export interface FeaturesUnregisterOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FeaturesUnregisterResponse = FeatureResult;
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
@@ -145,42 +65,7 @@ export enum KnownSubscriptionFeatureRegistrationState {
     NotSpecified = "NotSpecified",
     Pending = "Pending",
     Registered = "Registered",
-    Registering = "Registering",
-    Unregistered = "Unregistered",
-    Unregistering = "Unregistering"
-}
-
-// @public
-export interface ListOperationsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ListOperationsNextResponse = OperationListResult;
-
-// @public
-export interface ListOperationsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ListOperationsResponse = OperationListResult;
-
-// @public
-export interface Operation {
-    display?: OperationDisplay;
-    name?: string;
-}
-
-// @public
-export interface OperationDisplay {
-    operation?: string;
-    provider?: string;
-    resource?: string;
-}
-
-// @public
-export interface OperationListResult {
-    nextLink?: string;
-    value?: Operation[];
+    Unregistered = "Unregistered"
 }
 
 // @public
