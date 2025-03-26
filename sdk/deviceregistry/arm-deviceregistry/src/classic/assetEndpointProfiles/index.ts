@@ -2,17 +2,7 @@
 // Licensed under the MIT License.
 
 import { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
-import {
-  assetEndpointProfilesListBySubscription,
-  assetEndpointProfilesListByResourceGroup,
-  assetEndpointProfilesDelete,
-  assetEndpointProfilesUpdate,
-  assetEndpointProfilesCreateOrReplace,
-  assetEndpointProfilesGet,
-} from "../../api/assetEndpointProfiles/index.js";
 import { AssetEndpointProfile, AssetEndpointProfileUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   AssetEndpointProfilesListBySubscriptionOptionalParams,
   AssetEndpointProfilesListByResourceGroupOptionalParams,
@@ -20,7 +10,17 @@ import {
   AssetEndpointProfilesUpdateOptionalParams,
   AssetEndpointProfilesCreateOrReplaceOptionalParams,
   AssetEndpointProfilesGetOptionalParams,
-} from "../../api/options.js";
+} from "../../api/assetEndpointProfiles/options.js";
+import {
+  assetEndpointProfilesListBySubscription,
+  assetEndpointProfilesListByResourceGroup,
+  assetEndpointProfilesDelete,
+  assetEndpointProfilesUpdate,
+  assetEndpointProfilesCreateOrReplace,
+  assetEndpointProfilesGet,
+} from "../../api/assetEndpointProfiles/operations.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AssetEndpointProfiles operations. */
 export interface AssetEndpointProfilesOperations {

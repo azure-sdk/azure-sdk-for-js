@@ -6,12 +6,12 @@ import {
   _assetEndpointProfilesDeleteDeserialize,
   _assetEndpointProfilesUpdateDeserialize,
   _assetEndpointProfilesCreateOrReplaceDeserialize,
-} from "./api/assetEndpointProfiles/index.js";
+} from "./api/assetEndpointProfiles/operations.js";
 import {
   _assetsDeleteDeserialize,
   _assetsUpdateDeserialize,
   _assetsCreateOrReplaceDeserialize,
-} from "./api/assets/index.js";
+} from "./api/assets/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
