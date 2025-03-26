@@ -668,9 +668,7 @@ export function workloadImpactPropertiesSerializer(item: WorkloadImpactPropertie
     connectivity: !item["connectivity"]
       ? item["connectivity"]
       : connectivitySerializer(item["connectivity"]),
-    additionalProperties: !item["additionalProperties"]
-      ? item["additionalProperties"]
-      : _workloadImpactPropertiesAdditionalPropertiesSerializer(item["additionalProperties"]),
+    additionalProperties: item["additionalProperties"],
     errorDetails: !item["errorDetails"]
       ? item["errorDetails"]
       : errorDetailPropertiesSerializer(item["errorDetails"]),
@@ -706,9 +704,7 @@ export function workloadImpactPropertiesDeserializer(item: any): WorkloadImpactP
     connectivity: !item["connectivity"]
       ? item["connectivity"]
       : connectivityDeserializer(item["connectivity"]),
-    additionalProperties: !item["additionalProperties"]
-      ? item["additionalProperties"]
-      : _workloadImpactPropertiesAdditionalPropertiesDeserializer(item["additionalProperties"]),
+    additionalProperties: item["additionalProperties"],
     errorDetails: !item["errorDetails"]
       ? item["errorDetails"]
       : errorDetailPropertiesDeserializer(item["errorDetails"]),
@@ -895,8 +891,8 @@ export enum KnownProtocol {
  * ### Known values supported by the service
  * **TCP**: When communication protocol is TCP \
  * **UDP**: When communication protocol is UDP \
- * **Http**: When communication protocol is HTTP \
- * **Https**: When communication protocol is HTTPS \
+ * **HTTP**: When communication protocol is HTTP \
+ * **HTTPS**: When communication protocol is HTTPS \
  * **RDP**: When communication protocol is RDP \
  * **FTP**: When communication protocol is FTP \
  * **SSH**: When communication protocol is SSH \
@@ -918,21 +914,6 @@ export function sourceOrTargetDeserializer(item: any): SourceOrTarget {
   return {
     azureResourceId: item["azureResourceId"],
   };
-}
-
-/** model interface _WorkloadImpactPropertiesAdditionalProperties */
-export interface _WorkloadImpactPropertiesAdditionalProperties {}
-
-export function _workloadImpactPropertiesAdditionalPropertiesSerializer(
-  item: _WorkloadImpactPropertiesAdditionalProperties,
-): any {
-  return item;
-}
-
-export function _workloadImpactPropertiesAdditionalPropertiesDeserializer(
-  item: any,
-): _WorkloadImpactPropertiesAdditionalProperties {
-  return item;
 }
 
 /** ARM error code and error message associated with the impact */
@@ -1190,9 +1171,9 @@ export enum KnownOrigin {
  * {@link KnownOrigin} can be used interchangeably with Origin,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **User**: Indicates the operation is initiated by a user. \
- * **System**: Indicates the operation is initiated by a system. \
- * **UserSystem**: Indicates the operation is initiated by a user or system.
+ * **user**: Indicates the operation is initiated by a user. \
+ * **system**: Indicates the operation is initiated by a system. \
+ * **user,system**: Indicates the operation is initiated by a user or system.
  */
 export type Origin = string;
 

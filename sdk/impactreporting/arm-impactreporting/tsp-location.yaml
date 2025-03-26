@@ -1,4 +1,4 @@
 directory: specification/impact/Impact.Management
-commit: 13f7c56aecf4cc42dfc14f72b6eb4ba2b8d470c5
-repo: Azure/azure-rest-api-specs
-additionalDirectories:
+commit: 91b7747c37688b97639a7e73390b554a3d1e562a
+repo: ../azure-rest-api-specs
+additionalDirectories: 
