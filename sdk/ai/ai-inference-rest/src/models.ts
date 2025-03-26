@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
- *
- * Any changes you make here may be lost.
- *
- * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
- */
 /** An abstract representation of a chat message as provided in a request. */
 export interface ChatRequestMessageParent {
   role: ChatRole;
@@ -49,7 +42,8 @@ export interface ChatMessageContentItemParent {
 }
 
 /** A structured chat content item containing plain text. */
-export interface ChatMessageTextContentItem extends ChatMessageContentItemParent {
+export interface ChatMessageTextContentItem
+  extends ChatMessageContentItemParent {
   /** The discriminated object type: always 'text' for this type. */
   type: "text";
   /** The content of the message. */
@@ -57,7 +51,8 @@ export interface ChatMessageTextContentItem extends ChatMessageContentItemParent
 }
 
 /** A structured chat content item containing an image reference. */
-export interface ChatMessageImageContentItem extends ChatMessageContentItemParent {
+export interface ChatMessageImageContentItem
+  extends ChatMessageContentItemParent {
   /** The discriminated object type: always 'image_url' for this type. */
   type: "image_url";
   /** An internet location, which must be accessible to the model,from which the image may be retrieved. */
@@ -78,7 +73,8 @@ export interface ChatMessageImageUrl {
 }
 
 /** A structured chat content item for audio content passed as a url. */
-export interface ChatMessageAudioUrlContentItem extends ChatMessageContentItemParent {
+export interface ChatMessageAudioUrlContentItem
+  extends ChatMessageContentItemParent {
   /** The discriminated object type: always 'audio_url' for this type. */
   type: "audio_url";
   /** The details of the audio url. */
@@ -92,7 +88,8 @@ export interface ChatMessageInputAudioUrl {
 }
 
 /** A structured chat content item for audio content passed as base64 encoded data. */
-export interface ChatMessageAudioDataContentItem extends ChatMessageContentItemParent {
+export interface ChatMessageAudioDataContentItem
+  extends ChatMessageContentItemParent {
   /** The discriminated object type: always 'input_audio' for this type. */
   type: "input_audio";
   /** The details of the input audio data. */
@@ -167,7 +164,8 @@ export interface ChatCompletionsResponseFormatParent {
 }
 
 /** A response format for Chat Completions that emits text responses. This is the default response format. */
-export interface ChatCompletionsResponseFormatText extends ChatCompletionsResponseFormatParent {
+export interface ChatCompletionsResponseFormatText
+  extends ChatCompletionsResponseFormatParent {
   /** Response format type: always 'text' for this object. */
   type: "text";
 }
