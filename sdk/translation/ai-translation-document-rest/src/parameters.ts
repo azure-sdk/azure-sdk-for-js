@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import type { RequestParameters } from "@azure-rest/core-client";
 import type {
@@ -42,6 +43,8 @@ export interface DocumentTranslateQueryParamProperties {
    * Possible values are: true (default) or false.
    */
   allowFallback?: boolean;
+  /** Optional boolean parameter to translate text within an image in the document */
+  translateTextWithinImage?: boolean;
 }
 
 export interface DocumentTranslateQueryParam {
@@ -69,6 +72,36 @@ export interface StartTranslationBodyParam {
 }
 
 export type StartTranslationParameters = StartTranslationBodyParam & RequestParameters;
+
+/** This is the wrapper object for the parameter `ids` with explode set to false and style set to form. */
+export interface GetTranslationsStatusIdsQueryParam {
+  /** Value of the parameter */
+  value: string[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
+/** This is the wrapper object for the parameter `statuses` with explode set to false and style set to form. */
+export interface GetTranslationsStatusStatusesQueryParam {
+  /** Value of the parameter */
+  value: string[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
+/** This is the wrapper object for the parameter `orderby` with explode set to false and style set to form. */
+export interface GetTranslationsStatusOrderbyQueryParam {
+  /** Value of the parameter */
+  value: string[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
 
 export interface GetTranslationsStatusQueryParamProperties {
   /**
@@ -114,15 +147,15 @@ export interface GetTranslationsStatusQueryParamProperties {
    */
   maxpagesize?: number;
   /** Ids to use in filtering */
-  ids?: string[];
+  ids?: string[] | GetTranslationsStatusIdsQueryParam;
   /** Statuses to use in filtering */
-  statuses?: string[];
+  statuses?: string[] | GetTranslationsStatusStatusesQueryParam;
   /** the start datetime to get items after */
   createdDateTimeUtcStart?: Date | string;
   /** the end datetime to get items before */
   createdDateTimeUtcEnd?: Date | string;
   /** the sorting query for the collection (ex: 'CreatedDateTimeUtc asc','CreatedDateTimeUtc desc') */
-  orderby?: string[];
+  orderby?: string[] | GetTranslationsStatusOrderbyQueryParam;
 }
 
 export interface GetTranslationsStatusQueryParam {
@@ -133,6 +166,36 @@ export type GetTranslationsStatusParameters = GetTranslationsStatusQueryParam & 
 export type GetDocumentStatusParameters = RequestParameters;
 export type GetTranslationStatusParameters = RequestParameters;
 export type CancelTranslationParameters = RequestParameters;
+
+/** This is the wrapper object for the parameter `ids` with explode set to false and style set to form. */
+export interface GetDocumentsStatusIdsQueryParam {
+  /** Value of the parameter */
+  value: string[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
+/** This is the wrapper object for the parameter `statuses` with explode set to false and style set to form. */
+export interface GetDocumentsStatusStatusesQueryParam {
+  /** Value of the parameter */
+  value: string[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
+/** This is the wrapper object for the parameter `orderby` with explode set to false and style set to form. */
+export interface GetDocumentsStatusOrderbyQueryParam {
+  /** Value of the parameter */
+  value: string[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
 
 export interface GetDocumentsStatusQueryParamProperties {
   /**
@@ -178,15 +241,15 @@ export interface GetDocumentsStatusQueryParamProperties {
    */
   maxpagesize?: number;
   /** Ids to use in filtering */
-  ids?: string[];
+  ids?: string[] | GetDocumentsStatusIdsQueryParam;
   /** Statuses to use in filtering */
-  statuses?: string[];
+  statuses?: string[] | GetDocumentsStatusStatusesQueryParam;
   /** the start datetime to get items after */
   createdDateTimeUtcStart?: Date | string;
   /** the end datetime to get items before */
   createdDateTimeUtcEnd?: Date | string;
   /** the sorting query for the collection (ex: 'CreatedDateTimeUtc asc','CreatedDateTimeUtc desc') */
-  orderby?: string[];
+  orderby?: string[] | GetDocumentsStatusOrderbyQueryParam;
 }
 
 export interface GetDocumentsStatusQueryParam {
