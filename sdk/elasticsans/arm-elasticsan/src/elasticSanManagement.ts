@@ -68,7 +68,7 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-elasticsan/1.2.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-elasticsan/1.2.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -122,7 +122,7 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-06-01-preview";
+    this.apiVersion = options.apiVersion || "2025-03-01";
     this.operations = new OperationsImpl(this);
     this.skus = new SkusImpl(this);
     this.elasticSans = new ElasticSansImpl(this);

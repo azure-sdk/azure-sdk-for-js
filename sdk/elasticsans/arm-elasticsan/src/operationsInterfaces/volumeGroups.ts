@@ -19,6 +19,12 @@ import {
   VolumeGroupsDeleteOptionalParams,
   VolumeGroupsGetOptionalParams,
   VolumeGroupsGetResponse,
+  VolumeNameList,
+  VolumeGroupsPreBackupOptionalParams,
+  VolumeGroupsPreBackupResponse,
+  DiskSnapshotList,
+  VolumeGroupsPreRestoreOptionalParams,
+  VolumeGroupsPreRestoreResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -144,4 +150,74 @@ export interface VolumeGroups {
     volumeGroupName: string,
     options?: VolumeGroupsGetOptionalParams,
   ): Promise<VolumeGroupsGetResponse>;
+  /**
+   * Validate whether a disk snapshot backup can be taken for list of volumes.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param elasticSanName The name of the ElasticSan.
+   * @param volumeGroupName The name of the VolumeGroup.
+   * @param parameters Volume Name List
+   * @param options The options parameters.
+   */
+  beginPreBackup(
+    resourceGroupName: string,
+    elasticSanName: string,
+    volumeGroupName: string,
+    parameters: VolumeNameList,
+    options?: VolumeGroupsPreBackupOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumeGroupsPreBackupResponse>,
+      VolumeGroupsPreBackupResponse
+    >
+  >;
+  /**
+   * Validate whether a disk snapshot backup can be taken for list of volumes.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param elasticSanName The name of the ElasticSan.
+   * @param volumeGroupName The name of the VolumeGroup.
+   * @param parameters Volume Name List
+   * @param options The options parameters.
+   */
+  beginPreBackupAndWait(
+    resourceGroupName: string,
+    elasticSanName: string,
+    volumeGroupName: string,
+    parameters: VolumeNameList,
+    options?: VolumeGroupsPreBackupOptionalParams,
+  ): Promise<VolumeGroupsPreBackupResponse>;
+  /**
+   * Validate whether a list of backed up disk snapshots can be restored into ElasticSan volumes.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param elasticSanName The name of the ElasticSan.
+   * @param volumeGroupName The name of the VolumeGroup.
+   * @param parameters Disk Snapshot List
+   * @param options The options parameters.
+   */
+  beginPreRestore(
+    resourceGroupName: string,
+    elasticSanName: string,
+    volumeGroupName: string,
+    parameters: DiskSnapshotList,
+    options?: VolumeGroupsPreRestoreOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumeGroupsPreRestoreResponse>,
+      VolumeGroupsPreRestoreResponse
+    >
+  >;
+  /**
+   * Validate whether a list of backed up disk snapshots can be restored into ElasticSan volumes.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param elasticSanName The name of the ElasticSan.
+   * @param volumeGroupName The name of the VolumeGroup.
+   * @param parameters Disk Snapshot List
+   * @param options The options parameters.
+   */
+  beginPreRestoreAndWait(
+    resourceGroupName: string,
+    elasticSanName: string,
+    volumeGroupName: string,
+    parameters: DiskSnapshotList,
+    options?: VolumeGroupsPreRestoreOptionalParams,
+  ): Promise<VolumeGroupsPreRestoreResponse>;
 }
