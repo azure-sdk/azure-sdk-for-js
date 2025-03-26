@@ -1293,6 +1293,10 @@ packages:
     resolution: {integrity: sha512-RO4IGZMa3hI1yVhvb5rPr+r+UDxe4VDxbntFZIc5fsUPGqZbKzmGR2wABEtlrC2SU5YX6tL+NS3xWb4vf1M9lQ==}
     engines: {node: '>=18.0.0'}
 
+  '@azure/arm-cognitiveservices@7.6.0':
+    resolution: {integrity: sha512-/NYRy9mM/b2I0EnstncAI9DpqcAJQWyBS8KYuAeIV6XPzoSeeRsOeiCTXVD3fBdMoO2D5sKtCTRYAP1NwlNoLA==}
+    engines: {node: '>=18.0.0'}
+
   '@azure/arm-cosmosdb@16.0.0-beta.6':
     resolution: {integrity: sha512-Ue4ocP8qCsFDeBZ/MjMNyVt4e9QhU3UgrRfZSw6kWiMzdrCgDePnZvjzZs9PQpjAsXbHGd9HlEIXg9Dl6Y/uww==}
     engines: {node: '>=14.0.0'}
@@ -2430,7 +2434,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
-    resolution: {integrity: sha512-s4t9LjNw4jfTuJNK3o4GbTjYemS/bCnBeA8MAOxRUKB0ngfJE2jivu4j3skv/rvpo4rp2TsJDJexv1GlPUYATw==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-r6VOpDSj465DUcGzsdHTBtZKM10mgvHVdo2ngw1YzH0cx666xgEV8b+l4zUaDjzeKCiTmt78k8ZompzhUaLWAQ==, tarball: file:projects/ai-text-analytics.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-translation-document@file:projects/ai-translation-document.tgz':
@@ -2590,7 +2594,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-cognitiveservices@file:projects/arm-cognitiveservices.tgz':
-    resolution: {integrity: sha512-YXxq23hewEqUuZnq3UXPZ8FSt+ZxwGJnkEXsM0WMMsKkkTnz8DyR5SSCQ5DI03nq0b2lF93n4Gf5r6NRymn/Bg==, tarball: file:projects/arm-cognitiveservices.tgz}
+    resolution: {integrity: sha512-Y9xxakbR4mCdkG8Hj7v99KXZapnIZ6oX7LxWcKBAF3NPNVf1lrDNuU3QBKmsUIiBw9xcxx6KuavPJNsJKLJd0Q==, tarball: file:projects/arm-cognitiveservices.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-commerce-profile-2020-09-01-hybrid@file:projects/arm-commerce-profile-2020-09-01-hybrid.tgz':
@@ -3778,7 +3782,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/openai@file:projects/openai.tgz':
-    resolution: {integrity: sha512-b6LjLNglBGfbrTXmqOmB8CSVbeXhIRQgUbvW+7Kuq9iiMW7WnJALqlHRT+Tk9uY86xIqSWo8F5CyHsmsWzXPSg==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-YSXufp+h0G6FM0o+x5Xf2jsua2x0i+Ye1zMQJV1I8FxexbjGF1p4JZTVgw7/ftgJNwYxlkS/ieIsF6WQVpEJrg==, tarball: file:projects/openai.tgz}
     version: 0.0.0
 
   '@rush-temp/opentelemetry-instrumentation-azure-sdk@file:projects/opentelemetry-instrumentation-azure-sdk.tgz':
@@ -7694,6 +7698,11 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
+  typescript@5.7.3:
+    resolution: {integrity: sha512-84MVSjMEHP+FQRPy3pX9sTVV/INIex71s9TL2Gm5FG/WG1SqXeKyZ0k7/blY/4FdOzI12CBy1vGc4og/eus0fw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
   typescript@5.8.2:
     resolution: {integrity: sha512-aJn6wq13/afZp/jT9QZmwEjDqqvSGp1VT5GVg+f/t6/oVyrgXM6BY1h9BRh/O5p3PlUPAe+WuiEZOmb/49RqoQ==}
     engines: {node: '>=14.17'}
@@ -8156,6 +8165,18 @@ snapshots:
       '@azure/core-tracing': 1.2.0
       '@azure/core-util': 1.11.0
       '@azure/logger': 1.1.4
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/arm-cognitiveservices@7.6.0':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.3
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.19.1
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
@@ -10061,6 +10082,7 @@ snapshots:
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@azure/arm-cognitiveservices': 7.6.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.80
       '@vitest/browser': 3.0.9(@types/node@18.19.80)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
@@ -11441,12 +11463,12 @@ snapshots:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.80
-      '@vitest/browser': 3.0.9(@types/node@18.19.80)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
+      '@vitest/browser': 3.0.9(@types/node@18.19.80)(playwright@1.51.1)(typescript@5.7.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
       '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
       dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.8.2
+      typescript: 5.7.3
       vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.80)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -21968,6 +21990,7 @@ snapshots:
 
   '@rush-temp/openai@file:projects/openai.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(ws@8.18.1)(yaml@2.7.0)':
     dependencies:
+      '@azure/arm-cognitiveservices': 7.6.0
       '@azure/arm-search': 3.2.0
       '@azure/search-documents': 12.1.0
       '@types/node': 18.19.80
@@ -23739,7 +23762,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.2.0
 
   '@types/chai-as-promised@8.0.2':
     dependencies:
@@ -24072,6 +24095,27 @@ snapshots:
       '@vitest/utils': 3.0.9
       magic-string: 0.30.17
       msw: 2.7.3(@types/node@18.19.80)(typescript@5.6.3)
+      sirv: 3.0.1
+      tinyrainbow: 2.0.0
+      vitest: 3.0.9(@types/debug@4.1.12)(@types/node@22.7.9)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
+      ws: 8.18.1
+    optionalDependencies:
+      playwright: 1.51.1
+    transitivePeerDependencies:
+      - '@types/node'
+      - bufferutil
+      - typescript
+      - utf-8-validate
+      - vite
+
+  '@vitest/browser@3.0.9(@types/node@18.19.80)(playwright@1.51.1)(typescript@5.7.3)(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)':
+    dependencies:
+      '@testing-library/dom': 10.4.0
+      '@testing-library/user-event': 14.6.1(@testing-library/dom@10.4.0)
+      '@vitest/mocker': 3.0.9(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(vite@6.2.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))
+      '@vitest/utils': 3.0.9
+      magic-string: 0.30.17
+      msw: 2.7.3(@types/node@18.19.80)(typescript@5.7.3)
       sirv: 3.0.1
       tinyrainbow: 2.0.0
       vitest: 3.0.9(@types/debug@4.1.12)(@types/node@22.7.9)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
@@ -26425,6 +26469,31 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
+  msw@2.7.3(@types/node@18.19.80)(typescript@5.7.3):
+    dependencies:
+      '@bundled-es-modules/cookie': 2.0.1
+      '@bundled-es-modules/statuses': 1.0.1
+      '@bundled-es-modules/tough-cookie': 0.1.6
+      '@inquirer/confirm': 5.1.8(@types/node@18.19.80)
+      '@mswjs/interceptors': 0.37.6
+      '@open-draft/deferred-promise': 2.2.0
+      '@open-draft/until': 2.1.0
+      '@types/cookie': 0.6.0
+      '@types/statuses': 2.0.5
+      graphql: 16.10.0
+      headers-polyfill: 4.0.3
+      is-node-process: 1.2.0
+      outvariant: 1.4.3
+      path-to-regexp: 6.3.0
+      picocolors: 1.1.1
+      strict-event-emitter: 0.5.1
+      type-fest: 4.37.0
+      yargs: 17.7.2
+    optionalDependencies:
+      typescript: 5.7.3
+    transitivePeerDependencies:
+      - '@types/node'
+
   msw@2.7.3(@types/node@18.19.80)(typescript@5.8.2):
     dependencies:
       '@bundled-es-modules/cookie': 2.0.1
@@ -27831,6 +27900,8 @@ snapshots:
   typescript@5.6.1-rc: {}
 
   typescript@5.6.3: {}
+
+  typescript@5.7.3: {}
 
   typescript@5.8.2: {}
 
