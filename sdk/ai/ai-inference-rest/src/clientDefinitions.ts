@@ -1,31 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
- *
- * Any changes you make here may be lost.
- *
- * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
- */
-
-import type { Client, StreamableMethod } from "@azure-rest/core-client";
 import type {
   GetChatCompletionsParameters,
+  GetModelInfoParameters,
   GetEmbeddingsParameters,
   GetImageEmbeddingsParameters,
-  GetModelInfoParameters,
 } from "./parameters.js";
 import type {
   GetChatCompletions200Response,
   GetChatCompletionsDefaultResponse,
+  GetModelInfo200Response,
+  GetModelInfoDefaultResponse,
   GetEmbeddings200Response,
   GetEmbeddingsDefaultResponse,
   GetImageEmbeddings200Response,
   GetImageEmbeddingsDefaultResponse,
-  GetModelInfo200Response,
-  GetModelInfoDefaultResponse,
 } from "./responses.js";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetChatCompletions {
   /**
@@ -36,7 +28,9 @@ export interface GetChatCompletions {
    */
   post(
     options: GetChatCompletionsParameters,
-  ): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse>;
+  ): StreamableMethod<
+    GetChatCompletions200Response | GetChatCompletionsDefaultResponse
+  >;
 }
 
 export interface GetModelInfo {
@@ -68,7 +62,9 @@ export interface GetImageEmbeddings {
    */
   post(
     options: GetImageEmbeddingsParameters,
-  ): StreamableMethod<GetImageEmbeddings200Response | GetImageEmbeddingsDefaultResponse>;
+  ): StreamableMethod<
+    GetImageEmbeddings200Response | GetImageEmbeddingsDefaultResponse
+  >;
 }
 
 export interface Routes {
