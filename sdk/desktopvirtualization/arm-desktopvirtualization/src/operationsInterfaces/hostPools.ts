@@ -101,7 +101,7 @@ export interface HostPools {
     options?: HostPoolsRetrieveRegistrationTokenOptionalParams,
   ): Promise<HostPoolsRetrieveRegistrationTokenResponse>;
   /**
-   * Operation to list the RegistrationTokens associated with the HostPool
+   * Operation to list the RegistrationTokens associated with the HostPool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
    * @param options The options parameters.
