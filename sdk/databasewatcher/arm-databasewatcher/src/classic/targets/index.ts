@@ -2,19 +2,19 @@
 // Licensed under the MIT License.
 
 import { DatabaseWatcherContext } from "../../api/databaseWatcherContext.js";
+import { Target } from "../../models/models.js";
 import {
   TargetsListByWatcherOptionalParams,
   TargetsDeleteOptionalParams,
   TargetsCreateOrUpdateOptionalParams,
   TargetsGetOptionalParams,
-} from "../../api/options.js";
+} from "../../api/targets/options.js";
 import {
   targetsListByWatcher,
   targetsDelete,
   targetsCreateOrUpdate,
   targetsGet,
-} from "../../api/targets/index.js";
-import { Target } from "../../models/models.js";
+} from "../../api/targets/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Targets operations. */
