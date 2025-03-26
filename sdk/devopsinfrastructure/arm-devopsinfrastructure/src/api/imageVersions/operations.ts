@@ -1,0 +1,78 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { DevOpsInfrastructureContext as Client } from "../index.js";
+import {
+  _ImageVersionListResult,
+  _imageVersionListResultDeserializer,
+  ImageVersion,
+  errorResponseDeserializer,
+} from "../../models/models.js";
+import { ImageVersionsListByImageOptionalParams } from "./options.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+
+export function _imageVersionsListByImageSend(
+  context: Client,
+  resourceGroupName: string,
+  imageName: string,
+  options: ImageVersionsListByImageOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/images/{imageName}/versions{?api-version}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      imageName: imageName,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _imageVersionsListByImageDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_ImageVersionListResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return _imageVersionListResultDeserializer(result.body);
+}
+
+/** List ImageVersion resources by Image */
+export function imageVersionsListByImage(
+  context: Client,
+  resourceGroupName: string,
+  imageName: string,
+  options: ImageVersionsListByImageOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<ImageVersion> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _imageVersionsListByImageSend(context, resourceGroupName, imageName, options),
+    _imageVersionsListByImageDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink" },
+  );
+}

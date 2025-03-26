@@ -2,19 +2,20 @@
 
 These sample programs show how to use the TypeScript client libraries for @azure/arm-devopsinfrastructure in some common scenarios.
 
-| **File Name**                                                         | **Description**                                                                                                   |
-| --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| [imageVersionsListByImageSample.ts][imageversionslistbyimagesample]   | list ImageVersion resources by Image x-ms-original-file: 2024-10-19/ImageVersions_ListByImage.json                |
-| [operationsListSample.ts][operationslistsample]                       | list the operations for the provider x-ms-original-file: 2024-10-19/ListOperations.json                           |
-| [poolsCreateOrUpdateSample.ts][poolscreateorupdatesample]             | create a Pool x-ms-original-file: 2024-10-19/CreateOrUpdatePool.json                                              |
-| [poolsDeleteSample.ts][poolsdeletesample]                             | delete a Pool x-ms-original-file: 2024-10-19/DeletePool.json                                                      |
-| [poolsGetSample.ts][poolsgetsample]                                   | get a Pool x-ms-original-file: 2024-10-19/GetPool.json                                                            |
-| [poolsListByResourceGroupSample.ts][poolslistbyresourcegroupsample]   | list Pool resources by resource group x-ms-original-file: 2024-10-19/ListPoolsBySubscriptionAndResourceGroup.json |
-| [poolsListBySubscriptionSample.ts][poolslistbysubscriptionsample]     | list Pool resources by subscription ID x-ms-original-file: 2024-10-19/ListPoolsBySubscription.json                |
-| [poolsUpdateSample.ts][poolsupdatesample]                             | update a Pool x-ms-original-file: 2024-10-19/UpdatePool.json                                                      |
-| [resourceDetailsListByPoolSample.ts][resourcedetailslistbypoolsample] | list ResourceDetailsObject resources by Pool x-ms-original-file: 2024-10-19/ResourceDetails_ListByPool.json       |
-| [skuListByLocationSample.ts][skulistbylocationsample]                 | list ResourceSku resources by subscription ID x-ms-original-file: 2024-10-19/Sku_ListByLocation.json              |
-| [subscriptionUsagesUsagesSample.ts][subscriptionusagesusagessample]   | list Quota resources by subscription ID x-ms-original-file: 2024-10-19/SubscriptionUsages_Usages.json             |
+| **File Name**                                                           | **Description**                                                                                                               |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| [imageVersionsListByImageSample.ts][imageversionslistbyimagesample]     | list ImageVersion resources by Image x-ms-original-file: 2025-01-21/ImageVersions_ListByImage.json                            |
+| [operationsListSample.ts][operationslistsample]                         | list the operations for the provider x-ms-original-file: 2025-01-21/ListOperations.json                                       |
+| [poolsCheckNameAvailabilitySample.ts][poolschecknameavailabilitysample] | checks that the pool name is valid and is not already in use. x-ms-original-file: 2025-01-21/Pools_CheckNameAvailability.json |
+| [poolsCreateOrUpdateSample.ts][poolscreateorupdatesample]               | create a Pool x-ms-original-file: 2025-01-21/CreateOrUpdatePool.json                                                          |
+| [poolsDeleteSample.ts][poolsdeletesample]                               | delete a Pool x-ms-original-file: 2025-01-21/DeletePool.json                                                                  |
+| [poolsGetSample.ts][poolsgetsample]                                     | get a Pool x-ms-original-file: 2025-01-21/GetPool.json                                                                        |
+| [poolsListByResourceGroupSample.ts][poolslistbyresourcegroupsample]     | list Pool resources by resource group x-ms-original-file: 2025-01-21/ListPoolsBySubscriptionAndResourceGroup.json             |
+| [poolsListBySubscriptionSample.ts][poolslistbysubscriptionsample]       | list Pool resources by subscription ID x-ms-original-file: 2025-01-21/ListPoolsBySubscription.json                            |
+| [poolsUpdateSample.ts][poolsupdatesample]                               | update a Pool x-ms-original-file: 2025-01-21/UpdatePool.json                                                                  |
+| [resourceDetailsListByPoolSample.ts][resourcedetailslistbypoolsample]   | list ResourceDetailsObject resources by Pool x-ms-original-file: 2025-01-21/ResourceDetails_ListByPool.json                   |
+| [skuListByLocationSample.ts][skulistbylocationsample]                   | list ResourceSku resources by subscription ID x-ms-original-file: 2025-01-21/Sku_ListByLocation.json                          |
+| [subscriptionUsagesUsagesSample.ts][subscriptionusagesusagessample]     | list Quota resources by subscription ID x-ms-original-file: 2025-01-21/SubscriptionUsages_Usages.json                         |
 
 ## Prerequisites
 
@@ -68,6 +69,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [imageversionslistbyimagesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devopsinfrastructure/arm-devopsinfrastructure/samples/v1/typescript/src/imageVersionsListByImageSample.ts
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devopsinfrastructure/arm-devopsinfrastructure/samples/v1/typescript/src/operationsListSample.ts
+[poolschecknameavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devopsinfrastructure/arm-devopsinfrastructure/samples/v1/typescript/src/poolsCheckNameAvailabilitySample.ts
 [poolscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devopsinfrastructure/arm-devopsinfrastructure/samples/v1/typescript/src/poolsCreateOrUpdateSample.ts
 [poolsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devopsinfrastructure/arm-devopsinfrastructure/samples/v1/typescript/src/poolsDeleteSample.ts
 [poolsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devopsinfrastructure/arm-devopsinfrastructure/samples/v1/typescript/src/poolsGetSample.ts
