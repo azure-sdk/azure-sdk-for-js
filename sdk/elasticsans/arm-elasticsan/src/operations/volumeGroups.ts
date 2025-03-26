@@ -32,6 +32,12 @@ import {
   VolumeGroupsDeleteOptionalParams,
   VolumeGroupsGetOptionalParams,
   VolumeGroupsGetResponse,
+  VolumeNameList,
+  VolumeGroupsPreBackupOptionalParams,
+  VolumeGroupsPreBackupResponse,
+  DiskSnapshotList,
+  VolumeGroupsPreRestoreOptionalParams,
+  VolumeGroupsPreRestoreResponse,
   VolumeGroupsListByElasticSanNextResponse,
 } from "../models/index.js";
 
@@ -468,6 +474,218 @@ export class VolumeGroupsImpl implements VolumeGroups {
   }
 
   /**
+   * Validate whether a disk snapshot backup can be taken for list of volumes.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param elasticSanName The name of the ElasticSan.
+   * @param volumeGroupName The name of the VolumeGroup.
+   * @param parameters Volume Name List
+   * @param options The options parameters.
+   */
+  async beginPreBackup(
+    resourceGroupName: string,
+    elasticSanName: string,
+    volumeGroupName: string,
+    parameters: VolumeNameList,
+    options?: VolumeGroupsPreBackupOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumeGroupsPreBackupResponse>,
+      VolumeGroupsPreBackupResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<VolumeGroupsPreBackupResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        elasticSanName,
+        volumeGroupName,
+        parameters,
+        options,
+      },
+      spec: preBackupOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      VolumeGroupsPreBackupResponse,
+      OperationState<VolumeGroupsPreBackupResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Validate whether a disk snapshot backup can be taken for list of volumes.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param elasticSanName The name of the ElasticSan.
+   * @param volumeGroupName The name of the VolumeGroup.
+   * @param parameters Volume Name List
+   * @param options The options parameters.
+   */
+  async beginPreBackupAndWait(
+    resourceGroupName: string,
+    elasticSanName: string,
+    volumeGroupName: string,
+    parameters: VolumeNameList,
+    options?: VolumeGroupsPreBackupOptionalParams,
+  ): Promise<VolumeGroupsPreBackupResponse> {
+    const poller = await this.beginPreBackup(
+      resourceGroupName,
+      elasticSanName,
+      volumeGroupName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Validate whether a list of backed up disk snapshots can be restored into ElasticSan volumes.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param elasticSanName The name of the ElasticSan.
+   * @param volumeGroupName The name of the VolumeGroup.
+   * @param parameters Disk Snapshot List
+   * @param options The options parameters.
+   */
+  async beginPreRestore(
+    resourceGroupName: string,
+    elasticSanName: string,
+    volumeGroupName: string,
+    parameters: DiskSnapshotList,
+    options?: VolumeGroupsPreRestoreOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumeGroupsPreRestoreResponse>,
+      VolumeGroupsPreRestoreResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<VolumeGroupsPreRestoreResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        elasticSanName,
+        volumeGroupName,
+        parameters,
+        options,
+      },
+      spec: preRestoreOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      VolumeGroupsPreRestoreResponse,
+      OperationState<VolumeGroupsPreRestoreResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Validate whether a list of backed up disk snapshots can be restored into ElasticSan volumes.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param elasticSanName The name of the ElasticSan.
+   * @param volumeGroupName The name of the VolumeGroup.
+   * @param parameters Disk Snapshot List
+   * @param options The options parameters.
+   */
+  async beginPreRestoreAndWait(
+    resourceGroupName: string,
+    elasticSanName: string,
+    volumeGroupName: string,
+    parameters: DiskSnapshotList,
+    options?: VolumeGroupsPreRestoreOptionalParams,
+  ): Promise<VolumeGroupsPreRestoreResponse> {
+    const poller = await this.beginPreRestore(
+      resourceGroupName,
+      elasticSanName,
+      volumeGroupName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListByElasticSanNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param elasticSanName The name of the ElasticSan.
@@ -619,6 +837,72 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.volumeGroupName,
   ],
   headerParameters: [Parameters.accept],
+  serializer,
+};
+const preBackupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/preBackup",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PreValidationResponse,
+    },
+    201: {
+      bodyMapper: Mappers.PreValidationResponse,
+    },
+    202: {
+      bodyMapper: Mappers.PreValidationResponse,
+    },
+    204: {
+      bodyMapper: Mappers.PreValidationResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters4,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.elasticSanName,
+    Parameters.volumeGroupName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const preRestoreOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/preRestore",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PreValidationResponse,
+    },
+    201: {
+      bodyMapper: Mappers.PreValidationResponse,
+    },
+    202: {
+      bodyMapper: Mappers.PreValidationResponse,
+    },
+    204: {
+      bodyMapper: Mappers.PreValidationResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters5,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.elasticSanName,
+    Parameters.volumeGroupName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };
 const listByElasticSanNextOperationSpec: coreClient.OperationSpec = {

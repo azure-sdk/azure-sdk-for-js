@@ -1,15 +1,24 @@
 # Release History
-
-## 1.2.0-beta.2 (Unreleased)
-
+    
+## 1.2.0 (2025-03-26)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation VolumeGroups.beginPreBackup
+  - Added operation VolumeGroups.beginPreBackupAndWait
+  - Added operation VolumeGroups.beginPreRestore
+  - Added operation VolumeGroups.beginPreRestoreAndWait
+  - Added Interface DiskSnapshotList
+  - Added Interface PreValidationResponse
+  - Added Interface VolumeGroupsPreBackupHeaders
+  - Added Interface VolumeGroupsPreBackupOptionalParams
+  - Added Interface VolumeGroupsPreRestoreHeaders
+  - Added Interface VolumeGroupsPreRestoreOptionalParams
+  - Added Interface VolumeNameList
+  - Added Type Alias VolumeGroupsPreBackupResponse
+  - Added Type Alias VolumeGroupsPreRestoreResponse
+    
+    
 ## 1.2.0-beta.1 (2024-10-18)
 Compared with version 1.1.0
     

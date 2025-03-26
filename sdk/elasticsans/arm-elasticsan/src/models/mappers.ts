@@ -487,13 +487,6 @@ export const ElasticSanProperties: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      autoScaleProperties: {
-        serializedName: "autoScaleProperties",
-        type: {
-          name: "Composite",
-          className: "AutoScaleProperties",
-        },
-      },
     },
   },
 };
@@ -686,55 +679,6 @@ export const SystemData: coreClient.CompositeMapper = {
   },
 };
 
-export const AutoScaleProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AutoScaleProperties",
-    modelProperties: {
-      scaleUpProperties: {
-        serializedName: "scaleUpProperties",
-        type: {
-          name: "Composite",
-          className: "ScaleUpProperties",
-        },
-      },
-    },
-  },
-};
-
-export const ScaleUpProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ScaleUpProperties",
-    modelProperties: {
-      unusedSizeTiB: {
-        serializedName: "unusedSizeTiB",
-        type: {
-          name: "Number",
-        },
-      },
-      increaseCapacityUnitByTiB: {
-        serializedName: "increaseCapacityUnitByTiB",
-        type: {
-          name: "Number",
-        },
-      },
-      capacityUnitScaleUpLimitTiB: {
-        serializedName: "capacityUnitScaleUpLimitTiB",
-        type: {
-          name: "Number",
-        },
-      },
-      autoScalePolicyEnforcement: {
-        serializedName: "autoScalePolicyEnforcement",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
 export const ElasticSanUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -779,13 +723,6 @@ export const ElasticSanUpdateProperties: coreClient.CompositeMapper = {
         serializedName: "publicNetworkAccess",
         type: {
           name: "String",
-        },
-      },
-      autoScaleProperties: {
-        serializedName: "autoScaleProperties",
-        type: {
-          name: "Composite",
-          className: "AutoScaleProperties",
         },
       },
     },
@@ -1509,6 +1446,61 @@ export const SnapshotCreationData: coreClient.CompositeMapper = {
   },
 };
 
+export const VolumeNameList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VolumeNameList",
+    modelProperties: {
+      volumeNames: {
+        serializedName: "volumeNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const PreValidationResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PreValidationResponse",
+    modelProperties: {
+      validationStatus: {
+        serializedName: "validationStatus",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DiskSnapshotList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DiskSnapshotList",
+    modelProperties: {
+      diskSnapshotIds: {
+        serializedName: "diskSnapshotIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
 export const PrivateEndpointConnection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1701,6 +1693,36 @@ export const VolumeGroupsDeleteHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "VolumeGroupsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const VolumeGroupsPreBackupHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VolumeGroupsPreBackupHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const VolumeGroupsPreRestoreHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VolumeGroupsPreRestoreHeaders",
     modelProperties: {
       location: {
         serializedName: "location",
