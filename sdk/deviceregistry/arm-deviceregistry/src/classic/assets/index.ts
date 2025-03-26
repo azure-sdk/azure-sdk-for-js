@@ -2,17 +2,7 @@
 // Licensed under the MIT License.
 
 import { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
-import {
-  assetsListBySubscription,
-  assetsListByResourceGroup,
-  assetsDelete,
-  assetsUpdate,
-  assetsCreateOrReplace,
-  assetsGet,
-} from "../../api/assets/index.js";
 import { Asset, AssetUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   AssetsListBySubscriptionOptionalParams,
   AssetsListByResourceGroupOptionalParams,
@@ -20,7 +10,17 @@ import {
   AssetsUpdateOptionalParams,
   AssetsCreateOrReplaceOptionalParams,
   AssetsGetOptionalParams,
-} from "../../api/options.js";
+} from "../../api/assets/options.js";
+import {
+  assetsListBySubscription,
+  assetsListByResourceGroup,
+  assetsDelete,
+  assetsUpdate,
+  assetsCreateOrReplace,
+  assetsGet,
+} from "../../api/assets/operations.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Assets operations. */
 export interface AssetsOperations {
