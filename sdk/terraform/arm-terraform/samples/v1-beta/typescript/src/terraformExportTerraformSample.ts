@@ -22,7 +22,7 @@ async function exportTerraform(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  exportTerraform();
+  await exportTerraform();
 }
 
 main().catch(console.error);
