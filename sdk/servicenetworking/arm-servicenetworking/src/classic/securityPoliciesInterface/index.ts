@@ -2,23 +2,23 @@
 // Licensed under the MIT License.
 
 import { ServiceNetworkingManagementContext } from "../../api/serviceNetworkingManagementContext.js";
-import {
-  securityPoliciesInterfaceListByTrafficController,
-  securityPoliciesInterfaceDelete,
-  securityPoliciesInterfaceUpdate,
-  securityPoliciesInterfaceCreateOrUpdate,
-  securityPoliciesInterfaceGet,
-} from "../../api/securityPoliciesInterface/index.js";
 import { SecurityPolicy, SecurityPolicyUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   SecurityPoliciesInterfaceListByTrafficControllerOptionalParams,
   SecurityPoliciesInterfaceDeleteOptionalParams,
   SecurityPoliciesInterfaceUpdateOptionalParams,
   SecurityPoliciesInterfaceCreateOrUpdateOptionalParams,
   SecurityPoliciesInterfaceGetOptionalParams,
-} from "../../api/options.js";
+} from "../../api/securityPoliciesInterface/options.js";
+import {
+  securityPoliciesInterfaceListByTrafficController,
+  securityPoliciesInterfaceDelete,
+  securityPoliciesInterfaceUpdate,
+  securityPoliciesInterfaceCreateOrUpdate,
+  securityPoliciesInterfaceGet,
+} from "../../api/securityPoliciesInterface/operations.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SecurityPoliciesInterface operations. */
 export interface SecurityPoliciesInterfaceOperations {

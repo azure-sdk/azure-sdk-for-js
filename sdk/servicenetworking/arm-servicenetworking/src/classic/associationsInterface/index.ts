@@ -2,23 +2,23 @@
 // Licensed under the MIT License.
 
 import { ServiceNetworkingManagementContext } from "../../api/serviceNetworkingManagementContext.js";
-import {
-  associationsInterfaceListByTrafficController,
-  associationsInterfaceDelete,
-  associationsInterfaceUpdate,
-  associationsInterfaceCreateOrUpdate,
-  associationsInterfaceGet,
-} from "../../api/associationsInterface/index.js";
 import { Association, AssociationUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   AssociationsInterfaceListByTrafficControllerOptionalParams,
   AssociationsInterfaceDeleteOptionalParams,
   AssociationsInterfaceUpdateOptionalParams,
   AssociationsInterfaceCreateOrUpdateOptionalParams,
   AssociationsInterfaceGetOptionalParams,
-} from "../../api/options.js";
+} from "../../api/associationsInterface/options.js";
+import {
+  associationsInterfaceListByTrafficController,
+  associationsInterfaceDelete,
+  associationsInterfaceUpdate,
+  associationsInterfaceCreateOrUpdate,
+  associationsInterfaceGet,
+} from "../../api/associationsInterface/operations.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AssociationsInterface operations. */
 export interface AssociationsInterfaceOperations {

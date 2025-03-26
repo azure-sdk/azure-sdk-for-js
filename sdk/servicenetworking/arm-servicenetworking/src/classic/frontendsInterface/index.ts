@@ -2,23 +2,23 @@
 // Licensed under the MIT License.
 
 import { ServiceNetworkingManagementContext } from "../../api/serviceNetworkingManagementContext.js";
-import {
-  frontendsInterfaceListByTrafficController,
-  frontendsInterfaceDelete,
-  frontendsInterfaceUpdate,
-  frontendsInterfaceCreateOrUpdate,
-  frontendsInterfaceGet,
-} from "../../api/frontendsInterface/index.js";
 import { Frontend, FrontendUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   FrontendsInterfaceListByTrafficControllerOptionalParams,
   FrontendsInterfaceDeleteOptionalParams,
   FrontendsInterfaceUpdateOptionalParams,
   FrontendsInterfaceCreateOrUpdateOptionalParams,
   FrontendsInterfaceGetOptionalParams,
-} from "../../api/options.js";
+} from "../../api/frontendsInterface/options.js";
+import {
+  frontendsInterfaceListByTrafficController,
+  frontendsInterfaceDelete,
+  frontendsInterfaceUpdate,
+  frontendsInterfaceCreateOrUpdate,
+  frontendsInterfaceGet,
+} from "../../api/frontendsInterface/operations.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a FrontendsInterface operations. */
 export interface FrontendsInterfaceOperations {
