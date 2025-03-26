@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Pool resources by resource group
  *
  * @summary list Pool resources by resource group
- * x-ms-original-file: 2024-10-19/ListPoolsBySubscriptionAndResourceGroup.json
+ * x-ms-original-file: 2025-01-21/ListPoolsBySubscriptionAndResourceGroup.json
  */
 async function poolsListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

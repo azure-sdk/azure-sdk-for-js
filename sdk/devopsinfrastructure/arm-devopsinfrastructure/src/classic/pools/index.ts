@@ -3,40 +3,54 @@
 
 import { DevOpsInfrastructureContext } from "../../api/devOpsInfrastructureContext.js";
 import {
-  PoolsGetOptionalParams,
-  PoolsCreateOrUpdateOptionalParams,
-  PoolsUpdateOptionalParams,
-  PoolsDeleteOptionalParams,
-  PoolsListByResourceGroupOptionalParams,
-  PoolsListBySubscriptionOptionalParams,
-} from "../../api/options.js";
+  Pool,
+  PoolUpdate,
+  CheckNameAvailability,
+  CheckNameAvailabilityResult,
+} from "../../models/models.js";
 import {
-  poolsGet,
-  poolsCreateOrUpdate,
-  poolsUpdate,
-  poolsDelete,
-  poolsListByResourceGroup,
+  PoolsCheckNameAvailabilityOptionalParams,
+  PoolsListBySubscriptionOptionalParams,
+  PoolsListByResourceGroupOptionalParams,
+  PoolsDeleteOptionalParams,
+  PoolsUpdateOptionalParams,
+  PoolsCreateOrUpdateOptionalParams,
+  PoolsGetOptionalParams,
+} from "../../api/pools/options.js";
+import {
+  poolsCheckNameAvailability,
   poolsListBySubscription,
-} from "../../api/pools/index.js";
-import { Pool, PoolUpdate } from "../../models/models.js";
+  poolsListByResourceGroup,
+  poolsDelete,
+  poolsUpdate,
+  poolsCreateOrUpdate,
+  poolsGet,
+} from "../../api/pools/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Pools operations. */
 export interface PoolsOperations {
-  /** Get a Pool */
-  get: (
+  /** Checks that the pool name is valid and is not already in use. */
+  checkNameAvailability: (
+    body: CheckNameAvailability,
+    options?: PoolsCheckNameAvailabilityOptionalParams,
+  ) => Promise<CheckNameAvailabilityResult>;
+  /** List Pool resources by subscription ID */
+  listBySubscription: (
+    options?: PoolsListBySubscriptionOptionalParams,
+  ) => PagedAsyncIterableIterator<Pool>;
+  /** List Pool resources by resource group */
+  listByResourceGroup: (
+    resourceGroupName: string,
+    options?: PoolsListByResourceGroupOptionalParams,
+  ) => PagedAsyncIterableIterator<Pool>;
+  /** Delete a Pool */
+  delete: (
     resourceGroupName: string,
     poolName: string,
-    options?: PoolsGetOptionalParams,
-  ) => Promise<Pool>;
-  /** Create a Pool */
-  createOrUpdate: (
-    resourceGroupName: string,
-    poolName: string,
-    resource: Pool,
-    options?: PoolsCreateOrUpdateOptionalParams,
-  ) => PollerLike<OperationState<Pool>, Pool>;
+    options?: PoolsDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
   /** Update a Pool */
   update: (
     resourceGroupName: string,
@@ -44,56 +58,54 @@ export interface PoolsOperations {
     properties: PoolUpdate,
     options?: PoolsUpdateOptionalParams,
   ) => PollerLike<OperationState<Pool>, Pool>;
-  /** Delete a Pool */
-  delete: (
+  /** Create a Pool */
+  createOrUpdate: (
     resourceGroupName: string,
     poolName: string,
-    options?: PoolsDeleteOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** List Pool resources by resource group */
-  listByResourceGroup: (
+    resource: Pool,
+    options?: PoolsCreateOrUpdateOptionalParams,
+  ) => PollerLike<OperationState<Pool>, Pool>;
+  /** Get a Pool */
+  get: (
     resourceGroupName: string,
-    options?: PoolsListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<Pool>;
-  /** List Pool resources by subscription ID */
-  listBySubscription: (
-    options?: PoolsListBySubscriptionOptionalParams,
-  ) => PagedAsyncIterableIterator<Pool>;
+    poolName: string,
+    options?: PoolsGetOptionalParams,
+  ) => Promise<Pool>;
 }
 
-export function getPools(context: DevOpsInfrastructureContext, subscriptionId: string) {
+function _getPools(context: DevOpsInfrastructureContext) {
   return {
-    get: (resourceGroupName: string, poolName: string, options?: PoolsGetOptionalParams) =>
-      poolsGet(context, subscriptionId, resourceGroupName, poolName, options),
-    createOrUpdate: (
+    checkNameAvailability: (
+      body: CheckNameAvailability,
+      options?: PoolsCheckNameAvailabilityOptionalParams,
+    ) => poolsCheckNameAvailability(context, body, options),
+    listBySubscription: (options?: PoolsListBySubscriptionOptionalParams) =>
+      poolsListBySubscription(context, options),
+    listByResourceGroup: (
       resourceGroupName: string,
-      poolName: string,
-      resource: Pool,
-      options?: PoolsCreateOrUpdateOptionalParams,
-    ) =>
-      poolsCreateOrUpdate(context, subscriptionId, resourceGroupName, poolName, resource, options),
+      options?: PoolsListByResourceGroupOptionalParams,
+    ) => poolsListByResourceGroup(context, resourceGroupName, options),
+    delete: (resourceGroupName: string, poolName: string, options?: PoolsDeleteOptionalParams) =>
+      poolsDelete(context, resourceGroupName, poolName, options),
     update: (
       resourceGroupName: string,
       poolName: string,
       properties: PoolUpdate,
       options?: PoolsUpdateOptionalParams,
-    ) => poolsUpdate(context, subscriptionId, resourceGroupName, poolName, properties, options),
-    delete: (resourceGroupName: string, poolName: string, options?: PoolsDeleteOptionalParams) =>
-      poolsDelete(context, subscriptionId, resourceGroupName, poolName, options),
-    listByResourceGroup: (
+    ) => poolsUpdate(context, resourceGroupName, poolName, properties, options),
+    createOrUpdate: (
       resourceGroupName: string,
-      options?: PoolsListByResourceGroupOptionalParams,
-    ) => poolsListByResourceGroup(context, subscriptionId, resourceGroupName, options),
-    listBySubscription: (options?: PoolsListBySubscriptionOptionalParams) =>
-      poolsListBySubscription(context, subscriptionId, options),
+      poolName: string,
+      resource: Pool,
+      options?: PoolsCreateOrUpdateOptionalParams,
+    ) => poolsCreateOrUpdate(context, resourceGroupName, poolName, resource, options),
+    get: (resourceGroupName: string, poolName: string, options?: PoolsGetOptionalParams) =>
+      poolsGet(context, resourceGroupName, poolName, options),
   };
 }
 
-export function getPoolsOperations(
-  context: DevOpsInfrastructureContext,
-  subscriptionId: string,
-): PoolsOperations {
+export function _getPoolsOperations(context: DevOpsInfrastructureContext): PoolsOperations {
   return {
-    ...getPools(context, subscriptionId),
+    ..._getPools(context),
   };
 }
