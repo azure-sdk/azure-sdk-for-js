@@ -1,5 +1,118 @@
 # Release History
     
+## 4.0.0 (2025-03-26)
+    
+### Features Added
+
+  - Added operation ApplicationDefinitions.beginCreateOrUpdate
+  - Added operation ApplicationDefinitions.beginCreateOrUpdateAndWait
+  - Added operation ApplicationDefinitions.beginCreateOrUpdateById
+  - Added operation ApplicationDefinitions.beginCreateOrUpdateByIdAndWait
+  - Added operation ApplicationDefinitions.beginDelete
+  - Added operation ApplicationDefinitions.beginDeleteAndWait
+  - Added operation ApplicationDefinitions.beginDeleteById
+  - Added operation ApplicationDefinitions.beginDeleteByIdAndWait
+  - Added operation Applications.update
+  - Added operation Applications.updateById
+  - Added Interface ApplicationProviderAuthorization
+  - Interface ApplicationDefinitionsCreateOrUpdateByIdOptionalParams has a new optional parameter resumeFrom
+  - Interface ApplicationDefinitionsCreateOrUpdateByIdOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ApplicationDefinitionsCreateOrUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface ApplicationDefinitionsCreateOrUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ApplicationDefinitionsDeleteByIdOptionalParams has a new optional parameter resumeFrom
+  - Interface ApplicationDefinitionsDeleteByIdOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ApplicationDefinitionsDeleteOptionalParams has a new optional parameter resumeFrom
+  - Interface ApplicationDefinitionsDeleteOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ErrorResponse has a new optional parameter errorCode
+  - Interface ErrorResponse has a new optional parameter errorMessage
+  - Interface ErrorResponse has a new optional parameter httpStatus
+  - Interface GenericResource has a new optional parameter identity
+  - Enum KnownProvisioningState has a new value Created
+  - Enum KnownProvisioningState has a new value Creating
+  - Enum KnownProvisioningState has a new value Ready
+
+### Breaking Changes
+
+  - Removed operation group JitRequests
+  - Removed operation ApplicationDefinitions.createOrUpdate
+  - Removed operation ApplicationDefinitions.createOrUpdateById
+  - Removed operation ApplicationDefinitions.delete
+  - Removed operation ApplicationDefinitions.deleteById
+  - Removed operation ApplicationDefinitions.listBySubscription
+  - Removed operation ApplicationDefinitions.update
+  - Removed operation ApplicationDefinitions.updateById
+  - Removed operation Applications.beginRefreshPermissions
+  - Removed operation Applications.beginRefreshPermissionsAndWait
+  - Removed operation Applications.beginUpdate
+  - Removed operation Applications.beginUpdateAccess
+  - Removed operation Applications.beginUpdateAccessAndWait
+  - Removed operation Applications.beginUpdateAndWait
+  - Removed operation Applications.beginUpdateById
+  - Removed operation Applications.beginUpdateByIdAndWait
+  - Removed operation Applications.listAllowedUpgradePlans
+  - Removed operation Applications.listTokens
+  - Interface Application no longer has parameter artifacts
+  - Interface Application no longer has parameter authorizations
+  - Interface Application no longer has parameter billingDetails
+  - Interface Application no longer has parameter createdBy
+  - Interface Application no longer has parameter customerSupport
+  - Interface Application no longer has parameter jitAccessPolicy
+  - Interface Application no longer has parameter managementMode
+  - Interface Application no longer has parameter publisherTenantId
+  - Interface Application no longer has parameter supportUrls
+  - Interface Application no longer has parameter updatedBy
+  - Interface ApplicationDefinition no longer has parameter deploymentPolicy
+  - Interface ApplicationDefinition no longer has parameter lockingPolicy
+  - Interface ApplicationDefinition no longer has parameter managementPolicy
+  - Interface ApplicationDefinition no longer has parameter notificationPolicy
+  - Interface ApplicationDefinition no longer has parameter policies
+  - Interface ApplicationDefinition no longer has parameter storageAccountId
+  - Interface ApplicationPatchable no longer has parameter artifacts
+  - Interface ApplicationPatchable no longer has parameter authorizations
+  - Interface ApplicationPatchable no longer has parameter billingDetails
+  - Interface ApplicationPatchable no longer has parameter createdBy
+  - Interface ApplicationPatchable no longer has parameter customerSupport
+  - Interface ApplicationPatchable no longer has parameter jitAccessPolicy
+  - Interface ApplicationPatchable no longer has parameter managementMode
+  - Interface ApplicationPatchable no longer has parameter publisherTenantId
+  - Interface ApplicationPatchable no longer has parameter supportUrls
+  - Interface ApplicationPatchable no longer has parameter updatedBy
+  - Interface ApplicationsUpdateByIdOptionalParams no longer has parameter resumeFrom
+  - Interface ApplicationsUpdateByIdOptionalParams no longer has parameter updateIntervalInMs
+  - Interface ApplicationsUpdateOptionalParams no longer has parameter resumeFrom
+  - Interface ApplicationsUpdateOptionalParams no longer has parameter updateIntervalInMs
+  - Interface ErrorResponse no longer has parameter error
+  - Interface Identity no longer has parameter userAssignedIdentities
+  - Interface Operation no longer has parameter actionType
+  - Interface Operation no longer has parameter isDataAction
+  - Interface Operation no longer has parameter origin
+  - Interface OperationDisplay no longer has parameter description
+  - Interface Resource no longer has parameter systemData
+  - Parameter managedResourceGroupId of interface Application is now required
+  - Parameter authorizations of interface ApplicationDefinition is now required
+  - Type of parameter name of interface ApplicationArtifact is changed from ApplicationArtifactName to string
+  - Type of parameter artifacts of interface ApplicationDefinition is changed from ApplicationDefinitionArtifact[] to ApplicationArtifact[]
+  - Type of parameter authorizations of interface ApplicationDefinition is changed from ApplicationAuthorization[] to ApplicationProviderAuthorization[]
+  - Type of parameter isEnabled of interface ApplicationDefinition is changed from boolean to string
+  - Type of parameter parameters of interface ApplicationsUpdateByIdOptionalParams is changed from ApplicationPatchable to Application
+  - Type of parameter type of interface Identity is changed from ResourceIdentityType to "SystemAssigned"
+  - Class ApplicationClient no longer has parameter jitRequests
+  - Removed Enum KnownActionType
+  - Removed Enum KnownApplicationArtifactName
+  - Removed Enum KnownApplicationDefinitionArtifactName
+  - Removed Enum KnownApplicationManagementMode
+  - Removed Enum KnownCreatedByType
+  - Removed Enum KnownDeploymentMode
+  - Removed Enum KnownJitApprovalMode
+  - Removed Enum KnownJitApproverType
+  - Removed Enum KnownJitRequestState
+  - Removed Enum KnownJitSchedulingType
+  - Removed Enum KnownOrigin
+  - Removed Enum KnownStatus
+  - Removed Enum KnownSubstatus
+  - Enum KnownProvisioningState no longer has value NotSpecified
+    
+    
 ## 3.0.0 (2023-09-06)
     
 ### Features Added
@@ -195,7 +308,7 @@
     
 ## 2.0.1 (2022-04-18)
 
-### Features Added
+**features**
 
   - Bug fix
 
@@ -207,4 +320,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
