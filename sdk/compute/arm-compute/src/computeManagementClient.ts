@@ -47,6 +47,8 @@ import {
   GalleryImageVersionsImpl,
   GalleryApplicationsImpl,
   GalleryApplicationVersionsImpl,
+  GalleryScriptsImpl,
+  GalleryScriptVersionsImpl,
   SoftDeletedResourceImpl,
   GallerySharingProfileImpl,
   GalleryInVMAccessControlProfilesImpl,
@@ -101,6 +103,8 @@ import {
   GalleryImageVersions,
   GalleryApplications,
   GalleryApplicationVersions,
+  GalleryScripts,
+  GalleryScriptVersions,
   SoftDeletedResource,
   GallerySharingProfile,
   GalleryInVMAccessControlProfiles,
@@ -151,7 +155,7 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-compute/22.3.1`;
+    const packageDetails = `azsdk-js-arm-compute/22.4.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -250,6 +254,8 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     this.galleryImageVersions = new GalleryImageVersionsImpl(this);
     this.galleryApplications = new GalleryApplicationsImpl(this);
     this.galleryApplicationVersions = new GalleryApplicationVersionsImpl(this);
+    this.galleryScripts = new GalleryScriptsImpl(this);
+    this.galleryScriptVersions = new GalleryScriptVersionsImpl(this);
     this.softDeletedResource = new SoftDeletedResourceImpl(this);
     this.gallerySharingProfile = new GallerySharingProfileImpl(this);
     this.galleryInVMAccessControlProfiles =
@@ -310,6 +316,8 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
   galleryImageVersions: GalleryImageVersions;
   galleryApplications: GalleryApplications;
   galleryApplicationVersions: GalleryApplicationVersions;
+  galleryScripts: GalleryScripts;
+  galleryScriptVersions: GalleryScriptVersions;
   softDeletedResource: SoftDeletedResource;
   gallerySharingProfile: GallerySharingProfile;
   galleryInVMAccessControlProfiles: GalleryInVMAccessControlProfiles;
