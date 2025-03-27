@@ -14,7 +14,7 @@ import {
   DataExportsCreateOrUpdateResponse,
   DataExportsGetOptionalParams,
   DataExportsGetResponse,
-  DataExportsDeleteOptionalParams
+  DataExportsDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface DataExports {
   listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DataExportsListByWorkspaceOptionalParams
+    options?: DataExportsListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<DataExport>;
   /**
    * Create or update a data export.
@@ -44,7 +44,7 @@ export interface DataExports {
     workspaceName: string,
     dataExportName: string,
     parameters: DataExport,
-    options?: DataExportsCreateOrUpdateOptionalParams
+    options?: DataExportsCreateOrUpdateOptionalParams,
   ): Promise<DataExportsCreateOrUpdateResponse>;
   /**
    * Gets a data export instance.
@@ -57,7 +57,7 @@ export interface DataExports {
     resourceGroupName: string,
     workspaceName: string,
     dataExportName: string,
-    options?: DataExportsGetOptionalParams
+    options?: DataExportsGetOptionalParams,
   ): Promise<DataExportsGetResponse>;
   /**
    * Deletes the specified data export in a given workspace..
@@ -70,6 +70,6 @@ export interface DataExports {
     resourceGroupName: string,
     workspaceName: string,
     dataExportName: string,
-    options?: DataExportsDeleteOptionalParams
+    options?: DataExportsDeleteOptionalParams,
   ): Promise<void>;
 }

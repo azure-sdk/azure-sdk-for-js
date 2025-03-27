@@ -21,7 +21,7 @@ import {
   LinkedStorageAccountsCreateOrUpdateResponse,
   LinkedStorageAccountsDeleteOptionalParams,
   LinkedStorageAccountsGetOptionalParams,
-  LinkedStorageAccountsGetResponse
+  LinkedStorageAccountsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,12 +47,12 @@ export class LinkedStorageAccountsImpl implements LinkedStorageAccounts {
   public listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: LinkedStorageAccountsListByWorkspaceOptionalParams
+    options?: LinkedStorageAccountsListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<LinkedStorageAccountsResource> {
     const iter = this.listByWorkspacePagingAll(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -69,9 +69,9 @@ export class LinkedStorageAccountsImpl implements LinkedStorageAccounts {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -79,13 +79,13 @@ export class LinkedStorageAccountsImpl implements LinkedStorageAccounts {
     resourceGroupName: string,
     workspaceName: string,
     options?: LinkedStorageAccountsListByWorkspaceOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<LinkedStorageAccountsResource[]> {
     let result: LinkedStorageAccountsListByWorkspaceResponse;
     result = await this._listByWorkspace(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -93,12 +93,12 @@ export class LinkedStorageAccountsImpl implements LinkedStorageAccounts {
   private async *listByWorkspacePagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: LinkedStorageAccountsListByWorkspaceOptionalParams
+    options?: LinkedStorageAccountsListByWorkspaceOptionalParams,
   ): AsyncIterableIterator<LinkedStorageAccountsResource> {
     for await (const page of this.listByWorkspacePagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -118,11 +118,11 @@ export class LinkedStorageAccountsImpl implements LinkedStorageAccounts {
     workspaceName: string,
     dataSourceType: DataSourceType,
     parameters: LinkedStorageAccountsResource,
-    options?: LinkedStorageAccountsCreateOrUpdateOptionalParams
+    options?: LinkedStorageAccountsCreateOrUpdateOptionalParams,
   ): Promise<LinkedStorageAccountsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, dataSourceType, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -138,11 +138,11 @@ export class LinkedStorageAccountsImpl implements LinkedStorageAccounts {
     resourceGroupName: string,
     workspaceName: string,
     dataSourceType: DataSourceType,
-    options?: LinkedStorageAccountsDeleteOptionalParams
+    options?: LinkedStorageAccountsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, dataSourceType, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -158,11 +158,11 @@ export class LinkedStorageAccountsImpl implements LinkedStorageAccounts {
     resourceGroupName: string,
     workspaceName: string,
     dataSourceType: DataSourceType,
-    options?: LinkedStorageAccountsGetOptionalParams
+    options?: LinkedStorageAccountsGetOptionalParams,
   ): Promise<LinkedStorageAccountsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, dataSourceType, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -176,11 +176,11 @@ export class LinkedStorageAccountsImpl implements LinkedStorageAccounts {
   private _listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: LinkedStorageAccountsListByWorkspaceOptionalParams
+    options?: LinkedStorageAccountsListByWorkspaceOptionalParams,
   ): Promise<LinkedStorageAccountsListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listByWorkspaceOperationSpec
+      listByWorkspaceOperationSpec,
     );
   }
 }
@@ -188,78 +188,74 @@ export class LinkedStorageAccountsImpl implements LinkedStorageAccounts {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedStorageAccounts/{dataSourceType}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedStorageAccounts/{dataSourceType}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkedStorageAccountsResource
-    }
+      bodyMapper: Mappers.LinkedStorageAccountsResource,
+    },
   },
-  requestBody: Parameters.parameters3,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.parameters5,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.dataSourceType
+    Parameters.dataSourceType,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedStorageAccounts/{dataSourceType}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedStorageAccounts/{dataSourceType}",
   httpMethod: "DELETE",
   responses: { 200: {} },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.dataSourceType
+    Parameters.dataSourceType,
   ],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedStorageAccounts/{dataSourceType}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedStorageAccounts/{dataSourceType}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkedStorageAccountsResource
-    }
+      bodyMapper: Mappers.LinkedStorageAccountsResource,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.dataSourceType
+    Parameters.dataSourceType,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedStorageAccounts",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedStorageAccounts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkedStorageAccountsListResult
-    }
+      bodyMapper: Mappers.LinkedStorageAccountsListResult,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
