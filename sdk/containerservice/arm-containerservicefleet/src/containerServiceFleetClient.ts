@@ -18,6 +18,8 @@ import {
   OperationsImpl,
   FleetsImpl,
   AutoUpgradeProfilesImpl,
+  AutoUpgradeProfileOperationsImpl,
+  GatesImpl,
   FleetMembersImpl,
   UpdateRunsImpl,
   FleetUpdateStrategiesImpl,
@@ -26,6 +28,8 @@ import {
   Operations,
   Fleets,
   AutoUpgradeProfiles,
+  AutoUpgradeProfileOperations,
+  Gates,
   FleetMembers,
   UpdateRuns,
   FleetUpdateStrategies,
@@ -118,10 +122,14 @@ export class ContainerServiceFleetClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-05-02-preview";
+    this.apiVersion = options.apiVersion || "2025-04-01-preview";
     this.operations = new OperationsImpl(this);
     this.fleets = new FleetsImpl(this);
     this.autoUpgradeProfiles = new AutoUpgradeProfilesImpl(this);
+    this.autoUpgradeProfileOperations = new AutoUpgradeProfileOperationsImpl(
+      this,
+    );
+    this.gates = new GatesImpl(this);
     this.fleetMembers = new FleetMembersImpl(this);
     this.updateRuns = new UpdateRunsImpl(this);
     this.fleetUpdateStrategies = new FleetUpdateStrategiesImpl(this);
@@ -159,6 +167,8 @@ export class ContainerServiceFleetClient extends coreClient.ServiceClient {
   operations: Operations;
   fleets: Fleets;
   autoUpgradeProfiles: AutoUpgradeProfiles;
+  autoUpgradeProfileOperations: AutoUpgradeProfileOperations;
+  gates: Gates;
   fleetMembers: FleetMembers;
   updateRuns: UpdateRuns;
   fleetUpdateStrategies: FleetUpdateStrategies;
