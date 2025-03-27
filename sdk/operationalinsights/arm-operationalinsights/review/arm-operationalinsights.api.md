@@ -6,13 +6,38 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
+
+// @public
+export interface AccessRule {
+    name?: string;
+    properties?: AccessRuleProperties;
+}
+
+// @public
+export type AccessRuleDirection = string;
+
+// @public
+export interface AccessRuleProperties {
+    addressPrefixes?: string[];
+    direction?: AccessRuleDirection;
+    emailAddresses?: string[];
+    fullyQualifiedDomainNames?: string[];
+    networkSecurityPerimeters?: NetworkSecurityPerimeter[];
+    phoneNumbers?: string[];
+    subscriptions?: AccessRulePropertiesSubscriptionsItem[];
+}
+
+// @public
+export interface AccessRulePropertiesSubscriptionsItem {
+    id?: string;
+}
 
 // @public
 export interface AssociatedWorkspace {
-    readonly associateDate?: string;
+    readonly associateDate?: Date;
     readonly resourceId?: string;
     readonly workspaceId?: string;
     readonly workspaceName?: string;
@@ -47,25 +72,17 @@ export interface AzureEntityResource extends Resource {
 }
 
 // @public
-export interface AzureResourceProperties {
-    readonly id?: string;
-    readonly name?: string;
-    readonly systemData?: SystemData;
-    readonly type?: string;
-}
-
-// @public
 export type BillingType = string;
 
 // @public
-export type Capacity = 500 | 1000 | 2000 | 5000;
+export type Capacity = 100 | 200 | 300 | 400 | 500 | 1000 | 2000 | 5000 | 10000 | 25000 | 50000;
 
 // @public
-export type CapacityReservationLevel = 100 | 200 | 300 | 400 | 500 | 1000 | 2000 | 5000;
+export type CapacityReservationLevel = 100 | 200 | 300 | 400 | 500 | 1000 | 2000 | 5000 | 10000 | 25000 | 50000;
 
 // @public
 export interface CapacityReservationProperties {
-    readonly lastSkuUpdate?: string;
+    readonly lastSkuUpdate?: Date;
     readonly minCapacity?: number;
 }
 
@@ -75,13 +92,14 @@ export interface Cluster extends TrackedResource {
     billingType?: BillingType;
     capacityReservationProperties?: CapacityReservationProperties;
     readonly clusterId?: string;
-    readonly createdDate?: string;
-    identity?: Identity;
+    readonly createdDate?: Date;
+    identity?: ManagedServiceIdentity;
     isAvailabilityZonesEnabled?: boolean;
     isDoubleEncryptionEnabled?: boolean;
     keyVaultProperties?: KeyVaultProperties;
-    readonly lastModifiedDate?: string;
+    readonly lastModifiedDate?: Date;
     readonly provisioningState?: ClusterEntityStatus;
+    replication?: ClusterReplicationProperties;
     sku?: ClusterSku;
 }
 
@@ -97,7 +115,7 @@ export interface ClusterListResult {
 // @public
 export interface ClusterPatch {
     billingType?: BillingType;
-    identity?: Identity;
+    identity?: ManagedServiceIdentity;
     keyVaultProperties?: KeyVaultProperties;
     sku?: ClusterSku;
     tags?: {
@@ -106,16 +124,37 @@ export interface ClusterPatch {
 }
 
 // @public
+export interface ClusterReplicationProperties {
+    readonly createdDate?: Date;
+    enabled?: boolean;
+    isAvailabilityZonesEnabled?: boolean;
+    readonly lastModifiedDate?: Date;
+    location?: string;
+    readonly provisioningState?: ClusterReplicationState;
+}
+
+// @public
+export type ClusterReplicationState = string;
+
+// @public
 export interface Clusters {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ClustersCreateOrUpdateResponse>, ClustersCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersCreateOrUpdateResponse>, ClustersCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<ClustersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, clusterName: string, parameters: ClusterPatch, options?: ClustersUpdateOptionalParams): Promise<PollerLike<PollOperationState<ClustersUpdateResponse>, ClustersUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, clusterName: string, parameters: ClusterPatch, options?: ClustersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersUpdateResponse>, ClustersUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, parameters: ClusterPatch, options?: ClustersUpdateOptionalParams): Promise<ClustersUpdateResponse>;
     get(resourceGroupName: string, clusterName: string, options?: ClustersGetOptionalParams): Promise<ClustersGetResponse>;
     list(options?: ClustersListOptionalParams): PagedAsyncIterableIterator<Cluster>;
     listByResourceGroup(resourceGroupName: string, options?: ClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Cluster>;
+}
+
+// @public
+export interface ClustersCreateOrUpdateHeaders {
+    // (undocumented)
+    azureAsyncoperation?: string;
+    // (undocumented)
+    location?: string;
 }
 
 // @public
@@ -176,6 +215,14 @@ export interface ClustersListOptionalParams extends coreClient.OperationOptions 
 
 // @public
 export type ClustersListResponse = ClusterListResult;
+
+// @public
+export interface ClustersUpdateHeaders {
+    // (undocumented)
+    azureAsyncoperation?: string;
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface ClustersUpdateOptionalParams extends coreClient.OperationOptions {
@@ -396,7 +443,7 @@ export interface Identity {
 }
 
 // @public
-export type IdentityType = string;
+export type IdentityType = "SystemAssigned" | "UserAssigned" | "None";
 
 // @public
 export interface IntelligencePack {
@@ -428,11 +475,20 @@ export interface IntelligencePacksListOptionalParams extends coreClient.Operatio
 export type IntelligencePacksListResponse = IntelligencePack[];
 
 // @public
+export type IssueType = string;
+
+// @public
 export interface KeyVaultProperties {
     keyName?: string;
     keyRsaSize?: number;
     keyVaultUri?: string;
     keyVersion?: string;
+}
+
+// @public
+export enum KnownAccessRuleDirection {
+    Inbound = "Inbound",
+    Outbound = "Outbound"
 }
 
 // @public
@@ -450,6 +506,19 @@ export enum KnownClusterEntityStatus {
     ProvisioningAccount = "ProvisioningAccount",
     Succeeded = "Succeeded",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownClusterReplicationState {
+    Canceled = "Canceled",
+    DisableRequested = "DisableRequested",
+    Disabling = "Disabling",
+    EnableRequested = "EnableRequested",
+    Enabling = "Enabling",
+    Failed = "Failed",
+    RollbackRequested = "RollbackRequested",
+    RollingBack = "RollingBack",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -533,14 +602,11 @@ export enum KnownDataSourceKind {
 }
 
 // @public
-export enum KnownIdentityType {
-    Application = "application",
-    Key = "key",
-    ManagedIdentity = "managedIdentity",
-    None = "None",
-    SystemAssigned = "SystemAssigned",
-    User = "user",
-    UserAssigned = "UserAssigned"
+export enum KnownIssueType {
+    ConfigurationPropagationFailure = "ConfigurationPropagationFailure",
+    MissingIdentityConfiguration = "MissingIdentityConfiguration",
+    MissingPerimeterConfiguration = "MissingPerimeterConfiguration",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -552,7 +618,27 @@ export enum KnownLinkedServiceEntityStatus {
 }
 
 // @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownProvisioningStateEnum {
+    Deleting = "Deleting",
     InProgress = "InProgress",
     Succeeded = "Succeeded",
     Updating = "Updating"
@@ -571,9 +657,22 @@ export enum KnownPurgeState {
 }
 
 // @public
+export enum KnownResourceAssociationAccessMode {
+    Audit = "Audit",
+    Enforced = "Enforced",
+    Learning = "Learning"
+}
+
+// @public
 export enum KnownSearchSortEnum {
     Asc = "asc",
     Desc = "desc"
+}
+
+// @public
+export enum KnownSeverity {
+    Error = "Error",
+    Warning = "Warning"
 }
 
 // @public
@@ -638,6 +737,28 @@ export enum KnownWorkspaceEntityStatus {
 }
 
 // @public
+export enum KnownWorkspaceFailoverState {
+    Activating = "Activating",
+    Active = "Active",
+    Deactivating = "Deactivating",
+    Failed = "Failed",
+    Inactive = "Inactive"
+}
+
+// @public
+export enum KnownWorkspaceReplicationState {
+    Canceled = "Canceled",
+    DisableRequested = "DisableRequested",
+    Disabling = "Disabling",
+    EnableRequested = "EnableRequested",
+    Enabling = "Enabling",
+    Failed = "Failed",
+    RollbackRequested = "RollbackRequested",
+    RollingBack = "RollingBack",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownWorkspaceSkuNameEnum {
     CapacityReservation = "CapacityReservation",
     Free = "Free",
@@ -669,9 +790,9 @@ export interface LinkedServiceListResult {
 
 // @public
 export interface LinkedServices {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, linkedServiceName: string, parameters: LinkedService, options?: LinkedServicesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<LinkedServicesCreateOrUpdateResponse>, LinkedServicesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, linkedServiceName: string, parameters: LinkedService, options?: LinkedServicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LinkedServicesCreateOrUpdateResponse>, LinkedServicesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, linkedServiceName: string, parameters: LinkedService, options?: LinkedServicesCreateOrUpdateOptionalParams): Promise<LinkedServicesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, linkedServiceName: string, options?: LinkedServicesDeleteOptionalParams): Promise<PollerLike<PollOperationState<LinkedServicesDeleteResponse>, LinkedServicesDeleteResponse>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, linkedServiceName: string, options?: LinkedServicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<LinkedServicesDeleteResponse>, LinkedServicesDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, linkedServiceName: string, options?: LinkedServicesDeleteOptionalParams): Promise<LinkedServicesDeleteResponse>;
     get(resourceGroupName: string, workspaceName: string, linkedServiceName: string, options?: LinkedServicesGetOptionalParams): Promise<LinkedServicesGetResponse>;
     listByWorkspace(resourceGroupName: string, workspaceName: string, options?: LinkedServicesListByWorkspaceOptionalParams): PagedAsyncIterableIterator<LinkedService>;
@@ -754,7 +875,7 @@ export interface LinkedStorageAccountsResource extends ProxyResource {
 }
 
 // @public
-export interface LogAnalyticsQueryPack extends QueryPacksResource {
+export interface LogAnalyticsQueryPack extends TrackedResourceAutoGenerated {
     readonly provisioningState?: string;
     readonly queryPackId?: string;
     readonly timeCreated?: Date;
@@ -768,7 +889,7 @@ export interface LogAnalyticsQueryPackListResult {
 }
 
 // @public
-export interface LogAnalyticsQueryPackQuery extends AzureResourceProperties {
+export interface LogAnalyticsQueryPackQuery extends ProxyResourceAutoGenerated {
     readonly author?: string;
     body?: string;
     description?: string;
@@ -812,6 +933,19 @@ export interface LogAnalyticsQueryPackQuerySearchPropertiesRelated {
 }
 
 // @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity | null;
+    };
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
+
+// @public
 export interface ManagementGroup {
     created?: Date;
     dataReceived?: Date;
@@ -842,6 +976,45 @@ export interface MetricName {
 }
 
 // @public
+export interface NetworkSecurityPerimeter {
+    id?: string;
+    location?: string;
+    perimeterGuid?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
+    properties?: NetworkSecurityPerimeterConfigurationProperties;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationListResult {
+    nextLink?: string;
+    value?: NetworkSecurityPerimeterConfiguration[];
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationProperties {
+    networkSecurityPerimeter?: NetworkSecurityPerimeter;
+    profile?: NetworkSecurityProfile;
+    readonly provisioningIssues?: ProvisioningIssue[];
+    readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
+    resourceAssociation?: ResourceAssociation;
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationProvisioningState = string;
+
+// @public
+export interface NetworkSecurityProfile {
+    accessRules?: AccessRule[];
+    accessRulesVersion?: number;
+    diagnosticSettingsVersion?: number;
+    enabledLogCategories?: string[];
+    name?: string;
+}
+
+// @public
 export interface Operation {
     display?: OperationDisplay;
     name?: string;
@@ -852,6 +1025,8 @@ export class OperationalInsightsManagementClient extends coreClient.ServiceClien
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: OperationalInsightsManagementClientOptionalParams);
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     availableServiceTiers: AvailableServiceTiers;
     // (undocumented)
@@ -903,6 +1078,7 @@ export class OperationalInsightsManagementClient extends coreClient.ServiceClien
 // @public
 export interface OperationalInsightsManagementClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
+    apiVersion?: string;
     endpoint?: string;
 }
 
@@ -968,10 +1144,29 @@ export interface PrivateLinkScopedResource {
 }
 
 // @public
+export interface ProvisioningIssue {
+    readonly name?: string;
+    readonly properties?: ProvisioningIssueProperties;
+}
+
+// @public
+export interface ProvisioningIssueProperties {
+    readonly description?: string;
+    readonly issueType?: IssueType;
+    readonly severity?: Severity;
+    readonly suggestedAccessRules?: AccessRule[];
+    readonly suggestedResourceIds?: string[];
+}
+
+// @public
 export type ProvisioningStateEnum = string;
 
 // @public
 export interface ProxyResource extends Resource {
+}
+
+// @public
+export interface ProxyResourceAutoGenerated extends ResourceAutoGenerated {
 }
 
 // @public
@@ -1114,17 +1309,6 @@ export interface QueryPacksListOptionalParams extends coreClient.OperationOption
 export type QueryPacksListResponse = LogAnalyticsQueryPackListResult;
 
 // @public
-export interface QueryPacksResource {
-    readonly id?: string;
-    location: string;
-    readonly name?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
-}
-
-// @public
 export interface QueryPacksUpdateTagsOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -1135,6 +1319,23 @@ export type QueryPacksUpdateTagsResponse = LogAnalyticsQueryPack;
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly type?: string;
+}
+
+// @public
+export interface ResourceAssociation {
+    accessMode?: ResourceAssociationAccessMode;
+    name?: string;
+}
+
+// @public
+export type ResourceAssociationAccessMode = string;
+
+// @public
+export interface ResourceAutoGenerated {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -1295,6 +1496,9 @@ export interface SearchSort {
 export type SearchSortEnum = string;
 
 // @public
+export type Severity = string;
+
+// @public
 export interface SharedKeys {
     primarySharedKey?: string;
     secondarySharedKey?: string;
@@ -1403,16 +1607,6 @@ export interface StorageInsightStatus {
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
-    createdByType?: IdentityType;
-    lastModifiedAt?: Date;
-    lastModifiedBy?: string;
-    lastModifiedByType?: IdentityType;
-}
-
-// @public
-export interface SystemDataAutoGenerated {
-    createdAt?: Date;
-    createdBy?: string;
     createdByType?: CreatedByType;
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
@@ -1431,7 +1625,7 @@ export interface Table extends ProxyResource {
     readonly retentionInDaysAsDefault?: boolean;
     schema?: Schema;
     searchResults?: SearchResults;
-    readonly systemData?: SystemDataAutoGenerated;
+    readonly systemData?: SystemData;
     totalRetentionInDays?: number;
     readonly totalRetentionInDaysAsDefault?: boolean;
 }
@@ -1441,11 +1635,11 @@ export type TablePlanEnum = string;
 
 // @public
 export interface Tables {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, tableName: string, parameters: Table, options?: TablesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<TablesCreateOrUpdateResponse>, TablesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, tableName: string, parameters: Table, options?: TablesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TablesCreateOrUpdateResponse>, TablesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, tableName: string, parameters: Table, options?: TablesCreateOrUpdateOptionalParams): Promise<TablesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, tableName: string, options?: TablesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, tableName: string, options?: TablesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, tableName: string, options?: TablesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, workspaceName: string, tableName: string, parameters: Table, options?: TablesUpdateOptionalParams): Promise<PollerLike<PollOperationState<TablesUpdateResponse>, TablesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, workspaceName: string, tableName: string, parameters: Table, options?: TablesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TablesUpdateResponse>, TablesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, workspaceName: string, tableName: string, parameters: Table, options?: TablesUpdateOptionalParams): Promise<TablesUpdateResponse>;
     cancelSearch(resourceGroupName: string, workspaceName: string, tableName: string, options?: TablesCancelSearchOptionalParams): Promise<void>;
     get(resourceGroupName: string, workspaceName: string, tableName: string, options?: TablesGetOptionalParams): Promise<TablesGetResponse>;
@@ -1465,6 +1659,14 @@ export interface TablesCreateOrUpdateOptionalParams extends coreClient.Operation
 
 // @public
 export type TablesCreateOrUpdateResponse = Table;
+
+// @public
+export interface TablesDeleteHeaders {
+    // (undocumented)
+    azureAsyncoperation?: string;
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface TablesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -1532,6 +1734,14 @@ export interface TrackedResource extends Resource {
 }
 
 // @public
+export interface TrackedResourceAutoGenerated extends ResourceAutoGenerated {
+    location: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
 export type Type = string;
 
 // @public
@@ -1557,6 +1767,12 @@ export interface UsagesListOptionalParams extends coreClient.OperationOptions {
 export type UsagesListResponse = WorkspaceListUsagesResult;
 
 // @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
+
+// @public
 export interface UserIdentityProperties {
     readonly clientId?: string;
     readonly principalId?: string;
@@ -1564,21 +1780,23 @@ export interface UserIdentityProperties {
 
 // @public
 export interface Workspace extends TrackedResource {
-    readonly createdDate?: string;
+    readonly createdDate?: Date;
     readonly customerId?: string;
     defaultDataCollectionRuleResourceId?: string;
     etag?: string;
+    failover?: WorkspaceFailoverProperties;
     features?: WorkspaceFeatures;
     forceCmkForQuery?: boolean;
     identity?: Identity;
-    readonly modifiedDate?: string;
+    readonly modifiedDate?: Date;
     readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
     readonly provisioningState?: WorkspaceEntityStatus;
     publicNetworkAccessForIngestion?: PublicNetworkAccessType;
     publicNetworkAccessForQuery?: PublicNetworkAccessType;
+    replication?: WorkspaceReplicationProperties;
     retentionInDays?: number;
     sku?: WorkspaceSku;
-    readonly systemData?: SystemDataAutoGenerated;
+    readonly systemData?: SystemData;
     workspaceCapping?: WorkspaceCapping;
 }
 
@@ -1593,6 +1811,15 @@ export interface WorkspaceCapping {
 export type WorkspaceEntityStatus = string;
 
 // @public
+export interface WorkspaceFailoverProperties {
+    readonly lastModifiedDate?: Date;
+    readonly state?: WorkspaceFailoverState;
+}
+
+// @public
+export type WorkspaceFailoverState = string;
+
+// @public
 export interface WorkspaceFeatures {
     [property: string]: any;
     clusterResourceId?: string;
@@ -1600,6 +1827,7 @@ export interface WorkspaceFeatures {
     enableDataExport?: boolean;
     enableLogAccessUsingOnlyResourcePermissions?: boolean;
     immediatePurgeDataOn30Days?: boolean;
+    readonly unifiedSentinelBillingOnly?: boolean;
 }
 
 // @public
@@ -1619,17 +1847,19 @@ export interface WorkspaceListUsagesResult {
 
 // @public
 export interface WorkspacePatch extends AzureEntityResource {
-    readonly createdDate?: string;
+    readonly createdDate?: Date;
     readonly customerId?: string;
     defaultDataCollectionRuleResourceId?: string;
+    failover?: WorkspaceFailoverProperties;
     features?: WorkspaceFeatures;
     forceCmkForQuery?: boolean;
     identity?: Identity;
-    readonly modifiedDate?: string;
+    readonly modifiedDate?: Date;
     readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
     readonly provisioningState?: WorkspaceEntityStatus;
     publicNetworkAccessForIngestion?: PublicNetworkAccessType;
     publicNetworkAccessForQuery?: PublicNetworkAccessType;
+    replication?: WorkspaceReplicationProperties;
     retentionInDays?: number;
     sku?: WorkspaceSku;
     tags?: {
@@ -1688,14 +1918,39 @@ export interface WorkspacePurgeStatusResponse {
 }
 
 // @public
+export interface WorkspaceReplicationPatProperties {
+    readonly createdDate?: Date;
+    enabled?: boolean;
+    readonly lastModifiedDate?: Date;
+    location?: string;
+    readonly provisioningState?: WorkspaceReplicationState;
+}
+
+// @public
+export interface WorkspaceReplicationProperties {
+    readonly createdDate?: Date;
+    enabled?: boolean;
+    readonly lastModifiedDate?: Date;
+    location?: string;
+    readonly provisioningState?: WorkspaceReplicationState;
+}
+
+// @public
+export type WorkspaceReplicationState = string;
+
+// @public
 export interface Workspaces {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, parameters: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<WorkspacesCreateOrUpdateResponse>, WorkspacesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, parameters: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WorkspacesCreateOrUpdateResponse>, WorkspacesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, parameters: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<WorkspacesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<void>;
+    beginReconcileNSP(resourceGroupName: string, workspaceName: string, networkSecurityPerimeterConfigurationName: string, options?: WorkspacesReconcileNSPOptionalParams): Promise<SimplePollerLike<OperationState<WorkspacesReconcileNSPResponse>, WorkspacesReconcileNSPResponse>>;
+    beginReconcileNSPAndWait(resourceGroupName: string, workspaceName: string, networkSecurityPerimeterConfigurationName: string, options?: WorkspacesReconcileNSPOptionalParams): Promise<WorkspacesReconcileNSPResponse>;
     get(resourceGroupName: string, workspaceName: string, options?: WorkspacesGetOptionalParams): Promise<WorkspacesGetResponse>;
+    getNSP(resourceGroupName: string, workspaceName: string, networkSecurityPerimeterConfigurationName: string, options?: WorkspacesGetNSPOptionalParams): Promise<WorkspacesGetNSPResponse>;
     list(options?: WorkspacesListOptionalParams): PagedAsyncIterableIterator<Workspace>;
     listByResourceGroup(resourceGroupName: string, options?: WorkspacesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Workspace>;
+    listNSP(resourceGroupName: string, workspaceName: string, options?: WorkspacesListNSPOptionalParams): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
     update(resourceGroupName: string, workspaceName: string, parameters: WorkspacePatch, options?: WorkspacesUpdateOptionalParams): Promise<WorkspacesUpdateResponse>;
 }
 
@@ -1716,6 +1971,13 @@ export interface WorkspacesDeleteOptionalParams extends coreClient.OperationOpti
 }
 
 // @public
+export interface WorkspacesGetNSPOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkspacesGetNSPResponse = NetworkSecurityPerimeterConfiguration;
+
+// @public
 export interface WorkspacesGetOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -1725,7 +1987,7 @@ export type WorkspacesGetResponse = Workspace;
 // @public
 export interface WorkspaceSku {
     capacityReservationLevel?: CapacityReservationLevel;
-    readonly lastSkuUpdate?: string;
+    readonly lastSkuUpdate?: Date;
     name: WorkspaceSkuNameEnum;
 }
 
@@ -1740,11 +2002,40 @@ export interface WorkspacesListByResourceGroupOptionalParams extends coreClient.
 export type WorkspacesListByResourceGroupResponse = WorkspaceListResult;
 
 // @public
+export interface WorkspacesListNSPNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkspacesListNSPNextResponse = NetworkSecurityPerimeterConfigurationListResult;
+
+// @public
+export interface WorkspacesListNSPOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkspacesListNSPResponse = NetworkSecurityPerimeterConfigurationListResult;
+
+// @public
 export interface WorkspacesListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
 export type WorkspacesListResponse = WorkspaceListResult;
+
+// @public
+export interface WorkspacesReconcileNSPHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface WorkspacesReconcileNSPOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type WorkspacesReconcileNSPResponse = WorkspacesReconcileNSPHeaders;
 
 // @public
 export interface WorkspacesUpdateOptionalParams extends coreClient.OperationOptions {

@@ -15,7 +15,7 @@ import {
   SharedKeysGetSharedKeysOptionalParams,
   SharedKeysGetSharedKeysResponse,
   SharedKeysRegenerateOptionalParams,
-  SharedKeysRegenerateResponse
+  SharedKeysRegenerateResponse,
 } from "../models/index.js";
 
 /** Class containing SharedKeysOperations operations. */
@@ -39,11 +39,11 @@ export class SharedKeysOperationsImpl implements SharedKeysOperations {
   getSharedKeys(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SharedKeysGetSharedKeysOptionalParams
+    options?: SharedKeysGetSharedKeysOptionalParams,
   ): Promise<SharedKeysGetSharedKeysResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      getSharedKeysOperationSpec
+      getSharedKeysOperationSpec,
     );
   }
 
@@ -57,11 +57,11 @@ export class SharedKeysOperationsImpl implements SharedKeysOperations {
   regenerate(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SharedKeysRegenerateOptionalParams
+    options?: SharedKeysRegenerateOptionalParams,
   ): Promise<SharedKeysRegenerateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      regenerateOperationSpec
+      regenerateOperationSpec,
     );
   }
 }
@@ -69,40 +69,38 @@ export class SharedKeysOperationsImpl implements SharedKeysOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getSharedKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/sharedKeys",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/sharedKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedKeys
-    }
+      bodyMapper: Mappers.SharedKeys,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const regenerateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/regenerateSharedKey",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/regenerateSharedKey",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedKeys
-    }
+      bodyMapper: Mappers.SharedKeys,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
