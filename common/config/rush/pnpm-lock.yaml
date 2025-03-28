@@ -847,6 +847,9 @@ importers:
       '@rush-temp/attestation':
         specifier: file:./projects/attestation.tgz
         version: file:projects/attestation.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
+      '@rush-temp/azure-search-documents-rest':
+        specifier: file:./projects/azure-search-documents-rest.tgz
+        version: file:projects/azure-search-documents-rest.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/batch':
         specifier: file:./projects/batch.tgz
         version: file:projects/batch.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
@@ -3518,6 +3521,10 @@ packages:
 
   '@rush-temp/attestation@file:projects/attestation.tgz':
     resolution: {integrity: sha512-MYUYjG90tY6X1qaJyrFH7qd4ndfKpVQhLUYibmqtoSkjFvs+uR6lh1K75cFvzmNhe5D9YAWpKRfQwLfMC2rtMQ==, tarball: file:projects/attestation.tgz}
+    version: 0.0.0
+
+  '@rush-temp/azure-search-documents-rest@file:projects/azure-search-documents-rest.tgz':
+    resolution: {integrity: sha512-yyIrakAjaPMk4ZF9Gqf4Wsrqt0mXavvfKrKgAhZvzuruze9oncBfi4Yuszw44ou/kt2F7gKlP3RWUZ/5LzR9gQ==, tarball: file:projects/azure-search-documents-rest.tgz}
     version: 0.0.0
 
   '@rush-temp/batch@file:projects/batch.tgz':
@@ -19315,6 +19322,41 @@ snapshots:
       safe-buffer: 5.2.1
       tslib: 2.8.1
       typescript: 5.8.2
+      vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/azure-search-documents-rest@file:projects/azure-search-documents-rest.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
+    dependencies:
+      '@types/node': 18.19.84
+      '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.7.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
+      '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
+      dotenv: 16.4.7
+      eslint: 9.23.0
+      playwright: 1.51.1
+      tslib: 2.8.1
+      typescript: 5.7.3
       vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
