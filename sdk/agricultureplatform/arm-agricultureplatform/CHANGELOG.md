@@ -1,7 +1,7 @@
 # Release History
     
-## 1.0.0-beta.1 (2025-03-25)
+## 1.0.0-beta.1 (2025-03-28)
 
 ### Features Added
 
-Initial release of the Azure AgriculturePlatform package
+The package of @azure/arm-agricultureplatform is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
