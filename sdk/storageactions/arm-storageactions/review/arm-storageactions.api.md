@@ -170,7 +170,7 @@ export type OperationsListResponse = OperationListResult;
 export type Origin = string;
 
 // @public
-export type ProvisioningState = "ValidateSubscriptionQuotaBegin" | "ValidateSubscriptionQuotaEnd" | "Creating" | "Succeeded" | "Deleting" | "Canceled" | "Failed";
+export type ProvisioningState = "ValidateSubscriptionQuotaBegin" | "ValidateSubscriptionQuotaEnd" | "Accepted" | "Creating" | "Succeeded" | "Deleting" | "Canceled" | "Failed";
 
 // @public
 export interface ProxyResource extends Resource {
@@ -218,8 +218,8 @@ export interface StorageActionsManagementClientOptionalParams extends coreClient
 
 // @public
 export interface StorageTask extends TrackedResource {
-    identity?: ManagedServiceIdentity;
-    properties?: StorageTaskProperties;
+    identity: ManagedServiceIdentity;
+    properties: StorageTaskProperties;
 }
 
 // @public
@@ -242,7 +242,7 @@ export type StorageTaskAssignmentListNextResponse = StorageTaskAssignmentsListRe
 
 // @public
 export interface StorageTaskAssignmentListOptionalParams extends coreClient.OperationOptions {
-    maxpagesize?: string;
+    maxpagesize?: number;
 }
 
 // @public
@@ -462,7 +462,7 @@ export type StorageTasksReportListNextResponse = StorageTaskReportSummary;
 // @public
 export interface StorageTasksReportListOptionalParams extends coreClient.OperationOptions {
     filter?: string;
-    maxpagesize?: string;
+    maxpagesize?: number;
 }
 
 // @public

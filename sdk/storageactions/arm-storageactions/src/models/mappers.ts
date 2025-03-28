@@ -321,6 +321,7 @@ export const StorageTaskProperties: coreClient.CompositeMapper = {
           allowedValues: [
             "ValidateSubscriptionQuotaBegin",
             "ValidateSubscriptionQuotaEnd",
+            "Accepted",
             "Creating",
             "Succeeded",
             "Deleting",
