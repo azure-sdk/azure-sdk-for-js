@@ -10367,7 +10367,9 @@ export interface WebAppsListFunctionKeysOptionalParams extends coreClient.Operat
 }
 
 // @public
-export type WebAppsListFunctionKeysResponse = StringDictionary;
+export type WebAppsListFunctionKeysResponse = {
+    [propertyName: string]: string;
+};
 
 // @public
 export interface WebAppsListFunctionKeysSlotOptionalParams extends coreClient.OperationOptions {
