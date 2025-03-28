@@ -2473,7 +2473,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-vision-face@file:projects/ai-vision-face.tgz':
-    resolution: {integrity: sha512-+04d00UxdRr7CBMBVQze1z+6nMoCXnXDGeatQ21+Y1zHaFXBghTfiXGyEV2fs4tBjAxirn55a0WK7CheUTeWcQ==, tarball: file:projects/ai-vision-face.tgz}
+    resolution: {integrity: sha512-zgf6ml3mc/e4c0DeyfHgSfAFt2OSMMXnDw+S7ML6IH7zXWuxkiN4xrva8HlblrH7GAtD4bKUggwEh+8mYWjiaQ==, tarball: file:projects/ai-vision-face.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-vision-image-analysis@file:projects/ai-vision-image-analysis.tgz':
@@ -10252,14 +10252,13 @@ snapshots:
   '@rush-temp/ai-vision-face@file:projects/ai-vision-face.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@types/node': 18.19.84
-      '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
+      '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.7.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
       '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
       dotenv: 16.4.7
       eslint: 9.23.0
       playwright: 1.51.1
-      prettier: 3.5.3
       tslib: 2.8.1
-      typescript: 5.8.2
+      typescript: 5.7.3
       vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'

@@ -730,12 +730,12 @@ export interface CreateLivenessWithVerifySessionBodyParam {
 }
 
 // @public
-export type CreateLivenessWithVerifySessionContent = FormData | Array<CreateLivenessWithVerifySessionContentLivenessOperationModePartDescriptor | CreateLivenessWithVerifySessionContentDeviceCorrelationIdSetInClientPartDescriptor | CreateLivenessWithVerifySessionContentEnableSessionImagePartDescriptor | CreateLivenessWithVerifySessionContentLivenessModelVersionPartDescriptor | CreateLivenessWithVerifySessionContentDeviceCorrelationIdPartDescriptor | CreateLivenessWithVerifySessionContentAuthTokenTimeToLiveInSecondsPartDescriptor | CreateLivenessWithVerifySessionContentReturnVerifyImageHashPartDescriptor | CreateLivenessWithVerifySessionContentVerifyConfidenceThresholdPartDescriptor | CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor>;
+export type CreateLivenessWithVerifySessionContent = FormData | Array<CreateLivenessWithVerifySessionContentLivenessOperationModePartDescriptor | CreateLivenessWithVerifySessionContentDeviceCorrelationIdSetInClientPartDescriptor | CreateLivenessWithVerifySessionContentEnableSessionImagePartDescriptor | CreateLivenessWithVerifySessionContentLivenessModelVersionPartDescriptor | CreateLivenessWithVerifySessionContentReturnVerifyImageHashPartDescriptor | CreateLivenessWithVerifySessionContentVerifyConfidenceThresholdPartDescriptor | CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor | CreateLivenessWithVerifySessionContentDeviceCorrelationIdPartDescriptor | CreateLivenessWithVerifySessionContentAuthTokenTimeToLiveInSecondsPartDescriptor>;
 
 // @public (undocumented)
 export interface CreateLivenessWithVerifySessionContentAuthTokenTimeToLiveInSecondsPartDescriptor {
     // (undocumented)
-    body: number;
+    body: HttpPartAuthTokenLifetimeInSeconds;
     // (undocumented)
     name: "authTokenTimeToLiveInSeconds";
 }
@@ -743,7 +743,7 @@ export interface CreateLivenessWithVerifySessionContentAuthTokenTimeToLiveInSeco
 // @public (undocumented)
 export interface CreateLivenessWithVerifySessionContentDeviceCorrelationIdPartDescriptor {
     // (undocumented)
-    body: string;
+    body: HttpPartString;
     // (undocumented)
     name: "deviceCorrelationId";
 }
@@ -751,7 +751,7 @@ export interface CreateLivenessWithVerifySessionContentDeviceCorrelationIdPartDe
 // @public (undocumented)
 export interface CreateLivenessWithVerifySessionContentDeviceCorrelationIdSetInClientPartDescriptor {
     // (undocumented)
-    body: boolean;
+    body: HttpPartBoolean;
     // (undocumented)
     name: "deviceCorrelationIdSetInClient";
 }
@@ -759,7 +759,7 @@ export interface CreateLivenessWithVerifySessionContentDeviceCorrelationIdSetInC
 // @public (undocumented)
 export interface CreateLivenessWithVerifySessionContentEnableSessionImagePartDescriptor {
     // (undocumented)
-    body: boolean;
+    body: HttpPartBoolean;
     // (undocumented)
     name: "enableSessionImage";
 }
@@ -767,7 +767,7 @@ export interface CreateLivenessWithVerifySessionContentEnableSessionImagePartDes
 // @public (undocumented)
 export interface CreateLivenessWithVerifySessionContentLivenessModelVersionPartDescriptor {
     // (undocumented)
-    body: LivenessModel;
+    body: HttpPartLivenessModel;
     // (undocumented)
     name: "livenessModelVersion";
 }
@@ -775,7 +775,7 @@ export interface CreateLivenessWithVerifySessionContentLivenessModelVersionPartD
 // @public (undocumented)
 export interface CreateLivenessWithVerifySessionContentLivenessOperationModePartDescriptor {
     // (undocumented)
-    body: LivenessOperationMode;
+    body: HttpPartLivenessOperationMode;
     // (undocumented)
     name: "livenessOperationMode";
 }
@@ -783,7 +783,7 @@ export interface CreateLivenessWithVerifySessionContentLivenessOperationModePart
 // @public (undocumented)
 export interface CreateLivenessWithVerifySessionContentReturnVerifyImageHashPartDescriptor {
     // (undocumented)
-    body: boolean;
+    body: HttpPartBoolean;
     // (undocumented)
     name: "returnVerifyImageHash";
 }
@@ -791,7 +791,7 @@ export interface CreateLivenessWithVerifySessionContentReturnVerifyImageHashPart
 // @public (undocumented)
 export interface CreateLivenessWithVerifySessionContentVerifyConfidenceThresholdPartDescriptor {
     // (undocumented)
-    body: number;
+    body: HttpPartConfidenceScore;
     // (undocumented)
     name: "verifyConfidenceThreshold";
 }
@@ -799,11 +799,7 @@ export interface CreateLivenessWithVerifySessionContentVerifyConfidenceThreshold
 // @public (undocumented)
 export interface CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor {
     // (undocumented)
-    body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
-    // (undocumented)
-    contentType?: string;
-    // (undocumented)
-    filename?: string;
+    body: HttpPartBytes;
     // (undocumented)
     name: "verifyImage";
 }
@@ -2535,6 +2531,34 @@ export interface HeadPoseOutput {
     pitch: number;
     roll: number;
     yaw: number;
+}
+
+// @public (undocumented)
+export interface HttpPartAuthTokenLifetimeInSeconds {
+}
+
+// @public (undocumented)
+export interface HttpPartBoolean {
+}
+
+// @public (undocumented)
+export interface HttpPartBytes {
+}
+
+// @public (undocumented)
+export interface HttpPartConfidenceScore {
+}
+
+// @public (undocumented)
+export interface HttpPartLivenessModel {
+}
+
+// @public (undocumented)
+export interface HttpPartLivenessOperationMode {
+}
+
+// @public (undocumented)
+export interface HttpPartString {
 }
 
 // @public
