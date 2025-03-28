@@ -457,6 +457,9 @@ importers:
       '@rush-temp/arm-kubernetesconfiguration':
         specifier: file:./projects/arm-kubernetesconfiguration.tgz
         version: file:projects/arm-kubernetesconfiguration.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
+      '@rush-temp/arm-kubernetesconfiguration-fluxconfigurations':
+        specifier: file:./projects/arm-kubernetesconfiguration-fluxconfigurations.tgz
+        version: file:projects/arm-kubernetesconfiguration-fluxconfigurations.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/arm-kusto':
         specifier: file:./projects/arm-kusto.tgz
         version: file:projects/arm-kusto.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
@@ -2994,6 +2997,10 @@ packages:
 
   '@rush-temp/arm-keyvault@file:projects/arm-keyvault.tgz':
     resolution: {integrity: sha512-Aiden6jzQamDNk/C2lmBij5nSTwOd4npjmS/IRJgwmbaL1ruVBUubx9vzdeN1tt6qN5952A73UpxFfJLFEQRHw==, tarball: file:projects/arm-keyvault.tgz}
+    version: 0.0.0
+
+  '@rush-temp/arm-kubernetesconfiguration-fluxconfigurations@file:projects/arm-kubernetesconfiguration-fluxconfigurations.tgz':
+    resolution: {integrity: sha512-KH0ji5AfOunUh4a7tXoGAE5WmQzzRLG64nbYj25+pnGHIxfleD9Cm+Dlr0qNBq/+opDHAPb0Oxk5fGVs+LCHgQ==, tarball: file:projects/arm-kubernetesconfiguration-fluxconfigurations.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-kubernetesconfiguration@file:projects/arm-kubernetesconfiguration.tgz':
@@ -14793,6 +14800,41 @@ snapshots:
       - webdriverio
       - yaml
 
+  '@rush-temp/arm-kubernetesconfiguration-fluxconfigurations@file:projects/arm-kubernetesconfiguration-fluxconfigurations.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
+    dependencies:
+      '@azure/core-lro': 2.7.2
+      '@types/node': 18.19.84
+      '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.7.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
+      '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
+      dotenv: 16.4.7
+      playwright: 1.51.1
+      tslib: 2.8.1
+      typescript: 5.7.3
+      vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
   '@rush-temp/arm-kubernetesconfiguration@file:projects/arm-kubernetesconfiguration.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@azure/core-lro': 2.7.2
@@ -24013,7 +24055,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.2.1
 
   '@types/chai-as-promised@8.0.2':
     dependencies:
