@@ -13,11 +13,29 @@ import { SimplePollerLike } from '@azure/core-lro';
 // @public
 export interface AccountInfo {
     accountId?: string;
+    companyName?: string;
     regionId?: string;
 }
 
 // @public
+export type Action = string;
+
+// @public
 export type ActionType = string;
+
+// @public
+export interface AgentStatus {
+    dynatraceEnvironmentId?: string;
+    dynatraceResourceId?: string;
+    id?: string;
+    resourceType?: string;
+}
+
+// @public
+export interface AgentStatusRequest {
+    action: Action;
+    agentStatusList: AgentStatus[];
+}
 
 // @public
 export interface AppServiceInfo {
@@ -45,7 +63,44 @@ export type AutoUpdateSetting = string;
 export type AvailabilityState = string;
 
 // @public
+export interface ConnectedResourcesCountResponse {
+    connectedResourcesCount?: number;
+}
+
+// @public
 export type CreatedByType = string;
+
+// @public
+export interface CreateResourceSupportedProperties {
+    readonly creationSupported?: boolean;
+    readonly name?: string;
+}
+
+// @public
+export interface CreateResourceSupportedResponse {
+    nextLink?: string;
+    value?: CreateResourceSupportedProperties[];
+}
+
+// @public
+export interface CreationSupported {
+    get(dynatraceEnvironmentId: string, options?: CreationSupportedGetOptionalParams): Promise<CreationSupportedGetResponse>;
+    list(dynatraceEnvironmentId: string, options?: CreationSupportedListOptionalParams): Promise<CreationSupportedListResponse>;
+}
+
+// @public
+export interface CreationSupportedGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CreationSupportedGetResponse = CreateResourceSupportedResponse;
+
+// @public
+export interface CreationSupportedListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CreationSupportedListResponse = CreateResourceSupportedResponse;
 
 // @public
 export interface DynatraceEnvironmentProperties {
@@ -62,6 +117,10 @@ export class DynatraceObservability extends coreClient.ServiceClient {
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DynatraceObservabilityOptionalParams);
     // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    creationSupported: CreationSupported;
+    // (undocumented)
+    monitoredSubscriptions: MonitoredSubscriptions;
     // (undocumented)
     monitors: Monitors;
     // (undocumented)
@@ -97,7 +156,6 @@ export interface DynatraceSingleSignOnResource extends ProxyResource {
     readonly provisioningState?: ProvisioningState;
     singleSignOnState?: SingleSignOnStates;
     singleSignOnUrl?: string;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -155,6 +213,12 @@ export interface IdentityProperties {
 }
 
 // @public
+export enum KnownAction {
+    Install = "Install",
+    Uninstall = "Uninstall"
+}
+
+// @public
 export enum KnownActionType {
     Internal = "Internal"
 }
@@ -205,9 +269,24 @@ export enum KnownManagedIdentityType {
 }
 
 // @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownMarketplaceSaasAutoRenew {
+    Off = "Off",
+    On = "On"
+}
+
+// @public
 export enum KnownMarketplaceSubscriptionStatus {
     Active = "Active",
-    Suspended = "Suspended"
+    Suspended = "Suspended",
+    Unsubscribed = "Unsubscribed"
 }
 
 // @public
@@ -219,6 +298,7 @@ export enum KnownMonitoringStatus {
 // @public
 export enum KnownMonitoringType {
     CloudInfrastructure = "CLOUD_INFRASTRUCTURE",
+    Discovery = "DISCOVERY",
     FullStack = "FULL_STACK"
 }
 
@@ -287,6 +367,23 @@ export enum KnownSSOStatus {
 }
 
 // @public
+export enum KnownStatus {
+    Active = "Active",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    InProgress = "InProgress"
+}
+
+// @public
+export enum KnownSubscriptionListOperation {
+    Active = "Active",
+    AddBegin = "AddBegin",
+    AddComplete = "AddComplete",
+    DeleteBegin = "DeleteBegin",
+    DeleteComplete = "DeleteComplete"
+}
+
+// @public
 export enum KnownTagAction {
     Exclude = "Exclude",
     Include = "Include"
@@ -340,7 +437,28 @@ export interface LogRules {
 }
 
 // @public
+export interface LogStatusRequest {
+    monitoredResourceIds?: string[];
+}
+
+// @public
 export type ManagedIdentityType = string;
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity | null;
+    };
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
+
+// @public
+export type MarketplaceSaasAutoRenew = string;
 
 // @public
 export interface MarketplaceSaaSResourceDetailsRequest {
@@ -350,8 +468,14 @@ export interface MarketplaceSaaSResourceDetailsRequest {
 // @public
 export interface MarketplaceSaaSResourceDetailsResponse {
     marketplaceSaaSResourceId?: string;
+    marketplaceSaaSResourceName?: string;
     marketplaceSubscriptionStatus?: MarketplaceSubscriptionStatus;
     planId?: string;
+}
+
+// @public
+export interface MarketplaceSubscriptionIdRequest {
+    marketplaceSubscriptionId: string;
 }
 
 // @public
@@ -366,6 +490,11 @@ export interface MetricRules {
 // @public
 export interface MetricsStatusResponse {
     azureResourceIds?: string[];
+}
+
+// @public
+export interface MetricStatusRequest {
+    monitoredResourceIds?: string[];
 }
 
 // @public
@@ -384,7 +513,111 @@ export interface MonitoredResourceListResponse {
 }
 
 // @public
+export interface MonitoredSubscription {
+    error?: string;
+    status?: Status;
+    subscriptionId: string;
+    tagRules?: MonitoringTagRulesProperties;
+}
+
+// @public
+export interface MonitoredSubscriptionProperties {
+    readonly id?: string;
+    readonly name?: string;
+    properties?: SubscriptionList;
+    readonly type?: string;
+}
+
+// @public (undocumented)
+export interface MonitoredSubscriptionPropertiesList {
+    nextLink?: string;
+    // (undocumented)
+    value?: MonitoredSubscriptionProperties[];
+}
+
+// @public
+export interface MonitoredSubscriptions {
+    beginCreateOrUpdate(resourceGroupName: string, monitorName: string, options?: MonitoredSubscriptionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MonitoredSubscriptionsCreateOrUpdateResponse>, MonitoredSubscriptionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, monitorName: string, options?: MonitoredSubscriptionsCreateOrUpdateOptionalParams): Promise<MonitoredSubscriptionsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, monitorName: string, options?: MonitoredSubscriptionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<MonitoredSubscriptionsDeleteResponse>, MonitoredSubscriptionsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, monitorName: string, options?: MonitoredSubscriptionsDeleteOptionalParams): Promise<MonitoredSubscriptionsDeleteResponse>;
+    beginUpdate(resourceGroupName: string, monitorName: string, options?: MonitoredSubscriptionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MonitoredSubscriptionsUpdateResponse>, MonitoredSubscriptionsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, monitorName: string, options?: MonitoredSubscriptionsUpdateOptionalParams): Promise<MonitoredSubscriptionsUpdateResponse>;
+    get(resourceGroupName: string, monitorName: string, options?: MonitoredSubscriptionsGetOptionalParams): Promise<MonitoredSubscriptionsGetResponse>;
+    list(resourceGroupName: string, monitorName: string, options?: MonitoredSubscriptionsListOptionalParams): PagedAsyncIterableIterator<MonitoredSubscriptionProperties>;
+}
+
+// @public
+export interface MonitoredSubscriptionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    body?: MonitoredSubscriptionProperties;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MonitoredSubscriptionsCreateOrUpdateResponse = MonitoredSubscriptionProperties;
+
+// @public
+export interface MonitoredSubscriptionsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface MonitoredSubscriptionsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MonitoredSubscriptionsDeleteResponse = MonitoredSubscriptionsDeleteHeaders;
+
+// @public
+export interface MonitoredSubscriptionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MonitoredSubscriptionsGetResponse = MonitoredSubscriptionProperties;
+
+// @public
+export interface MonitoredSubscriptionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MonitoredSubscriptionsListNextResponse = MonitoredSubscriptionPropertiesList;
+
+// @public
+export interface MonitoredSubscriptionsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MonitoredSubscriptionsListResponse = MonitoredSubscriptionPropertiesList;
+
+// @public
+export interface MonitoredSubscriptionsUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface MonitoredSubscriptionsUpdateOptionalParams extends coreClient.OperationOptions {
+    body?: MonitoredSubscriptionProperties;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MonitoredSubscriptionsUpdateResponse = MonitoredSubscriptionProperties;
+
+// @public
 export type MonitoringStatus = string;
+
+// @public
+export interface MonitoringTagRulesProperties {
+    logRules?: LogRules;
+    metricRules?: MetricRules;
+    readonly provisioningState?: ProvisioningState;
+}
 
 // @public
 export type MonitoringType = string;
@@ -395,11 +628,11 @@ export interface MonitorResource extends TrackedResource {
     identity?: IdentityProperties;
     readonly liftrResourceCategory?: LiftrResourceCategories;
     readonly liftrResourcePreference?: number;
+    marketplaceSaasAutoRenew?: MarketplaceSaasAutoRenew;
     marketplaceSubscriptionStatus?: MarketplaceSubscriptionStatus;
     monitoringStatus?: MonitoringStatus;
     planData?: PlanData;
     readonly provisioningState?: ProvisioningState;
-    readonly systemData?: SystemData;
     userInfo?: UserInfo;
 }
 
@@ -411,6 +644,8 @@ export interface MonitorResourceListResult {
 
 // @public
 export interface MonitorResourceUpdate {
+    identity?: ManagedServiceIdentity;
+    properties?: MonitorUpdateProperties;
     tags?: {
         [propertyName: string]: string;
     };
@@ -420,9 +655,12 @@ export interface MonitorResourceUpdate {
 export interface Monitors {
     beginCreateOrUpdate(resourceGroupName: string, monitorName: string, resource: MonitorResource, options?: MonitorsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MonitorsCreateOrUpdateResponse>, MonitorsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, monitorName: string, resource: MonitorResource, options?: MonitorsCreateOrUpdateOptionalParams): Promise<MonitorsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<MonitorsDeleteResponse>, MonitorsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<MonitorsDeleteResponse>;
+    beginUpgradePlan(resourceGroupName: string, monitorName: string, request: UpgradePlanRequest, options?: MonitorsUpgradePlanOptionalParams): Promise<SimplePollerLike<OperationState<MonitorsUpgradePlanResponse>, MonitorsUpgradePlanResponse>>;
+    beginUpgradePlanAndWait(resourceGroupName: string, monitorName: string, request: UpgradePlanRequest, options?: MonitorsUpgradePlanOptionalParams): Promise<MonitorsUpgradePlanResponse>;
     get(resourceGroupName: string, monitorName: string, options?: MonitorsGetOptionalParams): Promise<MonitorsGetResponse>;
+    getAllConnectedResourcesCount(request: MarketplaceSubscriptionIdRequest, options?: MonitorsGetAllConnectedResourcesCountOptionalParams): Promise<MonitorsGetAllConnectedResourcesCountResponse>;
     getMarketplaceSaaSResourceDetails(request: MarketplaceSaaSResourceDetailsRequest, options?: MonitorsGetMarketplaceSaaSResourceDetailsOptionalParams): Promise<MonitorsGetMarketplaceSaaSResourceDetailsResponse>;
     getMetricStatus(resourceGroupName: string, monitorName: string, options?: MonitorsGetMetricStatusOptionalParams): Promise<MonitorsGetMetricStatusResponse>;
     getSSODetails(resourceGroupName: string, monitorName: string, options?: MonitorsGetSSODetailsOptionalParams): Promise<MonitorsGetSSODetailsResponse>;
@@ -434,6 +672,7 @@ export interface Monitors {
     listLinkableEnvironments(resourceGroupName: string, monitorName: string, request: LinkableEnvironmentRequest, options?: MonitorsListLinkableEnvironmentsOptionalParams): PagedAsyncIterableIterator<LinkableEnvironmentResponse>;
     listMonitoredResources(resourceGroupName: string, monitorName: string, options?: MonitorsListMonitoredResourcesOptionalParams): PagedAsyncIterableIterator<MonitoredResource>;
     update(resourceGroupName: string, monitorName: string, resource: MonitorResourceUpdate, options?: MonitorsUpdateOptionalParams): Promise<MonitorsUpdateResponse>;
+    updateAgentStatus(resourceGroupName: string, monitorName: string, request: AgentStatusRequest, options?: MonitorsUpdateAgentStatusOptionalParams): Promise<void>;
 }
 
 // @public
@@ -446,10 +685,26 @@ export interface MonitorsCreateOrUpdateOptionalParams extends coreClient.Operati
 export type MonitorsCreateOrUpdateResponse = MonitorResource;
 
 // @public
+export interface MonitorsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface MonitorsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type MonitorsDeleteResponse = MonitorsDeleteHeaders;
+
+// @public
+export interface MonitorsGetAllConnectedResourcesCountOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MonitorsGetAllConnectedResourcesCountResponse = ConnectedResourcesCountResponse;
 
 // @public
 export interface MonitorsGetMarketplaceSaaSResourceDetailsOptionalParams extends coreClient.OperationOptions {
@@ -460,6 +715,7 @@ export type MonitorsGetMarketplaceSaaSResourceDetailsResponse = MarketplaceSaaSR
 
 // @public
 export interface MonitorsGetMetricStatusOptionalParams extends coreClient.OperationOptions {
+    request?: MetricStatusRequest;
 }
 
 // @public
@@ -559,6 +815,7 @@ export type MonitorsListLinkableEnvironmentsResponse = LinkableEnvironmentListRe
 
 // @public
 export interface MonitorsListMonitoredResourcesNextOptionalParams extends coreClient.OperationOptions {
+    request?: LogStatusRequest;
 }
 
 // @public
@@ -566,10 +823,15 @@ export type MonitorsListMonitoredResourcesNextResponse = MonitoredResourceListRe
 
 // @public
 export interface MonitorsListMonitoredResourcesOptionalParams extends coreClient.OperationOptions {
+    request?: LogStatusRequest;
 }
 
 // @public
 export type MonitorsListMonitoredResourcesResponse = MonitoredResourceListResponse;
+
+// @public
+export interface MonitorsUpdateAgentStatusOptionalParams extends coreClient.OperationOptions {
+}
 
 // @public
 export interface MonitorsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -577,6 +839,27 @@ export interface MonitorsUpdateOptionalParams extends coreClient.OperationOption
 
 // @public
 export type MonitorsUpdateResponse = MonitorResource;
+
+// @public
+export interface MonitorsUpgradePlanHeaders {
+    // (undocumented)
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface MonitorsUpgradePlanOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MonitorsUpgradePlanResponse = MonitorsUpgradePlanHeaders;
+
+// @public
+export interface MonitorUpdateProperties {
+    planData?: PlanData;
+}
 
 // @public
 export interface Operation {
@@ -642,6 +925,7 @@ export interface ProxyResource extends Resource {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -719,6 +1003,19 @@ export interface SSODetailsResponse {
 export type SSOStatus = string;
 
 // @public
+export type Status = string;
+
+// @public
+export interface SubscriptionList {
+    monitoredSubscriptionList?: MonitoredSubscription[];
+    operation?: SubscriptionListOperation;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export type SubscriptionListOperation = string;
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -736,7 +1033,6 @@ export interface TagRule extends ProxyResource {
     logRules?: LogRules;
     metricRules?: MetricRules;
     readonly provisioningState?: ProvisioningState;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -749,8 +1045,8 @@ export interface TagRuleListResult {
 export interface TagRules {
     beginCreateOrUpdate(resourceGroupName: string, monitorName: string, ruleSetName: string, resource: TagRule, options?: TagRulesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TagRulesCreateOrUpdateResponse>, TagRulesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, monitorName: string, ruleSetName: string, resource: TagRule, options?: TagRulesCreateOrUpdateOptionalParams): Promise<TagRulesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<TagRulesDeleteResponse>, TagRulesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesDeleteOptionalParams): Promise<TagRulesDeleteResponse>;
     get(resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesGetOptionalParams): Promise<TagRulesGetResponse>;
     list(resourceGroupName: string, monitorName: string, options?: TagRulesListOptionalParams): PagedAsyncIterableIterator<TagRule>;
 }
@@ -765,10 +1061,19 @@ export interface TagRulesCreateOrUpdateOptionalParams extends coreClient.Operati
 export type TagRulesCreateOrUpdateResponse = TagRule;
 
 // @public
+export interface TagRulesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface TagRulesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type TagRulesDeleteResponse = TagRulesDeleteHeaders;
 
 // @public
 export interface TagRulesGetOptionalParams extends coreClient.OperationOptions {
@@ -803,9 +1108,14 @@ export interface TrackedResource extends Resource {
 export type UpdateStatus = string;
 
 // @public
+export interface UpgradePlanRequest {
+    planData?: PlanData;
+}
+
+// @public
 export interface UserAssignedIdentity {
-    clientId: string;
-    principalId: string;
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // @public

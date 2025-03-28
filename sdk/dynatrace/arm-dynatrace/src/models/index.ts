@@ -8,6 +8,12 @@
 
 import * as coreClient from "@azure/core-client";
 
+/** Request for getting log status for given monitored resource Ids */
+export interface LogStatusRequest {
+  /** List of azure resource Id of monitored resources for which we get the log status */
+  monitoredResourceIds?: string[];
+}
+
 /** List of all the resources being monitored by Dynatrace monitor resource */
 export interface MonitoredResourceListResponse {
   /** The items on this page */
@@ -79,12 +85,152 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
+export interface MonitoredSubscriptionPropertiesList {
+  value?: MonitoredSubscriptionProperties[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The request to update subscriptions needed to be monitored by the Dynatrace monitor resource. */
+export interface MonitoredSubscriptionProperties {
+  /**
+   * Name of the monitored subscription resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The id of the monitored subscription resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The type of the monitored subscription resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** The request to update subscriptions needed to be monitored by the Dynatrace monitor resource. */
+  properties?: SubscriptionList;
+}
+
+/** The request to update subscriptions needed to be monitored by the Dynatrace monitor resource. */
+export interface SubscriptionList {
+  /** The operation for the patch on the resource. */
+  operation?: SubscriptionListOperation;
+  /** List of subscriptions and the state of the monitoring. */
+  monitoredSubscriptionList?: MonitoredSubscription[];
+  /**
+   * Provisioning State of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** The list of subscriptions and it's monitoring status by current Dynatrace monitor. */
+export interface MonitoredSubscription {
+  /** The subscriptionId to be monitored. */
+  subscriptionId: string;
+  /** The state of monitoring. */
+  status?: Status;
+  /** The reason of not monitoring the subscription. */
+  error?: string;
+  /** Properties for the Tag rules resource of a Monitor account. */
+  tagRules?: MonitoringTagRulesProperties;
+}
+
+/** Properties for the Tag rules resource of a Monitor account. */
+export interface MonitoringTagRulesProperties {
+  /** Set of rules for sending logs for the Monitor resource. */
+  logRules?: LogRules;
+  /** Set of rules for sending metrics for the Monitor resource. */
+  metricRules?: MetricRules;
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** Set of rules for sending logs for the Monitor resource. */
+export interface LogRules {
+  /** Flag specifying if AAD logs should be sent for the Monitor resource. */
+  sendAadLogs?: SendAadLogsStatus;
+  /** Flag specifying if subscription logs should be sent for the Monitor resource. */
+  sendSubscriptionLogs?: SendSubscriptionLogsStatus;
+  /** Flag specifying if activity logs from Azure resources should be sent for the Monitor resource. */
+  sendActivityLogs?: SendActivityLogsStatus;
+  /**
+   * List of filtering tags to be used for capturing logs. This only takes effect if SendActivityLogs flag is enabled. If empty, all resources will be captured.
+   * If only Exclude action is specified, the rules will apply to the list of all available resources. If Include actions are specified, the rules will only include resources with the associated tags.
+   */
+  filteringTags?: FilteringTag[];
+}
+
+/** The definition of a filtering tag. Filtering tags are used for capturing resources and include/exclude them from being monitored. */
+export interface FilteringTag {
+  /** The name (also known as the key) of the tag. */
+  name?: string;
+  /** The value of the tag. */
+  value?: string;
+  /** Valid actions for a filtering tag. Exclusion takes priority over inclusion. */
+  action?: TagAction;
+}
+
+/** Set of rules for sending metrics for the Monitor resource. */
+export interface MetricRules {
+  /** Flag specifying if metrics from Azure resources should be sent for the Monitor resource. */
+  sendingMetrics?: SendingMetricsStatus;
+  /** List of filtering tags to be used for capturing metrics. If empty, all resources will be captured. If only Exclude action is specified, the rules will apply to the list of all available resources. If Include actions are specified, the rules will only include resources with the associated tags. */
+  filteringTags?: FilteringTag[];
+}
+
+/** Dynatrace resource can be created or not. */
+export interface CreateResourceSupportedResponse {
+  /** Represents the properties of the resource. */
+  value?: CreateResourceSupportedProperties[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Properties related to the support for creating Dynatrace resources. */
+export interface CreateResourceSupportedProperties {
+  /**
+   * The ARM id of the subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Indicates if selected subscription supports Dynatrace resource creation, if not it is already being monitored for the selected organization via multi subscription feature.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly creationSupported?: boolean;
+}
+
 /** Response of payload to be passed while installing VM agent. */
 export interface VMExtensionPayload {
   /** Ingestion key of the environment */
   ingestionKey?: string;
   /** Id of the environment created */
   environmentId?: string;
+}
+
+/** Request for updating resources given in list according to action. */
+export interface AgentStatusRequest {
+  /** The list of resources. */
+  agentStatusList: AgentStatus[];
+  /** Install/Uninstall action. */
+  action: Action;
+}
+
+/** Details of resource that has Dynatrace agent installed through the Azure Dynatrace resource. */
+export interface AgentStatus {
+  /** The ARM id of the resource. */
+  id?: string;
+  /** The type of Azure resource. */
+  resourceType?: string;
+  /** Resource Id of the associated Dynatrace monitor resource. */
+  dynatraceResourceId?: string;
+  /** Environment Id of the associated Dynatrace monitor resource. */
+  dynatraceEnvironmentId?: string;
 }
 
 /** Properties of the Dynatrace environment. */
@@ -105,6 +251,8 @@ export interface AccountInfo {
   accountId?: string;
   /** Region in which the account is created */
   regionId?: string;
+  /** Name of the customer account / company */
+  companyName?: string;
 }
 
 /** Dynatrace Environment Information */
@@ -162,22 +310,6 @@ export interface PlanData {
   effectiveDate?: Date;
 }
 
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
 /** The properties of the managed service identities assigned to this resource. */
 export interface IdentityProperties {
   /**
@@ -196,18 +328,24 @@ export interface IdentityProperties {
   userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
 }
 
-/** A managed identity assigned by the user. */
+/** User assigned identity properties */
 export interface UserAssignedIdentity {
-  /** The active directory client identifier for this principal. */
-  clientId: string;
-  /** The active directory identifier for this principal. */
-  principalId: string;
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -221,12 +359,63 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** The updatable properties of the MonitorResource. */
 export interface MonitorResourceUpdate {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
+  /** The set of properties that can be updated in a PATCH request to a monitor resource. */
+  properties?: MonitorUpdateProperties;
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
+}
+
+/** The set of properties that can be updated in a PATCH request to a monitor resource. */
+export interface MonitorUpdateProperties {
+  /** The new Billing plan information. */
+  planData?: PlanData;
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /**
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentity | null;
+  };
 }
 
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
@@ -301,45 +490,24 @@ export interface MonitorResourceListResult {
   nextLink?: string;
 }
 
-/** Set of rules for sending logs for the Monitor resource. */
-export interface LogRules {
-  /** Flag specifying if AAD logs should be sent for the Monitor resource. */
-  sendAadLogs?: SendAadLogsStatus;
-  /** Flag specifying if subscription logs should be sent for the Monitor resource. */
-  sendSubscriptionLogs?: SendSubscriptionLogsStatus;
-  /** Flag specifying if activity logs from Azure resources should be sent for the Monitor resource. */
-  sendActivityLogs?: SendActivityLogsStatus;
-  /**
-   * List of filtering tags to be used for capturing logs. This only takes effect if SendActivityLogs flag is enabled. If empty, all resources will be captured.
-   * If only Exclude action is specified, the rules will apply to the list of all available resources. If Include actions are specified, the rules will only include resources with the associated tags.
-   */
-  filteringTags?: FilteringTag[];
-}
-
-/** The definition of a filtering tag. Filtering tags are used for capturing resources and include/exclude them from being monitored. */
-export interface FilteringTag {
-  /** The name (also known as the key) of the tag. */
-  name?: string;
-  /** The value of the tag. */
-  value?: string;
-  /** Valid actions for a filtering tag. Exclusion takes priority over inclusion. */
-  action?: TagAction;
-}
-
-/** Set of rules for sending metrics for the Monitor resource. */
-export interface MetricRules {
-  /** Flag specifying if metrics from Azure resources should be sent for the Monitor resource. */
-  sendingMetrics?: SendingMetricsStatus;
-  /** List of filtering tags to be used for capturing metrics. If empty, all resources will be captured. If only Exclude action is specified, the rules will apply to the list of all available resources. If Include actions are specified, the rules will only include resources with the associated tags. */
-  filteringTags?: FilteringTag[];
-}
-
 /** The response of a TagRule list operation. */
 export interface TagRuleListResult {
   /** The items on this page */
   value: TagRule[];
   /** The link to the next page of items */
   nextLink?: string;
+}
+
+/** Request for getting connected resources count for a Marketplace Subscription Id */
+export interface MarketplaceSubscriptionIdRequest {
+  /** Marketplace Subscription Id */
+  marketplaceSubscriptionId: string;
+}
+
+/** Response for getting Connected resources for a MP SaaS Resource */
+export interface ConnectedResourcesCountResponse {
+  /** Count of the connected resources */
+  connectedResourcesCount?: number;
 }
 
 /** Request for getting Marketplace SaaS resource details for a tenant Id */
@@ -356,6 +524,8 @@ export interface MarketplaceSaaSResourceDetailsResponse {
   planId?: string;
   /** Marketplace subscription status */
   marketplaceSubscriptionStatus?: MarketplaceSubscriptionStatus;
+  /** Name of the Marketplace SaaS Resource */
+  marketplaceSaaSResourceName?: string;
 }
 
 /** The response of a DynatraceSingleSignOnResource list operation. */
@@ -396,6 +566,12 @@ export interface VMInfo {
   hostName?: string;
 }
 
+/** Request for getting metric status for given monitored resource Ids */
+export interface MetricStatusRequest {
+  /** List of azure resource Id of monitored resources for which we get the metric status */
+  monitoredResourceIds?: string[];
+}
+
 /** Response of get metrics status operation */
 export interface MetricsStatusResponse {
   /** Azure resource IDs */
@@ -430,6 +606,12 @@ export interface AppServiceInfo {
   hostGroup?: string;
   /** The name of the host */
   hostName?: string;
+}
+
+/** The billing plan properties for the upgrade plan call. */
+export interface UpgradePlanRequest {
+  /** The new Billing plan information. */
+  planData?: PlanData;
 }
 
 /** Request for getting sso details for a user */
@@ -493,17 +675,14 @@ export interface ProxyResource extends Resource {}
 
 /** Dynatrace Monitor Resource */
 export interface MonitorResource extends TrackedResource {
-  /**
-   * System metadata for this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** The managed service identities assigned to this resource. */
   identity?: IdentityProperties;
   /** Status of the monitor. */
   monitoringStatus?: MonitoringStatus;
   /** Marketplace subscription status. */
   marketplaceSubscriptionStatus?: MarketplaceSubscriptionStatus;
+  /** Marketplace resource autorenew flag */
+  marketplaceSaasAutoRenew?: MarketplaceSaasAutoRenew;
   /** Properties of the Dynatrace environment. */
   dynatraceEnvironmentProperties?: DynatraceEnvironmentProperties;
   /** User info. */
@@ -529,11 +708,6 @@ export interface MonitorResource extends TrackedResource {
 
 /** Tag rules for a monitor resource */
 export interface TagRule extends ProxyResource {
-  /**
-   * System metadata for this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** Set of rules for sending logs for the Monitor resource. */
   logRules?: LogRules;
   /** Set of rules for sending metrics for the Monitor resource. */
@@ -547,11 +721,6 @@ export interface TagRule extends ProxyResource {
 
 /** Single sign-on configurations for a given monitor resource. */
 export interface DynatraceSingleSignOnResource extends ProxyResource {
-  /**
-   * System metadata for this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** State of Single Sign On */
   singleSignOnState?: SingleSignOnStates;
   /** Version of the Dynatrace agent installed on the VM. */
@@ -567,12 +736,39 @@ export interface DynatraceSingleSignOnResource extends ProxyResource {
   readonly provisioningState?: ProvisioningState;
 }
 
+/** Defines headers for Monitors_delete operation. */
+export interface MonitorsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for Monitors_upgradePlan operation. */
+export interface MonitorsUpgradePlanHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  location?: string;
+}
+
+/** Defines headers for MonitoredSubscriptions_update operation. */
+export interface MonitoredSubscriptionsUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for MonitoredSubscriptions_delete operation. */
+export interface MonitoredSubscriptionsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for TagRules_delete operation. */
+export interface TagRulesDeleteHeaders {
+  location?: string;
+}
+
 /** Known values of {@link SendingMetricsStatus} that the service accepts. */
 export enum KnownSendingMetricsStatus {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -590,7 +786,7 @@ export enum KnownSendingLogsStatus {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -603,65 +799,128 @@ export enum KnownSendingLogsStatus {
  */
 export type SendingLogsStatus = string;
 
-/** Known values of {@link MonitoringStatus} that the service accepts. */
-export enum KnownMonitoringStatus {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled"
+/** Known values of {@link SubscriptionListOperation} that the service accepts. */
+export enum KnownSubscriptionListOperation {
+  /** AddBegin */
+  AddBegin = "AddBegin",
+  /** AddComplete */
+  AddComplete = "AddComplete",
+  /** DeleteBegin */
+  DeleteBegin = "DeleteBegin",
+  /** DeleteComplete */
+  DeleteComplete = "DeleteComplete",
+  /** Active */
+  Active = "Active",
 }
 
 /**
- * Defines values for MonitoringStatus. \
- * {@link KnownMonitoringStatus} can be used interchangeably with MonitoringStatus,
+ * Defines values for SubscriptionListOperation. \
+ * {@link KnownSubscriptionListOperation} can be used interchangeably with SubscriptionListOperation,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AddBegin** \
+ * **AddComplete** \
+ * **DeleteBegin** \
+ * **DeleteComplete** \
+ * **Active**
+ */
+export type SubscriptionListOperation = string;
+
+/** Known values of {@link Status} that the service accepts. */
+export enum KnownStatus {
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Active */
+  Active = "Active",
+  /** Failed */
+  Failed = "Failed",
+  /** Deleting */
+  Deleting = "Deleting",
+}
+
+/**
+ * Defines values for Status. \
+ * {@link KnownStatus} can be used interchangeably with Status,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InProgress** \
+ * **Active** \
+ * **Failed** \
+ * **Deleting**
+ */
+export type Status = string;
+
+/** Known values of {@link SendAadLogsStatus} that the service accepts. */
+export enum KnownSendAadLogsStatus {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for SendAadLogsStatus. \
+ * {@link KnownSendAadLogsStatus} can be used interchangeably with SendAadLogsStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Enabled** \
  * **Disabled**
  */
-export type MonitoringStatus = string;
+export type SendAadLogsStatus = string;
 
-/** Known values of {@link MarketplaceSubscriptionStatus} that the service accepts. */
-export enum KnownMarketplaceSubscriptionStatus {
-  /** Active */
-  Active = "Active",
-  /** Suspended */
-  Suspended = "Suspended"
+/** Known values of {@link SendSubscriptionLogsStatus} that the service accepts. */
+export enum KnownSendSubscriptionLogsStatus {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
 }
 
 /**
- * Defines values for MarketplaceSubscriptionStatus. \
- * {@link KnownMarketplaceSubscriptionStatus} can be used interchangeably with MarketplaceSubscriptionStatus,
+ * Defines values for SendSubscriptionLogsStatus. \
+ * {@link KnownSendSubscriptionLogsStatus} can be used interchangeably with SendSubscriptionLogsStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Active** \
- * **Suspended**
+ * **Enabled** \
+ * **Disabled**
  */
-export type MarketplaceSubscriptionStatus = string;
+export type SendSubscriptionLogsStatus = string;
 
-/** Known values of {@link SingleSignOnStates} that the service accepts. */
-export enum KnownSingleSignOnStates {
-  /** Initial */
-  Initial = "Initial",
-  /** Enable */
-  Enable = "Enable",
-  /** Disable */
-  Disable = "Disable",
-  /** Existing */
-  Existing = "Existing"
+/** Known values of {@link SendActivityLogsStatus} that the service accepts. */
+export enum KnownSendActivityLogsStatus {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
 }
 
 /**
- * Defines values for SingleSignOnStates. \
- * {@link KnownSingleSignOnStates} can be used interchangeably with SingleSignOnStates,
+ * Defines values for SendActivityLogsStatus. \
+ * {@link KnownSendActivityLogsStatus} can be used interchangeably with SendActivityLogsStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Initial** \
- * **Enable** \
- * **Disable** \
- * **Existing**
+ * **Enabled** \
+ * **Disabled**
  */
-export type SingleSignOnStates = string;
+export type SendActivityLogsStatus = string;
+
+/** Known values of {@link TagAction} that the service accepts. */
+export enum KnownTagAction {
+  /** Include */
+  Include = "Include",
+  /** Exclude */
+  Exclude = "Exclude",
+}
+
+/**
+ * Defines values for TagAction. \
+ * {@link KnownTagAction} can be used interchangeably with TagAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Include** \
+ * **Exclude**
+ */
+export type TagAction = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
@@ -682,7 +941,7 @@ export enum KnownProvisioningState {
   /** Deleted */
   Deleted = "Deleted",
   /** NotSpecified */
-  NotSpecified = "NotSpecified"
+  NotSpecified = "NotSpecified",
 }
 
 /**
@@ -702,12 +961,111 @@ export enum KnownProvisioningState {
  */
 export type ProvisioningState = string;
 
+/** Known values of {@link Action} that the service accepts. */
+export enum KnownAction {
+  /** Install */
+  Install = "Install",
+  /** Uninstall */
+  Uninstall = "Uninstall",
+}
+
+/**
+ * Defines values for Action. \
+ * {@link KnownAction} can be used interchangeably with Action,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Install** \
+ * **Uninstall**
+ */
+export type Action = string;
+
+/** Known values of {@link MonitoringStatus} that the service accepts. */
+export enum KnownMonitoringStatus {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for MonitoringStatus. \
+ * {@link KnownMonitoringStatus} can be used interchangeably with MonitoringStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type MonitoringStatus = string;
+
+/** Known values of {@link MarketplaceSubscriptionStatus} that the service accepts. */
+export enum KnownMarketplaceSubscriptionStatus {
+  /** Active */
+  Active = "Active",
+  /** Suspended */
+  Suspended = "Suspended",
+  /** Unsubscribed */
+  Unsubscribed = "Unsubscribed",
+}
+
+/**
+ * Defines values for MarketplaceSubscriptionStatus. \
+ * {@link KnownMarketplaceSubscriptionStatus} can be used interchangeably with MarketplaceSubscriptionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active** \
+ * **Suspended** \
+ * **Unsubscribed**
+ */
+export type MarketplaceSubscriptionStatus = string;
+
+/** Known values of {@link MarketplaceSaasAutoRenew} that the service accepts. */
+export enum KnownMarketplaceSaasAutoRenew {
+  /** On */
+  On = "On",
+  /** Off */
+  Off = "Off",
+}
+
+/**
+ * Defines values for MarketplaceSaasAutoRenew. \
+ * {@link KnownMarketplaceSaasAutoRenew} can be used interchangeably with MarketplaceSaasAutoRenew,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **On** \
+ * **Off**
+ */
+export type MarketplaceSaasAutoRenew = string;
+
+/** Known values of {@link SingleSignOnStates} that the service accepts. */
+export enum KnownSingleSignOnStates {
+  /** Initial */
+  Initial = "Initial",
+  /** Enable */
+  Enable = "Enable",
+  /** Disable */
+  Disable = "Disable",
+  /** Existing */
+  Existing = "Existing",
+}
+
+/**
+ * Defines values for SingleSignOnStates. \
+ * {@link KnownSingleSignOnStates} can be used interchangeably with SingleSignOnStates,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Initial** \
+ * **Enable** \
+ * **Disable** \
+ * **Existing**
+ */
+export type SingleSignOnStates = string;
+
 /** Known values of {@link LiftrResourceCategories} that the service accepts. */
 export enum KnownLiftrResourceCategories {
   /** Unknown */
   Unknown = "Unknown",
   /** MonitorLogs */
-  MonitorLogs = "MonitorLogs"
+  MonitorLogs = "MonitorLogs",
 }
 
 /**
@@ -720,6 +1078,27 @@ export enum KnownLiftrResourceCategories {
  */
 export type LiftrResourceCategories = string;
 
+/** Known values of {@link ManagedIdentityType} that the service accepts. */
+export enum KnownManagedIdentityType {
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAndUserAssigned */
+  SystemAndUserAssigned = "SystemAndUserAssigned",
+}
+
+/**
+ * Defines values for ManagedIdentityType. \
+ * {@link KnownManagedIdentityType} can be used interchangeably with ManagedIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAndUserAssigned**
+ */
+export type ManagedIdentityType = string;
+
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
   /** User */
@@ -729,7 +1108,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -744,26 +1123,29 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
-/** Known values of {@link ManagedIdentityType} that the service accepts. */
-export enum KnownManagedIdentityType {
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
   /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
   /** UserAssigned */
   UserAssigned = "UserAssigned",
-  /** SystemAndUserAssigned */
-  SystemAndUserAssigned = "SystemAndUserAssigned"
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
- * Defines values for ManagedIdentityType. \
- * {@link KnownManagedIdentityType} can be used interchangeably with ManagedIdentityType,
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **None** \
  * **SystemAssigned** \
  * **UserAssigned** \
- * **SystemAndUserAssigned**
+ * **SystemAssigned,UserAssigned**
  */
-export type ManagedIdentityType = string;
+export type ManagedServiceIdentityType = string;
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
@@ -772,7 +1154,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -789,7 +1171,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -801,84 +1183,14 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 
-/** Known values of {@link SendAadLogsStatus} that the service accepts. */
-export enum KnownSendAadLogsStatus {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled"
-}
-
-/**
- * Defines values for SendAadLogsStatus. \
- * {@link KnownSendAadLogsStatus} can be used interchangeably with SendAadLogsStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
- */
-export type SendAadLogsStatus = string;
-
-/** Known values of {@link SendSubscriptionLogsStatus} that the service accepts. */
-export enum KnownSendSubscriptionLogsStatus {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled"
-}
-
-/**
- * Defines values for SendSubscriptionLogsStatus. \
- * {@link KnownSendSubscriptionLogsStatus} can be used interchangeably with SendSubscriptionLogsStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
- */
-export type SendSubscriptionLogsStatus = string;
-
-/** Known values of {@link SendActivityLogsStatus} that the service accepts. */
-export enum KnownSendActivityLogsStatus {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled"
-}
-
-/**
- * Defines values for SendActivityLogsStatus. \
- * {@link KnownSendActivityLogsStatus} can be used interchangeably with SendActivityLogsStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
- */
-export type SendActivityLogsStatus = string;
-
-/** Known values of {@link TagAction} that the service accepts. */
-export enum KnownTagAction {
-  /** Include */
-  Include = "Include",
-  /** Exclude */
-  Exclude = "Exclude"
-}
-
-/**
- * Defines values for TagAction. \
- * {@link KnownTagAction} can be used interchangeably with TagAction,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Include** \
- * **Exclude**
- */
-export type TagAction = string;
-
 /** Known values of {@link MonitoringType} that the service accepts. */
 export enum KnownMonitoringType {
   /** CloudInfrastructure */
   CloudInfrastructure = "CLOUD_INFRASTRUCTURE",
   /** FullStack */
-  FullStack = "FULL_STACK"
+  FullStack = "FULL_STACK",
+  /** Discovery */
+  Discovery = "DISCOVERY",
 }
 
 /**
@@ -887,7 +1199,8 @@ export enum KnownMonitoringType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **CLOUD_INFRASTRUCTURE** \
- * **FULL_STACK**
+ * **FULL_STACK** \
+ * **DISCOVERY**
  */
 export type MonitoringType = string;
 
@@ -896,7 +1209,7 @@ export enum KnownAutoUpdateSetting {
   /** Enabled */
   Enabled = "ENABLED",
   /** Disabled */
-  Disabled = "DISABLED"
+  Disabled = "DISABLED",
 }
 
 /**
@@ -928,7 +1241,7 @@ export enum KnownUpdateStatus {
   /** UpdatePending */
   UpdatePending = "UPDATE_PENDING",
   /** UpdateProblem */
-  UpdateProblem = "UPDATE_PROBLEM"
+  UpdateProblem = "UPDATE_PROBLEM",
 }
 
 /**
@@ -965,7 +1278,7 @@ export enum KnownAvailabilityState {
   /** Unknown */
   Unknown = "UNKNOWN",
   /** Unmonitored */
-  Unmonitored = "UNMONITORED"
+  Unmonitored = "UNMONITORED",
 }
 
 /**
@@ -989,7 +1302,7 @@ export enum KnownLogModule {
   /** Enabled */
   Enabled = "ENABLED",
   /** Disabled */
-  Disabled = "DISABLED"
+  Disabled = "DISABLED",
 }
 
 /**
@@ -1007,7 +1320,7 @@ export enum KnownSSOStatus {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -1022,10 +1335,14 @@ export type SSOStatus = string;
 
 /** Optional parameters. */
 export interface MonitorsListMonitoredResourcesOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** The details of the log status request. */
+  request?: LogStatusRequest;
+}
 
 /** Contains response data for the listMonitoredResources operation. */
-export type MonitorsListMonitoredResourcesResponse = MonitoredResourceListResponse;
+export type MonitorsListMonitoredResourcesResponse =
+  MonitoredResourceListResponse;
 
 /** Optional parameters. */
 export interface MonitorsGetVMHostPayloadOptionalParams
@@ -1033,6 +1350,10 @@ export interface MonitorsGetVMHostPayloadOptionalParams
 
 /** Contains response data for the getVMHostPayload operation. */
 export type MonitorsGetVMHostPayloadResponse = VMExtensionPayload;
+
+/** Optional parameters. */
+export interface MonitorsUpdateAgentStatusOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface MonitorsGetOptionalParams
@@ -1069,6 +1390,9 @@ export interface MonitorsDeleteOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the delete operation. */
+export type MonitorsDeleteResponse = MonitorsDeleteHeaders;
+
 /** Optional parameters. */
 export interface MonitorsListBySubscriptionIdOptionalParams
   extends coreClient.OperationOptions {}
@@ -1084,11 +1408,20 @@ export interface MonitorsListByResourceGroupOptionalParams
 export type MonitorsListByResourceGroupResponse = MonitorResourceListResult;
 
 /** Optional parameters. */
+export interface MonitorsGetAllConnectedResourcesCountOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAllConnectedResourcesCount operation. */
+export type MonitorsGetAllConnectedResourcesCountResponse =
+  ConnectedResourcesCountResponse;
+
+/** Optional parameters. */
 export interface MonitorsGetMarketplaceSaaSResourceDetailsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getMarketplaceSaaSResourceDetails operation. */
-export type MonitorsGetMarketplaceSaaSResourceDetailsResponse = MarketplaceSaaSResourceDetailsResponse;
+export type MonitorsGetMarketplaceSaaSResourceDetailsResponse =
+  MarketplaceSaaSResourceDetailsResponse;
 
 /** Optional parameters. */
 export interface MonitorsListHostsOptionalParams
@@ -1099,7 +1432,10 @@ export type MonitorsListHostsResponse = VMHostsListResponse;
 
 /** Optional parameters. */
 export interface MonitorsGetMetricStatusOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** The details of the metric status request. */
+  request?: MetricStatusRequest;
+}
 
 /** Contains response data for the getMetricStatus operation. */
 export type MonitorsGetMetricStatusResponse = MetricsStatusResponse;
@@ -1110,6 +1446,18 @@ export interface MonitorsListAppServicesOptionalParams
 
 /** Contains response data for the listAppServices operation. */
 export type MonitorsListAppServicesResponse = AppServiceListResponse;
+
+/** Optional parameters. */
+export interface MonitorsUpgradePlanOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the upgradePlan operation. */
+export type MonitorsUpgradePlanResponse = MonitorsUpgradePlanHeaders;
 
 /** Optional parameters. */
 export interface MonitorsGetSSODetailsOptionalParams
@@ -1126,21 +1474,27 @@ export interface MonitorsListLinkableEnvironmentsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listLinkableEnvironments operation. */
-export type MonitorsListLinkableEnvironmentsResponse = LinkableEnvironmentListResponse;
+export type MonitorsListLinkableEnvironmentsResponse =
+  LinkableEnvironmentListResponse;
 
 /** Optional parameters. */
 export interface MonitorsListMonitoredResourcesNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** The details of the log status request. */
+  request?: LogStatusRequest;
+}
 
 /** Contains response data for the listMonitoredResourcesNext operation. */
-export type MonitorsListMonitoredResourcesNextResponse = MonitoredResourceListResponse;
+export type MonitorsListMonitoredResourcesNextResponse =
+  MonitoredResourceListResponse;
 
 /** Optional parameters. */
 export interface MonitorsListBySubscriptionIdNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionIdNext operation. */
-export type MonitorsListBySubscriptionIdNextResponse = MonitorResourceListResult;
+export type MonitorsListBySubscriptionIdNextResponse =
+  MonitorResourceListResult;
 
 /** Optional parameters. */
 export interface MonitorsListByResourceGroupNextOptionalParams
@@ -1168,7 +1522,88 @@ export interface MonitorsListLinkableEnvironmentsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listLinkableEnvironmentsNext operation. */
-export type MonitorsListLinkableEnvironmentsNextResponse = LinkableEnvironmentListResponse;
+export type MonitorsListLinkableEnvironmentsNextResponse =
+  LinkableEnvironmentListResponse;
+
+/** Optional parameters. */
+export interface MonitoredSubscriptionsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type MonitoredSubscriptionsListResponse =
+  MonitoredSubscriptionPropertiesList;
+
+/** Optional parameters. */
+export interface MonitoredSubscriptionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type MonitoredSubscriptionsGetResponse = MonitoredSubscriptionProperties;
+
+/** Optional parameters. */
+export interface MonitoredSubscriptionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The request to update subscriptions needed to be monitored by the Dynatrace monitor resource. */
+  body?: MonitoredSubscriptionProperties;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type MonitoredSubscriptionsCreateOrUpdateResponse =
+  MonitoredSubscriptionProperties;
+
+/** Optional parameters. */
+export interface MonitoredSubscriptionsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The request to update subscriptions needed to be monitored by the Dynatrace monitor resource. */
+  body?: MonitoredSubscriptionProperties;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type MonitoredSubscriptionsUpdateResponse =
+  MonitoredSubscriptionProperties;
+
+/** Optional parameters. */
+export interface MonitoredSubscriptionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type MonitoredSubscriptionsDeleteResponse =
+  MonitoredSubscriptionsDeleteHeaders;
+
+/** Optional parameters. */
+export interface MonitoredSubscriptionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type MonitoredSubscriptionsListNextResponse =
+  MonitoredSubscriptionPropertiesList;
+
+/** Optional parameters. */
+export interface CreationSupportedListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type CreationSupportedListResponse = CreateResourceSupportedResponse;
+
+/** Optional parameters. */
+export interface CreationSupportedGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type CreationSupportedGetResponse = CreateResourceSupportedResponse;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -1211,6 +1646,9 @@ export interface TagRulesDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the delete operation. */
+export type TagRulesDeleteResponse = TagRulesDeleteHeaders;
 
 /** Optional parameters. */
 export interface TagRulesListOptionalParams
@@ -1257,7 +1695,8 @@ export interface SingleSignOnListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type SingleSignOnListNextResponse = DynatraceSingleSignOnResourceListResult;
+export type SingleSignOnListNextResponse =
+  DynatraceSingleSignOnResourceListResult;
 
 /** Optional parameters. */
 export interface DynatraceObservabilityOptionalParams
