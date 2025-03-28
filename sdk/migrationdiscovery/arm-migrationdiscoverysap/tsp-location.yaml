@@ -1,0 +1,4 @@
+directory: specification/workloads/Workloads.SAPDiscoverySite.Management
+commit: 607c4e22d9141db8ab74cc659276c4e7d0c3e52b
+repo: ../azure-rest-api-specs
+additionalDirectories: 
