@@ -14,7 +14,7 @@ import {
   SingleSignOnCreateOrUpdateOptionalParams,
   SingleSignOnCreateOrUpdateResponse,
   SingleSignOnGetOptionalParams,
-  SingleSignOnGetResponse
+  SingleSignOnGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface SingleSignOn {
   list(
     resourceGroupName: string,
     monitorName: string,
-    options?: SingleSignOnListOptionalParams
+    options?: SingleSignOnListOptionalParams,
   ): PagedAsyncIterableIterator<DynatraceSingleSignOnResource>;
   /**
    * Create a DynatraceSingleSignOnResource
@@ -44,7 +44,7 @@ export interface SingleSignOn {
     monitorName: string,
     configurationName: string,
     resource: DynatraceSingleSignOnResource,
-    options?: SingleSignOnCreateOrUpdateOptionalParams
+    options?: SingleSignOnCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SingleSignOnCreateOrUpdateResponse>,
@@ -64,7 +64,7 @@ export interface SingleSignOn {
     monitorName: string,
     configurationName: string,
     resource: DynatraceSingleSignOnResource,
-    options?: SingleSignOnCreateOrUpdateOptionalParams
+    options?: SingleSignOnCreateOrUpdateOptionalParams,
   ): Promise<SingleSignOnCreateOrUpdateResponse>;
   /**
    * Get a DynatraceSingleSignOnResource
@@ -77,6 +77,6 @@ export interface SingleSignOn {
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: SingleSignOnGetOptionalParams
+    options?: SingleSignOnGetOptionalParams,
   ): Promise<SingleSignOnGetResponse>;
 }
