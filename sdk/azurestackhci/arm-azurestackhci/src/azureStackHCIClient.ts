@@ -18,6 +18,7 @@ import {
   ArcSettingsImpl,
   ClustersImpl,
   DeploymentSettingsImpl,
+  EdgeDeviceJobsImpl,
   EdgeDevicesImpl,
   ExtensionsImpl,
   OffersImpl,
@@ -26,13 +27,15 @@ import {
   SecuritySettingsImpl,
   SkusImpl,
   UpdateRunsImpl,
-  UpdateSummariesOperationsImpl,
   UpdatesImpl,
+  UpdateSummariesOperationsImpl,
+  ValidatedSolutionRecipesImpl,
 } from "./operations/index.js";
 import {
   ArcSettings,
   Clusters,
   DeploymentSettings,
+  EdgeDeviceJobs,
   EdgeDevices,
   Extensions,
   Offers,
@@ -41,8 +44,9 @@ import {
   SecuritySettings,
   Skus,
   UpdateRuns,
-  UpdateSummariesOperations,
   Updates,
+  UpdateSummariesOperations,
+  ValidatedSolutionRecipes,
 } from "./operationsInterfaces/index.js";
 import { AzureStackHCIClientOptionalParams } from "./models/index.js";
 
@@ -146,10 +150,11 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-04-01";
+    this.apiVersion = options.apiVersion || "2025-02-01-preview";
     this.arcSettings = new ArcSettingsImpl(this);
     this.clusters = new ClustersImpl(this);
     this.deploymentSettings = new DeploymentSettingsImpl(this);
+    this.edgeDeviceJobs = new EdgeDeviceJobsImpl(this);
     this.edgeDevices = new EdgeDevicesImpl(this);
     this.extensions = new ExtensionsImpl(this);
     this.offers = new OffersImpl(this);
@@ -158,8 +163,9 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
     this.securitySettings = new SecuritySettingsImpl(this);
     this.skus = new SkusImpl(this);
     this.updateRuns = new UpdateRunsImpl(this);
-    this.updateSummariesOperations = new UpdateSummariesOperationsImpl(this);
     this.updates = new UpdatesImpl(this);
+    this.updateSummariesOperations = new UpdateSummariesOperationsImpl(this);
+    this.validatedSolutionRecipes = new ValidatedSolutionRecipesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -194,6 +200,7 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
   arcSettings: ArcSettings;
   clusters: Clusters;
   deploymentSettings: DeploymentSettings;
+  edgeDeviceJobs: EdgeDeviceJobs;
   edgeDevices: EdgeDevices;
   extensions: Extensions;
   offers: Offers;
@@ -202,6 +209,7 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
   securitySettings: SecuritySettings;
   skus: Skus;
   updateRuns: UpdateRuns;
-  updateSummariesOperations: UpdateSummariesOperations;
   updates: Updates;
+  updateSummariesOperations: UpdateSummariesOperations;
+  validatedSolutionRecipes: ValidatedSolutionRecipes;
 }

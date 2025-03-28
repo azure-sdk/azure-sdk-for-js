@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { SecuritySettings } from "../operationsInterfaces/index.js";
+import { EdgeDeviceJobs } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -20,26 +20,26 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  SecuritySetting,
-  SecuritySettingsListByClustersNextOptionalParams,
-  SecuritySettingsListByClustersOptionalParams,
-  SecuritySettingsListByClustersResponse,
-  SecuritySettingsGetOptionalParams,
-  SecuritySettingsGetResponse,
-  SecuritySettingsCreateOrUpdateOptionalParams,
-  SecuritySettingsCreateOrUpdateResponse,
-  SecuritySettingsDeleteOptionalParams,
-  SecuritySettingsDeleteResponse,
-  SecuritySettingsListByClustersNextResponse,
+  EdgeDeviceJobUnion,
+  EdgeDeviceJobsListByEdgeDeviceNextOptionalParams,
+  EdgeDeviceJobsListByEdgeDeviceOptionalParams,
+  EdgeDeviceJobsListByEdgeDeviceResponse,
+  EdgeDeviceJobsGetOptionalParams,
+  EdgeDeviceJobsGetResponse,
+  EdgeDeviceJobsCreateOrUpdateOptionalParams,
+  EdgeDeviceJobsCreateOrUpdateResponse,
+  EdgeDeviceJobsDeleteOptionalParams,
+  EdgeDeviceJobsDeleteResponse,
+  EdgeDeviceJobsListByEdgeDeviceNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing SecuritySettings operations. */
-export class SecuritySettingsImpl implements SecuritySettings {
+/** Class containing EdgeDeviceJobs operations. */
+export class EdgeDeviceJobsImpl implements EdgeDeviceJobs {
   private readonly client: AzureStackHCIClient;
 
   /**
-   * Initialize a new instance of the class SecuritySettings class.
+   * Initialize a new instance of the class EdgeDeviceJobs class.
    * @param client Reference to the service client
    */
   constructor(client: AzureStackHCIClient) {
@@ -47,19 +47,19 @@ export class SecuritySettingsImpl implements SecuritySettings {
   }
 
   /**
-   * List SecuritySetting resources by Clusters
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the cluster.
+   * List EdgeDeviceJob resources by EdgeDevice
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param edgeDeviceName The name of the EdgeDevice
    * @param options The options parameters.
    */
-  public listByClusters(
-    resourceGroupName: string,
-    clusterName: string,
-    options?: SecuritySettingsListByClustersOptionalParams,
-  ): PagedAsyncIterableIterator<SecuritySetting> {
-    const iter = this.listByClustersPagingAll(
-      resourceGroupName,
-      clusterName,
+  public listByEdgeDevice(
+    resourceUri: string,
+    edgeDeviceName: string,
+    options?: EdgeDeviceJobsListByEdgeDeviceOptionalParams,
+  ): PagedAsyncIterableIterator<EdgeDeviceJobUnion> {
+    const iter = this.listByEdgeDevicePagingAll(
+      resourceUri,
+      edgeDeviceName,
       options,
     );
     return {
@@ -73,9 +73,9 @@ export class SecuritySettingsImpl implements SecuritySettings {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByClustersPagingPage(
-          resourceGroupName,
-          clusterName,
+        return this.listByEdgeDevicePagingPage(
+          resourceUri,
+          edgeDeviceName,
           options,
           settings,
         );
@@ -83,18 +83,18 @@ export class SecuritySettingsImpl implements SecuritySettings {
     };
   }
 
-  private async *listByClustersPagingPage(
-    resourceGroupName: string,
-    clusterName: string,
-    options?: SecuritySettingsListByClustersOptionalParams,
+  private async *listByEdgeDevicePagingPage(
+    resourceUri: string,
+    edgeDeviceName: string,
+    options?: EdgeDeviceJobsListByEdgeDeviceOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<SecuritySetting[]> {
-    let result: SecuritySettingsListByClustersResponse;
+  ): AsyncIterableIterator<EdgeDeviceJobUnion[]> {
+    let result: EdgeDeviceJobsListByEdgeDeviceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByClusters(
-        resourceGroupName,
-        clusterName,
+      result = await this._listByEdgeDevice(
+        resourceUri,
+        edgeDeviceName,
         options,
       );
       let page = result.value || [];
@@ -103,9 +103,9 @@ export class SecuritySettingsImpl implements SecuritySettings {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByClustersNext(
-        resourceGroupName,
-        clusterName,
+      result = await this._listByEdgeDeviceNext(
+        resourceUri,
+        edgeDeviceName,
         continuationToken,
         options,
       );
@@ -116,14 +116,14 @@ export class SecuritySettingsImpl implements SecuritySettings {
     }
   }
 
-  private async *listByClustersPagingAll(
-    resourceGroupName: string,
-    clusterName: string,
-    options?: SecuritySettingsListByClustersOptionalParams,
-  ): AsyncIterableIterator<SecuritySetting> {
-    for await (const page of this.listByClustersPagingPage(
-      resourceGroupName,
-      clusterName,
+  private async *listByEdgeDevicePagingAll(
+    resourceUri: string,
+    edgeDeviceName: string,
+    options?: EdgeDeviceJobsListByEdgeDeviceOptionalParams,
+  ): AsyncIterableIterator<EdgeDeviceJobUnion> {
+    for await (const page of this.listByEdgeDevicePagingPage(
+      resourceUri,
+      edgeDeviceName,
       options,
     )) {
       yield* page;
@@ -131,65 +131,65 @@ export class SecuritySettingsImpl implements SecuritySettings {
   }
 
   /**
-   * List SecuritySetting resources by Clusters
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the cluster.
+   * List EdgeDeviceJob resources by EdgeDevice
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param edgeDeviceName The name of the EdgeDevice
    * @param options The options parameters.
    */
-  private _listByClusters(
-    resourceGroupName: string,
-    clusterName: string,
-    options?: SecuritySettingsListByClustersOptionalParams,
-  ): Promise<SecuritySettingsListByClustersResponse> {
+  private _listByEdgeDevice(
+    resourceUri: string,
+    edgeDeviceName: string,
+    options?: EdgeDeviceJobsListByEdgeDeviceOptionalParams,
+  ): Promise<EdgeDeviceJobsListByEdgeDeviceResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, clusterName, options },
-      listByClustersOperationSpec,
+      { resourceUri, edgeDeviceName, options },
+      listByEdgeDeviceOperationSpec,
     );
   }
 
   /**
-   * Get a SecuritySetting
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the cluster.
-   * @param securitySettingsName Name of security setting
+   * Get a EdgeDeviceJob
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param edgeDeviceName The name of the EdgeDevice
+   * @param jobsName Name of EdgeDevice Job
    * @param options The options parameters.
    */
   get(
-    resourceGroupName: string,
-    clusterName: string,
-    securitySettingsName: string,
-    options?: SecuritySettingsGetOptionalParams,
-  ): Promise<SecuritySettingsGetResponse> {
+    resourceUri: string,
+    edgeDeviceName: string,
+    jobsName: string,
+    options?: EdgeDeviceJobsGetOptionalParams,
+  ): Promise<EdgeDeviceJobsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, clusterName, securitySettingsName, options },
+      { resourceUri, edgeDeviceName, jobsName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Create a security setting
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the cluster.
-   * @param securitySettingsName Name of security setting
+   * Create a EdgeDeviceJob
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param edgeDeviceName The name of the EdgeDevice
+   * @param jobsName Name of EdgeDevice Job
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
-    resourceGroupName: string,
-    clusterName: string,
-    securitySettingsName: string,
-    resource: SecuritySetting,
-    options?: SecuritySettingsCreateOrUpdateOptionalParams,
+    resourceUri: string,
+    edgeDeviceName: string,
+    jobsName: string,
+    resource: EdgeDeviceJobUnion,
+    options?: EdgeDeviceJobsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SecuritySettingsCreateOrUpdateResponse>,
-      SecuritySettingsCreateOrUpdateResponse
+      OperationState<EdgeDeviceJobsCreateOrUpdateResponse>,
+      EdgeDeviceJobsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<SecuritySettingsCreateOrUpdateResponse> => {
+    ): Promise<EdgeDeviceJobsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -226,18 +226,12 @@ export class SecuritySettingsImpl implements SecuritySettings {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        clusterName,
-        securitySettingsName,
-        resource,
-        options,
-      },
+      args: { resourceUri, edgeDeviceName, jobsName, resource, options },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      SecuritySettingsCreateOrUpdateResponse,
-      OperationState<SecuritySettingsCreateOrUpdateResponse>
+      EdgeDeviceJobsCreateOrUpdateResponse,
+      OperationState<EdgeDeviceJobsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -248,24 +242,24 @@ export class SecuritySettingsImpl implements SecuritySettings {
   }
 
   /**
-   * Create a security setting
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the cluster.
-   * @param securitySettingsName Name of security setting
+   * Create a EdgeDeviceJob
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param edgeDeviceName The name of the EdgeDevice
+   * @param jobsName Name of EdgeDevice Job
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
-    resourceGroupName: string,
-    clusterName: string,
-    securitySettingsName: string,
-    resource: SecuritySetting,
-    options?: SecuritySettingsCreateOrUpdateOptionalParams,
-  ): Promise<SecuritySettingsCreateOrUpdateResponse> {
+    resourceUri: string,
+    edgeDeviceName: string,
+    jobsName: string,
+    resource: EdgeDeviceJobUnion,
+    options?: EdgeDeviceJobsCreateOrUpdateOptionalParams,
+  ): Promise<EdgeDeviceJobsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      clusterName,
-      securitySettingsName,
+      resourceUri,
+      edgeDeviceName,
+      jobsName,
       resource,
       options,
     );
@@ -273,27 +267,27 @@ export class SecuritySettingsImpl implements SecuritySettings {
   }
 
   /**
-   * Delete a SecuritySetting
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the cluster.
-   * @param securitySettingsName Name of security setting
+   * Delete a EdgeDeviceJob
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param edgeDeviceName The name of the EdgeDevice
+   * @param jobsName Name of EdgeDevice Job
    * @param options The options parameters.
    */
   async beginDelete(
-    resourceGroupName: string,
-    clusterName: string,
-    securitySettingsName: string,
-    options?: SecuritySettingsDeleteOptionalParams,
+    resourceUri: string,
+    edgeDeviceName: string,
+    jobsName: string,
+    options?: EdgeDeviceJobsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SecuritySettingsDeleteResponse>,
-      SecuritySettingsDeleteResponse
+      OperationState<EdgeDeviceJobsDeleteResponse>,
+      EdgeDeviceJobsDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<SecuritySettingsDeleteResponse> => {
+    ): Promise<EdgeDeviceJobsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -330,12 +324,12 @@ export class SecuritySettingsImpl implements SecuritySettings {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, clusterName, securitySettingsName, options },
+      args: { resourceUri, edgeDeviceName, jobsName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      SecuritySettingsDeleteResponse,
-      OperationState<SecuritySettingsDeleteResponse>
+      EdgeDeviceJobsDeleteResponse,
+      OperationState<EdgeDeviceJobsDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -346,55 +340,55 @@ export class SecuritySettingsImpl implements SecuritySettings {
   }
 
   /**
-   * Delete a SecuritySetting
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the cluster.
-   * @param securitySettingsName Name of security setting
+   * Delete a EdgeDeviceJob
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param edgeDeviceName The name of the EdgeDevice
+   * @param jobsName Name of EdgeDevice Job
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
-    resourceGroupName: string,
-    clusterName: string,
-    securitySettingsName: string,
-    options?: SecuritySettingsDeleteOptionalParams,
-  ): Promise<SecuritySettingsDeleteResponse> {
+    resourceUri: string,
+    edgeDeviceName: string,
+    jobsName: string,
+    options?: EdgeDeviceJobsDeleteOptionalParams,
+  ): Promise<EdgeDeviceJobsDeleteResponse> {
     const poller = await this.beginDelete(
-      resourceGroupName,
-      clusterName,
-      securitySettingsName,
+      resourceUri,
+      edgeDeviceName,
+      jobsName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * ListByClustersNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the cluster.
-   * @param nextLink The nextLink from the previous successful call to the ListByClusters method.
+   * ListByEdgeDeviceNext
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param edgeDeviceName The name of the EdgeDevice
+   * @param nextLink The nextLink from the previous successful call to the ListByEdgeDevice method.
    * @param options The options parameters.
    */
-  private _listByClustersNext(
-    resourceGroupName: string,
-    clusterName: string,
+  private _listByEdgeDeviceNext(
+    resourceUri: string,
+    edgeDeviceName: string,
     nextLink: string,
-    options?: SecuritySettingsListByClustersNextOptionalParams,
-  ): Promise<SecuritySettingsListByClustersNextResponse> {
+    options?: EdgeDeviceJobsListByEdgeDeviceNextOptionalParams,
+  ): Promise<EdgeDeviceJobsListByEdgeDeviceNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, clusterName, nextLink, options },
-      listByClustersNextOperationSpec,
+      { resourceUri, edgeDeviceName, nextLink, options },
+      listByEdgeDeviceNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByClustersOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/securitySettings",
+const listByEdgeDeviceOperationSpec: coreClient.OperationSpec = {
+  path: "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}/jobs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecuritySettingListResult,
+      bodyMapper: Mappers.EdgeDeviceJobListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -403,19 +397,18 @@ const listByClustersOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
+    Parameters.resourceUri,
+    Parameters.edgeDeviceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/securitySettings/{securitySettingsName}",
+  path: "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}/jobs/{jobsName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecuritySetting,
+      bodyMapper: Mappers.EdgeDeviceJob,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -424,62 +417,60 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.securitySettingsName,
+    Parameters.resourceUri,
+    Parameters.edgeDeviceName,
+    Parameters.jobsName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/securitySettings/{securitySettingsName}",
+  path: "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}/jobs/{jobsName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SecuritySetting,
+      bodyMapper: Mappers.EdgeDeviceJob,
     },
     201: {
-      bodyMapper: Mappers.SecuritySetting,
+      bodyMapper: Mappers.EdgeDeviceJob,
     },
     202: {
-      bodyMapper: Mappers.SecuritySetting,
+      bodyMapper: Mappers.EdgeDeviceJob,
     },
     204: {
-      bodyMapper: Mappers.SecuritySetting,
+      bodyMapper: Mappers.EdgeDeviceJob,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.resource3,
+  requestBody: Parameters.resource1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.securitySettingsName,
+    Parameters.resourceUri,
+    Parameters.edgeDeviceName,
+    Parameters.jobsName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/securitySettings/{securitySettingsName}",
+  path: "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}/jobs/{jobsName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.SecuritySettingsDeleteHeaders,
+      headersMapper: Mappers.EdgeDeviceJobsDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.SecuritySettingsDeleteHeaders,
+      headersMapper: Mappers.EdgeDeviceJobsDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.SecuritySettingsDeleteHeaders,
+      headersMapper: Mappers.EdgeDeviceJobsDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.SecuritySettingsDeleteHeaders,
+      headersMapper: Mappers.EdgeDeviceJobsDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -488,20 +479,19 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.securitySettingsName,
+    Parameters.resourceUri,
+    Parameters.edgeDeviceName,
+    Parameters.jobsName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByClustersNextOperationSpec: coreClient.OperationSpec = {
+const listByEdgeDeviceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecuritySettingListResult,
+      bodyMapper: Mappers.EdgeDeviceJobListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -509,10 +499,9 @@ const listByClustersNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
     Parameters.nextLink,
+    Parameters.resourceUri,
+    Parameters.edgeDeviceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
