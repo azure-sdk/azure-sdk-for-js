@@ -196,10 +196,10 @@ export interface AtlasEntityHeaders {
 
 export interface BusinessMetadataOptionsFilePartDescriptor {
   name: "file";
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
-  filename?: string;
-  contentType?: string;
+  body: HttpPartBytes;
 }
+
+export interface HttpPartBytes {}
 
 /** MoveEntitiesOptions */
 export interface MoveEntitiesOptions {
