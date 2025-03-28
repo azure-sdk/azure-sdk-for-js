@@ -1339,6 +1339,10 @@ packages:
     resolution: {integrity: sha512-KxZFSseqIwXlQkQ3jSV9d0O1ccF/VcpVQwCBZsGaSiTBgKjht1c4279543ZdmvXOZyxn5e7ckEwJ8KIFlJ4OZA==}
     engines: {node: '>=14.0.0'}
 
+  '@azure/arm-storage@18.4.0':
+    resolution: {integrity: sha512-3FOjh1FAL0FTWlNjmwOZFOiNJbu68cFRU4x7sKmSx+kze8/mkqAlJ+TLyYHv7+W/UigHOjrmn7DGKpDWyXkWgQ==}
+    engines: {node: '>=18.0.0'}
+
   '@azure/communication-common@2.3.1':
     resolution: {integrity: sha512-6ZQt20iMZbyckQn4m1TDwiDv3Fzyt1h4lnQ1szBBns2x3VQY9XHbnskPtvUdwK/HT+c/1PoUwof3toy1AIznbQ==}
     engines: {node: '>=18.0.0'}
@@ -2425,7 +2429,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-document-intelligence@file:projects/ai-document-intelligence.tgz':
-    resolution: {integrity: sha512-tm2LpG38x+4/L7fyau11arXYwDBKpcbeFT4jBYDb39v48yHhCpN6xMsUVToJfpEoO8bhumnuJ5vhG6nkJ79GNw==, tarball: file:projects/ai-document-intelligence.tgz}
+    resolution: {integrity: sha512-GjvsTK1JzoLUW4e/KZUEEbI2eSlU9a4R9F6XPlDtCCtTaoAN6bpP96299p76topt4F0VlAoO2mP5RehDIg76vQ==, tarball: file:projects/ai-document-intelligence.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-document-translator@file:projects/ai-document-translator.tgz':
@@ -2597,7 +2601,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-batch@file:projects/arm-batch.tgz':
-    resolution: {integrity: sha512-VSmrvd68gEuoBBmVer3DZKhm80b/z8scOQ63RyPXmQB36T0UmvH053LakK34IyKsAvhbyodeUwZLrJR/FJW8Ig==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-9FU5FeTw/xcO6yEW9dCwkI/1dywh9+hbIXbK48ZilkMUJLYSdoUDKB3wrGNHutCwN4rKk55ELCglqRGaSP+ZVA==, tarball: file:projects/arm-batch.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-billing@file:projects/arm-billing.tgz':
@@ -2877,7 +2881,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-eventhub@file:projects/arm-eventhub.tgz':
-    resolution: {integrity: sha512-01qcODjBU80j+iz1CMgBUqN7wFU8huK3hU9312JJu8/7ZTppVEmw9r359idY2J/k5mwD0mq0jcv6Gl3Uxoc+ig==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-WKZVJ/BOKjYVXF0RhmXhkloKsCrbneM4guUNuwbBzoD5tjzKSD16hS36AlZjdSKoMT9FSrsAxgqqBV4hAoeqAA==, tarball: file:projects/arm-eventhub.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-extendedlocation@file:projects/arm-extendedlocation.tgz':
@@ -3077,7 +3081,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-mediaservices@file:projects/arm-mediaservices.tgz':
-    resolution: {integrity: sha512-Co16P/gZ1uI/N95fCrICJsvMgkqGkoNZXzSwjLfA5aZGGqKQMWstUHilVTfnDa+/QOpFP1obXFedEzhEG4itvA==, tarball: file:projects/arm-mediaservices.tgz}
+    resolution: {integrity: sha512-QwN11dy7vUSJGZEJeUCTora+YXSL3Ip/64tmU5zzIlyuBaruc0m6UsfxkgGQL/f6acc1hGtRO+o3d7bW0mN3Pg==, tarball: file:projects/arm-mediaservices.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-migrate@file:projects/arm-migrate.tgz':
@@ -3109,7 +3113,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-monitor@file:projects/arm-monitor.tgz':
-    resolution: {integrity: sha512-uhfVN33AcMGQOb7curEGZ2qd3/L4d2+FgF3AEOnKuXzNyCU8XZ1DUAFBspIhnX/NI83TXyzCwOHWunsz98k5Ig==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-sd3GvMF9VTTnw9mzBbZOhpFCL8HnFRCzSbrt1MW7jD50dSBfs9mUgUG8ld2G+xWpm1ss2oONNIqVOoBb267o0w==, tarball: file:projects/arm-monitor.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-msi@file:projects/arm-msi.tgz':
@@ -3409,7 +3413,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-storage@file:projects/arm-storage.tgz':
-    resolution: {integrity: sha512-qNYrsf5lRQ4w6NbFDa0R16ygHuz5dNqPq3pyy/ltgZxLPKwB/+Mhr3JkryILTgcoFDbNyPr7TLQg5blPCNk0ZQ==, tarball: file:projects/arm-storage.tgz}
+    resolution: {integrity: sha512-mbL8/xCBA0hgoHyQZk2ou62Ya3uc4LKnzQLRjGoFX8qMhwB4AITR+McvdBLpcEKNTg0w6DvLzZ7+JViusNoeXQ==, tarball: file:projects/arm-storage.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-storageactions@file:projects/arm-storageactions.tgz':
@@ -8308,6 +8312,18 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@azure/arm-storage@18.4.0':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.3
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.19.1
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/communication-common@2.3.1':
     dependencies:
       '@azure/abort-controller': 1.1.0
@@ -9804,6 +9820,7 @@ snapshots:
 
   '@rush-temp/ai-document-intelligence@file:projects/ai-document-intelligence.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@azure/arm-storage': 18.4.0
       '@types/node': 18.19.84
       '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
       '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
@@ -11315,6 +11332,7 @@ snapshots:
 
   '@rush-temp/arm-batch@file:projects/arm-batch.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@azure/arm-storage': 18.4.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.84
       '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
@@ -13749,6 +13767,7 @@ snapshots:
   '@rush-temp/arm-eventhub@file:projects/arm-eventhub.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@azure/arm-network': 32.2.0
+      '@azure/arm-storage': 18.4.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.84
       '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.6.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
@@ -15483,6 +15502,7 @@ snapshots:
 
   '@rush-temp/arm-mediaservices@file:projects/arm-mediaservices.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@azure/arm-storage': 18.4.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.84
       '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
@@ -15761,6 +15781,7 @@ snapshots:
   '@rush-temp/arm-monitor@file:projects/arm-monitor.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@azure/arm-eventhub': 5.2.0
+      '@azure/arm-storage': 18.4.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.84
       '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
@@ -18374,12 +18395,12 @@ snapshots:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.84
-      '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.6.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
+      '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.7.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
       '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
       dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.6.3
+      typescript: 5.7.3
       vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -24013,7 +24034,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.2.1
 
   '@types/chai-as-promised@8.0.2':
     dependencies:
