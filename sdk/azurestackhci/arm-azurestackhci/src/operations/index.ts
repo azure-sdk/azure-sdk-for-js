@@ -9,6 +9,7 @@
 export * from "./arcSettings.js";
 export * from "./clusters.js";
 export * from "./deploymentSettings.js";
+export * from "./edgeDeviceJobs.js";
 export * from "./edgeDevices.js";
 export * from "./extensions.js";
 export * from "./offers.js";
@@ -17,5 +18,6 @@ export * from "./publishers.js";
 export * from "./securitySettings.js";
 export * from "./skus.js";
 export * from "./updateRuns.js";
-export * from "./updateSummariesOperations.js";
 export * from "./updates.js";
+export * from "./updateSummariesOperations.js";
+export * from "./validatedSolutionRecipes.js";
