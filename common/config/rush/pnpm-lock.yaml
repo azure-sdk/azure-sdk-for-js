@@ -2401,7 +2401,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-anomaly-detector@file:projects/ai-anomaly-detector.tgz':
-    resolution: {integrity: sha512-mHcbQunzFdf+97SDxTy+3IzOYQ2VsevByu4jqWKnRXnCi0bc+SFBeirA33KDbXbCbMkxeOMm13EyQ4Iz1MiFhw==, tarball: file:projects/ai-anomaly-detector.tgz}
+    resolution: {integrity: sha512-iwlPGJfHCKlnssxvFOAfTQPoIezsATGFDg6jaVcJOmf7ziKYIJ7iXblcCSt4fQWkd285/Iij5/jH+dtEWEz7lQ==, tarball: file:projects/ai-anomaly-detector.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-content-safety@file:projects/ai-content-safety.tgz':
@@ -2717,7 +2717,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-databox@file:projects/arm-databox.tgz':
-    resolution: {integrity: sha512-XFqbgBC0FmEiVy6WGk1YWHaU5fPu/GevB7OcnkYCRL+FdPymsK2ZhQ62e+LCB4F0RAwu99EVdYyZSSko/4MJbA==, tarball: file:projects/arm-databox.tgz}
+    resolution: {integrity: sha512-e+shYsvMWk/hM7h/I4U/fxzbmmZ6LZ3Zv2Q2CmuhhTXPyLh6llACUcTg+bBNnYX6fMrLaXMPX8uhuB2fryftTg==, tarball: file:projects/arm-databox.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-databoxedge-profile-2020-09-01-hybrid@file:projects/arm-databoxedge-profile-2020-09-01-hybrid.tgz':
@@ -2841,7 +2841,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-eventgrid@file:projects/arm-eventgrid.tgz':
-    resolution: {integrity: sha512-6+e6BYARGxY3Co7bo+t9TbRAQCHDHu2MvKPYFP94vjfdwVbqjn6pvz6mu/xWvyH4msHwfm9lLXPZroAbi8FSoA==, tarball: file:projects/arm-eventgrid.tgz}
+    resolution: {integrity: sha512-eUBU5xbz+ZkTF9ic97wZofIxzBew5fN3K+PTmSn6umwJlvEZWb5U1V8KCUhhphPSeTJ3c10t4QZu/qt5D//ZeQ==, tarball: file:projects/arm-eventgrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-eventhub-profile-2020-09-01-hybrid@file:projects/arm-eventhub-profile-2020-09-01-hybrid.tgz':
@@ -2965,7 +2965,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-keyvault@file:projects/arm-keyvault.tgz':
-    resolution: {integrity: sha512-vMtITsDvx8D6ADvXnFssNkaXrynpd/8Mad50virn2BWCZjMxVebdDzmb/QipmqvLG5170HQXMgozQ8OqgPHz3g==, tarball: file:projects/arm-keyvault.tgz}
+    resolution: {integrity: sha512-Aiden6jzQamDNk/C2lmBij5nSTwOd4npjmS/IRJgwmbaL1ruVBUubx9vzdeN1tt6qN5952A73UpxFfJLFEQRHw==, tarball: file:projects/arm-keyvault.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-kubernetesconfiguration@file:projects/arm-kubernetesconfiguration.tgz':
@@ -5013,9 +5013,6 @@ packages:
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
-
-  csv-parse@5.6.0:
-    resolution: {integrity: sha512-l3nz3euub2QMg5ouu5U09Ew9Wf6/wQ8I++ch1loQ0ljmzhmfZYrH9fflS22i/PQEvsPvxCwxgz5q7UB8K1JO4Q==}
 
   custom-event@1.0.1:
     resolution: {integrity: sha512-GAj5FOq0Hd+RsCGVJxZuKaIDXDf3h6GQoNEjFgbLLI/trgtavwUbSnZ5pVfg27DVCaWjIohryS0JFwIJyT2cMg==}
@@ -9684,17 +9681,14 @@ snapshots:
 
   '@rush-temp/ai-anomaly-detector@file:projects/ai-anomaly-detector.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
-      '@azure/core-lro': 2.7.2
       '@types/node': 18.19.84
-      '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
+      '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.7.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
       '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
-      autorest: 3.7.1
-      csv-parse: 5.6.0
       dotenv: 16.4.7
       eslint: 9.23.0
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.8.2
+      typescript: 5.7.3
       vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -24877,8 +24871,6 @@ snapshots:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
-
-  csv-parse@5.6.0: {}
 
   custom-event@1.0.1: {}
 
