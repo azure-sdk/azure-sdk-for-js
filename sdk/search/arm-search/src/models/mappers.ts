@@ -666,6 +666,58 @@ export const Resource: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData",
+        },
+      },
+    },
+  },
+};
+
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String",
+        },
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String",
+        },
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime",
+        },
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime",
+        },
+      },
     },
   },
 };
@@ -1574,12 +1626,24 @@ export const SearchServiceUpdate: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      endpoint: {
+        serializedName: "properties.endpoint",
+        type: {
+          name: "String",
+        },
+      },
       hostingMode: {
         defaultValue: "default",
         serializedName: "properties.hostingMode",
         type: {
           name: "Enum",
           allowedValues: ["default", "highDensity"],
+        },
+      },
+      computeType: {
+        serializedName: "properties.computeType",
+        type: {
+          name: "String",
         },
       },
       publicNetworkAccess: {
@@ -1617,7 +1681,7 @@ export const SearchServiceUpdate: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Enum",
-          allowedValues: ["Succeeded", "Provisioning", "Failed"],
+          allowedValues: ["succeeded", "provisioning", "failed"],
         },
       },
       networkRuleSet: {
@@ -1697,6 +1761,20 @@ export const SearchServiceUpdate: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String",
+        },
+      },
+      upgradeAvailable: {
+        serializedName: "properties.upgradeAvailable",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      serviceUpgradeDate: {
+        serializedName: "properties.serviceUpgradeDate",
+        readOnly: true,
+        type: {
+          name: "DateTime",
         },
       },
     },
@@ -1772,12 +1850,24 @@ export const SearchService: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      endpoint: {
+        serializedName: "properties.endpoint",
+        type: {
+          name: "String",
+        },
+      },
       hostingMode: {
         defaultValue: "default",
         serializedName: "properties.hostingMode",
         type: {
           name: "Enum",
           allowedValues: ["default", "highDensity"],
+        },
+      },
+      computeType: {
+        serializedName: "properties.computeType",
+        type: {
+          name: "String",
         },
       },
       publicNetworkAccess: {
@@ -1815,7 +1905,7 @@ export const SearchService: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Enum",
-          allowedValues: ["Succeeded", "Provisioning", "Failed"],
+          allowedValues: ["succeeded", "provisioning", "failed"],
         },
       },
       networkRuleSet: {
@@ -1897,6 +1987,20 @@ export const SearchService: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      upgradeAvailable: {
+        serializedName: "properties.upgradeAvailable",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      serviceUpgradeDate: {
+        serializedName: "properties.serviceUpgradeDate",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
     },
   },
 };
@@ -1951,6 +2055,21 @@ export const NetworkSecurityPerimeterConfiguration: coreClient.CompositeMapper =
       },
     },
   };
+
+export const ServicesUpgradeHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServicesUpgradeHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
 
 export const NetworkSecurityPerimeterConfigurationsReconcileHeaders: coreClient.CompositeMapper =
   {
