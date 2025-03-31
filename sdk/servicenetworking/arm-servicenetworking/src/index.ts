@@ -24,6 +24,7 @@ export {
   ResourceId,
   SecurityPolicyConfigurations,
   WafSecurityPolicy,
+  IpAccessRulesSecurityPolicy,
   KnownProvisioningState,
   ProvisioningState,
   TrackedResource,
@@ -38,11 +39,16 @@ export {
   KnownPolicyType,
   PolicyType,
   WafPolicy,
+  IpAccessRulesPolicy,
+  IpAccessRule,
+  KnownIpAccessRuleAction,
+  IpAccessRuleAction,
   SecurityPolicyUpdate,
   SecurityPolicyUpdateProperties,
   Frontend,
   FrontendProperties,
   FrontendUpdate,
+  FrontendUpdateProperties,
   Association,
   AssociationProperties,
   KnownAssociationType,
@@ -53,31 +59,37 @@ export {
   AssociationSubnetUpdate,
   KnownVersions,
 } from "./models/index.js";
+export { ServiceNetworkingManagementClientOptionalParams } from "./api/index.js";
 export {
-  OperationsListOptionalParams,
+  AssociationsInterfaceListByTrafficControllerOptionalParams,
+  AssociationsInterfaceDeleteOptionalParams,
+  AssociationsInterfaceUpdateOptionalParams,
+  AssociationsInterfaceCreateOrUpdateOptionalParams,
+  AssociationsInterfaceGetOptionalParams,
+} from "./api/associationsInterface/index.js";
+export {
+  FrontendsInterfaceListByTrafficControllerOptionalParams,
+  FrontendsInterfaceDeleteOptionalParams,
+  FrontendsInterfaceUpdateOptionalParams,
+  FrontendsInterfaceCreateOrUpdateOptionalParams,
+  FrontendsInterfaceGetOptionalParams,
+} from "./api/frontendsInterface/index.js";
+export { OperationsListOptionalParams } from "./api/operations/index.js";
+export {
+  SecurityPoliciesInterfaceListByTrafficControllerOptionalParams,
+  SecurityPoliciesInterfaceDeleteOptionalParams,
+  SecurityPoliciesInterfaceUpdateOptionalParams,
+  SecurityPoliciesInterfaceCreateOrUpdateOptionalParams,
+  SecurityPoliciesInterfaceGetOptionalParams,
+} from "./api/securityPoliciesInterface/index.js";
+export {
   TrafficControllerInterfaceListBySubscriptionOptionalParams,
   TrafficControllerInterfaceListByResourceGroupOptionalParams,
   TrafficControllerInterfaceDeleteOptionalParams,
   TrafficControllerInterfaceUpdateOptionalParams,
   TrafficControllerInterfaceCreateOrUpdateOptionalParams,
   TrafficControllerInterfaceGetOptionalParams,
-  SecurityPoliciesInterfaceListByTrafficControllerOptionalParams,
-  SecurityPoliciesInterfaceDeleteOptionalParams,
-  SecurityPoliciesInterfaceUpdateOptionalParams,
-  SecurityPoliciesInterfaceCreateOrUpdateOptionalParams,
-  SecurityPoliciesInterfaceGetOptionalParams,
-  FrontendsInterfaceListByTrafficControllerOptionalParams,
-  FrontendsInterfaceDeleteOptionalParams,
-  FrontendsInterfaceUpdateOptionalParams,
-  FrontendsInterfaceCreateOrUpdateOptionalParams,
-  FrontendsInterfaceGetOptionalParams,
-  AssociationsInterfaceListByTrafficControllerOptionalParams,
-  AssociationsInterfaceDeleteOptionalParams,
-  AssociationsInterfaceUpdateOptionalParams,
-  AssociationsInterfaceCreateOrUpdateOptionalParams,
-  AssociationsInterfaceGetOptionalParams,
-  ServiceNetworkingManagementClientOptionalParams,
-} from "./api/index.js";
+} from "./api/trafficControllerInterface/index.js";
 export {
   AssociationsInterfaceOperations,
   FrontendsInterfaceOperations,
