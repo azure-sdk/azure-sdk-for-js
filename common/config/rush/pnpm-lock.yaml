@@ -1323,6 +1323,10 @@ packages:
     resolution: {integrity: sha512-6QmZ9aGdiz+9u7jPhQEg2zY/Tn8hwJrmjAMuHlWpnqE2kHvSDnKCE3BiNLZsENfi/IeLKBuW0QIdZ5UhbSSA0A==}
     engines: {node: '>=14.0.0'}
 
+  '@azure/arm-network@33.5.0':
+    resolution: {integrity: sha512-wXD34p4/J2kZrkWylabtxLzrea5TK2m9NRwYtBLCvgQXN5NFTQohHgOFhoi/7DgV6w1qaM+qGz9mo5HRxpU70w==}
+    engines: {node: '>=18.0.0'}
+
   '@azure/arm-recoveryservices@5.4.0':
     resolution: {integrity: sha512-+BsxHcFzJH28hMAsyI+bbAYVw79d12WagttmFvoidXXq76/5KpNCA2NWTGSV0AlJ+QaCF6+7I7P91PRYnJsr+w==}
     engines: {node: '>=14.0.0'}
@@ -2433,7 +2437,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-form-recognizer@file:projects/ai-form-recognizer.tgz':
-    resolution: {integrity: sha512-qE4Y3d+1mBDmbJ2ZU0Cgy2u36/228XiO7nr0C4tzaAM+lYb2SjxKoZAYpTvg9b1wOQ/MGKnvXfx+nS0RTcItDw==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-8rKztXkgvio9dZlp3EyMD03iggFwPSWkVg7V4WlzX3oDNv/Esq+cSD4bu5/vTyXFqA5ZNX9+GSjDbthVSyipYg==, tarball: file:projects/ai-form-recognizer.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-inference@file:projects/ai-inference.tgz':
@@ -3101,7 +3105,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-mongocluster@file:projects/arm-mongocluster.tgz':
-    resolution: {integrity: sha512-NyYdidUVZ94XWuwHWAQAKX4CZZpZ7Vy+84QBs4Aq7hBjg4gGzc1CZHEpfwwCOhlA6+kbljYQz+GTO4lP4EItrg==, tarball: file:projects/arm-mongocluster.tgz}
+    resolution: {integrity: sha512-D3lek6SjOrFFkRydwOrUzVRUDjGQotCCmsTS0EbfVOi0Vgo3OPv+AuAiYxK7TcOuiGHrg9YIWudk5h9IX2VhmA==, tarball: file:projects/arm-mongocluster.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-monitor-profile-2020-09-01-hybrid@file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz':
@@ -3133,7 +3137,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-network-1@file:projects/arm-network-1.tgz':
-    resolution: {integrity: sha512-541dbd0bIQrvgp0/0Vh1XOAw9QaJfoT/c1PUdNKqhUkXllXZTuffeFB3oPtrLHdF5yICeEg8SmiV4/VK8HoA4w==, tarball: file:projects/arm-network-1.tgz}
+    resolution: {integrity: sha512-rKqV1+e80NAVpb5wSSi7AypLYIRbaltybBHS4o/3Y1aQn1uvFcE8CvoDb6Iy0v4kL+xtbPPl9w0Nul7TTN43VA==, tarball: file:projects/arm-network-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-network-profile-2020-09-01-hybrid@file:projects/arm-network-profile-2020-09-01-hybrid.tgz':
@@ -8251,6 +8255,18 @@ snapshots:
   '@azure/arm-network@32.2.0':
     dependencies:
       '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.3
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.19.1
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/arm-network@33.5.0':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.9.0
       '@azure/core-client': 1.9.3
       '@azure/core-lro': 2.7.2
@@ -15690,6 +15706,7 @@ snapshots:
 
   '@rush-temp/arm-mongocluster@file:projects/arm-mongocluster.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@azure/arm-network': 33.5.0
       '@types/node': 18.19.84
       '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
       '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
@@ -15971,12 +15988,12 @@ snapshots:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.84
-      '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.8.2)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
+      '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.7.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
       '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
       dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.8.2
+      typescript: 5.7.3
       vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -24013,7 +24030,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.2.1
 
   '@types/chai-as-promised@8.0.2':
     dependencies:

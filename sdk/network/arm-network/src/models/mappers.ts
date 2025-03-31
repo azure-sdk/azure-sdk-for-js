@@ -16661,7 +16661,6 @@ export const StaticRoutesConfig: coreClient.CompositeMapper = {
     modelProperties: {
       propagateStaticRoutes: {
         serializedName: "propagateStaticRoutes",
-        readOnly: true,
         type: {
           name: "Boolean",
         },

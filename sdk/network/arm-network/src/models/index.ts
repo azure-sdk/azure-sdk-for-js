@@ -5862,11 +5862,8 @@ export interface VnetRoute {
 
 /** Configuration for static routes on this HubVnetConnectionConfiguration for static routes on this HubVnetConnection. */
 export interface StaticRoutesConfig {
-  /**
-   * Boolean indicating whether static routes on this connection are automatically propagate to route tables which this connection propagates to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly propagateStaticRoutes?: boolean;
+  /** Boolean indicating whether static routes on this connection are automatically propagate to route tables which this connection propagates to. */
+  propagateStaticRoutes?: boolean;
   /** Parameter determining whether NVA in spoke vnet is bypassed for traffic with destination in spoke. */
   vnetLocalRouteOverrideCriteria?: VnetLocalRouteOverrideCriteria;
 }
