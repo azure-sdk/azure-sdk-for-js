@@ -1,16 +1,16 @@
-# client library samples for TypeScript
+# @azure/arm-qumulo client library samples for TypeScript
 
-These sample programs show how to use the TypeScript client libraries for in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for @azure/arm-qumulo in some common scenarios.
 
-| **File Name**                                                                   | **Description**                                                                                                                                                                                                  |
-| ------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [fileSystemsCreateOrUpdateSample.ts][filesystemscreateorupdatesample]           | Create a FileSystemResource x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/FileSystems_CreateOrUpdate_MaximumSet_Gen.json                              |
-| [fileSystemsDeleteSample.ts][filesystemsdeletesample]                           | Delete a FileSystemResource x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/FileSystems_Delete_MaximumSet_Gen.json                                      |
-| [fileSystemsGetSample.ts][filesystemsgetsample]                                 | Get a FileSystemResource x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/FileSystems_Get_MaximumSet_Gen.json                                            |
-| [fileSystemsListByResourceGroupSample.ts][filesystemslistbyresourcegroupsample] | List FileSystemResource resources by resource group x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/FileSystems_ListByResourceGroup_MaximumSet_Gen.json |
-| [fileSystemsListBySubscriptionSample.ts][filesystemslistbysubscriptionsample]   | List FileSystemResource resources by subscription ID x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/FileSystems_ListBySubscription_MaximumSet_Gen.json |
-| [fileSystemsUpdateSample.ts][filesystemsupdatesample]                           | Update a FileSystemResource x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/FileSystems_Update_MaximumSet_Gen.json                                      |
-| [operationsListSample.ts][operationslistsample]                                 | List the operations for the provider x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/Operations_List_MaximumSet_Gen.json                                |
+| **File Name**                                                                   | **Description**                                                                                                                        |
+| ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| [fileSystemsCreateOrUpdateSample.ts][filesystemscreateorupdatesample]           | create a FileSystemResource x-ms-original-file: 2024-06-19/FileSystems_CreateOrUpdate_MaximumSet_Gen.json                              |
+| [fileSystemsDeleteSample.ts][filesystemsdeletesample]                           | delete a FileSystemResource x-ms-original-file: 2024-06-19/FileSystems_Delete_MaximumSet_Gen.json                                      |
+| [fileSystemsGetSample.ts][filesystemsgetsample]                                 | get a FileSystemResource x-ms-original-file: 2024-06-19/FileSystems_Get_MaximumSet_Gen.json                                            |
+| [fileSystemsListByResourceGroupSample.ts][filesystemslistbyresourcegroupsample] | list FileSystemResource resources by resource group x-ms-original-file: 2024-06-19/FileSystems_ListByResourceGroup_MaximumSet_Gen.json |
+| [fileSystemsListBySubscriptionSample.ts][filesystemslistbysubscriptionsample]   | list FileSystemResource resources by subscription ID x-ms-original-file: 2024-06-19/FileSystems_ListBySubscription_MaximumSet_Gen.json |
+| [fileSystemsUpdateSample.ts][filesystemsupdatesample]                           | update a FileSystemResource x-ms-original-file: 2024-06-19/FileSystems_Update_MaximumSet_Gen.json                                      |
+| [operationsListSample.ts][operationslistsample]                                 | list the operations for the provider x-ms-original-file: 2024-06-19/Operations_List_MaximumSet_Gen.json                                |
 
 ## Prerequisites
 
@@ -55,7 +55,7 @@ node dist/fileSystemsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env LIFTRQUMULO_SUBSCRIPTION_ID="<liftrqumulo subscription id>" LIFTRQUMULO_RESOURCE_GROUP="<liftrqumulo resource group>" node dist/fileSystemsCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env  node dist/fileSystemsCreateOrUpdateSample.js
 ```
 
 ## Next Steps
