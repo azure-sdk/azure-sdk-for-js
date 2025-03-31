@@ -1051,6 +1051,9 @@ importers:
       '@rush-temp/maps-timezone':
         specifier: file:./projects/maps-timezone.tgz
         version: file:projects/maps-timezone.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
+      '@rush-temp/microsoft-app-dynamicsessions-rest':
+        specifier: file:./projects/microsoft-app-dynamicsessions-rest.tgz
+        version: file:projects/microsoft-app-dynamicsessions-rest.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/microsoft-playwright-testing':
         specifier: file:./projects/microsoft-playwright-testing.tgz
         version: file:projects/microsoft-playwright-testing.tgz(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
@@ -2433,7 +2436,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-form-recognizer@file:projects/ai-form-recognizer.tgz':
-    resolution: {integrity: sha512-qE4Y3d+1mBDmbJ2ZU0Cgy2u36/228XiO7nr0C4tzaAM+lYb2SjxKoZAYpTvg9b1wOQ/MGKnvXfx+nS0RTcItDw==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-8rKztXkgvio9dZlp3EyMD03iggFwPSWkVg7V4WlzX3oDNv/Esq+cSD4bu5/vTyXFqA5ZNX9+GSjDbthVSyipYg==, tarball: file:projects/ai-form-recognizer.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-inference@file:projects/ai-inference.tgz':
@@ -3790,6 +3793,10 @@ packages:
 
   '@rush-temp/maps-timezone@file:projects/maps-timezone.tgz':
     resolution: {integrity: sha512-LLoNu/hOKIZ5/eLQ0io6I6kDPrnkiI1C3rDtG0DEQlP097B9CoeeaQ2E+qbGYUAPvvyo6QththExkcmgUENgEg==, tarball: file:projects/maps-timezone.tgz}
+    version: 0.0.0
+
+  '@rush-temp/microsoft-app-dynamicsessions-rest@file:projects/microsoft-app-dynamicsessions-rest.tgz':
+    resolution: {integrity: sha512-F7pUIy4bL5DmBLvo68TpoApepXTTq0g3ntIPNPEscqbyX507xqs2MTQKoJeJhcQNu8+Q+Cizk88wnmb2FAHiqg==, tarball: file:projects/microsoft-app-dynamicsessions-rest.tgz}
     version: 0.0.0
 
   '@rush-temp/microsoft-playwright-testing@file:projects/microsoft-playwright-testing.tgz':
@@ -21868,6 +21875,41 @@ snapshots:
       tslib: 2.8.1
       typescript: 5.8.2
       vitest: 3.0.9(@types/debug@4.1.12)(@types/node@22.7.9)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/microsoft-app-dynamicsessions-rest@file:projects/microsoft-app-dynamicsessions-rest.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
+    dependencies:
+      '@types/node': 18.19.84
+      '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.7.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
+      '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
+      dotenv: 16.4.7
+      eslint: 9.23.0
+      playwright: 1.51.1
+      tslib: 2.8.1
+      typescript: 5.7.3
+      vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@types/debug'
