@@ -172,6 +172,20 @@ export interface AgentProfile {
   vmSize?: string;
 }
 
+/** Status information for the fleet. */
+export interface FleetStatus {
+  /**
+   * The last operation ID for the fleet.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastOperationId?: string;
+  /**
+   * The last operation error for the fleet.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastOperationError?: ErrorDetail;
+}
+
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ManagedServiceIdentity {
   /**
@@ -266,6 +280,76 @@ export interface AutoUpgradeNodeImageSelection {
   type: AutoUpgradeNodeImageSelectionType;
 }
 
+/** AutoUpgradeProfileStatus is the status of an auto upgrade profile. */
+export interface AutoUpgradeProfileStatus {
+  /**
+   * The UTC time of the last attempt to automatically create and start an UpdateRun as triggered by the release of new versions.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastTriggeredAt?: Date;
+  /**
+   * The status of the last AutoUpgrade trigger.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastTriggerStatus?: AutoUpgradeLastTriggerStatus;
+  /**
+   * The error details of the last trigger.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastTriggerError?: ErrorDetail;
+  /**
+   * The target Kubernetes version or node image versions of the last trigger.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastTriggerUpgradeVersions?: string[];
+}
+
+/** GenerateResponse is the response of a generate request. */
+export interface GenerateResponse {
+  /**
+   * The ARM resource id of the generated UpdateRun. e.g.: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/updateRuns/{updateRunName}'.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id: string;
+}
+
+/** The response of a Gate list operation. */
+export interface GateListResult {
+  /** The Gate items on this page */
+  value: Gate[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The target that the Gate is controlling, e.g. an Update Run. Exactly one of the properties objects will be set. */
+export interface GateTarget {
+  /** The resource id that the Gate is controlling the rollout of. */
+  id: string;
+  /** The properties of the Update Run that the Gate is targeting. */
+  updateRunProperties?: UpdateRunGateTargetProperties;
+}
+
+/** The properties of the Update Run that the Gate is targeting. */
+export interface UpdateRunGateTargetProperties {
+  /**
+   * The name of the Update Run.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name: string;
+  /**
+   * The Update Stage of the Update Run.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly stage?: string;
+  /**
+   * The Update Group of the Update Run.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly group?: string;
+  /** Whether the Gate is placed before or after the update itself. */
+  timing: Timing;
+}
+
 /** The Credential results response. */
 export interface FleetCredentialResults {
   /**
@@ -297,10 +381,26 @@ export interface FleetMemberListResult {
   nextLink?: string;
 }
 
+/** Status information for the fleet member */
+export interface FleetMemberStatus {
+  /**
+   * The last operation ID for the fleet member
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastOperationId?: string;
+  /**
+   * The last operation error of the fleet member
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastOperationError?: ErrorDetail;
+}
+
 /** The type used for update operations of the FleetMember. */
 export interface FleetMemberUpdate {
   /** The group this member belongs to for multi-cluster update management. */
   group?: string;
+  /** The labels for the fleet member. */
+  labels?: { [propertyName: string]: string };
 }
 
 /** The response of a UpdateRun list operation. */
@@ -333,6 +433,10 @@ export interface UpdateStage {
   groups?: UpdateGroup[];
   /** The time in seconds to wait at the end of this stage before starting the next one. Defaults to 0 seconds if unspecified. */
   afterStageWaitInSeconds?: number;
+  /** A list of Gates that will be created before this Stage is executed. */
+  beforeGates?: GateConfiguration[];
+  /** A list of Gates that will be created after this Stage is executed. */
+  afterGates?: GateConfiguration[];
 }
 
 /** A group to be updated. */
@@ -342,6 +446,18 @@ export interface UpdateGroup {
    * It must match a group name of an existing fleet member.
    */
   name: string;
+  /** A list of Gates that will be created before this Group is executed. */
+  beforeGates?: GateConfiguration[];
+  /** A list of Gates that will be created after this Group is executed. */
+  afterGates?: GateConfiguration[];
+}
+
+/** GateConfiguration is used to define where Gates should be placed within the Update Run. */
+export interface GateConfiguration {
+  /** The human-readable display name of the Gate. */
+  displayName?: string;
+  /** The type of the Gate determines how it is completed. */
+  type: GateType;
 }
 
 /** The update to be applied to the ManagedClusters. */
@@ -438,6 +554,16 @@ export interface UpdateStageStatus {
    */
   readonly groups?: UpdateGroupStatus[];
   /**
+   * The list of Gates that will run before this UpdateStage.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly beforeGates?: UpdateRunGateStatus[];
+  /**
+   * The list of Gates that will run after this UpdateStage.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly afterGates?: UpdateRunGateStatus[];
+  /**
    * The status of the wait period configured on the UpdateStage.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -461,6 +587,16 @@ export interface UpdateGroupStatus {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly members?: MemberUpdateStatus[];
+  /**
+   * The list of Gates that will run before this UpdateGroup.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly beforeGates?: UpdateRunGateStatus[];
+  /**
+   * The list of Gates that will run after this UpdateGroup.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly afterGates?: UpdateRunGateStatus[];
 }
 
 /** The status of a member update operation. */
@@ -490,6 +626,25 @@ export interface MemberUpdateStatus {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly message?: string;
+}
+
+/** The status of the Gate, as represented in the Update Run. */
+export interface UpdateRunGateStatus {
+  /**
+   * The human-readable display name of the Gate.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * The resource id of the Gate.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly gateId?: string;
+  /**
+   * The status of the Gate.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: UpdateStatus;
 }
 
 /** The status of the wait duration. */
@@ -568,6 +723,39 @@ export interface Fleet extends TrackedResource {
   readonly provisioningState?: FleetProvisioningState;
   /** The FleetHubProfile configures the Fleet's hub. */
   hubProfile?: FleetHubProfile;
+  /**
+   * Status information for the fleet.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: FleetStatus;
+}
+
+/** A Gate controls the progression during a staged rollout, e.g. in an Update Run. */
+export interface Gate extends TrackedResource {
+  /**
+   * If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eTag?: string;
+  /**
+   * The provisioning state of the Gate resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: GateProvisioningState;
+  /** The human-readable display name of the Gate. */
+  displayName?: string;
+  /** The type of the Gate determines how it is completed. */
+  gateType?: GateType;
+  /** The target that the Gate is controlling, e.g. an Update Run. */
+  target?: GateTarget;
+  /** The state of the Gate. */
+  state?: GateState;
+}
+
+/** A Gate controls the progression during a staged rollout, e.g. in an Update Run. */
+export interface GateUpdate extends TrackedResource {
+  /** The state of the Gate. */
+  state?: GateState;
 }
 
 /** The AutoUpgradeProfile resource. */
@@ -595,6 +783,8 @@ export interface AutoUpgradeProfile extends ProxyResource {
    * By default, this is set to False.
    */
   disabled?: boolean;
+  /** The status of the auto upgrade profile. */
+  autoUpgradeProfileStatus?: AutoUpgradeProfileStatus;
 }
 
 /** A member of the Fleet. It contains a reference to an existing Kubernetes cluster on Azure. */
@@ -613,6 +803,13 @@ export interface FleetMember extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: FleetMemberProvisioningState;
+  /** The labels for the fleet member. */
+  labels?: { [propertyName: string]: string };
+  /**
+   * Status information of the last operation for fleet member.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: FleetMemberStatus;
 }
 
 /** A multi-stage process to perform update operations across members of a Fleet. */
@@ -655,6 +852,11 @@ export interface UpdateRun extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: UpdateRunStatus;
+  /**
+   * AutoUpgradeProfileId is the id of an auto upgrade profile resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly autoUpgradeProfileId?: string;
 }
 
 /** Defines a multi-stage process to perform update operations across members of a Fleet. */
@@ -705,6 +907,24 @@ export interface AutoUpgradeProfilesCreateOrUpdateHeaders {
 
 /** Defines headers for AutoUpgradeProfiles_delete operation. */
 export interface AutoUpgradeProfilesDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for AutoUpgradeProfileOperations_generateUpdateRun operation. */
+export interface AutoUpgradeProfileOperationsGenerateUpdateRunHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for Gates_update operation. */
+export interface GatesUpdateHeaders {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
@@ -963,6 +1183,99 @@ export enum KnownAutoUpgradeNodeImageSelectionType {
  */
 export type AutoUpgradeNodeImageSelectionType = string;
 
+/** Known values of {@link AutoUpgradeLastTriggerStatus} that the service accepts. */
+export enum KnownAutoUpgradeLastTriggerStatus {
+  /** The last AutoUpgrade trigger was succeeded. */
+  Succeeded = "Succeeded",
+  /** The last AutoUpgrade trigger failed. */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for AutoUpgradeLastTriggerStatus. \
+ * {@link KnownAutoUpgradeLastTriggerStatus} can be used interchangeably with AutoUpgradeLastTriggerStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: The last AutoUpgrade trigger was succeeded. \
+ * **Failed**: The last AutoUpgrade trigger failed.
+ */
+export type AutoUpgradeLastTriggerStatus = string;
+
+/** Known values of {@link GateProvisioningState} that the service accepts. */
+export enum KnownGateProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+}
+
+/**
+ * Defines values for GateProvisioningState. \
+ * {@link KnownGateProvisioningState} can be used interchangeably with GateProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled.
+ */
+export type GateProvisioningState = string;
+
+/** Known values of {@link GateType} that the service accepts. */
+export enum KnownGateType {
+  /** An approval gate is completed by setting its state to be Completed. */
+  Approval = "Approval",
+}
+
+/**
+ * Defines values for GateType. \
+ * {@link KnownGateType} can be used interchangeably with GateType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Approval**: An approval gate is completed by setting its state to be Completed.
+ */
+export type GateType = string;
+
+/** Known values of {@link Timing} that the service accepts. */
+export enum KnownTiming {
+  /** The Gate is before the target. */
+  Before = "Before",
+  /** The Gate is after the target. */
+  After = "After",
+}
+
+/**
+ * Defines values for Timing. \
+ * {@link KnownTiming} can be used interchangeably with Timing,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Before**: The Gate is before the target. \
+ * **After**: The Gate is after the target.
+ */
+export type Timing = string;
+
+/** Known values of {@link GateState} that the service accepts. */
+export enum KnownGateState {
+  /** A Pending Gate will continue to block the staged rollout process it is controlling. */
+  Pending = "Pending",
+  /** A Skipped Gate means that the staged rollout process it is controlling was skipped. */
+  Skipped = "Skipped",
+  /** An Completed Gate allows the staged rollout process to continue. */
+  Completed = "Completed",
+}
+
+/**
+ * Defines values for GateState. \
+ * {@link KnownGateState} can be used interchangeably with GateState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending**: A Pending Gate will continue to block the staged rollout process it is controlling. \
+ * **Skipped**: A Skipped Gate means that the staged rollout process it is controlling was skipped. \
+ * **Completed**: An Completed Gate allows the staged rollout process to continue.
+ */
+export type GateState = string;
+
 /** Known values of {@link FleetMemberProvisioningState} that the service accepts. */
 export enum KnownFleetMemberProvisioningState {
   /** Resource has been created. */
@@ -1070,6 +1383,8 @@ export enum KnownUpdateState {
   Skipped = "Skipped",
   /** The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that has failed. */
   Failed = "Failed",
+  /** The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that is pending. */
+  Pending = "Pending",
   /** The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that has completed. */
   Completed = "Completed",
 }
@@ -1085,6 +1400,7 @@ export enum KnownUpdateState {
  * **Stopped**: The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that has stopped. \
  * **Skipped**: The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that has been skipped. \
  * **Failed**: The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that has failed. \
+ * **Pending**: The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that is pending. \
  * **Completed**: The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that has completed.
  */
 export type UpdateState = string;
@@ -1283,6 +1599,54 @@ export interface AutoUpgradeProfilesListByFleetNextOptionalParams
 /** Contains response data for the listByFleetNext operation. */
 export type AutoUpgradeProfilesListByFleetNextResponse =
   AutoUpgradeProfileListResult;
+
+/** Optional parameters. */
+export interface AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the generateUpdateRun operation. */
+export type AutoUpgradeProfileOperationsGenerateUpdateRunResponse =
+  GenerateResponse;
+
+/** Optional parameters. */
+export interface GatesListByFleetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFleet operation. */
+export type GatesListByFleetResponse = GateListResult;
+
+/** Optional parameters. */
+export interface GatesGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GatesGetResponse = Gate;
+
+/** Optional parameters. */
+export interface GatesUpdateOptionalParams extends coreClient.OperationOptions {
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
+  /** The request should only proceed if no entity matches this string. */
+  ifNoneMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type GatesUpdateResponse = Gate;
+
+/** Optional parameters. */
+export interface GatesListByFleetNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFleetNext operation. */
+export type GatesListByFleetNextResponse = GateListResult;
 
 /** Optional parameters. */
 export interface FleetMembersListByFleetOptionalParams

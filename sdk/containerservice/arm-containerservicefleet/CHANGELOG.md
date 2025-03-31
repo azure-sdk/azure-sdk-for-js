@@ -1,15 +1,87 @@
 # Release History
-
-## 1.2.0-beta.2 (Unreleased)
-
+    
+## 1.2.0-beta.2 (2025-03-31)
+Compared with version 1.1.0
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group AutoUpgradeProfileOperations
+  - Added operation group AutoUpgradeProfiles
+  - Added operation group Gates
+  - Added Interface AutoUpgradeNodeImageSelection
+  - Added Interface AutoUpgradeProfile
+  - Added Interface AutoUpgradeProfileListResult
+  - Added Interface AutoUpgradeProfileOperationsGenerateUpdateRunHeaders
+  - Added Interface AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams
+  - Added Interface AutoUpgradeProfilesCreateOrUpdateHeaders
+  - Added Interface AutoUpgradeProfilesCreateOrUpdateOptionalParams
+  - Added Interface AutoUpgradeProfilesDeleteHeaders
+  - Added Interface AutoUpgradeProfilesDeleteOptionalParams
+  - Added Interface AutoUpgradeProfilesGetOptionalParams
+  - Added Interface AutoUpgradeProfilesListByFleetNextOptionalParams
+  - Added Interface AutoUpgradeProfilesListByFleetOptionalParams
+  - Added Interface AutoUpgradeProfileStatus
+  - Added Interface FleetMemberStatus
+  - Added Interface FleetStatus
+  - Added Interface Gate
+  - Added Interface GateConfiguration
+  - Added Interface GateListResult
+  - Added Interface GatesGetOptionalParams
+  - Added Interface GatesListByFleetNextOptionalParams
+  - Added Interface GatesListByFleetOptionalParams
+  - Added Interface GatesUpdateHeaders
+  - Added Interface GatesUpdateOptionalParams
+  - Added Interface GateTarget
+  - Added Interface GateUpdate
+  - Added Interface GenerateResponse
+  - Added Interface UpdateRunGateStatus
+  - Added Interface UpdateRunGateTargetProperties
+  - Added Type Alias AutoUpgradeLastTriggerStatus
+  - Added Type Alias AutoUpgradeNodeImageSelectionType
+  - Added Type Alias AutoUpgradeProfileOperationsGenerateUpdateRunResponse
+  - Added Type Alias AutoUpgradeProfileProvisioningState
+  - Added Type Alias AutoUpgradeProfilesCreateOrUpdateResponse
+  - Added Type Alias AutoUpgradeProfilesDeleteResponse
+  - Added Type Alias AutoUpgradeProfilesGetResponse
+  - Added Type Alias AutoUpgradeProfilesListByFleetNextResponse
+  - Added Type Alias AutoUpgradeProfilesListByFleetResponse
+  - Added Type Alias GateProvisioningState
+  - Added Type Alias GatesGetResponse
+  - Added Type Alias GatesListByFleetNextResponse
+  - Added Type Alias GatesListByFleetResponse
+  - Added Type Alias GateState
+  - Added Type Alias GatesUpdateResponse
+  - Added Type Alias GateType
+  - Added Type Alias Timing
+  - Added Type Alias UpgradeChannel
+  - Interface APIServerAccessProfile has a new optional parameter enableVnetIntegration
+  - Interface APIServerAccessProfile has a new optional parameter subnetId
+  - Interface Fleet has a new optional parameter status
+  - Interface FleetMember has a new optional parameter labels
+  - Interface FleetMember has a new optional parameter status
+  - Interface FleetMemberUpdate has a new optional parameter labels
+  - Interface NodeImageSelection has a new optional parameter customNodeImageVersions
+  - Interface UpdateGroup has a new optional parameter afterGates
+  - Interface UpdateGroup has a new optional parameter beforeGates
+  - Interface UpdateGroupStatus has a new optional parameter afterGates
+  - Interface UpdateGroupStatus has a new optional parameter beforeGates
+  - Interface UpdateRun has a new optional parameter autoUpgradeProfileId
+  - Interface UpdateStage has a new optional parameter afterGates
+  - Interface UpdateStage has a new optional parameter beforeGates
+  - Interface UpdateStageStatus has a new optional parameter afterGates
+  - Interface UpdateStageStatus has a new optional parameter beforeGates
+  - Added Enum KnownAutoUpgradeLastTriggerStatus
+  - Added Enum KnownAutoUpgradeNodeImageSelectionType
+  - Added Enum KnownAutoUpgradeProfileProvisioningState
+  - Added Enum KnownGateProvisioningState
+  - Added Enum KnownGateState
+  - Added Enum KnownGateType
+  - Added Enum KnownTiming
+  - Added Enum KnownUpgradeChannel
+  - Enum KnownNodeImageSelectionType has a new value Custom
+  - Enum KnownUpdateState has a new value Pending
+    
+    
 ## 1.2.0-beta.1 (2024-10-15)
 Compared with version 1.1.0
     
