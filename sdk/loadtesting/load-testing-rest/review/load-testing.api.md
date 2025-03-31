@@ -8,11 +8,9 @@ import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { ErrorResponse } from '@azure-rest/core-client';
 import type { HttpResponse } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
-import type { SimplePollerLike } from '@azure/core-lro';
 import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -151,9 +149,6 @@ export type FileType = string;
 export type FileTypeOutput = string;
 
 // @public
-export type FileUploadAndValidatePoller = SimplePollerLike<OperationState<LoadTestAdministrationGetTestFile200Response>, LoadTestAdministrationGetTestFile200Response>;
-
-// @public
 export type FileValidationStatus = string;
 
 // @public
@@ -191,15 +186,6 @@ export interface FunctionFlexConsumptionTargetResourceConfigurationsOutput exten
 
 // @public
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
-
-// @public (undocumented)
-export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestUploadFileSuccessResponse): Promise<FileUploadAndValidatePoller>;
-
-// @public (undocumented)
-export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestRunCreateOrUpdateSuccessResponse): Promise<TestRunCompletionPoller>;
-
-// @public (undocumented)
-export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestProfileRunCreateOrUpdateSuccessResponse): Promise<TestProfileRunCompletionPoller>;
 
 // @public
 export type GetPage<TPage> = (pageLink: string) => Promise<{
@@ -1804,11 +1790,6 @@ export type PFMetrics = string;
 // @public
 export type PFMetricsOutput = string;
 
-// @public (undocumented)
-export interface PolledOperationOptions {
-    updateIntervalInMs?: number;
-}
-
 // @public
 export type RecommendationCategory = string;
 
@@ -2518,12 +2499,6 @@ export interface TestProfileRunAdministrationStopDefaultResponse extends HttpRes
 export type TestProfileRunAdministrationStopParameters = RequestParameters;
 
 // @public
-export type TestProfileRunCompletionPoller = SimplePollerLike<OperationState<TestProfileRunAdministrationGetTestProfileRun200Response>, TestProfileRunAdministrationGetTestProfileRun200Response>;
-
-// @public (undocumented)
-export type TestProfileRunCreateOrUpdateSuccessResponse = TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response | TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response;
-
-// @public
 export interface TestProfileRunOutput {
     readonly createdBy?: string;
     readonly createdDateTime?: string;
@@ -2611,12 +2586,6 @@ export interface TestRunArtifactsOutput {
     readonly inputArtifacts?: TestRunInputArtifactsOutput;
     outputArtifacts?: TestRunOutputArtifactsOutput;
 }
-
-// @public
-export type TestRunCompletionPoller = SimplePollerLike<OperationState<LoadTestRunGetTestRun200Response>, LoadTestRunGetTestRun200Response>;
-
-// @public (undocumented)
-export type TestRunCreateOrUpdateSuccessResponse = LoadTestRunCreateOrUpdateTestRun200Response | LoadTestRunCreateOrUpdateTestRun201Response;
 
 // @public
 export interface TestRunDetail {
@@ -2857,9 +2826,6 @@ export interface TestsNotificationRuleOutput extends NotificationRuleOutputParen
     scope: "Tests";
     testIds?: string[];
 }
-
-// @public (undocumented)
-export type TestUploadFileSuccessResponse = LoadTestAdministrationUploadTestFile201Response;
 
 // @public
 export type TimeGrain = string;
