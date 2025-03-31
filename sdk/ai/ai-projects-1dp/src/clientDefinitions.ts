@@ -1,0 +1,440 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import type {
+  ConnectionsGetParameters,
+  ConnectionsListParameters,
+  EvaluationsGetParameters,
+  EvaluationsListParameters,
+  EvaluationsCreateRunParameters,
+  DatasetsListVersionsParameters,
+  DatasetsCreateParameters,
+  DatasetsListLatestParameters,
+  DatasetsGetVersionParameters,
+  DatasetsDeleteVersionParameters,
+  DatasetsCreateVersionParameters,
+  DatasetsStartPendingUploadVersionParameters,
+  DatasetsStartPendingUploadParameters,
+  IndexesListVersionsParameters,
+  IndexesCreateParameters,
+  IndexesListLatestParameters,
+  IndexesGetVersionParameters,
+  IndexesDeleteVersionParameters,
+  IndexesCreateVersionParameters,
+  DeploymentsGetParameters,
+  DeploymentsListParameters,
+  EvaluationResultsListVersionsParameters,
+  EvaluationResultsCreateParameters,
+  EvaluationResultsListLatestParameters,
+  EvaluationResultsGetVersionParameters,
+  EvaluationResultsDeleteVersionParameters,
+  EvaluationResultsCreateVersionParameters,
+  EvaluationResultsStartPendingUploadParameters,
+  RedTeamsGetParameters,
+  RedTeamsListParameters,
+  RedTeamsCreateRunParameters,
+} from "./parameters.js";
+import type {
+  ConnectionsGet200Response,
+  ConnectionsGetDefaultResponse,
+  ConnectionsList200Response,
+  ConnectionsListDefaultResponse,
+  EvaluationsGet200Response,
+  EvaluationsGetDefaultResponse,
+  EvaluationsList200Response,
+  EvaluationsListDefaultResponse,
+  EvaluationsCreateRun200Response,
+  EvaluationsCreateRunDefaultResponse,
+  DatasetsListVersions200Response,
+  DatasetsListVersionsDefaultResponse,
+  DatasetsCreate200Response,
+  DatasetsCreateDefaultResponse,
+  DatasetsListLatest200Response,
+  DatasetsListLatestDefaultResponse,
+  DatasetsGetVersion200Response,
+  DatasetsGetVersionDefaultResponse,
+  DatasetsDeleteVersion204Response,
+  DatasetsDeleteVersionDefaultResponse,
+  DatasetsCreateVersion200Response,
+  DatasetsCreateVersion201Response,
+  DatasetsCreateVersionDefaultResponse,
+  DatasetsStartPendingUploadVersion200Response,
+  DatasetsStartPendingUploadVersionDefaultResponse,
+  DatasetsStartPendingUpload200Response,
+  DatasetsStartPendingUploadDefaultResponse,
+  IndexesListVersions200Response,
+  IndexesListVersionsDefaultResponse,
+  IndexesCreate200Response,
+  IndexesCreateDefaultResponse,
+  IndexesListLatest200Response,
+  IndexesListLatestDefaultResponse,
+  IndexesGetVersion200Response,
+  IndexesGetVersionDefaultResponse,
+  IndexesDeleteVersion204Response,
+  IndexesDeleteVersionDefaultResponse,
+  IndexesCreateVersion200Response,
+  IndexesCreateVersion201Response,
+  IndexesCreateVersionDefaultResponse,
+  DeploymentsGet200Response,
+  DeploymentsGetDefaultResponse,
+  DeploymentsList200Response,
+  DeploymentsListDefaultResponse,
+  EvaluationResultsListVersions200Response,
+  EvaluationResultsListVersionsDefaultResponse,
+  EvaluationResultsCreate200Response,
+  EvaluationResultsCreateDefaultResponse,
+  EvaluationResultsListLatest200Response,
+  EvaluationResultsListLatestDefaultResponse,
+  EvaluationResultsGetVersion200Response,
+  EvaluationResultsGetVersionDefaultResponse,
+  EvaluationResultsDeleteVersion204Response,
+  EvaluationResultsDeleteVersionDefaultResponse,
+  EvaluationResultsCreateVersion200Response,
+  EvaluationResultsCreateVersion201Response,
+  EvaluationResultsCreateVersionDefaultResponse,
+  EvaluationResultsStartPendingUpload200Response,
+  EvaluationResultsStartPendingUploadDefaultResponse,
+  RedTeamsGet200Response,
+  RedTeamsGetDefaultResponse,
+  RedTeamsList200Response,
+  RedTeamsListDefaultResponse,
+  RedTeamsCreateRun200Response,
+  RedTeamsCreateRunDefaultResponse,
+} from "./responses.js";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
+
+export interface ConnectionsGet {
+  /** Get a connection by name. */
+  get(
+    options?: ConnectionsGetParameters,
+  ): StreamableMethod<
+    ConnectionsGet200Response | ConnectionsGetDefaultResponse
+  >;
+}
+
+export interface ConnectionsList {
+  /** List all connections in the project */
+  get(
+    options?: ConnectionsListParameters,
+  ): StreamableMethod<
+    ConnectionsList200Response | ConnectionsListDefaultResponse
+  >;
+}
+
+export interface EvaluationsGet {
+  /** Get an evaluation run by name. */
+  get(
+    options?: EvaluationsGetParameters,
+  ): StreamableMethod<
+    EvaluationsGet200Response | EvaluationsGetDefaultResponse
+  >;
+}
+
+export interface EvaluationsList {
+  /** List evaluation runs */
+  get(
+    options?: EvaluationsListParameters,
+  ): StreamableMethod<
+    EvaluationsList200Response | EvaluationsListDefaultResponse
+  >;
+}
+
+export interface EvaluationsCreateRun {
+  /** Creates an evaluation run. */
+  post(
+    options: EvaluationsCreateRunParameters,
+  ): StreamableMethod<
+    EvaluationsCreateRun200Response | EvaluationsCreateRunDefaultResponse
+  >;
+}
+
+export interface DatasetsListVersions {
+  /** List all versions of the given DatasetVersion */
+  get(
+    options?: DatasetsListVersionsParameters,
+  ): StreamableMethod<
+    DatasetsListVersions200Response | DatasetsListVersionsDefaultResponse
+  >;
+  /** Create a new DatasetVersion. The version id will be generated by the service. */
+  post(
+    options: DatasetsCreateParameters,
+  ): StreamableMethod<
+    DatasetsCreate200Response | DatasetsCreateDefaultResponse
+  >;
+}
+
+export interface DatasetsListLatest {
+  /** List the latest version of each DatasetVersion */
+  get(
+    options?: DatasetsListLatestParameters,
+  ): StreamableMethod<
+    DatasetsListLatest200Response | DatasetsListLatestDefaultResponse
+  >;
+}
+
+export interface DatasetsGetVersion {
+  /** Get the specific version of the DatasetVersion */
+  get(
+    options?: DatasetsGetVersionParameters,
+  ): StreamableMethod<
+    DatasetsGetVersion200Response | DatasetsGetVersionDefaultResponse
+  >;
+  /** Delete the specific version of the DatasetVersion */
+  delete(
+    options?: DatasetsDeleteVersionParameters,
+  ): StreamableMethod<
+    DatasetsDeleteVersion204Response | DatasetsDeleteVersionDefaultResponse
+  >;
+  /** Create a new or replace an existing DatasetVersion with the given version id */
+  put(
+    options: DatasetsCreateVersionParameters,
+  ): StreamableMethod<
+    | DatasetsCreateVersion200Response
+    | DatasetsCreateVersion201Response
+    | DatasetsCreateVersionDefaultResponse
+  >;
+}
+
+export interface DatasetsStartPendingUploadVersion {
+  /** Create or start a pending upload of a dataset for a specific version. */
+  post(
+    options: DatasetsStartPendingUploadVersionParameters,
+  ): StreamableMethod<
+    | DatasetsStartPendingUploadVersion200Response
+    | DatasetsStartPendingUploadVersionDefaultResponse
+  >;
+}
+
+export interface DatasetsStartPendingUpload {
+  /** Create or start a pending upload of a dataset. The version id will be generated by the service. */
+  post(
+    options: DatasetsStartPendingUploadParameters,
+  ): StreamableMethod<
+    | DatasetsStartPendingUpload200Response
+    | DatasetsStartPendingUploadDefaultResponse
+  >;
+}
+
+export interface IndexesListVersions {
+  /** List all versions of the given Index */
+  get(
+    options?: IndexesListVersionsParameters,
+  ): StreamableMethod<
+    IndexesListVersions200Response | IndexesListVersionsDefaultResponse
+  >;
+  /** Create a new Index. The version id will be generated by the service. */
+  post(
+    options: IndexesCreateParameters,
+  ): StreamableMethod<IndexesCreate200Response | IndexesCreateDefaultResponse>;
+}
+
+export interface IndexesListLatest {
+  /** List the latest version of each Index */
+  get(
+    options?: IndexesListLatestParameters,
+  ): StreamableMethod<
+    IndexesListLatest200Response | IndexesListLatestDefaultResponse
+  >;
+}
+
+export interface IndexesGetVersion {
+  /** Get the specific version of the Index */
+  get(
+    options?: IndexesGetVersionParameters,
+  ): StreamableMethod<
+    IndexesGetVersion200Response | IndexesGetVersionDefaultResponse
+  >;
+  /** Delete the specific version of the Index */
+  delete(
+    options?: IndexesDeleteVersionParameters,
+  ): StreamableMethod<
+    IndexesDeleteVersion204Response | IndexesDeleteVersionDefaultResponse
+  >;
+  /** Create a new or replace an existing Index with the given version id */
+  put(
+    options: IndexesCreateVersionParameters,
+  ): StreamableMethod<
+    | IndexesCreateVersion200Response
+    | IndexesCreateVersion201Response
+    | IndexesCreateVersionDefaultResponse
+  >;
+}
+
+export interface DeploymentsGet {
+  /** Get a deployed model. */
+  get(
+    options?: DeploymentsGetParameters,
+  ): StreamableMethod<
+    DeploymentsGet200Response | DeploymentsGetDefaultResponse
+  >;
+}
+
+export interface DeploymentsList {
+  /** List all deployed models in the project */
+  get(
+    options?: DeploymentsListParameters,
+  ): StreamableMethod<
+    DeploymentsList200Response | DeploymentsListDefaultResponse
+  >;
+}
+
+export interface EvaluationResultsListVersions {
+  /** List all versions of the given EvaluationResult */
+  get(
+    options?: EvaluationResultsListVersionsParameters,
+  ): StreamableMethod<
+    | EvaluationResultsListVersions200Response
+    | EvaluationResultsListVersionsDefaultResponse
+  >;
+  /** Create a new EvaluationResult. The version id will be generated by the service. */
+  post(
+    options: EvaluationResultsCreateParameters,
+  ): StreamableMethod<
+    EvaluationResultsCreate200Response | EvaluationResultsCreateDefaultResponse
+  >;
+}
+
+export interface EvaluationResultsListLatest {
+  /** List the latest version of each EvaluationResult */
+  get(
+    options?: EvaluationResultsListLatestParameters,
+  ): StreamableMethod<
+    | EvaluationResultsListLatest200Response
+    | EvaluationResultsListLatestDefaultResponse
+  >;
+}
+
+export interface EvaluationResultsGetVersion {
+  /** Get the specific version of the EvaluationResult */
+  get(
+    options?: EvaluationResultsGetVersionParameters,
+  ): StreamableMethod<
+    | EvaluationResultsGetVersion200Response
+    | EvaluationResultsGetVersionDefaultResponse
+  >;
+  /** Delete the specific version of the EvaluationResult */
+  delete(
+    options?: EvaluationResultsDeleteVersionParameters,
+  ): StreamableMethod<
+    | EvaluationResultsDeleteVersion204Response
+    | EvaluationResultsDeleteVersionDefaultResponse
+  >;
+  /** Create a new or replace an existing EvaluationResult with the given version id */
+  put(
+    options: EvaluationResultsCreateVersionParameters,
+  ): StreamableMethod<
+    | EvaluationResultsCreateVersion200Response
+    | EvaluationResultsCreateVersion201Response
+    | EvaluationResultsCreateVersionDefaultResponse
+  >;
+}
+
+export interface EvaluationResultsStartPendingUpload {
+  /** Create or start a pending upload of a evaluation results for a specific version. */
+  post(
+    options: EvaluationResultsStartPendingUploadParameters,
+  ): StreamableMethod<
+    | EvaluationResultsStartPendingUpload200Response
+    | EvaluationResultsStartPendingUploadDefaultResponse
+  >;
+}
+
+export interface RedTeamsGet {
+  /** Get a redteam by name. */
+  get(
+    options?: RedTeamsGetParameters,
+  ): StreamableMethod<RedTeamsGet200Response | RedTeamsGetDefaultResponse>;
+}
+
+export interface RedTeamsList {
+  /** List a redteam by name. */
+  get(
+    options?: RedTeamsListParameters,
+  ): StreamableMethod<RedTeamsList200Response | RedTeamsListDefaultResponse>;
+}
+
+export interface RedTeamsCreateRun {
+  /** Creates a redteam run. */
+  post(
+    options: RedTeamsCreateRunParameters,
+  ): StreamableMethod<
+    RedTeamsCreateRun200Response | RedTeamsCreateRunDefaultResponse
+  >;
+}
+
+export interface Routes {
+  /** Resource for '/connections/\{name\}' has methods for the following verbs: get */
+  (path: "/connections/{name}", name: string): ConnectionsGet;
+  /** Resource for '/connections' has methods for the following verbs: get */
+  (path: "/connections"): ConnectionsList;
+  /** Resource for '/evaluations/runs/\{name\}' has methods for the following verbs: get */
+  (path: "/evaluations/runs/{name}", name: string): EvaluationsGet;
+  /** Resource for '/evaluations/runs' has methods for the following verbs: get */
+  (path: "/evaluations/runs"): EvaluationsList;
+  /** Resource for '/evaluations/runs:run' has methods for the following verbs: post */
+  (path: "/evaluations/runs:run"): EvaluationsCreateRun;
+  /** Resource for '/datasets/\{name\}/versions' has methods for the following verbs: get, post */
+  (path: "/datasets/{name}/versions", name: string): DatasetsListVersions;
+  /** Resource for '/datasets' has methods for the following verbs: get */
+  (path: "/datasets"): DatasetsListLatest;
+  /** Resource for '/datasets/\{name\}/versions/\{version\}' has methods for the following verbs: get, delete, put */
+  (
+    path: "/datasets/{name}/versions/{version}",
+    name: string,
+    version: string,
+  ): DatasetsGetVersion;
+  /** Resource for '/datasets/\{name\}/versions/\{version\}/startPendingUploadVersion' has methods for the following verbs: post */
+  (
+    path: "/datasets/{name}/versions/{version}/startPendingUploadVersion",
+    name: string,
+    version: string,
+  ): DatasetsStartPendingUploadVersion;
+  /** Resource for '/datasets/\{name\}/startPendingUpload' has methods for the following verbs: post */
+  (
+    path: "/datasets/{name}/startPendingUpload",
+    name: string,
+  ): DatasetsStartPendingUpload;
+  /** Resource for '/indexes/\{name\}/versions' has methods for the following verbs: get, post */
+  (path: "/indexes/{name}/versions", name: string): IndexesListVersions;
+  /** Resource for '/indexes' has methods for the following verbs: get */
+  (path: "/indexes"): IndexesListLatest;
+  /** Resource for '/indexes/\{name\}/versions/\{version\}' has methods for the following verbs: get, delete, put */
+  (
+    path: "/indexes/{name}/versions/{version}",
+    name: string,
+    version: string,
+  ): IndexesGetVersion;
+  /** Resource for '/deployments/\{name\}' has methods for the following verbs: get */
+  (path: "/deployments/{name}", name: string): DeploymentsGet;
+  /** Resource for '/deployments' has methods for the following verbs: get */
+  (path: "/deployments"): DeploymentsList;
+  /** Resource for '/evaluationResults/\{name\}/versions' has methods for the following verbs: get, post */
+  (
+    path: "/evaluationResults/{name}/versions",
+    name: string,
+  ): EvaluationResultsListVersions;
+  /** Resource for '/evaluationResults' has methods for the following verbs: get */
+  (path: "/evaluationResults"): EvaluationResultsListLatest;
+  /** Resource for '/evaluationResults/\{name\}/versions/\{version\}' has methods for the following verbs: get, delete, put */
+  (
+    path: "/evaluationResults/{name}/versions/{version}",
+    name: string,
+    version: string,
+  ): EvaluationResultsGetVersion;
+  /** Resource for '/evaluationResults/\{name\}/versions/\{version\}/startPendingUpload' has methods for the following verbs: post */
+  (
+    path: "/evaluationResults/{name}/versions/{version}/startPendingUpload",
+    name: string,
+    version: string,
+  ): EvaluationResultsStartPendingUpload;
+  /** Resource for '/redTeams/runs/\{name\}' has methods for the following verbs: get */
+  (path: "/redTeams/runs/{name}", name: string): RedTeamsGet;
+  /** Resource for '/redTeams/runs' has methods for the following verbs: get */
+  (path: "/redTeams/runs"): RedTeamsList;
+  /** Resource for '/redTeams/runs:run' has methods for the following verbs: post */
+  (path: "/redTeams/runs:run"): RedTeamsCreateRun;
+}
+
+export type ProjectsClient = Client & {
+  path: Routes;
+};
