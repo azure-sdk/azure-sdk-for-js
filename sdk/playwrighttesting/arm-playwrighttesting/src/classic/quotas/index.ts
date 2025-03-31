@@ -2,43 +2,40 @@
 // Licensed under the MIT License.
 
 import { AzurePlaywrightServiceContext } from "../../api/azurePlaywrightServiceContext.js";
-import {
-  QuotasGetOptionalParams,
-  QuotasListBySubscriptionOptionalParams,
-} from "../../api/options.js";
-import { quotasGet, quotasListBySubscription } from "../../api/quotas/index.js";
 import { QuotaNames, Quota } from "../../models/models.js";
+import {
+  QuotasListBySubscriptionOptionalParams,
+  QuotasGetOptionalParams,
+} from "../../api/quotas/options.js";
+import { listBySubscription, get } from "../../api/quotas/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Quotas operations. */
 export interface QuotasOperations {
+  /** List quotas for a given subscription Id. */
+  listBySubscription: (
+    location: string,
+    options?: QuotasListBySubscriptionOptionalParams,
+  ) => PagedAsyncIterableIterator<Quota>;
   /** Get subscription quota by name. */
   get: (
     location: string,
     quotaName: QuotaNames,
     options?: QuotasGetOptionalParams,
   ) => Promise<Quota>;
-  /** List quotas for a given subscription Id. */
-  listBySubscription: (
-    location: string,
-    options?: QuotasListBySubscriptionOptionalParams,
-  ) => PagedAsyncIterableIterator<Quota>;
 }
 
-export function getQuotas(context: AzurePlaywrightServiceContext, subscriptionId: string) {
+function _getQuotas(context: AzurePlaywrightServiceContext) {
   return {
-    get: (location: string, quotaName: QuotaNames, options?: QuotasGetOptionalParams) =>
-      quotasGet(context, subscriptionId, location, quotaName, options),
     listBySubscription: (location: string, options?: QuotasListBySubscriptionOptionalParams) =>
-      quotasListBySubscription(context, subscriptionId, location, options),
+      listBySubscription(context, location, options),
+    get: (location: string, quotaName: QuotaNames, options?: QuotasGetOptionalParams) =>
+      get(context, location, quotaName, options),
   };
 }
 
-export function getQuotasOperations(
-  context: AzurePlaywrightServiceContext,
-  subscriptionId: string,
-): QuotasOperations {
+export function _getQuotasOperations(context: AzurePlaywrightServiceContext): QuotasOperations {
   return {
-    ...getQuotas(context, subscriptionId),
+    ..._getQuotas(context),
   };
 }
