@@ -1078,6 +1078,9 @@ importers:
       '@rush-temp/notification-hubs':
         specifier: file:./projects/notification-hubs.tgz
         version: file:projects/notification-hubs.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
+      '@rush-temp/onlineexperimentation':
+        specifier: file:./projects/onlineexperimentation.tgz
+        version: file:projects/onlineexperimentation.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/openai':
         specifier: file:./projects/openai.tgz
         version: file:projects/openai.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(ws@8.18.1)(yaml@2.7.0)
@@ -2433,7 +2436,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-form-recognizer@file:projects/ai-form-recognizer.tgz':
-    resolution: {integrity: sha512-qE4Y3d+1mBDmbJ2ZU0Cgy2u36/228XiO7nr0C4tzaAM+lYb2SjxKoZAYpTvg9b1wOQ/MGKnvXfx+nS0RTcItDw==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-8rKztXkgvio9dZlp3EyMD03iggFwPSWkVg7V4WlzX3oDNv/Esq+cSD4bu5/vTyXFqA5ZNX9+GSjDbthVSyipYg==, tarball: file:projects/ai-form-recognizer.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-inference@file:projects/ai-inference.tgz':
@@ -3826,6 +3829,10 @@ packages:
 
   '@rush-temp/notification-hubs@file:projects/notification-hubs.tgz':
     resolution: {integrity: sha512-ElD64h6TFvqz/Eb1UoJbGQpGq4yGsDH1BO2ZINb2dl2/MEPdYXq7/lhXKvNy1hGDWhGUw5szCh7jPQ7M+ACW3Q==, tarball: file:projects/notification-hubs.tgz}
+    version: 0.0.0
+
+  '@rush-temp/onlineexperimentation@file:projects/onlineexperimentation.tgz':
+    resolution: {integrity: sha512-VagP0eyvQmO/QZOl9pocUcfgBszVSIzRlpolkklSXpnLArN/El+r9nL3NtnZWzt3dE9MQnS0ohKBiIjXUu9A+w==, tarball: file:projects/onlineexperimentation.tgz}
     version: 0.0.0
 
   '@rush-temp/openai@file:projects/openai.tgz':
@@ -22240,6 +22247,41 @@ snapshots:
       - webdriverio
       - yaml
 
+  '@rush-temp/onlineexperimentation@file:projects/onlineexperimentation.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
+    dependencies:
+      '@types/node': 18.19.84
+      '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.7.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
+      '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
+      dotenv: 16.4.7
+      eslint: 9.23.0
+      playwright: 1.51.1
+      tslib: 2.8.1
+      typescript: 5.7.3
+      vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
   '@rush-temp/openai@file:projects/openai.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(ws@8.18.1)(yaml@2.7.0)':
     dependencies:
       '@azure/arm-search': 3.2.0
@@ -24089,7 +24131,7 @@ snapshots:
 
   '@types/is-buffer@2.0.2':
     dependencies:
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
 
   '@types/json-schema@7.0.15': {}
 
@@ -24232,7 +24274,7 @@ snapshots:
 
   '@types/ws@7.4.7':
     dependencies:
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
 
   '@types/ws@8.18.0':
     dependencies:
