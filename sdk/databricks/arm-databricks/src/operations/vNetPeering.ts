@@ -16,7 +16,7 @@ import { AzureDatabricksManagementClient } from "../azureDatabricksManagementCli
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
@@ -29,7 +29,7 @@ import {
   VNetPeeringDeleteOptionalParams,
   VNetPeeringCreateOrUpdateOptionalParams,
   VNetPeeringCreateOrUpdateResponse,
-  VNetPeeringListByWorkspaceNextResponse
+  VNetPeeringListByWorkspaceNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,12 +54,12 @@ export class VNetPeeringImpl implements VNetPeering {
   public listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: VNetPeeringListByWorkspaceOptionalParams
+    options?: VNetPeeringListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<VirtualNetworkPeering> {
     const iter = this.listByWorkspacePagingAll(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -76,9 +76,9 @@ export class VNetPeeringImpl implements VNetPeering {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +86,7 @@ export class VNetPeeringImpl implements VNetPeering {
     resourceGroupName: string,
     workspaceName: string,
     options?: VNetPeeringListByWorkspaceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<VirtualNetworkPeering[]> {
     let result: VNetPeeringListByWorkspaceResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class VNetPeeringImpl implements VNetPeering {
       result = await this._listByWorkspace(
         resourceGroupName,
         workspaceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -106,7 +106,7 @@ export class VNetPeeringImpl implements VNetPeering {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -118,12 +118,12 @@ export class VNetPeeringImpl implements VNetPeering {
   private async *listByWorkspacePagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: VNetPeeringListByWorkspaceOptionalParams
+    options?: VNetPeeringListByWorkspaceOptionalParams,
   ): AsyncIterableIterator<VirtualNetworkPeering> {
     for await (const page of this.listByWorkspacePagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,11 +140,11 @@ export class VNetPeeringImpl implements VNetPeering {
     resourceGroupName: string,
     workspaceName: string,
     peeringName: string,
-    options?: VNetPeeringGetOptionalParams
+    options?: VNetPeeringGetOptionalParams,
   ): Promise<VNetPeeringGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, peeringName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -159,25 +159,24 @@ export class VNetPeeringImpl implements VNetPeering {
     resourceGroupName: string,
     workspaceName: string,
     peeringName: string,
-    options?: VNetPeeringDeleteOptionalParams
+    options?: VNetPeeringDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -186,8 +185,8 @@ export class VNetPeeringImpl implements VNetPeering {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -195,19 +194,19 @@ export class VNetPeeringImpl implements VNetPeering {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, workspaceName, peeringName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -224,13 +223,13 @@ export class VNetPeeringImpl implements VNetPeering {
     resourceGroupName: string,
     workspaceName: string,
     peeringName: string,
-    options?: VNetPeeringDeleteOptionalParams
+    options?: VNetPeeringDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       workspaceName,
       peeringName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -248,7 +247,7 @@ export class VNetPeeringImpl implements VNetPeering {
     workspaceName: string,
     peeringName: string,
     virtualNetworkPeeringParameters: VirtualNetworkPeering,
-    options?: VNetPeeringCreateOrUpdateOptionalParams
+    options?: VNetPeeringCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VNetPeeringCreateOrUpdateResponse>,
@@ -257,21 +256,20 @@ export class VNetPeeringImpl implements VNetPeering {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<VNetPeeringCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -280,8 +278,8 @@ export class VNetPeeringImpl implements VNetPeering {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -289,8 +287,8 @@ export class VNetPeeringImpl implements VNetPeering {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -301,16 +299,16 @@ export class VNetPeeringImpl implements VNetPeering {
         workspaceName,
         peeringName,
         virtualNetworkPeeringParameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       VNetPeeringCreateOrUpdateResponse,
       OperationState<VNetPeeringCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -329,14 +327,14 @@ export class VNetPeeringImpl implements VNetPeering {
     workspaceName: string,
     peeringName: string,
     virtualNetworkPeeringParameters: VirtualNetworkPeering,
-    options?: VNetPeeringCreateOrUpdateOptionalParams
+    options?: VNetPeeringCreateOrUpdateOptionalParams,
   ): Promise<VNetPeeringCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       workspaceName,
       peeringName,
       virtualNetworkPeeringParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -350,11 +348,11 @@ export class VNetPeeringImpl implements VNetPeering {
   private _listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: VNetPeeringListByWorkspaceOptionalParams
+    options?: VNetPeeringListByWorkspaceOptionalParams,
   ): Promise<VNetPeeringListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listByWorkspaceOperationSpec
+      listByWorkspaceOperationSpec,
     );
   }
 
@@ -369,11 +367,11 @@ export class VNetPeeringImpl implements VNetPeering {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: VNetPeeringListByWorkspaceNextOptionalParams
+    options?: VNetPeeringListByWorkspaceNextOptionalParams,
   ): Promise<VNetPeeringListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listByWorkspaceNextOperationSpec
+      listByWorkspaceNextOperationSpec,
     );
   }
 }
@@ -381,17 +379,16 @@ export class VNetPeeringImpl implements VNetPeering {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/workspaces/{workspaceName}/virtualNetworkPeerings/{peeringName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/workspaces/{workspaceName}/virtualNetworkPeerings/{peeringName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualNetworkPeering
+      bodyMapper: Mappers.VirtualNetworkPeering,
     },
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -399,14 +396,13 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.subscriptionId,
-    Parameters.peeringName
+    Parameters.peeringName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/workspaces/{workspaceName}/virtualNetworkPeerings/{peeringName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/workspaces/{workspaceName}/virtualNetworkPeerings/{peeringName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -414,8 +410,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -423,31 +419,30 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.subscriptionId,
-    Parameters.peeringName
+    Parameters.peeringName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/workspaces/{workspaceName}/virtualNetworkPeerings/{peeringName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/workspaces/{workspaceName}/virtualNetworkPeerings/{peeringName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualNetworkPeering
+      bodyMapper: Mappers.VirtualNetworkPeering,
     },
     201: {
-      bodyMapper: Mappers.VirtualNetworkPeering
+      bodyMapper: Mappers.VirtualNetworkPeering,
     },
     202: {
-      bodyMapper: Mappers.VirtualNetworkPeering
+      bodyMapper: Mappers.VirtualNetworkPeering,
     },
     204: {
-      bodyMapper: Mappers.VirtualNetworkPeering
+      bodyMapper: Mappers.VirtualNetworkPeering,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.virtualNetworkPeeringParameters,
   queryParameters: [Parameters.apiVersion],
@@ -456,52 +451,51 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.subscriptionId,
-    Parameters.peeringName
+    Parameters.peeringName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/workspaces/{workspaceName}/virtualNetworkPeerings",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/workspaces/{workspaceName}/virtualNetworkPeerings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualNetworkPeeringList
+      bodyMapper: Mappers.VirtualNetworkPeeringList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualNetworkPeeringList
+      bodyMapper: Mappers.VirtualNetworkPeeringList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -19,73 +19,73 @@ import {
   AccessConnectorsCreateOrUpdateResponse,
   AccessConnectorUpdate,
   AccessConnectorsUpdateOptionalParams,
-  AccessConnectorsUpdateResponse
+  AccessConnectorsUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AccessConnectors. */
 export interface AccessConnectors {
   /**
-   * Gets all the azure databricks accessConnectors within a resource group.
+   * Gets all the Azure Databricks Access Connectors within a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: AccessConnectorsListByResourceGroupOptionalParams
+    options?: AccessConnectorsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AccessConnector>;
   /**
-   * Gets all the azure databricks accessConnectors within a subscription.
+   * Gets all the Azure Databricks Access Connectors within a subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: AccessConnectorsListBySubscriptionOptionalParams
+    options?: AccessConnectorsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<AccessConnector>;
   /**
-   * Gets an azure databricks accessConnector.
+   * Gets an Azure Databricks Access Connector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param connectorName The name of the azure databricks accessConnector.
+   * @param connectorName The name of the Azure Databricks Access Connector.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     connectorName: string,
-    options?: AccessConnectorsGetOptionalParams
+    options?: AccessConnectorsGetOptionalParams,
   ): Promise<AccessConnectorsGetResponse>;
   /**
-   * Deletes the azure databricks accessConnector.
+   * Deletes the Azure Databricks Access Connector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param connectorName The name of the azure databricks accessConnector.
+   * @param connectorName The name of the Azure Databricks Access Connector.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     connectorName: string,
-    options?: AccessConnectorsDeleteOptionalParams
+    options?: AccessConnectorsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Deletes the azure databricks accessConnector.
+   * Deletes the Azure Databricks Access Connector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param connectorName The name of the azure databricks accessConnector.
+   * @param connectorName The name of the Azure Databricks Access Connector.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     connectorName: string,
-    options?: AccessConnectorsDeleteOptionalParams
+    options?: AccessConnectorsDeleteOptionalParams,
   ): Promise<void>;
   /**
-   * Creates or updates azure databricks accessConnector.
+   * Creates or updates Azure Databricks Access Connector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param connectorName The name of the azure databricks accessConnector.
-   * @param parameters Parameters supplied to the create or update an azure databricks accessConnector.
+   * @param connectorName The name of the Azure Databricks Access Connector.
+   * @param parameters Parameters supplied to the create or update an Azure Databricks Access Connector.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     connectorName: string,
     parameters: AccessConnector,
-    options?: AccessConnectorsCreateOrUpdateOptionalParams
+    options?: AccessConnectorsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccessConnectorsCreateOrUpdateResponse>,
@@ -93,30 +93,30 @@ export interface AccessConnectors {
     >
   >;
   /**
-   * Creates or updates azure databricks accessConnector.
+   * Creates or updates Azure Databricks Access Connector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param connectorName The name of the azure databricks accessConnector.
-   * @param parameters Parameters supplied to the create or update an azure databricks accessConnector.
+   * @param connectorName The name of the Azure Databricks Access Connector.
+   * @param parameters Parameters supplied to the create or update an Azure Databricks Access Connector.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     connectorName: string,
     parameters: AccessConnector,
-    options?: AccessConnectorsCreateOrUpdateOptionalParams
+    options?: AccessConnectorsCreateOrUpdateOptionalParams,
   ): Promise<AccessConnectorsCreateOrUpdateResponse>;
   /**
-   * Updates an azure databricks accessConnector.
+   * Updates an Azure Databricks Access Connector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param connectorName The name of the azure databricks accessConnector.
-   * @param parameters The update to the azure databricks accessConnector.
+   * @param connectorName The name of the Azure Databricks Access Connector.
+   * @param parameters The update to the Azure Databricks Access Connector.
    * @param options The options parameters.
    */
   beginUpdate(
     resourceGroupName: string,
     connectorName: string,
     parameters: AccessConnectorUpdate,
-    options?: AccessConnectorsUpdateOptionalParams
+    options?: AccessConnectorsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccessConnectorsUpdateResponse>,
@@ -124,16 +124,16 @@ export interface AccessConnectors {
     >
   >;
   /**
-   * Updates an azure databricks accessConnector.
+   * Updates an Azure Databricks Access Connector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param connectorName The name of the azure databricks accessConnector.
-   * @param parameters The update to the azure databricks accessConnector.
+   * @param connectorName The name of the Azure Databricks Access Connector.
+   * @param parameters The update to the Azure Databricks Access Connector.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
     resourceGroupName: string,
     connectorName: string,
     parameters: AccessConnectorUpdate,
-    options?: AccessConnectorsUpdateOptionalParams
+    options?: AccessConnectorsUpdateOptionalParams,
   ): Promise<AccessConnectorsUpdateResponse>;
 }

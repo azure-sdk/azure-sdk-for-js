@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   Workspace as WorkspaceMapper,
@@ -17,7 +17,7 @@ import {
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   VirtualNetworkPeering as VirtualNetworkPeeringMapper,
   AccessConnector as AccessConnectorMapper,
-  AccessConnectorUpdate as AccessConnectorUpdateMapper
+  AccessConnectorUpdate as AccessConnectorUpdateMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -27,9 +27,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -38,26 +38,25 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const workspaceName: OperationURLParameter = {
@@ -65,26 +64,26 @@ export const workspaceName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 64,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "workspaceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-02-01",
+    defaultValue: "2025-03-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -93,9 +92,20 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "Uuid",
+    },
+  },
+};
+
+export const forceDeletion: OperationQueryParameter = {
+  parameterPath: ["options", "forceDeletion"],
+  mapper: {
+    defaultValue: false,
+    serializedName: "forceDeletion",
+    type: {
+      name: "Boolean",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -105,19 +115,19 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: WorkspaceMapper
+  mapper: WorkspaceMapper,
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: WorkspaceUpdateMapper
+  mapper: WorkspaceUpdateMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -126,10 +136,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const groupId: OperationURLParameter = {
@@ -138,9 +148,9 @@ export const groupId: OperationURLParameter = {
     serializedName: "groupId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {
@@ -149,14 +159,14 @@ export const privateEndpointConnectionName: OperationURLParameter = {
     serializedName: "privateEndpointConnectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const privateEndpointConnection: OperationParameter = {
   parameterPath: "privateEndpointConnection",
-  mapper: PrivateEndpointConnectionMapper
+  mapper: PrivateEndpointConnectionMapper,
 };
 
 export const peeringName: OperationURLParameter = {
@@ -165,14 +175,14 @@ export const peeringName: OperationURLParameter = {
     serializedName: "peeringName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const virtualNetworkPeeringParameters: OperationParameter = {
   parameterPath: "virtualNetworkPeeringParameters",
-  mapper: VirtualNetworkPeeringMapper
+  mapper: VirtualNetworkPeeringMapper,
 };
 
 export const connectorName: OperationURLParameter = {
@@ -180,34 +190,22 @@ export const connectorName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 64,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "connectorName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const apiVersion1: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2023-05-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
-  mapper: AccessConnectorMapper
+  mapper: AccessConnectorMapper,
 };
 
 export const parameters3: OperationParameter = {
   parameterPath: "parameters",
-  mapper: AccessConnectorUpdateMapper
+  mapper: AccessConnectorUpdateMapper,
 };

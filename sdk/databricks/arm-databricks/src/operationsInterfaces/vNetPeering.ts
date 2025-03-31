@@ -15,7 +15,7 @@ import {
   VNetPeeringGetResponse,
   VNetPeeringDeleteOptionalParams,
   VNetPeeringCreateOrUpdateOptionalParams,
-  VNetPeeringCreateOrUpdateResponse
+  VNetPeeringCreateOrUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface VNetPeering {
   listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: VNetPeeringListByWorkspaceOptionalParams
+    options?: VNetPeeringListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<VirtualNetworkPeering>;
   /**
    * Gets the workspace vNet Peering.
@@ -43,7 +43,7 @@ export interface VNetPeering {
     resourceGroupName: string,
     workspaceName: string,
     peeringName: string,
-    options?: VNetPeeringGetOptionalParams
+    options?: VNetPeeringGetOptionalParams,
   ): Promise<VNetPeeringGetResponse>;
   /**
    * Deletes the workspace vNetPeering.
@@ -56,7 +56,7 @@ export interface VNetPeering {
     resourceGroupName: string,
     workspaceName: string,
     peeringName: string,
-    options?: VNetPeeringDeleteOptionalParams
+    options?: VNetPeeringDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the workspace vNetPeering.
@@ -69,7 +69,7 @@ export interface VNetPeering {
     resourceGroupName: string,
     workspaceName: string,
     peeringName: string,
-    options?: VNetPeeringDeleteOptionalParams
+    options?: VNetPeeringDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Creates vNet Peering for workspace.
@@ -84,7 +84,7 @@ export interface VNetPeering {
     workspaceName: string,
     peeringName: string,
     virtualNetworkPeeringParameters: VirtualNetworkPeering,
-    options?: VNetPeeringCreateOrUpdateOptionalParams
+    options?: VNetPeeringCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VNetPeeringCreateOrUpdateResponse>,
@@ -104,6 +104,6 @@ export interface VNetPeering {
     workspaceName: string,
     peeringName: string,
     virtualNetworkPeeringParameters: VirtualNetworkPeering,
-    options?: VNetPeeringCreateOrUpdateOptionalParams
+    options?: VNetPeeringCreateOrUpdateOptionalParams,
   ): Promise<VNetPeeringCreateOrUpdateResponse>;
 }

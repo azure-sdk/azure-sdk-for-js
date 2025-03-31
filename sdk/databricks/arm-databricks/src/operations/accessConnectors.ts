@@ -16,7 +16,7 @@ import { AzureDatabricksManagementClient } from "../azureDatabricksManagementCli
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
@@ -36,7 +36,7 @@ import {
   AccessConnectorsUpdateOptionalParams,
   AccessConnectorsUpdateResponse,
   AccessConnectorsListByResourceGroupNextResponse,
-  AccessConnectorsListBySubscriptionNextResponse
+  AccessConnectorsListBySubscriptionNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,13 +53,13 @@ export class AccessConnectorsImpl implements AccessConnectors {
   }
 
   /**
-   * Gets all the azure databricks accessConnectors within a resource group.
+   * Gets all the Azure Databricks Access Connectors within a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: AccessConnectorsListByResourceGroupOptionalParams
+    options?: AccessConnectorsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AccessConnector> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -76,16 +76,16 @@ export class AccessConnectorsImpl implements AccessConnectors {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: AccessConnectorsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AccessConnector[]> {
     let result: AccessConnectorsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +100,7 @@ export class AccessConnectorsImpl implements AccessConnectors {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -111,22 +111,22 @@ export class AccessConnectorsImpl implements AccessConnectors {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: AccessConnectorsListByResourceGroupOptionalParams
+    options?: AccessConnectorsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<AccessConnector> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * Gets all the azure databricks accessConnectors within a subscription.
+   * Gets all the Azure Databricks Access Connectors within a subscription.
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: AccessConnectorsListBySubscriptionOptionalParams
+    options?: AccessConnectorsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<AccessConnector> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -141,13 +141,13 @@ export class AccessConnectorsImpl implements AccessConnectors {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: AccessConnectorsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AccessConnector[]> {
     let result: AccessConnectorsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -168,7 +168,7 @@ export class AccessConnectorsImpl implements AccessConnectors {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: AccessConnectorsListBySubscriptionOptionalParams
+    options?: AccessConnectorsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<AccessConnector> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -176,50 +176,49 @@ export class AccessConnectorsImpl implements AccessConnectors {
   }
 
   /**
-   * Gets an azure databricks accessConnector.
+   * Gets an Azure Databricks Access Connector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param connectorName The name of the azure databricks accessConnector.
+   * @param connectorName The name of the Azure Databricks Access Connector.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     connectorName: string,
-    options?: AccessConnectorsGetOptionalParams
+    options?: AccessConnectorsGetOptionalParams,
   ): Promise<AccessConnectorsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, connectorName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
-   * Deletes the azure databricks accessConnector.
+   * Deletes the Azure Databricks Access Connector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param connectorName The name of the azure databricks accessConnector.
+   * @param connectorName The name of the Azure Databricks Access Connector.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     connectorName: string,
-    options?: AccessConnectorsDeleteOptionalParams
+    options?: AccessConnectorsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -228,8 +227,8 @@ export class AccessConnectorsImpl implements AccessConnectors {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -237,55 +236,55 @@ export class AccessConnectorsImpl implements AccessConnectors {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, connectorName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Deletes the azure databricks accessConnector.
+   * Deletes the Azure Databricks Access Connector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param connectorName The name of the azure databricks accessConnector.
+   * @param connectorName The name of the Azure Databricks Access Connector.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     connectorName: string,
-    options?: AccessConnectorsDeleteOptionalParams
+    options?: AccessConnectorsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       connectorName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Creates or updates azure databricks accessConnector.
+   * Creates or updates Azure Databricks Access Connector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param connectorName The name of the azure databricks accessConnector.
-   * @param parameters Parameters supplied to the create or update an azure databricks accessConnector.
+   * @param connectorName The name of the Azure Databricks Access Connector.
+   * @param parameters Parameters supplied to the create or update an Azure Databricks Access Connector.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     connectorName: string,
     parameters: AccessConnector,
-    options?: AccessConnectorsCreateOrUpdateOptionalParams
+    options?: AccessConnectorsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccessConnectorsCreateOrUpdateResponse>,
@@ -294,21 +293,20 @@ export class AccessConnectorsImpl implements AccessConnectors {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AccessConnectorsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -317,8 +315,8 @@ export class AccessConnectorsImpl implements AccessConnectors {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -326,61 +324,61 @@ export class AccessConnectorsImpl implements AccessConnectors {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, connectorName, parameters, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       AccessConnectorsCreateOrUpdateResponse,
       OperationState<AccessConnectorsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Creates or updates azure databricks accessConnector.
+   * Creates or updates Azure Databricks Access Connector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param connectorName The name of the azure databricks accessConnector.
-   * @param parameters Parameters supplied to the create or update an azure databricks accessConnector.
+   * @param connectorName The name of the Azure Databricks Access Connector.
+   * @param parameters Parameters supplied to the create or update an Azure Databricks Access Connector.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     connectorName: string,
     parameters: AccessConnector,
-    options?: AccessConnectorsCreateOrUpdateOptionalParams
+    options?: AccessConnectorsCreateOrUpdateOptionalParams,
   ): Promise<AccessConnectorsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       connectorName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Updates an azure databricks accessConnector.
+   * Updates an Azure Databricks Access Connector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param connectorName The name of the azure databricks accessConnector.
-   * @param parameters The update to the azure databricks accessConnector.
+   * @param connectorName The name of the Azure Databricks Access Connector.
+   * @param parameters The update to the Azure Databricks Access Connector.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
     connectorName: string,
     parameters: AccessConnectorUpdate,
-    options?: AccessConnectorsUpdateOptionalParams
+    options?: AccessConnectorsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccessConnectorsUpdateResponse>,
@@ -389,21 +387,20 @@ export class AccessConnectorsImpl implements AccessConnectors {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AccessConnectorsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -412,8 +409,8 @@ export class AccessConnectorsImpl implements AccessConnectors {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -421,74 +418,74 @@ export class AccessConnectorsImpl implements AccessConnectors {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, connectorName, parameters, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       AccessConnectorsUpdateResponse,
       OperationState<AccessConnectorsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Updates an azure databricks accessConnector.
+   * Updates an Azure Databricks Access Connector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param connectorName The name of the azure databricks accessConnector.
-   * @param parameters The update to the azure databricks accessConnector.
+   * @param connectorName The name of the Azure Databricks Access Connector.
+   * @param parameters The update to the Azure Databricks Access Connector.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
     connectorName: string,
     parameters: AccessConnectorUpdate,
-    options?: AccessConnectorsUpdateOptionalParams
+    options?: AccessConnectorsUpdateOptionalParams,
   ): Promise<AccessConnectorsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       connectorName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Gets all the azure databricks accessConnectors within a resource group.
+   * Gets all the Azure Databricks Access Connectors within a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: AccessConnectorsListByResourceGroupOptionalParams
+    options?: AccessConnectorsListByResourceGroupOptionalParams,
   ): Promise<AccessConnectorsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
   /**
-   * Gets all the azure databricks accessConnectors within a subscription.
+   * Gets all the Azure Databricks Access Connectors within a subscription.
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: AccessConnectorsListBySubscriptionOptionalParams
+    options?: AccessConnectorsListBySubscriptionOptionalParams,
   ): Promise<AccessConnectorsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -501,11 +498,11 @@ export class AccessConnectorsImpl implements AccessConnectors {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: AccessConnectorsListByResourceGroupNextOptionalParams
+    options?: AccessConnectorsListByResourceGroupNextOptionalParams,
   ): Promise<AccessConnectorsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -516,11 +513,11 @@ export class AccessConnectorsImpl implements AccessConnectors {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: AccessConnectorsListBySubscriptionNextOptionalParams
+    options?: AccessConnectorsListBySubscriptionNextOptionalParams,
   ): Promise<AccessConnectorsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -528,30 +525,28 @@ export class AccessConnectorsImpl implements AccessConnectors {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/accessConnectors/{connectorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/accessConnectors/{connectorName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessConnector
+      bodyMapper: Mappers.AccessConnector,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.connectorName
+    Parameters.connectorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/accessConnectors/{connectorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/accessConnectors/{connectorName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -559,159 +554,155 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.connectorName
+    Parameters.connectorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/accessConnectors/{connectorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/accessConnectors/{connectorName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessConnector
+      bodyMapper: Mappers.AccessConnector,
     },
     201: {
-      bodyMapper: Mappers.AccessConnector
+      bodyMapper: Mappers.AccessConnector,
     },
     202: {
-      bodyMapper: Mappers.AccessConnector
+      bodyMapper: Mappers.AccessConnector,
     },
     204: {
-      bodyMapper: Mappers.AccessConnector
+      bodyMapper: Mappers.AccessConnector,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters2,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.connectorName
+    Parameters.connectorName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/accessConnectors/{connectorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/accessConnectors/{connectorName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessConnector
+      bodyMapper: Mappers.AccessConnector,
     },
     201: {
-      bodyMapper: Mappers.AccessConnector
+      bodyMapper: Mappers.AccessConnector,
     },
     202: {
-      bodyMapper: Mappers.AccessConnector
+      bodyMapper: Mappers.AccessConnector,
     },
     204: {
-      bodyMapper: Mappers.AccessConnector
+      bodyMapper: Mappers.AccessConnector,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters3,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.connectorName
+    Parameters.connectorName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/accessConnectors",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/accessConnectors",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessConnectorListResult
+      bodyMapper: Mappers.AccessConnectorListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Databricks/accessConnectors",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Databricks/accessConnectors",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessConnectorListResult
+      bodyMapper: Mappers.AccessConnectorListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessConnectorListResult
+      bodyMapper: Mappers.AccessConnectorListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessConnectorListResult
+      bodyMapper: Mappers.AccessConnectorListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
