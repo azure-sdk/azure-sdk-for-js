@@ -17,6 +17,9 @@ export {
   SystemData,
   KnownCreatedByType,
   CreatedByType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   Quota,
   QuotaName,
   ResourceSku,
@@ -65,8 +68,12 @@ export {
   VmssFabricProfile,
   DevOpsAzureSku,
   PoolImage,
+  KnownEphemeralType,
+  EphemeralType,
   OsProfile,
   SecretsManagementSettings,
+  KnownCertificateStoreNameOption,
+  CertificateStoreNameOption,
   KnownLogonType,
   LogonType,
   StorageProfile,
@@ -85,6 +92,14 @@ export {
   TrackedResource,
   PoolUpdate,
   PoolUpdateProperties,
+  CheckNameAvailability,
+  KnownDevOpsInfrastructureResourceType,
+  DevOpsInfrastructureResourceType,
+  CheckNameAvailabilityResult,
+  KnownAvailabilityStatus,
+  AvailabilityStatus,
+  KnownCheckNameAvailabilityReason,
+  CheckNameAvailabilityReason,
   Operation,
   OperationDisplay,
   KnownOrigin,
@@ -93,20 +108,21 @@ export {
   ActionType,
   KnownVersions,
 } from "./models/index.js";
+export { DevOpsInfrastructureClientOptionalParams } from "./api/index.js";
+export { ImageVersionsListByImageOptionalParams } from "./api/imageVersions/index.js";
+export { OperationsListOptionalParams } from "./api/operations/index.js";
 export {
-  DevOpsInfrastructureClientOptionalParams,
-  OperationsListOptionalParams,
-  PoolsGetOptionalParams,
-  PoolsCreateOrUpdateOptionalParams,
-  PoolsUpdateOptionalParams,
-  PoolsDeleteOptionalParams,
-  PoolsListByResourceGroupOptionalParams,
+  PoolsCheckNameAvailabilityOptionalParams,
   PoolsListBySubscriptionOptionalParams,
-  ResourceDetailsListByPoolOptionalParams,
-  SkuListByLocationOptionalParams,
-  SubscriptionUsagesUsagesOptionalParams,
-  ImageVersionsListByImageOptionalParams,
-} from "./api/index.js";
+  PoolsListByResourceGroupOptionalParams,
+  PoolsDeleteOptionalParams,
+  PoolsUpdateOptionalParams,
+  PoolsCreateOrUpdateOptionalParams,
+  PoolsGetOptionalParams,
+} from "./api/pools/index.js";
+export { ResourceDetailsListByPoolOptionalParams } from "./api/resourceDetails/index.js";
+export { SkuListByLocationOptionalParams } from "./api/sku/index.js";
+export { SubscriptionUsagesUsagesOptionalParams } from "./api/subscriptionUsages/index.js";
 export {
   ImageVersionsOperations,
   OperationsOperations,
