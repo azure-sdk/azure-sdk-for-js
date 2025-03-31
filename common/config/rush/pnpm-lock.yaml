@@ -1027,6 +1027,9 @@ importers:
       '@rush-temp/keyvault-secrets':
         specifier: file:./projects/keyvault-secrets.tgz
         version: file:projects/keyvault-secrets.tgz(@types/debug@4.1.12)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
+      '@rush-temp/livemetrics-rest':
+        specifier: file:./projects/livemetrics-rest.tgz
+        version: file:projects/livemetrics-rest.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/load-testing':
         specifier: file:./projects/load-testing.tgz
         version: file:projects/load-testing.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
@@ -2433,7 +2436,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-form-recognizer@file:projects/ai-form-recognizer.tgz':
-    resolution: {integrity: sha512-qE4Y3d+1mBDmbJ2ZU0Cgy2u36/228XiO7nr0C4tzaAM+lYb2SjxKoZAYpTvg9b1wOQ/MGKnvXfx+nS0RTcItDw==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-8rKztXkgvio9dZlp3EyMD03iggFwPSWkVg7V4WlzX3oDNv/Esq+cSD4bu5/vTyXFqA5ZNX9+GSjDbthVSyipYg==, tarball: file:projects/ai-form-recognizer.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-inference@file:projects/ai-inference.tgz':
@@ -3758,6 +3761,10 @@ packages:
 
   '@rush-temp/keyvault-secrets@file:projects/keyvault-secrets.tgz':
     resolution: {integrity: sha512-NYr2cDMEpCg84jZ7vVNaB63vgIvhMnZO1TZoFkswCfOJg7eP4kvaWvCGEADkEudBuCQYRQcbwk4MffwSzXhbzw==, tarball: file:projects/keyvault-secrets.tgz}
+    version: 0.0.0
+
+  '@rush-temp/livemetrics-rest@file:projects/livemetrics-rest.tgz':
+    resolution: {integrity: sha512-vItARqHjQu17ntKGjLRu0uO84lMJ/0OBgVJnZDRx6FTmYkotbE+nUQtUMwY4/om7n4PREqP2eotkX9x1I1x4dA==, tarball: file:projects/livemetrics-rest.tgz}
     version: 0.0.0
 
   '@rush-temp/load-testing@file:projects/load-testing.tgz':
@@ -21595,6 +21602,41 @@ snapshots:
       - supports-color
       - terser
       - tsx
+      - yaml
+
+  '@rush-temp/livemetrics-rest@file:projects/livemetrics-rest.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
+    dependencies:
+      '@types/node': 18.19.84
+      '@vitest/browser': 3.0.9(@types/node@18.19.84)(playwright@1.51.1)(typescript@5.7.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.9)
+      '@vitest/coverage-istanbul': 3.0.9(vitest@3.0.9)
+      dotenv: 16.4.7
+      eslint: 9.23.0
+      playwright: 1.51.1
+      tslib: 2.8.1
+      typescript: 5.7.3
+      vitest: 3.0.9(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.0.9)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
       - yaml
 
   '@rush-temp/load-testing@file:projects/load-testing.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
