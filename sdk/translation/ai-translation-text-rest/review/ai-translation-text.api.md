@@ -7,12 +7,10 @@
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { HttpResponse } from '@azure-rest/core-client';
-import type { KeyCredential } from '@azure/core-auth';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
 import type { StreamableMethod } from '@azure-rest/core-client';
-import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface BackTranslationOutput {
@@ -28,17 +26,8 @@ export interface BreakSentenceItemOutput {
     sentLen: number[];
 }
 
-// @public (undocumented)
-export function buildMultiCollection(items: string[], parameterName: string): string;
-
 // @public
-function createClient(credential: TranslatorCredential | TranslatorTokenCredential | KeyCredential | TokenCredential, options?: ClientOptions): TextTranslationClient;
-
-// @public
-function createClient(endpoint: string, options?: ClientOptions): TextTranslationClient;
-
-// @public
-function createClient(endpoint: string, credential: TranslatorCredential | TranslatorTokenCredential | KeyCredential | TokenCredential, options?: ClientOptions): TextTranslationClient;
+function createClient(endpointParam: string, { apiVersion, ...options }?: TextTranslationClientOptions): TextTranslationClient;
 export default createClient;
 
 // @public
@@ -448,6 +437,11 @@ export type TextTranslationClient = Client & {
 };
 
 // @public
+export interface TextTranslationClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public
 export type TextType = string;
 
 // @public (undocumented)
@@ -536,8 +530,15 @@ export interface TranslateQueryParamProperties {
     profanityMarker?: ProfanityMarker;
     suggestedFrom?: string;
     textType?: TextType;
-    to: string;
+    to: TranslateToQueryParam;
     toScript?: string;
+}
+
+// @public
+export interface TranslateToQueryParam {
+    explode: true;
+    style: "form";
+    value: string[];
 }
 
 // @public
@@ -554,24 +555,6 @@ export interface TranslationTextOutput {
     text: string;
     to: string;
     transliteration?: TransliteratedTextOutput;
-}
-
-// @public (undocumented)
-export interface TranslatorCredential {
-    // (undocumented)
-    key: string;
-    // (undocumented)
-    region: string;
-}
-
-// @public (undocumented)
-export interface TranslatorTokenCredential {
-    // (undocumented)
-    azureResourceId: string;
-    // (undocumented)
-    region: string;
-    // (undocumented)
-    tokenCredential: TokenCredential;
 }
 
 // @public
