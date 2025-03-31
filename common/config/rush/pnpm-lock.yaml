@@ -2717,7 +2717,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-databricks@file:projects/arm-databricks.tgz':
-    resolution: {integrity: sha512-AUX/ulnv1DcQieSr7mI2W1E7iBPnuw8BbvQVn7ZMVBdTuXjVGwN+PscNSTRXRH3UpCXOE32l4nnO8SbugcoVoQ==, tarball: file:projects/arm-databricks.tgz}
+    resolution: {integrity: sha512-MrHuaSEZdB7fNqilnA20y147PZWl6cR9wrXCrI4NYXxCrGzGlZ0roeGTbCkm2UEGQC7z9JCqNKdT2ue4Pu3FVA==, tarball: file:projects/arm-databricks.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-datacatalog@file:projects/arm-datacatalog.tgz':
@@ -12505,7 +12505,7 @@ snapshots:
       dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.8.2
+      typescript: 5.7.3
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -23838,7 +23838,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.2.1
 
   '@types/chai-as-promised@8.0.2':
     dependencies:

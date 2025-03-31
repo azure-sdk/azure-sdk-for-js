@@ -11,7 +11,7 @@ import {
   GroupIdInformation,
   PrivateLinkResourcesListOptionalParams,
   PrivateLinkResourcesGetOptionalParams,
-  PrivateLinkResourcesGetResponse
+  PrivateLinkResourcesGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface PrivateLinkResources {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: PrivateLinkResourcesListOptionalParams
+    options?: PrivateLinkResourcesListOptionalParams,
   ): PagedAsyncIterableIterator<GroupIdInformation>;
   /**
    * Get the specified private link resource for the given group id (sub-resource)
@@ -39,6 +39,6 @@ export interface PrivateLinkResources {
     resourceGroupName: string,
     workspaceName: string,
     groupId: string,
-    options?: PrivateLinkResourcesGetOptionalParams
+    options?: PrivateLinkResourcesGetOptionalParams,
   ): Promise<PrivateLinkResourcesGetResponse>;
 }

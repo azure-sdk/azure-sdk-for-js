@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters.js";
 import { AzureDatabricksManagementClient } from "../azureDatabricksManagementClient.js";
 import {
   OutboundNetworkDependenciesEndpointsListOptionalParams,
-  OutboundNetworkDependenciesEndpointsListResponse
+  OutboundNetworkDependenciesEndpointsListResponse,
 } from "../models/index.js";
 
 /** Class containing OutboundNetworkDependenciesEndpoints operations. */
 export class OutboundNetworkDependenciesEndpointsImpl
-  implements OutboundNetworkDependenciesEndpoints {
+  implements OutboundNetworkDependenciesEndpoints
+{
   private readonly client: AzureDatabricksManagementClient;
 
   /**
@@ -32,7 +33,7 @@ export class OutboundNetworkDependenciesEndpointsImpl
   /**
    * Gets the list of endpoints that VNET Injected Workspace calls Azure Databricks Control Plane. You
    * must configure outbound access with these endpoints. For more information, see
-   * https://docs.microsoft.com/azure/databricks/administration-guide/cloud-configurations/azure/udr
+   * https://docs.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/udr
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
@@ -40,11 +41,11 @@ export class OutboundNetworkDependenciesEndpointsImpl
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: OutboundNetworkDependenciesEndpointsListOptionalParams
+    options?: OutboundNetworkDependenciesEndpointsListOptionalParams,
   ): Promise<OutboundNetworkDependenciesEndpointsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -52,8 +53,7 @@ export class OutboundNetworkDependenciesEndpointsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/workspaces/{workspaceName}/outboundNetworkDependenciesEndpoints",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/workspaces/{workspaceName}/outboundNetworkDependenciesEndpoints",
   httpMethod: "GET",
   responses: {
     200: {
@@ -63,23 +63,23 @@ const listOperationSpec: coreClient.OperationSpec = {
           element: {
             type: {
               name: "Composite",
-              className: "OutboundEnvironmentEndpoint"
-            }
-          }
-        }
-      }
+              className: "OutboundEnvironmentEndpoint",
+            },
+          },
+        },
+      },
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
