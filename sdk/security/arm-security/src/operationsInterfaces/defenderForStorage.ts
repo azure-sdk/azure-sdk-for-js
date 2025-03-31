@@ -13,6 +13,12 @@ import {
   DefenderForStorageSetting,
   DefenderForStorageCreateOptionalParams,
   DefenderForStorageCreateResponse,
+  DefenderForStorageStartMalwareScanOptionalParams,
+  DefenderForStorageStartMalwareScanResponse,
+  DefenderForStorageCancelMalwareScanOptionalParams,
+  DefenderForStorageCancelMalwareScanResponse,
+  DefenderForStorageGetMalwareScanOptionalParams,
+  DefenderForStorageGetMalwareScanResponse,
 } from "../models/index.js";
 
 /** Interface representing a DefenderForStorage. */
@@ -41,4 +47,41 @@ export interface DefenderForStorage {
     defenderForStorageSetting: DefenderForStorageSetting,
     options?: DefenderForStorageCreateOptionalParams,
   ): Promise<DefenderForStorageCreateResponse>;
+  /**
+   * Initiate a Defender for Storage malware scan for the specified storage account.
+   * @param resourceId The identifier of the resource.
+   * @param settingName Defender for Storage setting name.
+   * @param options The options parameters.
+   */
+  startMalwareScan(
+    resourceId: string,
+    settingName: SettingName,
+    options?: DefenderForStorageStartMalwareScanOptionalParams,
+  ): Promise<DefenderForStorageStartMalwareScanResponse>;
+  /**
+   * Cancels a Defender for Storage malware scan for the specified storage account.
+   * @param resourceId The identifier of the resource.
+   * @param settingName Defender for Storage setting name.
+   * @param scanId The identifier of the scan. Can be either 'latest' or a GUID.
+   * @param options The options parameters.
+   */
+  cancelMalwareScan(
+    resourceId: string,
+    settingName: SettingName,
+    scanId: string,
+    options?: DefenderForStorageCancelMalwareScanOptionalParams,
+  ): Promise<DefenderForStorageCancelMalwareScanResponse>;
+  /**
+   * Gets the Defender for Storage malware scan for the specified storage resource.
+   * @param resourceId The identifier of the resource.
+   * @param settingName Defender for Storage setting name.
+   * @param scanId The identifier of the scan. Can be either 'latest' or a GUID.
+   * @param options The options parameters.
+   */
+  getMalwareScan(
+    resourceId: string,
+    settingName: SettingName,
+    scanId: string,
+    options?: DefenderForStorageGetMalwareScanOptionalParams,
+  ): Promise<DefenderForStorageGetMalwareScanResponse>;
 }
