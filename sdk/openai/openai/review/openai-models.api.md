@@ -4,16 +4,7 @@
 
 ```ts
 
-import { ClientOptions } from '@azure-rest/core-client';
 import { ErrorModel } from '@azure-rest/core-client';
-import { KeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
-
-// @public
-export interface AddUploadPartOptionalParams extends OperationOptions {
-}
 
 // @public
 export interface AddUploadPartRequest {
@@ -349,14 +340,6 @@ export interface BatchErrorList {
 export type BatchStatus = "validating" | "failed" | "in_progress" | "finalizing" | "completed" | "expired" | "cancelling" | "cancelled";
 
 // @public
-export interface CancelBatchOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface CancelUploadOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface ChatChoice {
     contentFilterResults?: ContentFilterResultsForChoice;
     delta?: ChatResponseMessage;
@@ -647,10 +630,6 @@ export interface Choice {
 }
 
 // @public
-export interface CompleteUploadOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface CompleteUploadRequest {
     md5?: string;
     partIds: string[];
@@ -798,23 +777,11 @@ export interface ContentFilterResultsForPrompt {
 export type ContentFilterSeverity = "safe" | "low" | "medium" | "high";
 
 // @public
-export interface CreateBatchOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface CreateUploadOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface CreateUploadRequest {
     bytes: number;
     filename: string;
     mimeType: string;
     purpose: "assistants" | "batch" | "fine-tune" | "vision";
-}
-
-// @public
-export interface DeleteFileOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -885,9 +852,6 @@ export interface EmbeddingsUsage {
 }
 
 // @public
-export type FileContents = string | NodeJS.ReadableStream | ReadableStream<Uint8Array> | Uint8Array | Blob;
-
-// @public
 export interface FileDeletionStatus {
     deleted: boolean;
     id: string;
@@ -925,54 +889,6 @@ export interface FunctionDefinition {
 // @public
 export interface FunctionName {
     name: string;
-}
-
-// @public
-export interface GenerateSpeechFromTextOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetAudioTranscriptionAsPlainTextOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetAudioTranscriptionAsResponseObjectOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetAudioTranslationAsPlainTextOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetAudioTranslationAsResponseObjectOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetBatchOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetChatCompletionsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetCompletionsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetEmbeddingsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetFileContentOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetFileOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetImageGenerationsOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1074,17 +990,6 @@ export enum KnownServiceApiVersions {
     V20241001Preview = "2024-10-01-preview",
     // (undocumented)
     V20250101Preview = "2025-01-01-preview"
-}
-
-// @public
-export interface ListBatchesOptionalParams extends OperationOptions {
-    after?: string;
-    limit?: number;
-}
-
-// @public
-export interface ListFilesOptionalParams extends OperationOptions {
-    purpose?: FilePurpose;
 }
 
 // @public
@@ -1240,39 +1145,6 @@ export type OnYourDataVectorSearchAuthenticationOptionsUnion = OnYourDataVectorS
 // @public
 export type OnYourDataVectorSearchAuthenticationType = "api_key" | "access_token";
 
-// @public (undocumented)
-export class OpenAIClient {
-    constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: OpenAIClientOptionalParams);
-    addUploadPart(uploadId: string, requestBody: AddUploadPartRequest, options?: AddUploadPartOptionalParams): Promise<UploadPart>;
-    cancelBatch(batchId: string, options?: CancelBatchOptionalParams): Promise<Batch>;
-    cancelUpload(uploadId: string, options?: CancelUploadOptionalParams): Promise<Upload>;
-    completeUpload(uploadId: string, requestBody: CompleteUploadRequest, options?: CompleteUploadOptionalParams): Promise<Upload>;
-    createBatch(createBatchRequest: BatchCreateRequest, options?: CreateBatchOptionalParams): Promise<Batch>;
-    createUpload(requestBody: CreateUploadRequest, options?: CreateUploadOptionalParams): Promise<Upload>;
-    deleteFile(fileId: string, options?: DeleteFileOptionalParams): Promise<FileDeletionStatus>;
-    generateSpeechFromText(deploymentId: string, body: SpeechGenerationOptions, options?: GenerateSpeechFromTextOptionalParams): Promise<Uint8Array>;
-    getAudioTranscriptionAsPlainText(deploymentId: string, body: AudioTranscriptionOptions, options?: GetAudioTranscriptionAsPlainTextOptionalParams): Promise<string>;
-    getAudioTranscriptionAsResponseObject(deploymentId: string, body: AudioTranscriptionOptions, options?: GetAudioTranscriptionAsResponseObjectOptionalParams): Promise<AudioTranscription>;
-    getAudioTranslationAsPlainText(deploymentId: string, body: AudioTranslationOptions, options?: GetAudioTranslationAsPlainTextOptionalParams): Promise<string>;
-    getAudioTranslationAsResponseObject(deploymentId: string, body: AudioTranslationOptions, options?: GetAudioTranslationAsResponseObjectOptionalParams): Promise<AudioTranslation>;
-    getBatch(batchId: string, options?: GetBatchOptionalParams): Promise<Batch>;
-    getChatCompletions(deploymentId: string, body: ChatCompletionsOptions, options?: GetChatCompletionsOptionalParams): Promise<ChatCompletions>;
-    getCompletions(deploymentId: string, body: CompletionsOptions, options?: GetCompletionsOptionalParams): Promise<Completions>;
-    getEmbeddings(deploymentId: string, body: EmbeddingsOptions, options?: GetEmbeddingsOptionalParams): Promise<Embeddings>;
-    getFile(fileId: string, options?: GetFileOptionalParams): Promise<OpenAIFile>;
-    getFileContent(fileId: string, options?: GetFileContentOptionalParams): Promise<Uint8Array>;
-    getImageGenerations(deploymentId: string, body: ImageGenerationOptions, options?: GetImageGenerationsOptionalParams): Promise<ImageGenerations>;
-    listBatches(options?: ListBatchesOptionalParams): Promise<OpenAIPageableListOfBatch>;
-    listFiles(options?: ListFilesOptionalParams): Promise<FileListResponse>;
-    readonly pipeline: Pipeline;
-    uploadFile(file: Uint8Array, purpose: FilePurpose, options?: UploadFileOptionalParams): Promise<OpenAIFile>;
-}
-
-// @public
-export interface OpenAIClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-}
-
 // @public
 export interface OpenAIFile {
     bytes: number;
@@ -1365,11 +1237,6 @@ export interface Upload {
     object?: "upload";
     purpose: "batch" | "batch_output" | "fine-tune" | "fine-tune-results" | "assistants" | "assistants_output" | "vision";
     status: "pending" | "completed" | "cancelled" | "expired";
-}
-
-// @public
-export interface UploadFileOptionalParams extends OperationOptions {
-    filename?: string;
 }
 
 // @public
