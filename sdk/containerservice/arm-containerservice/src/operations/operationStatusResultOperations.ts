@@ -8,28 +8,32 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { Machines } from "../operationsInterfaces/index.js";
+import { OperationStatusResultOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ContainerServiceClient } from "../containerServiceClient.js";
 import {
-  Machine,
-  MachinesListNextOptionalParams,
-  MachinesListOptionalParams,
-  MachinesListResponse,
-  MachinesGetOptionalParams,
-  MachinesGetResponse,
-  MachinesListNextResponse,
+  OperationStatusResult,
+  OperationStatusResultListNextOptionalParams,
+  OperationStatusResultListOptionalParams,
+  OperationStatusResultListResponse,
+  OperationStatusResultGetOptionalParams,
+  OperationStatusResultGetResponse,
+  OperationStatusResultGetByAgentPoolOptionalParams,
+  OperationStatusResultGetByAgentPoolResponse,
+  OperationStatusResultListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Machines operations. */
-export class MachinesImpl implements Machines {
+/** Class containing OperationStatusResultOperations operations. */
+export class OperationStatusResultOperationsImpl
+  implements OperationStatusResultOperations
+{
   private readonly client: ContainerServiceClient;
 
   /**
-   * Initialize a new instance of the class Machines class.
+   * Initialize a new instance of the class OperationStatusResultOperations class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerServiceClient) {
@@ -37,24 +41,17 @@ export class MachinesImpl implements Machines {
   }
 
   /**
-   * Gets a list of machines in the specified agent pool.
+   * Gets a list of operations in the specified managedCluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
-    options?: MachinesListOptionalParams,
-  ): PagedAsyncIterableIterator<Machine> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      resourceName,
-      agentPoolName,
-      options,
-    );
+    options?: OperationStatusResultListOptionalParams,
+  ): PagedAsyncIterableIterator<OperationStatusResult> {
+    const iter = this.listPagingAll(resourceGroupName, resourceName, options);
     return {
       next() {
         return iter.next();
@@ -69,7 +66,6 @@ export class MachinesImpl implements Machines {
         return this.listPagingPage(
           resourceGroupName,
           resourceName,
-          agentPoolName,
           options,
           settings,
         );
@@ -80,19 +76,13 @@ export class MachinesImpl implements Machines {
   private async *listPagingPage(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
-    options?: MachinesListOptionalParams,
+    options?: OperationStatusResultListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Machine[]> {
-    let result: MachinesListResponse;
+  ): AsyncIterableIterator<OperationStatusResult[]> {
+    let result: OperationStatusResultListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        resourceName,
-        agentPoolName,
-        options,
-      );
+      result = await this._list(resourceGroupName, resourceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -102,7 +92,6 @@ export class MachinesImpl implements Machines {
       result = await this._listNext(
         resourceGroupName,
         resourceName,
-        agentPoolName,
         continuationToken,
         options,
       );
@@ -116,13 +105,11 @@ export class MachinesImpl implements Machines {
   private async *listPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
-    options?: MachinesListOptionalParams,
-  ): AsyncIterableIterator<Machine> {
+    options?: OperationStatusResultListOptionalParams,
+  ): AsyncIterableIterator<OperationStatusResult> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       resourceName,
-      agentPoolName,
       options,
     )) {
       yield* page;
@@ -130,42 +117,59 @@ export class MachinesImpl implements Machines {
   }
 
   /**
-   * Gets a list of machines in the specified agent pool.
+   * Gets a list of operations in the specified managedCluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
-    options?: MachinesListOptionalParams,
-  ): Promise<MachinesListResponse> {
+    options?: OperationStatusResultListOptionalParams,
+  ): Promise<OperationStatusResultListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, agentPoolName, options },
+      { resourceGroupName, resourceName, options },
       listOperationSpec,
     );
   }
 
   /**
-   * Get a specific machine in the specified agent pool.
+   * Get the status of a specific operation in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
-   * @param machineName host name of the machine
+   * @param operationId The ID of an ongoing async operation.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
-    machineName: string,
-    options?: MachinesGetOptionalParams,
-  ): Promise<MachinesGetResponse> {
+    operationId: string,
+    options?: OperationStatusResultGetOptionalParams,
+  ): Promise<OperationStatusResultGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, agentPoolName, machineName, options },
+      { resourceGroupName, resourceName, operationId, options },
       getOperationSpec,
+    );
+  }
+
+  /**
+   * Get the status of a specific operation in the specified agent pool.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param agentPoolName The name of the agent pool.
+   * @param operationId The ID of an ongoing async operation.
+   * @param options The options parameters.
+   */
+  getByAgentPool(
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    operationId: string,
+    options?: OperationStatusResultGetByAgentPoolOptionalParams,
+  ): Promise<OperationStatusResultGetByAgentPoolResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, resourceName, agentPoolName, operationId, options },
+      getByAgentPoolOperationSpec,
     );
   }
 
@@ -173,19 +177,17 @@ export class MachinesImpl implements Machines {
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string,
     nextLink: string,
-    options?: MachinesListNextOptionalParams,
-  ): Promise<MachinesListNextResponse> {
+    options?: OperationStatusResultListNextOptionalParams,
+  ): Promise<OperationStatusResultListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, agentPoolName, nextLink, options },
+      { resourceGroupName, resourceName, nextLink, options },
       listNextOperationSpec,
     );
   }
@@ -194,11 +196,11 @@ export class MachinesImpl implements Machines {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/machines",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/operations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MachineListResult,
+      bodyMapper: Mappers.OperationStatusResultList,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -210,17 +212,38 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.agentPoolName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/machines/{machineName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/operations/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Machine,
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+    Parameters.operationId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getByAgentPoolOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/operations/{operationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationStatusResult,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -233,7 +256,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.agentPoolName,
-    Parameters.machineName,
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -243,7 +266,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MachineListResult,
+      bodyMapper: Mappers.OperationStatusResultList,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -255,7 +278,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.nextLink,
-    Parameters.agentPoolName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
