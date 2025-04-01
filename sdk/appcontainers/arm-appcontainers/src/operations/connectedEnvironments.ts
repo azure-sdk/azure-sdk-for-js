@@ -602,6 +602,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
+  requestBody: Parameters.environmentEnvelope1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -609,7 +610,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.connectedEnvironmentName,
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
   serializer,
 };
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
