@@ -847,6 +847,9 @@ importers:
       '@rush-temp/attestation':
         specifier: file:./projects/attestation.tgz
         version: file:projects/attestation.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.4(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
+      '@rush-temp/azure-appconfiguration-rest':
+        specifier: file:./projects/azure-appconfiguration-rest.tgz
+        version: file:projects/azure-appconfiguration-rest.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.4(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
       '@rush-temp/batch':
         specifier: file:./projects/batch.tgz
         version: file:projects/batch.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.4(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
@@ -3482,6 +3485,10 @@ packages:
 
   '@rush-temp/attestation@file:projects/attestation.tgz':
     resolution: {integrity: sha512-MYUYjG90tY6X1qaJyrFH7qd4ndfKpVQhLUYibmqtoSkjFvs+uR6lh1K75cFvzmNhe5D9YAWpKRfQwLfMC2rtMQ==, tarball: file:projects/attestation.tgz}
+    version: 0.0.0
+
+  '@rush-temp/azure-appconfiguration-rest@file:projects/azure-appconfiguration-rest.tgz':
+    resolution: {integrity: sha512-SCSPExg00MtpB/l61SCqWPYNkUrPcZ0F1vG8qH4bDPUN8SDsJ1evTPQ87pPBag2s7hLgP4kajlD1uGfLcaOUig==, tarball: file:projects/azure-appconfiguration-rest.tgz}
     version: 0.0.0
 
   '@rush-temp/batch@file:projects/batch.tgz':
@@ -19165,6 +19172,41 @@ snapshots:
       - webdriverio
       - yaml
 
+  '@rush-temp/azure-appconfiguration-rest@file:projects/azure-appconfiguration-rest.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.4(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
+    dependencies:
+      '@types/node': 18.19.84
+      '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.4(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
+      '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
+      dotenv: 16.4.7
+      eslint: 9.23.0
+      playwright: 1.51.1
+      tslib: 2.8.1
+      typescript: 5.7.3
+      vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
   '@rush-temp/batch@file:projects/batch.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.4(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
       '@types/node': 18.19.84
@@ -23830,11 +23872,11 @@ snapshots:
   '@types/body-parser@1.19.5':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
 
   '@types/bunyan@1.8.11':
     dependencies:
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
@@ -23852,11 +23894,11 @@ snapshots:
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
 
   '@types/cors@2.8.17':
     dependencies:
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
 
   '@types/debug@4.1.12':
     dependencies:
@@ -23875,7 +23917,7 @@ snapshots:
 
   '@types/express-serve-static-core@4.19.6':
     dependencies:
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
       '@types/qs': 6.9.18
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -23890,16 +23932,16 @@ snapshots:
   '@types/fs-extra@11.0.4':
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
 
   '@types/fs-extra@8.1.5':
     dependencies:
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
 
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
 
   '@types/http-errors@2.0.4': {}
 
@@ -23916,7 +23958,7 @@ snapshots:
 
   '@types/jsonfile@6.1.4':
     dependencies:
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
 
   '@types/jsonwebtoken@9.0.9':
     dependencies:
@@ -23954,11 +23996,11 @@ snapshots:
 
   '@types/mysql@2.15.26':
     dependencies:
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
 
   '@types/node-fetch@2.6.12':
     dependencies:
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
       form-data: 4.0.2
 
   '@types/node@18.19.84':
@@ -23983,7 +24025,7 @@ snapshots:
 
   '@types/pg@8.6.1':
     dependencies:
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
       pg-protocol: 1.8.0
       pg-types: 2.2.0
 
@@ -24000,7 +24042,7 @@ snapshots:
 
   '@types/readdir-glob@1.1.5':
     dependencies:
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
 
   '@types/resolve@1.20.2': {}
 
@@ -24011,12 +24053,12 @@ snapshots:
   '@types/send@0.17.4':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
 
   '@types/serve-static@1.15.7':
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
       '@types/send': 0.17.4
 
   '@types/shimmer@1.2.0': {}
@@ -24063,7 +24105,7 @@ snapshots:
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
     optional: true
 
   '@typescript-eslint/eslint-plugin@8.26.1(@typescript-eslint/parser@8.26.1(eslint@9.23.0)(typescript@5.8.2))(eslint@9.23.0)(typescript@5.8.2)':
@@ -24968,7 +25010,7 @@ snapshots:
   engine.io@6.6.4:
     dependencies:
       '@types/cors': 2.8.17
-      '@types/node': 18.19.84
+      '@types/node': 22.7.9
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.7.2
