@@ -802,6 +802,55 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
   },
 };
 
+export const AutoExportJobUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutoExportJobUpdate",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      adminStatus: {
+        serializedName: "properties.adminStatus",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AutoExportJobsListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutoExportJobsListResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AutoExportJob",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
 export const ImportJobUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -812,6 +861,12 @@ export const ImportJobUpdate: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } },
+        },
+      },
+      adminStatus: {
+        serializedName: "properties.adminStatus",
+        type: {
+          name: "String",
         },
       },
     },
@@ -837,6 +892,55 @@ export const ImportJobsListResult: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "ImportJob",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const AutoImportJobUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutoImportJobUpdate",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      adminStatus: {
+        serializedName: "properties.adminStatus",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AutoImportJobsListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutoImportJobsListResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AutoImportJob",
             },
           },
         },
@@ -2957,6 +3061,145 @@ export const AmlFilesystem: coreClient.CompositeMapper = {
   },
 };
 
+export const AutoExportJob: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutoExportJob",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      adminStatus: {
+        serializedName: "properties.adminStatus",
+        type: {
+          name: "String",
+        },
+      },
+      autoExportPrefixes: {
+        serializedName: "properties.autoExportPrefixes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      state: {
+        serializedName: "properties.status.state",
+        type: {
+          name: "String",
+        },
+      },
+      statusCode: {
+        serializedName: "properties.status.statusCode",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      statusMessage: {
+        serializedName: "properties.status.statusMessage",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      totalFilesExported: {
+        serializedName: "properties.status.totalFilesExported",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      totalMiBExported: {
+        serializedName: "properties.status.totalMiBExported",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      totalFilesFailed: {
+        serializedName: "properties.status.totalFilesFailed",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      exportIterationCount: {
+        serializedName: "properties.status.exportIterationCount",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      lastSuccessfulIterationCompletionTimeUTC: {
+        serializedName:
+          "properties.status.lastSuccessfulIterationCompletionTimeUTC",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      currentIterationFilesDiscovered: {
+        serializedName: "properties.status.currentIterationFilesDiscovered",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      currentIterationMiBDiscovered: {
+        serializedName: "properties.status.currentIterationMiBDiscovered",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      currentIterationFilesExported: {
+        serializedName: "properties.status.currentIterationFilesExported",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      currentIterationMiBExported: {
+        serializedName: "properties.status.currentIterationMiBExported",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      currentIterationFilesFailed: {
+        serializedName: "properties.status.currentIterationFilesFailed",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      lastStartedTimeUTC: {
+        serializedName: "properties.status.lastStartedTimeUTC",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      lastCompletionTimeUTC: {
+        serializedName: "properties.status.lastCompletionTimeUTC",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
+};
+
 export const ImportJob: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2966,6 +3209,12 @@ export const ImportJob: coreClient.CompositeMapper = {
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      adminStatus: {
+        serializedName: "properties.adminStatus",
         type: {
           name: "String",
         },
@@ -2982,7 +3231,6 @@ export const ImportJob: coreClient.CompositeMapper = {
         },
       },
       conflictResolutionMode: {
-        defaultValue: "Fail",
         serializedName: "properties.conflictResolutionMode",
         type: {
           name: "String",
@@ -3030,6 +3278,48 @@ export const ImportJob: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      importedFiles: {
+        serializedName: "properties.status.importedFiles",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      importedDirectories: {
+        serializedName: "properties.status.importedDirectories",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      importedSymlinks: {
+        serializedName: "properties.status.importedSymlinks",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      preexistingFiles: {
+        serializedName: "properties.status.preexistingFiles",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      preexistingDirectories: {
+        serializedName: "properties.status.preexistingDirectories",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      preexistingSymlinks: {
+        serializedName: "properties.status.preexistingSymlinks",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
       blobsImportedPerSecond: {
         serializedName: "properties.status.blobsImportedPerSecond",
         readOnly: true,
@@ -3063,6 +3353,260 @@ export const ImportJob: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const AutoImportJob: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutoImportJob",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      adminStatus: {
+        defaultValue: "Enable",
+        serializedName: "properties.adminStatus",
+        type: {
+          name: "String",
+        },
+      },
+      autoImportPrefixes: {
+        serializedName: "properties.autoImportPrefixes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      conflictResolutionMode: {
+        serializedName: "properties.conflictResolutionMode",
+        type: {
+          name: "String",
+        },
+      },
+      enableDeletions: {
+        defaultValue: false,
+        serializedName: "properties.enableDeletions",
+        type: {
+          name: "Boolean",
+        },
+      },
+      maximumErrors: {
+        serializedName: "properties.maximumErrors",
+        type: {
+          name: "Number",
+        },
+      },
+      state: {
+        serializedName: "properties.status.state",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      scanStartTime: {
+        serializedName: "properties.status.scanStartTime",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      scanEndTime: {
+        serializedName: "properties.status.scanEndTime",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      totalBlobsWalked: {
+        serializedName: "properties.status.totalBlobsWalked",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      rateOfBlobWalk: {
+        serializedName: "properties.status.rateOfBlobWalk",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      totalBlobsImportedPropertiesStatusTotalBlobsImported: {
+        serializedName: "properties.status.totalBlobsImported",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      rateOfBlobImportPropertiesStatusRateOfBlobImport: {
+        serializedName: "properties.status.rateOfBlobImport",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      importedFilesPropertiesStatusImportedFiles: {
+        serializedName: "properties.status.importedFiles",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      importedDirectoriesPropertiesStatusImportedDirectories: {
+        serializedName: "properties.status.importedDirectories",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      importedSymlinksPropertiesStatusImportedSymlinks: {
+        serializedName: "properties.status.importedSymlinks",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      preexistingFilesPropertiesStatusPreexistingFiles: {
+        serializedName: "properties.status.preexistingFiles",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      preexistingDirectoriesPropertiesStatusPreexistingDirectories: {
+        serializedName: "properties.status.preexistingDirectories",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      preexistingSymlinksPropertiesStatusPreexistingSymlinks: {
+        serializedName: "properties.status.preexistingSymlinks",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      totalErrorsPropertiesStatusTotalErrors: {
+        serializedName: "properties.status.totalErrors",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      totalConflictsPropertiesStatusTotalConflicts: {
+        serializedName: "properties.status.totalConflicts",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      importedFilesPropertiesStatusBlobSyncEventsImportedFiles: {
+        serializedName: "properties.status.blobSyncEvents.importedFiles",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      importedDirectoriesPropertiesStatusBlobSyncEventsImportedDirectories: {
+        serializedName: "properties.status.blobSyncEvents.importedDirectories",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      importedSymlinksPropertiesStatusBlobSyncEventsImportedSymlinks: {
+        serializedName: "properties.status.blobSyncEvents.importedSymlinks",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      preexistingFilesPropertiesStatusBlobSyncEventsPreexistingFiles: {
+        serializedName: "properties.status.blobSyncEvents.preexistingFiles",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      preexistingDirectoriesPropertiesStatusBlobSyncEventsPreexistingDirectories:
+        {
+          serializedName:
+            "properties.status.blobSyncEvents.preexistingDirectories",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+      preexistingSymlinksPropertiesStatusBlobSyncEventsPreexistingSymlinks: {
+        serializedName: "properties.status.blobSyncEvents.preexistingSymlinks",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      totalBlobsImportedPropertiesStatusBlobSyncEventsTotalBlobsImported: {
+        serializedName: "properties.status.blobSyncEvents.totalBlobsImported",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      rateOfBlobImportPropertiesStatusBlobSyncEventsRateOfBlobImport: {
+        serializedName: "properties.status.blobSyncEvents.rateOfBlobImport",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      totalErrorsPropertiesStatusBlobSyncEventsTotalErrors: {
+        serializedName: "properties.status.blobSyncEvents.totalErrors",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      totalConflictsPropertiesStatusBlobSyncEventsTotalConflicts: {
+        serializedName: "properties.status.blobSyncEvents.totalConflicts",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      deletions: {
+        serializedName: "properties.status.blobSyncEvents.deletions",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      lastChangeFeedEventConsumedTime: {
+        serializedName:
+          "properties.status.blobSyncEvents.lastChangeFeedEventConsumedTime",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      lastTimeFullySynchronized: {
+        serializedName:
+          "properties.status.blobSyncEvents.lastTimeFullySynchronized",
+        readOnly: true,
+        type: {
+          name: "DateTime",
         },
       },
     },
@@ -3126,6 +3670,63 @@ export const AmlFilesystemsUpdateHeaders: coreClient.CompositeMapper = {
   },
 };
 
+export const AutoExportJobsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutoExportJobsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AutoExportJobsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutoExportJobsCreateOrUpdateHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-async-operation",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AutoExportJobsUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutoExportJobsUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-async-operation",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const ImportJobsDeleteHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3166,6 +3767,63 @@ export const ImportJobsUpdateHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ImportJobsUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-async-operation",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AutoImportJobsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutoImportJobsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AutoImportJobsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutoImportJobsCreateOrUpdateHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-async-operation",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AutoImportJobsUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutoImportJobsUpdateHeaders",
     modelProperties: {
       location: {
         serializedName: "location",
