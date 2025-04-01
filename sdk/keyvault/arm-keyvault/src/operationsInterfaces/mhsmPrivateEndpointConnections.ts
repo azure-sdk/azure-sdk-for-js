@@ -17,7 +17,7 @@ import {
   MhsmPrivateEndpointConnectionsPutResponse,
   MhsmPrivateEndpointConnectionsDeleteOptionalParams,
   MhsmPrivateEndpointConnectionsDeleteResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a MhsmPrivateEndpointConnections. */

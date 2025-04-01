@@ -28,7 +28,7 @@ import {
   CheckMhsmNameAvailabilityParameters,
   ManagedHsmsCheckMhsmNameAvailabilityOptionalParams,
   ManagedHsmsCheckMhsmNameAvailabilityResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedHsms. */
