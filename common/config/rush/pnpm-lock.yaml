@@ -2457,7 +2457,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-advisor@file:projects/arm-advisor.tgz':
-    resolution: {integrity: sha512-wO7ClgJ0ivlwgUkG8JLOY1PJuDqvDFMA+KOSQlMAGt26LyaV/E7z8mUZTi/9fTe/Ll2faUXxNu910rdUFFHnmQ==, tarball: file:projects/arm-advisor.tgz}
+    resolution: {integrity: sha512-4u8tYV7XBCLvuECzaQNIzyaOdeyNaCgC42QT+Jn1hb1G8fQeLpxZ+EN69pqBpNK9S+OD4OjoQBS+vvicj3AGUA==, tarball: file:projects/arm-advisor.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-agricultureplatform@file:projects/arm-agricultureplatform.tgz':
@@ -10270,7 +10270,7 @@ snapshots:
       dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.8.2
+      typescript: 5.7.3
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -23838,7 +23838,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.2.1
 
   '@types/chai-as-promised@8.0.2':
     dependencies:
