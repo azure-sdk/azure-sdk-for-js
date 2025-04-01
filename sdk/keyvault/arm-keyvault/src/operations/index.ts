@@ -11,6 +11,7 @@ export * from "./managedHsmKeys.js";
 export * from "./vaults.js";
 export * from "./privateEndpointConnections.js";
 export * from "./privateLinkResources.js";
+export * from "./networkSecurityPerimeterOperations.js";
 export * from "./managedHsms.js";
 export * from "./mhsmPrivateEndpointConnections.js";
 export * from "./mhsmPrivateLinkResources.js";
