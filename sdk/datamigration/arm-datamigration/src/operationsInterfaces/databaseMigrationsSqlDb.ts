@@ -8,131 +8,127 @@
 
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  DatabaseMigrationsSqlMiGetOptionalParams,
-  DatabaseMigrationsSqlMiGetResponse,
-  DatabaseMigrationSqlMi,
-  DatabaseMigrationsSqlMiCreateOrUpdateOptionalParams,
-  DatabaseMigrationsSqlMiCreateOrUpdateResponse,
+  DatabaseMigrationsSqlDbGetOptionalParams,
+  DatabaseMigrationsSqlDbGetResponse,
+  DatabaseMigrationSqlDb,
+  DatabaseMigrationsSqlDbCreateOrUpdateOptionalParams,
+  DatabaseMigrationsSqlDbCreateOrUpdateResponse,
+  DatabaseMigrationsSqlDbDeleteOptionalParams,
   MigrationOperationInput,
-  DatabaseMigrationsSqlMiCancelOptionalParams,
-  DatabaseMigrationsSqlMiCutoverOptionalParams,
+  DatabaseMigrationsSqlDbCancelOptionalParams,
 } from "../models/index.js";
 
-/** Interface representing a DatabaseMigrationsSqlMi. */
-export interface DatabaseMigrationsSqlMi {
+/** Interface representing a DatabaseMigrationsSqlDb. */
+export interface DatabaseMigrationsSqlDb {
   /**
-   * Retrieve the specified database migration for a given SQL Managed Instance.
+   * Retrieve the Database Migration resource.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
-   * @param managedInstanceName
+   * @param sqlDbInstanceName
    * @param targetDbName The name of the target database.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    managedInstanceName: string,
+    sqlDbInstanceName: string,
     targetDbName: string,
-    options?: DatabaseMigrationsSqlMiGetOptionalParams,
-  ): Promise<DatabaseMigrationsSqlMiGetResponse>;
+    options?: DatabaseMigrationsSqlDbGetOptionalParams,
+  ): Promise<DatabaseMigrationsSqlDbGetResponse>;
   /**
-   * Create a new database migration to a given SQL Managed Instance.
+   * Create or Update Database Migration resource.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
-   * @param managedInstanceName
+   * @param sqlDbInstanceName
    * @param targetDbName The name of the target database.
-   * @param parameters Details of SqlMigrationService resource.
+   * @param parameters Details of Sql Db migration resource.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
-    managedInstanceName: string,
+    sqlDbInstanceName: string,
     targetDbName: string,
-    parameters: DatabaseMigrationSqlMi,
-    options?: DatabaseMigrationsSqlMiCreateOrUpdateOptionalParams,
+    parameters: DatabaseMigrationSqlDb,
+    options?: DatabaseMigrationsSqlDbCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<DatabaseMigrationsSqlMiCreateOrUpdateResponse>,
-      DatabaseMigrationsSqlMiCreateOrUpdateResponse
+      OperationState<DatabaseMigrationsSqlDbCreateOrUpdateResponse>,
+      DatabaseMigrationsSqlDbCreateOrUpdateResponse
     >
   >;
   /**
-   * Create a new database migration to a given SQL Managed Instance.
+   * Create or Update Database Migration resource.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
-   * @param managedInstanceName
+   * @param sqlDbInstanceName
    * @param targetDbName The name of the target database.
-   * @param parameters Details of SqlMigrationService resource.
+   * @param parameters Details of Sql Db migration resource.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    managedInstanceName: string,
+    sqlDbInstanceName: string,
     targetDbName: string,
-    parameters: DatabaseMigrationSqlMi,
-    options?: DatabaseMigrationsSqlMiCreateOrUpdateOptionalParams,
-  ): Promise<DatabaseMigrationsSqlMiCreateOrUpdateResponse>;
+    parameters: DatabaseMigrationSqlDb,
+    options?: DatabaseMigrationsSqlDbCreateOrUpdateOptionalParams,
+  ): Promise<DatabaseMigrationsSqlDbCreateOrUpdateResponse>;
   /**
-   * Stop in-progress database migration to SQL Managed Instance.
+   * Delete Database Migration resource.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
-   * @param managedInstanceName
+   * @param sqlDbInstanceName
+   * @param targetDbName The name of the target database.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    sqlDbInstanceName: string,
+    targetDbName: string,
+    options?: DatabaseMigrationsSqlDbDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Delete Database Migration resource.
+   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
+   *                          value from the Azure Resource Manager API or the portal.
+   * @param sqlDbInstanceName
+   * @param targetDbName The name of the target database.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    sqlDbInstanceName: string,
+    targetDbName: string,
+    options?: DatabaseMigrationsSqlDbDeleteOptionalParams,
+  ): Promise<void>;
+  /**
+   * Stop on going migration for the database.
+   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
+   *                          value from the Azure Resource Manager API or the portal.
+   * @param sqlDbInstanceName
    * @param targetDbName The name of the target database.
    * @param parameters Required migration operation ID for which cancel will be initiated.
    * @param options The options parameters.
    */
   beginCancel(
     resourceGroupName: string,
-    managedInstanceName: string,
+    sqlDbInstanceName: string,
     targetDbName: string,
     parameters: MigrationOperationInput,
-    options?: DatabaseMigrationsSqlMiCancelOptionalParams,
+    options?: DatabaseMigrationsSqlDbCancelOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Stop in-progress database migration to SQL Managed Instance.
+   * Stop on going migration for the database.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
-   * @param managedInstanceName
+   * @param sqlDbInstanceName
    * @param targetDbName The name of the target database.
    * @param parameters Required migration operation ID for which cancel will be initiated.
    * @param options The options parameters.
    */
   beginCancelAndWait(
     resourceGroupName: string,
-    managedInstanceName: string,
+    sqlDbInstanceName: string,
     targetDbName: string,
     parameters: MigrationOperationInput,
-    options?: DatabaseMigrationsSqlMiCancelOptionalParams,
-  ): Promise<void>;
-  /**
-   * Initiate cutover for in-progress online database migration to SQL Managed Instance.
-   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
-   *                          value from the Azure Resource Manager API or the portal.
-   * @param managedInstanceName
-   * @param targetDbName The name of the target database.
-   * @param parameters Required migration operation ID for which cutover will be initiated.
-   * @param options The options parameters.
-   */
-  beginCutover(
-    resourceGroupName: string,
-    managedInstanceName: string,
-    targetDbName: string,
-    parameters: MigrationOperationInput,
-    options?: DatabaseMigrationsSqlMiCutoverOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Initiate cutover for in-progress online database migration to SQL Managed Instance.
-   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
-   *                          value from the Azure Resource Manager API or the portal.
-   * @param managedInstanceName
-   * @param targetDbName The name of the target database.
-   * @param parameters Required migration operation ID for which cutover will be initiated.
-   * @param options The options parameters.
-   */
-  beginCutoverAndWait(
-    resourceGroupName: string,
-    managedInstanceName: string,
-    targetDbName: string,
-    parameters: MigrationOperationInput,
-    options?: DatabaseMigrationsSqlMiCutoverOptionalParams,
+    options?: DatabaseMigrationsSqlDbCancelOptionalParams,
   ): Promise<void>;
 }
