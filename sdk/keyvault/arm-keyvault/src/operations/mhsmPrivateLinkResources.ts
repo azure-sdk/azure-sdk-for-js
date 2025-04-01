@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { MhsmPrivateLinkResources } from "../operationsInterfaces/index.js";
+import { MhsmPrivateLinkResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { KeyVaultManagementClient } from "../keyVaultManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { KeyVaultManagementClient } from "../keyVaultManagementClient";
 import {
   MhsmPrivateLinkResourcesListByMhsmResourceOptionalParams,
   MhsmPrivateLinkResourcesListByMhsmResourceResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing MhsmPrivateLinkResources operations. */
 export class MhsmPrivateLinkResourcesImpl implements MhsmPrivateLinkResources {
