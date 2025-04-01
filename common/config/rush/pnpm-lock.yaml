@@ -2997,7 +2997,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-machinelearning@file:projects/arm-machinelearning.tgz':
-    resolution: {integrity: sha512-OvAqq7wd/cjKurKIpuH81HkCT2GQgQxWEhehk6nXWzARaWgi2yrvKM0LXvcKligPWDw2BPEcWMRDtlxrvKdMFQ==, tarball: file:projects/arm-machinelearning.tgz}
+    resolution: {integrity: sha512-WLGbbCXyhNx1iykHO9fQLhtmVDx+m3UI41GJQEkwOVNFqoOzHrY5+lNa3Dgbgn/d5NvJTnVx89am6aqEkXliIQ==, tarball: file:projects/arm-machinelearning.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-machinelearningcompute@file:projects/arm-machinelearningcompute.tgz':
@@ -14938,7 +14938,7 @@ snapshots:
       dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.8.2
+      typescript: 5.7.3
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -23838,7 +23838,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.2.1
 
   '@types/chai-as-promised@8.0.2':
     dependencies:
