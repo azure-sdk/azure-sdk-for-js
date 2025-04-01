@@ -2737,7 +2737,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-datamigration@file:projects/arm-datamigration.tgz':
-    resolution: {integrity: sha512-1s7KtH+wy7nVI2OPEfE0xNXfxFSHrZYYprWxA+GX+NM7jX1zbK+Aa5ybXm2FyEXcHvrNRuCkqxXj5yQmgNloGg==, tarball: file:projects/arm-datamigration.tgz}
+    resolution: {integrity: sha512-fwpJIB3siJgBVMwq4Lc/6pqfbATBmzwwYDWrOCW7/ID9fxrLA3ZWqlhvq82E5ihSFwi1+ZLkeD60DinkL1hANg==, tarball: file:projects/arm-datamigration.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-dataprotection@file:projects/arm-dataprotection.tgz':
@@ -12675,9 +12675,10 @@ snapshots:
       '@types/node': 18.19.84
       '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.4(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
       '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
+      dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.8.2
+      typescript: 5.7.3
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -23838,7 +23839,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.2.1
 
   '@types/chai-as-promised@8.0.2':
     dependencies:
