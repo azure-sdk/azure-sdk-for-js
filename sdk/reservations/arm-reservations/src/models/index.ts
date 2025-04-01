@@ -1655,7 +1655,7 @@ export enum KnownErrorResponseCode {
   /** SelfServiceRefundNotSupported */
   SelfServiceRefundNotSupported = "SelfServiceRefundNotSupported",
   /** RefundLimitExceeded */
-  RefundLimitExceeded = "RefundLimitExceeded"
+  RefundLimitExceeded = "RefundLimitExceeded",
 }
 
 /**
@@ -1729,7 +1729,7 @@ export enum KnownReservationBillingPlan {
   /** Upfront */
   Upfront = "Upfront",
   /** Monthly */
-  Monthly = "Monthly"
+  Monthly = "Monthly",
 }
 
 /**
@@ -1749,7 +1749,7 @@ export enum KnownReservationTerm {
   /** P3Y */
   P3Y = "P3Y",
   /** P5Y */
-  P5Y = "P5Y"
+  P5Y = "P5Y",
 }
 
 /**
@@ -1816,7 +1816,9 @@ export enum KnownReservedResourceType {
   /** SqlEdge */
   SqlEdge = "SqlEdge",
   /** VirtualMachineSoftware */
-  VirtualMachineSoftware = "VirtualMachineSoftware"
+  VirtualMachineSoftware = "VirtualMachineSoftware",
+  /** OpenAiptu */
+  OpenAiptu = "OpenAIPTU",
 }
 
 /**
@@ -1849,7 +1851,8 @@ export enum KnownReservedResourceType {
  * **NetAppStorage** \
  * **AzureFiles** \
  * **SqlEdge** \
- * **VirtualMachineSoftware**
+ * **VirtualMachineSoftware** \
+ * **OpenAIPTU**
  */
 export type ReservedResourceType = string;
 
@@ -1860,7 +1863,7 @@ export enum KnownAppliedScopeType {
   /** Shared */
   Shared = "Shared",
   /** ManagementGroup */
-  ManagementGroup = "ManagementGroup"
+  ManagementGroup = "ManagementGroup",
 }
 
 /**
@@ -1879,7 +1882,7 @@ export enum KnownInstanceFlexibility {
   /** On */
   On = "On",
   /** Off */
-  Off = "Off"
+  Off = "Off",
 }
 
 /**
@@ -1901,7 +1904,7 @@ export enum KnownPaymentStatus {
   /** Scheduled */
   Scheduled = "Scheduled",
   /** Cancelled */
-  Cancelled = "Cancelled"
+  Cancelled = "Cancelled",
 }
 
 /**
@@ -1937,7 +1940,7 @@ export enum KnownReservationStatusCode {
   /** Expired */
   Expired = "Expired",
   /** Succeeded */
-  Succeeded = "Succeeded"
+  Succeeded = "Succeeded",
 }
 
 /**
@@ -1985,7 +1988,7 @@ export enum KnownProvisioningState {
   /** Split */
   Split = "Split",
   /** Merged */
-  Merged = "Merged"
+  Merged = "Merged",
 }
 
 /**
@@ -2018,7 +2021,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -2038,7 +2041,7 @@ export enum KnownSavingsPlanTerm {
   /** P1Y */
   P1Y = "P1Y",
   /** P3Y */
-  P3Y = "P3Y"
+  P3Y = "P3Y",
 }
 
 /**
@@ -2054,7 +2057,7 @@ export type SavingsPlanTerm = string;
 /** Known values of {@link BillingPlan} that the service accepts. */
 export enum KnownBillingPlan {
   /** P1M */
-  P1M = "P1M"
+  P1M = "P1M",
 }
 
 /**
@@ -2069,7 +2072,7 @@ export type BillingPlan = string;
 /** Known values of {@link CommitmentGrain} that the service accepts. */
 export enum KnownCommitmentGrain {
   /** Hourly */
-  Hourly = "Hourly"
+  Hourly = "Hourly",
 }
 
 /**
@@ -2090,7 +2093,7 @@ export enum KnownCalculateExchangeOperationResultStatus {
   /** Cancelled */
   Cancelled = "Cancelled",
   /** Pending */
-  Pending = "Pending"
+  Pending = "Pending",
 }
 
 /**
@@ -2116,7 +2119,7 @@ export enum KnownExchangeOperationResultStatus {
   /** PendingRefunds */
   PendingRefunds = "PendingRefunds",
   /** PendingPurchases */
-  PendingPurchases = "PendingPurchases"
+  PendingPurchases = "PendingPurchases",
 }
 
 /**
@@ -2141,7 +2144,7 @@ export enum KnownOperationStatus {
   /** Cancelled */
   Cancelled = "Cancelled",
   /** Pending */
-  Pending = "Pending"
+  Pending = "Pending",
 }
 
 /**
@@ -2167,7 +2170,7 @@ export enum KnownResourceType {
   /** Shared */
   Shared = "shared",
   /** ServiceSpecific */
-  ServiceSpecific = "serviceSpecific"
+  ServiceSpecific = "serviceSpecific",
 }
 
 /**
@@ -2194,7 +2197,7 @@ export enum KnownQuotaRequestState {
   /** Failed */
   Failed = "Failed",
   /** InProgress */
-  InProgress = "InProgress"
+  InProgress = "InProgress",
 }
 
 /**
@@ -2259,7 +2262,7 @@ export enum KnownLocation {
   /** Westcentralus */
   Westcentralus = "westcentralus",
   /** Ukwest */
-  Ukwest = "ukwest"
+  Ukwest = "ukwest",
 }
 
 /**
@@ -2313,7 +2316,7 @@ export enum KnownDisplayProvisioningState {
   /** Warning */
   Warning = "Warning",
   /** NoBenefit */
-  NoBenefit = "NoBenefit"
+  NoBenefit = "NoBenefit",
 }
 
 /**
@@ -2344,7 +2347,7 @@ export enum KnownUserFriendlyAppliedScopeType {
   /** ResourceGroup */
   ResourceGroup = "ResourceGroup",
   /** ManagementGroup */
-  ManagementGroup = "ManagementGroup"
+  ManagementGroup = "ManagementGroup",
 }
 
 /**
@@ -2371,7 +2374,7 @@ export enum KnownUserFriendlyRenewState {
   /** NotRenewed */
   NotRenewed = "NotRenewed",
   /** NotApplicable */
-  NotApplicable = "NotApplicable"
+  NotApplicable = "NotApplicable",
 }
 
 /**
@@ -2637,7 +2640,8 @@ export interface CalculateExchangePostOptionalParams
 }
 
 /** Contains response data for the post operation. */
-export type CalculateExchangePostResponse = CalculateExchangeOperationResultResponse;
+export type CalculateExchangePostResponse =
+  CalculateExchangeOperationResultResponse;
 
 /** Optional parameters. */
 export interface ExchangePostOptionalParams

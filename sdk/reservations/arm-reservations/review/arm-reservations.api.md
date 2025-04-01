@@ -684,6 +684,7 @@ export enum KnownReservedResourceType {
     MariaDb = "MariaDb",
     MySql = "MySql",
     NetAppStorage = "NetAppStorage",
+    OpenAiptu = "OpenAIPTU",
     PostgreSql = "PostgreSql",
     RedHat = "RedHat",
     RedHatOsa = "RedHatOsa",
