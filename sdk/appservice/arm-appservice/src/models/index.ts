@@ -1126,10 +1126,7 @@ export interface RampUpRule {
   minReroutePercentage?: number;
   /** Specifies upper boundary below which ReroutePercentage will stay. */
   maxReroutePercentage?: number;
-  /**
-   * Custom decision algorithm can be provided in TiPCallback site extension which URL can be specified. See TiPCallback site extension for the scaffold and contracts.
-   * https://www.siteextensions.net/packages/TiPCallback/
-   */
+  /** Custom decision algorithm can be provided in TiPCallback site extension which URL can be specified. */
   changeDecisionCallbackUrl?: string;
   /** Name of the routing rule. The recommended name would be to point to the slot which will receive the traffic in the experiment. */
   name?: string;
@@ -3309,7 +3306,7 @@ export interface AzureActiveDirectory {
 export interface AzureActiveDirectoryRegistration {
   /**
    * The OpenID Connect Issuer URI that represents the entity which issues access tokens for this application.
-   * When using Azure Active Directory, this value is the URI of the directory tenant, e.g. https://login.microsoftonline.com/v2.0/{tenant-guid}/.
+   * When using Azure Active Directory, this value is the URI of the directory tenant, e.g. `https://login.microsoftonline.com/v2.0/{tenant-guid}/`.
    * This URI is a case-sensitive identifier for the token issuer.
    * More information on OpenID Connect Discovery: http://openid.net/specs/openid-connect-discovery-1_0.html
    */
@@ -7915,7 +7912,7 @@ export interface SiteAuthSettings extends ProxyOnlyResource {
   clientSecretCertificateThumbprint?: string;
   /**
    * The OpenID Connect Issuer URI that represents the entity which issues access tokens for this application.
-   * When using Azure Active Directory, this value is the URI of the directory tenant, e.g. https://sts.windows.net/{tenant-guid}/.
+   * When using Azure Active Directory, this value is the URI of the directory tenant, e.g. `https://sts.windows.net/{tenant-guid}/`.
    * This URI is a case-sensitive identifier for the token issuer.
    * More information on OpenID Connect Discovery: http://openid.net/specs/openid-connect-discovery-1_0.html
    */
