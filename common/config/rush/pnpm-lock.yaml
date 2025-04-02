@@ -3221,7 +3221,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-recoveryservices@file:projects/arm-recoveryservices.tgz':
-    resolution: {integrity: sha512-kelPvUKTkKdAGbiIDmHGVe2XIiOpvl8fUKek/8EVpQErp1tBrJFivrVqYWZw0V21HUwF0WRD3Tu8kn+8FelqTg==, tarball: file:projects/arm-recoveryservices.tgz}
+    resolution: {integrity: sha512-6FxyENApM0KHdfi7Lw5SOnjHmnFRtsu2u/mEIjGTIvSAumJ1r8+nczRnoGX6FsdlxlOCD2ThL/You5DFqHQ33Q==, tarball: file:projects/arm-recoveryservices.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-recoveryservicesbackup@file:projects/arm-recoveryservicesbackup.tgz':
@@ -16877,7 +16877,7 @@ snapshots:
       dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.8.2
+      typescript: 5.7.3
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -23838,7 +23838,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.2.1
 
   '@types/chai-as-promised@8.0.2':
     dependencies:
