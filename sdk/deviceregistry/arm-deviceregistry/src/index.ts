@@ -65,25 +65,29 @@ export {
   ActionType,
   KnownVersions,
 } from "./models/index.js";
+export { DeviceRegistryManagementClientOptionalParams } from "./api/index.js";
 export {
-  DeviceRegistryManagementClientOptionalParams,
-  BillingContainersListBySubscriptionOptionalParams,
-  BillingContainersGetOptionalParams,
   AssetEndpointProfilesListBySubscriptionOptionalParams,
   AssetEndpointProfilesListByResourceGroupOptionalParams,
   AssetEndpointProfilesDeleteOptionalParams,
   AssetEndpointProfilesUpdateOptionalParams,
   AssetEndpointProfilesCreateOrReplaceOptionalParams,
   AssetEndpointProfilesGetOptionalParams,
+} from "./api/assetEndpointProfiles/index.js";
+export {
   AssetsListBySubscriptionOptionalParams,
   AssetsListByResourceGroupOptionalParams,
   AssetsDeleteOptionalParams,
   AssetsUpdateOptionalParams,
   AssetsCreateOrReplaceOptionalParams,
   AssetsGetOptionalParams,
-  OperationStatusGetOptionalParams,
-  OperationsListOptionalParams,
-} from "./api/index.js";
+} from "./api/assets/index.js";
+export {
+  BillingContainersListBySubscriptionOptionalParams,
+  BillingContainersGetOptionalParams,
+} from "./api/billingContainers/index.js";
+export { OperationsListOptionalParams } from "./api/operations/index.js";
+export { OperationStatusGetOptionalParams } from "./api/operationStatus/index.js";
 export {
   AssetEndpointProfilesOperations,
   AssetsOperations,
