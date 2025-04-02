@@ -3645,7 +3645,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/eventgrid-systemevents@file:projects/eventgrid-systemevents.tgz':
-    resolution: {integrity: sha512-sJCymGa6VWPdsiqpVXIwb0lWVvBXIr54H+f5FeDWogkYclW31Yem9h7u+1hz/lDChqgh3sQ6/cn8PWUamE1ozA==, tarball: file:projects/eventgrid-systemevents.tgz}
+    resolution: {integrity: sha512-jo8U+3jUblAJYcBSeH3JD+7q035Zyo4fWB7uOOa3ncUsG1Fvj3jXJCdRU4NFXs3uvDUgCKhGGRisSf/utkMtng==, tarball: file:projects/eventgrid-systemevents.tgz}
     version: 0.0.0
 
   '@rush-temp/eventgrid@file:projects/eventgrid.tgz':
@@ -20682,10 +20682,11 @@ snapshots:
       '@types/node': 18.19.84
       '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.4(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
       '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
+      dotenv: 16.4.7
       eslint: 9.23.0
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.8.2
+      typescript: 5.7.3
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
