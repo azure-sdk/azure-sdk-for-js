@@ -1,15 +1,16 @@
 # Release History
     
-## 5.2.0-beta.2 (2025-03-20)
-Compared with version 5.1.0
+## 6.0.0 (2025-04-02)
     
 ### Features Added
 
   - Added operation group PolicyDefinitionVersions
   - Added operation group PolicySetDefinitionVersions
-  - Added operation group Variables
-  - Added operation group VariableValues
-  - Added operation PolicyExemptions.update
+  - Added operation group PolicyTokens
+  - Added Interface ErrorDetail
+  - Added Interface ExternalEvaluationEndpointInvocationResult
+  - Added Interface ExternalEvaluationEndpointSettings
+  - Added Interface ExternalEvaluationEnforcementSettings
   - Added Interface Override
   - Added Interface PolicyDefinitionVersion
   - Added Interface PolicyDefinitionVersionListResult
@@ -29,8 +30,7 @@ Compared with version 5.1.0
   - Added Interface PolicyDefinitionVersionsListByManagementGroupOptionalParams
   - Added Interface PolicyDefinitionVersionsListNextOptionalParams
   - Added Interface PolicyDefinitionVersionsListOptionalParams
-  - Added Interface PolicyExemptionsUpdateOptionalParams
-  - Added Interface PolicyExemptionUpdate
+  - Added Interface PolicyLogInfo
   - Added Interface PolicySetDefinitionVersion
   - Added Interface PolicySetDefinitionVersionListResult
   - Added Interface PolicySetDefinitionVersionsCreateOrUpdateAtManagementGroupOptionalParams
@@ -49,35 +49,14 @@ Compared with version 5.1.0
   - Added Interface PolicySetDefinitionVersionsListByManagementGroupOptionalParams
   - Added Interface PolicySetDefinitionVersionsListNextOptionalParams
   - Added Interface PolicySetDefinitionVersionsListOptionalParams
-  - Added Interface PolicyVariableColumn
-  - Added Interface PolicyVariableValueColumnValue
+  - Added Interface PolicyTokenOperation
+  - Added Interface PolicyTokenRequest
+  - Added Interface PolicyTokenResponse
+  - Added Interface PolicyTokensAcquireOptionalParams
   - Added Interface ResourceSelector
   - Added Interface Selector
-  - Added Interface Variable
-  - Added Interface VariableListResult
-  - Added Interface VariablesCreateOrUpdateAtManagementGroupOptionalParams
-  - Added Interface VariablesCreateOrUpdateOptionalParams
-  - Added Interface VariablesDeleteAtManagementGroupOptionalParams
-  - Added Interface VariablesDeleteOptionalParams
-  - Added Interface VariablesGetAtManagementGroupOptionalParams
-  - Added Interface VariablesGetOptionalParams
-  - Added Interface VariablesListForManagementGroupNextOptionalParams
-  - Added Interface VariablesListForManagementGroupOptionalParams
-  - Added Interface VariablesListNextOptionalParams
-  - Added Interface VariablesListOptionalParams
-  - Added Interface VariableValue
-  - Added Interface VariableValueListResult
-  - Added Interface VariableValuesCreateOrUpdateAtManagementGroupOptionalParams
-  - Added Interface VariableValuesCreateOrUpdateOptionalParams
-  - Added Interface VariableValuesDeleteAtManagementGroupOptionalParams
-  - Added Interface VariableValuesDeleteOptionalParams
-  - Added Interface VariableValuesGetAtManagementGroupOptionalParams
-  - Added Interface VariableValuesGetOptionalParams
-  - Added Interface VariableValuesListForManagementGroupNextOptionalParams
-  - Added Interface VariableValuesListForManagementGroupOptionalParams
-  - Added Interface VariableValuesListNextOptionalParams
-  - Added Interface VariableValuesListOptionalParams
-  - Added Type Alias AssignmentScopeValidation
+  - Added Type Alias AssignmentType
+  - Added Type Alias ExternalEndpointResult
   - Added Type Alias OverrideKind
   - Added Type Alias PolicyDefinitionVersionsCreateOrUpdateAtManagementGroupResponse
   - Added Type Alias PolicyDefinitionVersionsCreateOrUpdateResponse
@@ -93,7 +72,6 @@ Compared with version 5.1.0
   - Added Type Alias PolicyDefinitionVersionsListByManagementGroupResponse
   - Added Type Alias PolicyDefinitionVersionsListNextResponse
   - Added Type Alias PolicyDefinitionVersionsListResponse
-  - Added Type Alias PolicyExemptionsUpdateResponse
   - Added Type Alias PolicySetDefinitionVersionsCreateOrUpdateAtManagementGroupResponse
   - Added Type Alias PolicySetDefinitionVersionsCreateOrUpdateResponse
   - Added Type Alias PolicySetDefinitionVersionsGetAtManagementGroupResponse
@@ -108,30 +86,18 @@ Compared with version 5.1.0
   - Added Type Alias PolicySetDefinitionVersionsListByManagementGroupResponse
   - Added Type Alias PolicySetDefinitionVersionsListNextResponse
   - Added Type Alias PolicySetDefinitionVersionsListResponse
+  - Added Type Alias PolicyTokenResult
+  - Added Type Alias PolicyTokensAcquireResponse
   - Added Type Alias SelectorKind
-  - Added Type Alias VariablesCreateOrUpdateAtManagementGroupResponse
-  - Added Type Alias VariablesCreateOrUpdateResponse
-  - Added Type Alias VariablesGetAtManagementGroupResponse
-  - Added Type Alias VariablesGetResponse
-  - Added Type Alias VariablesListForManagementGroupNextResponse
-  - Added Type Alias VariablesListForManagementGroupResponse
-  - Added Type Alias VariablesListNextResponse
-  - Added Type Alias VariablesListResponse
-  - Added Type Alias VariableValuesCreateOrUpdateAtManagementGroupResponse
-  - Added Type Alias VariableValuesCreateOrUpdateResponse
-  - Added Type Alias VariableValuesGetAtManagementGroupResponse
-  - Added Type Alias VariableValuesGetResponse
-  - Added Type Alias VariableValuesListForManagementGroupNextResponse
-  - Added Type Alias VariableValuesListForManagementGroupResponse
-  - Added Type Alias VariableValuesListNextResponse
-  - Added Type Alias VariableValuesListResponse
+  - Interface ErrorResponse has a new optional parameter error
   - Interface ParameterDefinitionsValue has a new optional parameter schema
+  - Interface PolicyAssignment has a new optional parameter assignmentType
   - Interface PolicyAssignment has a new optional parameter definitionVersion
   - Interface PolicyAssignment has a new optional parameter effectiveDefinitionVersion
+  - Interface PolicyAssignment has a new optional parameter instanceId
   - Interface PolicyAssignment has a new optional parameter latestDefinitionVersion
   - Interface PolicyAssignment has a new optional parameter overrides
   - Interface PolicyAssignment has a new optional parameter resourceSelectors
-  - Interface PolicyAssignmentsGetByIdOptionalParams has a new optional parameter expand
   - Interface PolicyAssignmentsGetOptionalParams has a new optional parameter expand
   - Interface PolicyAssignmentsListForManagementGroupOptionalParams has a new optional parameter expand
   - Interface PolicyAssignmentsListForResourceGroupOptionalParams has a new optional parameter expand
@@ -139,13 +105,13 @@ Compared with version 5.1.0
   - Interface PolicyAssignmentsListOptionalParams has a new optional parameter expand
   - Interface PolicyAssignmentUpdate has a new optional parameter overrides
   - Interface PolicyAssignmentUpdate has a new optional parameter resourceSelectors
+  - Interface PolicyClientOptionalParams has a new optional parameter apiVersion
+  - Interface PolicyDefinition has a new optional parameter externalEvaluationEnforcementSettings
   - Interface PolicyDefinition has a new optional parameter version
   - Interface PolicyDefinition has a new optional parameter versions
   - Interface PolicyDefinitionReference has a new optional parameter definitionVersion
   - Interface PolicyDefinitionReference has a new optional parameter effectiveDefinitionVersion
   - Interface PolicyDefinitionReference has a new optional parameter latestDefinitionVersion
-  - Interface PolicyExemption has a new optional parameter assignmentScopeValidation
-  - Interface PolicyExemption has a new optional parameter resourceSelectors
   - Interface PolicySetDefinition has a new optional parameter version
   - Interface PolicySetDefinition has a new optional parameter versions
   - Interface PolicySetDefinitionsGetAtManagementGroupOptionalParams has a new optional parameter expand
@@ -154,9 +120,27 @@ Compared with version 5.1.0
   - Interface PolicySetDefinitionsListBuiltInOptionalParams has a new optional parameter expand
   - Interface PolicySetDefinitionsListByManagementGroupOptionalParams has a new optional parameter expand
   - Interface PolicySetDefinitionsListOptionalParams has a new optional parameter expand
-  - Added Enum KnownAssignmentScopeValidation
+  - Added Enum KnownAssignmentType
+  - Added Enum KnownExternalEndpointResult
   - Added Enum KnownOverrideKind
+  - Added Enum KnownPolicyTokenResult
   - Added Enum KnownSelectorKind
+  - Enum KnownEnforcementMode has a new value Enroll
+
+### Breaking Changes
+
+  - Removed operation group DataPolicyManifests
+  - Removed operation group PolicyExemptions
+  - Interface ErrorResponse no longer has parameter additionalInfo
+  - Interface ErrorResponse no longer has parameter code
+  - Interface ErrorResponse no longer has parameter details
+  - Interface ErrorResponse no longer has parameter message
+  - Interface ErrorResponse no longer has parameter target
+  - Class PolicyClient no longer has parameter dataPolicyManifests
+  - Class PolicyClient no longer has parameter policyExemptions
+  - Removed Enum KnownAliasPathAttributes
+  - Removed Enum KnownAliasPathTokenType
+  - Removed Enum KnownExemptionCategory
     
 ## 5.2.0-beta.1 (2025-01-13)
 
