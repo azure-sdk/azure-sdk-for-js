@@ -20,7 +20,7 @@ import {
   ChangesListResponse,
   ChangesGetOptionalParams,
   ChangesGetResponse,
-  ChangesListNextResponse
+  ChangesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -49,14 +49,14 @@ export class ChangesImpl implements Changes {
     resourceProviderNamespace: string,
     resourceType: string,
     resourceName: string,
-    options?: ChangesListOptionalParams
+    options?: ChangesListOptionalParams,
   ): PagedAsyncIterableIterator<ChangeResourceResult> {
     const iter = this.listPagingAll(
       resourceGroupName,
       resourceProviderNamespace,
       resourceType,
       resourceName,
-      options
+      options,
     );
     return {
       next() {
@@ -75,9 +75,9 @@ export class ChangesImpl implements Changes {
           resourceType,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -87,7 +87,7 @@ export class ChangesImpl implements Changes {
     resourceType: string,
     resourceName: string,
     options?: ChangesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ChangeResourceResult[]> {
     let result: ChangesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +97,7 @@ export class ChangesImpl implements Changes {
         resourceProviderNamespace,
         resourceType,
         resourceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -111,7 +111,7 @@ export class ChangesImpl implements Changes {
         resourceType,
         resourceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -125,14 +125,14 @@ export class ChangesImpl implements Changes {
     resourceProviderNamespace: string,
     resourceType: string,
     resourceName: string,
-    options?: ChangesListOptionalParams
+    options?: ChangesListOptionalParams,
   ): AsyncIterableIterator<ChangeResourceResult> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       resourceProviderNamespace,
       resourceType,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -151,7 +151,7 @@ export class ChangesImpl implements Changes {
     resourceProviderNamespace: string,
     resourceType: string,
     resourceName: string,
-    options?: ChangesListOptionalParams
+    options?: ChangesListOptionalParams,
   ): Promise<ChangesListResponse> {
     return this.client.sendOperationRequest(
       {
@@ -159,9 +159,9 @@ export class ChangesImpl implements Changes {
         resourceProviderNamespace,
         resourceType,
         resourceName,
-        options
+        options,
       },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -180,7 +180,7 @@ export class ChangesImpl implements Changes {
     resourceType: string,
     resourceName: string,
     changeResourceId: string,
-    options?: ChangesGetOptionalParams
+    options?: ChangesGetOptionalParams,
   ): Promise<ChangesGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -189,9 +189,9 @@ export class ChangesImpl implements Changes {
         resourceType,
         resourceName,
         changeResourceId,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -210,7 +210,7 @@ export class ChangesImpl implements Changes {
     resourceType: string,
     resourceName: string,
     nextLink: string,
-    options?: ChangesListNextOptionalParams
+    options?: ChangesListNextOptionalParams,
   ): Promise<ChangesListNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -219,9 +219,9 @@ export class ChangesImpl implements Changes {
         resourceType,
         resourceName,
         nextLink,
-        options
+        options,
       },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -229,21 +229,20 @@ export class ChangesImpl implements Changes {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}/providers/Microsoft.Resources/changes",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}/providers/Microsoft.Resources/changes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ChangeResourceListResult
+      bodyMapper: Mappers.ChangeResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.top,
-    Parameters.skipToken
+    Parameters.skipToken,
   ],
   urlParameters: [
     Parameters.$host,
@@ -251,22 +250,21 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceProviderNamespace,
     Parameters.resourceType,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}/providers/Microsoft.Resources/changes/{changeResourceId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}/providers/Microsoft.Resources/changes/{changeResourceId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ChangeResourceResult
+      bodyMapper: Mappers.ChangeResourceResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -276,27 +274,22 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceProviderNamespace,
     Parameters.resourceType,
     Parameters.resourceName,
-    Parameters.changeResourceId
+    Parameters.changeResourceId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ChangeResourceListResult
+      bodyMapper: Mappers.ChangeResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.skipToken
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -304,8 +297,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceProviderNamespace,
     Parameters.resourceType,
     Parameters.resourceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
