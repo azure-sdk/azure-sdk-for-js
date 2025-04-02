@@ -1,26 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
- *
- * Any changes you make here may be lost.
- *
- * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
- */
-
-import type { RequestParameters } from "@azure-rest/core-client";
 import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import type { RequestParameters } from "@azure-rest/core-client";
 import type {
-  ChatCompletionsNamedToolChoice,
-  ChatCompletionsResponseFormat,
-  ChatCompletionsToolChoicePreset,
-  ChatCompletionsToolDefinition,
-  ChatRequestMessage,
-  EmbeddingEncodingFormat,
-  EmbeddingInputType,
   ExtraParameters,
-  ImageEmbeddingInput,
+  ChatCompletionsOptions,
+  EmbeddingsOptions,
+  ImageEmbeddingsOptions,
 } from "./models.js";
 
 export interface GetChatCompletionsHeaders {
@@ -35,26 +22,18 @@ export interface GetChatCompletionsHeaders {
 }
 
 export interface GetChatCompletionsBodyParam {
-  body: {
-    messages: Array<ChatRequestMessage>;
-    frequency_penalty?: number;
-    stream?: boolean;
-    presence_penalty?: number;
-    temperature?: number;
-    top_p?: number;
-    max_tokens?: number;
-    response_format?: ChatCompletionsResponseFormat;
-    stop?: string[];
-    tools?: Array<ChatCompletionsToolDefinition>;
-    tool_choice?: ChatCompletionsToolChoicePreset | ChatCompletionsNamedToolChoice;
-    seed?: number;
-    model?: string;
-  };
+  /** The options for chat completions. */
+  body: ChatCompletionsOptions;
 }
 
 export interface GetChatCompletionsHeaderParam {
   headers?: RawHttpHeadersInput & GetChatCompletionsHeaders;
 }
+
+export type GetChatCompletionsParameters = GetChatCompletionsHeaderParam &
+  GetChatCompletionsBodyParam &
+  RequestParameters;
+export type GetModelInfoParameters = RequestParameters;
 
 export interface GetEmbeddingsHeaders {
   /**
@@ -68,18 +47,17 @@ export interface GetEmbeddingsHeaders {
 }
 
 export interface GetEmbeddingsBodyParam {
-  body?: {
-    input: string[];
-    dimensions?: number;
-    encoding_format?: EmbeddingEncodingFormat;
-    input_type?: EmbeddingInputType;
-    model?: string;
-  };
+  /** The body of the request containing the options for generating embeddings. */
+  body: EmbeddingsOptions;
 }
 
 export interface GetEmbeddingsHeaderParam {
   headers?: RawHttpHeadersInput & GetEmbeddingsHeaders;
 }
+
+export type GetEmbeddingsParameters = GetEmbeddingsHeaderParam &
+  GetEmbeddingsBodyParam &
+  RequestParameters;
 
 export interface GetImageEmbeddingsHeaders {
   /**
@@ -93,26 +71,14 @@ export interface GetImageEmbeddingsHeaders {
 }
 
 export interface GetImageEmbeddingsBodyParam {
-  body: {
-    input: Array<ImageEmbeddingInput>;
-    dimensions?: number;
-    encoding_format?: EmbeddingEncodingFormat;
-    input_type?: EmbeddingInputType;
-    model?: string;
-  };
+  /** The body of the request containing options for image embeddings. */
+  body: ImageEmbeddingsOptions;
 }
 
 export interface GetImageEmbeddingsHeaderParam {
   headers?: RawHttpHeadersInput & GetImageEmbeddingsHeaders;
 }
 
-export type GetChatCompletionsParameters = GetChatCompletionsHeaderParam &
-  GetChatCompletionsBodyParam &
-  RequestParameters;
-export type GetModelInfoParameters = RequestParameters;
-export type GetEmbeddingsParameters = GetEmbeddingsHeaderParam &
-  GetEmbeddingsBodyParam &
-  RequestParameters;
 export type GetImageEmbeddingsParameters = GetImageEmbeddingsHeaderParam &
   GetImageEmbeddingsBodyParam &
   RequestParameters;
