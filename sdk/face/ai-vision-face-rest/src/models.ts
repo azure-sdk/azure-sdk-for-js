@@ -69,50 +69,62 @@ export interface CreateLivenessSessionContent {
 
 export interface CreateLivenessWithVerifySessionContentLivenessOperationModePartDescriptor {
   name: "livenessOperationMode";
-  body: LivenessOperationMode;
+  body: HttpPartLivenessOperationMode;
 }
 
 export interface CreateLivenessWithVerifySessionContentDeviceCorrelationIdSetInClientPartDescriptor {
   name: "deviceCorrelationIdSetInClient";
-  body: boolean;
+  body: HttpPartBoolean;
 }
 
 export interface CreateLivenessWithVerifySessionContentEnableSessionImagePartDescriptor {
   name: "enableSessionImage";
-  body: boolean;
+  body: HttpPartBoolean;
 }
 
 export interface CreateLivenessWithVerifySessionContentLivenessModelVersionPartDescriptor {
   name: "livenessModelVersion";
-  body: LivenessModel;
-}
-
-export interface CreateLivenessWithVerifySessionContentDeviceCorrelationIdPartDescriptor {
-  name: "deviceCorrelationId";
-  body: string;
-}
-
-export interface CreateLivenessWithVerifySessionContentAuthTokenTimeToLiveInSecondsPartDescriptor {
-  name: "authTokenTimeToLiveInSeconds";
-  body: number;
+  body: HttpPartLivenessModel;
 }
 
 export interface CreateLivenessWithVerifySessionContentReturnVerifyImageHashPartDescriptor {
   name: "returnVerifyImageHash";
-  body: boolean;
+  body: HttpPartBoolean;
 }
 
 export interface CreateLivenessWithVerifySessionContentVerifyConfidenceThresholdPartDescriptor {
   name: "verifyConfidenceThreshold";
-  body: number;
+  body: HttpPartConfidenceScore;
 }
 
 export interface CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor {
   name: "verifyImage";
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
-  filename?: string;
-  contentType?: string;
+  body: HttpPartBytes;
 }
+
+export interface CreateLivenessWithVerifySessionContentDeviceCorrelationIdPartDescriptor {
+  name: "deviceCorrelationId";
+  body: HttpPartString;
+}
+
+export interface CreateLivenessWithVerifySessionContentAuthTokenTimeToLiveInSecondsPartDescriptor {
+  name: "authTokenTimeToLiveInSeconds";
+  body: HttpPartAuthTokenLifetimeInSeconds;
+}
+
+export interface HttpPartLivenessOperationMode {}
+
+export interface HttpPartBoolean {}
+
+export interface HttpPartLivenessModel {}
+
+export interface HttpPartConfidenceScore {}
+
+export interface HttpPartBytes {}
+
+export interface HttpPartString {}
+
+export interface HttpPartAuthTokenLifetimeInSeconds {}
 
 /** Alias for DetectionModel */
 export type DetectionModel = string;
@@ -134,11 +146,11 @@ export type CreateLivenessWithVerifySessionContent =
       | CreateLivenessWithVerifySessionContentDeviceCorrelationIdSetInClientPartDescriptor
       | CreateLivenessWithVerifySessionContentEnableSessionImagePartDescriptor
       | CreateLivenessWithVerifySessionContentLivenessModelVersionPartDescriptor
-      | CreateLivenessWithVerifySessionContentDeviceCorrelationIdPartDescriptor
-      | CreateLivenessWithVerifySessionContentAuthTokenTimeToLiveInSecondsPartDescriptor
       | CreateLivenessWithVerifySessionContentReturnVerifyImageHashPartDescriptor
       | CreateLivenessWithVerifySessionContentVerifyConfidenceThresholdPartDescriptor
       | CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor
+      | CreateLivenessWithVerifySessionContentDeviceCorrelationIdPartDescriptor
+      | CreateLivenessWithVerifySessionContentAuthTokenTimeToLiveInSecondsPartDescriptor
     >;
 /** API versions for Azure AI Face API. */
 export type Versions = "v1.1-preview.1" | "v1.2-preview.1" | "v1.2";
