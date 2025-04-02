@@ -2,20 +2,20 @@
 // Licensed under the MIT License.
 
 import { DatabaseWatcherContext } from "../../api/databaseWatcherContext.js";
-import {
-  alertRuleResourcesListByParent,
-  alertRuleResourcesDelete,
-  alertRuleResourcesCreateOrUpdate,
-  alertRuleResourcesGet,
-} from "../../api/alertRuleResources/index.js";
 import { AlertRuleResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import {
   AlertRuleResourcesListByParentOptionalParams,
   AlertRuleResourcesDeleteOptionalParams,
   AlertRuleResourcesCreateOrUpdateOptionalParams,
   AlertRuleResourcesGetOptionalParams,
-} from "../../api/options.js";
+} from "../../api/alertRuleResources/options.js";
+import {
+  listByParent,
+  $delete,
+  createOrUpdate,
+  get,
+} from "../../api/alertRuleResources/operations.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AlertRuleResources operations. */
 export interface AlertRuleResourcesOperations {
@@ -26,6 +26,11 @@ export interface AlertRuleResourcesOperations {
     options?: AlertRuleResourcesListByParentOptionalParams,
   ) => PagedAsyncIterableIterator<AlertRuleResource>;
   /** Delete a AlertRuleResource */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
   delete: (
     resourceGroupName: string,
     watcherName: string,
@@ -55,20 +60,13 @@ function _getAlertRuleResources(context: DatabaseWatcherContext) {
       resourceGroupName: string,
       watcherName: string,
       options?: AlertRuleResourcesListByParentOptionalParams,
-    ) => alertRuleResourcesListByParent(context, resourceGroupName, watcherName, options),
+    ) => listByParent(context, resourceGroupName, watcherName, options),
     delete: (
       resourceGroupName: string,
       watcherName: string,
       alertRuleResourceName: string,
       options?: AlertRuleResourcesDeleteOptionalParams,
-    ) =>
-      alertRuleResourcesDelete(
-        context,
-        resourceGroupName,
-        watcherName,
-        alertRuleResourceName,
-        options,
-      ),
+    ) => $delete(context, resourceGroupName, watcherName, alertRuleResourceName, options),
     createOrUpdate: (
       resourceGroupName: string,
       watcherName: string,
@@ -76,7 +74,7 @@ function _getAlertRuleResources(context: DatabaseWatcherContext) {
       resource: AlertRuleResource,
       options?: AlertRuleResourcesCreateOrUpdateOptionalParams,
     ) =>
-      alertRuleResourcesCreateOrUpdate(
+      createOrUpdate(
         context,
         resourceGroupName,
         watcherName,
@@ -89,14 +87,7 @@ function _getAlertRuleResources(context: DatabaseWatcherContext) {
       watcherName: string,
       alertRuleResourceName: string,
       options?: AlertRuleResourcesGetOptionalParams,
-    ) =>
-      alertRuleResourcesGet(
-        context,
-        resourceGroupName,
-        watcherName,
-        alertRuleResourceName,
-        options,
-      ),
+    ) => get(context, resourceGroupName, watcherName, alertRuleResourceName, options),
   };
 }
 

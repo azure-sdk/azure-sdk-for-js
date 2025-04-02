@@ -2,19 +2,19 @@
 // Licensed under the MIT License.
 
 import { DatabaseWatcherContext } from "../../api/databaseWatcherContext.js";
+import { SharedPrivateLinkResource } from "../../models/models.js";
 import {
   SharedPrivateLinkResourcesListByWatcherOptionalParams,
   SharedPrivateLinkResourcesDeleteOptionalParams,
   SharedPrivateLinkResourcesCreateOptionalParams,
   SharedPrivateLinkResourcesGetOptionalParams,
-} from "../../api/options.js";
+} from "../../api/sharedPrivateLinkResources/options.js";
 import {
-  sharedPrivateLinkResourcesListByWatcher,
-  sharedPrivateLinkResourcesDelete,
-  sharedPrivateLinkResourcesCreate,
-  sharedPrivateLinkResourcesGet,
-} from "../../api/sharedPrivateLinkResources/index.js";
-import { SharedPrivateLinkResource } from "../../models/models.js";
+  listByWatcher,
+  $delete,
+  create,
+  get,
+} from "../../api/sharedPrivateLinkResources/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -27,6 +27,11 @@ export interface SharedPrivateLinkResourcesOperations {
     options?: SharedPrivateLinkResourcesListByWatcherOptionalParams,
   ) => PagedAsyncIterableIterator<SharedPrivateLinkResource>;
   /** Delete a SharedPrivateLinkResource */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
   delete: (
     resourceGroupName: string,
     watcherName: string,
@@ -56,20 +61,13 @@ function _getSharedPrivateLinkResources(context: DatabaseWatcherContext) {
       resourceGroupName: string,
       watcherName: string,
       options?: SharedPrivateLinkResourcesListByWatcherOptionalParams,
-    ) => sharedPrivateLinkResourcesListByWatcher(context, resourceGroupName, watcherName, options),
+    ) => listByWatcher(context, resourceGroupName, watcherName, options),
     delete: (
       resourceGroupName: string,
       watcherName: string,
       sharedPrivateLinkResourceName: string,
       options?: SharedPrivateLinkResourcesDeleteOptionalParams,
-    ) =>
-      sharedPrivateLinkResourcesDelete(
-        context,
-        resourceGroupName,
-        watcherName,
-        sharedPrivateLinkResourceName,
-        options,
-      ),
+    ) => $delete(context, resourceGroupName, watcherName, sharedPrivateLinkResourceName, options),
     create: (
       resourceGroupName: string,
       watcherName: string,
@@ -77,7 +75,7 @@ function _getSharedPrivateLinkResources(context: DatabaseWatcherContext) {
       resource: SharedPrivateLinkResource,
       options?: SharedPrivateLinkResourcesCreateOptionalParams,
     ) =>
-      sharedPrivateLinkResourcesCreate(
+      create(
         context,
         resourceGroupName,
         watcherName,
@@ -90,14 +88,7 @@ function _getSharedPrivateLinkResources(context: DatabaseWatcherContext) {
       watcherName: string,
       sharedPrivateLinkResourceName: string,
       options?: SharedPrivateLinkResourcesGetOptionalParams,
-    ) =>
-      sharedPrivateLinkResourcesGet(
-        context,
-        resourceGroupName,
-        watcherName,
-        sharedPrivateLinkResourceName,
-        options,
-      ),
+    ) => get(context, resourceGroupName, watcherName, sharedPrivateLinkResourceName, options),
   };
 }
 
