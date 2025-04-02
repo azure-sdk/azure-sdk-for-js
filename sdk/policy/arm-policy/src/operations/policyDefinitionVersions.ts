@@ -591,10 +591,10 @@ const listAllBuiltinsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicyDefinitionVersionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
   serializer,
@@ -607,10 +607,10 @@ const listAllAtManagementGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicyDefinitionVersionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.managementGroupName],
   headerParameters: [Parameters.accept],
   serializer,
@@ -623,10 +623,10 @@ const listAllOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicyDefinitionVersionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -642,11 +642,11 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicyDefinitionVersion,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.parameters3,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -664,10 +664,10 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -685,10 +685,10 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicyDefinitionVersion,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -706,10 +706,10 @@ const getBuiltInOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicyDefinitionVersion,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.policyDefinitionName,
@@ -729,11 +729,11 @@ const createOrUpdateAtManagementGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicyDefinitionVersion,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.parameters3,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.policyDefinitionName,
@@ -751,10 +751,10 @@ const deleteAtManagementGroupOperationSpec: coreClient.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.policyDefinitionName,
@@ -772,10 +772,10 @@ const getAtManagementGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicyDefinitionVersion,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.policyDefinitionName,
@@ -793,10 +793,10 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicyDefinitionVersionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion1, Parameters.top],
+  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -813,10 +813,10 @@ const listBuiltInOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicyDefinitionVersionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion1, Parameters.top],
+  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.policyDefinitionName],
   headerParameters: [Parameters.accept],
   serializer,
@@ -829,10 +829,10 @@ const listByManagementGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicyDefinitionVersionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion1, Parameters.top],
+  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.policyDefinitionName,
@@ -849,13 +849,13 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicyDefinitionVersionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.policyDefinitionName,
   ],
   headerParameters: [Parameters.accept],
@@ -869,7 +869,7 @@ const listBuiltInNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicyDefinitionVersionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
@@ -888,7 +888,7 @@ const listByManagementGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicyDefinitionVersionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
