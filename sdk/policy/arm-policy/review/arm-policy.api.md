@@ -6,124 +6,15 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
-export interface Alias {
-    readonly defaultMetadata?: AliasPathMetadata;
-    defaultPath?: string;
-    defaultPattern?: AliasPattern;
-    name?: string;
-    paths?: AliasPath[];
-    type?: AliasType;
-}
-
-// @public
-export interface AliasPath {
-    apiVersions?: string[];
-    readonly metadata?: AliasPathMetadata;
-    path?: string;
-    pattern?: AliasPattern;
-}
-
-// @public
-export type AliasPathAttributes = string;
-
-// @public (undocumented)
-export interface AliasPathMetadata {
-    readonly attributes?: AliasPathAttributes;
-    readonly type?: AliasPathTokenType;
-}
-
-// @public
-export type AliasPathTokenType = string;
-
-// @public
-export interface AliasPattern {
-    phrase?: string;
-    type?: AliasPatternType;
-    variable?: string;
-}
-
-// @public
-export type AliasPatternType = "NotSpecified" | "Extract";
-
-// @public
-export type AliasType = "NotSpecified" | "PlainText" | "Mask";
-
-// @public
-export type AssignmentScopeValidation = string;
-
-// @public
-export interface CloudError {
-    error?: ErrorResponse;
-}
+export type AssignmentType = string;
 
 // @public
 export type CreatedByType = string;
-
-// @public
-export interface DataEffect {
-    detailsSchema?: any;
-    name?: string;
-}
-
-// @public
-export interface DataManifestCustomResourceFunctionDefinition {
-    allowCustomProperties?: boolean;
-    defaultProperties?: string[];
-    fullyQualifiedResourceType?: string;
-    name?: string;
-}
-
-// @public
-export interface DataPolicyManifest {
-    custom?: DataManifestCustomResourceFunctionDefinition[];
-    effects?: DataEffect[];
-    fieldValues?: string[];
-    readonly id?: string;
-    isBuiltInOnly?: boolean;
-    readonly name?: string;
-    namespaces?: string[];
-    policyMode?: string;
-    resourceTypeAliases?: ResourceTypeAliases[];
-    standard?: string[];
-    readonly type?: string;
-}
-
-// @public
-export interface DataPolicyManifestListResult {
-    nextLink?: string;
-    value?: DataPolicyManifest[];
-}
-
-// @public
-export interface DataPolicyManifests {
-    getByPolicyMode(policyMode: string, options?: DataPolicyManifestsGetByPolicyModeOptionalParams): Promise<DataPolicyManifestsGetByPolicyModeResponse>;
-    list(options?: DataPolicyManifestsListOptionalParams): PagedAsyncIterableIterator<DataPolicyManifest>;
-}
-
-// @public
-export interface DataPolicyManifestsGetByPolicyModeOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DataPolicyManifestsGetByPolicyModeResponse = DataPolicyManifest;
-
-// @public
-export interface DataPolicyManifestsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DataPolicyManifestsListNextResponse = DataPolicyManifestListResult;
-
-// @public
-export interface DataPolicyManifestsListOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-}
-
-// @public
-export type DataPolicyManifestsListResponse = DataPolicyManifestListResult;
 
 // @public
 export type EnforcementMode = string;
@@ -135,16 +26,45 @@ export interface ErrorAdditionalInfo {
 }
 
 // @public
-export interface ErrorResponse {
+export interface ErrorDetail {
     readonly additionalInfo?: ErrorAdditionalInfo[];
     readonly code?: string;
-    readonly details?: ErrorResponse[];
+    readonly details?: ErrorDetail[];
     readonly message?: string;
     readonly target?: string;
 }
 
 // @public
-export type ExemptionCategory = string;
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
+export type ExternalEndpointResult = string;
+
+// @public
+export interface ExternalEvaluationEndpointInvocationResult {
+    claims?: any;
+    expiration?: Date;
+    message?: string;
+    policyInfo?: PolicyLogInfo;
+    result?: ExternalEndpointResult;
+    retryAfter?: Date;
+}
+
+// @public
+export interface ExternalEvaluationEndpointSettings {
+    details?: any;
+    kind?: string;
+}
+
+// @public
+export interface ExternalEvaluationEnforcementSettings {
+    endpointSettings?: ExternalEvaluationEndpointSettings;
+    missingTokenAction?: string;
+    resultLifespan?: string;
+    roleDefinitionIds?: string[];
+}
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
@@ -160,27 +80,11 @@ export interface Identity {
 }
 
 // @public
-export enum KnownAliasPathAttributes {
-    Modifiable = "Modifiable",
-    None = "None"
-}
-
-// @public
-export enum KnownAliasPathTokenType {
-    Any = "Any",
-    Array = "Array",
-    Boolean = "Boolean",
-    Integer = "Integer",
+export enum KnownAssignmentType {
+    Custom = "Custom",
     NotSpecified = "NotSpecified",
-    Number = "Number",
-    Object = "Object",
-    String = "String"
-}
-
-// @public
-export enum KnownAssignmentScopeValidation {
-    Default = "Default",
-    DoNotValidate = "DoNotValidate"
+    System = "System",
+    SystemHidden = "SystemHidden"
 }
 
 // @public
@@ -194,17 +98,19 @@ export enum KnownCreatedByType {
 // @public
 export enum KnownEnforcementMode {
     Default = "Default",
-    DoNotEnforce = "DoNotEnforce"
+    DoNotEnforce = "DoNotEnforce",
+    Enroll = "Enroll"
 }
 
 // @public
-export enum KnownExemptionCategory {
-    Mitigated = "Mitigated",
-    Waiver = "Waiver"
+export enum KnownExternalEndpointResult {
+    Failed = "Failed",
+    Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownOverrideKind {
+    DefinitionVersion = "definitionVersion",
     PolicyEffect = "policyEffect"
 }
 
@@ -217,6 +123,12 @@ export enum KnownParameterType {
     Integer = "Integer",
     Object = "Object",
     String = "String"
+}
+
+// @public
+export enum KnownPolicyTokenResult {
+    Failed = "Failed",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -279,6 +191,7 @@ export interface ParameterValuesValue {
 
 // @public
 export interface PolicyAssignment {
+    assignmentType?: AssignmentType;
     definitionVersion?: string;
     description?: string;
     displayName?: string;
@@ -286,6 +199,7 @@ export interface PolicyAssignment {
     enforcementMode?: EnforcementMode;
     readonly id?: string;
     identity?: Identity;
+    readonly instanceId?: string;
     readonly latestDefinitionVersion?: string;
     location?: string;
     metadata?: any;
@@ -355,7 +269,6 @@ export type PolicyAssignmentsDeleteResponse = PolicyAssignment;
 
 // @public
 export interface PolicyAssignmentsGetByIdOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -466,7 +379,7 @@ export class PolicyClient extends coreClient.ServiceClient {
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: PolicyClientOptionalParams);
     constructor(credentials: coreAuth.TokenCredential, options?: PolicyClientOptionalParams);
     // (undocumented)
-    dataPolicyManifests: DataPolicyManifests;
+    apiVersion: string;
     // (undocumented)
     policyAssignments: PolicyAssignments;
     // (undocumented)
@@ -474,22 +387,19 @@ export class PolicyClient extends coreClient.ServiceClient {
     // (undocumented)
     policyDefinitionVersions: PolicyDefinitionVersions;
     // (undocumented)
-    policyExemptions: PolicyExemptions;
-    // (undocumented)
     policySetDefinitions: PolicySetDefinitions;
     // (undocumented)
     policySetDefinitionVersions: PolicySetDefinitionVersions;
     // (undocumented)
+    policyTokens: PolicyTokens;
+    // (undocumented)
     subscriptionId?: string;
-    // (undocumented)
-    variables: Variables;
-    // (undocumented)
-    variableValues: VariableValues;
 }
 
 // @public
 export interface PolicyClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
+    apiVersion?: string;
     endpoint?: string;
 }
 
@@ -497,6 +407,7 @@ export interface PolicyClientOptionalParams extends coreClient.ServiceClientOpti
 export interface PolicyDefinition {
     description?: string;
     displayName?: string;
+    externalEvaluationEnforcementSettings?: ExternalEvaluationEnforcementSettings;
     readonly id?: string;
     metadata?: any;
     mode?: string;
@@ -649,6 +560,7 @@ export type PolicyDefinitionsListResponse = PolicyDefinitionListResult;
 export interface PolicyDefinitionVersion {
     description?: string;
     displayName?: string;
+    externalEvaluationEnforcementSettings?: ExternalEvaluationEnforcementSettings;
     readonly id?: string;
     metadata?: any;
     mode?: string;
@@ -796,129 +708,28 @@ export interface PolicyDefinitionVersionsListOptionalParams extends coreClient.O
 export type PolicyDefinitionVersionsListResponse = PolicyDefinitionVersionListResult;
 
 // @public
-export interface PolicyExemption {
-    assignmentScopeValidation?: AssignmentScopeValidation;
-    description?: string;
-    displayName?: string;
-    exemptionCategory: ExemptionCategory;
-    expiresOn?: Date;
-    readonly id?: string;
-    metadata?: any;
-    readonly name?: string;
-    policyAssignmentId: string;
-    policyDefinitionReferenceIds?: string[];
-    resourceSelectors?: ResourceSelector[];
-    readonly systemData?: SystemData;
-    readonly type?: string;
-}
-
-// @public
-export interface PolicyExemptionListResult {
-    readonly nextLink?: string;
-    value?: PolicyExemption[];
-}
-
-// @public
-export interface PolicyExemptions {
-    createOrUpdate(scope: string, policyExemptionName: string, parameters: PolicyExemption, options?: PolicyExemptionsCreateOrUpdateOptionalParams): Promise<PolicyExemptionsCreateOrUpdateResponse>;
-    delete(scope: string, policyExemptionName: string, options?: PolicyExemptionsDeleteOptionalParams): Promise<void>;
-    get(scope: string, policyExemptionName: string, options?: PolicyExemptionsGetOptionalParams): Promise<PolicyExemptionsGetResponse>;
-    list(options?: PolicyExemptionsListOptionalParams): PagedAsyncIterableIterator<PolicyExemption>;
-    listForManagementGroup(managementGroupId: string, options?: PolicyExemptionsListForManagementGroupOptionalParams): PagedAsyncIterableIterator<PolicyExemption>;
-    listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: PolicyExemptionsListForResourceOptionalParams): PagedAsyncIterableIterator<PolicyExemption>;
-    listForResourceGroup(resourceGroupName: string, options?: PolicyExemptionsListForResourceGroupOptionalParams): PagedAsyncIterableIterator<PolicyExemption>;
-    update(scope: string, policyExemptionName: string, parameters: PolicyExemptionUpdate, options?: PolicyExemptionsUpdateOptionalParams): Promise<PolicyExemptionsUpdateResponse>;
-}
-
-// @public
-export interface PolicyExemptionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PolicyExemptionsCreateOrUpdateResponse = PolicyExemption;
-
-// @public
-export interface PolicyExemptionsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface PolicyExemptionsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PolicyExemptionsGetResponse = PolicyExemption;
-
-// @public
-export interface PolicyExemptionsListForManagementGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PolicyExemptionsListForManagementGroupNextResponse = PolicyExemptionListResult;
-
-// @public
-export interface PolicyExemptionsListForManagementGroupOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-}
-
-// @public
-export type PolicyExemptionsListForManagementGroupResponse = PolicyExemptionListResult;
-
-// @public
-export interface PolicyExemptionsListForResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PolicyExemptionsListForResourceGroupNextResponse = PolicyExemptionListResult;
-
-// @public
-export interface PolicyExemptionsListForResourceGroupOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-}
-
-// @public
-export type PolicyExemptionsListForResourceGroupResponse = PolicyExemptionListResult;
-
-// @public
-export interface PolicyExemptionsListForResourceNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PolicyExemptionsListForResourceNextResponse = PolicyExemptionListResult;
-
-// @public
-export interface PolicyExemptionsListForResourceOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-}
-
-// @public
-export type PolicyExemptionsListForResourceResponse = PolicyExemptionListResult;
-
-// @public
-export interface PolicyExemptionsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PolicyExemptionsListNextResponse = PolicyExemptionListResult;
-
-// @public
-export interface PolicyExemptionsListOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-}
-
-// @public
-export type PolicyExemptionsListResponse = PolicyExemptionListResult;
-
-// @public
-export interface PolicyExemptionsUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PolicyExemptionsUpdateResponse = PolicyExemption;
-
-// @public
-export interface PolicyExemptionUpdate {
-    assignmentScopeValidation?: AssignmentScopeValidation;
-    resourceSelectors?: ResourceSelector[];
+export interface PolicyLogInfo {
+    ancestors?: string;
+    complianceReasonCode?: string;
+    policyAssignmentDisplayName?: string;
+    policyAssignmentId?: string;
+    policyAssignmentName?: string;
+    policyAssignmentScope?: string;
+    policyAssignmentVersion?: string;
+    policyDefinitionDisplayName?: string;
+    policyDefinitionEffect?: string;
+    policyDefinitionGroupNames?: string[];
+    policyDefinitionId?: string;
+    policyDefinitionName?: string;
+    policyDefinitionReferenceId?: string;
+    policyDefinitionVersion?: string;
+    policyExemptionIds?: string[];
+    policySetDefinitionCategory?: string;
+    policySetDefinitionDisplayName?: string;
+    policySetDefinitionId?: string;
+    policySetDefinitionName?: string;
+    policySetDefinitionVersion?: string;
+    resourceLocation?: string;
 }
 
 // @public
@@ -1214,18 +1025,50 @@ export interface PolicySetDefinitionVersionsListOptionalParams extends coreClien
 export type PolicySetDefinitionVersionsListResponse = PolicySetDefinitionVersionListResult;
 
 // @public
+export interface PolicyTokenOperation {
+    content?: any;
+    httpMethod?: string;
+    uri?: string;
+}
+
+// @public
+export interface PolicyTokenRequest {
+    changeReference?: string;
+    operation?: PolicyTokenOperation;
+}
+
+// @public
+export interface PolicyTokenResponse {
+    changeReference?: string;
+    expiration?: Date;
+    message?: string;
+    result?: PolicyTokenResult;
+    results?: ExternalEvaluationEndpointInvocationResult[];
+    retryAfter?: Date;
+    token?: string;
+    tokenId?: string;
+}
+
+// @public
+export type PolicyTokenResult = string;
+
+// @public
+export interface PolicyTokens {
+    beginAcquire(parameters: PolicyTokenRequest, options?: PolicyTokensAcquireOptionalParams): Promise<SimplePollerLike<OperationState<PolicyTokensAcquireResponse>, PolicyTokensAcquireResponse>>;
+    beginAcquireAndWait(parameters: PolicyTokenRequest, options?: PolicyTokensAcquireOptionalParams): Promise<PolicyTokensAcquireResponse>;
+}
+
+// @public
+export interface PolicyTokensAcquireOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PolicyTokensAcquireResponse = PolicyTokenResponse;
+
+// @public
 export type PolicyType = string;
-
-// @public
-export interface PolicyVariableColumn {
-    columnName: string;
-}
-
-// @public
-export interface PolicyVariableValueColumnValue {
-    columnName: string;
-    columnValue: any;
-}
 
 // @public
 export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
@@ -1234,12 +1077,6 @@ export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
 export interface ResourceSelector {
     name?: string;
     selectors?: Selector[];
-}
-
-// @public
-export interface ResourceTypeAliases {
-    aliases?: Alias[];
-    resourceType?: string;
 }
 
 // @public
@@ -1267,188 +1104,6 @@ export interface UserAssignedIdentitiesValue {
     readonly clientId?: string;
     readonly principalId?: string;
 }
-
-// @public
-export interface Variable {
-    columns: PolicyVariableColumn[];
-    readonly id?: string;
-    readonly name?: string;
-    readonly systemData?: SystemData;
-    readonly type?: string;
-}
-
-// @public
-export interface VariableListResult {
-    readonly nextLink?: string;
-    value?: Variable[];
-}
-
-// @public
-export interface Variables {
-    createOrUpdate(variableName: string, parameters: Variable, options?: VariablesCreateOrUpdateOptionalParams): Promise<VariablesCreateOrUpdateResponse>;
-    createOrUpdateAtManagementGroup(managementGroupId: string, variableName: string, parameters: Variable, options?: VariablesCreateOrUpdateAtManagementGroupOptionalParams): Promise<VariablesCreateOrUpdateAtManagementGroupResponse>;
-    delete(variableName: string, options?: VariablesDeleteOptionalParams): Promise<void>;
-    deleteAtManagementGroup(managementGroupId: string, variableName: string, options?: VariablesDeleteAtManagementGroupOptionalParams): Promise<void>;
-    get(variableName: string, options?: VariablesGetOptionalParams): Promise<VariablesGetResponse>;
-    getAtManagementGroup(managementGroupId: string, variableName: string, options?: VariablesGetAtManagementGroupOptionalParams): Promise<VariablesGetAtManagementGroupResponse>;
-    list(options?: VariablesListOptionalParams): PagedAsyncIterableIterator<Variable>;
-    listForManagementGroup(managementGroupId: string, options?: VariablesListForManagementGroupOptionalParams): PagedAsyncIterableIterator<Variable>;
-}
-
-// @public
-export interface VariablesCreateOrUpdateAtManagementGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VariablesCreateOrUpdateAtManagementGroupResponse = Variable;
-
-// @public
-export interface VariablesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VariablesCreateOrUpdateResponse = Variable;
-
-// @public
-export interface VariablesDeleteAtManagementGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface VariablesDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface VariablesGetAtManagementGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VariablesGetAtManagementGroupResponse = Variable;
-
-// @public
-export interface VariablesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VariablesGetResponse = Variable;
-
-// @public
-export interface VariablesListForManagementGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VariablesListForManagementGroupNextResponse = VariableListResult;
-
-// @public
-export interface VariablesListForManagementGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VariablesListForManagementGroupResponse = VariableListResult;
-
-// @public
-export interface VariablesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VariablesListNextResponse = VariableListResult;
-
-// @public
-export interface VariablesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VariablesListResponse = VariableListResult;
-
-// @public
-export interface VariableValue {
-    readonly id?: string;
-    readonly name?: string;
-    readonly systemData?: SystemData;
-    readonly type?: string;
-    values: PolicyVariableValueColumnValue[];
-}
-
-// @public
-export interface VariableValueListResult {
-    readonly nextLink?: string;
-    value?: VariableValue[];
-}
-
-// @public
-export interface VariableValues {
-    createOrUpdate(variableName: string, variableValueName: string, parameters: VariableValue, options?: VariableValuesCreateOrUpdateOptionalParams): Promise<VariableValuesCreateOrUpdateResponse>;
-    createOrUpdateAtManagementGroup(managementGroupId: string, variableName: string, variableValueName: string, parameters: VariableValue, options?: VariableValuesCreateOrUpdateAtManagementGroupOptionalParams): Promise<VariableValuesCreateOrUpdateAtManagementGroupResponse>;
-    delete(variableName: string, variableValueName: string, options?: VariableValuesDeleteOptionalParams): Promise<void>;
-    deleteAtManagementGroup(managementGroupId: string, variableName: string, variableValueName: string, options?: VariableValuesDeleteAtManagementGroupOptionalParams): Promise<void>;
-    get(variableName: string, variableValueName: string, options?: VariableValuesGetOptionalParams): Promise<VariableValuesGetResponse>;
-    getAtManagementGroup(managementGroupId: string, variableName: string, variableValueName: string, options?: VariableValuesGetAtManagementGroupOptionalParams): Promise<VariableValuesGetAtManagementGroupResponse>;
-    list(variableName: string, options?: VariableValuesListOptionalParams): PagedAsyncIterableIterator<VariableValue>;
-    listForManagementGroup(managementGroupId: string, variableName: string, options?: VariableValuesListForManagementGroupOptionalParams): PagedAsyncIterableIterator<VariableValue>;
-}
-
-// @public
-export interface VariableValuesCreateOrUpdateAtManagementGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VariableValuesCreateOrUpdateAtManagementGroupResponse = VariableValue;
-
-// @public
-export interface VariableValuesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VariableValuesCreateOrUpdateResponse = VariableValue;
-
-// @public
-export interface VariableValuesDeleteAtManagementGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface VariableValuesDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface VariableValuesGetAtManagementGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VariableValuesGetAtManagementGroupResponse = VariableValue;
-
-// @public
-export interface VariableValuesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VariableValuesGetResponse = VariableValue;
-
-// @public
-export interface VariableValuesListForManagementGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VariableValuesListForManagementGroupNextResponse = VariableValueListResult;
-
-// @public
-export interface VariableValuesListForManagementGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VariableValuesListForManagementGroupResponse = VariableValueListResult;
-
-// @public
-export interface VariableValuesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VariableValuesListNextResponse = VariableValueListResult;
-
-// @public
-export interface VariableValuesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VariableValuesListResponse = VariableValueListResult;
 
 // (No @packageDocumentation comment for this package)
 
