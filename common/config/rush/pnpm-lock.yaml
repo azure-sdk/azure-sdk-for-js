@@ -2429,11 +2429,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-translation-document@file:projects/ai-translation-document.tgz':
-    resolution: {integrity: sha512-zAdwzqTfMuuEV9EfulYOJtcNa7gu4lEl4fatX2FhlOvENpHL2twQdp0KshyyVJ48hKHMss49XaYDeFhOSu9DQg==, tarball: file:projects/ai-translation-document.tgz}
+    resolution: {integrity: sha512-xzcgd6G2+lmBweBsih3m55+LPPv8ci18hPBYuZe+HcMOEGaDwxdZWAjxQrncR5z1XOWHatqWoHpXoi//zobpZQ==, tarball: file:projects/ai-translation-document.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-translation-text@file:projects/ai-translation-text.tgz':
-    resolution: {integrity: sha512-iGkBSgKEEQhQkI0p1BSdQdbl0o+39hiWEcsbDUb1KgPPZwBSoV5c/GunKwQzcyaPKaFH7dal/aF2MQZeLeCkYw==, tarball: file:projects/ai-translation-text.tgz}
+    resolution: {integrity: sha512-J8s0TlSmeGrXPwN9oOnB8T64yRlZbSFS02nLoeGdC0sae32AX+V3penShziif/lEhX/jT8Tj5Pttz8gpSRHtZg==, tarball: file:projects/ai-translation-text.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-vision-face@file:projects/ai-vision-face.tgz':
@@ -10007,12 +10007,11 @@ snapshots:
       '@types/node': 18.19.84
       '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.4(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
       '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
-      autorest: 3.7.1
       dotenv: 16.4.7
       eslint: 9.23.0
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.8.2
+      typescript: 5.7.3
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
