@@ -3265,7 +3265,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-resourcemover@file:projects/arm-resourcemover.tgz':
-    resolution: {integrity: sha512-NNpApe+Ha90kOlHW2/aL7CBn0mqx0179T50Ko7Xi0MO9k8egNO6zM/BRSDHuzUwXZ/df4obBcI4mCTZ27VhaPg==, tarball: file:projects/arm-resourcemover.tgz}
+    resolution: {integrity: sha512-rWTQMegAclcvxN3hfCSOcw1GviTuPbVTveErrpEpeAJAtpSBe7ymkw/RTYDjqxqAxeY/vbzk9RqSiMYvRHE1qQ==, tarball: file:projects/arm-resourcemover.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-resources-profile-2020-09-01-hybrid@file:projects/arm-resources-profile-2020-09-01-hybrid.tgz':
@@ -17261,7 +17261,7 @@ snapshots:
       dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.8.2
+      typescript: 5.7.3
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.84)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -23838,7 +23838,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.2.1
 
   '@types/chai-as-promised@8.0.2':
     dependencies:

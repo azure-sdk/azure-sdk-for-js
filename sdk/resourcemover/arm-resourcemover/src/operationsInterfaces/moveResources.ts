@@ -16,7 +16,7 @@ import {
   MoveResourcesDeleteOptionalParams,
   MoveResourcesDeleteResponse,
   MoveResourcesGetOptionalParams,
-  MoveResourcesGetResponse
+  MoveResourcesGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface MoveResources {
   list(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveResourcesListOptionalParams
+    options?: MoveResourcesListOptionalParams,
   ): PagedAsyncIterableIterator<MoveResource>;
   /**
    * Creates or updates a Move Resource in the move collection.
@@ -44,7 +44,7 @@ export interface MoveResources {
     resourceGroupName: string,
     moveCollectionName: string,
     moveResourceName: string,
-    options?: MoveResourcesCreateOptionalParams
+    options?: MoveResourcesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MoveResourcesCreateResponse>,
@@ -62,7 +62,7 @@ export interface MoveResources {
     resourceGroupName: string,
     moveCollectionName: string,
     moveResourceName: string,
-    options?: MoveResourcesCreateOptionalParams
+    options?: MoveResourcesCreateOptionalParams,
   ): Promise<MoveResourcesCreateResponse>;
   /**
    * Deletes a Move Resource from the move collection.
@@ -75,7 +75,7 @@ export interface MoveResources {
     resourceGroupName: string,
     moveCollectionName: string,
     moveResourceName: string,
-    options?: MoveResourcesDeleteOptionalParams
+    options?: MoveResourcesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MoveResourcesDeleteResponse>,
@@ -93,7 +93,7 @@ export interface MoveResources {
     resourceGroupName: string,
     moveCollectionName: string,
     moveResourceName: string,
-    options?: MoveResourcesDeleteOptionalParams
+    options?: MoveResourcesDeleteOptionalParams,
   ): Promise<MoveResourcesDeleteResponse>;
   /**
    * Gets the Move Resource.
@@ -106,6 +106,6 @@ export interface MoveResources {
     resourceGroupName: string,
     moveCollectionName: string,
     moveResourceName: string,
-    options?: MoveResourcesGetOptionalParams
+    options?: MoveResourcesGetOptionalParams,
   ): Promise<MoveResourcesGetResponse>;
 }
