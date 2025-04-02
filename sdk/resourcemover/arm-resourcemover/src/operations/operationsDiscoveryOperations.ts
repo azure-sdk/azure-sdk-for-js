@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters.js";
 import { ResourceMoverServiceAPI } from "../resourceMoverServiceAPI.js";
 import {
   OperationsDiscoveryGetOptionalParams,
-  OperationsDiscoveryGetResponse
+  OperationsDiscoveryGetResponse,
 } from "../models/index.js";
 
 /** Class containing OperationsDiscoveryOperations operations. */
 export class OperationsDiscoveryOperationsImpl
-  implements OperationsDiscoveryOperations {
+  implements OperationsDiscoveryOperations
+{
   private readonly client: ResourceMoverServiceAPI;
 
   /**
@@ -31,7 +32,7 @@ export class OperationsDiscoveryOperationsImpl
 
   /** @param options The options parameters. */
   get(
-    options?: OperationsDiscoveryGetOptionalParams
+    options?: OperationsDiscoveryGetOptionalParams,
   ): Promise<OperationsDiscoveryGetResponse> {
     return this.client.sendOperationRequest({ options }, getOperationSpec);
   }
@@ -44,14 +45,14 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationsDiscoveryCollection
+      bodyMapper: Mappers.OperationsDiscoveryCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

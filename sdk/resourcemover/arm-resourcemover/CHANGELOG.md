@@ -1,5 +1,15 @@
 # Release History
     
+## 2.3.0 (2025-04-02)
+    
+### Features Added
+
+  - Added Interface DiskDetails
+  - Interface ResourceSettings has a new optional parameter targetSubscriptionId
+  - Interface SubnetResourceSettings has a new optional parameter addressPrefixes
+  - Interface VirtualMachineResourceSettings has a new optional parameter targetDiskDetails
+    
+    
 ## 2.2.0 (2023-10-24)
     
 ### Features Added
