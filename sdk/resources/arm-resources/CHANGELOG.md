@@ -1,15 +1,30 @@
 # Release History
-
-## 6.0.1 (Unreleased)
-
+    
+## 6.1.0 (2025-04-02)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface DeploymentExtensionConfigItem
+  - Added Interface DeploymentExtensionDefinition
+  - Added Interface DeploymentExternalInput
+  - Added Interface DeploymentExternalInputDefinition
+  - Added Type Alias ExtensionConfigPropertyType
+  - Interface DeploymentParameter has a new optional parameter expression
+  - Interface DeploymentProperties has a new optional parameter extensionConfigs
+  - Interface DeploymentProperties has a new optional parameter externalInputDefinitions
+  - Interface DeploymentProperties has a new optional parameter externalInputs
+  - Interface DeploymentPropertiesExtended has a new optional parameter extensions
+  - Interface ResourceReference has a new optional parameter apiVersion
+  - Interface ResourceReference has a new optional parameter extension
+  - Interface ResourceReference has a new optional parameter identifiers
+  - Interface ResourceReference has a new optional parameter resourceType
+  - Interface TargetResource has a new optional parameter apiVersion
+  - Interface TargetResource has a new optional parameter extension
+  - Interface TargetResource has a new optional parameter identifiers
+  - Interface TargetResource has a new optional parameter symbolicName
+  - Added Enum KnownExtensionConfigPropertyType
+    
+    
 ## 6.0.0 (2025-02-19)
     
 ### Features Added
