@@ -3,9 +3,9 @@
 
 import { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
 import {
-  OperationStatusResult,
   PublicCloudConnector,
   PublicCloudConnectorUpdate,
+  OperationStatusResult_1,
 } from "../../models/models.js";
 import {
   PublicCloudConnectorsTestPermissionsOptionalParams,
@@ -35,7 +35,7 @@ export interface PublicCloudConnectorsOperations {
     resourceGroupName: string,
     publicCloudConnector: string,
     options?: PublicCloudConnectorsTestPermissionsOptionalParams,
-  ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  ) => PollerLike<OperationState<OperationStatusResult_1>, OperationStatusResult_1>;
   /** List PublicCloudConnector resources by subscription ID */
   listBySubscription: (
     options?: PublicCloudConnectorsListBySubscriptionOptionalParams,
