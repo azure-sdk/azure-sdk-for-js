@@ -2477,7 +2477,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-advisor@file:projects/arm-advisor.tgz':
-    resolution: {integrity: sha512-wO7ClgJ0ivlwgUkG8JLOY1PJuDqvDFMA+KOSQlMAGt26LyaV/E7z8mUZTi/9fTe/Ll2faUXxNu910rdUFFHnmQ==, tarball: file:projects/arm-advisor.tgz}
+    resolution: {integrity: sha512-F8AADZyvFN4at7mlH/YVWJACojP3zIjj4kFu4vJ1Q1eNksUC6GWfdvA9yroNn0sfE9JPlUqK+D6UEe/Sl3w/rw==, tarball: file:projects/arm-advisor.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-agricultureplatform@file:projects/arm-agricultureplatform.tgz':
@@ -3633,7 +3633,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/data-tables@file:projects/data-tables.tgz':
-    resolution: {integrity: sha512-CaFVQhmwrFTckjS0UxckHF2Qnj3ZfZKOEiRijGXrXQ4Iht+HHMyu1Nqc6AK1eDfmzzVToGh4rPM07l9KwLdAaA==, tarball: file:projects/data-tables.tgz}
+    resolution: {integrity: sha512-88KUaQ3vooFUIjw8lJiWVblKaIIf8XnlJ1vHdCg+L+TozSC87jarse4cdi0r1+09IIqTlmyxiS7Y83Mj8dNcJw==, tarball: file:projects/data-tables.tgz}
     version: 0.0.0
 
   '@rush-temp/defender-easm@file:projects/defender-easm.tgz':
@@ -23947,7 +23947,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.2.0
 
   '@types/chai-as-promised@8.0.2':
     dependencies:
