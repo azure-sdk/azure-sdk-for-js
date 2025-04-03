@@ -6,7 +6,8 @@ import {
   errorResponseDeserializer,
   GenerateAwsTemplateRequest,
   generateAwsTemplateRequestSerializer,
-  _postResponseDeserializer,
+  GenerateAwsTemplateReponse,
+  generateAwsTemplateReponseDeserializer,
 } from "../../models/models.js";
 import { GenerateAwsTemplatePostOptionalParams } from "./options.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -45,7 +46,7 @@ export function _postSend(
 
 export async function _postDeserialize(
   result: PathUncheckedResponse,
-): Promise<Record<string, any>> {
+): Promise<GenerateAwsTemplateReponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -53,7 +54,7 @@ export async function _postDeserialize(
     throw error;
   }
 
-  return _postResponseDeserializer(result.body);
+  return generateAwsTemplateReponseDeserializer(result.body);
 }
 
 /** Retrieve AWS Cloud Formation template */
@@ -61,7 +62,7 @@ export async function post(
   context: Client,
   generateAwsTemplateRequest: GenerateAwsTemplateRequest,
   options: GenerateAwsTemplatePostOptionalParams = { requestOptions: {} },
-): Promise<Record<string, any>> {
+): Promise<GenerateAwsTemplateReponse> {
   const result = await _postSend(context, generateAwsTemplateRequest, options);
   return _postDeserialize(result);
 }

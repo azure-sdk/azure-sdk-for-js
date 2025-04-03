@@ -4,8 +4,6 @@
 import { HybridConnectivityManagementAPIContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
-  OperationStatusResult,
-  operationStatusResultDeserializer,
   PublicCloudConnector,
   publicCloudConnectorSerializer,
   publicCloudConnectorDeserializer,
@@ -13,6 +11,7 @@ import {
   publicCloudConnectorUpdateSerializer,
   _PublicCloudConnectorListResult,
   _publicCloudConnectorListResultDeserializer,
+  OperationStatusResult_1,
 } from "../../models/models.js";
 import {
   PublicCloudConnectorsTestPermissionsOptionalParams,
@@ -68,7 +67,7 @@ export function _testPermissionsSend(
 
 export async function _testPermissionsDeserialize(
   result: PathUncheckedResponse,
-): Promise<OperationStatusResult> {
+): Promise<OperationStatusResult_1> {
   const expectedStatuses = ["202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -76,7 +75,7 @@ export async function _testPermissionsDeserialize(
     throw error;
   }
 
-  return operationStatusResultDeserializer(result.body);
+  return __PLACEHOLDER_o59_sdeserializer__(result.body);
 }
 
 /** A long-running resource action. */
@@ -87,14 +86,14 @@ export function testPermissions(
   options: PublicCloudConnectorsTestPermissionsOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
+): PollerLike<OperationState<OperationStatusResult_1>, OperationStatusResult_1> {
   return getLongRunningPoller(context, _testPermissionsDeserialize, ["202", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _testPermissionsSend(context, resourceGroupName, publicCloudConnector, options),
     resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  }) as PollerLike<OperationState<OperationStatusResult_1>, OperationStatusResult_1>;
 }
 
 export function _listBySubscriptionSend(

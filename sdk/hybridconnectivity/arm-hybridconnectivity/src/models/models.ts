@@ -843,6 +843,28 @@ export function publicCloudConnectorArrayDeserializer(result: Array<PublicCloudC
   });
 }
 
+/** The current status of an async operation. */
+export interface OperationStatusResult_1 {
+  /** Fully qualified ID for the async operation. */
+  id?: string;
+  /** Name of the async operation. */
+  name?: string;
+  /** Operation status. */
+  status: string;
+  /** Percent of the operation that is complete. */
+  percentComplete?: number;
+  /** The start time of the operation. */
+  startTime?: Date;
+  /** The end time of the operation. */
+  endTime?: Date;
+  /** The operations list. */
+  operations?: OperationStatusResult[];
+  /** If present, details of the operation error. */
+  error?: ErrorDetail;
+  /** Fully qualified ID of the resource against which the original async operation was started. */
+  readonly resourceId?: string;
+}
+
 /** ConnectorId and SolutionTypes and their properties to Generate AWS CFT Template. */
 export interface GenerateAwsTemplateRequest {
   /** The name of public cloud connector */
@@ -883,10 +905,10 @@ export function solutionTypeSettingsSerializer(item: SolutionTypeSettings): any 
   };
 }
 
-/** model interface _PostResponse */
-export interface _PostResponse {}
+/** The HybridConnectivity post operation response */
+export interface GenerateAwsTemplateReponse {}
 
-export function _postResponseDeserializer(item: any): _PostResponse {
+export function generateAwsTemplateReponseDeserializer(item: any): GenerateAwsTemplateReponse {
   return item;
 }
 
