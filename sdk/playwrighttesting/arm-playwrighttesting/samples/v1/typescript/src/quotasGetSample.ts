@@ -19,7 +19,7 @@ async function quotasGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  quotasGet();
+  await quotasGet();
 }
 
 main().catch(console.error);
