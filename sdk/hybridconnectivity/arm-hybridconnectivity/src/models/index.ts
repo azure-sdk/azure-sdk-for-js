@@ -40,6 +40,7 @@ export {
   TrackedResourceUpdate,
   GenerateAwsTemplateRequest,
   SolutionTypeSettings,
+  GenerateAwsTemplateResponse,
   ServiceConfigurationResource,
   ServiceConfigurationProperties,
   KnownServiceName,

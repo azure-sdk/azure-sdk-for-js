@@ -883,10 +883,10 @@ export function solutionTypeSettingsSerializer(item: SolutionTypeSettings): any 
   };
 }
 
-/** model interface _PostResponse */
-export interface _PostResponse {}
+/** The HybridConnectivity post operation response */
+export interface GenerateAwsTemplateResponse {}
 
-export function _postResponseDeserializer(item: any): _PostResponse {
+export function generateAwsTemplateResponseDeserializer(item: any): GenerateAwsTemplateResponse {
   return item;
 }
 
