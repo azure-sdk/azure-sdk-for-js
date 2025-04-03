@@ -27,6 +27,9 @@ export interface APIServerAccessProfile {
 }
 
 // @public
+export type AutoUpgradeLastTriggerStatus = string;
+
+// @public
 export interface AutoUpgradeNodeImageSelection {
     type: AutoUpgradeNodeImageSelectionType;
 }
@@ -36,6 +39,7 @@ export type AutoUpgradeNodeImageSelectionType = string;
 
 // @public
 export interface AutoUpgradeProfile extends ProxyResource {
+    autoUpgradeProfileStatus?: AutoUpgradeProfileStatus;
     channel?: UpgradeChannel;
     disabled?: boolean;
     readonly eTag?: string;
@@ -49,6 +53,28 @@ export interface AutoUpgradeProfileListResult {
     nextLink?: string;
     value: AutoUpgradeProfile[];
 }
+
+// @public
+export interface AutoUpgradeProfileOperations {
+    beginGenerateUpdateRun(resourceGroupName: string, fleetName: string, autoUpgradeProfileName: string, options?: AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams): Promise<SimplePollerLike<OperationState<AutoUpgradeProfileOperationsGenerateUpdateRunResponse>, AutoUpgradeProfileOperationsGenerateUpdateRunResponse>>;
+    beginGenerateUpdateRunAndWait(resourceGroupName: string, fleetName: string, autoUpgradeProfileName: string, options?: AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams): Promise<AutoUpgradeProfileOperationsGenerateUpdateRunResponse>;
+}
+
+// @public
+export interface AutoUpgradeProfileOperationsGenerateUpdateRunHeaders {
+    azureAsyncOperation?: string;
+    ifMatch?: string;
+    location?: string;
+}
+
+// @public
+export interface AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AutoUpgradeProfileOperationsGenerateUpdateRunResponse = GenerateResponse;
 
 // @public
 export type AutoUpgradeProfileProvisioningState = string;
@@ -117,6 +143,14 @@ export interface AutoUpgradeProfilesListByFleetOptionalParams extends coreClient
 // @public
 export type AutoUpgradeProfilesListByFleetResponse = AutoUpgradeProfileListResult;
 
+// @public
+export interface AutoUpgradeProfileStatus {
+    readonly lastTriggeredAt?: Date;
+    readonly lastTriggerError?: ErrorDetail;
+    readonly lastTriggerStatus?: AutoUpgradeLastTriggerStatus;
+    readonly lastTriggerUpgradeVersions?: string[];
+}
+
 // @public (undocumented)
 export class ContainerServiceFleetClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -125,6 +159,8 @@ export class ContainerServiceFleetClient extends coreClient.ServiceClient {
     // (undocumented)
     apiVersion: string;
     // (undocumented)
+    autoUpgradeProfileOperations: AutoUpgradeProfileOperations;
+    // (undocumented)
     autoUpgradeProfiles: AutoUpgradeProfiles;
     // (undocumented)
     fleetMembers: FleetMembers;
@@ -132,6 +168,8 @@ export class ContainerServiceFleetClient extends coreClient.ServiceClient {
     fleets: Fleets;
     // (undocumented)
     fleetUpdateStrategies: FleetUpdateStrategies;
+    // (undocumented)
+    gates: Gates;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -176,6 +214,7 @@ export interface Fleet extends TrackedResource {
     hubProfile?: FleetHubProfile;
     identity?: ManagedServiceIdentity;
     readonly provisioningState?: FleetProvisioningState;
+    readonly status?: FleetStatus;
 }
 
 // @public
@@ -210,7 +249,11 @@ export interface FleetMember extends ProxyResource {
     clusterResourceId?: string;
     readonly eTag?: string;
     group?: string;
+    labels?: {
+        [propertyName: string]: string;
+    };
     readonly provisioningState?: FleetMemberProvisioningState;
+    readonly status?: FleetMemberStatus;
 }
 
 // @public
@@ -285,6 +328,12 @@ export interface FleetMembersListByFleetOptionalParams extends coreClient.Operat
 export type FleetMembersListByFleetResponse = FleetMemberListResult;
 
 // @public
+export interface FleetMemberStatus {
+    readonly lastOperationError?: ErrorDetail;
+    readonly lastOperationId?: string;
+}
+
+// @public
 export interface FleetMembersUpdateHeaders {
     location?: string;
     retryAfter?: number;
@@ -303,6 +352,9 @@ export type FleetMembersUpdateResponse = FleetMember;
 // @public
 export interface FleetMemberUpdate {
     group?: string;
+    labels?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -402,6 +454,12 @@ export interface FleetsListCredentialsOptionalParams extends coreClient.Operatio
 export type FleetsListCredentialsResponse = FleetCredentialResults;
 
 // @public
+export interface FleetStatus {
+    readonly lastOperationError?: ErrorDetail;
+    readonly lastOperationId?: string;
+}
+
+// @public
 export interface FleetsUpdateHeaders {
     location?: string;
     retryAfter?: number;
@@ -494,11 +552,118 @@ export interface FleetUpdateStrategyListResult {
 export type FleetUpdateStrategyProvisioningState = string;
 
 // @public
+export interface Gate extends TrackedResource {
+    displayName?: string;
+    readonly eTag?: string;
+    gateType?: GateType;
+    readonly provisioningState?: GateProvisioningState;
+    state?: GateState;
+    target?: GateTarget;
+}
+
+// @public
+export interface GateConfiguration {
+    displayName?: string;
+    type: GateType;
+}
+
+// @public
+export interface GateListResult {
+    nextLink?: string;
+    value: Gate[];
+}
+
+// @public
+export interface GatePatch {
+    properties?: GatePatchProperties;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface GatePatchProperties {
+    state?: GateState;
+}
+
+// @public
+export type GateProvisioningState = string;
+
+// @public
+export interface Gates {
+    beginUpdate(resourceGroupName: string, fleetName: string, gateName: string, properties: GatePatch, options?: GatesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GatesUpdateResponse>, GatesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, fleetName: string, gateName: string, properties: GatePatch, options?: GatesUpdateOptionalParams): Promise<GatesUpdateResponse>;
+    get(resourceGroupName: string, fleetName: string, gateName: string, options?: GatesGetOptionalParams): Promise<GatesGetResponse>;
+    listByFleet(resourceGroupName: string, fleetName: string, options?: GatesListByFleetOptionalParams): PagedAsyncIterableIterator<Gate>;
+}
+
+// @public
+export interface GatesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GatesGetResponse = Gate;
+
+// @public
+export interface GatesListByFleetNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GatesListByFleetNextResponse = GateListResult;
+
+// @public
+export interface GatesListByFleetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GatesListByFleetResponse = GateListResult;
+
+// @public
+export type GateState = string;
+
+// @public
+export interface GatesUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface GatesUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GatesUpdateResponse = Gate;
+
+// @public
+export interface GateTarget {
+    id: string;
+    updateRunProperties?: UpdateRunGateTargetProperties;
+}
+
+// @public
+export type GateType = string;
+
+// @public
+export interface GenerateResponse {
+    readonly id: string;
+}
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownAutoUpgradeLastTriggerStatus {
+    Failed = "Failed",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -550,6 +715,25 @@ export enum KnownFleetUpdateStrategyProvisioningState {
 }
 
 // @public
+export enum KnownGateProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownGateState {
+    Completed = "Completed",
+    Pending = "Pending",
+    Skipped = "Skipped"
+}
+
+// @public
+export enum KnownGateType {
+    Approval = "Approval"
+}
+
+// @public
 export enum KnownManagedClusterUpgradeType {
     ControlPlaneOnly = "ControlPlaneOnly",
     Full = "Full",
@@ -587,6 +771,12 @@ export enum KnownTargetType {
 }
 
 // @public
+export enum KnownTiming {
+    After = "After",
+    Before = "Before"
+}
+
+// @public
 export enum KnownUpdateRunProvisioningState {
     Canceled = "Canceled",
     Failed = "Failed",
@@ -598,6 +788,7 @@ export enum KnownUpdateState {
     Completed = "Completed",
     Failed = "Failed",
     NotStarted = "NotStarted",
+    Pending = "Pending",
     Running = "Running",
     Skipped = "Skipped",
     Stopped = "Stopped",
@@ -749,6 +940,9 @@ export interface SystemData {
 export type TargetType = string;
 
 // @public
+export type Timing = string;
+
+// @public
 export interface TrackedResource extends Resource {
     location: string;
     tags?: {
@@ -758,11 +952,15 @@ export interface TrackedResource extends Resource {
 
 // @public
 export interface UpdateGroup {
+    afterGates?: GateConfiguration[];
+    beforeGates?: GateConfiguration[];
     name: string;
 }
 
 // @public
 export interface UpdateGroupStatus {
+    readonly afterGates?: UpdateRunGateStatus[];
+    readonly beforeGates?: UpdateRunGateStatus[];
     readonly members?: MemberUpdateStatus[];
     readonly name?: string;
     readonly status?: UpdateStatus;
@@ -770,12 +968,28 @@ export interface UpdateGroupStatus {
 
 // @public
 export interface UpdateRun extends ProxyResource {
+    readonly autoUpgradeProfileId?: string;
     readonly eTag?: string;
     managedClusterUpdate?: ManagedClusterUpdate;
     readonly provisioningState?: UpdateRunProvisioningState;
     readonly status?: UpdateRunStatus;
     strategy?: UpdateRunStrategy;
     updateStrategyId?: string;
+}
+
+// @public
+export interface UpdateRunGateStatus {
+    readonly displayName?: string;
+    readonly gateId?: string;
+    readonly status?: UpdateStatus;
+}
+
+// @public
+export interface UpdateRunGateTargetProperties {
+    readonly group?: string;
+    readonly name: string;
+    readonly stage?: string;
+    timing: Timing;
 }
 
 // @public
@@ -915,14 +1129,18 @@ export interface UpdateRunStrategy {
 
 // @public
 export interface UpdateStage {
+    afterGates?: GateConfiguration[];
     afterStageWaitInSeconds?: number;
+    beforeGates?: GateConfiguration[];
     groups?: UpdateGroup[];
     name: string;
 }
 
 // @public
 export interface UpdateStageStatus {
+    readonly afterGates?: UpdateRunGateStatus[];
     readonly afterStageWaitStatus?: WaitStatus;
+    readonly beforeGates?: UpdateRunGateStatus[];
     readonly groups?: UpdateGroupStatus[];
     readonly name?: string;
     readonly status?: UpdateStatus;
