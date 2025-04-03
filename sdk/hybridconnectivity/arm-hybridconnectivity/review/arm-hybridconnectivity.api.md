@@ -136,7 +136,7 @@ export interface ExtensionResource extends Resource {
 
 // @public
 export interface GenerateAwsTemplateOperations {
-    post: (generateAwsTemplateRequest: GenerateAwsTemplateRequest, options?: GenerateAwsTemplatePostOptionalParams) => Promise<Record<string, any>>;
+    post: (generateAwsTemplateRequest: GenerateAwsTemplateRequest, options?: GenerateAwsTemplatePostOptionalParams) => Promise<GenerateAwsTemplateResponse>;
 }
 
 // @public
@@ -147,6 +147,10 @@ export interface GenerateAwsTemplatePostOptionalParams extends OperationOptions 
 export interface GenerateAwsTemplateRequest {
     connectorId: string;
     solutionTypes?: SolutionTypeSettings[];
+}
+
+// @public
+export interface GenerateAwsTemplateResponse {
 }
 
 // @public
