@@ -1,18 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationState, SimplePollerLike } from "@azure/core-lro";
-import type {
-  LoadTestAdministrationGetTestFile200Response,
-  LoadTestAdministrationUploadTestFile201Response,
-  LoadTestRunCreateOrUpdateTestRun200Response,
-  LoadTestRunCreateOrUpdateTestRun201Response,
-  LoadTestRunGetTestRun200Response,
-  TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response,
-  TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response,
-  TestProfileRunAdministrationGetTestProfileRun200Response,
-} from "./responses.js";
-
 /** Load test model. */
 export interface Test {
   /** Pass fail criteria for a test. */
@@ -212,7 +200,9 @@ export interface OptionalLoadTestConfiguration {
 /** Region distribution configuration for the load test. */
 export interface RegionalConfiguration {
   /**   The number of engine instances to execute load test in specified region. Supported values are in range of 1-400. */
-  engineInstances: number;
+  engineInstances?: number;
+  /**   The percentage of load to be distributed in specified region. Supported values are in range of 1-99. */
+  loadPercentage?: number;
   /**
    * Azure region name.
    * The region name should of format accepted by ARM, and should be a region supported by Azure Load Testing. For example, East US should be passed as "eastus".
@@ -239,6 +229,16 @@ export interface TestInputArtifacts {
 export interface TestFileInfo {
   /** Name of the file. */
   fileName: string;
+}
+
+/** Request to clone an existing test into a new test. */
+export interface CloneTestRequest {
+  /** Unique identifier for the new test that will be created. */
+  newTestId: string;
+  /** Display Name override for the newly created test. */
+  displayName?: string;
+  /** Description override for the newly created test. */
+  description?: string;
 }
 
 /** Test app components */
@@ -369,7 +369,7 @@ export interface TestRun {
   /**
    * The type of the entity that created the test run. (E.x. User, ScheduleTrigger, etc).
    *
-   * Possible values: "User", "ScheduledTrigger"
+   * Possible values: "User", "ScheduledTrigger", "AzurePipelines", "GitHubWorkflows"
    */
   createdByType?: CreatedByType;
 }
@@ -424,6 +424,22 @@ export interface ArtifactsContainerInfo {
   url?: string;
   /** Expiry time of the container (RFC 3339 literal format) */
   expireDateTime?: Date | string;
+}
+
+/** Represents insights derived from the test run. */
+export interface TestRunInsights {
+  /** The columns of the insights. */
+  columns: Record<string, TestRunInsightColumn>;
+  /** The rows of the insights. */
+  rows?: Record<string, string>[];
+}
+
+/** Represents a column of the test run insight */
+export interface TestRunInsightColumn {
+  /** Name of the column. */
+  name: string;
+  /** The data type of the column. */
+  dataType: string;
 }
 
 /** Filters to fetch the set of metric. */
@@ -641,7 +657,8 @@ export interface TestsNotificationEventFilterParent {
 }
 
 /** The notification event filter when the event type is TestRunEnded and scope is Tests. */
-export interface TestRunEndedNotificationEventFilter extends TestsNotificationEventFilterParent {
+export interface TestRunEndedNotificationEventFilter
+  extends TestsNotificationEventFilterParent {
   /** Event type for test run ended event. */
   kind: "TestRunEnded";
   /** Event filtering condition. */
@@ -657,7 +674,8 @@ export interface TestRunEndedEventCondition {
 }
 
 /** The notification event filter when the event type is TestRunStarted and scope is Tests. */
-export interface TestRunStartedNotificationEventFilter extends TestsNotificationEventFilterParent {
+export interface TestRunStartedNotificationEventFilter
+  extends TestsNotificationEventFilterParent {
   /** Event type for test run started event. */
   kind: "TestRunStarted";
 }
@@ -670,7 +688,8 @@ export interface TriggerCompletedNotificationEventFilter
 }
 
 /** The notification event filter when the event type is TriggerDisabled. */
-export interface TriggerDisabledNotificationEventFilter extends TestsNotificationEventFilterParent {
+export interface TriggerDisabledNotificationEventFilter
+  extends TestsNotificationEventFilterParent {
   /** Event type for trigger disabled event. */
   kind: "TriggerDisabled";
 }
@@ -747,46 +766,3 @@ export type WeekDays = string;
 export type NotificationScopeType = string;
 /** Alias for NotificationEventType */
 export type NotificationEventType = string;
-
-/** Added Poller Types **/
-
-/**
- * Poller for File Upload and Validation
- */
-export type FileUploadAndValidatePoller = SimplePollerLike<
-  OperationState<LoadTestAdministrationGetTestFile200Response>,
-  LoadTestAdministrationGetTestFile200Response
->;
-
-/**
- * Poller for Test Run Completion
- */
-export type TestRunCompletionPoller = SimplePollerLike<
-  OperationState<LoadTestRunGetTestRun200Response>,
-  LoadTestRunGetTestRun200Response
->;
-
-/**
- * Poller for Test Profile Run Completion
- */
-export type TestProfileRunCompletionPoller = SimplePollerLike<
-  OperationState<TestProfileRunAdministrationGetTestProfileRun200Response>,
-  TestProfileRunAdministrationGetTestProfileRun200Response
->;
-
-export type TestRunCreateOrUpdateSuccessResponse =
-  | LoadTestRunCreateOrUpdateTestRun200Response
-  | LoadTestRunCreateOrUpdateTestRun201Response;
-
-export type TestProfileRunCreateOrUpdateSuccessResponse =
-  | TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response
-  | TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response;
-
-export type TestUploadFileSuccessResponse = LoadTestAdministrationUploadTestFile201Response;
-
-export interface PolledOperationOptions {
-  /**
-   * Time delay between poll requests, in milliseconds.
-   */
-  updateIntervalInMs?: number;
-}

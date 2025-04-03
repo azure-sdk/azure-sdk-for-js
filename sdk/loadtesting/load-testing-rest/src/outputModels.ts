@@ -1,6 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { ErrorModel } from "@azure-rest/core-client";
+
+/** Status of a long running operation. */
+export interface OperationStatusOutput {
+  /**
+   * The state of the operation.
+   *
+   * Possible values: "NotStarted", "Running", "Succeeded", "Failed", "Canceled"
+   */
+  status: OperationStateOutput;
+  /**
+   * The kind of the operation.
+   *
+   * Possible values: "CloneTest"
+   */
+  kind: OperationKindOutput;
+  /** Error object that describes the error when status is "Failed". */
+  error?: ErrorModel;
+  /** The unique ID of the operation. */
+  readonly operationId: string;
+}
+
 /** Load test model. */
 export interface TestOutput {
   /** Pass fail criteria for a test. */
@@ -228,7 +250,9 @@ export interface OptionalLoadTestConfigurationOutput {
 /** Region distribution configuration for the load test. */
 export interface RegionalConfigurationOutput {
   /**   The number of engine instances to execute load test in specified region. Supported values are in range of 1-400. */
-  engineInstances: number;
+  engineInstances?: number;
+  /**   The percentage of load to be distributed in specified region. Supported values are in range of 1-99. */
+  loadPercentage?: number;
   /**
    * Azure region name.
    * The region name should of format accepted by ARM, and should be a region supported by Azure Load Testing. For example, East US should be passed as "eastus".
@@ -283,6 +307,20 @@ export interface PagedTestOutput {
   value: Array<TestOutput>;
   /** The link to the next page of items */
   nextLink?: string;
+}
+
+/** Provides status details for long running operations. */
+export interface ResourceOperationStatusTestErrorOutput {
+  /** The unique ID of the operation. */
+  id: string;
+  /**
+   * The status of the operation
+   *
+   * Possible values: "NotStarted", "Running", "Succeeded", "Failed", "Canceled"
+   */
+  status: OperationStateOutput;
+  /** Error object that describes the error when status is "Failed". */
+  error?: ErrorModel;
 }
 
 /** Paged collection of TestFileInfo items */
@@ -413,7 +451,10 @@ export interface FunctionFlexConsumptionTargetResourceConfigurationsOutput
    */
   kind: "FunctionsFlexConsumption";
   /** A map of configurations for a Function app using Flex Consumption Plan. */
-  configurations?: Record<string, FunctionFlexConsumptionResourceConfigurationOutput>;
+  configurations?: Record<
+    string,
+    FunctionFlexConsumptionResourceConfigurationOutput
+  >;
 }
 
 /** Resource configuration instance for a Flex Consumption based Azure Function App. */
@@ -523,9 +564,13 @@ export interface TestRunOutput {
   /**
    * The type of the entity that created the test run. (E.x. User, ScheduleTrigger, etc).
    *
-   * Possible values: "User", "ScheduledTrigger"
+   * Possible values: "User", "ScheduledTrigger", "AzurePipelines", "GitHubWorkflows"
    */
   createdByType?: CreatedByTypeOutput;
+  /** The URI pointing to the entity that created the test run. */
+  readonly createdByUri?: string;
+  /** The insights from the test run. */
+  readonly insights?: TestRunInsightsOutput;
   /** The creation datetime(RFC 3339 literal format). */
   readonly createdDateTime?: string;
   /** The user that created. */
@@ -652,6 +697,22 @@ export interface ArtifactsContainerInfoOutput {
   url?: string;
   /** Expiry time of the container (RFC 3339 literal format) */
   expireDateTime?: string;
+}
+
+/** Represents insights derived from the test run. */
+export interface TestRunInsightsOutput {
+  /** The columns of the insights. */
+  columns: Record<string, TestRunInsightColumnOutput>;
+  /** The rows of the insights. */
+  rows?: Record<string, string>[];
+}
+
+/** Represents a column of the test run insight */
+export interface TestRunInsightColumnOutput {
+  /** Name of the column. */
+  name: string;
+  /** The data type of the column. */
+  dataType: string;
 }
 
 /** Paged collection of TestRun items */
@@ -979,7 +1040,8 @@ export interface HourlyRecurrenceOutput extends RecurrenceOutputParent {
 }
 
 /** Recurrence model when frequency is set as MonthlyByDays . */
-export interface MonthlyRecurrenceByWeekDaysOutput extends RecurrenceOutputParent {
+export interface MonthlyRecurrenceByWeekDaysOutput
+  extends RecurrenceOutputParent {
   /** Frequency of the month recurrence. */
   frequency: "MonthlyByDays";
   /** Specific days of the week when the recurrence should repeat. */
@@ -1046,7 +1108,8 @@ export interface NotificationRuleOutputParent {
 }
 
 /** Tests Notification rule model. */
-export interface TestsNotificationRuleOutput extends NotificationRuleOutputParent {
+export interface TestsNotificationRuleOutput
+  extends NotificationRuleOutputParent {
   /** Scope of type Tests. */
   scope: "Tests";
   /** The test ids to include. If not provided, notification will be sent for all testIds. */
@@ -1125,7 +1188,9 @@ export type RecurrenceOutput =
   | RecurrenceWithCronOutput
   | WeeklyRecurrenceOutput;
 /** Notification rule model. */
-export type NotificationRuleOutput = NotificationRuleOutputParent | TestsNotificationRuleOutput;
+export type NotificationRuleOutput =
+  | NotificationRuleOutputParent
+  | TestsNotificationRuleOutput;
 /** The notification event filter for Tests scope. */
 export type TestsNotificationEventFilterOutput =
   | TestsNotificationEventFilterOutputParent
@@ -1133,6 +1198,10 @@ export type TestsNotificationEventFilterOutput =
   | TestRunStartedNotificationEventFilterOutput
   | TriggerCompletedNotificationEventFilterOutput
   | TriggerDisabledNotificationEventFilterOutput;
+/** Alias for OperationStateOutput */
+export type OperationStateOutput = string;
+/** Alias for OperationKindOutput */
+export type OperationKindOutput = string;
 /** Alias for PFMetricsOutput */
 export type PFMetricsOutput = string;
 /** Alias for PassFailAggregationFunctionOutput */
