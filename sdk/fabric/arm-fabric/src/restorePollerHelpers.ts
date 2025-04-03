@@ -3,12 +3,12 @@
 
 import { FabricClient } from "./fabricClient.js";
 import {
-  _fabricCapacitiesCreateOrUpdateDeserialize,
-  _fabricCapacitiesUpdateDeserialize,
-  _fabricCapacitiesDeleteDeserialize,
-  _fabricCapacitiesResumeDeserialize,
-  _fabricCapacitiesSuspendDeserialize,
-} from "./api/fabricCapacities/index.js";
+  _suspendDeserialize,
+  _resumeDeserialize,
+  _$deleteDeserialize,
+  _updateDeserialize,
+  _createOrUpdateDeserialize,
+} from "./api/fabricCapacities/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -82,30 +82,21 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric/capacities/{capacityName}":
-    {
-      deserializer: _fabricCapacitiesCreateOrUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric/capacities/{capacityName}":
-    {
-      deserializer: _fabricCapacitiesUpdateDeserialize,
-      expectedStatuses: ["200", "202"],
-    },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric/capacities/{capacityName}/suspend":
+    { deserializer: _suspendDeserialize, expectedStatuses: ["202", "200"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric/capacities/{capacityName}/resume":
+    { deserializer: _resumeDeserialize, expectedStatuses: ["202", "200"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric/capacities/{capacityName}":
     {
-      deserializer: _fabricCapacitiesDeleteDeserialize,
+      deserializer: _$deleteDeserialize,
       expectedStatuses: ["202", "204", "200"],
     },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric/capacities/{capacityName}/resume":
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric/capacities/{capacityName}":
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric/capacities/{capacityName}":
     {
-      deserializer: _fabricCapacitiesResumeDeserialize,
-      expectedStatuses: ["200", "202"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric/capacities/{capacityName}/suspend":
-    {
-      deserializer: _fabricCapacitiesSuspendDeserialize,
-      expectedStatuses: ["200", "202"],
+      deserializer: _createOrUpdateDeserialize,
+      expectedStatuses: ["200", "201"],
     },
 };
 
