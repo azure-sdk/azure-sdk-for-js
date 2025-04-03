@@ -2,10 +2,12 @@
 // Licensed under the MIT License.
 
 import type {
+  OperationsGetOperationStatusParameters,
   LoadTestAdministrationCreateOrUpdateTestParameters,
   LoadTestAdministrationDeleteTestParameters,
   LoadTestAdministrationGetTestParameters,
   LoadTestAdministrationListTestsParameters,
+  LoadTestAdministrationCloneTestParameters,
   LoadTestAdministrationUploadTestFileParameters,
   LoadTestAdministrationGetTestFileParameters,
   LoadTestAdministrationDeleteTestFileParameters,
@@ -47,6 +49,8 @@ import type {
   NotificationRuleAdministrationListNotificationRuleParameters,
 } from "./parameters.js";
 import type {
+  OperationsGetOperationStatus200Response,
+  OperationsGetOperationStatusDefaultResponse,
   LoadTestAdministrationCreateOrUpdateTest200Response,
   LoadTestAdministrationCreateOrUpdateTest201Response,
   LoadTestAdministrationCreateOrUpdateTestDefaultResponse,
@@ -56,6 +60,8 @@ import type {
   LoadTestAdministrationGetTestDefaultResponse,
   LoadTestAdministrationListTests200Response,
   LoadTestAdministrationListTestsDefaultResponse,
+  LoadTestAdministrationCloneTest202Response,
+  LoadTestAdministrationCloneTestDefaultResponse,
   LoadTestAdministrationUploadTestFile201Response,
   LoadTestAdministrationUploadTestFileDefaultResponse,
   LoadTestAdministrationGetTestFile200Response,
@@ -146,6 +152,16 @@ import type {
 } from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
+export interface OperationsGetOperationStatus {
+  /** Get the status of a long running operation. */
+  get(
+    options?: OperationsGetOperationStatusParameters,
+  ): StreamableMethod<
+    | OperationsGetOperationStatus200Response
+    | OperationsGetOperationStatusDefaultResponse
+  >;
+}
+
 export interface LoadTestAdministrationCreateOrUpdateTest {
   /** Create a new test or update an existing test by providing the test Id. */
   patch(
@@ -159,13 +175,15 @@ export interface LoadTestAdministrationCreateOrUpdateTest {
   delete(
     options?: LoadTestAdministrationDeleteTestParameters,
   ): StreamableMethod<
-    LoadTestAdministrationDeleteTest204Response | LoadTestAdministrationDeleteTestDefaultResponse
+    | LoadTestAdministrationDeleteTest204Response
+    | LoadTestAdministrationDeleteTestDefaultResponse
   >;
   /** Get load test details by test Id */
   get(
     options?: LoadTestAdministrationGetTestParameters,
   ): StreamableMethod<
-    LoadTestAdministrationGetTest200Response | LoadTestAdministrationGetTestDefaultResponse
+    | LoadTestAdministrationGetTest200Response
+    | LoadTestAdministrationGetTestDefaultResponse
   >;
 }
 
@@ -177,7 +195,18 @@ export interface LoadTestAdministrationListTests {
   get(
     options?: LoadTestAdministrationListTestsParameters,
   ): StreamableMethod<
-    LoadTestAdministrationListTests200Response | LoadTestAdministrationListTestsDefaultResponse
+    | LoadTestAdministrationListTests200Response
+    | LoadTestAdministrationListTestsDefaultResponse
+  >;
+}
+
+export interface LoadTestAdministrationCloneTest {
+  /** Clone the given test with optional overrides applied to the clone test. */
+  post(
+    options: LoadTestAdministrationCloneTestParameters,
+  ): StreamableMethod<
+    | LoadTestAdministrationCloneTest202Response
+    | LoadTestAdministrationCloneTestDefaultResponse
   >;
 }
 
@@ -197,7 +226,8 @@ export interface LoadTestAdministrationUploadTestFile {
   get(
     options?: LoadTestAdministrationGetTestFileParameters,
   ): StreamableMethod<
-    LoadTestAdministrationGetTestFile200Response | LoadTestAdministrationGetTestFileDefaultResponse
+    | LoadTestAdministrationGetTestFile200Response
+    | LoadTestAdministrationGetTestFileDefaultResponse
   >;
   /** Delete file by the file name for a test */
   delete(
@@ -293,7 +323,9 @@ export interface LoadTestRunGetTestRun {
   /** Get test run details by test run Id. */
   get(
     options?: LoadTestRunGetTestRunParameters,
-  ): StreamableMethod<LoadTestRunGetTestRun200Response | LoadTestRunGetTestRunDefaultResponse>;
+  ): StreamableMethod<
+    LoadTestRunGetTestRun200Response | LoadTestRunGetTestRunDefaultResponse
+  >;
   /** Create and start a new test run with the given test run Id. */
   patch(
     options: LoadTestRunCreateOrUpdateTestRunParameters,
@@ -306,7 +338,8 @@ export interface LoadTestRunGetTestRun {
   delete(
     options?: LoadTestRunDeleteTestRunParameters,
   ): StreamableMethod<
-    LoadTestRunDeleteTestRun204Response | LoadTestRunDeleteTestRunDefaultResponse
+    | LoadTestRunDeleteTestRun204Response
+    | LoadTestRunDeleteTestRunDefaultResponse
   >;
 }
 
@@ -314,7 +347,9 @@ export interface LoadTestRunListTestRuns {
   /** Get all test runs for the given filters. */
   get(
     options?: LoadTestRunListTestRunsParameters,
-  ): StreamableMethod<LoadTestRunListTestRuns200Response | LoadTestRunListTestRunsDefaultResponse>;
+  ): StreamableMethod<
+    LoadTestRunListTestRuns200Response | LoadTestRunListTestRunsDefaultResponse
+  >;
 }
 
 export interface LoadTestRunGetTestRunFile {
@@ -322,7 +357,8 @@ export interface LoadTestRunGetTestRunFile {
   get(
     options?: LoadTestRunGetTestRunFileParameters,
   ): StreamableMethod<
-    LoadTestRunGetTestRunFile200Response | LoadTestRunGetTestRunFileDefaultResponse
+    | LoadTestRunGetTestRunFile200Response
+    | LoadTestRunGetTestRunFileDefaultResponse
   >;
 }
 
@@ -330,7 +366,9 @@ export interface LoadTestRunStop {
   /** Stop test run by test run Id. */
   post(
     options?: LoadTestRunStopParameters,
-  ): StreamableMethod<LoadTestRunStop200Response | LoadTestRunStopDefaultResponse>;
+  ): StreamableMethod<
+    LoadTestRunStop200Response | LoadTestRunStopDefaultResponse
+  >;
 }
 
 export interface LoadTestRunListMetricNamespaces {
@@ -338,7 +376,8 @@ export interface LoadTestRunListMetricNamespaces {
   get(
     options?: LoadTestRunListMetricNamespacesParameters,
   ): StreamableMethod<
-    LoadTestRunListMetricNamespaces200Response | LoadTestRunListMetricNamespacesDefaultResponse
+    | LoadTestRunListMetricNamespaces200Response
+    | LoadTestRunListMetricNamespacesDefaultResponse
   >;
 }
 
@@ -347,7 +386,8 @@ export interface LoadTestRunListMetricDefinitions {
   get(
     options: LoadTestRunListMetricDefinitionsParameters,
   ): StreamableMethod<
-    LoadTestRunListMetricDefinitions200Response | LoadTestRunListMetricDefinitionsDefaultResponse
+    | LoadTestRunListMetricDefinitions200Response
+    | LoadTestRunListMetricDefinitionsDefaultResponse
   >;
 }
 
@@ -355,7 +395,9 @@ export interface LoadTestRunListMetrics {
   /** List the metric values for a load test run. */
   post(
     options: LoadTestRunListMetricsParameters,
-  ): StreamableMethod<LoadTestRunListMetrics200Response | LoadTestRunListMetricsDefaultResponse>;
+  ): StreamableMethod<
+    LoadTestRunListMetrics200Response | LoadTestRunListMetricsDefaultResponse
+  >;
 }
 
 export interface LoadTestRunListMetricDimensionValues {
@@ -384,7 +426,8 @@ export interface LoadTestRunCreateOrUpdateAppComponents {
   get(
     options?: LoadTestRunGetAppComponentsParameters,
   ): StreamableMethod<
-    LoadTestRunGetAppComponents200Response | LoadTestRunGetAppComponentsDefaultResponse
+    | LoadTestRunGetAppComponents200Response
+    | LoadTestRunGetAppComponentsDefaultResponse
   >;
 }
 
@@ -401,7 +444,8 @@ export interface LoadTestRunCreateOrUpdateServerMetricsConfig {
   get(
     options?: LoadTestRunGetServerMetricsConfigParameters,
   ): StreamableMethod<
-    LoadTestRunGetServerMetricsConfig200Response | LoadTestRunGetServerMetricsConfigDefaultResponse
+    | LoadTestRunGetServerMetricsConfig200Response
+    | LoadTestRunGetServerMetricsConfigDefaultResponse
   >;
 }
 
@@ -435,7 +479,8 @@ export interface TestProfileRunAdministrationStop {
   post(
     options?: TestProfileRunAdministrationStopParameters,
   ): StreamableMethod<
-    TestProfileRunAdministrationStop200Response | TestProfileRunAdministrationStopDefaultResponse
+    | TestProfileRunAdministrationStop200Response
+    | TestProfileRunAdministrationStopDefaultResponse
   >;
 }
 
@@ -454,7 +499,8 @@ export interface TriggerAdministrationGetTrigger {
   get(
     options?: TriggerAdministrationGetTriggerParameters,
   ): StreamableMethod<
-    TriggerAdministrationGetTrigger200Response | TriggerAdministrationGetTriggerDefaultResponse
+    | TriggerAdministrationGetTrigger200Response
+    | TriggerAdministrationGetTriggerDefaultResponse
   >;
   /** Create or update operation template. */
   patch(
@@ -478,7 +524,8 @@ export interface TriggerAdministrationListTrigger {
   get(
     options?: TriggerAdministrationListTriggerParameters,
   ): StreamableMethod<
-    TriggerAdministrationListTrigger200Response | TriggerAdministrationListTriggerDefaultResponse
+    | TriggerAdministrationListTrigger200Response
+    | TriggerAdministrationListTriggerDefaultResponse
   >;
 }
 
@@ -518,10 +565,23 @@ export interface NotificationRuleAdministrationListNotificationRule {
 }
 
 export interface Routes {
+  /** Resource for '/operations/\{operationId\}' has methods for the following verbs: get */
+  (
+    path: "/operations/{operationId}",
+    operationId: string,
+  ): OperationsGetOperationStatus;
   /** Resource for '/tests/\{testId\}' has methods for the following verbs: patch, delete, get */
-  (path: "/tests/{testId}", testId: string): LoadTestAdministrationCreateOrUpdateTest;
+  (
+    path: "/tests/{testId}",
+    testId: string,
+  ): LoadTestAdministrationCreateOrUpdateTest;
   /** Resource for '/tests' has methods for the following verbs: get */
   (path: "/tests"): LoadTestAdministrationListTests;
+  /** Resource for '/tests/\{testId\}:clone' has methods for the following verbs: post */
+  (
+    path: "/tests/{testId}:clone",
+    testId: string,
+  ): LoadTestAdministrationCloneTest;
   /** Resource for '/tests/\{testId\}/files/\{fileName\}' has methods for the following verbs: put, get, delete */
   (
     path: "/tests/{testId}/files/{fileName}",
@@ -529,7 +589,10 @@ export interface Routes {
     fileName: string,
   ): LoadTestAdministrationUploadTestFile;
   /** Resource for '/tests/\{testId\}/files' has methods for the following verbs: get */
-  (path: "/tests/{testId}/files", testId: string): LoadTestAdministrationListTestFiles;
+  (
+    path: "/tests/{testId}/files",
+    testId: string,
+  ): LoadTestAdministrationListTestFiles;
   /** Resource for '/tests/\{testId\}/app-components' has methods for the following verbs: patch, get */
   (
     path: "/tests/{testId}/app-components",
@@ -570,7 +633,10 @@ export interface Routes {
     testRunId: string,
   ): LoadTestRunListMetricDefinitions;
   /** Resource for '/test-runs/\{testRunId\}/metrics' has methods for the following verbs: post */
-  (path: "/test-runs/{testRunId}/metrics", testRunId: string): LoadTestRunListMetrics;
+  (
+    path: "/test-runs/{testRunId}/metrics",
+    testRunId: string,
+  ): LoadTestRunListMetrics;
   /** Resource for '/test-runs/\{testRunId\}/metric-dimensions/\{name\}/values' has methods for the following verbs: get */
   (
     path: "/test-runs/{testRunId}/metric-dimensions/{name}/values",
@@ -600,7 +666,10 @@ export interface Routes {
   /** Resource for '/test-profile-runs' has methods for the following verbs: get */
   (path: "/test-profile-runs"): TestProfileRunAdministrationListTestProfileRuns;
   /** Resource for '/triggers/\{triggerId\}' has methods for the following verbs: get, patch, delete */
-  (path: "/triggers/{triggerId}", triggerId: string): TriggerAdministrationGetTrigger;
+  (
+    path: "/triggers/{triggerId}",
+    triggerId: string,
+  ): TriggerAdministrationGetTrigger;
   /** Resource for '/triggers' has methods for the following verbs: get */
   (path: "/triggers"): TriggerAdministrationListTrigger;
   /** Resource for '/notification-rules/\{notificationRuleId\}' has methods for the following verbs: get, patch, delete */
@@ -609,7 +678,9 @@ export interface Routes {
     notificationRuleId: string,
   ): NotificationRuleAdministrationGetNotificationRule;
   /** Resource for '/notification-rules' has methods for the following verbs: get */
-  (path: "/notification-rules"): NotificationRuleAdministrationListNotificationRule;
+  (
+    path: "/notification-rules",
+  ): NotificationRuleAdministrationListNotificationRule;
 }
 
 export type AzureLoadTestingClient = Client & {
