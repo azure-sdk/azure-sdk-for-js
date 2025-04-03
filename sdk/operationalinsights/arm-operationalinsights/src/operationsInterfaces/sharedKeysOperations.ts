@@ -10,7 +10,7 @@ import {
   SharedKeysGetSharedKeysOptionalParams,
   SharedKeysGetSharedKeysResponse,
   SharedKeysRegenerateOptionalParams,
-  SharedKeysRegenerateResponse
+  SharedKeysRegenerateResponse,
 } from "../models/index.js";
 
 /** Interface representing a SharedKeysOperations. */
@@ -24,7 +24,7 @@ export interface SharedKeysOperations {
   getSharedKeys(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SharedKeysGetSharedKeysOptionalParams
+    options?: SharedKeysGetSharedKeysOptionalParams,
   ): Promise<SharedKeysGetSharedKeysResponse>;
   /**
    * Regenerates the shared keys for a Log Analytics Workspace. These keys are used to connect Microsoft
@@ -36,6 +36,6 @@ export interface SharedKeysOperations {
   regenerate(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SharedKeysRegenerateOptionalParams
+    options?: SharedKeysRegenerateOptionalParams,
   ): Promise<SharedKeysRegenerateResponse>;
 }
