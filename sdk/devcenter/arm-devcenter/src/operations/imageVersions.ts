@@ -18,9 +18,15 @@ import {
   ImageVersionsListByImageNextOptionalParams,
   ImageVersionsListByImageOptionalParams,
   ImageVersionsListByImageResponse,
+  ImageVersionsListByProjectNextOptionalParams,
+  ImageVersionsListByProjectOptionalParams,
+  ImageVersionsListByProjectResponse,
   ImageVersionsGetOptionalParams,
   ImageVersionsGetResponse,
+  ImageVersionsGetByProjectOptionalParams,
+  ImageVersionsGetByProjectResponse,
   ImageVersionsListByImageNextResponse,
+  ImageVersionsListByProjectNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -141,6 +147,99 @@ export class ImageVersionsImpl implements ImageVersions {
   /**
    * Lists versions for an image.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param imageName The name of the image.
+   * @param options The options parameters.
+   */
+  public listByProject(
+    resourceGroupName: string,
+    projectName: string,
+    imageName: string,
+    options?: ImageVersionsListByProjectOptionalParams,
+  ): PagedAsyncIterableIterator<ImageVersion> {
+    const iter = this.listByProjectPagingAll(
+      resourceGroupName,
+      projectName,
+      imageName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByProjectPagingPage(
+          resourceGroupName,
+          projectName,
+          imageName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listByProjectPagingPage(
+    resourceGroupName: string,
+    projectName: string,
+    imageName: string,
+    options?: ImageVersionsListByProjectOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<ImageVersion[]> {
+    let result: ImageVersionsListByProjectResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByProject(
+        resourceGroupName,
+        projectName,
+        imageName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByProjectNext(
+        resourceGroupName,
+        projectName,
+        imageName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByProjectPagingAll(
+    resourceGroupName: string,
+    projectName: string,
+    imageName: string,
+    options?: ImageVersionsListByProjectOptionalParams,
+  ): AsyncIterableIterator<ImageVersion> {
+    for await (const page of this.listByProjectPagingPage(
+      resourceGroupName,
+      projectName,
+      imageName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists versions for an image.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param galleryName The name of the gallery.
    * @param imageName The name of the image.
@@ -190,6 +289,46 @@ export class ImageVersionsImpl implements ImageVersions {
   }
 
   /**
+   * Lists versions for an image.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param imageName The name of the image.
+   * @param options The options parameters.
+   */
+  private _listByProject(
+    resourceGroupName: string,
+    projectName: string,
+    imageName: string,
+    options?: ImageVersionsListByProjectOptionalParams,
+  ): Promise<ImageVersionsListByProjectResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, projectName, imageName, options },
+      listByProjectOperationSpec,
+    );
+  }
+
+  /**
+   * Gets an image version.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param imageName The name of the image.
+   * @param versionName The version of the image.
+   * @param options The options parameters.
+   */
+  getByProject(
+    resourceGroupName: string,
+    projectName: string,
+    imageName: string,
+    versionName: string,
+    options?: ImageVersionsGetByProjectOptionalParams,
+  ): Promise<ImageVersionsGetByProjectResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, projectName, imageName, versionName, options },
+      getByProjectOperationSpec,
+    );
+  }
+
+  /**
    * ListByImageNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
@@ -216,6 +355,27 @@ export class ImageVersionsImpl implements ImageVersions {
         options,
       },
       listByImageNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListByProjectNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param imageName The name of the image.
+   * @param nextLink The nextLink from the previous successful call to the ListByProject method.
+   * @param options The options parameters.
+   */
+  private _listByProjectNext(
+    resourceGroupName: string,
+    projectName: string,
+    imageName: string,
+    nextLink: string,
+    options?: ImageVersionsListByProjectNextOptionalParams,
+  ): Promise<ImageVersionsListByProjectNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, projectName, imageName, nextLink, options },
+      listByProjectNextOperationSpec,
     );
   }
 }
@@ -269,6 +429,51 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
+const listByProjectOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/images/{imageName}/versions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ImageVersionListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.projectName,
+    Parameters.imageName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getByProjectOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/images/{imageName}/versions/{versionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ImageVersion,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.projectName,
+    Parameters.imageName1,
+    Parameters.versionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listByImageNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -288,6 +493,28 @@ const listByImageNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.galleryName,
     Parameters.imageName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByProjectNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ImageVersionListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
+    Parameters.projectName,
+    Parameters.imageName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
