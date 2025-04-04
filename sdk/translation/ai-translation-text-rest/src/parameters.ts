@@ -7,8 +7,8 @@ import type {
   TextType,
   ProfanityAction,
   ProfanityMarker,
+  TranslateBodyDetails,
   InputTextItem,
-  DictionaryExampleTextItem,
 } from "./models.js";
 
 export interface GetSupportedLanguagesHeaders {
@@ -56,11 +56,23 @@ export type GetSupportedLanguagesParameters = GetSupportedLanguagesQueryParam &
 export interface TranslateHeaders {
   /** A client-generated GUID to uniquely identify the request. */
   "X-ClientTraceId"?: string;
+  /** A client-generated GUID to uniquely identify the request. */
+  "X-ClientTraceId"?: string;
 }
 
 export interface TranslateBodyParam {
-  /** Defines the content of the request */
-  body: Array<InputTextItem>;
+  /** Details of the translate request */
+  body: TranslateBodyDetails;
+}
+
+/** This is the wrapper object for the parameter `to` with explode set to true and style set to form. */
+export interface TranslateToQueryParam {
+  /** Value of the parameter */
+  value: string[];
+  /** Should we explode the value? */
+  explode: true;
+  /** Style of the value */
+  style: "form";
 }
 
 export interface TranslateQueryParamProperties {
@@ -68,9 +80,9 @@ export interface TranslateQueryParamProperties {
    * Specifies the language of the output text. The target language must be one of the supported languages included
    * in the translation scope. For example, use to=de to translate to German.
    * It's possible to translate to multiple languages simultaneously by repeating the parameter in the query string.
-   * For example, use to=de&to=it to translate to German and Italian. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request
+   * For example, use to=de&to=it to translate to German and Italian.
    */
-  to: string;
+  to: TranslateToQueryParam;
   /**
    * Specifies the language of the input text. Find which languages are available to translate from by
    * looking up supported languages using the translation scope. If the from parameter isn't specified,
@@ -124,7 +136,10 @@ export interface TranslateQueryParamProperties {
   /** Specifies the script of the translated text. */
   toScript?: string;
   /**
-   * Specifies that the service is allowed to fall back to a general system when a custom system doesn't exist.
+   * In the case where a custom system is being used, specifies that the service is allowed to fall back to a
+   * general system when a custom system doesn't exist.
+   * In the case where a Large Language Model is being used, specifies that the service is allowed to fall
+   * back to a Small Language Model if an error occurs.
    * Possible values are: true (default) or false.
    *
    * allowFallback=false specifies that the translation should only use systems trained for the category specified
@@ -189,112 +204,4 @@ export interface TransliterateHeaderParam {
 export type TransliterateParameters = TransliterateQueryParam &
   TransliterateHeaderParam &
   TransliterateBodyParam &
-  RequestParameters;
-
-export interface FindSentenceBoundariesHeaders {
-  /** A client-generated GUID to uniquely identify the request. */
-  "X-ClientTraceId"?: string;
-}
-
-export interface FindSentenceBoundariesBodyParam {
-  /** Defines the content of the request */
-  body: Array<InputTextItem>;
-}
-
-export interface FindSentenceBoundariesQueryParamProperties {
-  /**
-   * Language tag identifying the language of the input text.
-   * If a code isn't specified, automatic language detection will be applied.
-   */
-  language?: string;
-  /**
-   * Script tag identifying the script used by the input text.
-   * If a script isn't specified, the default script of the language will be assumed.
-   */
-  script?: string;
-}
-
-export interface FindSentenceBoundariesQueryParam {
-  queryParameters?: FindSentenceBoundariesQueryParamProperties;
-}
-
-export interface FindSentenceBoundariesHeaderParam {
-  headers?: RawHttpHeadersInput & FindSentenceBoundariesHeaders;
-}
-
-export type FindSentenceBoundariesParameters = FindSentenceBoundariesQueryParam &
-  FindSentenceBoundariesHeaderParam &
-  FindSentenceBoundariesBodyParam &
-  RequestParameters;
-
-export interface LookupDictionaryEntriesHeaders {
-  /** A client-generated GUID to uniquely identify the request. */
-  "X-ClientTraceId"?: string;
-}
-
-export interface LookupDictionaryEntriesBodyParam {
-  /** Defines the content of the request */
-  body: Array<InputTextItem>;
-}
-
-export interface LookupDictionaryEntriesQueryParamProperties {
-  /**
-   * Specifies the language of the input text.
-   * The source language must be one of the supported languages included in the dictionary scope.
-   */
-  from: string;
-  /**
-   * Specifies the language of the output text.
-   * The target language must be one of the supported languages included in the dictionary scope.
-   */
-  to: string;
-}
-
-export interface LookupDictionaryEntriesQueryParam {
-  queryParameters: LookupDictionaryEntriesQueryParamProperties;
-}
-
-export interface LookupDictionaryEntriesHeaderParam {
-  headers?: RawHttpHeadersInput & LookupDictionaryEntriesHeaders;
-}
-
-export type LookupDictionaryEntriesParameters = LookupDictionaryEntriesQueryParam &
-  LookupDictionaryEntriesHeaderParam &
-  LookupDictionaryEntriesBodyParam &
-  RequestParameters;
-
-export interface LookupDictionaryExamplesHeaders {
-  /** A client-generated GUID to uniquely identify the request. */
-  "X-ClientTraceId"?: string;
-}
-
-export interface LookupDictionaryExamplesBodyParam {
-  /** Defines the content of the request */
-  body: Array<DictionaryExampleTextItem>;
-}
-
-export interface LookupDictionaryExamplesQueryParamProperties {
-  /**
-   * Specifies the language of the input text.
-   * The source language must be one of the supported languages included in the dictionary scope.
-   */
-  from: string;
-  /**
-   * Specifies the language of the output text.
-   * The target language must be one of the supported languages included in the dictionary scope.
-   */
-  to: string;
-}
-
-export interface LookupDictionaryExamplesQueryParam {
-  queryParameters: LookupDictionaryExamplesQueryParamProperties;
-}
-
-export interface LookupDictionaryExamplesHeaderParam {
-  headers?: RawHttpHeadersInput & LookupDictionaryExamplesHeaders;
-}
-
-export type LookupDictionaryExamplesParameters = LookupDictionaryExamplesQueryParam &
-  LookupDictionaryExamplesHeaderParam &
-  LookupDictionaryExamplesBodyParam &
   RequestParameters;
