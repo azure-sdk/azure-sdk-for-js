@@ -203,7 +203,7 @@ const listByArtifactNameOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.GallerySoftDeletedResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion3],
@@ -226,7 +226,7 @@ const listByArtifactNameNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.GallerySoftDeletedResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
