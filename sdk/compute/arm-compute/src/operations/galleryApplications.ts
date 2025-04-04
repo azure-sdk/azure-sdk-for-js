@@ -521,7 +521,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.GalleryApplication,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.galleryApplication,
@@ -554,7 +554,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.GalleryApplication,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.galleryApplication1,
@@ -578,7 +578,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.GalleryApplication,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion3],
@@ -601,7 +601,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion3],
@@ -623,7 +623,7 @@ const listByGalleryOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.GalleryApplicationList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion3],
@@ -644,7 +644,7 @@ const listByGalleryNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.GalleryApplicationList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [

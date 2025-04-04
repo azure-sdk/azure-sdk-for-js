@@ -47,6 +47,8 @@ import {
   GalleryImageVersionsImpl,
   GalleryApplicationsImpl,
   GalleryApplicationVersionsImpl,
+  GalleryScriptsImpl,
+  GalleryScriptVersionsImpl,
   SoftDeletedResourceImpl,
   GallerySharingProfileImpl,
   GalleryInVMAccessControlProfilesImpl,
@@ -101,6 +103,8 @@ import {
   GalleryImageVersions,
   GalleryApplications,
   GalleryApplicationVersions,
+  GalleryScripts,
+  GalleryScriptVersions,
   SoftDeletedResource,
   GallerySharingProfile,
   GalleryInVMAccessControlProfiles,
@@ -122,17 +126,26 @@ import { ComputeManagementClientOptionalParams } from "./models/index.js";
 export class ComputeManagementClient extends coreClient.ServiceClient {
   $host: string;
   subscriptionId: string;
+  galleryScriptName: string;
+  galleryScriptVersionName: string;
 
   /**
    * Initializes a new instance of the ComputeManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId Subscription credentials which uniquely identify Microsoft Azure subscription.
    *                       The subscription ID forms part of the URI for every service call.
+   * @param galleryScriptName The name of the gallery Script Definition in which the Script Version is to
+   *                          be created.
+   * @param galleryScriptVersionName The name of the gallery Script Version to be created. Needs to
+   *                                 follow semantic version name pattern: The allowed characters are digit and period. Digits must be
+   *                                 within the range of a 32-bit integer. Format: <MajorVersion>.<MinorVersion>.<Patch>
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
+    galleryScriptName: string,
+    galleryScriptVersionName: string,
     options?: ComputeManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
@@ -140,6 +153,12 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     }
     if (subscriptionId === undefined) {
       throw new Error("'subscriptionId' cannot be null");
+    }
+    if (galleryScriptName === undefined) {
+      throw new Error("'galleryScriptName' cannot be null");
+    }
+    if (galleryScriptVersionName === undefined) {
+      throw new Error("'galleryScriptVersionName' cannot be null");
     }
 
     // Initializing default values for options
@@ -151,7 +170,7 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-compute/22.4.0`;
+    const packageDetails = `azsdk-js-arm-compute/23.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -202,6 +221,8 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
+    this.galleryScriptName = galleryScriptName;
+    this.galleryScriptVersionName = galleryScriptVersionName;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
@@ -250,6 +271,8 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     this.galleryImageVersions = new GalleryImageVersionsImpl(this);
     this.galleryApplications = new GalleryApplicationsImpl(this);
     this.galleryApplicationVersions = new GalleryApplicationVersionsImpl(this);
+    this.galleryScripts = new GalleryScriptsImpl(this);
+    this.galleryScriptVersions = new GalleryScriptVersionsImpl(this);
     this.softDeletedResource = new SoftDeletedResourceImpl(this);
     this.gallerySharingProfile = new GallerySharingProfileImpl(this);
     this.galleryInVMAccessControlProfiles =
@@ -310,6 +333,8 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
   galleryImageVersions: GalleryImageVersions;
   galleryApplications: GalleryApplications;
   galleryApplicationVersions: GalleryApplicationVersions;
+  galleryScripts: GalleryScripts;
+  galleryScriptVersions: GalleryScriptVersions;
   softDeletedResource: SoftDeletedResource;
   gallerySharingProfile: GallerySharingProfile;
   galleryInVMAccessControlProfiles: GalleryInVMAccessControlProfiles;
