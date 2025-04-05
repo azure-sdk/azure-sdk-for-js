@@ -2486,7 +2486,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-appconfiguration@file:projects/arm-appconfiguration.tgz':
-    resolution: {integrity: sha512-7jZK+P4zPd7VHpiR0bmZMkpLDAyNcySMzJ59p6pnhg35KwM580n0ZY584HVUGhiNhYyNyeaiul0eGfM+sfKzcA==, tarball: file:projects/arm-appconfiguration.tgz}
+    resolution: {integrity: sha512-7ByCCTOu7zxvJdCHrlcOEMamIJLfKVi6u9UxXKkT0fqiHPbCwaWkD20aVX0vswgEZDRYX+cVNmLPtcOXUw2fYg==, tarball: file:projects/arm-appconfiguration.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-appcontainers@file:projects/arm-appcontainers.tgz':
@@ -23808,7 +23808,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.2.1
 
   '@types/chai-as-promised@8.0.2':
     dependencies:

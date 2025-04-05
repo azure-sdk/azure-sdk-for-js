@@ -113,8 +113,26 @@ export interface PrivateLinkServiceConnectionState {
 export interface DataPlaneProxyProperties {
   /** The data plane proxy authentication mode. This property manages the authentication mode of request to the data plane resources. */
   authenticationMode?: AuthenticationMode;
-  /** The data plane proxy private link delegation. This property manages if a request from delegated Azure Resource Manager (ARM) private link is allowed when the data plane resource requires private link. */
+  /** The data plane proxy private link delegation. This property manages if a request from delegated ARM private link is allowed when the data plane resource requires private link. */
   privateLinkDelegation?: PrivateLinkDelegation;
+}
+
+/** Telemetry settings */
+export interface TelemetryProperties {
+  /** Resource ID of a resource enabling telemetry collection */
+  resourceId?: string;
+}
+
+/** Managed-On-Behalf-Of configuration properties. This configuration exists for the resources where a resource provider manages those resources on behalf of the resource owner. */
+export interface ManagedOnBehalfOfConfiguration {
+  /** Managed-On-Behalf-Of broker resources */
+  moboBrokerResources?: MoboBrokerResource[];
+}
+
+/** Managed-On-Behalf-Of broker resource. This resource is created by the Resource Provider to manage some resources on behalf of the user. */
+export interface MoboBrokerResource {
+  /** Resource identifier of a Managed-On-Behalf-Of broker resource */
+  id?: string;
 }
 
 /** Describes a configuration store SKU. */
@@ -215,6 +233,8 @@ export interface ConfigurationStoreUpdateParameters {
   enablePurgeProtection?: boolean;
   /** Property specifying the configuration of data plane proxy for Azure Resource Manager (ARM). */
   dataPlaneProxy?: DataPlaneProxyProperties;
+  /** Property specifying the configuration of telemetry to update for this configuration store */
+  telemetry?: TelemetryProperties;
 }
 
 /** Parameters used for checking whether a resource name is available. */
@@ -671,7 +691,7 @@ export interface Snapshot {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly itemsCount?: number;
-  /** The tags of the snapshot. NOTE: These are data plane tags, not Azure Resource Manager (ARM) tags. */
+  /** The tags of the snapshot. NOTE: These are data plane tags, not ARM tags. */
   tags?: { [propertyName: string]: string };
   /**
    * A value representing the current state of the snapshot.
@@ -721,6 +741,50 @@ export interface ErrorDetail {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The result of a request to list experimentation. */
+export interface ExperimentationListResult {
+  /** The collection value. */
+  value?: Experimentation[];
+  /** The URI that can be used to request the next set of paged results. */
+  nextLink?: string;
+}
+
+/** The experimentation resource. */
+export interface Experimentation {
+  /**
+   * The resource ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the experimentation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** The name of the managed resource group. */
+  managedResourceGroupName?: string;
+  /**
+   * The resource ID of the managed Microsoft.OnlineExperimentation/workspaces resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly onlineExperimentationWorkspaceResourceId?: string;
+  /**
+   * The resource ID of the managed Microsoft.Storage/storageAccounts resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly storageAccountResourceId?: string;
+  /**
+   * The provisioning state of the experimentation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** The result of a request to list key-values. */
@@ -784,10 +848,25 @@ export interface ConfigurationStore extends TrackedResource {
   dataPlaneProxy?: DataPlaneProxyProperties;
   /** Indicates whether the configuration store need to be recovered. */
   createMode?: CreateMode;
+  /** Property specifying the configuration of telemetry for this configuration store */
+  telemetry?: TelemetryProperties;
+  /**
+   * Managed On Behalf Of Configuration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly managedOnBehalfOfConfiguration?: ManagedOnBehalfOfConfiguration;
 }
 
 /** Defines headers for Replicas_delete operation. */
 export interface ReplicasDeleteHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Experimentation_delete operation. */
+export interface ExperimentationDeleteHeaders {
+  /** URL to query for the operation result */
+  location?: string;
   /** URL to query for status of the operation. */
   azureAsyncOperation?: string;
 }
@@ -910,7 +989,7 @@ export type PublicNetworkAccess = string;
 export enum KnownAuthenticationMode {
   /** The local authentication mode. Users are not required to have data plane permissions if local authentication is not disabled. */
   Local = "Local",
-  /** The pass-through authentication mode. User identity will be passed through from Azure Resource Manager (ARM), requiring user to have data plane action permissions (Available via App Configuration Data Owner\/ App Configuration Data Reader). */
+  /** The pass-through authentication mode. User identity will be passed through from ARM, requiring user to have data plane action permissions (Available via App Configuration Data Owner\/ App Configuration Data Reader). */
   PassThrough = "Pass-through",
 }
 
@@ -920,13 +999,13 @@ export enum KnownAuthenticationMode {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Local**: The local authentication mode. Users are not required to have data plane permissions if local authentication is not disabled. \
- * **Pass-through**: The pass-through authentication mode. User identity will be passed through from Azure Resource Manager (ARM), requiring user to have data plane action permissions (Available via App Configuration Data Owner\/ App Configuration Data Reader).
+ * **Pass-through**: The pass-through authentication mode. User identity will be passed through from ARM, requiring user to have data plane action permissions (Available via App Configuration Data Owner\/ App Configuration Data Reader).
  */
 export type AuthenticationMode = string;
 
 /** Known values of {@link PrivateLinkDelegation} that the service accepts. */
 export enum KnownPrivateLinkDelegation {
-  /** Azure Resource Manager (ARM) private endpoint is required if the resource requires private link. */
+  /** ARM private endpoint is required if the resource requires private link. */
   Enabled = "Enabled",
   /** Request is denied if the resource requires private link. */
   Disabled = "Disabled",
@@ -937,7 +1016,7 @@ export enum KnownPrivateLinkDelegation {
  * {@link KnownPrivateLinkDelegation} can be used interchangeably with PrivateLinkDelegation,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled**: Azure Resource Manager (ARM) private endpoint is required if the resource requires private link. \
+ * **Enabled**: ARM private endpoint is required if the resource requires private link. \
  * **Disabled**: Request is denied if the resource requires private link.
  */
 export type PrivateLinkDelegation = string;
@@ -1373,6 +1452,53 @@ export interface SnapshotsCreateOptionalParams
 
 /** Contains response data for the create operation. */
 export type SnapshotsCreateResponse = Snapshot;
+
+/** Optional parameters. */
+export interface ExperimentationListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ExperimentationListResponse = ExperimentationListResult;
+
+/** Optional parameters. */
+export interface ExperimentationGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ExperimentationGetResponse = Experimentation;
+
+/** Optional parameters. */
+export interface ExperimentationCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The parameters for creating the experimentation. */
+  experimentationCreationParameters?: Experimentation;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type ExperimentationCreateResponse = Experimentation;
+
+/** Optional parameters. */
+export interface ExperimentationDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type ExperimentationDeleteResponse = ExperimentationDeleteHeaders;
+
+/** Optional parameters. */
+export interface ExperimentationListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ExperimentationListNextResponse = ExperimentationListResult;
 
 /** Optional parameters. */
 export interface AppConfigurationManagementClientOptionalParams
