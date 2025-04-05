@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { FeaturesetContainers } from "../operationsInterfaces/index.js";
+import { OutboundRuleOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -20,25 +20,25 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  FeaturesetContainer,
-  FeaturesetContainersListNextOptionalParams,
-  FeaturesetContainersListOptionalParams,
-  FeaturesetContainersListResponse,
-  FeaturesetContainersDeleteOptionalParams,
-  FeaturesetContainersGetEntityOptionalParams,
-  FeaturesetContainersGetEntityResponse,
-  FeaturesetContainersCreateOrUpdateOptionalParams,
-  FeaturesetContainersCreateOrUpdateResponse,
-  FeaturesetContainersListNextResponse,
+  OutboundRuleBasicResource,
+  OutboundRuleListNextOptionalParams,
+  OutboundRuleListOptionalParams,
+  OutboundRuleListResponse,
+  OutboundRuleDeleteOptionalParams,
+  OutboundRuleGetOptionalParams,
+  OutboundRuleGetResponse,
+  OutboundRuleCreateOrUpdateOptionalParams,
+  OutboundRuleCreateOrUpdateResponse,
+  OutboundRuleListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing FeaturesetContainers operations. */
-export class FeaturesetContainersImpl implements FeaturesetContainers {
+/** Class containing OutboundRuleOperations operations. */
+export class OutboundRuleOperationsImpl implements OutboundRuleOperations {
   private readonly client: AzureMachineLearningServicesManagementClient;
 
   /**
-   * Initialize a new instance of the class FeaturesetContainers class.
+   * Initialize a new instance of the class OutboundRuleOperations class.
    * @param client Reference to the service client
    */
   constructor(client: AzureMachineLearningServicesManagementClient) {
@@ -46,17 +46,26 @@ export class FeaturesetContainersImpl implements FeaturesetContainers {
   }
 
   /**
-   * List featurestore entity containers.
+   * The GET API for retrieveing the list of outbound rules of the managed network associated with the
+   * machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param managedNetworkName Name of the managedNetwork associated with the workspace. Only 'default'
+   *                           is supported.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: FeaturesetContainersListOptionalParams,
-  ): PagedAsyncIterableIterator<FeaturesetContainer> {
-    const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
+    managedNetworkName: string,
+    options?: OutboundRuleListOptionalParams,
+  ): PagedAsyncIterableIterator<OutboundRuleBasicResource> {
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      workspaceName,
+      managedNetworkName,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -71,6 +80,7 @@ export class FeaturesetContainersImpl implements FeaturesetContainers {
         return this.listPagingPage(
           resourceGroupName,
           workspaceName,
+          managedNetworkName,
           options,
           settings,
         );
@@ -81,13 +91,19 @@ export class FeaturesetContainersImpl implements FeaturesetContainers {
   private async *listPagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: FeaturesetContainersListOptionalParams,
+    managedNetworkName: string,
+    options?: OutboundRuleListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<FeaturesetContainer[]> {
-    let result: FeaturesetContainersListResponse;
+  ): AsyncIterableIterator<OutboundRuleBasicResource[]> {
+    let result: OutboundRuleListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, workspaceName, options);
+      result = await this._list(
+        resourceGroupName,
+        workspaceName,
+        managedNetworkName,
+        options,
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -97,6 +113,7 @@ export class FeaturesetContainersImpl implements FeaturesetContainers {
       result = await this._listNext(
         resourceGroupName,
         workspaceName,
+        managedNetworkName,
         continuationToken,
         options,
       );
@@ -110,11 +127,13 @@ export class FeaturesetContainersImpl implements FeaturesetContainers {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: FeaturesetContainersListOptionalParams,
-  ): AsyncIterableIterator<FeaturesetContainer> {
+    managedNetworkName: string,
+    options?: OutboundRuleListOptionalParams,
+  ): AsyncIterableIterator<OutboundRuleBasicResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
+      managedNetworkName,
       options,
     )) {
       yield* page;
@@ -122,34 +141,21 @@ export class FeaturesetContainersImpl implements FeaturesetContainers {
   }
 
   /**
-   * List featurestore entity containers.
+   * The DELETE API for deleting a single outbound rule of the managed network associated with the
+   * machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    workspaceName: string,
-    options?: FeaturesetContainersListOptionalParams,
-  ): Promise<FeaturesetContainersListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, options },
-      listOperationSpec,
-    );
-  }
-
-  /**
-   * Delete container.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param name Container name. This is case-sensitive.
+   * @param managedNetworkName Name of the managedNetwork associated with the workspace. Only 'default'
+   *                           is supported.
+   * @param ruleName Name of the workspace managed network outbound rule
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     workspaceName: string,
-    name: string,
-    options?: FeaturesetContainersDeleteOptionalParams,
+    managedNetworkName: string,
+    ruleName: string,
+    options?: OutboundRuleDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -191,7 +197,13 @@ export class FeaturesetContainersImpl implements FeaturesetContainers {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, workspaceName, name, options },
+      args: {
+        resourceGroupName,
+        workspaceName,
+        managedNetworkName,
+        ruleName,
+        options,
+      },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
@@ -204,70 +216,87 @@ export class FeaturesetContainersImpl implements FeaturesetContainers {
   }
 
   /**
-   * Delete container.
+   * The DELETE API for deleting a single outbound rule of the managed network associated with the
+   * machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param name Container name. This is case-sensitive.
+   * @param managedNetworkName Name of the managedNetwork associated with the workspace. Only 'default'
+   *                           is supported.
+   * @param ruleName Name of the workspace managed network outbound rule
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    name: string,
-    options?: FeaturesetContainersDeleteOptionalParams,
+    managedNetworkName: string,
+    ruleName: string,
+    options?: OutboundRuleDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       workspaceName,
-      name,
+      managedNetworkName,
+      ruleName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Get container.
+   * The GET API for retrieveing a single outbound rule of the managed network associated with the
+   * machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param name Container name. This is case-sensitive.
+   * @param managedNetworkName Name of the managedNetwork associated with the workspace. Only 'default'
+   *                           is supported.
+   * @param ruleName Name of the workspace managed network outbound rule
    * @param options The options parameters.
    */
-  getEntity(
+  get(
     resourceGroupName: string,
     workspaceName: string,
-    name: string,
-    options?: FeaturesetContainersGetEntityOptionalParams,
-  ): Promise<FeaturesetContainersGetEntityResponse> {
+    managedNetworkName: string,
+    ruleName: string,
+    options?: OutboundRuleGetOptionalParams,
+  ): Promise<OutboundRuleGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, name, options },
-      getEntityOperationSpec,
+      {
+        resourceGroupName,
+        workspaceName,
+        managedNetworkName,
+        ruleName,
+        options,
+      },
+      getOperationSpec,
     );
   }
 
   /**
-   * Create or update container.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param name Container name. This is case-sensitive.
-   * @param body Container entity to create or update.
+   * @param managedNetworkName Name of the managedNetwork associated with the workspace. Only 'default'
+   *                           is supported.
+   * @param ruleName Name of the workspace managed network outbound rule
+   * @param body Outbound Rule Basic Resource for the managed network of a machine learning workspace.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     workspaceName: string,
-    name: string,
-    body: FeaturesetContainer,
-    options?: FeaturesetContainersCreateOrUpdateOptionalParams,
+    managedNetworkName: string,
+    ruleName: string,
+    body: OutboundRuleBasicResource,
+    options?: OutboundRuleCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<FeaturesetContainersCreateOrUpdateResponse>,
-      FeaturesetContainersCreateOrUpdateResponse
+      OperationState<OutboundRuleCreateOrUpdateResponse>,
+      OutboundRuleCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<FeaturesetContainersCreateOrUpdateResponse> => {
+    ): Promise<OutboundRuleCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -304,40 +333,50 @@ export class FeaturesetContainersImpl implements FeaturesetContainers {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, workspaceName, name, body, options },
+      args: {
+        resourceGroupName,
+        workspaceName,
+        managedNetworkName,
+        ruleName,
+        body,
+        options,
+      },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      FeaturesetContainersCreateOrUpdateResponse,
-      OperationState<FeaturesetContainersCreateOrUpdateResponse>
+      OutboundRuleCreateOrUpdateResponse,
+      OperationState<OutboundRuleCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "original-uri",
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create or update container.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param name Container name. This is case-sensitive.
-   * @param body Container entity to create or update.
+   * @param managedNetworkName Name of the managedNetwork associated with the workspace. Only 'default'
+   *                           is supported.
+   * @param ruleName Name of the workspace managed network outbound rule
+   * @param body Outbound Rule Basic Resource for the managed network of a machine learning workspace.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    name: string,
-    body: FeaturesetContainer,
-    options?: FeaturesetContainersCreateOrUpdateOptionalParams,
-  ): Promise<FeaturesetContainersCreateOrUpdateResponse> {
+    managedNetworkName: string,
+    ruleName: string,
+    body: OutboundRuleBasicResource,
+    options?: OutboundRuleCreateOrUpdateOptionalParams,
+  ): Promise<OutboundRuleCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       workspaceName,
-      name,
+      managedNetworkName,
+      ruleName,
       body,
       options,
     );
@@ -345,20 +384,50 @@ export class FeaturesetContainersImpl implements FeaturesetContainers {
   }
 
   /**
+   * The GET API for retrieveing the list of outbound rules of the managed network associated with the
+   * machine learning workspace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param managedNetworkName Name of the managedNetwork associated with the workspace. Only 'default'
+   *                           is supported.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    workspaceName: string,
+    managedNetworkName: string,
+    options?: OutboundRuleListOptionalParams,
+  ): Promise<OutboundRuleListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, managedNetworkName, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param managedNetworkName Name of the managedNetwork associated with the workspace. Only 'default'
+   *                           is supported.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     workspaceName: string,
+    managedNetworkName: string,
     nextLink: string,
-    options?: FeaturesetContainersListNextOptionalParams,
-  ): Promise<FeaturesetContainersListNextResponse> {
+    options?: OutboundRuleListNextOptionalParams,
+  ): Promise<OutboundRuleListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, nextLink, options },
+      {
+        resourceGroupName,
+        workspaceName,
+        managedNetworkName,
+        nextLink,
+        options,
+      },
       listNextOperationSpec,
     );
   }
@@ -366,38 +435,8 @@ export class FeaturesetContainersImpl implements FeaturesetContainers {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featuresets",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.FeaturesetContainerResourceArmPaginatedResult,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.listViewType,
-    Parameters.description,
-    Parameters.tags1,
-    Parameters.pageSize,
-    Parameters.name2,
-    Parameters.createdBy,
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featuresets/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/managedNetworks/{managedNetworkName}/outboundRules/{ruleName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -414,17 +453,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.name,
+    Parameters.ruleName,
+    Parameters.managedNetworkName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getEntityOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featuresets/{name}",
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/managedNetworks/{managedNetworkName}/outboundRules/{ruleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FeaturesetContainer,
+      bodyMapper: Mappers.OutboundRuleBasicResource,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -436,42 +476,66 @@ const getEntityOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.name,
+    Parameters.ruleName,
+    Parameters.managedNetworkName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featuresets/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/managedNetworks/{managedNetworkName}/outboundRules/{ruleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.FeaturesetContainer,
+      bodyMapper: Mappers.OutboundRuleBasicResource,
     },
     201: {
-      bodyMapper: Mappers.FeaturesetContainer,
+      bodyMapper: Mappers.OutboundRuleBasicResource,
     },
     202: {
-      bodyMapper: Mappers.FeaturesetContainer,
+      bodyMapper: Mappers.OutboundRuleBasicResource,
     },
     204: {
-      bodyMapper: Mappers.FeaturesetContainer,
+      bodyMapper: Mappers.OutboundRuleBasicResource,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body18,
+  requestBody: Parameters.body36,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.name1,
+    Parameters.ruleName,
+    Parameters.managedNetworkName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer,
+};
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/managedNetworks/{managedNetworkName}/outboundRules",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OutboundRuleListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.managedNetworkName,
+  ],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -479,7 +543,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FeaturesetContainerResourceArmPaginatedResult,
+      bodyMapper: Mappers.OutboundRuleListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -491,6 +555,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
+    Parameters.managedNetworkName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

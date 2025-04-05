@@ -1,5 +1,70 @@
 # Release History
     
+## 4.0.0 (2025-04-05)
+    
+### Features Added
+
+  - Added operation group ManagedNetworkSettingsOperations
+  - Added operation group OutboundRuleOperations
+  - Added operation group OutboundRules
+  - Added operation WorkspaceConnections.update
+  - Added Interface ManagedNetworkSettingsDto
+  - Added Interface ManagedNetworkSettingsDtoBasicResource
+  - Added Interface ManagedNetworkSettingsGetOptionalParams
+  - Added Interface ManagedNetworkSettingsPatchHeaders
+  - Added Interface ManagedNetworkSettingsPatchOptionalParams
+  - Added Interface ManagedNetworkSettingsPutHeaders
+  - Added Interface ManagedNetworkSettingsPutOptionalParams
+  - Added Interface OutboundRuleCreateOrUpdateHeaders
+  - Added Interface OutboundRuleCreateOrUpdateOptionalParams
+  - Added Interface OutboundRuleDeleteHeaders
+  - Added Interface OutboundRuleDeleteOptionalParams
+  - Added Interface OutboundRuleDto
+  - Added Interface OutboundRuleGetOptionalParams
+  - Added Interface OutboundRuleListNextOptionalParams
+  - Added Interface OutboundRuleListOptionalParams
+  - Added Interface OutboundRulesPostHeaders
+  - Added Interface OutboundRulesPostNextHeaders
+  - Added Interface OutboundRulesPostNextOptionalParams
+  - Added Interface OutboundRulesPostOptionalParams
+  - Added Interface WorkspaceConnectionsUpdateOptionalParams
+  - Added Interface WorkspaceConnectionUpdateParameter
+  - Added Interface WorkspacesDeleteHeaders
+  - Added Type Alias FirewallSku
+  - Added Type Alias ManagedNetworkKind
+  - Added Type Alias ManagedNetworkSettingsGetResponse
+  - Added Type Alias ManagedNetworkSettingsPatchResponse
+  - Added Type Alias ManagedNetworkSettingsPutResponse
+  - Added Type Alias OutboundRuleCreateOrUpdateResponse
+  - Added Type Alias OutboundRuleGetResponse
+  - Added Type Alias OutboundRuleListNextResponse
+  - Added Type Alias OutboundRuleListResponse
+  - Added Type Alias OutboundRulesPostNextResponse
+  - Added Type Alias OutboundRulesPostResponse
+  - Added Type Alias WorkspaceConnectionsUpdateResponse
+  - Interface InferenceContainerProperties has a new optional parameter startupRoute
+  - Interface ManagedNetworkSettings has a new optional parameter firewallPublicIpAddress
+  - Interface ManagedNetworkSettings has a new optional parameter firewallSku
+  - Interface ManagedNetworkSettings has a new optional parameter managedNetworkKind
+  - Interface OnlineDeploymentProperties has a new optional parameter startupProbe
+  - Interface OutboundRule has a new optional parameter errorInformation
+  - Interface OutboundRule has a new optional parameter parentRuleNames
+  - Interface WorkspaceConnectionsListOptionalParams has a new optional parameter includeAll
+  - Added Enum KnownFirewallSku
+  - Added Enum KnownManagedNetworkKind
+  - Enum KnownConnectionCategory has a new value Elasticsearch
+  - Enum KnownConnectionCategory has a new value ManagedOnlineEndpoint
+  - Enum KnownConnectionCategory has a new value Pinecone
+  - Enum KnownRuleStatus has a new value Deleting
+  - Enum KnownRuleStatus has a new value Failed
+  - Enum KnownRuleStatus has a new value Provisioning
+
+### Breaking Changes
+
+  - Interface AcrDetails no longer has parameter userCreatedAcrAccount
+  - Interface StorageAccountDetails no longer has parameter userCreatedStorageAccount
+    
+    
 ## 3.0.0 (2024-08-15)
     
 ### Features Added

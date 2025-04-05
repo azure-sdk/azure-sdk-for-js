@@ -44,7 +44,6 @@ export interface AccountKeyDatastoreSecrets extends DatastoreSecrets {
 // @public
 export interface AcrDetails {
     systemCreatedAcrAccount?: SystemCreatedAcrAccount;
-    userCreatedAcrAccount?: UserCreatedAcrAccount;
 }
 
 // @public
@@ -400,6 +399,8 @@ export class AzureMachineLearningServicesManagementClient extends coreClient.Ser
     // (undocumented)
     managedNetworkProvisions: ManagedNetworkProvisions;
     // (undocumented)
+    managedNetworkSettingsOperations: ManagedNetworkSettingsOperations;
+    // (undocumented)
     managedNetworkSettingsRule: ManagedNetworkSettingsRule;
     // (undocumented)
     marketplaceSubscriptions: MarketplaceSubscriptions;
@@ -413,6 +414,10 @@ export class AzureMachineLearningServicesManagementClient extends coreClient.Ser
     onlineEndpoints: OnlineEndpoints;
     // (undocumented)
     operations: Operations;
+    // (undocumented)
+    outboundRuleOperations: OutboundRuleOperations;
+    // (undocumented)
+    outboundRules: OutboundRules;
     // (undocumented)
     privateEndpointConnections: PrivateEndpointConnections;
     // (undocumented)
@@ -2926,6 +2931,9 @@ export interface FeaturizationSettings {
 }
 
 // @public
+export type FirewallSku = string;
+
+// @public
 export interface FixedInputData extends MonitoringInputDataBase {
     inputDataType: "Fixed";
 }
@@ -3297,6 +3305,7 @@ export interface InferenceContainerProperties {
     livenessRoute?: Route;
     readinessRoute?: Route;
     scoringRoute?: Route;
+    startupRoute?: Route;
 }
 
 // @public
@@ -3771,6 +3780,7 @@ export enum KnownConnectionCategory {
     Dynamics = "Dynamics",
     DynamicsAx = "DynamicsAx",
     DynamicsCrm = "DynamicsCrm",
+    Elasticsearch = "Elasticsearch",
     Eloqua = "Eloqua",
     FileServer = "FileServer",
     FtpServer = "FtpServer",
@@ -3790,6 +3800,7 @@ export enum KnownConnectionCategory {
     Informix = "Informix",
     Jira = "Jira",
     Magento = "Magento",
+    ManagedOnlineEndpoint = "ManagedOnlineEndpoint",
     MariaDb = "MariaDb",
     Marketo = "Marketo",
     MicrosoftAccess = "MicrosoftAccess",
@@ -3806,6 +3817,7 @@ export enum KnownConnectionCategory {
     OracleServiceCloud = "OracleServiceCloud",
     PayPal = "PayPal",
     Phoenix = "Phoenix",
+    Pinecone = "Pinecone",
     PostgreSql = "PostgreSql",
     Presto = "Presto",
     PythonFeed = "PythonFeed",
@@ -4049,6 +4061,12 @@ export enum KnownFeaturizationMode {
 }
 
 // @public
+export enum KnownFirewallSku {
+    Basic = "Basic",
+    Standard = "Standard"
+}
+
+// @public
 export enum KnownForecastHorizonMode {
     Auto = "Auto",
     Custom = "Custom"
@@ -4223,6 +4241,12 @@ export enum KnownLogVerbosity {
     Info = "Info",
     NotSet = "NotSet",
     Warning = "Warning"
+}
+
+// @public
+export enum KnownManagedNetworkKind {
+    V1 = "V1",
+    V2 = "V2"
 }
 
 // @public
@@ -4610,7 +4634,10 @@ export enum KnownRuleCategory {
 // @public
 export enum KnownRuleStatus {
     Active = "Active",
-    Inactive = "Inactive"
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Inactive = "Inactive",
+    Provisioning = "Provisioning"
 }
 
 // @public
@@ -5031,6 +5058,9 @@ export interface ManagedIdentityCredential extends DataReferenceCredential {
 }
 
 // @public
+export type ManagedNetworkKind = string;
+
+// @public
 export interface ManagedNetworkProvisionOptions {
     // (undocumented)
     includeSpark?: boolean;
@@ -5067,13 +5097,82 @@ export interface ManagedNetworkProvisionStatus {
 
 // @public
 export interface ManagedNetworkSettings {
+    firewallPublicIpAddress?: string;
+    firewallSku?: FirewallSku;
     isolationMode?: IsolationMode;
+    managedNetworkKind?: ManagedNetworkKind;
     readonly networkId?: string;
     outboundRules?: {
         [propertyName: string]: OutboundRuleUnion;
     };
     status?: ManagedNetworkProvisionStatus;
 }
+
+// @public
+export interface ManagedNetworkSettingsDto {
+    // (undocumented)
+    enableNetworkMonitor?: boolean;
+    firewallPublicIpAddress?: string;
+    firewallSku?: FirewallSku;
+    isolationMode?: IsolationMode;
+    managedNetworkKind?: ManagedNetworkKind;
+    readonly networkId?: string;
+    outboundRules?: {
+        [propertyName: string]: OutboundRuleUnion;
+    };
+    status?: ManagedNetworkProvisionStatus;
+}
+
+// @public (undocumented)
+export interface ManagedNetworkSettingsDtoBasicResource extends Resource {
+    properties: ManagedNetworkSettingsDto;
+}
+
+// @public
+export interface ManagedNetworkSettingsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedNetworkSettingsGetResponse = ManagedNetworkSettingsDtoBasicResource;
+
+// @public
+export interface ManagedNetworkSettingsOperations {
+    beginPatch(resourceGroupName: string, workspaceName: string, managedNetworkName: string, body: ManagedNetworkSettingsDtoBasicResource, options?: ManagedNetworkSettingsPatchOptionalParams): Promise<SimplePollerLike<OperationState<ManagedNetworkSettingsPatchResponse>, ManagedNetworkSettingsPatchResponse>>;
+    beginPatchAndWait(resourceGroupName: string, workspaceName: string, managedNetworkName: string, body: ManagedNetworkSettingsDtoBasicResource, options?: ManagedNetworkSettingsPatchOptionalParams): Promise<ManagedNetworkSettingsPatchResponse>;
+    beginPut(resourceGroupName: string, workspaceName: string, managedNetworkName: string, body: ManagedNetworkSettingsDtoBasicResource, options?: ManagedNetworkSettingsPutOptionalParams): Promise<SimplePollerLike<OperationState<ManagedNetworkSettingsPutResponse>, ManagedNetworkSettingsPutResponse>>;
+    beginPutAndWait(resourceGroupName: string, workspaceName: string, managedNetworkName: string, body: ManagedNetworkSettingsDtoBasicResource, options?: ManagedNetworkSettingsPutOptionalParams): Promise<ManagedNetworkSettingsPutResponse>;
+    get(resourceGroupName: string, workspaceName: string, managedNetworkName: string, options?: ManagedNetworkSettingsGetOptionalParams): Promise<ManagedNetworkSettingsGetResponse>;
+}
+
+// @public
+export interface ManagedNetworkSettingsPatchHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ManagedNetworkSettingsPatchOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ManagedNetworkSettingsPatchResponse = ManagedNetworkSettingsDtoBasicResource;
+
+// @public
+export interface ManagedNetworkSettingsPutHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ManagedNetworkSettingsPutOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ManagedNetworkSettingsPutResponse = ManagedNetworkSettingsDtoBasicResource;
 
 // @public
 export interface ManagedNetworkSettingsRule {
@@ -5766,6 +5865,7 @@ export interface OnlineDeploymentProperties extends EndpointDeploymentProperties
     readinessProbe?: ProbeSettings;
     requestSettings?: OnlineRequestSettings;
     scaleSettings?: OnlineScaleSettingsUnion;
+    startupProbe?: ProbeSettings;
 }
 
 // @public (undocumented)
@@ -6097,6 +6197,8 @@ export type OsType = string;
 // @public
 export interface OutboundRule {
     category?: RuleCategory;
+    readonly errorInformation?: string;
+    readonly parentRuleNames?: string[];
     status?: RuleStatus;
     type: "PrivateEndpoint" | "ServiceTag" | "FQDN";
 }
@@ -6107,10 +6209,112 @@ export interface OutboundRuleBasicResource extends Resource {
 }
 
 // @public
+export interface OutboundRuleCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface OutboundRuleCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type OutboundRuleCreateOrUpdateResponse = OutboundRuleBasicResource;
+
+// @public
+export interface OutboundRuleDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface OutboundRuleDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface OutboundRuleDto {
+    category?: RuleCategory;
+    readonly errorInformation?: string;
+    readonly parentRuleNames?: string[];
+    status?: RuleStatus;
+    type: "OutboundRuleDto";
+}
+
+// @public
+export interface OutboundRuleGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OutboundRuleGetResponse = OutboundRuleBasicResource;
+
+// @public
+export interface OutboundRuleListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OutboundRuleListNextResponse = OutboundRuleListResult;
+
+// @public
+export interface OutboundRuleListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OutboundRuleListResponse = OutboundRuleListResult;
+
+// @public
 export interface OutboundRuleListResult {
     nextLink?: string;
     value?: OutboundRuleBasicResource[];
 }
+
+// @public
+export interface OutboundRuleOperations {
+    // (undocumented)
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, managedNetworkName: string, ruleName: string, body: OutboundRuleBasicResource, options?: OutboundRuleCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<OutboundRuleCreateOrUpdateResponse>, OutboundRuleCreateOrUpdateResponse>>;
+    // (undocumented)
+    beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, managedNetworkName: string, ruleName: string, body: OutboundRuleBasicResource, options?: OutboundRuleCreateOrUpdateOptionalParams): Promise<OutboundRuleCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, workspaceName: string, managedNetworkName: string, ruleName: string, options?: OutboundRuleDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, workspaceName: string, managedNetworkName: string, ruleName: string, options?: OutboundRuleDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, workspaceName: string, managedNetworkName: string, ruleName: string, options?: OutboundRuleGetOptionalParams): Promise<OutboundRuleGetResponse>;
+    list(resourceGroupName: string, workspaceName: string, managedNetworkName: string, options?: OutboundRuleListOptionalParams): PagedAsyncIterableIterator<OutboundRuleBasicResource>;
+}
+
+// @public
+export interface OutboundRules {
+    beginListPostAndWait(resourceGroupName: string, workspaceName: string, managedNetworkName: string, body: ManagedNetworkSettingsDtoBasicResource, options?: OutboundRulesPostOptionalParams): PagedAsyncIterableIterator<OutboundRuleBasicResource>;
+}
+
+// @public
+export interface OutboundRulesPostHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface OutboundRulesPostNextHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface OutboundRulesPostNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OutboundRulesPostNextResponse = OutboundRuleListResult;
+
+// @public
+export interface OutboundRulesPostOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type OutboundRulesPostResponse = OutboundRuleListResult;
 
 // @public (undocumented)
 export type OutboundRuleUnion = OutboundRule | PrivateEndpointOutboundRule | ServiceTagOutboundRule | FqdnOutboundRule;
@@ -7994,7 +8198,6 @@ export type StochasticOptimizer = string;
 // @public
 export interface StorageAccountDetails {
     systemCreatedStorageAccount?: SystemCreatedStorageAccount;
-    userCreatedStorageAccount?: UserCreatedStorageAccount;
 }
 
 // @public
@@ -8354,16 +8557,6 @@ export interface UserAssignedIdentity {
     readonly principalId?: string;
 }
 
-// @public (undocumented)
-export interface UserCreatedAcrAccount {
-    armResourceId?: ArmResourceId;
-}
-
-// @public (undocumented)
-export interface UserCreatedStorageAccount {
-    armResourceId?: ArmResourceId;
-}
-
 // @public
 export interface UserIdentity extends IdentityConfiguration {
     identityType: "UserIdentity";
@@ -8648,6 +8841,7 @@ export interface WorkspaceConnections {
     // (undocumented)
     list(resourceGroupName: string, workspaceName: string, options?: WorkspaceConnectionsListOptionalParams): PagedAsyncIterableIterator<WorkspaceConnectionPropertiesV2BasicResource>;
     listSecrets(resourceGroupName: string, workspaceName: string, connectionName: string, options?: WorkspaceConnectionsListSecretsOptionalParams): Promise<WorkspaceConnectionsListSecretsResponse>;
+    update(resourceGroupName: string, workspaceName: string, connectionName: string, options?: WorkspaceConnectionsUpdateOptionalParams): Promise<WorkspaceConnectionsUpdateResponse>;
 }
 
 // @public
@@ -8694,6 +8888,7 @@ export type WorkspaceConnectionsListNextResponse = WorkspaceConnectionProperties
 // @public
 export interface WorkspaceConnectionsListOptionalParams extends coreClient.OperationOptions {
     category?: string;
+    includeAll?: boolean;
     target?: string;
 }
 
@@ -8706,6 +8901,19 @@ export interface WorkspaceConnectionsListSecretsOptionalParams extends coreClien
 
 // @public
 export type WorkspaceConnectionsListSecretsResponse = WorkspaceConnectionPropertiesV2BasicResource;
+
+// @public
+export interface WorkspaceConnectionsUpdateOptionalParams extends coreClient.OperationOptions {
+    body?: WorkspaceConnectionUpdateParameter;
+}
+
+// @public
+export type WorkspaceConnectionsUpdateResponse = WorkspaceConnectionPropertiesV2BasicResource;
+
+// @public
+export interface WorkspaceConnectionUpdateParameter {
+    properties?: WorkspaceConnectionPropertiesV2Union;
+}
 
 // @public (undocumented)
 export interface WorkspaceConnectionUsernamePassword {
@@ -8787,6 +8995,12 @@ export interface WorkspacesCreateOrUpdateOptionalParams extends coreClient.Opera
 
 // @public
 export type WorkspacesCreateOrUpdateResponse = Workspace;
+
+// @public
+export interface WorkspacesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface WorkspacesDeleteOptionalParams extends coreClient.OperationOptions {
