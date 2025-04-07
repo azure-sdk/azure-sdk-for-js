@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 import type {
+  OperationsGetOperationStatus200Response,
+  OperationsGetOperationStatusDefaultResponse,
   LoadTestAdministrationCreateOrUpdateTest200Response,
   LoadTestAdministrationCreateOrUpdateTest201Response,
   LoadTestAdministrationCreateOrUpdateTestDefaultResponse,
@@ -11,6 +13,9 @@ import type {
   LoadTestAdministrationGetTestDefaultResponse,
   LoadTestAdministrationListTests200Response,
   LoadTestAdministrationListTestsDefaultResponse,
+  LoadTestAdministrationCloneTest202Response,
+  LoadTestAdministrationCloneTestLogicalResponse,
+  LoadTestAdministrationCloneTestDefaultResponse,
   LoadTestAdministrationUploadTestFile201Response,
   LoadTestAdministrationUploadTestFileDefaultResponse,
   LoadTestAdministrationGetTestFile200Response,
@@ -101,10 +106,13 @@ import type {
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
+  "GET /operations/{operationId}": ["200"],
   "PATCH /tests/{testId}": ["200", "201"],
   "DELETE /tests/{testId}": ["204"],
   "GET /tests/{testId}": ["200"],
   "GET /tests": ["200"],
+  "GET /tests/{testId}:clone": ["200", "202"],
+  "POST /tests/{testId}:clone": ["202"],
   "PUT /tests/{testId}/files/{fileName}": ["201"],
   "GET /tests/{testId}/files/{fileName}": ["200"],
   "DELETE /tests/{testId}/files/{fileName}": ["204"],
@@ -148,6 +156,11 @@ const responseMap: Record<string, string[]> = {
 
 export function isUnexpected(
   response:
+    | OperationsGetOperationStatus200Response
+    | OperationsGetOperationStatusDefaultResponse,
+): response is OperationsGetOperationStatusDefaultResponse;
+export function isUnexpected(
+  response:
     | LoadTestAdministrationCreateOrUpdateTest200Response
     | LoadTestAdministrationCreateOrUpdateTest201Response
     | LoadTestAdministrationCreateOrUpdateTestDefaultResponse,
@@ -158,13 +171,21 @@ export function isUnexpected(
     | LoadTestAdministrationDeleteTestDefaultResponse,
 ): response is LoadTestAdministrationDeleteTestDefaultResponse;
 export function isUnexpected(
-  response: LoadTestAdministrationGetTest200Response | LoadTestAdministrationGetTestDefaultResponse,
+  response:
+    | LoadTestAdministrationGetTest200Response
+    | LoadTestAdministrationGetTestDefaultResponse,
 ): response is LoadTestAdministrationGetTestDefaultResponse;
 export function isUnexpected(
   response:
     | LoadTestAdministrationListTests200Response
     | LoadTestAdministrationListTestsDefaultResponse,
 ): response is LoadTestAdministrationListTestsDefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadTestAdministrationCloneTest202Response
+    | LoadTestAdministrationCloneTestLogicalResponse
+    | LoadTestAdministrationCloneTestDefaultResponse,
+): response is LoadTestAdministrationCloneTestDefaultResponse;
 export function isUnexpected(
   response:
     | LoadTestAdministrationUploadTestFile201Response
@@ -229,7 +250,9 @@ export function isUnexpected(
     | TestProfileAdministrationListTestProfilesDefaultResponse,
 ): response is TestProfileAdministrationListTestProfilesDefaultResponse;
 export function isUnexpected(
-  response: LoadTestRunGetTestRun200Response | LoadTestRunGetTestRunDefaultResponse,
+  response:
+    | LoadTestRunGetTestRun200Response
+    | LoadTestRunGetTestRunDefaultResponse,
 ): response is LoadTestRunGetTestRunDefaultResponse;
 export function isUnexpected(
   response:
@@ -238,13 +261,19 @@ export function isUnexpected(
     | LoadTestRunCreateOrUpdateTestRunDefaultResponse,
 ): response is LoadTestRunCreateOrUpdateTestRunDefaultResponse;
 export function isUnexpected(
-  response: LoadTestRunDeleteTestRun204Response | LoadTestRunDeleteTestRunDefaultResponse,
+  response:
+    | LoadTestRunDeleteTestRun204Response
+    | LoadTestRunDeleteTestRunDefaultResponse,
 ): response is LoadTestRunDeleteTestRunDefaultResponse;
 export function isUnexpected(
-  response: LoadTestRunListTestRuns200Response | LoadTestRunListTestRunsDefaultResponse,
+  response:
+    | LoadTestRunListTestRuns200Response
+    | LoadTestRunListTestRunsDefaultResponse,
 ): response is LoadTestRunListTestRunsDefaultResponse;
 export function isUnexpected(
-  response: LoadTestRunGetTestRunFile200Response | LoadTestRunGetTestRunFileDefaultResponse,
+  response:
+    | LoadTestRunGetTestRunFile200Response
+    | LoadTestRunGetTestRunFileDefaultResponse,
 ): response is LoadTestRunGetTestRunFileDefaultResponse;
 export function isUnexpected(
   response: LoadTestRunStop200Response | LoadTestRunStopDefaultResponse,
@@ -260,7 +289,9 @@ export function isUnexpected(
     | LoadTestRunListMetricDefinitionsDefaultResponse,
 ): response is LoadTestRunListMetricDefinitionsDefaultResponse;
 export function isUnexpected(
-  response: LoadTestRunListMetrics200Response | LoadTestRunListMetricsDefaultResponse,
+  response:
+    | LoadTestRunListMetrics200Response
+    | LoadTestRunListMetricsDefaultResponse,
 ): response is LoadTestRunListMetricsDefaultResponse;
 export function isUnexpected(
   response:
@@ -274,7 +305,9 @@ export function isUnexpected(
     | LoadTestRunCreateOrUpdateAppComponentsDefaultResponse,
 ): response is LoadTestRunCreateOrUpdateAppComponentsDefaultResponse;
 export function isUnexpected(
-  response: LoadTestRunGetAppComponents200Response | LoadTestRunGetAppComponentsDefaultResponse,
+  response:
+    | LoadTestRunGetAppComponents200Response
+    | LoadTestRunGetAppComponentsDefaultResponse,
 ): response is LoadTestRunGetAppComponentsDefaultResponse;
 export function isUnexpected(
   response:
@@ -357,6 +390,8 @@ export function isUnexpected(
 ): response is NotificationRuleAdministrationListNotificationRuleDefaultResponse;
 export function isUnexpected(
   response:
+    | OperationsGetOperationStatus200Response
+    | OperationsGetOperationStatusDefaultResponse
     | LoadTestAdministrationCreateOrUpdateTest200Response
     | LoadTestAdministrationCreateOrUpdateTest201Response
     | LoadTestAdministrationCreateOrUpdateTestDefaultResponse
@@ -366,6 +401,9 @@ export function isUnexpected(
     | LoadTestAdministrationGetTestDefaultResponse
     | LoadTestAdministrationListTests200Response
     | LoadTestAdministrationListTestsDefaultResponse
+    | LoadTestAdministrationCloneTest202Response
+    | LoadTestAdministrationCloneTestLogicalResponse
+    | LoadTestAdministrationCloneTestDefaultResponse
     | LoadTestAdministrationUploadTestFile201Response
     | LoadTestAdministrationUploadTestFileDefaultResponse
     | LoadTestAdministrationGetTestFile200Response
@@ -454,10 +492,12 @@ export function isUnexpected(
     | NotificationRuleAdministrationListNotificationRule200Response
     | NotificationRuleAdministrationListNotificationRuleDefaultResponse,
 ): response is
+  | OperationsGetOperationStatusDefaultResponse
   | LoadTestAdministrationCreateOrUpdateTestDefaultResponse
   | LoadTestAdministrationDeleteTestDefaultResponse
   | LoadTestAdministrationGetTestDefaultResponse
   | LoadTestAdministrationListTestsDefaultResponse
+  | LoadTestAdministrationCloneTestDefaultResponse
   | LoadTestAdministrationUploadTestFileDefaultResponse
   | LoadTestAdministrationGetTestFileDefaultResponse
   | LoadTestAdministrationDeleteTestFileDefaultResponse
@@ -529,17 +569,24 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
-      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
+    for (
+      let i = candidateParts.length - 1, j = pathParts.length - 1;
+      i >= 1 && j >= 1;
+      i--, j--
+    ) {
+      if (
+        candidateParts[i]?.startsWith("{") &&
+        candidateParts[i]?.indexOf("}") !== -1
+      ) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || "",
-        );
+        const isMatched = new RegExp(
+          `${candidateParts[i]?.slice(start, end)}`,
+        ).test(pathParts[j] || "");
 
         if (!isMatched) {
           found = false;
