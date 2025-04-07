@@ -1,0 +1,4 @@
+directory: specification/liftrqumulo/Qumulo.Storage.Management
+commit: 6ce2ea552666de97bc3de09ceb3b26b2f38544af
+repo: ../azure-rest-api-specs
+additionalDirectories: 
