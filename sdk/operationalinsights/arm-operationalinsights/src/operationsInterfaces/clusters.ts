@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Cluster,
   ClustersListByResourceGroupOptionalParams,
@@ -19,7 +19,7 @@ import {
   ClustersGetResponse,
   ClusterPatch,
   ClustersUpdateOptionalParams,
-  ClustersUpdateResponse
+  ClustersUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,14 +32,14 @@ export interface Clusters {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ClustersListByResourceGroupOptionalParams
+    options?: ClustersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Cluster>;
   /**
    * Gets the Log Analytics clusters in a subscription.
    * @param options The options parameters.
    */
   list(
-    options?: ClustersListOptionalParams
+    options?: ClustersListOptionalParams,
   ): PagedAsyncIterableIterator<Cluster>;
   /**
    * Create or update a Log Analytics cluster.
@@ -52,10 +52,10 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: Cluster,
-    options?: ClustersCreateOrUpdateOptionalParams
+    options?: ClustersCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ClustersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ClustersCreateOrUpdateResponse>,
       ClustersCreateOrUpdateResponse
     >
   >;
@@ -70,7 +70,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: Cluster,
-    options?: ClustersCreateOrUpdateOptionalParams
+    options?: ClustersCreateOrUpdateOptionalParams,
   ): Promise<ClustersCreateOrUpdateResponse>;
   /**
    * Deletes a cluster instance.
@@ -81,8 +81,8 @@ export interface Clusters {
   beginDelete(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ClustersDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a cluster instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -92,7 +92,7 @@ export interface Clusters {
   beginDeleteAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersDeleteOptionalParams
+    options?: ClustersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets a Log Analytics cluster instance.
@@ -103,7 +103,7 @@ export interface Clusters {
   get(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersGetOptionalParams
+    options?: ClustersGetOptionalParams,
   ): Promise<ClustersGetResponse>;
   /**
    * Updates a Log Analytics cluster.
@@ -116,10 +116,10 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: ClusterPatch,
-    options?: ClustersUpdateOptionalParams
+    options?: ClustersUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ClustersUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ClustersUpdateResponse>,
       ClustersUpdateResponse
     >
   >;
@@ -134,6 +134,6 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: ClusterPatch,
-    options?: ClustersUpdateOptionalParams
+    options?: ClustersUpdateOptionalParams,
   ): Promise<ClustersUpdateResponse>;
 }

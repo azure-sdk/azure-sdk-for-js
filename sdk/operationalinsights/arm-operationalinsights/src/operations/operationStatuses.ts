@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters.js";
 import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient.js";
 import {
   OperationStatusesGetOptionalParams,
-  OperationStatusesGetResponse
+  OperationStatusesGetResponse,
 } from "../models/index.js";
 
 /** Class containing OperationStatuses operations. */
@@ -37,11 +37,11 @@ export class OperationStatusesImpl implements OperationStatuses {
   get(
     location: string,
     asyncOperationId: string,
-    options?: OperationStatusesGetOptionalParams
+    options?: OperationStatusesGetOptionalParams,
   ): Promise<OperationStatusesGetResponse> {
     return this.client.sendOperationRequest(
       { location, asyncOperationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -49,21 +49,20 @@ export class OperationStatusesImpl implements OperationStatuses {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.OperationalInsights/locations/{location}/operationStatuses/{asyncOperationId}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.OperationalInsights/locations/{location}/operationStatuses/{asyncOperationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus
-    }
+      bodyMapper: Mappers.OperationStatus,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location,
-    Parameters.asyncOperationId
+    Parameters.asyncOperationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

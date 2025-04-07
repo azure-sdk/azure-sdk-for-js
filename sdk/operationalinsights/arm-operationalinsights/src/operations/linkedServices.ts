@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient.js";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   LinkedService,
   LinkedServicesListByWorkspaceOptionalParams,
@@ -23,7 +27,7 @@ import {
   LinkedServicesDeleteOptionalParams,
   LinkedServicesDeleteResponse,
   LinkedServicesGetOptionalParams,
-  LinkedServicesGetResponse
+  LinkedServicesGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,12 +52,12 @@ export class LinkedServicesImpl implements LinkedServices {
   public listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: LinkedServicesListByWorkspaceOptionalParams
+    options?: LinkedServicesListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<LinkedService> {
     const iter = this.listByWorkspacePagingAll(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -70,9 +74,9 @@ export class LinkedServicesImpl implements LinkedServices {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,13 +84,13 @@ export class LinkedServicesImpl implements LinkedServices {
     resourceGroupName: string,
     workspaceName: string,
     options?: LinkedServicesListByWorkspaceOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<LinkedService[]> {
     let result: LinkedServicesListByWorkspaceResponse;
     result = await this._listByWorkspace(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -94,12 +98,12 @@ export class LinkedServicesImpl implements LinkedServices {
   private async *listByWorkspacePagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: LinkedServicesListByWorkspaceOptionalParams
+    options?: LinkedServicesListByWorkspaceOptionalParams,
   ): AsyncIterableIterator<LinkedService> {
     for await (const page of this.listByWorkspacePagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -118,30 +122,29 @@ export class LinkedServicesImpl implements LinkedServices {
     workspaceName: string,
     linkedServiceName: string,
     parameters: LinkedService,
-    options?: LinkedServicesCreateOrUpdateOptionalParams
+    options?: LinkedServicesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<LinkedServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LinkedServicesCreateOrUpdateResponse>,
       LinkedServicesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<LinkedServicesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -150,8 +153,8 @@ export class LinkedServicesImpl implements LinkedServices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -159,25 +162,28 @@ export class LinkedServicesImpl implements LinkedServices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         linkedServiceName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      LinkedServicesCreateOrUpdateResponse,
+      OperationState<LinkedServicesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -196,14 +202,14 @@ export class LinkedServicesImpl implements LinkedServices {
     workspaceName: string,
     linkedServiceName: string,
     parameters: LinkedService,
-    options?: LinkedServicesCreateOrUpdateOptionalParams
+    options?: LinkedServicesCreateOrUpdateOptionalParams,
   ): Promise<LinkedServicesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       workspaceName,
       linkedServiceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -219,30 +225,29 @@ export class LinkedServicesImpl implements LinkedServices {
     resourceGroupName: string,
     workspaceName: string,
     linkedServiceName: string,
-    options?: LinkedServicesDeleteOptionalParams
+    options?: LinkedServicesDeleteOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<LinkedServicesDeleteResponse>,
+    SimplePollerLike<
+      OperationState<LinkedServicesDeleteResponse>,
       LinkedServicesDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<LinkedServicesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -251,8 +256,8 @@ export class LinkedServicesImpl implements LinkedServices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -260,19 +265,22 @@ export class LinkedServicesImpl implements LinkedServices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, linkedServiceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, linkedServiceName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      LinkedServicesDeleteResponse,
+      OperationState<LinkedServicesDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -289,13 +297,13 @@ export class LinkedServicesImpl implements LinkedServices {
     resourceGroupName: string,
     workspaceName: string,
     linkedServiceName: string,
-    options?: LinkedServicesDeleteOptionalParams
+    options?: LinkedServicesDeleteOptionalParams,
   ): Promise<LinkedServicesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       workspaceName,
       linkedServiceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -311,11 +319,11 @@ export class LinkedServicesImpl implements LinkedServices {
     resourceGroupName: string,
     workspaceName: string,
     linkedServiceName: string,
-    options?: LinkedServicesGetOptionalParams
+    options?: LinkedServicesGetOptionalParams,
   ): Promise<LinkedServicesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, linkedServiceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -328,11 +336,11 @@ export class LinkedServicesImpl implements LinkedServices {
   private _listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: LinkedServicesListByWorkspaceOptionalParams
+    options?: LinkedServicesListByWorkspaceOptionalParams,
   ): Promise<LinkedServicesListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listByWorkspaceOperationSpec
+      listByWorkspaceOperationSpec,
     );
   }
 }
@@ -340,101 +348,97 @@ export class LinkedServicesImpl implements LinkedServices {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedServices/{linkedServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedServices/{linkedServiceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkedService
+      bodyMapper: Mappers.LinkedService,
     },
     201: {
-      bodyMapper: Mappers.LinkedService
+      bodyMapper: Mappers.LinkedService,
     },
     202: {
-      bodyMapper: Mappers.LinkedService
+      bodyMapper: Mappers.LinkedService,
     },
     204: {
-      bodyMapper: Mappers.LinkedService
-    }
+      bodyMapper: Mappers.LinkedService,
+    },
   },
-  requestBody: Parameters.parameters2,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.parameters4,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.linkedServiceName
+    Parameters.linkedServiceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedServices/{linkedServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedServices/{linkedServiceName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkedService
+      bodyMapper: Mappers.LinkedService,
     },
     201: {
-      bodyMapper: Mappers.LinkedService
+      bodyMapper: Mappers.LinkedService,
     },
     202: {
-      bodyMapper: Mappers.LinkedService
+      bodyMapper: Mappers.LinkedService,
     },
     204: {
-      bodyMapper: Mappers.LinkedService
-    }
+      bodyMapper: Mappers.LinkedService,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.linkedServiceName
+    Parameters.linkedServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedServices/{linkedServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedServices/{linkedServiceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkedService
-    }
+      bodyMapper: Mappers.LinkedService,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.linkedServiceName
+    Parameters.linkedServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedServices",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedServices",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkedServiceListResult
-    }
+      bodyMapper: Mappers.LinkedServiceListResult,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

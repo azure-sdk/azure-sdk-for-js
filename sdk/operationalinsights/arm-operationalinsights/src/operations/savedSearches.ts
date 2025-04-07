@@ -19,7 +19,7 @@ import {
   SavedSearchesGetOptionalParams,
   SavedSearchesGetResponse,
   SavedSearchesListByWorkspaceOptionalParams,
-  SavedSearchesListByWorkspaceResponse
+  SavedSearchesListByWorkspaceResponse,
 } from "../models/index.js";
 
 /** Class containing SavedSearches operations. */
@@ -45,11 +45,11 @@ export class SavedSearchesImpl implements SavedSearches {
     resourceGroupName: string,
     workspaceName: string,
     savedSearchId: string,
-    options?: SavedSearchesDeleteOptionalParams
+    options?: SavedSearchesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, savedSearchId, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -66,11 +66,11 @@ export class SavedSearchesImpl implements SavedSearches {
     workspaceName: string,
     savedSearchId: string,
     parameters: SavedSearch,
-    options?: SavedSearchesCreateOrUpdateOptionalParams
+    options?: SavedSearchesCreateOrUpdateOptionalParams,
   ): Promise<SavedSearchesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, savedSearchId, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -85,11 +85,11 @@ export class SavedSearchesImpl implements SavedSearches {
     resourceGroupName: string,
     workspaceName: string,
     savedSearchId: string,
-    options?: SavedSearchesGetOptionalParams
+    options?: SavedSearchesGetOptionalParams,
   ): Promise<SavedSearchesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, savedSearchId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -102,11 +102,11 @@ export class SavedSearchesImpl implements SavedSearches {
   listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SavedSearchesListByWorkspaceOptionalParams
+    options?: SavedSearchesListByWorkspaceOptionalParams,
   ): Promise<SavedSearchesListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listByWorkspaceOperationSpec
+      listByWorkspaceOperationSpec,
     );
   }
 }
@@ -114,78 +114,74 @@ export class SavedSearchesImpl implements SavedSearches {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/savedSearches/{savedSearchId}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/savedSearches/{savedSearchId}",
   httpMethod: "DELETE",
   responses: { 200: {} },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.savedSearchId
+    Parameters.savedSearchId,
   ],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/savedSearches/{savedSearchId}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/savedSearches/{savedSearchId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SavedSearch
-    }
+      bodyMapper: Mappers.SavedSearch,
+    },
   },
-  requestBody: Parameters.parameters5,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.parameters6,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.savedSearchId
+    Parameters.savedSearchId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/savedSearches/{savedSearchId}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/savedSearches/{savedSearchId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SavedSearch
-    }
+      bodyMapper: Mappers.SavedSearch,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.savedSearchId
+    Parameters.savedSearchId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/savedSearches",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/savedSearches",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SavedSearchesListResult
-    }
+      bodyMapper: Mappers.SavedSearchesListResult,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
