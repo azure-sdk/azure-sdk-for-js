@@ -1,4 +1,4 @@
 directory: specification/loadtestservice/LoadTestService
-commit: 3582fd3aac7f024efda7e439acd84a83fc5ad3df
-repo: Azure/azure-rest-api-specs
+commit: 4e206e753884b5726a64d5017b28e565b4880b4b
+repo: /mnt/vss/_work/1/s/azure-rest-api-specs
 additionalDirectories: 
