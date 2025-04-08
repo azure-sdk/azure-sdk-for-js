@@ -4,43 +4,42 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
 
 // @public (undocumented)
-export class AstroManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AstroManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    organizations: Organizations;
-    // (undocumented)
-    subscriptionId: string;
+export class AstroClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: AstroClientOptionalParams);
+    readonly operations: OperationsOperations;
+    readonly organizations: OrganizationsOperations;
+    readonly pipeline: Pipeline;
 }
 
 // @public
-export interface AstroManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface AstroClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
 }
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export type CreatedByType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: Record<string, any>;
     readonly type?: string;
 }
 
@@ -59,9 +58,6 @@ export interface ErrorResponse {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export enum KnownActionType {
     Internal = "Internal"
 }
@@ -77,8 +73,8 @@ export enum KnownCreatedByType {
 // @public
 export enum KnownManagedServiceIdentityType {
     None = "None",
+    SystemAndUserAssigned = "SystemAssigned, UserAssigned",
     SystemAssigned = "SystemAssigned",
-    SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
     UserAssigned = "UserAssigned"
 }
 
@@ -98,6 +94,12 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownRenewalMode {
+    Auto = "Auto",
+    Manual = "Manual"
+}
+
+// @public
 export enum KnownResourceProvisioningState {
     Canceled = "Canceled",
     Failed = "Failed",
@@ -113,94 +115,42 @@ export enum KnownSingleSignOnStates {
 
 // @public
 export enum KnownVersions {
-    V1Preview = "2023-08-01"
-}
-
-// @public
-export interface LiftrBaseDataOrganizationProperties {
-    marketplace: LiftrBaseMarketplaceDetails;
-    partnerOrganizationProperties?: LiftrBaseDataPartnerOrganizationProperties;
-    readonly provisioningState?: ResourceProvisioningState;
-    user: LiftrBaseUserDetails;
-}
-
-// @public
-export interface LiftrBaseDataPartnerOrganizationProperties {
-    organizationId?: string;
-    organizationName: string;
-    singleSignOnProperties?: LiftrBaseSingleSignOnProperties;
-    workspaceId?: string;
-    workspaceName?: string;
-}
-
-// @public
-export interface LiftrBaseDataPartnerOrganizationPropertiesUpdate {
-    organizationId?: string;
-    organizationName?: string;
-    singleSignOnProperties?: LiftrBaseSingleSignOnProperties;
-    workspaceId?: string;
-    workspaceName?: string;
-}
-
-// @public
-export interface LiftrBaseMarketplaceDetails {
-    offerDetails: LiftrBaseOfferDetails;
-    subscriptionId: string;
-    subscriptionStatus?: MarketplaceSubscriptionStatus;
-}
-
-// @public
-export interface LiftrBaseOfferDetails {
-    offerId: string;
-    planId: string;
-    planName?: string;
-    publisherId: string;
-    termId?: string;
-    termUnit?: string;
-}
-
-// @public
-export interface LiftrBaseSingleSignOnProperties {
-    aadDomains?: string[];
-    enterpriseAppId?: string;
-    readonly provisioningState?: ResourceProvisioningState;
-    singleSignOnState?: SingleSignOnStates;
-    singleSignOnUrl?: string;
-}
-
-// @public
-export interface LiftrBaseUserDetails {
-    emailAddress: string;
-    firstName: string;
-    lastName: string;
-    phoneNumber?: string;
-    upn?: string;
-}
-
-// @public
-export interface LiftrBaseUserDetailsUpdate {
-    emailAddress?: string;
-    firstName?: string;
-    lastName?: string;
-    phoneNumber?: string;
-    upn?: string;
-}
-
-// @public
-export interface ManagedServiceIdentity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type: ManagedServiceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
-    };
+    V1 = "2023-08-01",
+    V20240827 = "2024-08-27"
 }
 
 // @public
 export type ManagedServiceIdentityType = string;
 
 // @public
+export interface ManagedServiceIdentityV4 {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+// @public
+export interface MarketplaceDetails {
+    offerDetails: OfferDetails;
+    subscriptionId?: string;
+    subscriptionStatus?: MarketplaceSubscriptionStatus;
+}
+
+// @public
 export type MarketplaceSubscriptionStatus = string;
+
+// @public
+export interface OfferDetails {
+    readonly endDate?: Date;
+    offerId: string;
+    planId: string;
+    planName?: string;
+    publisherId: string;
+    renewalMode?: RenewalMode;
+    termId?: string;
+    termUnit?: string;
+}
 
 // @public
 export interface Operation {
@@ -220,151 +170,105 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface OrganizationProperties {
+    marketplace: MarketplaceDetails;
+    partnerOrganizationProperties?: PartnerOrganizationProperties;
+    readonly provisioningState?: ResourceProvisioningState;
+    user: UserDetails;
 }
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export interface OrganizationResource extends TrackedResource {
-    identity?: ManagedServiceIdentity;
-    properties?: LiftrBaseDataOrganizationProperties;
-}
-
-// @public
-export interface OrganizationResourceListResult {
-    nextLink?: string;
-    value: OrganizationResource[];
+    identity?: ManagedServiceIdentityV4;
+    properties?: OrganizationProperties;
 }
 
 // @public
 export interface OrganizationResourceUpdate {
-    identity?: ManagedServiceIdentity;
+    identity?: ManagedServiceIdentityV4;
     properties?: OrganizationResourceUpdateProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
 export interface OrganizationResourceUpdateProperties {
-    partnerOrganizationProperties?: LiftrBaseDataPartnerOrganizationPropertiesUpdate;
-    user?: LiftrBaseUserDetailsUpdate;
+    marketplace?: MarketplaceDetails;
+    partnerOrganizationProperties?: PartnerOrganizationProperties;
+    user?: UserDetails;
 }
 
 // @public
-export interface Organizations {
-    beginCreateOrUpdate(resourceGroupName: string, organizationName: string, resource: OrganizationResource, options?: OrganizationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<OrganizationsCreateOrUpdateResponse>, OrganizationsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, organizationName: string, resource: OrganizationResource, options?: OrganizationsCreateOrUpdateOptionalParams): Promise<OrganizationsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, organizationName: string, options?: OrganizationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<OrganizationsDeleteResponse>, OrganizationsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, organizationName: string, options?: OrganizationsDeleteOptionalParams): Promise<OrganizationsDeleteResponse>;
-    beginUpdate(resourceGroupName: string, organizationName: string, properties: OrganizationResourceUpdate, options?: OrganizationsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<OrganizationsUpdateResponse>, OrganizationsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, organizationName: string, properties: OrganizationResourceUpdate, options?: OrganizationsUpdateOptionalParams): Promise<OrganizationsUpdateResponse>;
-    get(resourceGroupName: string, organizationName: string, options?: OrganizationsGetOptionalParams): Promise<OrganizationsGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: OrganizationsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<OrganizationResource>;
-    listBySubscription(options?: OrganizationsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<OrganizationResource>;
-}
-
-// @public
-export interface OrganizationsCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface OrganizationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface OrganizationsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type OrganizationsCreateOrUpdateResponse = OrganizationResource;
-
-// @public
-export interface OrganizationsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface OrganizationsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface OrganizationsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type OrganizationsDeleteResponse = OrganizationsDeleteHeaders;
-
-// @public
-export interface OrganizationsGetOptionalParams extends coreClient.OperationOptions {
+export interface OrganizationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type OrganizationsGetResponse = OrganizationResource;
-
-// @public
-export interface OrganizationsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface OrganizationsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type OrganizationsListByResourceGroupNextResponse = OrganizationResourceListResult;
-
-// @public
-export interface OrganizationsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface OrganizationsListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type OrganizationsListByResourceGroupResponse = OrganizationResourceListResult;
-
-// @public
-export interface OrganizationsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface OrganizationsOperations {
+    createOrUpdate: (resourceGroupName: string, organizationName: string, resource: OrganizationResource, options?: OrganizationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
+    delete: (resourceGroupName: string, organizationName: string, options?: OrganizationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, organizationName: string, options?: OrganizationsGetOptionalParams) => Promise<OrganizationResource>;
+    listByResourceGroup: (resourceGroupName: string, options?: OrganizationsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<OrganizationResource>;
+    listBySubscription: (options?: OrganizationsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<OrganizationResource>;
+    update: (resourceGroupName: string, organizationName: string, properties: OrganizationResourceUpdate, options?: OrganizationsUpdateOptionalParams) => PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
 }
 
 // @public
-export type OrganizationsListBySubscriptionNextResponse = OrganizationResourceListResult;
-
-// @public
-export interface OrganizationsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OrganizationsListBySubscriptionResponse = OrganizationResourceListResult;
-
-// @public
-export interface OrganizationsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface OrganizationsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface OrganizationsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type OrganizationsUpdateResponse = OrganizationResource;
 
 // @public
 export type Origin = string;
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
+export interface PartnerOrganizationProperties {
+    organizationId?: string;
+    organizationName: string;
+    singleSignOnProperties?: SingleSignOnProperties;
+    workspaceId?: string;
+    workspaceName?: string;
+}
+
+// @public
+export type RenewalMode = string;
 
 // @public
 export interface Resource {
@@ -376,6 +280,25 @@ export interface Resource {
 
 // @public
 export type ResourceProvisioningState = string;
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AstroClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SingleSignOnProperties {
+    aadDomains?: string[];
+    enterpriseAppId?: string;
+    readonly provisioningState?: ResourceProvisioningState;
+    singleSignOnState?: SingleSignOnStates;
+    singleSignOnUrl?: string;
+}
 
 // @public
 export type SingleSignOnStates = string;
@@ -393,9 +316,7 @@ export interface SystemData {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -405,7 +326,13 @@ export interface UserAssignedIdentity {
 }
 
 // @public
-export type Versions = string;
+export interface UserDetails {
+    emailAddress: string;
+    firstName: string;
+    lastName: string;
+    phoneNumber?: string;
+    upn?: string;
+}
 
 // (No @packageDocumentation comment for this package)
 
