@@ -4,14 +4,17 @@
 
 ```ts
 
-import type * as coreAuth from '@azure/core-auth';
+import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { SimplePollerLike } from '@azure/core-lro';
+import { OperationState } from '@azure/core-lro';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AadAuthFailureMode = "http403" | "http401WithBearerChallenge";
+
+// @public
+export type ActionType = string;
 
 // @public
 export type AdminKeyKind = "primary" | "secondary";
@@ -100,14 +103,6 @@ export interface EncryptionWithCmk {
 }
 
 // @public
-export type FeatureName = string;
-
-// @public (undocumented)
-export interface FeatureOffering {
-    name?: FeatureName;
-}
-
-// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
@@ -132,6 +127,11 @@ export interface IpRule {
 }
 
 // @public
+export enum KnownActionType {
+    Internal = "Internal"
+}
+
+// @public
 export enum KnownComputeType {
     Confidential = "confidential",
     Default = "default"
@@ -146,24 +146,18 @@ export enum KnownCreatedByType {
 }
 
 // @public
-export enum KnownFeatureName {
-    AvailabilityZones = "AvailabilityZones",
-    DocumentIntelligence = "DocumentIntelligence",
-    Grok = "Grok",
-    ImageVectorization = "ImageVectorization",
-    MegaStore = "MegaStore",
-    QueryRewrite = "QueryRewrite",
-    S3 = "S3",
-    SemanticSearch = "SemanticSearch",
-    StorageOptimized = "StorageOptimized"
-}
-
-// @public
 export enum KnownIdentityType {
     None = "None",
     SystemAssigned = "SystemAssigned",
     SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
     UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
 }
 
 // @public
@@ -184,7 +178,6 @@ export enum KnownPublicNetworkAccess {
 
 // @public
 export enum KnownSearchBypass {
-    AzurePortal = "AzurePortal",
     AzureServices = "AzureServices",
     None = "None"
 }
@@ -240,6 +233,12 @@ export enum KnownSkuName {
 export enum KnownUnavailableNameReason {
     AlreadyExists = "AlreadyExists",
     Invalid = "Invalid"
+}
+
+// @public
+export enum KnownUpgradeAvailable {
+    Available = "available",
+    NotAvailable = "notAvailable"
 }
 
 // @public
@@ -395,43 +394,12 @@ export interface NSPProvisioningIssueProperties {
 }
 
 // @public
-export interface Offerings {
-    list(options?: OfferingsListOptionalParams): PagedAsyncIterableIterator<OfferingsByRegion>;
-}
-
-// @public (undocumented)
-export interface OfferingsByRegion {
-    features?: FeatureOffering[];
-    regionName?: string;
-    skus?: SkuOffering[];
-}
-
-// @public
-export interface OfferingsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OfferingsListResponse = OfferingsListResult;
-
-// @public
-export interface OfferingsListResult {
-    readonly nextLink?: string;
-    value?: OfferingsByRegion[];
-}
-
-// @public
 export interface Operation {
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
-    readonly origin?: string;
-    readonly properties?: OperationProperties;
-}
-
-// @public
-export interface OperationAvailability {
-    readonly blobDuration?: string;
-    readonly timeGrain?: string;
+    readonly origin?: Origin;
 }
 
 // @public
@@ -449,43 +417,8 @@ export interface OperationListResult {
 }
 
 // @public
-export interface OperationLogsSpecification {
-    readonly blobDuration?: string;
-    readonly displayName?: string;
-    readonly name?: string;
-}
-
-// @public
-export interface OperationMetricDimension {
-    readonly displayName?: string;
-    readonly name?: string;
-}
-
-// @public
-export interface OperationMetricsSpecification {
-    readonly aggregationType?: string;
-    readonly availabilities?: OperationAvailability[];
-    readonly dimensions?: OperationMetricDimension[];
-    readonly displayDescription?: string;
-    readonly displayName?: string;
-    readonly name?: string;
-    readonly unit?: string;
-}
-
-// @public
-export interface OperationProperties {
-    readonly serviceSpecification?: OperationServiceSpecification;
-}
-
-// @public
 export interface Operations {
     list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
-export interface OperationServiceSpecification {
-    readonly logSpecifications?: OperationLogsSpecification[];
-    readonly metricSpecifications?: OperationMetricsSpecification[];
 }
 
 // @public
@@ -494,6 +427,9 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 
 // @public
 export type OperationsListResponse = OperationListResult;
+
+// @public
+export type Origin = string;
 
 // @public
 export interface PrivateEndpointConnection extends Resource {
@@ -612,7 +548,7 @@ export type PrivateLinkServiceConnectionProvisioningState = string;
 export type PrivateLinkServiceConnectionStatus = "Pending" | "Approved" | "Rejected" | "Disconnected";
 
 // @public
-export type ProvisioningState = "Succeeded" | "Provisioning" | "Failed";
+export type ProvisioningState = "succeeded" | "provisioning" | "failed";
 
 // @public
 export interface ProxyResource extends Resource {
@@ -688,6 +624,7 @@ export interface QuotaUsagesListResult {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -708,15 +645,12 @@ export class SearchManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: SearchManagementClientOptionalParams);
-    constructor(credentials: coreAuth.TokenCredential, options?: SearchManagementClientOptionalParams);
     // (undocumented)
     adminKeys: AdminKeys;
     // (undocumented)
     apiVersion: string;
     // (undocumented)
     networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
-    // (undocumented)
-    offerings: Offerings;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -730,7 +664,7 @@ export class SearchManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     sharedPrivateLinkResources: SharedPrivateLinkResources;
     // (undocumented)
-    subscriptionId?: string;
+    subscriptionId: string;
     usageBySubscriptionSku(location: string, skuName: string, options?: UsageBySubscriptionSkuOptionalParams): Promise<UsageBySubscriptionSkuResponse>;
     // (undocumented)
     usages: Usages;
@@ -769,13 +703,12 @@ export interface SearchService extends TrackedResource {
     publicNetworkAccess?: PublicNetworkAccess;
     replicaCount?: number;
     semanticSearch?: SearchSemanticSearch;
-    readonly serviceUpgradeDate?: Date;
+    readonly serviceUpgradedAt?: Date;
     readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
     sku?: Sku;
     readonly status?: SearchServiceStatus;
     readonly statusDetails?: string;
-    readonly systemData?: SystemData;
-    readonly upgradeAvailable?: boolean;
+    upgradeAvailable?: UpgradeAvailable;
 }
 
 // @public
@@ -806,16 +739,15 @@ export interface SearchServiceUpdate extends Resource {
     publicNetworkAccess?: PublicNetworkAccess;
     replicaCount?: number;
     semanticSearch?: SearchSemanticSearch;
-    readonly serviceUpgradeDate?: Date;
+    readonly serviceUpgradedAt?: Date;
     readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
     sku?: Sku;
     readonly status?: SearchServiceStatus;
     readonly statusDetails?: string;
-    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
-    readonly upgradeAvailable?: boolean;
+    upgradeAvailable?: UpgradeAvailable;
 }
 
 // @public
@@ -1020,23 +952,6 @@ export interface Sku {
 // @public
 export type SkuName = string;
 
-// @public (undocumented)
-export interface SkuOffering {
-    limits?: SkuOfferingLimits;
-    sku?: Sku;
-}
-
-// @public
-export interface SkuOfferingLimits {
-    indexers?: number;
-    indexes?: number;
-    partitions?: number;
-    partitionStorageInGigabytes?: number;
-    partitionVectorStorageInGigabytes?: number;
-    replicas?: number;
-    searchUnits?: number;
-}
-
 // @public
 export interface SystemData {
     createdAt?: Date;
@@ -1057,6 +972,9 @@ export interface TrackedResource extends Resource {
 
 // @public
 export type UnavailableNameReason = string;
+
+// @public
+export type UpgradeAvailable = string;
 
 // @public
 export interface UsageBySubscriptionSkuOptionalParams extends coreClient.OperationOptions {

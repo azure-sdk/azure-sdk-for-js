@@ -1,5 +1,77 @@
 # Release History
     
+## 3.3.0 (2025-04-08)
+    
+### Features Added
+
+  - Added operation group NetworkSecurityPerimeterConfigurations
+  - Added operation Services.beginUpgrade
+  - Added operation Services.beginUpgradeAndWait
+  - Added Interface NetworkSecurityPerimeterConfiguration
+  - Added Interface NetworkSecurityPerimeterConfigurationListResult
+  - Added Interface NetworkSecurityPerimeterConfigurationsGetOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsListByServiceNextOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsListByServiceOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsReconcileHeaders
+  - Added Interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
+  - Added Interface NSPConfigAccessRule
+  - Added Interface NSPConfigAccessRuleProperties
+  - Added Interface NSPConfigAssociation
+  - Added Interface NSPConfigNetworkSecurityPerimeterRule
+  - Added Interface NSPConfigPerimeter
+  - Added Interface NSPConfigProfile
+  - Added Interface NSPProvisioningIssue
+  - Added Interface NSPProvisioningIssueProperties
+  - Added Interface ProxyResource
+  - Added Interface ServicesUpgradeHeaders
+  - Added Interface ServicesUpgradeOptionalParams
+  - Added Interface SystemData
+  - Added Interface UserAssignedManagedIdentity
+  - Added Type Alias ActionType
+  - Added Type Alias ComputeType
+  - Added Type Alias CreatedByType
+  - Added Type Alias NetworkSecurityPerimeterConfigurationsGetResponse
+  - Added Type Alias NetworkSecurityPerimeterConfigurationsListByServiceNextResponse
+  - Added Type Alias NetworkSecurityPerimeterConfigurationsListByServiceResponse
+  - Added Type Alias NetworkSecurityPerimeterConfigurationsReconcileResponse
+  - Added Type Alias Origin
+  - Added Type Alias SearchBypass
+  - Added Type Alias SearchDisabledDataExfiltrationOption
+  - Added Type Alias ServicesUpgradeResponse
+  - Added Type Alias UpgradeAvailable
+  - Interface CloudError has a new optional parameter message
+  - Interface Identity has a new optional parameter userAssignedIdentities
+  - Interface NetworkRuleSet has a new optional parameter bypass
+  - Interface Operation has a new optional parameter actionType
+  - Interface Operation has a new optional parameter isDataAction
+  - Interface Operation has a new optional parameter origin
+  - Interface Resource has a new optional parameter systemData
+  - Interface SearchService has a new optional parameter computeType
+  - Interface SearchService has a new optional parameter disabledDataExfiltrationOptions
+  - Interface SearchService has a new optional parameter endpoint
+  - Interface SearchService has a new optional parameter eTag
+  - Interface SearchService has a new optional parameter serviceUpgradedAt
+  - Interface SearchService has a new optional parameter upgradeAvailable
+  - Interface SearchServiceUpdate has a new optional parameter computeType
+  - Interface SearchServiceUpdate has a new optional parameter disabledDataExfiltrationOptions
+  - Interface SearchServiceUpdate has a new optional parameter endpoint
+  - Interface SearchServiceUpdate has a new optional parameter eTag
+  - Interface SearchServiceUpdate has a new optional parameter serviceUpgradedAt
+  - Interface SearchServiceUpdate has a new optional parameter upgradeAvailable
+  - Added Enum KnownActionType
+  - Added Enum KnownComputeType
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownIdentityType
+  - Added Enum KnownOrigin
+  - Added Enum KnownPublicNetworkAccess
+  - Added Enum KnownSearchBypass
+  - Added Enum KnownSearchDisabledDataExfiltrationOption
+  - Added Enum KnownSharedPrivateLinkResourceProvisioningState
+  - Added Enum KnownSharedPrivateLinkResourceStatus
+  - Added Enum KnownSkuName
+  - Added Enum KnownUpgradeAvailable
+    
+    
 ## 3.3.0-beta.2 (2025-04-07)
 Compared with version 3.2.0
     

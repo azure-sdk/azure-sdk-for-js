@@ -3280,7 +3280,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-search@file:projects/arm-search.tgz':
-    resolution: {integrity: sha512-VjC10vN+NyOsOH/CVRFf/nftu5USLjOVo1CSnUk0ZSyyHKhWgkN0GwQooDR7+qOxcgb/ALDhxUzBj7CUMQJiuw==, tarball: file:projects/arm-search.tgz}
+    resolution: {integrity: sha512-idOajY4PsU3lBkCtz+wLgKLTRTb2zrb1iNPJadFJF4+Xh+9uk2OjlDFBQjqj7gT2JC/9J+VN5YZv5BA5F6UXyw==, tarball: file:projects/arm-search.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-security@file:projects/arm-security.tgz':
@@ -3628,7 +3628,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/event-hubs@file:projects/event-hubs.tgz':
-    resolution: {integrity: sha512-RIRzDPhSanA/bj6lkf+TND1BUXmJ/KlFEEdALRw7E4XkvTjsTharq8eMhe2Pkd7TOvYFjLeTtLXSSSSJMdY3ow==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-/mk9WNJE/VvEDkofF5/f/wpPReR3JNnVR6ixOeoJHtB0xOuuyuB/e3nxxXA4JRKD/ZAOWvFodP+u8LFMENff0Q==, tarball: file:projects/event-hubs.tgz}
     version: 0.0.0
 
   '@rush-temp/eventgrid-namespaces@file:projects/eventgrid-namespaces.tgz':
@@ -3644,11 +3644,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/eventhubs-checkpointstore-blob@file:projects/eventhubs-checkpointstore-blob.tgz':
-    resolution: {integrity: sha512-YgUsp1iVlaLJPVDHMGkF6AnhjlOQP96f2gm1ZdxCfueLENKfanjRtHc3Ntb6zkTRNaecHyNTkblcsKPIAi4c2A==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-GONbUBR9axAGlDmbqpy3V/j0pEMfFspJEI7pvl/FN+KStHc3qt55JK/888iZ1KptQyfHzEXlNL3qauFtHl9dOA==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     version: 0.0.0
 
   '@rush-temp/eventhubs-checkpointstore-table@file:projects/eventhubs-checkpointstore-table.tgz':
-    resolution: {integrity: sha512-6fdUutQ/w9/qCbd38eDt1egBuADB6TPMV1GRGOgbw2TMKdZf5qXs1ROf+u1Pf2zsFj3mU3OBJDBULfnEz6IgnA==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
+    resolution: {integrity: sha512-MSxG33vfUiZradp0LPQElV3EU6mbp7pj2kz1h7Rm78bhKhnl228xwUZZ1bJ8sK6/daNHgctf0+wQvZ2wsqYILg==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
     version: 0.0.0
 
   '@rush-temp/functions-authentication-events@file:projects/functions-authentication-events.tgz':
@@ -16749,7 +16749,7 @@ snapshots:
       dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.8.3
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
