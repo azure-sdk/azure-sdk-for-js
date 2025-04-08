@@ -946,6 +946,9 @@ importers:
       '@rush-temp/defender-easm':
         specifier: file:./projects/defender-easm.tgz
         version: file:projects/defender-easm.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
+      '@rush-temp/defender-easm-rest':
+        specifier: file:./projects/defender-easm-rest.tgz
+        version: file:projects/defender-easm-rest.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
       '@rush-temp/dev-tool':
         specifier: file:./projects/dev-tool.tgz
         version: file:projects/dev-tool.tgz(@types/debug@4.1.12)(@vitest/browser@3.1.1)
@@ -3615,6 +3618,10 @@ packages:
 
   '@rush-temp/data-tables@file:projects/data-tables.tgz':
     resolution: {integrity: sha512-88KUaQ3vooFUIjw8lJiWVblKaIIf8XnlJ1vHdCg+L+TozSC87jarse4cdi0r1+09IIqTlmyxiS7Y83Mj8dNcJw==, tarball: file:projects/data-tables.tgz}
+    version: 0.0.0
+
+  '@rush-temp/defender-easm-rest@file:projects/defender-easm-rest.tgz':
+    resolution: {integrity: sha512-bfda3l2TugQozSbLWG4r7NzRGbnFPZpmRbjTX/rzA7Nixj6hYi6AvrtNrIgSfz2ivFyfO9q7Hy77uFo9Fib4JA==, tarball: file:projects/defender-easm-rest.tgz}
     version: 0.0.0
 
   '@rush-temp/defender-easm@file:projects/defender-easm.tgz':
@@ -20304,6 +20311,41 @@ snapshots:
       playwright: 1.51.1
       tslib: 2.8.1
       typescript: 5.8.2
+      vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/defender-easm-rest@file:projects/defender-easm-rest.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
+    dependencies:
+      '@types/node': 18.19.86
+      '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
+      '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
+      dotenv: 16.4.7
+      eslint: 9.24.0
+      playwright: 1.51.1
+      tslib: 2.8.1
+      typescript: 5.8.3
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
