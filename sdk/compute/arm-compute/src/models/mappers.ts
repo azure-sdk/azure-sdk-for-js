@@ -6266,6 +6266,28 @@ export const WindowsParameters: coreClient.CompositeMapper = {
           name: "DateTime",
         },
       },
+      patchNameMasksToInclude: {
+        serializedName: "patchNameMasksToInclude",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      patchNameMasksToExclude: {
+        serializedName: "patchNameMasksToExclude",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
     },
   },
 };
@@ -8157,6 +8179,18 @@ export const VirtualMachineRunCommandScriptSource: coreClient.CompositeMapper =
           type: {
             name: "Composite",
             className: "RunCommandManagedIdentity",
+          },
+        },
+        scriptShell: {
+          serializedName: "scriptShell",
+          type: {
+            name: "String",
+          },
+        },
+        galleryScriptReferenceId: {
+          serializedName: "galleryScriptReferenceId",
+          type: {
+            name: "String",
           },
         },
       },

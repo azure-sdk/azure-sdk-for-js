@@ -51,7 +51,9 @@ export interface VirtualMachineRunCommands {
   /**
    * Gets specific run command for a subscription in a location.
    * @param location The location upon which run commands is queried.
-   * @param commandId The command id.
+   * @param commandId Specifies a commandId of predefined built-in script. Command IDs available for
+   *                  Linux are listed at https://aka.ms/RunCommandManagedLinux#available-commands, Windows at
+   *                  https://aka.ms/RunCommandManagedWindows#available-commands.
    * @param options The options parameters.
    */
   get(

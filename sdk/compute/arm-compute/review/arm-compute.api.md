@@ -4120,6 +4120,12 @@ export enum KnownRestorePointExpandOptions {
 }
 
 // @public
+export enum KnownScriptShellTypes {
+    Default = "Default",
+    Powershell7 = "Powershell7"
+}
+
+// @public
 export enum KnownSecurityEncryptionTypes {
     DiskWithVMGuestState = "DiskWithVMGuestState",
     NonPersistedTPM = "NonPersistedTPM",
@@ -5761,6 +5767,9 @@ export interface ScheduledEventsProfile {
 }
 
 // @public
+export type ScriptShellTypes = string;
+
+// @public
 export type SecurityEncryptionTypes = string;
 
 // @public
@@ -7176,7 +7185,9 @@ export type VirtualMachineRunCommandsCreateOrUpdateResponse = VirtualMachineRunC
 // @public
 export interface VirtualMachineRunCommandScriptSource {
     commandId?: string;
+    galleryScriptReferenceId?: string;
     script?: string;
+    scriptShell?: ScriptShellTypes;
     scriptUri?: string;
     scriptUriManagedIdentity?: RunCommandManagedIdentity;
 }
@@ -8914,6 +8925,8 @@ export interface WindowsParameters {
     kbNumbersToExclude?: string[];
     kbNumbersToInclude?: string[];
     maxPatchPublishDate?: Date;
+    patchNameMasksToExclude?: string[];
+    patchNameMasksToInclude?: string[];
 }
 
 // @public

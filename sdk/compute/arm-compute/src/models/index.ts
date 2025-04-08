@@ -2300,6 +2300,10 @@ export interface WindowsParameters {
   excludeKbsRequiringReboot?: boolean;
   /** This is used to install patches that were published on or before this given max published date. */
   maxPatchPublishDate?: Date;
+  /** This is used to include patches that match the given patch name masks. Alphanumeric strings and wildcard expressions consisting of * and ? are only supported as input values in the list. Null, empty and only whitespaces strings as inputs values are not supported. */
+  patchNameMasksToInclude?: string[];
+  /** This is used to exclude patches that match the given patch name masks. Alphanumeric strings and wildcard expressions consisting of * and ? are only supported as input values in the list. Null, empty and only whitespaces strings as inputs values are not supported. */
+  patchNameMasksToExclude?: string[];
 }
 
 /** Input for InstallPatches on a Linux VM, as directly received by the API */
@@ -3018,7 +3022,7 @@ export interface RunCommandParameterDefinition {
 
 /** Capture Virtual Machine parameters. */
 export interface RunCommandInput {
-  /** The run command id. */
+  /** Specifies a commandId of predefined built-in script. Command IDs available for Linux are listed at https://aka.ms/RunCommandManagedLinux#available-commands, Windows at https://aka.ms/RunCommandManagedWindows#available-commands. */
   commandId: string;
   /** Optional. The script to be executed.  When this value is given, the given script will override the default script of the command. */
   script?: string[];
@@ -3039,16 +3043,20 @@ export interface RunCommandResult {
   value?: InstanceViewStatus[];
 }
 
-/** Describes the script sources for run command. Use only one of script, scriptUri, commandId. */
+/** Describes the script sources for run command. Use only one of these script sources: script, scriptUri, commandId, galleryScriptReferenceId. */
 export interface VirtualMachineRunCommandScriptSource {
   /** Specifies the script content to be executed on the VM. */
   script?: string;
   /** Specifies the script download location. It can be either SAS URI of an Azure storage blob with read access or public URI. */
   scriptUri?: string;
-  /** Specifies a commandId of predefined built-in script. */
+  /** Specifies a commandId of predefined built-in script. Command IDs available for Linux are listed at https://aka.ms/RunCommandManagedLinux#available-commands, Windows at https://aka.ms/RunCommandManagedWindows#available-commands */
   commandId?: string;
   /** User-assigned managed identity that has access to scriptUri in case of Azure storage blob. Use an empty object in case of system-assigned identity. Make sure the Azure storage blob exists, and managed identity has been given access to blob's container with 'Storage Blob Data Reader' role assignment. In case of user-assigned identity, make sure you add it under VM's identity. For more info on managed identity and Run Command, refer https://aka.ms/ManagedIdentity and https://aka.ms/RunCommandManaged. */
   scriptUriManagedIdentity?: RunCommandManagedIdentity;
+  /** Optional. Specify which shell to use for running the script. These values must match those expected by the extension. Currently supported only for Windows VMs, script uses Powershell 7 when specified. Powershell 7 must be already installed on the machine to use Powershell7 parameter value. */
+  scriptShell?: ScriptShellTypes;
+  /** The resource ID of a Gallery Script version that needs to be executed. Example ID looks like /subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Compute/galleries/{galleryName}/scripts/{scriptName}/versions/{version}. */
+  galleryScriptReferenceId?: string;
 }
 
 /**  Contains clientId or objectId (use only one, not both) of a user-assigned managed identity that has access to storage blob used in Run Command. Use an empty RunCommandManagedIdentity object in case of system-assigned identity. Make sure the Azure storage blob exists in case of scriptUri, and managed identity has been given access to blob's container with 'Storage Blob Data Reader' role assignment with scriptUri blob and 'Storage Blob Data Contributor' for Append blobs(outputBlobUri, errorBlobUri). In case of user assigned identity, make sure you add it under VM's identity. For more info on managed identity and Run Command, refer https://aka.ms/ManagedIdentity and https://aka.ms/RunCommandManaged. */
@@ -9357,6 +9365,24 @@ export enum KnownCapacityReservationInstanceViewTypes {
  * **instanceView**
  */
 export type CapacityReservationInstanceViewTypes = string;
+
+/** Known values of {@link ScriptShellTypes} that the service accepts. */
+export enum KnownScriptShellTypes {
+  /** Default */
+  Default = "Default",
+  /** Powershell7 */
+  Powershell7 = "Powershell7",
+}
+
+/**
+ * Defines values for ScriptShellTypes. \
+ * {@link KnownScriptShellTypes} can be used interchangeably with ScriptShellTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default** \
+ * **Powershell7**
+ */
+export type ScriptShellTypes = string;
 
 /** Known values of {@link ExecutionState} that the service accepts. */
 export enum KnownExecutionState {
