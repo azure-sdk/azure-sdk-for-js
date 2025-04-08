@@ -23,7 +23,7 @@ async function privateEndpointConnectionsGetGeneratedByMaximumSetRuleStable(): P
 }
 
 async function main(): Promise<void> {
-  privateEndpointConnectionsGetGeneratedByMaximumSetRuleStable();
+  await privateEndpointConnectionsGetGeneratedByMaximumSetRuleStable();
 }
 
 main().catch(console.error);

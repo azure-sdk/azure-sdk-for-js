@@ -19,7 +19,7 @@ async function deidServicesGetGeneratedByMaximumSetRuleStable(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deidServicesGetGeneratedByMaximumSetRuleStable();
+  await deidServicesGetGeneratedByMaximumSetRuleStable();
 }
 
 main().catch(console.error);
