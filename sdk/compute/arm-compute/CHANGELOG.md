@@ -1,5 +1,17 @@
 # Release History
     
+## 22.5.0 (2025-04-08)
+    
+### Features Added
+
+  - Added Type Alias ScriptShellTypes
+  - Interface VirtualMachineRunCommandScriptSource has a new optional parameter galleryScriptReferenceId
+  - Interface VirtualMachineRunCommandScriptSource has a new optional parameter scriptShell
+  - Interface WindowsParameters has a new optional parameter patchNameMasksToExclude
+  - Interface WindowsParameters has a new optional parameter patchNameMasksToInclude
+  - Added Enum KnownScriptShellTypes
+    
+    
 ## 22.4.0 (2025-03-18)
     
 ### Features Added

@@ -2614,7 +2614,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-compute-1@file:projects/arm-compute-1.tgz':
-    resolution: {integrity: sha512-+5OIMFGOO7wYraHlemO6xgruWtmMPlwwzgDpZTX5grrIqWsycoRz6xVfdtDyTnkAaGhIs1WK+GCa6kSFitjWEA==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-SNQzjLh24q2TUGiCPPZBWO0Hl7IRSo0oLEOLU5Sa+X1u+m0HUcn0SxB4bXWGvsnhL8UTitlCt4WTXX4FC7E/BQ==, tarball: file:projects/arm-compute-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-compute-profile-2020-09-01-hybrid@file:projects/arm-compute-profile-2020-09-01-hybrid.tgz':
@@ -11562,7 +11562,6 @@ snapshots:
 
   '@rush-temp/arm-compute-1@file:projects/arm-compute-1.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
-      '@azure/arm-network': 32.2.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
@@ -23813,7 +23812,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.2.1
 
   '@types/chai-as-promised@8.0.2':
     dependencies:
