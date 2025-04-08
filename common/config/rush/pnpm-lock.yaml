@@ -742,6 +742,9 @@ importers:
       '@rush-temp/arm-signalr':
         specifier: file:./projects/arm-signalr.tgz
         version: file:projects/arm-signalr.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
+      '@rush-temp/arm-sitemanager':
+        specifier: file:./projects/arm-sitemanager.tgz
+        version: file:projects/arm-sitemanager.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
       '@rush-temp/arm-sphere':
         specifier: file:./projects/arm-sphere.tgz
         version: file:projects/arm-sphere.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
@@ -3347,6 +3350,10 @@ packages:
 
   '@rush-temp/arm-signalr@file:projects/arm-signalr.tgz':
     resolution: {integrity: sha512-g1qgHDCLbGZvOMuWKQB9ktKWOL/C2/ROR4IwQHA3HPHwwas4Sf6laQRDIdB1v4Vxjg8VpvBdbNw9xVtePPNTWQ==, tarball: file:projects/arm-signalr.tgz}
+    version: 0.0.0
+
+  '@rush-temp/arm-sitemanager@file:projects/arm-sitemanager.tgz':
+    resolution: {integrity: sha512-R4JPWtDUH+Nr/k80zj8izTfZSpYE7Njlr4h5KquKNijvG5EotH/Ttm28O3ugAn/2neenteRDIL9AcTH0DcH/fw==, tarball: file:projects/arm-sitemanager.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-sphere@file:projects/arm-sphere.tgz':
@@ -17934,6 +17941,41 @@ snapshots:
       playwright: 1.51.1
       tslib: 2.8.1
       typescript: 5.8.2
+      vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/arm-sitemanager@file:projects/arm-sitemanager.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
+    dependencies:
+      '@types/node': 18.19.86
+      '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
+      '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
+      dotenv: 16.4.7
+      eslint: 9.24.0
+      playwright: 1.51.1
+      tslib: 2.8.1
+      typescript: 5.8.3
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
