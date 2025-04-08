@@ -3466,7 +3466,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-weightsandbiases@file:projects/arm-weightsandbiases.tgz':
-    resolution: {integrity: sha512-x12zOmYSxwjRTU2cjGVeDTYqyU4uzpJWFScKhdp0zJ60uy7jZLCx+zIqa5kBG/Q8cob8/lF/OORL/0hn1LLZDA==, tarball: file:projects/arm-weightsandbiases.tgz}
+    resolution: {integrity: sha512-E9gPha8FIw6n7uzAYCI7a9QccelvVVo2RbF5i5t+ubwy8KOWfY3KDabR1pc65wHfdtrsuWAkn7I2Ilyk1DMYog==, tarball: file:projects/arm-weightsandbiases.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-workloads@file:projects/arm-workloads.tgz':
@@ -18973,7 +18973,7 @@ snapshots:
       eslint: 9.24.0
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.8.3
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
