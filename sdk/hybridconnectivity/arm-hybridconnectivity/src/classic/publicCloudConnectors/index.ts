@@ -3,9 +3,9 @@
 
 import { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
 import {
-  OperationStatusResult,
   PublicCloudConnector,
   PublicCloudConnectorUpdate,
+  OperationStatusResult,
 } from "../../models/models.js";
 import {
   PublicCloudConnectorsTestPermissionsOptionalParams,

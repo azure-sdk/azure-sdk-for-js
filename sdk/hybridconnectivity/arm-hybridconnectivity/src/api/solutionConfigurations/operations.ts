@@ -4,6 +4,8 @@
 import { HybridConnectivityManagementAPIContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  OperationStatusResult,
+  operationStatusResultDeserializer,
   SolutionConfiguration,
   solutionConfigurationSerializer,
   solutionConfigurationDeserializer,
@@ -11,8 +13,6 @@ import {
   solutionConfigurationUpdateSerializer,
   _SolutionConfigurationListResult,
   _solutionConfigurationListResultDeserializer,
-  OperationStatusResult,
-  operationStatusResultDeserializer,
 } from "../../models/models.js";
 import {
   SolutionConfigurationsSyncNowOptionalParams,
@@ -43,11 +43,11 @@ export function _syncNowSend(
   options: SolutionConfigurationsSyncNowOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/syncNow{?api-version}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/syncNow{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       solutionConfiguration: solutionConfiguration,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -96,10 +96,10 @@ export function _listSend(
   options: SolutionConfigurationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations{?api-version}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations{?api%2Dversion}",
     {
       resourceUri: resourceUri,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -149,11 +149,11 @@ export function _$deleteSend(
   options: SolutionConfigurationsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}{?api-version}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       solutionConfiguration: solutionConfiguration,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -203,11 +203,11 @@ export function _updateSend(
   options: SolutionConfigurationsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}{?api-version}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       solutionConfiguration: solutionConfiguration,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -265,11 +265,11 @@ export function _createOrUpdateSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}{?api-version}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       solutionConfiguration: solutionConfiguration,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -326,11 +326,11 @@ export function _getSend(
   options: SolutionConfigurationsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}{?api-version}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       solutionConfiguration: solutionConfiguration,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
