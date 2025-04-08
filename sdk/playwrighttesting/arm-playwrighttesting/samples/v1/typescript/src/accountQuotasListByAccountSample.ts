@@ -15,7 +15,7 @@ async function accountQuotasListByAccount(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzurePlaywrightServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.accountQuotas.listByAccount("dummyrg", "myPlaywrightAccount")) {
+  for await (const item of client.accountQuotas.listByAccount("dummyrg", "myPlaywrightAccount")) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function accountQuotasListByAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  accountQuotasListByAccount();
+  await accountQuotasListByAccount();
 }
 
 main().catch(console.error);

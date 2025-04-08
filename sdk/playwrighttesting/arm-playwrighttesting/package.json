@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-playwrighttesting",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A generated SDK for AzurePlaywrightServiceClient.",
   "engines": {
     "node": ">=18.0.0"
@@ -8,10 +8,14 @@
   "sideEffects": false,
   "autoPublish": false,
   "tshy": {
-    "project": "./tsconfig.src.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts",
+      "./api": "./src/api/index.ts",
+      "./api/accountQuotas": "./src/api/accountQuotas/index.ts",
+      "./api/quotas": "./src/api/quotas/index.ts",
+      "./api/accounts": "./src/api/accounts/index.ts",
+      "./api/operations": "./src/api/operations/index.ts",
       "./models": "./src/models/index.ts"
     },
     "dialects": [
@@ -22,7 +26,8 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
   },
   "type": "module",
   "keywords": [
@@ -62,7 +67,7 @@
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^3.1.0",
-    "@azure/core-rest-pipeline": "^1.19.0",
+    "@azure/core-rest-pipeline": "^1.19.1",
     "@azure/core-util": "^1.11.0",
     "@azure/logger": "^1.1.4",
     "tslib": "^2.8.1"
@@ -73,13 +78,13 @@
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^4.7.0",
+    "@azure/identity": "^4.8.0",
     "@types/node": "^18.0.0",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
-    "playwright": "^1.50.1",
+    "playwright": "^1.51.1",
     "typescript": "~5.8.2",
     "vitest": "^3.0.9"
   },
@@ -96,8 +101,8 @@
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "dev-tool run test:vitest --esm",
-    "lint": "echo skipped",
-    "lint:fix": "echo skipped",
+    "lint": "eslint package.json api-extractor.json src test",
+    "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "minify": "dev-tool run vendored uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "pack": "npm pack 2>&1",
     "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
@@ -116,6 +121,8 @@
     "disableDocsMs": true,
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-playwrighttesting?view=azure-node-preview"
   },
+  "browser": "./dist/browser/index.js",
+  "react-native": "./dist/react-native/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -134,6 +141,96 @@
       "require": {
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/index.d.ts",
+        "default": "./dist/react-native/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/accountQuotas": {
+      "browser": {
+        "types": "./dist/browser/api/accountQuotas/index.d.ts",
+        "default": "./dist/browser/api/accountQuotas/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/accountQuotas/index.d.ts",
+        "default": "./dist/react-native/api/accountQuotas/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/accountQuotas/index.d.ts",
+        "default": "./dist/esm/api/accountQuotas/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/accountQuotas/index.d.ts",
+        "default": "./dist/commonjs/api/accountQuotas/index.js"
+      }
+    },
+    "./api/quotas": {
+      "browser": {
+        "types": "./dist/browser/api/quotas/index.d.ts",
+        "default": "./dist/browser/api/quotas/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/quotas/index.d.ts",
+        "default": "./dist/react-native/api/quotas/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/quotas/index.d.ts",
+        "default": "./dist/esm/api/quotas/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/quotas/index.d.ts",
+        "default": "./dist/commonjs/api/quotas/index.js"
+      }
+    },
+    "./api/accounts": {
+      "browser": {
+        "types": "./dist/browser/api/accounts/index.d.ts",
+        "default": "./dist/browser/api/accounts/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/accounts/index.d.ts",
+        "default": "./dist/react-native/api/accounts/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/accounts/index.d.ts",
+        "default": "./dist/esm/api/accounts/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/accounts/index.d.ts",
+        "default": "./dist/commonjs/api/accounts/index.js"
+      }
+    },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/operations/index.d.ts",
+        "default": "./dist/react-native/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
       }
     },
     "./models": {
@@ -157,7 +254,5 @@
   },
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "module": "./dist/esm/index.js",
-  "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js"
+  "module": "./dist/esm/index.js"
 }
