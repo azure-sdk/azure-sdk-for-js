@@ -3414,7 +3414,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-subscriptions@file:projects/arm-subscriptions.tgz':
-    resolution: {integrity: sha512-TujBR3ZU5Mlee5azHpH7Crj6aVTK90Tu2q4ti9BJ6soppOso/QC8wLPttiE8uHYNj4VDuSAQDvL03vsPciXY9g==, tarball: file:projects/arm-subscriptions.tgz}
+    resolution: {integrity: sha512-CzVOiq8OzJedEubXJgC1k3J5Pq35lKUoso+PLOMkKNW9wVqGPJGpamRaYy835Lt4T+wC3OgIVNorS+3j4gP/BA==, tarball: file:projects/arm-subscriptions.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-support@file:projects/arm-support.tgz':
@@ -18521,6 +18521,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
       '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
+      dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
       typescript: 5.8.2
@@ -23813,7 +23814,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.2.1
 
   '@types/chai-as-promised@8.0.2':
     dependencies:
