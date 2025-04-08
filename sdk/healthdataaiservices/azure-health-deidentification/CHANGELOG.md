@@ -1,9 +1,7 @@
 # Release History
-
-## 1.0.0-beta.1 (2024-08-15)
-
-- Azure Deidentification client library for JS. This package contains Microsoft Azure Deidentification client library.
+    
+## 1.0.0 (2025-04-08)
 
 ### Features Added
 
-- Azure Deidentification client library for JS. This package contains Microsoft Azure Deidentification client library.
+The package of @azure-rest/health-deidentification is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
