@@ -2926,7 +2926,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-impactreporting@file:projects/arm-impactreporting.tgz':
-    resolution: {integrity: sha512-qpkY8pb7Tb/n9uD4Qu4YfDfTdJsx3ydkE51x94sTi3zGNw0Ao3zMnBnpPmDPjR8TkPyJWEame83RaqSoqasAOA==, tarball: file:projects/arm-impactreporting.tgz}
+    resolution: {integrity: sha512-rj9Bs+RUncLk1aHWZBvdSzuUS9levokKlUlE/f+4VA1aVY/uTTKKedp3jRD3db8TOn6BjqQEYozBlLywhUANNA==, tarball: file:projects/arm-impactreporting.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-informaticadatamanagement@file:projects/arm-informaticadatamanagement.tgz':
@@ -14289,7 +14289,7 @@ snapshots:
       eslint: 9.24.0
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.6.3
+      typescript: 5.8.3
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
