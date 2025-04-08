@@ -2,25 +2,25 @@
 // Licensed under the MIT License.
 
 import {
-  _getSharedPrivateLinkResourcesOperations,
-  SharedPrivateLinkResourcesOperations,
-} from "./classic/sharedPrivateLinkResources/index.js";
-import { _getTargetsOperations, TargetsOperations } from "./classic/targets/index.js";
-import {
-  _getHealthValidationsOperations,
-  HealthValidationsOperations,
-} from "./classic/healthValidations/index.js";
-import {
-  _getAlertRuleResourcesOperations,
-  AlertRuleResourcesOperations,
-} from "./classic/alertRuleResources/index.js";
-import { _getWatchersOperations, WatchersOperations } from "./classic/watchers/index.js";
-import { _getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
-import {
   createDatabaseWatcher,
   DatabaseWatcherContext,
   DatabaseWatcherClientOptionalParams,
 } from "./api/index.js";
+import {
+  SharedPrivateLinkResourcesOperations,
+  _getSharedPrivateLinkResourcesOperations,
+} from "./classic/sharedPrivateLinkResources/index.js";
+import { TargetsOperations, _getTargetsOperations } from "./classic/targets/index.js";
+import {
+  HealthValidationsOperations,
+  _getHealthValidationsOperations,
+} from "./classic/healthValidations/index.js";
+import {
+  AlertRuleResourcesOperations,
+  _getAlertRuleResourcesOperations,
+} from "./classic/alertRuleResources/index.js";
+import { WatchersOperations, _getWatchersOperations } from "./classic/watchers/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
