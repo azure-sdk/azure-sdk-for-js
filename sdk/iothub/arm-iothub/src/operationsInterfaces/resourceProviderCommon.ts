@@ -8,7 +8,7 @@
 
 import {
   ResourceProviderCommonGetSubscriptionQuotaOptionalParams,
-  ResourceProviderCommonGetSubscriptionQuotaResponse
+  ResourceProviderCommonGetSubscriptionQuotaResponse,
 } from "../models/index.js";
 
 /** Interface representing a ResourceProviderCommon. */
@@ -18,6 +18,6 @@ export interface ResourceProviderCommon {
    * @param options The options parameters.
    */
   getSubscriptionQuota(
-    options?: ResourceProviderCommonGetSubscriptionQuotaOptionalParams
+    options?: ResourceProviderCommonGetSubscriptionQuotaOptionalParams,
   ): Promise<ResourceProviderCommonGetSubscriptionQuotaResponse>;
 }

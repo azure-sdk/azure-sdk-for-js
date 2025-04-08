@@ -25,7 +25,7 @@ export interface IotHub {
     iotHubName: string,
     resourceGroupName: string,
     failoverInput: FailoverInput,
-    options?: IotHubManualFailoverOptionalParams
+    options?: IotHubManualFailoverOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Manually initiate a failover for the IoT Hub to its secondary region. To learn more, see
@@ -41,6 +41,6 @@ export interface IotHub {
     iotHubName: string,
     resourceGroupName: string,
     failoverInput: FailoverInput,
-    options?: IotHubManualFailoverOptionalParams
+    options?: IotHubManualFailoverOptionalParams,
   ): Promise<void>;
 }

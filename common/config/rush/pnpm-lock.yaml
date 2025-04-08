@@ -2946,7 +2946,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-iothub@file:projects/arm-iothub.tgz':
-    resolution: {integrity: sha512-7+fLul43fGKqQKlyrgOAVv+7UhbL4zy4ADFBFoh98MnjC79BiVsA064m0tX9nwZieHZVLMyi83IlgpCdYNdEmA==, tarball: file:projects/arm-iothub.tgz}
+    resolution: {integrity: sha512-i6h9ZWytjB0y0SOpvpuTIVFxin8o37NXjhIeXvZ1WVconiaseE1knB85lkat/NJnQhsycCgn0JxU0xF3fj8iyA==, tarball: file:projects/arm-iothub.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-iotoperations@file:projects/arm-iotoperations.tgz':

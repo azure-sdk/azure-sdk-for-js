@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters.js";
 import { IotHubClient } from "../iotHubClient.js";
 import {
   ResourceProviderCommonGetSubscriptionQuotaOptionalParams,
-  ResourceProviderCommonGetSubscriptionQuotaResponse
+  ResourceProviderCommonGetSubscriptionQuotaResponse,
 } from "../models/index.js";
 
 /** Class containing ResourceProviderCommon operations. */
@@ -33,11 +33,11 @@ export class ResourceProviderCommonImpl implements ResourceProviderCommon {
    * @param options The options parameters.
    */
   getSubscriptionQuota(
-    options?: ResourceProviderCommonGetSubscriptionQuotaOptionalParams
+    options?: ResourceProviderCommonGetSubscriptionQuotaOptionalParams,
   ): Promise<ResourceProviderCommonGetSubscriptionQuotaResponse> {
     return this.client.sendOperationRequest(
       { options },
-      getSubscriptionQuotaOperationSpec
+      getSubscriptionQuotaOperationSpec,
     );
   }
 }
@@ -49,14 +49,14 @@ const getSubscriptionQuotaOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UserSubscriptionQuotaListResult
+      bodyMapper: Mappers.UserSubscriptionQuotaListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
+      bodyMapper: Mappers.ErrorDetails,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
