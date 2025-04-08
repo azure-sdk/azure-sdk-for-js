@@ -87,6 +87,26 @@ export interface DeidUpdate {
     tags?: Record<string, string>;
 }
 
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
 // @public (undocumented)
 export class HealthDataAIServicesClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: HealthDataAIServicesClientOptionalParams);
@@ -180,8 +200,8 @@ export interface ManagedServiceIdentityUpdate {
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
