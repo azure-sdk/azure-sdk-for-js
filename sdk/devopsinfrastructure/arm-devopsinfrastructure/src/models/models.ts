@@ -1,564 +1,179 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/** The response of a ImageVersion list operation. */
-export interface _ImageVersionListResult {
-  /** The ImageVersion items on this page */
-  value: ImageVersion[];
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface _OperationListResult {
+  /** The Operation items on this page */
+  value: Operation[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _imageVersionListResultDeserializer(item: any): _ImageVersionListResult {
+export function _operationListResultDeserializer(item: any): _OperationListResult {
   return {
-    value: imageVersionArrayDeserializer(item["value"]),
+    value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function imageVersionArrayDeserializer(result: Array<ImageVersion>): any[] {
+export function operationArrayDeserializer(result: Array<Operation>): any[] {
   return result.map((item) => {
-    return imageVersionDeserializer(item);
+    return operationDeserializer(item);
   });
 }
 
-/** An image version object */
-export interface ImageVersion extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: ImageVersionProperties;
-}
-
-export function imageVersionDeserializer(item: any): ImageVersion {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : imageVersionPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Details of the ImageVersionProperties. */
-export interface ImageVersionProperties {
-  /** Version of the image. */
-  version: string;
-}
-
-export function imageVersionPropertiesDeserializer(item: any): ImageVersionProperties {
-  return {
-    version: item["version"],
-  };
-}
-
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
-
-export function proxyResourceDeserializer(item: any): ProxyResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  readonly id?: string;
-  /** The name of the resource */
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
+  /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
   readonly name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  readonly type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  readonly systemData?: SystemData;
+  /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+  /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+  readonly origin?: Origin;
+  /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+  readonly actionType?: ActionType;
 }
 
-export function resourceSerializer(item: Resource): any {
+export function operationDeserializer(item: any): Operation {
+  return {
+    name: item["name"],
+    isDataAction: item["isDataAction"],
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    origin: item["origin"],
+    actionType: item["actionType"],
+  };
+}
+
+/** Localized display information for and operation. */
+export interface OperationDisplay {
+  /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
+  readonly provider?: string;
+  /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
+  readonly resource?: string;
+  /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
+  readonly operation?: string;
+  /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
+  readonly description?: string;
+}
+
+export function operationDisplayDeserializer(item: any): OperationDisplay {
+  return {
+    provider: item["provider"],
+    resource: item["resource"],
+    operation: item["operation"],
+    description: item["description"],
+  };
+}
+
+/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+export enum KnownOrigin {
+  /** Indicates the operation is initiated by a user. */
+  User = "user",
+  /** Indicates the operation is initiated by a system. */
+  System = "system",
+  /** Indicates the operation is initiated by a user or system. */
+  UserSystem = "user,system",
+}
+
+/**
+ * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user**: Indicates the operation is initiated by a user. \
+ * **system**: Indicates the operation is initiated by a system. \
+ * **user,system**: Indicates the operation is initiated by a user or system.
+ */
+export type Origin = string;
+
+/** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+export enum KnownActionType {
+  /** Actions are for internal-only APIs. */
+  Internal = "Internal",
+}
+
+/**
+ * Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**: Actions are for internal-only APIs.
+ */
+export type ActionType = string;
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+export function errorResponseDeserializer(item: any): ErrorResponse {
+  return {
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+  };
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+export function errorDetailDeserializer(item: any): ErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
+  };
+}
+
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+  return result.map((item) => {
+    return errorDetailDeserializer(item);
+  });
+}
+
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+  return result.map((item) => {
+    return errorAdditionalInfoDeserializer(item);
+  });
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: Record<string, any>;
+}
+
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+  return {
+    type: item["type"],
+    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+  };
+}
+
+/** model interface _ErrorAdditionalInfoInfo */
+export interface _ErrorAdditionalInfoInfo {}
+
+export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
   return item;
 }
-
-export function resourceDeserializer(item: any): Resource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-export function systemDataDeserializer(item: any): SystemData {
-  return {
-    createdBy: item["createdBy"],
-    createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
-    lastModifiedBy: item["lastModifiedBy"],
-    lastModifiedByType: item["lastModifiedByType"],
-    lastModifiedAt: !item["lastModifiedAt"]
-      ? item["lastModifiedAt"]
-      : new Date(item["lastModifiedAt"]),
-  };
-}
-
-/** The kind of entity that created the resource. */
-export enum KnownCreatedByType {
-  /** The entity was created by a user. */
-  User = "User",
-  /** The entity was created by an application. */
-  Application = "Application",
-  /** The entity was created by a managed identity. */
-  ManagedIdentity = "ManagedIdentity",
-  /** The entity was created by a key. */
-  Key = "Key",
-}
-
-/**
- * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User**: The entity was created by a user. \
- * **Application**: The entity was created by an application. \
- * **ManagedIdentity**: The entity was created by a managed identity. \
- * **Key**: The entity was created by a key.
- */
-export type CreatedByType = string;
-
-/** Paged collection of Quota items */
-export interface _PagedQuota {
-  /** The Quota items on this page */
-  value: Quota[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _pagedQuotaDeserializer(item: any): _PagedQuota {
-  return {
-    value: quotaArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function quotaArrayDeserializer(result: Array<Quota>): any[] {
-  return result.map((item) => {
-    return quotaDeserializer(item);
-  });
-}
-
-/** Describes Resource Quota */
-export interface Quota {
-  /** The name of the quota. */
-  readonly name?: QuotaName;
-  /** Fully qualified ARM resource id */
-  id: string;
-  /** The unit of usage measurement. */
-  unit: string;
-  /** The current usage of the resource. */
-  currentValue: number;
-  /** The maximum permitted usage of the resource. */
-  limit: number;
-}
-
-export function quotaDeserializer(item: any): Quota {
-  return {
-    name: !item["name"] ? item["name"] : quotaNameDeserializer(item["name"]),
-    id: item["id"],
-    unit: item["unit"],
-    currentValue: item["currentValue"],
-    limit: item["limit"],
-  };
-}
-
-/** The Quota Names */
-export interface QuotaName {
-  /** The name of the resource. */
-  value?: string;
-  /** The localized name of the resource. */
-  localizedValue?: string;
-}
-
-export function quotaNameDeserializer(item: any): QuotaName {
-  return {
-    value: item["value"],
-    localizedValue: item["localizedValue"],
-  };
-}
-
-/** The response of a ResourceSku list operation. */
-export interface _ResourceSkuListResult {
-  /** The ResourceSku items on this page */
-  value: ResourceSku[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _resourceSkuListResultDeserializer(item: any): _ResourceSkuListResult {
-  return {
-    value: resourceSkuArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function resourceSkuArrayDeserializer(result: Array<ResourceSku>): any[] {
-  return result.map((item) => {
-    return resourceSkuDeserializer(item);
-  });
-}
-
-/** A ResourceSku */
-export interface ResourceSku extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: ResourceSkuProperties;
-}
-
-export function resourceSkuDeserializer(item: any): ResourceSku {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : resourceSkuPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Properties of a ResourceSku */
-export interface ResourceSkuProperties {
-  /** The type of resource the SKU applies to. */
-  resourceType: string;
-  /** The tier of virtual machines in a scale set */
-  tier: string;
-  /** The size of the SKU. */
-  size: string;
-  /** The family of the SKU. */
-  family: string;
-  /** The set of locations that the SKU is available. */
-  locations: string[];
-  /** A list of locations and availability zones in those locations where the SKU is available */
-  locationInfo: ResourceSkuLocationInfo[];
-  /** Name value pairs to describe the capability. */
-  capabilities: ResourceSkuCapabilities[];
-  /** The restrictions of the SKU. */
-  restrictions: ResourceSkuRestrictions[];
-}
-
-export function resourceSkuPropertiesDeserializer(item: any): ResourceSkuProperties {
-  return {
-    resourceType: item["resourceType"],
-    tier: item["tier"],
-    size: item["size"],
-    family: item["family"],
-    locations: item["locations"].map((p: any) => {
-      return p;
-    }),
-    locationInfo: resourceSkuLocationInfoArrayDeserializer(item["locationInfo"]),
-    capabilities: resourceSkuCapabilitiesArrayDeserializer(item["capabilities"]),
-    restrictions: resourceSkuRestrictionsArrayDeserializer(item["restrictions"]),
-  };
-}
-
-export function resourceSkuLocationInfoArrayDeserializer(
-  result: Array<ResourceSkuLocationInfo>,
-): any[] {
-  return result.map((item) => {
-    return resourceSkuLocationInfoDeserializer(item);
-  });
-}
-
-/** Describes an available Compute SKU Location Information. */
-export interface ResourceSkuLocationInfo {
-  /** Location of the SKU */
-  location: string;
-  /** List of availability zones where the SKU is supported. */
-  zones: string[];
-  /** Gets details of capabilities available to a SKU in specific zones. */
-  zoneDetails: ResourceSkuZoneDetails[];
-}
-
-export function resourceSkuLocationInfoDeserializer(item: any): ResourceSkuLocationInfo {
-  return {
-    location: item["location"],
-    zones: item["zones"].map((p: any) => {
-      return p;
-    }),
-    zoneDetails: resourceSkuZoneDetailsArrayDeserializer(item["zoneDetails"]),
-  };
-}
-
-export function resourceSkuZoneDetailsArrayDeserializer(
-  result: Array<ResourceSkuZoneDetails>,
-): any[] {
-  return result.map((item) => {
-    return resourceSkuZoneDetailsDeserializer(item);
-  });
-}
-
-/** Describes The zonal capabilities of a SKU. */
-export interface ResourceSkuZoneDetails {
-  /** Gets the set of zones that the SKU is available in with the specified capabilities. */
-  name: string[];
-  /** A list of capabilities that are available for the SKU in the specified list of zones. */
-  capabilities: ResourceSkuCapabilities[];
-}
-
-export function resourceSkuZoneDetailsDeserializer(item: any): ResourceSkuZoneDetails {
-  return {
-    name: item["name"].map((p: any) => {
-      return p;
-    }),
-    capabilities: resourceSkuCapabilitiesArrayDeserializer(item["capabilities"]),
-  };
-}
-
-export function resourceSkuCapabilitiesArrayDeserializer(
-  result: Array<ResourceSkuCapabilities>,
-): any[] {
-  return result.map((item) => {
-    return resourceSkuCapabilitiesDeserializer(item);
-  });
-}
-
-/** Describes The SKU capabilities object. */
-export interface ResourceSkuCapabilities {
-  /** The name of the SKU capability. */
-  name: string;
-  /** The value of the SKU capability. */
-  value: string;
-}
-
-export function resourceSkuCapabilitiesDeserializer(item: any): ResourceSkuCapabilities {
-  return {
-    name: item["name"],
-    value: item["value"],
-  };
-}
-
-export function resourceSkuRestrictionsArrayDeserializer(
-  result: Array<ResourceSkuRestrictions>,
-): any[] {
-  return result.map((item) => {
-    return resourceSkuRestrictionsDeserializer(item);
-  });
-}
-
-/** The restrictions of the SKU. */
-export interface ResourceSkuRestrictions {
-  /** the type of restrictions. */
-  type?: ResourceSkuRestrictionsType;
-  /** The value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted. */
-  values: string[];
-  /** The information about the restriction where the SKU cannot be used. */
-  restrictionInfo: ResourceSkuRestrictionInfo;
-  /** the reason for restriction. */
-  reasonCode?: ResourceSkuRestrictionsReasonCode;
-}
-
-export function resourceSkuRestrictionsDeserializer(item: any): ResourceSkuRestrictions {
-  return {
-    type: item["type"],
-    values: item["values"].map((p: any) => {
-      return p;
-    }),
-    restrictionInfo: resourceSkuRestrictionInfoDeserializer(item["restrictionInfo"]),
-    reasonCode: item["reasonCode"],
-  };
-}
-
-/** Describes the kind of SKU restrictions that can exist */
-export enum KnownResourceSkuRestrictionsType {
-  /** SKU restricted by location. */
-  Location = "Location",
-  /** SKU restricted by availability zone. */
-  Zone = "Zone",
-}
-
-/**
- * Describes the kind of SKU restrictions that can exist \
- * {@link KnownResourceSkuRestrictionsType} can be used interchangeably with ResourceSkuRestrictionsType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Location**: SKU restricted by location. \
- * **Zone**: SKU restricted by availability zone.
- */
-export type ResourceSkuRestrictionsType = string;
-
-/** Describes an available Compute SKU Restriction Information. */
-export interface ResourceSkuRestrictionInfo {
-  /** Locations where the SKU is restricted */
-  locations?: string[];
-  /** List of availability zones where the SKU is restricted. */
-  zones?: string[];
-}
-
-export function resourceSkuRestrictionInfoDeserializer(item: any): ResourceSkuRestrictionInfo {
-  return {
-    locations: !item["locations"]
-      ? item["locations"]
-      : item["locations"].map((p: any) => {
-          return p;
-        }),
-    zones: !item["zones"]
-      ? item["zones"]
-      : item["zones"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** Describes the reason for SKU restriction. */
-export enum KnownResourceSkuRestrictionsReasonCode {
-  /** The restriction is due to exceeding a quota limitation. */
-  QuotaId = "QuotaId",
-  /** The restriction is not available for this subscription. */
-  NotAvailableForSubscription = "NotAvailableForSubscription",
-}
-
-/**
- * Describes the reason for SKU restriction. \
- * {@link KnownResourceSkuRestrictionsReasonCode} can be used interchangeably with ResourceSkuRestrictionsReasonCode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **QuotaId**: The restriction is due to exceeding a quota limitation. \
- * **NotAvailableForSubscription**: The restriction is not available for this subscription.
- */
-export type ResourceSkuRestrictionsReasonCode = string;
-
-/** The response of a ResourceDetailsObject list operation. */
-export interface _ResourceDetailsObjectListResult {
-  /** The ResourceDetailsObject items on this page */
-  value: ResourceDetailsObject[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _resourceDetailsObjectListResultDeserializer(
-  item: any,
-): _ResourceDetailsObjectListResult {
-  return {
-    value: resourceDetailsObjectArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function resourceDetailsObjectArrayDeserializer(
-  result: Array<ResourceDetailsObject>,
-): any[] {
-  return result.map((item) => {
-    return resourceDetailsObjectDeserializer(item);
-  });
-}
-
-/** A ResourceDetailsObject */
-export interface ResourceDetailsObject extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: ResourceDetailsObjectProperties;
-}
-
-export function resourceDetailsObjectDeserializer(item: any): ResourceDetailsObject {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : resourceDetailsObjectPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Details of the ResourceDetailsObject. */
-export interface ResourceDetailsObjectProperties {
-  /** The status of the resource. */
-  status: ResourceStatus;
-  /** The image name of the resource. */
-  image: string;
-  /** The version of the image running on the resource. */
-  imageVersion: string;
-}
-
-export function resourceDetailsObjectPropertiesDeserializer(
-  item: any,
-): ResourceDetailsObjectProperties {
-  return {
-    status: item["status"],
-    image: item["image"],
-    imageVersion: item["imageVersion"],
-  };
-}
-
-/** The status of the machine resource. */
-export enum KnownResourceStatus {
-  /** Represents a machine resource that is ready. */
-  Ready = "Ready",
-  /** Represents a machine resource that is not ready. */
-  NotReady = "NotReady",
-  /** Represents a machine resource that is allocated. */
-  Allocated = "Allocated",
-  /** Represents a machine resource that is pending return. */
-  PendingReturn = "PendingReturn",
-  /** Represents a machine resource that is returned. */
-  Returned = "Returned",
-  /** Represents a machine resource that is leased. */
-  Leased = "Leased",
-  /** Represents a machine resource that is provisioning. */
-  Provisioning = "Provisioning",
-  /** Represents a machine resource that is updating. */
-  Updating = "Updating",
-  /** Represents a machine resource that is starting. */
-  Starting = "Starting",
-  /** Represents a machine resource that is pending reimage. */
-  PendingReimage = "PendingReimage",
-  /** Represents a machine resource that is reimaging. */
-  Reimaging = "Reimaging",
-}
-
-/**
- * The status of the machine resource. \
- * {@link KnownResourceStatus} can be used interchangeably with ResourceStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Ready**: Represents a machine resource that is ready. \
- * **NotReady**: Represents a machine resource that is not ready. \
- * **Allocated**: Represents a machine resource that is allocated. \
- * **PendingReturn**: Represents a machine resource that is pending return. \
- * **Returned**: Represents a machine resource that is returned. \
- * **Leased**: Represents a machine resource that is leased. \
- * **Provisioning**: Represents a machine resource that is provisioning. \
- * **Updating**: Represents a machine resource that is updating. \
- * **Starting**: Represents a machine resource that is starting. \
- * **PendingReimage**: Represents a machine resource that is pending reimage. \
- * **Reimaging**: Represents a machine resource that is reimaging.
- */
-export type ResourceStatus = string;
 
 /** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
 export interface Pool extends TrackedResource {
@@ -838,6 +453,8 @@ export interface Organization {
   projects?: string[];
   /** How many machines can be created at maximum in this organization out of the maximumConcurrency of the pool. */
   parallelism?: number;
+  /** Determines if the pool should have open access to all projects in this organization. */
+  openAccess?: boolean;
 }
 
 export function organizationSerializer(item: Organization): any {
@@ -849,6 +466,7 @@ export function organizationSerializer(item: Organization): any {
           return p;
         }),
     parallelism: item["parallelism"],
+    openAccess: item["openAccess"],
   };
 }
 
@@ -861,6 +479,7 @@ export function organizationDeserializer(item: any): Organization {
           return p;
         }),
     parallelism: item["parallelism"],
+    openAccess: item["openAccess"],
   };
 }
 
@@ -940,25 +559,25 @@ export interface AgentProfile {
 
 export function agentProfileSerializer(item: AgentProfile): any {
   return {
+    kind: item["kind"],
     resourcePredictions: !item["resourcePredictions"]
       ? item["resourcePredictions"]
       : resourcePredictionsSerializer(item["resourcePredictions"]),
     resourcePredictionsProfile: !item["resourcePredictionsProfile"]
       ? item["resourcePredictionsProfile"]
       : resourcePredictionsProfileUnionSerializer(item["resourcePredictionsProfile"]),
-    kind: item["kind"],
   };
 }
 
 export function agentProfileDeserializer(item: any): AgentProfile {
   return {
+    kind: item["kind"],
     resourcePredictions: !item["resourcePredictions"]
       ? item["resourcePredictions"]
       : resourcePredictionsDeserializer(item["resourcePredictions"]),
     resourcePredictionsProfile: !item["resourcePredictionsProfile"]
       ? item["resourcePredictionsProfile"]
       : resourcePredictionsProfileUnionDeserializer(item["resourcePredictionsProfile"]),
-    kind: item["kind"],
   };
 }
 
@@ -1158,25 +777,25 @@ export interface StatelessAgentProfile extends AgentProfile {
 
 export function statelessAgentProfileSerializer(item: StatelessAgentProfile): any {
   return {
+    kind: item["kind"],
     resourcePredictions: !item["resourcePredictions"]
       ? item["resourcePredictions"]
       : resourcePredictionsSerializer(item["resourcePredictions"]),
     resourcePredictionsProfile: !item["resourcePredictionsProfile"]
       ? item["resourcePredictionsProfile"]
       : resourcePredictionsProfileUnionSerializer(item["resourcePredictionsProfile"]),
-    kind: item["kind"],
   };
 }
 
 export function statelessAgentProfileDeserializer(item: any): StatelessAgentProfile {
   return {
+    kind: item["kind"],
     resourcePredictions: !item["resourcePredictions"]
       ? item["resourcePredictions"]
       : resourcePredictionsDeserializer(item["resourcePredictions"]),
     resourcePredictionsProfile: !item["resourcePredictionsProfile"]
       ? item["resourcePredictionsProfile"]
       : resourcePredictionsProfileUnionDeserializer(item["resourcePredictionsProfile"]),
-    kind: item["kind"],
   };
 }
 
@@ -1192,13 +811,13 @@ export interface Stateful extends AgentProfile {
 
 export function statefulSerializer(item: Stateful): any {
   return {
+    kind: item["kind"],
     resourcePredictions: !item["resourcePredictions"]
       ? item["resourcePredictions"]
       : resourcePredictionsSerializer(item["resourcePredictions"]),
     resourcePredictionsProfile: !item["resourcePredictionsProfile"]
       ? item["resourcePredictionsProfile"]
       : resourcePredictionsProfileUnionSerializer(item["resourcePredictionsProfile"]),
-    kind: item["kind"],
     maxAgentLifetime: item["maxAgentLifetime"],
     gracePeriodTimeSpan: item["gracePeriodTimeSpan"],
   };
@@ -1206,13 +825,13 @@ export function statefulSerializer(item: Stateful): any {
 
 export function statefulDeserializer(item: any): Stateful {
   return {
+    kind: item["kind"],
     resourcePredictions: !item["resourcePredictions"]
       ? item["resourcePredictions"]
       : resourcePredictionsDeserializer(item["resourcePredictions"]),
     resourcePredictionsProfile: !item["resourcePredictionsProfile"]
       ? item["resourcePredictionsProfile"]
       : resourcePredictionsProfileUnionDeserializer(item["resourcePredictionsProfile"]),
-    kind: item["kind"],
     maxAgentLifetime: item["maxAgentLifetime"],
     gracePeriodTimeSpan: item["gracePeriodTimeSpan"],
   };
@@ -1342,6 +961,8 @@ export interface PoolImage {
   aliases?: string[];
   /** The percentage of the buffer to be allocated to this image. */
   buffer?: string;
+  /** The ephemeral type of the image. */
+  ephemeralType?: EphemeralType;
 }
 
 export function poolImageSerializer(item: PoolImage): any {
@@ -1354,6 +975,7 @@ export function poolImageSerializer(item: PoolImage): any {
           return p;
         }),
     buffer: item["buffer"],
+    ephemeralType: item["ephemeralType"],
   };
 }
 
@@ -1367,8 +989,30 @@ export function poolImageDeserializer(item: any): PoolImage {
           return p;
         }),
     buffer: item["buffer"],
+    ephemeralType: item["ephemeralType"],
   };
 }
+
+/** The type of Ephemeral option the pool will use on underlying VMs when loading this image. */
+export enum KnownEphemeralType {
+  /** Ephemeral is handled by Managed DevOps Pools service. */
+  Automatic = "Automatic",
+  /** CacheDisk ephemeral only, requires that the SKU has a cache that is large enough for the image. */
+  CacheDisk = "CacheDisk",
+  /** ResourceDisk ephemeral only, requires only that the SKU supports it. */
+  ResourceDisk = "ResourceDisk",
+}
+
+/**
+ * The type of Ephemeral option the pool will use on underlying VMs when loading this image. \
+ * {@link KnownEphemeralType} can be used interchangeably with EphemeralType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Automatic**: Ephemeral is handled by Managed DevOps Pools service. \
+ * **CacheDisk**: CacheDisk ephemeral only, requires that the SKU has a cache that is large enough for the image. \
+ * **ResourceDisk**: ResourceDisk ephemeral only, requires only that the SKU supports it.
+ */
+export type EphemeralType = string;
 
 /** The OS profile of the machines in the pool. */
 export interface OsProfile {
@@ -1400,6 +1044,8 @@ export function osProfileDeserializer(item: any): OsProfile {
 export interface SecretsManagementSettings {
   /** Where to store certificates on the machine. */
   certificateStoreLocation?: string;
+  /** Name of the certificate store to use on the machine, currently 'My' and 'Root' are supported. */
+  certificateStoreName?: CertificateStoreNameOption;
   /** The list of certificates to install on all machines in the pool. */
   observedCertificates: string[];
   /** Defines if the key of the certificates should be exportable. */
@@ -1409,6 +1055,7 @@ export interface SecretsManagementSettings {
 export function secretsManagementSettingsSerializer(item: SecretsManagementSettings): any {
   return {
     certificateStoreLocation: item["certificateStoreLocation"],
+    certificateStoreName: item["certificateStoreName"],
     observedCertificates: item["observedCertificates"].map((p: any) => {
       return p;
     }),
@@ -1419,12 +1066,31 @@ export function secretsManagementSettingsSerializer(item: SecretsManagementSetti
 export function secretsManagementSettingsDeserializer(item: any): SecretsManagementSettings {
   return {
     certificateStoreLocation: item["certificateStoreLocation"],
+    certificateStoreName: item["certificateStoreName"],
     observedCertificates: item["observedCertificates"].map((p: any) => {
       return p;
     }),
     keyExportable: item["keyExportable"],
   };
 }
+
+/** The certificate store name type */
+export enum KnownCertificateStoreNameOption {
+  /** The X.509 certificate store for personal certificates. */
+  My = "My",
+  /** The X.509 certificate store for trusted root certificate authorities (CAs). */
+  Root = "Root",
+}
+
+/**
+ * The certificate store name type \
+ * {@link KnownCertificateStoreNameOption} can be used interchangeably with CertificateStoreNameOption,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **My**: The X.509 certificate store for personal certificates. \
+ * **Root**: The X.509 certificate store for trusted root certificate authorities (CAs).
+ */
+export type CertificateStoreNameOption = string;
 
 /** Determines how the service should be run. */
 export enum KnownLogonType {
@@ -1559,11 +1225,11 @@ export enum KnownStorageAccountType {
   /** The data disk should use premium locally redundant storage. */
   PremiumLRS = "Premium_LRS",
   /** The data disk should use standard SSD locally redundant storage. */
-  StandardSSDLRS = "StandardSSD_LRS",
+  StandardSsdlrs = "StandardSSD_LRS",
   /** The data disk should use premium SSD zonal redundant storage. */
   PremiumZRS = "Premium_ZRS",
   /** The data disk should use standard SSD zonal redundant storage. */
-  StandardSSDZRS = "StandardSSD_ZRS",
+  StandardSsdzrs = "StandardSSD_ZRS",
 }
 
 /**
@@ -1649,10 +1315,10 @@ export type ManagedServiceIdentityType = string;
 
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
-  /** The principal ID of the assigned identity. */
-  readonly principalId?: string;
   /** The client ID of the assigned identity. */
   readonly clientId?: string;
+  /** The principal ID of the assigned identity. */
+  readonly principalId?: string;
 }
 
 export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
@@ -1661,8 +1327,8 @@ export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any 
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
   return {
-    principalId: item["principalId"],
     clientId: item["clientId"],
+    principalId: item["principalId"],
   };
 }
 
@@ -1690,6 +1356,86 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     location: item["location"],
   };
 }
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  readonly id?: string;
+  /** The name of the resource */
+  readonly name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  readonly type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  readonly systemData?: SystemData;
+}
+
+export function resourceSerializer(item: Resource): any {
+  return item;
+}
+
+export function resourceDeserializer(item: any): Resource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+export function systemDataDeserializer(item: any): SystemData {
+  return {
+    createdBy: item["createdBy"],
+    createdByType: item["createdByType"],
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    lastModifiedBy: item["lastModifiedBy"],
+    lastModifiedByType: item["lastModifiedByType"],
+    lastModifiedAt: !item["lastModifiedAt"]
+      ? item["lastModifiedAt"]
+      : new Date(item["lastModifiedAt"]),
+  };
+}
+
+/** The kind of entity that created the resource. */
+export enum KnownCreatedByType {
+  /** The entity was created by a user. */
+  User = "User",
+  /** The entity was created by an application. */
+  Application = "Application",
+  /** The entity was created by a managed identity. */
+  ManagedIdentity = "ManagedIdentity",
+  /** The entity was created by a key. */
+  Key = "Key",
+}
+
+/**
+ * The kind of entity that created the resource. \
+ * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User**: The entity was created by a user. \
+ * **Application**: The entity was created by an application. \
+ * **ManagedIdentity**: The entity was created by a managed identity. \
+ * **Key**: The entity was created by a key.
+ */
+export type CreatedByType = string;
 
 /** The type used for update operations of the Pool. */
 export interface PoolUpdate {
@@ -1773,110 +1519,571 @@ export function poolArrayDeserializer(result: Array<Pool>): any[] {
   });
 }
 
-/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
-export interface _OperationListResult {
-  /** The Operation items on this page */
-  value: Operation[];
+/** The parameters used to check the availability of a resource. */
+export interface CheckNameAvailability {
+  /** The name of the resource. */
+  name: string;
+  /** The type of resource that is used as the scope of the availability check. */
+  type: DevOpsInfrastructureResourceType;
+}
+
+export function checkNameAvailabilitySerializer(item: CheckNameAvailability): any {
+  return { name: item["name"], type: item["type"] };
+}
+
+/** The type of resource. */
+export enum KnownDevOpsInfrastructureResourceType {
+  /** DevOpsInfrastructure pool resource. */
+  MicrosoftDevOpsInfrastructurePools = "Microsoft.DevOpsInfrastructure/pools",
+}
+
+/**
+ * The type of resource. \
+ * {@link KnownDevOpsInfrastructureResourceType} can be used interchangeably with DevOpsInfrastructureResourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Microsoft.DevOpsInfrastructure\/pools**: DevOpsInfrastructure pool resource.
+ */
+export type DevOpsInfrastructureResourceType = string;
+
+/** The CheckNameAvailability operation response. */
+export interface CheckNameAvailabilityResult {
+  /** Availability status of the name. */
+  available: AvailabilityStatus;
+  /** A message explaining why the name is unavailable. Will be null if the name is available. */
+  message: string;
+  /** The name whose availability was checked. */
+  name: string;
+  /** The reason code explaining why the name is unavailable. Will be null if the name is available. */
+  reason: CheckNameAvailabilityReason;
+}
+
+export function checkNameAvailabilityResultDeserializer(item: any): CheckNameAvailabilityResult {
+  return {
+    available: item["available"],
+    message: item["message"],
+    name: item["name"],
+    reason: item["reason"],
+  };
+}
+
+/** AvailabilityStatus of a name. */
+export enum KnownAvailabilityStatus {
+  /** The name is available. */
+  Available = "Available",
+  /** The name is unavailable */
+  Unavailable = "Unavailable",
+}
+
+/**
+ * AvailabilityStatus of a name. \
+ * {@link KnownAvailabilityStatus} can be used interchangeably with AvailabilityStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Available**: The name is available. \
+ * **Unavailable**: The name is unavailable
+ */
+export type AvailabilityStatus = string;
+
+/** The reason code explaining why the name is unavailable. Will be null if the name is available. */
+export enum KnownCheckNameAvailabilityReason {
+  /** The name is invalid. */
+  Invalid = "Invalid",
+  /** The name already exists. */
+  AlreadyExists = "AlreadyExists",
+}
+
+/**
+ * The reason code explaining why the name is unavailable. Will be null if the name is available. \
+ * {@link KnownCheckNameAvailabilityReason} can be used interchangeably with CheckNameAvailabilityReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid**: The name is invalid. \
+ * **AlreadyExists**: The name already exists.
+ */
+export type CheckNameAvailabilityReason = string;
+
+/** The response of a ResourceDetailsObject list operation. */
+export interface _ResourceDetailsObjectListResult {
+  /** The ResourceDetailsObject items on this page */
+  value: ResourceDetailsObject[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(item: any): _OperationListResult {
+export function _resourceDetailsObjectListResultDeserializer(
+  item: any,
+): _ResourceDetailsObjectListResult {
   return {
-    value: operationArrayDeserializer(item["value"]),
+    value: resourceDetailsObjectArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function operationArrayDeserializer(result: Array<Operation>): any[] {
+export function resourceDetailsObjectArrayDeserializer(
+  result: Array<ResourceDetailsObject>,
+): any[] {
   return result.map((item) => {
-    return operationDeserializer(item);
+    return resourceDetailsObjectDeserializer(item);
   });
 }
 
-/** Details of a REST API operation, returned from the Resource Provider Operations API */
-export interface Operation {
-  /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  readonly name?: string;
-  /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
-  readonly isDataAction?: boolean;
-  /** Localized display information for this particular operation. */
-  readonly display?: OperationDisplay;
-  /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  readonly origin?: Origin;
-  /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: ActionType;
+/** A ResourceDetailsObject */
+export interface ResourceDetailsObject extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ResourceDetailsObjectProperties;
 }
 
-export function operationDeserializer(item: any): Operation {
+export function resourceDetailsObjectDeserializer(item: any): ResourceDetailsObject {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : resourceDetailsObjectPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Details of the ResourceDetailsObject. */
+export interface ResourceDetailsObjectProperties {
+  /** The status of the resource. */
+  status: ResourceStatus;
+  /** The image name of the resource. */
+  image: string;
+  /** The version of the image running on the resource. */
+  imageVersion: string;
+}
+
+export function resourceDetailsObjectPropertiesDeserializer(
+  item: any,
+): ResourceDetailsObjectProperties {
+  return {
+    status: item["status"],
+    image: item["image"],
+    imageVersion: item["imageVersion"],
+  };
+}
+
+/** The status of the machine resource. */
+export enum KnownResourceStatus {
+  /** Represents a machine resource that is ready. */
+  Ready = "Ready",
+  /** Represents a machine resource that is not ready. */
+  NotReady = "NotReady",
+  /** Represents a machine resource that is allocated. */
+  Allocated = "Allocated",
+  /** Represents a machine resource that is pending return. */
+  PendingReturn = "PendingReturn",
+  /** Represents a machine resource that is returned. */
+  Returned = "Returned",
+  /** Represents a machine resource that is leased. */
+  Leased = "Leased",
+  /** Represents a machine resource that is provisioning. */
+  Provisioning = "Provisioning",
+  /** Represents a machine resource that is updating. */
+  Updating = "Updating",
+  /** Represents a machine resource that is starting. */
+  Starting = "Starting",
+  /** Represents a machine resource that is pending reimage. */
+  PendingReimage = "PendingReimage",
+  /** Represents a machine resource that is reimaging. */
+  Reimaging = "Reimaging",
+}
+
+/**
+ * The status of the machine resource. \
+ * {@link KnownResourceStatus} can be used interchangeably with ResourceStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Ready**: Represents a machine resource that is ready. \
+ * **NotReady**: Represents a machine resource that is not ready. \
+ * **Allocated**: Represents a machine resource that is allocated. \
+ * **PendingReturn**: Represents a machine resource that is pending return. \
+ * **Returned**: Represents a machine resource that is returned. \
+ * **Leased**: Represents a machine resource that is leased. \
+ * **Provisioning**: Represents a machine resource that is provisioning. \
+ * **Updating**: Represents a machine resource that is updating. \
+ * **Starting**: Represents a machine resource that is starting. \
+ * **PendingReimage**: Represents a machine resource that is pending reimage. \
+ * **Reimaging**: Represents a machine resource that is reimaging.
+ */
+export type ResourceStatus = string;
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+export function proxyResourceDeserializer(item: any): ProxyResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** The response of a ResourceSku list operation. */
+export interface _ResourceSkuListResult {
+  /** The ResourceSku items on this page */
+  value: ResourceSku[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _resourceSkuListResultDeserializer(item: any): _ResourceSkuListResult {
+  return {
+    value: resourceSkuArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function resourceSkuArrayDeserializer(result: Array<ResourceSku>): any[] {
+  return result.map((item) => {
+    return resourceSkuDeserializer(item);
+  });
+}
+
+/** A ResourceSku */
+export interface ResourceSku extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ResourceSkuProperties;
+}
+
+export function resourceSkuDeserializer(item: any): ResourceSku {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : resourceSkuPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of a ResourceSku */
+export interface ResourceSkuProperties {
+  /** The type of resource the SKU applies to. */
+  resourceType: string;
+  /** The tier of virtual machines in a scale set */
+  tier: string;
+  /** The size of the SKU. */
+  size: string;
+  /** The family of the SKU. */
+  family: string;
+  /** The set of locations that the SKU is available. */
+  locations: string[];
+  /** A list of locations and availability zones in those locations where the SKU is available */
+  locationInfo: ResourceSkuLocationInfo[];
+  /** Name value pairs to describe the capability. */
+  capabilities: ResourceSkuCapabilities[];
+  /** The restrictions of the SKU. */
+  restrictions: ResourceSkuRestrictions[];
+}
+
+export function resourceSkuPropertiesDeserializer(item: any): ResourceSkuProperties {
+  return {
+    resourceType: item["resourceType"],
+    tier: item["tier"],
+    size: item["size"],
+    family: item["family"],
+    locations: item["locations"].map((p: any) => {
+      return p;
+    }),
+    locationInfo: resourceSkuLocationInfoArrayDeserializer(item["locationInfo"]),
+    capabilities: resourceSkuCapabilitiesArrayDeserializer(item["capabilities"]),
+    restrictions: resourceSkuRestrictionsArrayDeserializer(item["restrictions"]),
+  };
+}
+
+export function resourceSkuLocationInfoArrayDeserializer(
+  result: Array<ResourceSkuLocationInfo>,
+): any[] {
+  return result.map((item) => {
+    return resourceSkuLocationInfoDeserializer(item);
+  });
+}
+
+/** Describes an available Compute SKU Location Information. */
+export interface ResourceSkuLocationInfo {
+  /** Location of the SKU */
+  location: string;
+  /** List of availability zones where the SKU is supported. */
+  zones: string[];
+  /** Gets details of capabilities available to a SKU in specific zones. */
+  zoneDetails: ResourceSkuZoneDetails[];
+}
+
+export function resourceSkuLocationInfoDeserializer(item: any): ResourceSkuLocationInfo {
+  return {
+    location: item["location"],
+    zones: item["zones"].map((p: any) => {
+      return p;
+    }),
+    zoneDetails: resourceSkuZoneDetailsArrayDeserializer(item["zoneDetails"]),
+  };
+}
+
+export function resourceSkuZoneDetailsArrayDeserializer(
+  result: Array<ResourceSkuZoneDetails>,
+): any[] {
+  return result.map((item) => {
+    return resourceSkuZoneDetailsDeserializer(item);
+  });
+}
+
+/** Describes The zonal capabilities of a SKU. */
+export interface ResourceSkuZoneDetails {
+  /** Gets the set of zones that the SKU is available in with the specified capabilities. */
+  name: string[];
+  /** A list of capabilities that are available for the SKU in the specified list of zones. */
+  capabilities: ResourceSkuCapabilities[];
+}
+
+export function resourceSkuZoneDetailsDeserializer(item: any): ResourceSkuZoneDetails {
+  return {
+    name: item["name"].map((p: any) => {
+      return p;
+    }),
+    capabilities: resourceSkuCapabilitiesArrayDeserializer(item["capabilities"]),
+  };
+}
+
+export function resourceSkuCapabilitiesArrayDeserializer(
+  result: Array<ResourceSkuCapabilities>,
+): any[] {
+  return result.map((item) => {
+    return resourceSkuCapabilitiesDeserializer(item);
+  });
+}
+
+/** Describes The SKU capabilities object. */
+export interface ResourceSkuCapabilities {
+  /** The name of the SKU capability. */
+  name: string;
+  /** The value of the SKU capability. */
+  value: string;
+}
+
+export function resourceSkuCapabilitiesDeserializer(item: any): ResourceSkuCapabilities {
   return {
     name: item["name"],
-    isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
-    origin: item["origin"],
-    actionType: item["actionType"],
+    value: item["value"],
   };
 }
 
-/** Localized display information for and operation. */
-export interface OperationDisplay {
-  /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  readonly provider?: string;
-  /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  readonly resource?: string;
-  /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  readonly operation?: string;
-  /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  readonly description?: string;
+export function resourceSkuRestrictionsArrayDeserializer(
+  result: Array<ResourceSkuRestrictions>,
+): any[] {
+  return result.map((item) => {
+    return resourceSkuRestrictionsDeserializer(item);
+  });
 }
 
-export function operationDisplayDeserializer(item: any): OperationDisplay {
+/** The restrictions of the SKU. */
+export interface ResourceSkuRestrictions {
+  /** the type of restrictions. */
+  type?: ResourceSkuRestrictionsType;
+  /** The value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted. */
+  values: string[];
+  /** The information about the restriction where the SKU cannot be used. */
+  restrictionInfo: ResourceSkuRestrictionInfo;
+  /** the reason for restriction. */
+  reasonCode?: ResourceSkuRestrictionsReasonCode;
+}
+
+export function resourceSkuRestrictionsDeserializer(item: any): ResourceSkuRestrictions {
   return {
-    provider: item["provider"],
-    resource: item["resource"],
-    operation: item["operation"],
-    description: item["description"],
+    type: item["type"],
+    values: item["values"].map((p: any) => {
+      return p;
+    }),
+    restrictionInfo: resourceSkuRestrictionInfoDeserializer(item["restrictionInfo"]),
+    reasonCode: item["reasonCode"],
   };
 }
 
-/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-export enum KnownOrigin {
-  /** Indicates the operation is initiated by a user. */
-  User = "user",
-  /** Indicates the operation is initiated by a system. */
-  System = "system",
-  /** Indicates the operation is initiated by a user or system. */
-  UserSystem = "user,system",
+/** Describes the kind of SKU restrictions that can exist */
+export enum KnownResourceSkuRestrictionsType {
+  /** SKU restricted by location. */
+  Location = "Location",
+  /** SKU restricted by availability zone. */
+  Zone = "Zone",
 }
 
 /**
- * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" \
- * {@link KnownOrigin} can be used interchangeably with Origin,
+ * Describes the kind of SKU restrictions that can exist \
+ * {@link KnownResourceSkuRestrictionsType} can be used interchangeably with ResourceSkuRestrictionsType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **user**: Indicates the operation is initiated by a user. \
- * **system**: Indicates the operation is initiated by a system. \
- * **user,system**: Indicates the operation is initiated by a user or system.
+ * **Location**: SKU restricted by location. \
+ * **Zone**: SKU restricted by availability zone.
  */
-export type Origin = string;
+export type ResourceSkuRestrictionsType = string;
 
-/** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-export enum KnownActionType {
-  /** Actions are for internal-only APIs. */
-  Internal = "Internal",
+/** Describes an available Compute SKU Restriction Information. */
+export interface ResourceSkuRestrictionInfo {
+  /** Locations where the SKU is restricted */
+  locations?: string[];
+  /** List of availability zones where the SKU is restricted. */
+  zones?: string[];
+}
+
+export function resourceSkuRestrictionInfoDeserializer(item: any): ResourceSkuRestrictionInfo {
+  return {
+    locations: !item["locations"]
+      ? item["locations"]
+      : item["locations"].map((p: any) => {
+          return p;
+        }),
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Describes the reason for SKU restriction. */
+export enum KnownResourceSkuRestrictionsReasonCode {
+  /** The restriction is due to exceeding a quota limitation. */
+  QuotaId = "QuotaId",
+  /** The restriction is not available for this subscription. */
+  NotAvailableForSubscription = "NotAvailableForSubscription",
 }
 
 /**
- * Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. \
- * {@link KnownActionType} can be used interchangeably with ActionType,
+ * Describes the reason for SKU restriction. \
+ * {@link KnownResourceSkuRestrictionsReasonCode} can be used interchangeably with ResourceSkuRestrictionsReasonCode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Internal**: Actions are for internal-only APIs.
+ * **QuotaId**: The restriction is due to exceeding a quota limitation. \
+ * **NotAvailableForSubscription**: The restriction is not available for this subscription.
  */
-export type ActionType = string;
+export type ResourceSkuRestrictionsReasonCode = string;
+
+/** Paged collection of Quota items */
+export interface _PagedQuota {
+  /** The Quota items on this page */
+  value: Quota[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _pagedQuotaDeserializer(item: any): _PagedQuota {
+  return {
+    value: quotaArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function quotaArrayDeserializer(result: Array<Quota>): any[] {
+  return result.map((item) => {
+    return quotaDeserializer(item);
+  });
+}
+
+/** Describes Resource Quota */
+export interface Quota {
+  /** The name of the quota. */
+  readonly name?: QuotaName;
+  /** Fully qualified ARM resource id */
+  id: string;
+  /** The unit of usage measurement. */
+  unit: string;
+  /** The current usage of the resource. */
+  currentValue: number;
+  /** The maximum permitted usage of the resource. */
+  limit: number;
+}
+
+export function quotaDeserializer(item: any): Quota {
+  return {
+    name: !item["name"] ? item["name"] : quotaNameDeserializer(item["name"]),
+    id: item["id"],
+    unit: item["unit"],
+    currentValue: item["currentValue"],
+    limit: item["limit"],
+  };
+}
+
+/** The Quota Names */
+export interface QuotaName {
+  /** The name of the resource. */
+  value?: string;
+  /** The localized name of the resource. */
+  localizedValue?: string;
+}
+
+export function quotaNameDeserializer(item: any): QuotaName {
+  return {
+    value: item["value"],
+    localizedValue: item["localizedValue"],
+  };
+}
+
+/** The response of a ImageVersion list operation. */
+export interface _ImageVersionListResult {
+  /** The ImageVersion items on this page */
+  value: ImageVersion[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _imageVersionListResultDeserializer(item: any): _ImageVersionListResult {
+  return {
+    value: imageVersionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function imageVersionArrayDeserializer(result: Array<ImageVersion>): any[] {
+  return result.map((item) => {
+    return imageVersionDeserializer(item);
+  });
+}
+
+/** An image version object */
+export interface ImageVersion extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ImageVersionProperties;
+}
+
+export function imageVersionDeserializer(item: any): ImageVersion {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : imageVersionPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Details of the ImageVersionProperties. */
+export interface ImageVersionProperties {
+  /** Version of the image. */
+  version: string;
+}
+
+export function imageVersionPropertiesDeserializer(item: any): ImageVersionProperties {
+  return {
+    version: item["version"],
+  };
+}
 
 /** Api versions */
 export enum KnownVersions {
-  /** 2024-10-19 version */
-  "V2024-10-19" = "2024-10-19",
+  /** 2025-01-21 version */
+  _20250121 = "2025-01-21",
 }
