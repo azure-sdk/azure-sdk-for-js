@@ -1153,6 +1153,9 @@ importers:
       '@rush-temp/perf-template':
         specifier: file:./projects/perf-template.tgz
         version: file:projects/perf-template.tgz
+      '@rush-temp/programmableconnectivity':
+        specifier: file:./projects/programmableconnectivity.tgz
+        version: file:projects/programmableconnectivity.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
       '@rush-temp/purview-administration':
         specifier: file:./projects/purview-administration.tgz
         version: file:projects/purview-administration.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
@@ -3895,6 +3898,10 @@ packages:
 
   '@rush-temp/perf-template@file:projects/perf-template.tgz':
     resolution: {integrity: sha512-ipd3vAsSEyS9D8jF7VcFj4d7xvQZ5oWqx0k+QzhoqD3TebZKcEZuZSuqUM0/x79jOEjgpz8fjbUuv/1+ZIYCsw==, tarball: file:projects/perf-template.tgz}
+    version: 0.0.0
+
+  '@rush-temp/programmableconnectivity@file:projects/programmableconnectivity.tgz':
+    resolution: {integrity: sha512-r42+yZLfK2/c1/dkuBKxaLIHFpLy2LnZ0DjyGcCye5uhi86S3R9GrFBpiZlnDSGmxGCJTQRcC+8LmjUQZQVI0g==, tarball: file:projects/programmableconnectivity.tgz}
     version: 0.0.0
 
   '@rush-temp/purview-administration@file:projects/purview-administration.tgz':
@@ -22400,6 +22407,41 @@ snapshots:
     transitivePeerDependencies:
       - jiti
       - supports-color
+
+  '@rush-temp/programmableconnectivity@file:projects/programmableconnectivity.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
+    dependencies:
+      '@types/node': 18.19.86
+      '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
+      '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
+      dotenv: 16.4.7
+      eslint: 9.24.0
+      playwright: 1.51.1
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
 
   '@rush-temp/purview-administration@file:projects/purview-administration.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
