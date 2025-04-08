@@ -49,6 +49,9 @@ importers:
       '@rush-temp/ai-projects':
         specifier: file:./projects/ai-projects.tgz
         version: file:projects/ai-projects.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
+      '@rush-temp/ai-resources-autogen':
+        specifier: file:./projects/ai-resources-autogen.tgz
+        version: file:projects/ai-resources-autogen.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
       '@rush-temp/ai-text-analytics':
         specifier: file:./projects/ai-text-analytics.tgz
         version: file:projects/ai-text-analytics.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
@@ -2423,6 +2426,10 @@ packages:
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
     resolution: {integrity: sha512-CubMG3yKEhJqaN1sGjeABgDb0N9bXZkt3RGtNURESlkssBrNbR9vqF5a8nOF8x9ig+zcfs1D1zc4VCRwrRJEag==, tarball: file:projects/ai-projects.tgz}
+    version: 0.0.0
+
+  '@rush-temp/ai-resources-autogen@file:projects/ai-resources-autogen.tgz':
+    resolution: {integrity: sha512-rvUbBtosQbdW42l/oZ5QhAUIz1mEv8KK9vXwGUF8aCioJ4JPka8YUeWsvhZmZ3gd3cylfK3cASF6KlIPUOewdw==, tarball: file:projects/ai-resources-autogen.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
@@ -9916,6 +9923,41 @@ snapshots:
       prettier: 3.5.3
       tslib: 2.8.1
       typescript: 5.8.2
+      vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/ai-resources-autogen@file:projects/ai-resources-autogen.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
+    dependencies:
+      '@types/node': 18.19.86
+      '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.5(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
+      '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
+      dotenv: 16.4.7
+      eslint: 9.24.0
+      playwright: 1.51.1
+      tslib: 2.8.1
+      typescript: 5.8.3
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
