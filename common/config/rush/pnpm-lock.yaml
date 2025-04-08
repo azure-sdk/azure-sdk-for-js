@@ -3222,7 +3222,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-recoveryservices@file:projects/arm-recoveryservices.tgz':
-    resolution: {integrity: sha512-kelPvUKTkKdAGbiIDmHGVe2XIiOpvl8fUKek/8EVpQErp1tBrJFivrVqYWZw0V21HUwF0WRD3Tu8kn+8FelqTg==, tarball: file:projects/arm-recoveryservices.tgz}
+    resolution: {integrity: sha512-ubJdfiaXXK/Mw4R+1gHwqZfYgakGUrW1YnaYttKEek9b3qPI1QPTSSzqCoQKGpYuTMB+L5jViidbpLT4B9z3nA==, tarball: file:projects/arm-recoveryservices.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-recoveryservicesbackup@file:projects/arm-recoveryservicesbackup.tgz':
@@ -23813,7 +23813,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.2.1
 
   '@types/chai-as-promised@8.0.2':
     dependencies:
