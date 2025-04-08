@@ -21853,7 +21853,9 @@ const listFunctionKeysOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.StringDictionary,
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "String" } } },
+      },
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse,
