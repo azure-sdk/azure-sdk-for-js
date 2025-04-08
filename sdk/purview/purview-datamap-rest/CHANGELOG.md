@@ -1,15 +1,7 @@
-## Release History
+# Release History
+    
+## 1.0.0 (2025-04-08)
 
-### 1.0.0-beta.3 (2025-04-08)
+### Features Added
 
-#### Bugs Fixed
-
-- Updated type of endorsements from str to list[str] in SuggestResultValue and SuggestResultValue models.
-
-### 1.0.0-beta.2 (2025-02-10)
-
-#### Features Added
-- refresh @azure-rest/purview-datamap sdk
-
-### 1.0.0-beta.1 (2024-03-04)
-  - Initial Release
+The package of @azure-rest/purview-datamap is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
