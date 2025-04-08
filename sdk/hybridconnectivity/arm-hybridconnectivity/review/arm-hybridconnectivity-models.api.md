@@ -79,6 +79,10 @@ export interface GenerateAwsTemplateRequest {
 }
 
 // @public
+export interface GenerateAwsTemplateResponse {
+}
+
+// @public
 export type HostType = string;
 
 // @public
