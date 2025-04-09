@@ -12,7 +12,7 @@ import { PrivateEndpointConnections } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { KeyVaultManagementClient } from "../keyVaultManagementClient.js";
+import { AzureStorageResourceManagementAPI } from "../azureStorageResourceManagementAPI.js";
 import {
   SimplePollerLike,
   OperationState,
@@ -38,21 +38,21 @@ import {
 export class PrivateEndpointConnectionsImpl
   implements PrivateEndpointConnections
 {
-  private readonly client: KeyVaultManagementClient;
+  private readonly client: AzureStorageResourceManagementAPI;
 
   /**
    * Initialize a new instance of the class PrivateEndpointConnections class.
    * @param client Reference to the service client
    */
-  constructor(client: KeyVaultManagementClient) {
+  constructor(client: AzureStorageResourceManagementAPI) {
     this.client = client;
   }
 
   /**
    * The List operation gets information about the private endpoint connections associated with the
    * vault.
-   * @param resourceGroupName Name of the resource group that contains the key vault.
-   * @param vaultName The name of the key vault.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the vault.
    * @param options The options parameters.
    */
   public listByResource(
@@ -134,9 +134,27 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
+   * The List operation gets information about the private endpoint connections associated with the
+   * vault.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the vault.
+   * @param options The options parameters.
+   */
+  private _listByResource(
+    resourceGroupName: string,
+    vaultName: string,
+    options?: PrivateEndpointConnectionsListByResourceOptionalParams,
+  ): Promise<PrivateEndpointConnectionsListByResourceResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, vaultName, options },
+      listByResourceOperationSpec,
+    );
+  }
+
+  /**
    * Gets the specified private endpoint connection associated with the key vault.
-   * @param resourceGroupName Name of the resource group that contains the key vault.
-   * @param vaultName The name of the key vault.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the vault.
    * @param privateEndpointConnectionName Name of the private endpoint connection associated with the key
    *                                      vault.
    * @param options The options parameters.
@@ -155,18 +173,18 @@ export class PrivateEndpointConnectionsImpl
 
   /**
    * Updates the specified private endpoint connection associated with the key vault.
-   * @param resourceGroupName Name of the resource group that contains the key vault.
-   * @param vaultName The name of the key vault.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the vault.
    * @param privateEndpointConnectionName Name of the private endpoint connection associated with the key
    *                                      vault.
-   * @param properties The intended state of private endpoint connection.
+   * @param resource The intended state of private endpoint connection.
    * @param options The options parameters.
    */
   put(
     resourceGroupName: string,
     vaultName: string,
     privateEndpointConnectionName: string,
-    properties: PrivateEndpointConnection,
+    resource: PrivateEndpointConnection,
     options?: PrivateEndpointConnectionsPutOptionalParams,
   ): Promise<PrivateEndpointConnectionsPutResponse> {
     return this.client.sendOperationRequest(
@@ -174,7 +192,7 @@ export class PrivateEndpointConnectionsImpl
         resourceGroupName,
         vaultName,
         privateEndpointConnectionName,
-        properties,
+        resource,
         options,
       },
       putOperationSpec,
@@ -183,8 +201,8 @@ export class PrivateEndpointConnectionsImpl
 
   /**
    * Deletes the specified private endpoint connection associated with the key vault.
-   * @param resourceGroupName Name of the resource group that contains the key vault.
-   * @param vaultName The name of the key vault.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the vault.
    * @param privateEndpointConnectionName Name of the private endpoint connection associated with the key
    *                                      vault.
    * @param options The options parameters.
@@ -254,6 +272,7 @@ export class PrivateEndpointConnectionsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -261,8 +280,8 @@ export class PrivateEndpointConnectionsImpl
 
   /**
    * Deletes the specified private endpoint connection associated with the key vault.
-   * @param resourceGroupName Name of the resource group that contains the key vault.
-   * @param vaultName The name of the key vault.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the vault.
    * @param privateEndpointConnectionName Name of the private endpoint connection associated with the key
    *                                      vault.
    * @param options The options parameters.
@@ -283,27 +302,9 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * The List operation gets information about the private endpoint connections associated with the
-   * vault.
-   * @param resourceGroupName Name of the resource group that contains the key vault.
-   * @param vaultName The name of the key vault.
-   * @param options The options parameters.
-   */
-  private _listByResource(
-    resourceGroupName: string,
-    vaultName: string,
-    options?: PrivateEndpointConnectionsListByResourceOptionalParams,
-  ): Promise<PrivateEndpointConnectionsListByResourceResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, options },
-      listByResourceOperationSpec,
-    );
-  }
-
-  /**
    * ListByResourceNext
-   * @param resourceGroupName Name of the resource group that contains the key vault.
-   * @param vaultName The name of the key vault.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the vault.
    * @param nextLink The nextLink from the previous successful call to the ListByResource method.
    * @param options The options parameters.
    */
@@ -322,6 +323,27 @@ export class PrivateEndpointConnectionsImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByResourceOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/privateEndpointConnections",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnectionListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vaultName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "GET",
@@ -331,7 +353,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -351,13 +373,12 @@ const putOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnection,
-      headersMapper: Mappers.PrivateEndpointConnectionsPutHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.properties,
+  requestBody: Parameters.resource3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -366,7 +387,7 @@ const putOperationSpec: coreClient.OperationSpec = {
     Parameters.vaultName,
     Parameters.privateEndpointConnectionName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -387,7 +408,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PrivateEndpointConnection,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -401,27 +422,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByResourceOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/privateEndpointConnections",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const listByResourceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -430,15 +430,15 @@ const listByResourceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PrivateEndpointConnectionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

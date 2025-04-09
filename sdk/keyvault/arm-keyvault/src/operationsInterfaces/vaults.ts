@@ -9,54 +9,34 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  Vault,
-  VaultsListByResourceGroupOptionalParams,
-  VaultsListBySubscriptionOptionalParams,
   DeletedVault,
   VaultsListDeletedOptionalParams,
-  Resource,
-  VaultsListOptionalParams,
-  VaultCreateOrUpdateParameters,
+  Vault,
+  VaultsListBySubscriptionOptionalParams,
+  VaultsListByResourceGroupOptionalParams,
+  VaultCheckNameAvailabilityParameters,
+  VaultsCheckNameAvailabilityOptionalParams,
+  VaultsCheckNameAvailabilityResponse,
+  VaultsGetDeletedOptionalParams,
+  VaultsGetDeletedResponse,
+  VaultsPurgeDeletedOptionalParams,
+  VaultsGetOptionalParams,
+  VaultsGetResponse,
   VaultsCreateOrUpdateOptionalParams,
   VaultsCreateOrUpdateResponse,
   VaultPatchParameters,
   VaultsUpdateOptionalParams,
   VaultsUpdateResponse,
   VaultsDeleteOptionalParams,
-  VaultsGetOptionalParams,
-  VaultsGetResponse,
   VaultAccessPolicyParameters,
   AccessPolicyUpdateKind,
   VaultsUpdateAccessPolicyOptionalParams,
   VaultsUpdateAccessPolicyResponse,
-  VaultsGetDeletedOptionalParams,
-  VaultsGetDeletedResponse,
-  VaultsPurgeDeletedOptionalParams,
-  VaultCheckNameAvailabilityParameters,
-  VaultsCheckNameAvailabilityOptionalParams,
-  VaultsCheckNameAvailabilityResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Vaults. */
 export interface Vaults {
-  /**
-   * The List operation gets information about the vaults associated with the subscription and within the
-   * specified resource group.
-   * @param resourceGroupName The name of the Resource Group to which the vault belongs.
-   * @param options The options parameters.
-   */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: VaultsListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<Vault>;
-  /**
-   * The List operation gets information about the vaults associated with the subscription.
-   * @param options The options parameters.
-   */
-  listBySubscription(
-    options?: VaultsListBySubscriptionOptionalParams,
-  ): PagedAsyncIterableIterator<Vault>;
   /**
    * Gets information about the deleted vaults in a subscription.
    * @param options The options parameters.
@@ -68,67 +48,64 @@ export interface Vaults {
    * The List operation gets information about the vaults associated with the subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: VaultsListOptionalParams,
-  ): PagedAsyncIterableIterator<Resource>;
+  listBySubscription(
+    options?: VaultsListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<Vault>;
   /**
-   * Create or update a key vault in the specified subscription.
-   * @param resourceGroupName The name of the Resource Group to which the server belongs.
-   * @param vaultName Name of the vault
-   * @param parameters Parameters to create or update the vault
+   * The List operation gets information about the vaults associated with the subscription and within the
+   * specified resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
-  beginCreateOrUpdate(
+  listByResourceGroup(
     resourceGroupName: string,
-    vaultName: string,
-    parameters: VaultCreateOrUpdateParameters,
-    options?: VaultsCreateOrUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<VaultsCreateOrUpdateResponse>,
-      VaultsCreateOrUpdateResponse
-    >
-  >;
+    options?: VaultsListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<Vault>;
   /**
-   * Create or update a key vault in the specified subscription.
-   * @param resourceGroupName The name of the Resource Group to which the server belongs.
-   * @param vaultName Name of the vault
-   * @param parameters Parameters to create or update the vault
+   * Checks that the vault name is valid and is not already in use.
+   * @param body The request body
    * @param options The options parameters.
    */
-  beginCreateOrUpdateAndWait(
-    resourceGroupName: string,
-    vaultName: string,
-    parameters: VaultCreateOrUpdateParameters,
-    options?: VaultsCreateOrUpdateOptionalParams,
-  ): Promise<VaultsCreateOrUpdateResponse>;
+  checkNameAvailability(
+    body: VaultCheckNameAvailabilityParameters,
+    options?: VaultsCheckNameAvailabilityOptionalParams,
+  ): Promise<VaultsCheckNameAvailabilityResponse>;
   /**
-   * Update a key vault in the specified subscription.
-   * @param resourceGroupName The name of the Resource Group to which the server belongs.
-   * @param vaultName Name of the vault
-   * @param parameters Parameters to patch the vault
+   * Gets the deleted Azure key vault.
+   * @param location The name of the Azure region.
+   * @param vaultName The name of the vault.
    * @param options The options parameters.
    */
-  update(
-    resourceGroupName: string,
+  getDeleted(
+    location: string,
     vaultName: string,
-    parameters: VaultPatchParameters,
-    options?: VaultsUpdateOptionalParams,
-  ): Promise<VaultsUpdateResponse>;
+    options?: VaultsGetDeletedOptionalParams,
+  ): Promise<VaultsGetDeletedResponse>;
   /**
-   * Deletes the specified Azure key vault.
-   * @param resourceGroupName The name of the Resource Group to which the vault belongs.
-   * @param vaultName The name of the vault to delete
+   * Permanently deletes the specified vault. aka Purges the deleted Azure key vault.
+   * @param location The name of the Azure region.
+   * @param vaultName The name of the vault.
    * @param options The options parameters.
    */
-  delete(
-    resourceGroupName: string,
+  beginPurgeDeleted(
+    location: string,
     vaultName: string,
-    options?: VaultsDeleteOptionalParams,
+    options?: VaultsPurgeDeletedOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Permanently deletes the specified vault. aka Purges the deleted Azure key vault.
+   * @param location The name of the Azure region.
+   * @param vaultName The name of the vault.
+   * @param options The options parameters.
+   */
+  beginPurgeDeletedAndWait(
+    location: string,
+    vaultName: string,
+    options?: VaultsPurgeDeletedOptionalParams,
   ): Promise<void>;
   /**
    * Gets the specified Azure key vault.
-   * @param resourceGroupName The name of the Resource Group to which the vault belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the vault.
    * @param options The options parameters.
    */
@@ -138,60 +115,73 @@ export interface Vaults {
     options?: VaultsGetOptionalParams,
   ): Promise<VaultsGetResponse>;
   /**
+   * Create or update a key vault in the specified subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the vault.
+   * @param resource Parameters to create or update the vault
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    vaultName: string,
+    resource: Vault,
+    options?: VaultsCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VaultsCreateOrUpdateResponse>,
+      VaultsCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Create or update a key vault in the specified subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the vault.
+   * @param resource Parameters to create or update the vault
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    vaultName: string,
+    resource: Vault,
+    options?: VaultsCreateOrUpdateOptionalParams,
+  ): Promise<VaultsCreateOrUpdateResponse>;
+  /**
+   * Update a key vault in the specified subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the vault.
+   * @param properties Parameters to patch the vault
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    vaultName: string,
+    properties: VaultPatchParameters,
+    options?: VaultsUpdateOptionalParams,
+  ): Promise<VaultsUpdateResponse>;
+  /**
+   * Deletes the specified Azure key vault.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the vault.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    vaultName: string,
+    options?: VaultsDeleteOptionalParams,
+  ): Promise<void>;
+  /**
    * Update access policies in a key vault in the specified subscription.
-   * @param resourceGroupName The name of the Resource Group to which the vault belongs.
-   * @param vaultName Name of the vault
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the vault.
    * @param operationKind Name of the operation
-   * @param parameters Access policy to merge into the vault
+   * @param body Access policy to merge into the vault
    * @param options The options parameters.
    */
   updateAccessPolicy(
     resourceGroupName: string,
     vaultName: string,
     operationKind: AccessPolicyUpdateKind,
-    parameters: VaultAccessPolicyParameters,
+    body: VaultAccessPolicyParameters,
     options?: VaultsUpdateAccessPolicyOptionalParams,
   ): Promise<VaultsUpdateAccessPolicyResponse>;
-  /**
-   * Gets the deleted Azure key vault.
-   * @param vaultName The name of the vault.
-   * @param location The location of the deleted vault.
-   * @param options The options parameters.
-   */
-  getDeleted(
-    vaultName: string,
-    location: string,
-    options?: VaultsGetDeletedOptionalParams,
-  ): Promise<VaultsGetDeletedResponse>;
-  /**
-   * Permanently deletes the specified vault. aka Purges the deleted Azure key vault.
-   * @param vaultName The name of the soft-deleted vault.
-   * @param location The location of the soft-deleted vault.
-   * @param options The options parameters.
-   */
-  beginPurgeDeleted(
-    vaultName: string,
-    location: string,
-    options?: VaultsPurgeDeletedOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Permanently deletes the specified vault. aka Purges the deleted Azure key vault.
-   * @param vaultName The name of the soft-deleted vault.
-   * @param location The location of the soft-deleted vault.
-   * @param options The options parameters.
-   */
-  beginPurgeDeletedAndWait(
-    vaultName: string,
-    location: string,
-    options?: VaultsPurgeDeletedOptionalParams,
-  ): Promise<void>;
-  /**
-   * Checks that the vault name is valid and is not already in use.
-   * @param vaultName The name of the vault.
-   * @param options The options parameters.
-   */
-  checkNameAvailability(
-    vaultName: VaultCheckNameAvailabilityParameters,
-    options?: VaultsCheckNameAvailabilityOptionalParams,
-  ): Promise<VaultsCheckNameAvailabilityResponse>;
 }

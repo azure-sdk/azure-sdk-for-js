@@ -6,10 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-import { KeyVaultManagementClient } from "../src/index.js";
+import { AzureStorageResourceManagementAPI } from "../src/index.js";
 import {
   DefaultAzureCredential,
   InteractiveBrowserCredential,
@@ -20,7 +17,7 @@ import { describe, it } from "vitest";
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_Node", async () => {
     const subscriptionId = "00000000-0000-0000-0000-000000000000";
-    const client = new KeyVaultManagementClient(
+    const client = new AzureStorageResourceManagementAPI(
       new DefaultAzureCredential(),
       subscriptionId,
     );
@@ -32,7 +29,10 @@ describe("snippets", () => {
       tenantId: "<YOUR_TENANT_ID>",
       clientId: "<YOUR_CLIENT_ID>",
     });
-    const client = new KeyVaultManagementClient(credential, subscriptionId);
+    const client = new AzureStorageResourceManagementAPI(
+      credential,
+      subscriptionId,
+    );
   });
 
   it("SetLogLevel", async () => {

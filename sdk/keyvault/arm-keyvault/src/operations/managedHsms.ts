@@ -12,7 +12,7 @@ import { ManagedHsms } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { KeyVaultManagementClient } from "../keyVaultManagementClient.js";
+import { AzureStorageResourceManagementAPI } from "../azureStorageResourceManagementAPI.js";
 import {
   SimplePollerLike,
   OperationState,
@@ -20,53 +20,161 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  ManagedHsm,
-  ManagedHsmsListByResourceGroupNextOptionalParams,
-  ManagedHsmsListByResourceGroupOptionalParams,
-  ManagedHsmsListByResourceGroupResponse,
-  ManagedHsmsListBySubscriptionNextOptionalParams,
-  ManagedHsmsListBySubscriptionOptionalParams,
-  ManagedHsmsListBySubscriptionResponse,
   DeletedManagedHsm,
   ManagedHsmsListDeletedNextOptionalParams,
   ManagedHsmsListDeletedOptionalParams,
   ManagedHsmsListDeletedResponse,
+  ManagedHsm,
+  ManagedHsmsListBySubscriptionNextOptionalParams,
+  ManagedHsmsListBySubscriptionOptionalParams,
+  ManagedHsmsListBySubscriptionResponse,
+  ManagedHsmsListByResourceGroupNextOptionalParams,
+  ManagedHsmsListByResourceGroupOptionalParams,
+  ManagedHsmsListByResourceGroupResponse,
+  CheckMhsmNameAvailabilityParameters,
+  ManagedHsmsCheckMhsmNameAvailabilityOptionalParams,
+  ManagedHsmsCheckMhsmNameAvailabilityResponse,
+  ManagedHsmsGetDeletedOptionalParams,
+  ManagedHsmsGetDeletedResponse,
+  ManagedHsmsPurgeDeletedOptionalParams,
+  ManagedHsmsPurgeDeletedResponse,
+  ManagedHsmsGetOptionalParams,
+  ManagedHsmsGetResponse,
   ManagedHsmsCreateOrUpdateOptionalParams,
   ManagedHsmsCreateOrUpdateResponse,
   ManagedHsmsUpdateOptionalParams,
   ManagedHsmsUpdateResponse,
   ManagedHsmsDeleteOptionalParams,
-  ManagedHsmsGetOptionalParams,
-  ManagedHsmsGetResponse,
-  ManagedHsmsGetDeletedOptionalParams,
-  ManagedHsmsGetDeletedResponse,
-  ManagedHsmsPurgeDeletedOptionalParams,
-  ManagedHsmsPurgeDeletedResponse,
-  CheckMhsmNameAvailabilityParameters,
-  ManagedHsmsCheckMhsmNameAvailabilityOptionalParams,
-  ManagedHsmsCheckMhsmNameAvailabilityResponse,
-  ManagedHsmsListByResourceGroupNextResponse,
-  ManagedHsmsListBySubscriptionNextResponse,
   ManagedHsmsListDeletedNextResponse,
+  ManagedHsmsListBySubscriptionNextResponse,
+  ManagedHsmsListByResourceGroupNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedHsms operations. */
 export class ManagedHsmsImpl implements ManagedHsms {
-  private readonly client: KeyVaultManagementClient;
+  private readonly client: AzureStorageResourceManagementAPI;
 
   /**
    * Initialize a new instance of the class ManagedHsms class.
    * @param client Reference to the service client
    */
-  constructor(client: KeyVaultManagementClient) {
+  constructor(client: AzureStorageResourceManagementAPI) {
     this.client = client;
+  }
+
+  /**
+   * The List operation gets information about the deleted managed HSMs associated with the subscription.
+   * @param options The options parameters.
+   */
+  public listDeleted(
+    options?: ManagedHsmsListDeletedOptionalParams,
+  ): PagedAsyncIterableIterator<DeletedManagedHsm> {
+    const iter = this.listDeletedPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listDeletedPagingPage(options, settings);
+      },
+    };
+  }
+
+  private async *listDeletedPagingPage(
+    options?: ManagedHsmsListDeletedOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<DeletedManagedHsm[]> {
+    let result: ManagedHsmsListDeletedResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listDeleted(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listDeletedNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listDeletedPagingAll(
+    options?: ManagedHsmsListDeletedOptionalParams,
+  ): AsyncIterableIterator<DeletedManagedHsm> {
+    for await (const page of this.listDeletedPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * The List operation gets information about the managed HSM Pools associated with the subscription.
+   * @param options The options parameters.
+   */
+  public listBySubscription(
+    options?: ManagedHsmsListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<ManagedHsm> {
+    const iter = this.listBySubscriptionPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
+      },
+    };
+  }
+
+  private async *listBySubscriptionPagingPage(
+    options?: ManagedHsmsListBySubscriptionOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<ManagedHsm[]> {
+    let result: ManagedHsmsListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listBySubscriptionNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listBySubscriptionPagingAll(
+    options?: ManagedHsmsListBySubscriptionOptionalParams,
+  ): AsyncIterableIterator<ManagedHsm> {
+    for await (const page of this.listBySubscriptionPagingPage(options)) {
+      yield* page;
+    }
   }
 
   /**
    * The List operation gets information about the managed HSM Pools associated with the subscription and
    * within the specified resource group.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -134,124 +242,193 @@ export class ManagedHsmsImpl implements ManagedHsms {
   }
 
   /**
-   * The List operation gets information about the managed HSM Pools associated with the subscription.
+   * Checks that the managed hsm name is valid and is not already in use.
+   * @param body The request body
    * @param options The options parameters.
    */
-  public listBySubscription(
-    options?: ManagedHsmsListBySubscriptionOptionalParams,
-  ): PagedAsyncIterableIterator<ManagedHsm> {
-    const iter = this.listBySubscriptionPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySubscriptionPagingPage(options, settings);
-      },
-    };
-  }
-
-  private async *listBySubscriptionPagingPage(
-    options?: ManagedHsmsListBySubscriptionOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<ManagedHsm[]> {
-    let result: ManagedHsmsListBySubscriptionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySubscription(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listBySubscriptionNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listBySubscriptionPagingAll(
-    options?: ManagedHsmsListBySubscriptionOptionalParams,
-  ): AsyncIterableIterator<ManagedHsm> {
-    for await (const page of this.listBySubscriptionPagingPage(options)) {
-      yield* page;
-    }
+  checkMhsmNameAvailability(
+    body: CheckMhsmNameAvailabilityParameters,
+    options?: ManagedHsmsCheckMhsmNameAvailabilityOptionalParams,
+  ): Promise<ManagedHsmsCheckMhsmNameAvailabilityResponse> {
+    return this.client.sendOperationRequest(
+      { body, options },
+      checkMhsmNameAvailabilityOperationSpec,
+    );
   }
 
   /**
    * The List operation gets information about the deleted managed HSMs associated with the subscription.
    * @param options The options parameters.
    */
-  public listDeleted(
+  private _listDeleted(
     options?: ManagedHsmsListDeletedOptionalParams,
-  ): PagedAsyncIterableIterator<DeletedManagedHsm> {
-    const iter = this.listDeletedPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listDeletedPagingPage(options, settings);
-      },
+  ): Promise<ManagedHsmsListDeletedResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listDeletedOperationSpec,
+    );
+  }
+
+  /**
+   * Gets the specified deleted managed HSM.
+   * @param location The name of the Azure region.
+   * @param name The name of the deleted managed HSM.
+   * @param options The options parameters.
+   */
+  getDeleted(
+    location: string,
+    name: string,
+    options?: ManagedHsmsGetDeletedOptionalParams,
+  ): Promise<ManagedHsmsGetDeletedResponse> {
+    return this.client.sendOperationRequest(
+      { location, name, options },
+      getDeletedOperationSpec,
+    );
+  }
+
+  /**
+   * Permanently deletes the specified managed HSM.
+   * @param location The name of the Azure region.
+   * @param name The name of the deleted managed HSM.
+   * @param options The options parameters.
+   */
+  async beginPurgeDeleted(
+    location: string,
+    name: string,
+    options?: ManagedHsmsPurgeDeletedOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedHsmsPurgeDeletedResponse>,
+      ManagedHsmsPurgeDeletedResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ManagedHsmsPurgeDeletedResponse> => {
+      return this.client.sendOperationRequest(args, spec);
     };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { location, name, options },
+      spec: purgeDeletedOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ManagedHsmsPurgeDeletedResponse,
+      OperationState<ManagedHsmsPurgeDeletedResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
   }
 
-  private async *listDeletedPagingPage(
-    options?: ManagedHsmsListDeletedOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<DeletedManagedHsm[]> {
-    let result: ManagedHsmsListDeletedResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listDeleted(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listDeletedNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+  /**
+   * Permanently deletes the specified managed HSM.
+   * @param location The name of the Azure region.
+   * @param name The name of the deleted managed HSM.
+   * @param options The options parameters.
+   */
+  async beginPurgeDeletedAndWait(
+    location: string,
+    name: string,
+    options?: ManagedHsmsPurgeDeletedOptionalParams,
+  ): Promise<ManagedHsmsPurgeDeletedResponse> {
+    const poller = await this.beginPurgeDeleted(location, name, options);
+    return poller.pollUntilDone();
   }
 
-  private async *listDeletedPagingAll(
-    options?: ManagedHsmsListDeletedOptionalParams,
-  ): AsyncIterableIterator<DeletedManagedHsm> {
-    for await (const page of this.listDeletedPagingPage(options)) {
-      yield* page;
-    }
+  /**
+   * The List operation gets information about the managed HSM Pools associated with the subscription.
+   * @param options The options parameters.
+   */
+  private _listBySubscription(
+    options?: ManagedHsmsListBySubscriptionOptionalParams,
+  ): Promise<ManagedHsmsListBySubscriptionResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listBySubscriptionOperationSpec,
+    );
+  }
+
+  /**
+   * The List operation gets information about the managed HSM Pools associated with the subscription and
+   * within the specified resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: ManagedHsmsListByResourceGroupOptionalParams,
+  ): Promise<ManagedHsmsListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
+    );
+  }
+
+  /**
+   * Gets the specified managed HSM Pool.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    name: string,
+    options?: ManagedHsmsGetOptionalParams,
+  ): Promise<ManagedHsmsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, options },
+      getOperationSpec,
+    );
   }
 
   /**
    * Create or update a managed HSM Pool in the specified subscription.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name Name of the managed HSM Pool
-   * @param parameters Parameters to create or update the managed HSM Pool
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
+   * @param resource Parameters to create or update the managed HSM Pool
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     name: string,
-    parameters: ManagedHsm,
+    resource: ManagedHsm,
     options?: ManagedHsmsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -299,7 +476,7 @@ export class ManagedHsmsImpl implements ManagedHsms {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, name, parameters, options },
+      args: { resourceGroupName, name, resource, options },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -308,6 +485,7 @@ export class ManagedHsmsImpl implements ManagedHsms {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -315,21 +493,21 @@ export class ManagedHsmsImpl implements ManagedHsms {
 
   /**
    * Create or update a managed HSM Pool in the specified subscription.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name Name of the managed HSM Pool
-   * @param parameters Parameters to create or update the managed HSM Pool
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
+   * @param resource Parameters to create or update the managed HSM Pool
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     name: string,
-    parameters: ManagedHsm,
+    resource: ManagedHsm,
     options?: ManagedHsmsCreateOrUpdateOptionalParams,
   ): Promise<ManagedHsmsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       name,
-      parameters,
+      resource,
       options,
     );
     return poller.pollUntilDone();
@@ -337,15 +515,15 @@ export class ManagedHsmsImpl implements ManagedHsms {
 
   /**
    * Update a managed HSM Pool in the specified subscription.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name Name of the managed HSM Pool
-   * @param parameters Parameters to patch the managed HSM Pool
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
+   * @param properties Parameters to patch the managed HSM Pool
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
     name: string,
-    parameters: ManagedHsm,
+    properties: ManagedHsm,
     options?: ManagedHsmsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -393,7 +571,7 @@ export class ManagedHsmsImpl implements ManagedHsms {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, name, parameters, options },
+      args: { resourceGroupName, name, properties, options },
       spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -402,6 +580,7 @@ export class ManagedHsmsImpl implements ManagedHsms {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -409,21 +588,21 @@ export class ManagedHsmsImpl implements ManagedHsms {
 
   /**
    * Update a managed HSM Pool in the specified subscription.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name Name of the managed HSM Pool
-   * @param parameters Parameters to patch the managed HSM Pool
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
+   * @param properties Parameters to patch the managed HSM Pool
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
     name: string,
-    parameters: ManagedHsm,
+    properties: ManagedHsm,
     options?: ManagedHsmsUpdateOptionalParams,
   ): Promise<ManagedHsmsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       name,
-      parameters,
+      properties,
       options,
     );
     return poller.pollUntilDone();
@@ -431,8 +610,8 @@ export class ManagedHsmsImpl implements ManagedHsms {
 
   /**
    * Deletes the specified managed HSM Pool.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name The name of the managed HSM Pool to delete
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -486,6 +665,7 @@ export class ManagedHsmsImpl implements ManagedHsms {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -493,8 +673,8 @@ export class ManagedHsmsImpl implements ManagedHsms {
 
   /**
    * Deletes the specified managed HSM Pool.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name The name of the managed HSM Pool to delete
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -507,195 +687,17 @@ export class ManagedHsmsImpl implements ManagedHsms {
   }
 
   /**
-   * Gets the specified managed HSM Pool.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name The name of the managed HSM Pool.
+   * ListDeletedNext
+   * @param nextLink The nextLink from the previous successful call to the ListDeleted method.
    * @param options The options parameters.
    */
-  get(
-    resourceGroupName: string,
-    name: string,
-    options?: ManagedHsmsGetOptionalParams,
-  ): Promise<ManagedHsmsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, name, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * The List operation gets information about the managed HSM Pools associated with the subscription and
-   * within the specified resource group.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: ManagedHsmsListByResourceGroupOptionalParams,
-  ): Promise<ManagedHsmsListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec,
-    );
-  }
-
-  /**
-   * The List operation gets information about the managed HSM Pools associated with the subscription.
-   * @param options The options parameters.
-   */
-  private _listBySubscription(
-    options?: ManagedHsmsListBySubscriptionOptionalParams,
-  ): Promise<ManagedHsmsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
-  }
-
-  /**
-   * The List operation gets information about the deleted managed HSMs associated with the subscription.
-   * @param options The options parameters.
-   */
-  private _listDeleted(
-    options?: ManagedHsmsListDeletedOptionalParams,
-  ): Promise<ManagedHsmsListDeletedResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listDeletedOperationSpec,
-    );
-  }
-
-  /**
-   * Gets the specified deleted managed HSM.
-   * @param name The name of the deleted managed HSM.
-   * @param location The location of the deleted managed HSM.
-   * @param options The options parameters.
-   */
-  getDeleted(
-    name: string,
-    location: string,
-    options?: ManagedHsmsGetDeletedOptionalParams,
-  ): Promise<ManagedHsmsGetDeletedResponse> {
-    return this.client.sendOperationRequest(
-      { name, location, options },
-      getDeletedOperationSpec,
-    );
-  }
-
-  /**
-   * Permanently deletes the specified managed HSM.
-   * @param name The name of the soft-deleted managed HSM.
-   * @param location The location of the soft-deleted managed HSM.
-   * @param options The options parameters.
-   */
-  async beginPurgeDeleted(
-    name: string,
-    location: string,
-    options?: ManagedHsmsPurgeDeletedOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ManagedHsmsPurgeDeletedResponse>,
-      ManagedHsmsPurgeDeletedResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<ManagedHsmsPurgeDeletedResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { name, location, options },
-      spec: purgeDeletedOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      ManagedHsmsPurgeDeletedResponse,
-      OperationState<ManagedHsmsPurgeDeletedResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Permanently deletes the specified managed HSM.
-   * @param name The name of the soft-deleted managed HSM.
-   * @param location The location of the soft-deleted managed HSM.
-   * @param options The options parameters.
-   */
-  async beginPurgeDeletedAndWait(
-    name: string,
-    location: string,
-    options?: ManagedHsmsPurgeDeletedOptionalParams,
-  ): Promise<ManagedHsmsPurgeDeletedResponse> {
-    const poller = await this.beginPurgeDeleted(name, location, options);
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Checks that the managed hsm name is valid and is not already in use.
-   * @param mhsmName The name of the managed hsm.
-   * @param options The options parameters.
-   */
-  checkMhsmNameAvailability(
-    mhsmName: CheckMhsmNameAvailabilityParameters,
-    options?: ManagedHsmsCheckMhsmNameAvailabilityOptionalParams,
-  ): Promise<ManagedHsmsCheckMhsmNameAvailabilityResponse> {
-    return this.client.sendOperationRequest(
-      { mhsmName, options },
-      checkMhsmNameAvailabilityOperationSpec,
-    );
-  }
-
-  /**
-   * ListByResourceGroupNext
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroupNext(
-    resourceGroupName: string,
+  private _listDeletedNext(
     nextLink: string,
-    options?: ManagedHsmsListByResourceGroupNextOptionalParams,
-  ): Promise<ManagedHsmsListByResourceGroupNextResponse> {
+    options?: ManagedHsmsListDeletedNextOptionalParams,
+  ): Promise<ManagedHsmsListDeletedNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec,
+      { nextLink, options },
+      listDeletedNextOperationSpec,
     );
   }
 
@@ -715,165 +717,41 @@ export class ManagedHsmsImpl implements ManagedHsms {
   }
 
   /**
-   * ListDeletedNext
-   * @param nextLink The nextLink from the previous successful call to the ListDeleted method.
+   * ListByResourceGroupNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
-  private _listDeletedNext(
+  private _listByResourceGroupNext(
+    resourceGroupName: string,
     nextLink: string,
-    options?: ManagedHsmsListDeletedNextOptionalParams,
-  ): Promise<ManagedHsmsListDeletedNextResponse> {
+    options?: ManagedHsmsListByResourceGroupNextOptionalParams,
+  ): Promise<ManagedHsmsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
-      listDeletedNextOperationSpec,
+      { resourceGroupName, nextLink, options },
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}",
-  httpMethod: "PUT",
+const checkMhsmNameAvailabilityOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/checkMhsmNameAvailability",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedHsm,
-    },
-    201: {
-      bodyMapper: Mappers.ManagedHsm,
-    },
-    202: {
-      bodyMapper: Mappers.ManagedHsm,
-    },
-    204: {
-      bodyMapper: Mappers.ManagedHsm,
+      bodyMapper: Mappers.CheckMhsmNameAvailabilityResult,
     },
     default: {
-      bodyMapper: Mappers.ManagedHsmError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name1,
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer,
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ManagedHsm,
-    },
-    201: {
-      bodyMapper: Mappers.ManagedHsm,
-    },
-    202: {
-      bodyMapper: Mappers.ManagedHsm,
-    },
-    204: {
-      bodyMapper: Mappers.ManagedHsm,
-    },
-    default: {
-      bodyMapper: Mappers.ManagedHsmError,
-    },
-  },
-  requestBody: Parameters.parameters5,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name1,
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer,
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ManagedHsmError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name1,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ManagedHsm,
-    },
-    204: {},
-    default: {
-      bodyMapper: Mappers.ManagedHsmError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name1,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ManagedHsmListResult,
-    },
-    default: {
-      bodyMapper: Mappers.ManagedHsmError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/managedHSMs",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ManagedHsmListResult,
-    },
-    default: {
-      bodyMapper: Mappers.ManagedHsmError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };
 const listDeletedOperationSpec: coreClient.OperationSpec = {
@@ -884,7 +762,7 @@ const listDeletedOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DeletedManagedHsmListResult,
     },
     default: {
-      bodyMapper: Mappers.ManagedHsmError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -900,7 +778,7 @@ const getDeletedOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DeletedManagedHsm,
     },
     default: {
-      bodyMapper: Mappers.ManagedHsmError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -908,7 +786,7 @@ const getDeletedOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location,
-    Parameters.name1,
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -930,7 +808,7 @@ const purgeDeletedOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.ManagedHsmsPurgeDeletedHeaders,
     },
     default: {
-      bodyMapper: Mappers.ManagedHsmError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -938,64 +816,151 @@ const purgeDeletedOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location,
-    Parameters.name1,
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const checkMhsmNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/checkMhsmNameAvailability",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CheckMhsmNameAvailabilityResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  requestBody: Parameters.mhsmName,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer,
-};
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/managedHSMs",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.ManagedHsmListResult,
     },
     default: {
-      bodyMapper: Mappers.ManagedHsmError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
+  queryParameters: [Parameters.apiVersion, Parameters.top],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagedHsmListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedHsmListResult,
+      bodyMapper: Mappers.ManagedHsm,
     },
+    204: {},
     default: {
-      bodyMapper: Mappers.ManagedHsmError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink,
+    Parameters.name,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagedHsm,
+    },
+    201: {
+      bodyMapper: Mappers.ManagedHsm,
+    },
+    202: {
+      bodyMapper: Mappers.ManagedHsm,
+    },
+    204: {
+      bodyMapper: Mappers.ManagedHsm,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.resource,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.name,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagedHsm,
+    },
+    201: {
+      bodyMapper: Mappers.ManagedHsm,
+    },
+    202: {
+      bodyMapper: Mappers.ManagedHsm,
+    },
+    204: {
+      bodyMapper: Mappers.ManagedHsm,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.properties,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.name,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.name,
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1008,13 +973,52 @@ const listDeletedNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DeletedManagedHsmListResult,
     },
     default: {
-      bodyMapper: Mappers.ManagedHsmError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagedHsmListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagedHsmListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

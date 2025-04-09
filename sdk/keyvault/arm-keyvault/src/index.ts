@@ -9,5 +9,5 @@
 /// <reference lib="esnext.asynciterable" />
 export { getContinuationToken } from "./pagingHelper.js";
 export * from "./models/index.js";
-export { KeyVaultManagementClient } from "./keyVaultManagementClient.js";
+export { AzureStorageResourceManagementAPI } from "./azureStorageResourceManagementAPI.js";
 export * from "./operationsInterfaces/index.js";
