@@ -28,7 +28,7 @@ import {
   AppliancesListKeysOptionalParams,
   AppliancesListKeysResponse,
   AppliancesGetUpgradeGraphOptionalParams,
-  AppliancesGetUpgradeGraphResponse
+  AppliancesGetUpgradeGraphResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export interface Appliances {
    * @param options The options parameters.
    */
   listOperations(
-    options?: AppliancesListOperationsOptionalParams
+    options?: AppliancesListOperationsOptionalParams,
   ): PagedAsyncIterableIterator<ApplianceOperation>;
   /**
    * Gets a list of Appliances in the specified subscription. The operation returns properties of each
@@ -47,7 +47,7 @@ export interface Appliances {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: AppliancesListBySubscriptionOptionalParams
+    options?: AppliancesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Appliance>;
   /**
    * Gets a list of Appliances in the specified subscription and resource group. The operation returns
@@ -57,14 +57,14 @@ export interface Appliances {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: AppliancesListByResourceGroupOptionalParams
+    options?: AppliancesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Appliance>;
   /**
    * Gets the telemetry config.
    * @param options The options parameters.
    */
   getTelemetryConfig(
-    options?: AppliancesGetTelemetryConfigOptionalParams
+    options?: AppliancesGetTelemetryConfigOptionalParams,
   ): Promise<AppliancesGetTelemetryConfigResponse>;
   /**
    * Gets the details of an Appliance with a specified resource group and name.
@@ -75,7 +75,7 @@ export interface Appliances {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: AppliancesGetOptionalParams
+    options?: AppliancesGetOptionalParams,
   ): Promise<AppliancesGetResponse>;
   /**
    * Creates or updates an Appliance in the specified Subscription and Resource Group.
@@ -88,7 +88,7 @@ export interface Appliances {
     resourceGroupName: string,
     resourceName: string,
     parameters: Appliance,
-    options?: AppliancesCreateOrUpdateOptionalParams
+    options?: AppliancesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AppliancesCreateOrUpdateResponse>,
@@ -106,7 +106,7 @@ export interface Appliances {
     resourceGroupName: string,
     resourceName: string,
     parameters: Appliance,
-    options?: AppliancesCreateOrUpdateOptionalParams
+    options?: AppliancesCreateOrUpdateOptionalParams,
   ): Promise<AppliancesCreateOrUpdateResponse>;
   /**
    * Deletes an Appliance with the specified Resource Name, Resource Group, and Subscription Id.
@@ -117,7 +117,7 @@ export interface Appliances {
   beginDelete(
     resourceGroupName: string,
     resourceName: string,
-    options?: AppliancesDeleteOptionalParams
+    options?: AppliancesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an Appliance with the specified Resource Name, Resource Group, and Subscription Id.
@@ -128,7 +128,7 @@ export interface Appliances {
   beginDeleteAndWait(
     resourceGroupName: string,
     resourceName: string,
-    options?: AppliancesDeleteOptionalParams
+    options?: AppliancesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates an Appliance with the specified Resource Name in the specified Resource Group and
@@ -140,7 +140,7 @@ export interface Appliances {
   update(
     resourceGroupName: string,
     resourceName: string,
-    options?: AppliancesUpdateOptionalParams
+    options?: AppliancesUpdateOptionalParams,
   ): Promise<AppliancesUpdateResponse>;
   /**
    * Returns the cluster user credentials for the dedicated appliance.
@@ -151,7 +151,7 @@ export interface Appliances {
   listClusterUserCredential(
     resourceGroupName: string,
     resourceName: string,
-    options?: AppliancesListClusterUserCredentialOptionalParams
+    options?: AppliancesListClusterUserCredentialOptionalParams,
   ): Promise<AppliancesListClusterUserCredentialResponse>;
   /**
    * Returns the cluster customer credentials for the dedicated appliance.
@@ -162,7 +162,7 @@ export interface Appliances {
   listKeys(
     resourceGroupName: string,
     resourceName: string,
-    options?: AppliancesListKeysOptionalParams
+    options?: AppliancesListKeysOptionalParams,
   ): Promise<AppliancesListKeysResponse>;
   /**
    * Gets the upgrade graph of an Appliance with a specified resource group and name and specific release
@@ -176,6 +176,6 @@ export interface Appliances {
     resourceGroupName: string,
     resourceName: string,
     upgradeGraph: string,
-    options?: AppliancesGetUpgradeGraphOptionalParams
+    options?: AppliancesGetUpgradeGraphOptionalParams,
   ): Promise<AppliancesGetUpgradeGraphResponse>;
 }

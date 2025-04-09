@@ -437,7 +437,7 @@ export enum KnownResourceIdentityType {
   /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -453,7 +453,7 @@ export type ResourceIdentityType = string;
 /** Known values of {@link Distro} that the service accepts. */
 export enum KnownDistro {
   /** AKSEdge */
-  AKSEdge = "AKSEdge"
+  AKSEdge = "AKSEdge",
 }
 
 /**
@@ -473,10 +473,6 @@ export enum KnownProvider {
   HCI = "HCI",
   /** Scvmm */
   Scvmm = "SCVMM",
-  /** KubeVirt */
-  KubeVirt = "KubeVirt",
-  /** OpenStack */
-  OpenStack = "OpenStack"
 }
 
 /**
@@ -486,9 +482,7 @@ export enum KnownProvider {
  * ### Known values supported by the service
  * **VMWare** \
  * **HCI** \
- * **SCVMM** \
- * **KubeVirt** \
- * **OpenStack**
+ * **SCVMM**
  */
 export type Provider = string;
 
@@ -506,8 +500,18 @@ export enum KnownStatus {
   Running = "Running",
   /** PreparingForUpgrade */
   PreparingForUpgrade = "PreparingForUpgrade",
+  /** EtcdSnapshotFailed */
+  EtcdSnapshotFailed = "ETCDSnapshotFailed",
   /** UpgradePrerequisitesCompleted */
   UpgradePrerequisitesCompleted = "UpgradePrerequisitesCompleted",
+  /** ValidatingSFSConnectivity */
+  ValidatingSFSConnectivity = "ValidatingSFSConnectivity",
+  /** ValidatingImageDownload */
+  ValidatingImageDownload = "ValidatingImageDownload",
+  /** ValidatingImageUpload */
+  ValidatingImageUpload = "ValidatingImageUpload",
+  /** ValidatingEtcdHealth */
+  ValidatingEtcdHealth = "ValidatingETCDHealth",
   /** PreUpgrade */
   PreUpgrade = "PreUpgrade",
   /** UpgradingKvaio */
@@ -547,7 +551,7 @@ export enum KnownStatus {
   /** Offline */
   Offline = "Offline",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -561,7 +565,12 @@ export enum KnownStatus {
  * **Connected** \
  * **Running** \
  * **PreparingForUpgrade** \
+ * **ETCDSnapshotFailed** \
  * **UpgradePrerequisitesCompleted** \
+ * **ValidatingSFSConnectivity** \
+ * **ValidatingImageDownload** \
+ * **ValidatingImageUpload** \
+ * **ValidatingETCDHealth** \
  * **PreUpgrade** \
  * **UpgradingKVAIO** \
  * **WaitingForKVAIO** \
@@ -594,7 +603,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -614,7 +623,7 @@ export enum KnownAccessProfileType {
   /** ClusterUser */
   ClusterUser = "clusterUser",
   /** ClusterCustomerUser */
-  ClusterCustomerUser = "clusterCustomerUser"
+  ClusterCustomerUser = "clusterCustomerUser",
 }
 
 /**
@@ -630,7 +639,7 @@ export type AccessProfileType = string;
 /** Known values of {@link ArtifactType} that the service accepts. */
 export enum KnownArtifactType {
   /** LogsArtifactType */
-  LogsArtifactType = "LogsArtifactType"
+  LogsArtifactType = "LogsArtifactType",
 }
 
 /**
@@ -651,7 +660,7 @@ export enum KnownSSHKeyType {
   /** LogsKey */
   LogsKey = "LogsKey",
   /** ScopedAccessKey */
-  ScopedAccessKey = "ScopedAccessKey"
+  ScopedAccessKey = "ScopedAccessKey",
 }
 
 /**
@@ -685,7 +694,8 @@ export interface AppliancesGetTelemetryConfigOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getTelemetryConfig operation. */
-export type AppliancesGetTelemetryConfigResponse = ApplianceGetTelemetryConfigResult;
+export type AppliancesGetTelemetryConfigResponse =
+  ApplianceGetTelemetryConfigResult;
 
 /** Optional parameters. */
 export interface AppliancesListByResourceGroupOptionalParams
@@ -737,11 +747,15 @@ export interface AppliancesListClusterUserCredentialOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listClusterUserCredential operation. */
-export type AppliancesListClusterUserCredentialResponse = ApplianceListCredentialResults;
+export type AppliancesListClusterUserCredentialResponse =
+  ApplianceListCredentialResults;
 
 /** Optional parameters. */
 export interface AppliancesListKeysOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** This sets the type of artifact being returned, when empty no artifact endpoint is returned. */
+  artifactType?: string;
+}
 
 /** Contains response data for the listKeys operation. */
 export type AppliancesListKeysResponse = ApplianceListKeysResults;
