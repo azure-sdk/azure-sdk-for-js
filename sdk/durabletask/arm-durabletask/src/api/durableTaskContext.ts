@@ -42,7 +42,7 @@ export function createDurableTask(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2024-10-01-preview";
+  const apiVersion = options.apiVersion ?? "2025-04-01-preview";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {
