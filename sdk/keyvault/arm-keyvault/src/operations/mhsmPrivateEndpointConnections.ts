@@ -12,7 +12,7 @@ import { MhsmPrivateEndpointConnections } from "../operationsInterfaces/index.js
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { KeyVaultManagementClient } from "../keyVaultManagementClient.js";
+import { AzureStorageResourceManagementAPI } from "../azureStorageResourceManagementAPI.js";
 import {
   SimplePollerLike,
   OperationState,
@@ -38,21 +38,21 @@ import {
 export class MhsmPrivateEndpointConnectionsImpl
   implements MhsmPrivateEndpointConnections
 {
-  private readonly client: KeyVaultManagementClient;
+  private readonly client: AzureStorageResourceManagementAPI;
 
   /**
    * Initialize a new instance of the class MhsmPrivateEndpointConnections class.
    * @param client Reference to the service client
    */
-  constructor(client: KeyVaultManagementClient) {
+  constructor(client: AzureStorageResourceManagementAPI) {
     this.client = client;
   }
 
   /**
    * The List operation gets information about the private endpoint connections associated with the
    * managed HSM Pool.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name Name of the managed HSM Pool
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
    * @param options The options parameters.
    */
   public listByResource(
@@ -128,8 +128,8 @@ export class MhsmPrivateEndpointConnectionsImpl
   /**
    * The List operation gets information about the private endpoint connections associated with the
    * managed HSM Pool.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name Name of the managed HSM Pool
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
    * @param options The options parameters.
    */
   private _listByResource(
@@ -145,8 +145,8 @@ export class MhsmPrivateEndpointConnectionsImpl
 
   /**
    * Gets the specified private endpoint connection associated with the managed HSM Pool.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name Name of the managed HSM Pool
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
    * @param privateEndpointConnectionName Name of the private endpoint connection associated with the
    *                                      managed hsm pool.
    * @param options The options parameters.
@@ -165,18 +165,18 @@ export class MhsmPrivateEndpointConnectionsImpl
 
   /**
    * Updates the specified private endpoint connection associated with the managed hsm pool.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name Name of the managed HSM Pool
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
    * @param privateEndpointConnectionName Name of the private endpoint connection associated with the
    *                                      managed hsm pool.
-   * @param properties The intended state of private endpoint connection.
+   * @param resource The intended state of private endpoint connection.
    * @param options The options parameters.
    */
   put(
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
-    properties: MhsmPrivateEndpointConnection,
+    resource: MhsmPrivateEndpointConnection,
     options?: MhsmPrivateEndpointConnectionsPutOptionalParams,
   ): Promise<MhsmPrivateEndpointConnectionsPutResponse> {
     return this.client.sendOperationRequest(
@@ -184,7 +184,7 @@ export class MhsmPrivateEndpointConnectionsImpl
         resourceGroupName,
         name,
         privateEndpointConnectionName,
-        properties,
+        resource,
         options,
       },
       putOperationSpec,
@@ -193,8 +193,8 @@ export class MhsmPrivateEndpointConnectionsImpl
 
   /**
    * Deletes the specified private endpoint connection associated with the managed hsm pool.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name Name of the managed HSM Pool
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
    * @param privateEndpointConnectionName Name of the private endpoint connection associated with the
    *                                      managed hsm pool.
    * @param options The options parameters.
@@ -259,6 +259,7 @@ export class MhsmPrivateEndpointConnectionsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -266,8 +267,8 @@ export class MhsmPrivateEndpointConnectionsImpl
 
   /**
    * Deletes the specified private endpoint connection associated with the managed hsm pool.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name Name of the managed HSM Pool
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
    * @param privateEndpointConnectionName Name of the private endpoint connection associated with the
    *                                      managed hsm pool.
    * @param options The options parameters.
@@ -289,8 +290,8 @@ export class MhsmPrivateEndpointConnectionsImpl
 
   /**
    * ListByResourceNext
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name Name of the managed HSM Pool
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
    * @param nextLink The nextLink from the previous successful call to the ListByResource method.
    * @param options The options parameters.
    */
@@ -314,18 +315,18 @@ const listByResourceOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MhsmPrivateEndpointConnectionsListResult,
+      bodyMapper: Mappers.MhsmPrivateEndpointConnectionListResult,
     },
     default: {
-      bodyMapper: Mappers.ManagedHsmError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.name,
     Parameters.resourceGroupName,
-    Parameters.name1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -338,16 +339,16 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.MhsmPrivateEndpointConnection,
     },
     default: {
-      bodyMapper: Mappers.ManagedHsmError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.name,
     Parameters.resourceGroupName,
     Parameters.privateEndpointConnectionName,
-    Parameters.name1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -358,22 +359,21 @@ const putOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.MhsmPrivateEndpointConnection,
-      headersMapper: Mappers.MhsmPrivateEndpointConnectionsPutHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.properties1,
+  requestBody: Parameters.resource2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.name,
     Parameters.resourceGroupName,
     Parameters.privateEndpointConnectionName,
-    Parameters.name1,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -394,16 +394,16 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.MhsmPrivateEndpointConnection,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.name,
     Parameters.resourceGroupName,
     Parameters.privateEndpointConnectionName,
-    Parameters.name1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -413,18 +413,18 @@ const listByResourceNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MhsmPrivateEndpointConnectionsListResult,
+      bodyMapper: Mappers.MhsmPrivateEndpointConnectionListResult,
     },
     default: {
-      bodyMapper: Mappers.ManagedHsmError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.name1,
+    Parameters.subscriptionId,
+    Parameters.name,
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

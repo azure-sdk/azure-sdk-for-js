@@ -10,7 +10,7 @@ import { MhsmPrivateLinkResources } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { KeyVaultManagementClient } from "../keyVaultManagementClient.js";
+import { AzureStorageResourceManagementAPI } from "../azureStorageResourceManagementAPI.js";
 import {
   MhsmPrivateLinkResourcesListByMhsmResourceOptionalParams,
   MhsmPrivateLinkResourcesListByMhsmResourceResponse,
@@ -18,20 +18,20 @@ import {
 
 /** Class containing MhsmPrivateLinkResources operations. */
 export class MhsmPrivateLinkResourcesImpl implements MhsmPrivateLinkResources {
-  private readonly client: KeyVaultManagementClient;
+  private readonly client: AzureStorageResourceManagementAPI;
 
   /**
    * Initialize a new instance of the class MhsmPrivateLinkResources class.
    * @param client Reference to the service client
    */
-  constructor(client: KeyVaultManagementClient) {
+  constructor(client: AzureStorageResourceManagementAPI) {
     this.client = client;
   }
 
   /**
    * Gets the private link resources supported for the managed hsm pool.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name Name of the managed HSM Pool
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
    * @param options The options parameters.
    */
   listByMhsmResource(
@@ -56,15 +56,15 @@ const listByMhsmResourceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.MhsmPrivateLinkResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.name,
     Parameters.resourceGroupName,
-    Parameters.name1,
   ],
   headerParameters: [Parameters.accept],
   serializer,

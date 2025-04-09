@@ -12,7 +12,7 @@ import { Vaults } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { KeyVaultManagementClient } from "../keyVaultManagementClient.js";
+import { AzureStorageResourceManagementAPI } from "../azureStorageResourceManagementAPI.js";
 import {
   SimplePollerLike,
   OperationState,
@@ -20,63 +20,165 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  Vault,
-  VaultsListByResourceGroupNextOptionalParams,
-  VaultsListByResourceGroupOptionalParams,
-  VaultsListByResourceGroupResponse,
-  VaultsListBySubscriptionNextOptionalParams,
-  VaultsListBySubscriptionOptionalParams,
-  VaultsListBySubscriptionResponse,
   DeletedVault,
   VaultsListDeletedNextOptionalParams,
   VaultsListDeletedOptionalParams,
   VaultsListDeletedResponse,
-  Resource,
-  VaultsListNextOptionalParams,
-  VaultsListOptionalParams,
-  VaultsListResponse,
-  VaultCreateOrUpdateParameters,
+  Vault,
+  VaultsListBySubscriptionNextOptionalParams,
+  VaultsListBySubscriptionOptionalParams,
+  VaultsListBySubscriptionResponse,
+  VaultsListByResourceGroupNextOptionalParams,
+  VaultsListByResourceGroupOptionalParams,
+  VaultsListByResourceGroupResponse,
+  VaultCheckNameAvailabilityParameters,
+  VaultsCheckNameAvailabilityOptionalParams,
+  VaultsCheckNameAvailabilityResponse,
+  VaultsGetDeletedOptionalParams,
+  VaultsGetDeletedResponse,
+  VaultsPurgeDeletedOptionalParams,
+  VaultsGetOptionalParams,
+  VaultsGetResponse,
   VaultsCreateOrUpdateOptionalParams,
   VaultsCreateOrUpdateResponse,
   VaultPatchParameters,
   VaultsUpdateOptionalParams,
   VaultsUpdateResponse,
   VaultsDeleteOptionalParams,
-  VaultsGetOptionalParams,
-  VaultsGetResponse,
   VaultAccessPolicyParameters,
   AccessPolicyUpdateKind,
   VaultsUpdateAccessPolicyOptionalParams,
   VaultsUpdateAccessPolicyResponse,
-  VaultsGetDeletedOptionalParams,
-  VaultsGetDeletedResponse,
-  VaultsPurgeDeletedOptionalParams,
-  VaultCheckNameAvailabilityParameters,
-  VaultsCheckNameAvailabilityOptionalParams,
-  VaultsCheckNameAvailabilityResponse,
-  VaultsListByResourceGroupNextResponse,
-  VaultsListBySubscriptionNextResponse,
   VaultsListDeletedNextResponse,
-  VaultsListNextResponse,
+  VaultsListBySubscriptionNextResponse,
+  VaultsListByResourceGroupNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Vaults operations. */
 export class VaultsImpl implements Vaults {
-  private readonly client: KeyVaultManagementClient;
+  private readonly client: AzureStorageResourceManagementAPI;
 
   /**
    * Initialize a new instance of the class Vaults class.
    * @param client Reference to the service client
    */
-  constructor(client: KeyVaultManagementClient) {
+  constructor(client: AzureStorageResourceManagementAPI) {
     this.client = client;
+  }
+
+  /**
+   * Gets information about the deleted vaults in a subscription.
+   * @param options The options parameters.
+   */
+  public listDeleted(
+    options?: VaultsListDeletedOptionalParams,
+  ): PagedAsyncIterableIterator<DeletedVault> {
+    const iter = this.listDeletedPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listDeletedPagingPage(options, settings);
+      },
+    };
+  }
+
+  private async *listDeletedPagingPage(
+    options?: VaultsListDeletedOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<DeletedVault[]> {
+    let result: VaultsListDeletedResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listDeleted(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listDeletedNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listDeletedPagingAll(
+    options?: VaultsListDeletedOptionalParams,
+  ): AsyncIterableIterator<DeletedVault> {
+    for await (const page of this.listDeletedPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * The List operation gets information about the vaults associated with the subscription.
+   * @param options The options parameters.
+   */
+  public listBySubscription(
+    options?: VaultsListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<Vault> {
+    const iter = this.listBySubscriptionPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
+      },
+    };
+  }
+
+  private async *listBySubscriptionPagingPage(
+    options?: VaultsListBySubscriptionOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<Vault[]> {
+    let result: VaultsListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listBySubscriptionNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listBySubscriptionPagingAll(
+    options?: VaultsListBySubscriptionOptionalParams,
+  ): AsyncIterableIterator<Vault> {
+    for await (const page of this.listBySubscriptionPagingPage(options)) {
+      yield* page;
+    }
   }
 
   /**
    * The List operation gets information about the vaults associated with the subscription and within the
    * specified resource group.
-   * @param resourceGroupName The name of the Resource Group to which the vault belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -144,178 +246,185 @@ export class VaultsImpl implements Vaults {
   }
 
   /**
-   * The List operation gets information about the vaults associated with the subscription.
+   * Checks that the vault name is valid and is not already in use.
+   * @param body The request body
    * @param options The options parameters.
    */
-  public listBySubscription(
-    options?: VaultsListBySubscriptionOptionalParams,
-  ): PagedAsyncIterableIterator<Vault> {
-    const iter = this.listBySubscriptionPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySubscriptionPagingPage(options, settings);
-      },
-    };
-  }
-
-  private async *listBySubscriptionPagingPage(
-    options?: VaultsListBySubscriptionOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<Vault[]> {
-    let result: VaultsListBySubscriptionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySubscription(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listBySubscriptionNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listBySubscriptionPagingAll(
-    options?: VaultsListBySubscriptionOptionalParams,
-  ): AsyncIterableIterator<Vault> {
-    for await (const page of this.listBySubscriptionPagingPage(options)) {
-      yield* page;
-    }
+  checkNameAvailability(
+    body: VaultCheckNameAvailabilityParameters,
+    options?: VaultsCheckNameAvailabilityOptionalParams,
+  ): Promise<VaultsCheckNameAvailabilityResponse> {
+    return this.client.sendOperationRequest(
+      { body, options },
+      checkNameAvailabilityOperationSpec,
+    );
   }
 
   /**
    * Gets information about the deleted vaults in a subscription.
    * @param options The options parameters.
    */
-  public listDeleted(
+  private _listDeleted(
     options?: VaultsListDeletedOptionalParams,
-  ): PagedAsyncIterableIterator<DeletedVault> {
-    const iter = this.listDeletedPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listDeletedPagingPage(options, settings);
-      },
+  ): Promise<VaultsListDeletedResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listDeletedOperationSpec,
+    );
+  }
+
+  /**
+   * Gets the deleted Azure key vault.
+   * @param location The name of the Azure region.
+   * @param vaultName The name of the vault.
+   * @param options The options parameters.
+   */
+  getDeleted(
+    location: string,
+    vaultName: string,
+    options?: VaultsGetDeletedOptionalParams,
+  ): Promise<VaultsGetDeletedResponse> {
+    return this.client.sendOperationRequest(
+      { location, vaultName, options },
+      getDeletedOperationSpec,
+    );
+  }
+
+  /**
+   * Permanently deletes the specified vault. aka Purges the deleted Azure key vault.
+   * @param location The name of the Azure region.
+   * @param vaultName The name of the vault.
+   * @param options The options parameters.
+   */
+  async beginPurgeDeleted(
+    location: string,
+    vaultName: string,
+    options?: VaultsPurgeDeletedOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
     };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { location, vaultName, options },
+      spec: purgeDeletedOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
   }
 
-  private async *listDeletedPagingPage(
-    options?: VaultsListDeletedOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<DeletedVault[]> {
-    let result: VaultsListDeletedResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listDeleted(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listDeletedNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listDeletedPagingAll(
-    options?: VaultsListDeletedOptionalParams,
-  ): AsyncIterableIterator<DeletedVault> {
-    for await (const page of this.listDeletedPagingPage(options)) {
-      yield* page;
-    }
+  /**
+   * Permanently deletes the specified vault. aka Purges the deleted Azure key vault.
+   * @param location The name of the Azure region.
+   * @param vaultName The name of the vault.
+   * @param options The options parameters.
+   */
+  async beginPurgeDeletedAndWait(
+    location: string,
+    vaultName: string,
+    options?: VaultsPurgeDeletedOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginPurgeDeleted(location, vaultName, options);
+    return poller.pollUntilDone();
   }
 
   /**
    * The List operation gets information about the vaults associated with the subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: VaultsListOptionalParams,
-  ): PagedAsyncIterableIterator<Resource> {
-    const iter = this.listPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
-      },
-    };
+  private _listBySubscription(
+    options?: VaultsListBySubscriptionOptionalParams,
+  ): Promise<VaultsListBySubscriptionResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listBySubscriptionOperationSpec,
+    );
   }
 
-  private async *listPagingPage(
-    options?: VaultsListOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<Resource[]> {
-    let result: VaultsListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+  /**
+   * The List operation gets information about the vaults associated with the subscription and within the
+   * specified resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: VaultsListByResourceGroupOptionalParams,
+  ): Promise<VaultsListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
+    );
   }
 
-  private async *listPagingAll(
-    options?: VaultsListOptionalParams,
-  ): AsyncIterableIterator<Resource> {
-    for await (const page of this.listPagingPage(options)) {
-      yield* page;
-    }
+  /**
+   * Gets the specified Azure key vault.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the vault.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    vaultName: string,
+    options?: VaultsGetOptionalParams,
+  ): Promise<VaultsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, vaultName, options },
+      getOperationSpec,
+    );
   }
 
   /**
    * Create or update a key vault in the specified subscription.
-   * @param resourceGroupName The name of the Resource Group to which the server belongs.
-   * @param vaultName Name of the vault
-   * @param parameters Parameters to create or update the vault
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the vault.
+   * @param resource Parameters to create or update the vault
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     vaultName: string,
-    parameters: VaultCreateOrUpdateParameters,
+    resource: Vault,
     options?: VaultsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -363,7 +472,7 @@ export class VaultsImpl implements Vaults {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, vaultName, parameters, options },
+      args: { resourceGroupName, vaultName, resource, options },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -372,6 +481,7 @@ export class VaultsImpl implements Vaults {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -379,21 +489,21 @@ export class VaultsImpl implements Vaults {
 
   /**
    * Create or update a key vault in the specified subscription.
-   * @param resourceGroupName The name of the Resource Group to which the server belongs.
-   * @param vaultName Name of the vault
-   * @param parameters Parameters to create or update the vault
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the vault.
+   * @param resource Parameters to create or update the vault
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     vaultName: string,
-    parameters: VaultCreateOrUpdateParameters,
+    resource: Vault,
     options?: VaultsCreateOrUpdateOptionalParams,
   ): Promise<VaultsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       vaultName,
-      parameters,
+      resource,
       options,
     );
     return poller.pollUntilDone();
@@ -401,27 +511,27 @@ export class VaultsImpl implements Vaults {
 
   /**
    * Update a key vault in the specified subscription.
-   * @param resourceGroupName The name of the Resource Group to which the server belongs.
-   * @param vaultName Name of the vault
-   * @param parameters Parameters to patch the vault
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the vault.
+   * @param properties Parameters to patch the vault
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     vaultName: string,
-    parameters: VaultPatchParameters,
+    properties: VaultPatchParameters,
     options?: VaultsUpdateOptionalParams,
   ): Promise<VaultsUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, parameters, options },
+      { resourceGroupName, vaultName, properties, options },
       updateOperationSpec,
     );
   }
 
   /**
    * Deletes the specified Azure key vault.
-   * @param resourceGroupName The name of the Resource Group to which the vault belongs.
-   * @param vaultName The name of the vault to delete
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the vault.
    * @param options The options parameters.
    */
   delete(
@@ -436,233 +546,23 @@ export class VaultsImpl implements Vaults {
   }
 
   /**
-   * Gets the specified Azure key vault.
-   * @param resourceGroupName The name of the Resource Group to which the vault belongs.
-   * @param vaultName The name of the vault.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    vaultName: string,
-    options?: VaultsGetOptionalParams,
-  ): Promise<VaultsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
    * Update access policies in a key vault in the specified subscription.
-   * @param resourceGroupName The name of the Resource Group to which the vault belongs.
-   * @param vaultName Name of the vault
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the vault.
    * @param operationKind Name of the operation
-   * @param parameters Access policy to merge into the vault
+   * @param body Access policy to merge into the vault
    * @param options The options parameters.
    */
   updateAccessPolicy(
     resourceGroupName: string,
     vaultName: string,
     operationKind: AccessPolicyUpdateKind,
-    parameters: VaultAccessPolicyParameters,
+    body: VaultAccessPolicyParameters,
     options?: VaultsUpdateAccessPolicyOptionalParams,
   ): Promise<VaultsUpdateAccessPolicyResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, operationKind, parameters, options },
+      { resourceGroupName, vaultName, operationKind, body, options },
       updateAccessPolicyOperationSpec,
-    );
-  }
-
-  /**
-   * The List operation gets information about the vaults associated with the subscription and within the
-   * specified resource group.
-   * @param resourceGroupName The name of the Resource Group to which the vault belongs.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: VaultsListByResourceGroupOptionalParams,
-  ): Promise<VaultsListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec,
-    );
-  }
-
-  /**
-   * The List operation gets information about the vaults associated with the subscription.
-   * @param options The options parameters.
-   */
-  private _listBySubscription(
-    options?: VaultsListBySubscriptionOptionalParams,
-  ): Promise<VaultsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
-  }
-
-  /**
-   * Gets information about the deleted vaults in a subscription.
-   * @param options The options parameters.
-   */
-  private _listDeleted(
-    options?: VaultsListDeletedOptionalParams,
-  ): Promise<VaultsListDeletedResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listDeletedOperationSpec,
-    );
-  }
-
-  /**
-   * Gets the deleted Azure key vault.
-   * @param vaultName The name of the vault.
-   * @param location The location of the deleted vault.
-   * @param options The options parameters.
-   */
-  getDeleted(
-    vaultName: string,
-    location: string,
-    options?: VaultsGetDeletedOptionalParams,
-  ): Promise<VaultsGetDeletedResponse> {
-    return this.client.sendOperationRequest(
-      { vaultName, location, options },
-      getDeletedOperationSpec,
-    );
-  }
-
-  /**
-   * Permanently deletes the specified vault. aka Purges the deleted Azure key vault.
-   * @param vaultName The name of the soft-deleted vault.
-   * @param location The location of the soft-deleted vault.
-   * @param options The options parameters.
-   */
-  async beginPurgeDeleted(
-    vaultName: string,
-    location: string,
-    options?: VaultsPurgeDeletedOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { vaultName, location, options },
-      spec: purgeDeletedOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Permanently deletes the specified vault. aka Purges the deleted Azure key vault.
-   * @param vaultName The name of the soft-deleted vault.
-   * @param location The location of the soft-deleted vault.
-   * @param options The options parameters.
-   */
-  async beginPurgeDeletedAndWait(
-    vaultName: string,
-    location: string,
-    options?: VaultsPurgeDeletedOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginPurgeDeleted(vaultName, location, options);
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * The List operation gets information about the vaults associated with the subscription.
-   * @param options The options parameters.
-   */
-  private _list(
-    options?: VaultsListOptionalParams,
-  ): Promise<VaultsListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
-  }
-
-  /**
-   * Checks that the vault name is valid and is not already in use.
-   * @param vaultName The name of the vault.
-   * @param options The options parameters.
-   */
-  checkNameAvailability(
-    vaultName: VaultCheckNameAvailabilityParameters,
-    options?: VaultsCheckNameAvailabilityOptionalParams,
-  ): Promise<VaultsCheckNameAvailabilityResponse> {
-    return this.client.sendOperationRequest(
-      { vaultName, options },
-      checkNameAvailabilityOperationSpec,
-    );
-  }
-
-  /**
-   * ListByResourceGroupNext
-   * @param resourceGroupName The name of the Resource Group to which the vault belongs.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroupNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: VaultsListByResourceGroupNextOptionalParams,
-  ): Promise<VaultsListByResourceGroupNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec,
-    );
-  }
-
-  /**
-   * ListBySubscriptionNext
-   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
-   * @param options The options parameters.
-   */
-  private _listBySubscriptionNext(
-    nextLink: string,
-    options?: VaultsListBySubscriptionNextOptionalParams,
-  ): Promise<VaultsListBySubscriptionNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -682,23 +582,174 @@ export class VaultsImpl implements Vaults {
   }
 
   /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
+   * ListBySubscriptionNext
+   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
    */
-  private _listNext(
+  private _listBySubscriptionNext(
     nextLink: string,
-    options?: VaultsListNextOptionalParams,
-  ): Promise<VaultsListNextResponse> {
+    options?: VaultsListBySubscriptionNextOptionalParams,
+  ): Promise<VaultsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec,
+      listBySubscriptionNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListByResourceGroupNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroupNext(
+    resourceGroupName: string,
+    nextLink: string,
+    options?: VaultsListByResourceGroupNextOptionalParams,
+  ): Promise<VaultsListByResourceGroupNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, nextLink, options },
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/checkNameAvailability",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CheckNameAvailabilityResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const listDeletedOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/deletedVaults",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeletedVaultListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getDeletedOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/locations/{location}/deletedVaults/{vaultName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeletedVault,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location,
+    Parameters.vaultName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const purgeDeletedOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/locations/{location}/deletedVaults/{vaultName}/purge",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location,
+    Parameters.vaultName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/vaults",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VaultListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.top],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VaultListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.top],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Vault,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vaultName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}",
   httpMethod: "PUT",
@@ -716,10 +767,10 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Vault,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.resource1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -727,7 +778,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.vaultName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -742,10 +793,10 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Vault,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters3,
+  requestBody: Parameters.properties1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -753,7 +804,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.vaultName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -764,7 +815,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -772,34 +823,13 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName1,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Vault,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName1,
+    Parameters.vaultName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const updateAccessPolicyOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/accessPolicies/{operationKind}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/{operationKind}/{operationKind}",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -807,12 +837,13 @@ const updateAccessPolicyOperationSpec: coreClient.OperationSpec = {
     },
     201: {
       bodyMapper: Mappers.VaultAccessPolicyParameters,
+      headersMapper: Mappers.VaultsUpdateAccessPolicyHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -821,155 +852,25 @@ const updateAccessPolicyOperationSpec: coreClient.OperationSpec = {
     Parameters.vaultName,
     Parameters.operationKind,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VaultListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/vaults",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VaultListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listDeletedOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/deletedVaults",
+const listDeletedNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.DeletedVaultListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getDeletedOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/locations/{location}/deletedVaults/{vaultName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeletedVault,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.vaultName1,
-    Parameters.location,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const purgeDeletedOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/locations/{location}/deletedVaults/{vaultName}/purge",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.vaultName1,
-    Parameters.location,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resources",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion1],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/checkNameAvailability",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CheckNameAvailabilityResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  requestBody: Parameters.vaultName2,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer,
-};
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VaultListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.nextLink,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -982,51 +883,33 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.VaultListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listDeletedNextOperationSpec: coreClient.OperationSpec = {
+const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeletedVaultListResult,
+      bodyMapper: Mappers.VaultListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink,
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

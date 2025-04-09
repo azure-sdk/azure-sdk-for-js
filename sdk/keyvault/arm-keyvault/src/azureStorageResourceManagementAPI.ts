@@ -15,49 +15,44 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  KeysImpl,
-  ManagedHsmKeysImpl,
-  VaultsImpl,
-  PrivateEndpointConnectionsImpl,
-  PrivateLinkResourcesImpl,
+  OperationsImpl,
   ManagedHsmsImpl,
+  VaultsImpl,
   MhsmPrivateEndpointConnectionsImpl,
   MhsmPrivateLinkResourcesImpl,
   MhsmRegionsImpl,
-  OperationsImpl,
+  PrivateEndpointConnectionsImpl,
+  PrivateLinkResourcesImpl,
   SecretsImpl,
 } from "./operations/index.js";
 import {
-  Keys,
-  ManagedHsmKeys,
-  Vaults,
-  PrivateEndpointConnections,
-  PrivateLinkResources,
+  Operations,
   ManagedHsms,
+  Vaults,
   MhsmPrivateEndpointConnections,
   MhsmPrivateLinkResources,
   MhsmRegions,
-  Operations,
+  PrivateEndpointConnections,
+  PrivateLinkResources,
   Secrets,
 } from "./operationsInterfaces/index.js";
-import { KeyVaultManagementClientOptionalParams } from "./models/index.js";
+import { AzureStorageResourceManagementAPIOptionalParams } from "./models/index.js";
 
-export class KeyVaultManagementClient extends coreClient.ServiceClient {
+export class AzureStorageResourceManagementAPI extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
   apiVersion: string;
+  subscriptionId: string;
 
   /**
-   * Initializes a new instance of the KeyVaultManagementClient class.
+   * Initializes a new instance of the AzureStorageResourceManagementAPI class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Subscription credentials which uniquely identify Microsoft Azure subscription.
-   *                       The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: KeyVaultManagementClientOptionalParams,
+    options?: AzureStorageResourceManagementAPIOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -70,12 +65,12 @@ export class KeyVaultManagementClient extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: KeyVaultManagementClientOptionalParams = {
+    const defaults: AzureStorageResourceManagementAPIOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-keyvault/3.2.0`;
+    const packageDetails = `azsdk-js-arm-keyvault/4.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -130,17 +125,15 @@ export class KeyVaultManagementClient extends coreClient.ServiceClient {
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
     this.apiVersion = options.apiVersion || "2024-11-01";
-    this.keys = new KeysImpl(this);
-    this.managedHsmKeys = new ManagedHsmKeysImpl(this);
-    this.vaults = new VaultsImpl(this);
-    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
-    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.operations = new OperationsImpl(this);
     this.managedHsms = new ManagedHsmsImpl(this);
+    this.vaults = new VaultsImpl(this);
     this.mhsmPrivateEndpointConnections =
       new MhsmPrivateEndpointConnectionsImpl(this);
     this.mhsmPrivateLinkResources = new MhsmPrivateLinkResourcesImpl(this);
     this.mhsmRegions = new MhsmRegionsImpl(this);
-    this.operations = new OperationsImpl(this);
+    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
+    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.secrets = new SecretsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -173,15 +166,13 @@ export class KeyVaultManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  keys: Keys;
-  managedHsmKeys: ManagedHsmKeys;
-  vaults: Vaults;
-  privateEndpointConnections: PrivateEndpointConnections;
-  privateLinkResources: PrivateLinkResources;
+  operations: Operations;
   managedHsms: ManagedHsms;
+  vaults: Vaults;
   mhsmPrivateEndpointConnections: MhsmPrivateEndpointConnections;
   mhsmPrivateLinkResources: MhsmPrivateLinkResources;
   mhsmRegions: MhsmRegions;
-  operations: Operations;
+  privateEndpointConnections: PrivateEndpointConnections;
+  privateLinkResources: PrivateLinkResources;
   secrets: Secrets;
 }

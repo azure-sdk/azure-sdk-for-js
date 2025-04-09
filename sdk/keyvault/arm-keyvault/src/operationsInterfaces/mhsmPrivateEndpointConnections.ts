@@ -25,8 +25,8 @@ export interface MhsmPrivateEndpointConnections {
   /**
    * The List operation gets information about the private endpoint connections associated with the
    * managed HSM Pool.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name Name of the managed HSM Pool
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
    * @param options The options parameters.
    */
   listByResource(
@@ -36,8 +36,8 @@ export interface MhsmPrivateEndpointConnections {
   ): PagedAsyncIterableIterator<MhsmPrivateEndpointConnection>;
   /**
    * Gets the specified private endpoint connection associated with the managed HSM Pool.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name Name of the managed HSM Pool
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
    * @param privateEndpointConnectionName Name of the private endpoint connection associated with the
    *                                      managed hsm pool.
    * @param options The options parameters.
@@ -50,24 +50,24 @@ export interface MhsmPrivateEndpointConnections {
   ): Promise<MhsmPrivateEndpointConnectionsGetResponse>;
   /**
    * Updates the specified private endpoint connection associated with the managed hsm pool.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name Name of the managed HSM Pool
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
    * @param privateEndpointConnectionName Name of the private endpoint connection associated with the
    *                                      managed hsm pool.
-   * @param properties The intended state of private endpoint connection.
+   * @param resource The intended state of private endpoint connection.
    * @param options The options parameters.
    */
   put(
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
-    properties: MhsmPrivateEndpointConnection,
+    resource: MhsmPrivateEndpointConnection,
     options?: MhsmPrivateEndpointConnectionsPutOptionalParams,
   ): Promise<MhsmPrivateEndpointConnectionsPutResponse>;
   /**
    * Deletes the specified private endpoint connection associated with the managed hsm pool.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name Name of the managed HSM Pool
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
    * @param privateEndpointConnectionName Name of the private endpoint connection associated with the
    *                                      managed hsm pool.
    * @param options The options parameters.
@@ -85,8 +85,8 @@ export interface MhsmPrivateEndpointConnections {
   >;
   /**
    * Deletes the specified private endpoint connection associated with the managed hsm pool.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name Name of the managed HSM Pool
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
    * @param privateEndpointConnectionName Name of the private endpoint connection associated with the
    *                                      managed hsm pool.
    * @param options The options parameters.

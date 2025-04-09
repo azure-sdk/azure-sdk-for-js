@@ -9,47 +9,30 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  ManagedHsm,
-  ManagedHsmsListByResourceGroupOptionalParams,
-  ManagedHsmsListBySubscriptionOptionalParams,
   DeletedManagedHsm,
   ManagedHsmsListDeletedOptionalParams,
+  ManagedHsm,
+  ManagedHsmsListBySubscriptionOptionalParams,
+  ManagedHsmsListByResourceGroupOptionalParams,
+  CheckMhsmNameAvailabilityParameters,
+  ManagedHsmsCheckMhsmNameAvailabilityOptionalParams,
+  ManagedHsmsCheckMhsmNameAvailabilityResponse,
+  ManagedHsmsGetDeletedOptionalParams,
+  ManagedHsmsGetDeletedResponse,
+  ManagedHsmsPurgeDeletedOptionalParams,
+  ManagedHsmsPurgeDeletedResponse,
+  ManagedHsmsGetOptionalParams,
+  ManagedHsmsGetResponse,
   ManagedHsmsCreateOrUpdateOptionalParams,
   ManagedHsmsCreateOrUpdateResponse,
   ManagedHsmsUpdateOptionalParams,
   ManagedHsmsUpdateResponse,
   ManagedHsmsDeleteOptionalParams,
-  ManagedHsmsGetOptionalParams,
-  ManagedHsmsGetResponse,
-  ManagedHsmsGetDeletedOptionalParams,
-  ManagedHsmsGetDeletedResponse,
-  ManagedHsmsPurgeDeletedOptionalParams,
-  ManagedHsmsPurgeDeletedResponse,
-  CheckMhsmNameAvailabilityParameters,
-  ManagedHsmsCheckMhsmNameAvailabilityOptionalParams,
-  ManagedHsmsCheckMhsmNameAvailabilityResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedHsms. */
 export interface ManagedHsms {
-  /**
-   * The List operation gets information about the managed HSM Pools associated with the subscription and
-   * within the specified resource group.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param options The options parameters.
-   */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: ManagedHsmsListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<ManagedHsm>;
-  /**
-   * The List operation gets information about the managed HSM Pools associated with the subscription.
-   * @param options The options parameters.
-   */
-  listBySubscription(
-    options?: ManagedHsmsListBySubscriptionOptionalParams,
-  ): PagedAsyncIterableIterator<ManagedHsm>;
   /**
    * The List operation gets information about the deleted managed HSMs associated with the subscription.
    * @param options The options parameters.
@@ -58,120 +41,51 @@ export interface ManagedHsms {
     options?: ManagedHsmsListDeletedOptionalParams,
   ): PagedAsyncIterableIterator<DeletedManagedHsm>;
   /**
-   * Create or update a managed HSM Pool in the specified subscription.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name Name of the managed HSM Pool
-   * @param parameters Parameters to create or update the managed HSM Pool
+   * The List operation gets information about the managed HSM Pools associated with the subscription.
    * @param options The options parameters.
    */
-  beginCreateOrUpdate(
-    resourceGroupName: string,
-    name: string,
-    parameters: ManagedHsm,
-    options?: ManagedHsmsCreateOrUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ManagedHsmsCreateOrUpdateResponse>,
-      ManagedHsmsCreateOrUpdateResponse
-    >
-  >;
+  listBySubscription(
+    options?: ManagedHsmsListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<ManagedHsm>;
   /**
-   * Create or update a managed HSM Pool in the specified subscription.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name Name of the managed HSM Pool
-   * @param parameters Parameters to create or update the managed HSM Pool
+   * The List operation gets information about the managed HSM Pools associated with the subscription and
+   * within the specified resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
-  beginCreateOrUpdateAndWait(
+  listByResourceGroup(
     resourceGroupName: string,
-    name: string,
-    parameters: ManagedHsm,
-    options?: ManagedHsmsCreateOrUpdateOptionalParams,
-  ): Promise<ManagedHsmsCreateOrUpdateResponse>;
+    options?: ManagedHsmsListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<ManagedHsm>;
   /**
-   * Update a managed HSM Pool in the specified subscription.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name Name of the managed HSM Pool
-   * @param parameters Parameters to patch the managed HSM Pool
+   * Checks that the managed hsm name is valid and is not already in use.
+   * @param body The request body
    * @param options The options parameters.
    */
-  beginUpdate(
-    resourceGroupName: string,
-    name: string,
-    parameters: ManagedHsm,
-    options?: ManagedHsmsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ManagedHsmsUpdateResponse>,
-      ManagedHsmsUpdateResponse
-    >
-  >;
-  /**
-   * Update a managed HSM Pool in the specified subscription.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name Name of the managed HSM Pool
-   * @param parameters Parameters to patch the managed HSM Pool
-   * @param options The options parameters.
-   */
-  beginUpdateAndWait(
-    resourceGroupName: string,
-    name: string,
-    parameters: ManagedHsm,
-    options?: ManagedHsmsUpdateOptionalParams,
-  ): Promise<ManagedHsmsUpdateResponse>;
-  /**
-   * Deletes the specified managed HSM Pool.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name The name of the managed HSM Pool to delete
-   * @param options The options parameters.
-   */
-  beginDelete(
-    resourceGroupName: string,
-    name: string,
-    options?: ManagedHsmsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Deletes the specified managed HSM Pool.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name The name of the managed HSM Pool to delete
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceGroupName: string,
-    name: string,
-    options?: ManagedHsmsDeleteOptionalParams,
-  ): Promise<void>;
-  /**
-   * Gets the specified managed HSM Pool.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name The name of the managed HSM Pool.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    name: string,
-    options?: ManagedHsmsGetOptionalParams,
-  ): Promise<ManagedHsmsGetResponse>;
+  checkMhsmNameAvailability(
+    body: CheckMhsmNameAvailabilityParameters,
+    options?: ManagedHsmsCheckMhsmNameAvailabilityOptionalParams,
+  ): Promise<ManagedHsmsCheckMhsmNameAvailabilityResponse>;
   /**
    * Gets the specified deleted managed HSM.
+   * @param location The name of the Azure region.
    * @param name The name of the deleted managed HSM.
-   * @param location The location of the deleted managed HSM.
    * @param options The options parameters.
    */
   getDeleted(
-    name: string,
     location: string,
+    name: string,
     options?: ManagedHsmsGetDeletedOptionalParams,
   ): Promise<ManagedHsmsGetDeletedResponse>;
   /**
    * Permanently deletes the specified managed HSM.
-   * @param name The name of the soft-deleted managed HSM.
-   * @param location The location of the soft-deleted managed HSM.
+   * @param location The name of the Azure region.
+   * @param name The name of the deleted managed HSM.
    * @param options The options parameters.
    */
   beginPurgeDeleted(
-    name: string,
     location: string,
+    name: string,
     options?: ManagedHsmsPurgeDeletedOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -181,22 +95,108 @@ export interface ManagedHsms {
   >;
   /**
    * Permanently deletes the specified managed HSM.
-   * @param name The name of the soft-deleted managed HSM.
-   * @param location The location of the soft-deleted managed HSM.
+   * @param location The name of the Azure region.
+   * @param name The name of the deleted managed HSM.
    * @param options The options parameters.
    */
   beginPurgeDeletedAndWait(
-    name: string,
     location: string,
+    name: string,
     options?: ManagedHsmsPurgeDeletedOptionalParams,
   ): Promise<ManagedHsmsPurgeDeletedResponse>;
   /**
-   * Checks that the managed hsm name is valid and is not already in use.
-   * @param mhsmName The name of the managed hsm.
+   * Gets the specified managed HSM Pool.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
    * @param options The options parameters.
    */
-  checkMhsmNameAvailability(
-    mhsmName: CheckMhsmNameAvailabilityParameters,
-    options?: ManagedHsmsCheckMhsmNameAvailabilityOptionalParams,
-  ): Promise<ManagedHsmsCheckMhsmNameAvailabilityResponse>;
+  get(
+    resourceGroupName: string,
+    name: string,
+    options?: ManagedHsmsGetOptionalParams,
+  ): Promise<ManagedHsmsGetResponse>;
+  /**
+   * Create or update a managed HSM Pool in the specified subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
+   * @param resource Parameters to create or update the managed HSM Pool
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    name: string,
+    resource: ManagedHsm,
+    options?: ManagedHsmsCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedHsmsCreateOrUpdateResponse>,
+      ManagedHsmsCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Create or update a managed HSM Pool in the specified subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
+   * @param resource Parameters to create or update the managed HSM Pool
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    name: string,
+    resource: ManagedHsm,
+    options?: ManagedHsmsCreateOrUpdateOptionalParams,
+  ): Promise<ManagedHsmsCreateOrUpdateResponse>;
+  /**
+   * Update a managed HSM Pool in the specified subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
+   * @param properties Parameters to patch the managed HSM Pool
+   * @param options The options parameters.
+   */
+  beginUpdate(
+    resourceGroupName: string,
+    name: string,
+    properties: ManagedHsm,
+    options?: ManagedHsmsUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedHsmsUpdateResponse>,
+      ManagedHsmsUpdateResponse
+    >
+  >;
+  /**
+   * Update a managed HSM Pool in the specified subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
+   * @param properties Parameters to patch the managed HSM Pool
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    name: string,
+    properties: ManagedHsm,
+    options?: ManagedHsmsUpdateOptionalParams,
+  ): Promise<ManagedHsmsUpdateResponse>;
+  /**
+   * Deletes the specified managed HSM Pool.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    name: string,
+    options?: ManagedHsmsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Deletes the specified managed HSM Pool.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    name: string,
+    options?: ManagedHsmsDeleteOptionalParams,
+  ): Promise<void>;
 }

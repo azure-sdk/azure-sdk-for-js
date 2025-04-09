@@ -15,8 +15,8 @@ import {
 export interface MhsmPrivateLinkResources {
   /**
    * Gets the private link resources supported for the managed hsm pool.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name Name of the managed HSM Pool
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
    * @param options The options parameters.
    */
   listByMhsmResource(
