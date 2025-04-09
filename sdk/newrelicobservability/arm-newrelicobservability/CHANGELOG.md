@@ -1,15 +1,38 @@
 # Release History
-
-## 1.1.1 (Unreleased)
-
+    
+## 2.0.0 (2025-04-09)
+    
 ### Features Added
+
+  - Added operation MonitoredSubscriptions.beginCreateOrUpdate
+  - Added operation MonitoredSubscriptions.beginCreateOrUpdateAndWait
+  - Added operation Monitors.beginResubscribe
+  - Added operation Monitors.beginResubscribeAndWait
+  - Added operation Monitors.beginUpdate
+  - Added operation Monitors.beginUpdateAndWait
+  - Added operation Monitors.refreshIngestionKey
+  - Added Interface MonitoredSubscriptionsCreateOrUpdateOptionalParams
+  - Added Interface MonitorsRefreshIngestionKeyOptionalParams
+  - Added Interface MonitorsResubscribeHeaders
+  - Added Interface MonitorsResubscribeOptionalParams
+  - Added Interface MonitorsUpdateHeaders
+  - Added Interface ResubscribeProperties
+  - Added Type Alias MonitoredSubscriptionsCreateOrUpdateResponse
+  - Added Type Alias MonitorsResubscribeResponse
+  - Interface MarketplaceSaaSInfo has a new optional parameter offerId
+  - Interface MarketplaceSaaSInfo has a new optional parameter publisherId
+  - Interface MonitorsUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface MonitorsUpdateOptionalParams has a new optional parameter updateIntervalInMs
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation MonitoredSubscriptions.beginCreateorUpdate
+  - Removed operation MonitoredSubscriptions.beginCreateorUpdateAndWait
+  - Removed operation Monitors.update
+  - Type of parameter billingCycle of interface PlanData is changed from BillingCycle to string
+  - Removed Enum KnownBillingCycle
+    
+    
 ## 1.1.0 (2024-03-08)
     
 ### Features Added
