@@ -238,8 +238,8 @@ export interface UserInfo {
 export interface PlanData {
   /** Different usage type like PAYG/COMMITTED. this could be enum */
   usageType?: UsageType;
-  /** Different billing cycles like MONTHLY/WEEKLY. this could be enum */
-  billingCycle?: BillingCycle;
+  /** Different billing cycles like Monthly/Weekly. */
+  billingCycle?: string;
   /** plan id as published by NewRelic */
   planDetails?: string;
   /** date when plan was applied */
@@ -458,6 +458,10 @@ export interface MarketplaceSaaSInfo {
   marketplaceStatus?: string;
   /** The Azure Subscription ID to which the Marketplace Subscription belongs and gets billed into. */
   billedAzureSubscriptionId?: string;
+  /** Publisher Id of the Marketplace offer. */
+  publisherId?: string;
+  /** Offer Id of the Marketplace offer, */
+  offerId?: string;
 }
 
 /** Partner Billing details associated with the resource. */
@@ -610,6 +614,24 @@ export interface VMExtensionPayload {
   ingestionKey?: string;
 }
 
+/** Resubscribe Properties */
+export interface ResubscribeProperties {
+  /** Newly selected plan Id to create the new Marketplace subscription for Resubscribe */
+  planId?: string;
+  /** Newly selected term Id to create the new Marketplace subscription for Resubscribe */
+  termId?: string;
+  /** Newly selected Azure Subscription Id in which the new Marketplace subscription will be created for Resubscribe */
+  subscriptionId?: string;
+  /** Newly selected Azure resource group in which the new Marketplace subscription will be created for Resubscribe */
+  resourceGroup?: string;
+  /** Organization Id of the NewRelic Organization that needs to be resubscribed */
+  organizationId?: string;
+  /** Publisher Id of the NewRelic offer that needs to be resubscribed */
+  publisherId?: string;
+  /** Offer Id of the NewRelic offer that needs to be resubscribed */
+  offerId?: string;
+}
+
 /** App services Get Parameter specification. */
 export interface AppServicesGetParameter {
   /** The details of the app services get request. */
@@ -752,6 +774,11 @@ export interface MonitorsCreateOrUpdateHeaders {
   retryAfter?: number;
 }
 
+/** Defines headers for Monitors_update operation. */
+export interface MonitorsUpdateHeaders {
+  location?: string;
+}
+
 /** Defines headers for Monitors_delete operation. */
 export interface MonitorsDeleteHeaders {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
@@ -762,6 +789,11 @@ export interface MonitorsDeleteHeaders {
 export interface MonitorsSwitchBillingHeaders {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
+}
+
+/** Defines headers for Monitors_resubscribe operation. */
+export interface MonitorsResubscribeHeaders {
+  location?: string;
 }
 
 /** Defines headers for TagRules_createOrUpdate operation. */
@@ -962,27 +994,6 @@ export enum KnownUsageType {
  * **COMMITTED**: Usage type is COMMITTED
  */
 export type UsageType = string;
-
-/** Known values of {@link BillingCycle} that the service accepts. */
-export enum KnownBillingCycle {
-  /** Billing cycle is YEARLY */
-  Yearly = "YEARLY",
-  /** Billing cycle is MONTHLY */
-  Monthly = "MONTHLY",
-  /** Billing cycle is WEEKLY */
-  Weekly = "WEEKLY",
-}
-
-/**
- * Defines values for BillingCycle. \
- * {@link KnownBillingCycle} can be used interchangeably with BillingCycle,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **YEARLY**: Billing cycle is YEARLY \
- * **MONTHLY**: Billing cycle is MONTHLY \
- * **WEEKLY**: Billing cycle is WEEKLY
- */
-export type BillingCycle = string;
 
 /** Known values of {@link LiftrResourceCategories} that the service accepts. */
 export enum KnownLiftrResourceCategories {
@@ -1337,7 +1348,12 @@ export type MonitorsCreateOrUpdateResponse = NewRelicMonitorResource;
 
 /** Optional parameters. */
 export interface MonitorsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the update operation. */
 export type MonitorsUpdateResponse = NewRelicMonitorResource;
@@ -1387,6 +1403,10 @@ export interface MonitorsListHostsOptionalParams
 export type MonitorsListHostsResponse = VMHostsListResponse;
 
 /** Optional parameters. */
+export interface MonitorsRefreshIngestionKeyOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
 export interface MonitorsListMonitoredResourcesOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1407,6 +1427,20 @@ export interface MonitorsVmHostPayloadOptionalParams
 
 /** Contains response data for the vmHostPayload operation. */
 export type MonitorsVmHostPayloadResponse = VMExtensionPayload;
+
+/** Optional parameters. */
+export interface MonitorsResubscribeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Resubscribe Properties */
+  body?: ResubscribeProperties;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the resubscribe operation. */
+export type MonitorsResubscribeResponse = NewRelicMonitorResource;
 
 /** Optional parameters. */
 export interface MonitorsListBySubscriptionNextOptionalParams
@@ -1581,7 +1615,7 @@ export interface MonitoredSubscriptionsGetOptionalParams
 export type MonitoredSubscriptionsGetResponse = MonitoredSubscriptionProperties;
 
 /** Optional parameters. */
-export interface MonitoredSubscriptionsCreateorUpdateOptionalParams
+export interface MonitoredSubscriptionsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** The request to update subscriptions needed to be monitored by the NewRelic monitor resource. */
   body?: MonitoredSubscriptionProperties;
@@ -1591,8 +1625,8 @@ export interface MonitoredSubscriptionsCreateorUpdateOptionalParams
   resumeFrom?: string;
 }
 
-/** Contains response data for the createorUpdate operation. */
-export type MonitoredSubscriptionsCreateorUpdateResponse =
+/** Contains response data for the createOrUpdate operation. */
+export type MonitoredSubscriptionsCreateOrUpdateResponse =
   MonitoredSubscriptionProperties;
 
 /** Optional parameters. */
