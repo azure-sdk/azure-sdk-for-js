@@ -1,0 +1,4 @@
+directory: specification/search/Azure.Search
+commit: 291502c680831a58ea2408b1d5722e1f2603cc6b
+repo: /mnt/vss/_work/1/s/azure-rest-api-specs
+additionalDirectories: 
