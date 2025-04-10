@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   AvailabilityStatus,
-  ChildResourcesListOptionalParams
+  ChildResourcesListOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -25,6 +25,6 @@ export interface ChildResources {
    */
   list(
     resourceUri: string,
-    options?: ChildResourcesListOptionalParams
+    options?: ChildResourcesListOptionalParams,
   ): PagedAsyncIterableIterator<AvailabilityStatus>;
 }

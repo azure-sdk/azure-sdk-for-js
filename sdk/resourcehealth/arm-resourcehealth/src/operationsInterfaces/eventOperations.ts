@@ -14,7 +14,7 @@ import {
   EventGetByTenantIdAndTrackingIdOptionalParams,
   EventGetByTenantIdAndTrackingIdResponse,
   EventFetchDetailsByTenantIdAndTrackingIdOptionalParams,
-  EventFetchDetailsByTenantIdAndTrackingIdResponse
+  EventFetchDetailsByTenantIdAndTrackingIdResponse,
 } from "../models/index.js";
 
 /** Interface representing a EventOperations. */
@@ -26,17 +26,18 @@ export interface EventOperations {
    */
   getBySubscriptionIdAndTrackingId(
     eventTrackingId: string,
-    options?: EventGetBySubscriptionIdAndTrackingIdOptionalParams
+    options?: EventGetBySubscriptionIdAndTrackingIdOptionalParams,
   ): Promise<EventGetBySubscriptionIdAndTrackingIdResponse>;
   /**
    * Service health event details in the subscription by event tracking id. This can be used to fetch
-   * sensitive properties for Security Advisory events
+   * sensitive properties for Security Advisory events. Please see
+   * https://learn.microsoft.com/en-us/azure/service-health/security-advisories-elevated-access
    * @param eventTrackingId Event Id which uniquely identifies ServiceHealth event.
    * @param options The options parameters.
    */
   fetchDetailsBySubscriptionIdAndTrackingId(
     eventTrackingId: string,
-    options?: EventFetchDetailsBySubscriptionIdAndTrackingIdOptionalParams
+    options?: EventFetchDetailsBySubscriptionIdAndTrackingIdOptionalParams,
   ): Promise<EventFetchDetailsBySubscriptionIdAndTrackingIdResponse>;
   /**
    * Service health event in the tenant by event tracking id
@@ -45,16 +46,17 @@ export interface EventOperations {
    */
   getByTenantIdAndTrackingId(
     eventTrackingId: string,
-    options?: EventGetByTenantIdAndTrackingIdOptionalParams
+    options?: EventGetByTenantIdAndTrackingIdOptionalParams,
   ): Promise<EventGetByTenantIdAndTrackingIdResponse>;
   /**
    * Service health event details in the tenant by event tracking id. This can be used to fetch sensitive
-   * properties for Security Advisory events
+   * properties for Security Advisory events. Please see
+   * https://learn.microsoft.com/en-us/azure/service-health/security-advisories-elevated-access
    * @param eventTrackingId Event Id which uniquely identifies ServiceHealth event.
    * @param options The options parameters.
    */
   fetchDetailsByTenantIdAndTrackingId(
     eventTrackingId: string,
-    options?: EventFetchDetailsByTenantIdAndTrackingIdOptionalParams
+    options?: EventFetchDetailsByTenantIdAndTrackingIdOptionalParams,
   ): Promise<EventFetchDetailsByTenantIdAndTrackingIdResponse>;
 }
