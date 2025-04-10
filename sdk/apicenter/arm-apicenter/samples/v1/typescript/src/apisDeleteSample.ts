@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Deletes specified API.
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/Apis_Delete.json
  */
-async function apisDelete() {
+async function apisDelete(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -35,7 +35,7 @@ async function apisDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apisDelete();
 }
 
