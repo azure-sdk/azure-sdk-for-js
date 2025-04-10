@@ -172,6 +172,20 @@ export interface AgentProfile {
   vmSize?: string;
 }
 
+/** Status information for the fleet. */
+export interface FleetStatus {
+  /**
+   * The last operation ID for the fleet.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastOperationId?: string;
+  /**
+   * The last operation error for the fleet.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastOperationError?: ErrorDetail;
+}
+
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ManagedServiceIdentity {
   /**
@@ -207,7 +221,7 @@ export interface UserAssignedIdentity {
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -266,6 +280,39 @@ export interface AutoUpgradeNodeImageSelection {
   type: AutoUpgradeNodeImageSelectionType;
 }
 
+/** AutoUpgradeProfileStatus is the status of an auto upgrade profile. */
+export interface AutoUpgradeProfileStatus {
+  /**
+   * The UTC time of the last attempt to automatically create and start an UpdateRun as triggered by the release of new versions.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastTriggeredAt?: Date;
+  /**
+   * The status of the last AutoUpgrade trigger.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastTriggerStatus?: AutoUpgradeLastTriggerStatus;
+  /**
+   * The error details of the last trigger.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastTriggerError?: ErrorDetail;
+  /**
+   * The target Kubernetes version or node image versions of the last trigger.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastTriggerUpgradeVersions?: string[];
+}
+
+/** GenerateResponse is the response of a generate request. */
+export interface GenerateResponse {
+  /**
+   * The ARM resource id of the generated UpdateRun. e.g.: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/updateRuns/{updateRunName}'.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id: string;
+}
+
 /** The Credential results response. */
 export interface FleetCredentialResults {
   /**
@@ -295,6 +342,20 @@ export interface FleetMemberListResult {
   value: FleetMember[];
   /** The link to the next page of items */
   nextLink?: string;
+}
+
+/** Status information for the fleet member */
+export interface FleetMemberStatus {
+  /**
+   * The last operation ID for the fleet member
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastOperationId?: string;
+  /**
+   * The last operation error of the fleet member
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastOperationError?: ErrorDetail;
 }
 
 /** The type used for update operations of the FleetMember. */
@@ -568,6 +629,11 @@ export interface Fleet extends TrackedResource {
   readonly provisioningState?: FleetProvisioningState;
   /** The FleetHubProfile configures the Fleet's hub. */
   hubProfile?: FleetHubProfile;
+  /**
+   * Status information for the fleet.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: FleetStatus;
 }
 
 /** The AutoUpgradeProfile resource. */
@@ -595,6 +661,8 @@ export interface AutoUpgradeProfile extends ProxyResource {
    * By default, this is set to False.
    */
   disabled?: boolean;
+  /** The status of the auto upgrade profile. */
+  autoUpgradeProfileStatus?: AutoUpgradeProfileStatus;
 }
 
 /** A member of the Fleet. It contains a reference to an existing Kubernetes cluster on Azure. */
@@ -613,6 +681,11 @@ export interface FleetMember extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: FleetMemberProvisioningState;
+  /**
+   * Status information of the last operation for fleet member.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: FleetMemberStatus;
 }
 
 /** A multi-stage process to perform update operations across members of a Fleet. */
@@ -655,6 +728,11 @@ export interface UpdateRun extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: UpdateRunStatus;
+  /**
+   * AutoUpgradeProfileId is the id of an auto upgrade profile resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly autoUpgradeProfileId?: string;
 }
 
 /** Defines a multi-stage process to perform update operations across members of a Fleet. */
@@ -709,6 +787,16 @@ export interface AutoUpgradeProfilesDeleteHeaders {
   location?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
+}
+
+/** Defines headers for AutoUpgradeProfileOperations_generateUpdateRun operation. */
+export interface AutoUpgradeProfileOperationsGenerateUpdateRunHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
 /** Defines headers for FleetMembers_create operation. */
@@ -962,6 +1050,24 @@ export enum KnownAutoUpgradeNodeImageSelectionType {
  * **Consistent**: The image versions to upgrade nodes to are selected as described below: for each node pool in managed clusters affected by the update run, the system selects the latest image version such that it is available across all other node pools (in all other clusters) of the same image type. As a result, all node pools of the same image type will be upgraded to the same image version. For example, if the latest image version for image type 'AKSUbuntu-1804gen2containerd' is 'AKSUbuntu-1804gen2containerd-2021.10.12' for a node pool in cluster A in region X, and is 'AKSUbuntu-1804gen2containerd-2021.10.17' for a node pool in cluster B in region Y, the system will upgrade both node pools to image version 'AKSUbuntu-1804gen2containerd-2021.10.12'.
  */
 export type AutoUpgradeNodeImageSelectionType = string;
+
+/** Known values of {@link AutoUpgradeLastTriggerStatus} that the service accepts. */
+export enum KnownAutoUpgradeLastTriggerStatus {
+  /** The last AutoUpgrade trigger was succeeded. */
+  Succeeded = "Succeeded",
+  /** The last AutoUpgrade trigger failed. */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for AutoUpgradeLastTriggerStatus. \
+ * {@link KnownAutoUpgradeLastTriggerStatus} can be used interchangeably with AutoUpgradeLastTriggerStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: The last AutoUpgrade trigger was succeeded. \
+ * **Failed**: The last AutoUpgrade trigger failed.
+ */
+export type AutoUpgradeLastTriggerStatus = string;
 
 /** Known values of {@link FleetMemberProvisioningState} that the service accepts. */
 export enum KnownFleetMemberProvisioningState {
@@ -1283,6 +1389,19 @@ export interface AutoUpgradeProfilesListByFleetNextOptionalParams
 /** Contains response data for the listByFleetNext operation. */
 export type AutoUpgradeProfilesListByFleetNextResponse =
   AutoUpgradeProfileListResult;
+
+/** Optional parameters. */
+export interface AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the generateUpdateRun operation. */
+export type AutoUpgradeProfileOperationsGenerateUpdateRunResponse =
+  GenerateResponse;
 
 /** Optional parameters. */
 export interface FleetMembersListByFleetOptionalParams
