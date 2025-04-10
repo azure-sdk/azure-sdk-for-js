@@ -8,6 +8,11 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "./pagingHelper.js";
@@ -98,6 +103,15 @@ import {
   NetworkSecurityGroupsImpl,
   SecurityRulesImpl,
   DefaultSecurityRulesImpl,
+  NetworkSecurityPerimetersImpl,
+  NetworkSecurityPerimeterProfilesImpl,
+  NetworkSecurityPerimeterAccessRulesImpl,
+  NetworkSecurityPerimeterAssociationsImpl,
+  NetworkSecurityPerimeterAssociableResourceTypesImpl,
+  NetworkSecurityPerimeterLinksImpl,
+  NetworkSecurityPerimeterLinkReferencesImpl,
+  NetworkSecurityPerimeterLoggingConfigurationsImpl,
+  NetworkSecurityPerimeterOperationStatusesImpl,
   ReachabilityAnalysisIntentsImpl,
   ReachabilityAnalysisRunsImpl,
   VerifierWorkspacesImpl,
@@ -246,6 +260,15 @@ import {
   NetworkSecurityGroups,
   SecurityRules,
   DefaultSecurityRules,
+  NetworkSecurityPerimeters,
+  NetworkSecurityPerimeterProfiles,
+  NetworkSecurityPerimeterAccessRules,
+  NetworkSecurityPerimeterAssociations,
+  NetworkSecurityPerimeterAssociableResourceTypes,
+  NetworkSecurityPerimeterLinks,
+  NetworkSecurityPerimeterLinkReferences,
+  NetworkSecurityPerimeterLoggingConfigurations,
+  NetworkSecurityPerimeterOperationStatuses,
   ReachabilityAnalysisIntents,
   ReachabilityAnalysisRuns,
   VerifierWorkspaces,
@@ -366,6 +389,7 @@ import {
 /// <reference lib="esnext.asynciterable" />
 export class NetworkManagementClient extends coreClient.ServiceClient {
   $host: string;
+  apiVersion: string;
   subscriptionId?: string;
 
   /**
@@ -410,7 +434,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-network/33.5.0`;
+    const packageDetails = `azsdk-js-arm-network/34.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -464,6 +488,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
+    this.apiVersion = options.apiVersion || "2024-07-01";
     this.applicationGateways = new ApplicationGatewaysImpl(this);
     this.applicationGatewayPrivateLinkResources =
       new ApplicationGatewayPrivateLinkResourcesImpl(this);
@@ -586,6 +611,24 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     this.networkSecurityGroups = new NetworkSecurityGroupsImpl(this);
     this.securityRules = new SecurityRulesImpl(this);
     this.defaultSecurityRules = new DefaultSecurityRulesImpl(this);
+    this.networkSecurityPerimeters = new NetworkSecurityPerimetersImpl(this);
+    this.networkSecurityPerimeterProfiles =
+      new NetworkSecurityPerimeterProfilesImpl(this);
+    this.networkSecurityPerimeterAccessRules =
+      new NetworkSecurityPerimeterAccessRulesImpl(this);
+    this.networkSecurityPerimeterAssociations =
+      new NetworkSecurityPerimeterAssociationsImpl(this);
+    this.networkSecurityPerimeterAssociableResourceTypes =
+      new NetworkSecurityPerimeterAssociableResourceTypesImpl(this);
+    this.networkSecurityPerimeterLinks = new NetworkSecurityPerimeterLinksImpl(
+      this,
+    );
+    this.networkSecurityPerimeterLinkReferences =
+      new NetworkSecurityPerimeterLinkReferencesImpl(this);
+    this.networkSecurityPerimeterLoggingConfigurations =
+      new NetworkSecurityPerimeterLoggingConfigurationsImpl(this);
+    this.networkSecurityPerimeterOperationStatuses =
+      new NetworkSecurityPerimeterOperationStatusesImpl(this);
     this.reachabilityAnalysisIntents = new ReachabilityAnalysisIntentsImpl(
       this,
     );
@@ -668,6 +711,35 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     this.routingIntentOperations = new RoutingIntentOperationsImpl(this);
     this.webApplicationFirewallPolicies =
       new WebApplicationFirewallPoliciesImpl(this);
+    this.addCustomApiVersionPolicy(options.apiVersion);
+  }
+
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest,
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return "api-version=" + apiVersion;
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      },
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   /**
@@ -1790,6 +1862,15 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
   networkSecurityGroups: NetworkSecurityGroups;
   securityRules: SecurityRules;
   defaultSecurityRules: DefaultSecurityRules;
+  networkSecurityPerimeters: NetworkSecurityPerimeters;
+  networkSecurityPerimeterProfiles: NetworkSecurityPerimeterProfiles;
+  networkSecurityPerimeterAccessRules: NetworkSecurityPerimeterAccessRules;
+  networkSecurityPerimeterAssociations: NetworkSecurityPerimeterAssociations;
+  networkSecurityPerimeterAssociableResourceTypes: NetworkSecurityPerimeterAssociableResourceTypes;
+  networkSecurityPerimeterLinks: NetworkSecurityPerimeterLinks;
+  networkSecurityPerimeterLinkReferences: NetworkSecurityPerimeterLinkReferences;
+  networkSecurityPerimeterLoggingConfigurations: NetworkSecurityPerimeterLoggingConfigurations;
+  networkSecurityPerimeterOperationStatuses: NetworkSecurityPerimeterOperationStatuses;
   reachabilityAnalysisIntents: ReachabilityAnalysisIntents;
   reachabilityAnalysisRuns: ReachabilityAnalysisRuns;
   verifierWorkspaces: VerifierWorkspaces;
