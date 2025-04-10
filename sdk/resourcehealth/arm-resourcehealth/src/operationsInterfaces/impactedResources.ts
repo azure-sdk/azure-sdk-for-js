@@ -14,7 +14,7 @@ import {
   ImpactedResourcesGetOptionalParams,
   ImpactedResourcesGetResponse,
   ImpactedResourcesGetByTenantIdOptionalParams,
-  ImpactedResourcesGetByTenantIdResponse
+  ImpactedResourcesGetByTenantIdResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,7 +27,7 @@ export interface ImpactedResources {
    */
   listBySubscriptionIdAndEventId(
     eventTrackingId: string,
-    options?: ImpactedResourcesListBySubscriptionIdAndEventIdOptionalParams
+    options?: ImpactedResourcesListBySubscriptionIdAndEventIdOptionalParams,
   ): PagedAsyncIterableIterator<EventImpactedResource>;
   /**
    * Lists impacted resources in the tenant by an event.
@@ -36,7 +36,7 @@ export interface ImpactedResources {
    */
   listByTenantIdAndEventId(
     eventTrackingId: string,
-    options?: ImpactedResourcesListByTenantIdAndEventIdOptionalParams
+    options?: ImpactedResourcesListByTenantIdAndEventIdOptionalParams,
   ): PagedAsyncIterableIterator<EventImpactedResource>;
   /**
    * Gets the specific impacted resource in the subscription by an event.
@@ -47,7 +47,7 @@ export interface ImpactedResources {
   get(
     eventTrackingId: string,
     impactedResourceName: string,
-    options?: ImpactedResourcesGetOptionalParams
+    options?: ImpactedResourcesGetOptionalParams,
   ): Promise<ImpactedResourcesGetResponse>;
   /**
    * Gets the specific impacted resource in the tenant by an event.
@@ -58,6 +58,6 @@ export interface ImpactedResources {
   getByTenantId(
     eventTrackingId: string,
     impactedResourceName: string,
-    options?: ImpactedResourcesGetByTenantIdOptionalParams
+    options?: ImpactedResourcesGetByTenantIdOptionalParams,
   ): Promise<ImpactedResourcesGetByTenantIdResponse>;
 }

@@ -12,7 +12,7 @@ import {
   EmergingIssuesListOptionalParams,
   IssueNameParameter,
   EmergingIssuesGetOptionalParams,
-  EmergingIssuesGetResponse
+  EmergingIssuesGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -23,7 +23,7 @@ export interface EmergingIssues {
    * @param options The options parameters.
    */
   list(
-    options?: EmergingIssuesListOptionalParams
+    options?: EmergingIssuesListOptionalParams,
   ): PagedAsyncIterableIterator<EmergingIssuesGetResult>;
   /**
    * Gets Azure services' emerging issues.
@@ -32,6 +32,6 @@ export interface EmergingIssues {
    */
   get(
     issueName: IssueNameParameter,
-    options?: EmergingIssuesGetOptionalParams
+    options?: EmergingIssuesGetOptionalParams,
   ): Promise<EmergingIssuesGetResponse>;
 }

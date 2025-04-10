@@ -18,7 +18,7 @@ import {
   ChildResourcesListNextOptionalParams,
   ChildResourcesListOptionalParams,
   ChildResourcesListResponse,
-  ChildResourcesListNextResponse
+  ChildResourcesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,7 +44,7 @@ export class ChildResourcesImpl implements ChildResources {
    */
   public list(
     resourceUri: string,
-    options?: ChildResourcesListOptionalParams
+    options?: ChildResourcesListOptionalParams,
   ): PagedAsyncIterableIterator<AvailabilityStatus> {
     const iter = this.listPagingAll(resourceUri, options);
     return {
@@ -59,14 +59,14 @@ export class ChildResourcesImpl implements ChildResources {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceUri, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceUri: string,
     options?: ChildResourcesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AvailabilityStatus[]> {
     let result: ChildResourcesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +88,7 @@ export class ChildResourcesImpl implements ChildResources {
 
   private async *listPagingAll(
     resourceUri: string,
-    options?: ChildResourcesListOptionalParams
+    options?: ChildResourcesListOptionalParams,
   ): AsyncIterableIterator<AvailabilityStatus> {
     for await (const page of this.listPagingPage(resourceUri, options)) {
       yield* page;
@@ -105,11 +105,11 @@ export class ChildResourcesImpl implements ChildResources {
    */
   private _list(
     resourceUri: string,
-    options?: ChildResourcesListOptionalParams
+    options?: ChildResourcesListOptionalParams,
   ): Promise<ChildResourcesListResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -124,11 +124,11 @@ export class ChildResourcesImpl implements ChildResources {
   private _listNext(
     resourceUri: string,
     nextLink: string,
-    options?: ChildResourcesListNextOptionalParams
+    options?: ChildResourcesListNextOptionalParams,
   ): Promise<ChildResourcesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -140,37 +140,37 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailabilityStatusListResult
+      bodyMapper: Mappers.AvailabilityStatusListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
-    Parameters.expand
+    Parameters.expand,
   ],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailabilityStatusListResult
+      bodyMapper: Mappers.AvailabilityStatusListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -21,7 +21,7 @@ import {
   IssueNameParameter,
   EmergingIssuesGetOptionalParams,
   EmergingIssuesGetResponse,
-  EmergingIssuesListNextResponse
+  EmergingIssuesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,7 +42,7 @@ export class EmergingIssuesImpl implements EmergingIssues {
    * @param options The options parameters.
    */
   public list(
-    options?: EmergingIssuesListOptionalParams
+    options?: EmergingIssuesListOptionalParams,
   ): PagedAsyncIterableIterator<EmergingIssuesGetResult> {
     const iter = this.listPagingAll(options);
     return {
@@ -57,13 +57,13 @@ export class EmergingIssuesImpl implements EmergingIssues {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: EmergingIssuesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<EmergingIssuesGetResult[]> {
     let result: EmergingIssuesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -84,7 +84,7 @@ export class EmergingIssuesImpl implements EmergingIssues {
   }
 
   private async *listPagingAll(
-    options?: EmergingIssuesListOptionalParams
+    options?: EmergingIssuesListOptionalParams,
   ): AsyncIterableIterator<EmergingIssuesGetResult> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -96,7 +96,7 @@ export class EmergingIssuesImpl implements EmergingIssues {
    * @param options The options parameters.
    */
   private _list(
-    options?: EmergingIssuesListOptionalParams
+    options?: EmergingIssuesListOptionalParams,
   ): Promise<EmergingIssuesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -108,11 +108,11 @@ export class EmergingIssuesImpl implements EmergingIssues {
    */
   get(
     issueName: IssueNameParameter,
-    options?: EmergingIssuesGetOptionalParams
+    options?: EmergingIssuesGetOptionalParams,
   ): Promise<EmergingIssuesGetResponse> {
     return this.client.sendOperationRequest(
       { issueName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -123,11 +123,11 @@ export class EmergingIssuesImpl implements EmergingIssues {
    */
   private _listNext(
     nextLink: string,
-    options?: EmergingIssuesListNextOptionalParams
+    options?: EmergingIssuesListNextOptionalParams,
   ): Promise<EmergingIssuesListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -139,45 +139,45 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EmergingIssueListResult
+      bodyMapper: Mappers.EmergingIssueListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.ResourceHealth/emergingIssues/{issueName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EmergingIssuesGetResult
+      bodyMapper: Mappers.EmergingIssuesGetResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.issueName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EmergingIssueListResult
+      bodyMapper: Mappers.EmergingIssueListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

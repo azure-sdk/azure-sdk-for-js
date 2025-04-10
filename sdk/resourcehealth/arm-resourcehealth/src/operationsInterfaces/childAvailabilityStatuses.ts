@@ -11,7 +11,7 @@ import {
   AvailabilityStatus,
   ChildAvailabilityStatusesListOptionalParams,
   ChildAvailabilityStatusesGetByResourceOptionalParams,
-  ChildAvailabilityStatusesGetByResourceResponse
+  ChildAvailabilityStatusesGetByResourceResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,7 +27,7 @@ export interface ChildAvailabilityStatuses {
    */
   list(
     resourceUri: string,
-    options?: ChildAvailabilityStatusesListOptionalParams
+    options?: ChildAvailabilityStatusesListOptionalParams,
   ): PagedAsyncIterableIterator<AvailabilityStatus>;
   /**
    * Gets current availability status for a single resource
@@ -38,6 +38,6 @@ export interface ChildAvailabilityStatuses {
    */
   getByResource(
     resourceUri: string,
-    options?: ChildAvailabilityStatusesGetByResourceOptionalParams
+    options?: ChildAvailabilityStatusesGetByResourceOptionalParams,
   ): Promise<ChildAvailabilityStatusesGetByResourceResponse>;
 }
