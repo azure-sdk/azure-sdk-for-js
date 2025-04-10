@@ -1,0 +1,4 @@
+directory: specification/machinelearningservices/AzureAI.Assets
+commit: f0338255c89bda724a28b044137b55bd1f22f36b
+repo: /mnt/vss/_work/1/s/azure-rest-api-specs
+additionalDirectories: 
