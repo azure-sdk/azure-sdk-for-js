@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Returns a collection of API deployments.
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/Deployments_List.json
  */
-async function deploymentsListByApi() {
+async function deploymentsListByApi(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,7 +38,7 @@ async function deploymentsListByApi() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deploymentsListByApi();
 }
 
