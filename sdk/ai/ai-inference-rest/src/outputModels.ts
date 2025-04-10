@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
- *
- * Any changes you make here may be lost.
- *
- * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
- */
 /** A function tool call requested by the AI model. */
 export interface ChatCompletionsToolCallOutput {
   /** The ID of the tool call. */
@@ -85,6 +78,8 @@ export interface ChatResponseMessageOutput {
    * completions request to resolve as configured.
    */
   tool_calls?: Array<ChatCompletionsToolCallOutput>;
+  /** The reasoning content the model used for generating the response */
+  readonly reasoning_content?: string;
 }
 
 /**
@@ -99,6 +94,28 @@ export interface CompletionsUsageOutput {
   prompt_tokens: number;
   /** The total number of tokens processed for the completions request and response. */
   total_tokens: number;
+  /** Breakdown of tokens used in a completion. */
+  completion_tokens_details?: CompletionsUsageDetailsOutput;
+  /** Breakdown of tokens used in the prompt/chat history. */
+  prompt_tokens_details?: PromptUsageDetailsOutput;
+}
+
+/** A breakdown of tokens used in a completion. */
+export interface CompletionsUsageDetailsOutput {
+  /** The number of tokens corresponding to audio input. */
+  readonly audio_tokens: number;
+  /** The number of tokens corresponding to reasoning. */
+  readonly reasoning_tokens: number;
+  /** The total number of tokens processed for the completions request and response. */
+  readonly total_tokens: number;
+}
+
+/** A breakdown of tokens used in the prompt/chat history. */
+export interface PromptUsageDetailsOutput {
+  /** The number of tokens corresponding to audio input. */
+  readonly audio_tokens: number;
+  /** The total number of tokens cached. */
+  readonly cached_tokens: number;
 }
 
 /** Represents some basic information about the AI model. */
