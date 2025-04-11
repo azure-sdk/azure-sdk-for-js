@@ -10,9 +10,6 @@ importers:
 
   .:
     dependencies:
-      '@azure/msal-node':
-        specifier: 3.3.0
-        version: 3.3.0
       '@rush-temp/abort-controller':
         specifier: file:./projects/abort-controller.tgz
         version: file:projects/abort-controller.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
@@ -3287,7 +3284,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-servicebus@file:projects/arm-servicebus.tgz':
-    resolution: {integrity: sha512-QZ7whaXtM/v8V3yKOpMp4MFU/DXMrT5ZVQkbmNJm6wsAURcOmfa7K3F+WBJlCae3cd7fUf5ZuyqZGyG0B14liw==, tarball: file:projects/arm-servicebus.tgz}
+    resolution: {integrity: sha512-aqSifY7DNYGAOm13fFS5QO+3NRI/EUCr6N9IdBNzHvBk3r8y3ty1PRMYl3lij43UmPyWOv26QUn2OiAbCAa5Vw==, tarball: file:projects/arm-servicebus.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-servicefabric-1@file:projects/arm-servicefabric-1.tgz':
@@ -3571,7 +3568,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/core-util@file:projects/core-util.tgz':
-    resolution: {integrity: sha512-PfVQ8uRgK0bQkG5oMjYLgMFpNuNTb2pN5jJelthVnqwGeT7mpFI9EHoxNUdJpgNxOAfSl8SaVvYTX9vI1bZp2g==, tarball: file:projects/core-util.tgz}
+    resolution: {integrity: sha512-lR66vzUOf7ap31GfD1cm5aUIJo8HL+kD3rUYZdjr3x8cuiH1iMCYVhJK8hesmqCP7fqll/aIFj06qbObHRrnhQ==, tarball: file:projects/core-util.tgz}
     version: 0.0.0
 
   '@rush-temp/core-xml@file:projects/core-xml.tgz':
@@ -22910,7 +22907,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.2.1
 
   '@types/chai-as-promised@8.0.2':
     dependencies:
