@@ -2931,7 +2931,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-keyvault@file:projects/arm-keyvault.tgz':
-    resolution: {integrity: sha512-Aiden6jzQamDNk/C2lmBij5nSTwOd4npjmS/IRJgwmbaL1ruVBUubx9vzdeN1tt6qN5952A73UpxFfJLFEQRHw==, tarball: file:projects/arm-keyvault.tgz}
+    resolution: {integrity: sha512-IaufaHilXN/SK9+6n/dCng89+5/2RKeo3+TLwEH3svsBjm5EUEsauLSsjuRG60RuJvBJg/dNCNbDFTiQeYknWg==, tarball: file:projects/arm-keyvault.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-kubernetesconfiguration@file:projects/arm-kubernetesconfiguration.tgz':
@@ -3527,7 +3527,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/core-amqp@file:projects/core-amqp.tgz':
-    resolution: {integrity: sha512-RTu5/bU3psfv+ddDd9NuchUkuus5zhXrW00gN7tT6iARihBF73K5yO/pf/S+f2ze05NBPX9svrhept5/Vc9Ndw==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-eOM7tW3KINmw2eWEbwoyeFSiKlEQsFbCOmIsHNVmGdMi1cWfgcq03aSJNmglNWYtLv179AxVbQhvw1fB7qfGJA==, tarball: file:projects/core-amqp.tgz}
     version: 0.0.0
 
   '@rush-temp/core-auth@file:projects/core-auth.tgz':
