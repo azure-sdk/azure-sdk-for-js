@@ -4,11 +4,11 @@
 
 ```ts
 
-import type * as coreAuth from '@azure/core-auth';
+import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { SimplePollerLike } from '@azure/core-lro';
+import { OperationState } from '@azure/core-lro';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AbsoluteMonthlySchedule {
@@ -734,6 +734,14 @@ export enum KnownNetworkPolicy {
 }
 
 // @public
+export enum KnownNginxIngressControllerType {
+    AnnotationControlled = "AnnotationControlled",
+    External = "External",
+    Internal = "Internal",
+    None = "None"
+}
+
+// @public
 export enum KnownNodeOSUpgradeChannel {
     NodeImage = "NodeImage",
     None = "None",
@@ -1266,11 +1274,17 @@ export interface ManagedClusterIngressProfile {
     webAppRouting?: ManagedClusterIngressProfileWebAppRouting;
 }
 
+// @public (undocumented)
+export interface ManagedClusterIngressProfileNginx {
+    defaultIngressControllerType?: NginxIngressControllerType;
+}
+
 // @public
 export interface ManagedClusterIngressProfileWebAppRouting {
     dnsZoneResourceIds?: string[];
     enabled?: boolean;
     readonly identity?: UserAssignedIdentity;
+    nginx?: ManagedClusterIngressProfileNginx;
 }
 
 // @public
@@ -1925,6 +1939,9 @@ export type NetworkPluginMode = string;
 
 // @public
 export type NetworkPolicy = string;
+
+// @public
+export type NginxIngressControllerType = string;
 
 // @public
 export type NodeOSUpgradeChannel = string;
