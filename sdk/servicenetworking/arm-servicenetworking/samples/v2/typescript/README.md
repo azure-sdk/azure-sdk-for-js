@@ -2,30 +2,30 @@
 
 These sample programs show how to use the TypeScript client libraries for @azure/arm-servicenetworking in some common scenarios.
 
-| **File Name**                                                                                                                                                         | **Description**                                                                                                   |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| [associationsInterfaceAssociationsInterfaceCreateOrUpdateSample.ts][associationsinterfaceassociationsinterfacecreateorupdatesample]                                   | create a Association x-ms-original-file: 2025-01-01/AssociationPut.json                                           |
-| [associationsInterfaceAssociationsInterfaceDeleteSample.ts][associationsinterfaceassociationsinterfacedeletesample]                                                   | delete a Association x-ms-original-file: 2025-01-01/AssociationDelete.json                                        |
-| [associationsInterfaceAssociationsInterfaceGetSample.ts][associationsinterfaceassociationsinterfacegetsample]                                                         | get a Association x-ms-original-file: 2025-01-01/AssociationGet.json                                              |
-| [associationsInterfaceAssociationsInterfaceListByTrafficControllerSample.ts][associationsinterfaceassociationsinterfacelistbytrafficcontrollersample]                 | list Association resources by TrafficController x-ms-original-file: 2025-01-01/AssociationsGet.json               |
-| [associationsInterfaceAssociationsInterfaceUpdateSample.ts][associationsinterfaceassociationsinterfaceupdatesample]                                                   | update a Association x-ms-original-file: 2025-01-01/AssociationPatch.json                                         |
-| [frontendsInterfaceFrontendsInterfaceCreateOrUpdateSample.ts][frontendsinterfacefrontendsinterfacecreateorupdatesample]                                               | create a Frontend x-ms-original-file: 2025-01-01/FrontendPut.json                                                 |
-| [frontendsInterfaceFrontendsInterfaceDeleteSample.ts][frontendsinterfacefrontendsinterfacedeletesample]                                                               | delete a Frontend x-ms-original-file: 2025-01-01/FrontendDelete.json                                              |
-| [frontendsInterfaceFrontendsInterfaceGetSample.ts][frontendsinterfacefrontendsinterfacegetsample]                                                                     | get a Frontend x-ms-original-file: 2025-01-01/FrontendGet.json                                                    |
-| [frontendsInterfaceFrontendsInterfaceListByTrafficControllerSample.ts][frontendsinterfacefrontendsinterfacelistbytrafficcontrollersample]                             | list Frontend resources by TrafficController x-ms-original-file: 2025-01-01/FrontendsGet.json                     |
-| [frontendsInterfaceFrontendsInterfaceUpdateSample.ts][frontendsinterfacefrontendsinterfaceupdatesample]                                                               | update a Frontend x-ms-original-file: 2025-01-01/FrontendPatch.json                                               |
-| [operationsOperationsListSample.ts][operationsoperationslistsample]                                                                                                   | list the operations for the provider x-ms-original-file: 2025-01-01/OperationsList.json                           |
-| [securityPoliciesInterfaceSecurityPoliciesInterfaceCreateOrUpdateSample.ts][securitypoliciesinterfacesecuritypoliciesinterfacecreateorupdatesample]                   | create a SecurityPolicy x-ms-original-file: 2025-01-01/SecurityPolicyPut.json                                     |
-| [securityPoliciesInterfaceSecurityPoliciesInterfaceDeleteSample.ts][securitypoliciesinterfacesecuritypoliciesinterfacedeletesample]                                   | delete a SecurityPolicy x-ms-original-file: 2025-01-01/SecurityPolicyDelete.json                                  |
-| [securityPoliciesInterfaceSecurityPoliciesInterfaceGetSample.ts][securitypoliciesinterfacesecuritypoliciesinterfacegetsample]                                         | get a SecurityPolicy x-ms-original-file: 2025-01-01/SecurityPolicyGet.json                                        |
-| [securityPoliciesInterfaceSecurityPoliciesInterfaceListByTrafficControllerSample.ts][securitypoliciesinterfacesecuritypoliciesinterfacelistbytrafficcontrollersample] | list SecurityPolicy resources by TrafficController x-ms-original-file: 2025-01-01/SecurityPoliciesGetList.json    |
-| [securityPoliciesInterfaceSecurityPoliciesInterfaceUpdateSample.ts][securitypoliciesinterfacesecuritypoliciesinterfaceupdatesample]                                   | update a SecurityPolicy x-ms-original-file: 2025-01-01/SecurityPolicyPatch.json                                   |
-| [trafficControllerInterfaceTrafficControllerInterfaceCreateOrUpdateSample.ts][trafficcontrollerinterfacetrafficcontrollerinterfacecreateorupdatesample]               | create a TrafficController x-ms-original-file: 2025-01-01/TrafficControllerPut.json                               |
-| [trafficControllerInterfaceTrafficControllerInterfaceDeleteSample.ts][trafficcontrollerinterfacetrafficcontrollerinterfacedeletesample]                               | delete a TrafficController x-ms-original-file: 2025-01-01/TrafficControllerDelete.json                            |
-| [trafficControllerInterfaceTrafficControllerInterfaceGetSample.ts][trafficcontrollerinterfacetrafficcontrollerinterfacegetsample]                                     | get a TrafficController x-ms-original-file: 2025-01-01/TrafficControllerGet.json                                  |
-| [trafficControllerInterfaceTrafficControllerInterfaceListByResourceGroupSample.ts][trafficcontrollerinterfacetrafficcontrollerinterfacelistbyresourcegroupsample]     | list TrafficController resources by resource group x-ms-original-file: 2025-01-01/TrafficControllersGet.json      |
-| [trafficControllerInterfaceTrafficControllerInterfaceListBySubscriptionSample.ts][trafficcontrollerinterfacetrafficcontrollerinterfacelistbysubscriptionsample]       | list TrafficController resources by subscription ID x-ms-original-file: 2025-01-01/TrafficControllersGetList.json |
-| [trafficControllerInterfaceTrafficControllerInterfaceUpdateSample.ts][trafficcontrollerinterfacetrafficcontrollerinterfaceupdatesample]                               | update a TrafficController x-ms-original-file: 2025-01-01/TrafficControllerPatch.json                             |
+| **File Name**                                                                                                       | **Description**                                                                                                           |
+| ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| [associationsInterfaceCreateOrUpdateSample.ts][associationsinterfacecreateorupdatesample]                           | create a Association x-ms-original-file: 2025-03-01-preview/AssociationPut.json                                           |
+| [associationsInterfaceDeleteSample.ts][associationsinterfacedeletesample]                                           | delete a Association x-ms-original-file: 2025-03-01-preview/AssociationDelete.json                                        |
+| [associationsInterfaceGetSample.ts][associationsinterfacegetsample]                                                 | get a Association x-ms-original-file: 2025-03-01-preview/AssociationGet.json                                              |
+| [associationsInterfaceListByTrafficControllerSample.ts][associationsinterfacelistbytrafficcontrollersample]         | list Association resources by TrafficController x-ms-original-file: 2025-03-01-preview/AssociationsGet.json               |
+| [associationsInterfaceUpdateSample.ts][associationsinterfaceupdatesample]                                           | update a Association x-ms-original-file: 2025-03-01-preview/AssociationPatch.json                                         |
+| [frontendsInterfaceCreateOrUpdateSample.ts][frontendsinterfacecreateorupdatesample]                                 | create a Frontend x-ms-original-file: 2025-03-01-preview/FrontendPut.json                                                 |
+| [frontendsInterfaceDeleteSample.ts][frontendsinterfacedeletesample]                                                 | delete a Frontend x-ms-original-file: 2025-03-01-preview/FrontendDelete.json                                              |
+| [frontendsInterfaceGetSample.ts][frontendsinterfacegetsample]                                                       | get a Frontend x-ms-original-file: 2025-03-01-preview/FrontendGet.json                                                    |
+| [frontendsInterfaceListByTrafficControllerSample.ts][frontendsinterfacelistbytrafficcontrollersample]               | list Frontend resources by TrafficController x-ms-original-file: 2025-03-01-preview/FrontendsGet.json                     |
+| [frontendsInterfaceUpdateSample.ts][frontendsinterfaceupdatesample]                                                 | update a Frontend x-ms-original-file: 2025-03-01-preview/FrontendPatch.json                                               |
+| [operationsListSample.ts][operationslistsample]                                                                     | list the operations for the provider x-ms-original-file: 2025-03-01-preview/OperationsList.json                           |
+| [securityPoliciesInterfaceCreateOrUpdateSample.ts][securitypoliciesinterfacecreateorupdatesample]                   | create a SecurityPolicy x-ms-original-file: 2025-03-01-preview/IpAccessRulesSecurityPolicyPut.json                        |
+| [securityPoliciesInterfaceDeleteSample.ts][securitypoliciesinterfacedeletesample]                                   | delete a SecurityPolicy x-ms-original-file: 2025-03-01-preview/SecurityPolicyDelete.json                                  |
+| [securityPoliciesInterfaceGetSample.ts][securitypoliciesinterfacegetsample]                                         | get a SecurityPolicy x-ms-original-file: 2025-03-01-preview/SecurityPolicyGet.json                                        |
+| [securityPoliciesInterfaceListByTrafficControllerSample.ts][securitypoliciesinterfacelistbytrafficcontrollersample] | list SecurityPolicy resources by TrafficController x-ms-original-file: 2025-03-01-preview/SecurityPoliciesGetList.json    |
+| [securityPoliciesInterfaceUpdateSample.ts][securitypoliciesinterfaceupdatesample]                                   | update a SecurityPolicy x-ms-original-file: 2025-03-01-preview/IpAccessRulesSecurityPolicyPatch.json                      |
+| [trafficControllerInterfaceCreateOrUpdateSample.ts][trafficcontrollerinterfacecreateorupdatesample]                 | create a TrafficController x-ms-original-file: 2025-03-01-preview/TrafficControllerPut.json                               |
+| [trafficControllerInterfaceDeleteSample.ts][trafficcontrollerinterfacedeletesample]                                 | delete a TrafficController x-ms-original-file: 2025-03-01-preview/TrafficControllerDelete.json                            |
+| [trafficControllerInterfaceGetSample.ts][trafficcontrollerinterfacegetsample]                                       | get a TrafficController x-ms-original-file: 2025-03-01-preview/TrafficControllerGet.json                                  |
+| [trafficControllerInterfaceListByResourceGroupSample.ts][trafficcontrollerinterfacelistbyresourcegroupsample]       | list TrafficController resources by resource group x-ms-original-file: 2025-03-01-preview/TrafficControllersGet.json      |
+| [trafficControllerInterfaceListBySubscriptionSample.ts][trafficcontrollerinterfacelistbysubscriptionsample]         | list TrafficController resources by subscription ID x-ms-original-file: 2025-03-01-preview/TrafficControllersGetList.json |
+| [trafficControllerInterfaceUpdateSample.ts][trafficcontrollerinterfaceupdatesample]                                 | update a TrafficController x-ms-original-file: 2025-03-01-preview/TrafficControllerPatch.json                             |
 
 ## Prerequisites
 
@@ -64,41 +64,41 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/associationsInterfaceAssociationsInterfaceCreateOrUpdateSample.js
+node dist/associationsInterfaceCreateOrUpdateSample.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env  node dist/associationsInterfaceAssociationsInterfaceCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env  node dist/associationsInterfaceCreateOrUpdateSample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[associationsinterfaceassociationsinterfacecreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/associationsInterfaceAssociationsInterfaceCreateOrUpdateSample.ts
-[associationsinterfaceassociationsinterfacedeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/associationsInterfaceAssociationsInterfaceDeleteSample.ts
-[associationsinterfaceassociationsinterfacegetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/associationsInterfaceAssociationsInterfaceGetSample.ts
-[associationsinterfaceassociationsinterfacelistbytrafficcontrollersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/associationsInterfaceAssociationsInterfaceListByTrafficControllerSample.ts
-[associationsinterfaceassociationsinterfaceupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/associationsInterfaceAssociationsInterfaceUpdateSample.ts
-[frontendsinterfacefrontendsinterfacecreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/frontendsInterfaceFrontendsInterfaceCreateOrUpdateSample.ts
-[frontendsinterfacefrontendsinterfacedeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/frontendsInterfaceFrontendsInterfaceDeleteSample.ts
-[frontendsinterfacefrontendsinterfacegetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/frontendsInterfaceFrontendsInterfaceGetSample.ts
-[frontendsinterfacefrontendsinterfacelistbytrafficcontrollersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/frontendsInterfaceFrontendsInterfaceListByTrafficControllerSample.ts
-[frontendsinterfacefrontendsinterfaceupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/frontendsInterfaceFrontendsInterfaceUpdateSample.ts
-[operationsoperationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/operationsOperationsListSample.ts
-[securitypoliciesinterfacesecuritypoliciesinterfacecreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/securityPoliciesInterfaceSecurityPoliciesInterfaceCreateOrUpdateSample.ts
-[securitypoliciesinterfacesecuritypoliciesinterfacedeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/securityPoliciesInterfaceSecurityPoliciesInterfaceDeleteSample.ts
-[securitypoliciesinterfacesecuritypoliciesinterfacegetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/securityPoliciesInterfaceSecurityPoliciesInterfaceGetSample.ts
-[securitypoliciesinterfacesecuritypoliciesinterfacelistbytrafficcontrollersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/securityPoliciesInterfaceSecurityPoliciesInterfaceListByTrafficControllerSample.ts
-[securitypoliciesinterfacesecuritypoliciesinterfaceupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/securityPoliciesInterfaceSecurityPoliciesInterfaceUpdateSample.ts
-[trafficcontrollerinterfacetrafficcontrollerinterfacecreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/trafficControllerInterfaceTrafficControllerInterfaceCreateOrUpdateSample.ts
-[trafficcontrollerinterfacetrafficcontrollerinterfacedeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/trafficControllerInterfaceTrafficControllerInterfaceDeleteSample.ts
-[trafficcontrollerinterfacetrafficcontrollerinterfacegetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/trafficControllerInterfaceTrafficControllerInterfaceGetSample.ts
-[trafficcontrollerinterfacetrafficcontrollerinterfacelistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/trafficControllerInterfaceTrafficControllerInterfaceListByResourceGroupSample.ts
-[trafficcontrollerinterfacetrafficcontrollerinterfacelistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/trafficControllerInterfaceTrafficControllerInterfaceListBySubscriptionSample.ts
-[trafficcontrollerinterfacetrafficcontrollerinterfaceupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/trafficControllerInterfaceTrafficControllerInterfaceUpdateSample.ts
+[associationsinterfacecreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/associationsInterfaceCreateOrUpdateSample.ts
+[associationsinterfacedeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/associationsInterfaceDeleteSample.ts
+[associationsinterfacegetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/associationsInterfaceGetSample.ts
+[associationsinterfacelistbytrafficcontrollersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/associationsInterfaceListByTrafficControllerSample.ts
+[associationsinterfaceupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/associationsInterfaceUpdateSample.ts
+[frontendsinterfacecreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/frontendsInterfaceCreateOrUpdateSample.ts
+[frontendsinterfacedeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/frontendsInterfaceDeleteSample.ts
+[frontendsinterfacegetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/frontendsInterfaceGetSample.ts
+[frontendsinterfacelistbytrafficcontrollersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/frontendsInterfaceListByTrafficControllerSample.ts
+[frontendsinterfaceupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/frontendsInterfaceUpdateSample.ts
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/operationsListSample.ts
+[securitypoliciesinterfacecreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/securityPoliciesInterfaceCreateOrUpdateSample.ts
+[securitypoliciesinterfacedeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/securityPoliciesInterfaceDeleteSample.ts
+[securitypoliciesinterfacegetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/securityPoliciesInterfaceGetSample.ts
+[securitypoliciesinterfacelistbytrafficcontrollersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/securityPoliciesInterfaceListByTrafficControllerSample.ts
+[securitypoliciesinterfaceupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/securityPoliciesInterfaceUpdateSample.ts
+[trafficcontrollerinterfacecreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/trafficControllerInterfaceCreateOrUpdateSample.ts
+[trafficcontrollerinterfacedeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/trafficControllerInterfaceDeleteSample.ts
+[trafficcontrollerinterfacegetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/trafficControllerInterfaceGetSample.ts
+[trafficcontrollerinterfacelistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/trafficControllerInterfaceListByResourceGroupSample.ts
+[trafficcontrollerinterfacelistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/trafficControllerInterfaceListBySubscriptionSample.ts
+[trafficcontrollerinterfaceupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v2/typescript/src/trafficControllerInterfaceUpdateSample.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-servicenetworking?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicenetworking/arm-servicenetworking/README.md
