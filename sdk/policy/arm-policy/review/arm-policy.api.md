@@ -4,17 +4,14 @@
 
 ```ts
 
-import type * as coreAuth from '@azure/core-auth';
+import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { OperationState } from '@azure/core-lro';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AssignmentType = string;
-
-// @public
-export interface CloudError {
-    error?: ErrorResponse;
-}
 
 // @public
 export type CreatedByType = string;
@@ -29,12 +26,44 @@ export interface ErrorAdditionalInfo {
 }
 
 // @public
-export interface ErrorResponse {
+export interface ErrorDetail {
     readonly additionalInfo?: ErrorAdditionalInfo[];
     readonly code?: string;
-    readonly details?: ErrorResponse[];
+    readonly details?: ErrorDetail[];
     readonly message?: string;
     readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
+export type ExternalEndpointResult = string;
+
+// @public
+export interface ExternalEvaluationEndpointInvocationResult {
+    claims?: any;
+    expiration?: Date;
+    message?: string;
+    policyInfo?: PolicyLogInfo;
+    result?: ExternalEndpointResult;
+    retryAfter?: Date;
+}
+
+// @public
+export interface ExternalEvaluationEndpointSettings {
+    details?: any;
+    kind?: string;
+}
+
+// @public
+export interface ExternalEvaluationEnforcementSettings {
+    endpointSettings?: ExternalEvaluationEndpointSettings;
+    missingTokenAction?: string;
+    resultLifespan?: string;
+    roleDefinitionIds?: string[];
 }
 
 // @public
@@ -69,7 +98,14 @@ export enum KnownCreatedByType {
 // @public
 export enum KnownEnforcementMode {
     Default = "Default",
-    DoNotEnforce = "DoNotEnforce"
+    DoNotEnforce = "DoNotEnforce",
+    Enroll = "Enroll"
+}
+
+// @public
+export enum KnownExternalEndpointResult {
+    Failed = "Failed",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -87,6 +123,12 @@ export enum KnownParameterType {
     Integer = "Integer",
     Object = "Object",
     String = "String"
+}
+
+// @public
+export enum KnownPolicyTokenResult {
+    Failed = "Failed",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -157,6 +199,7 @@ export interface PolicyAssignment {
     enforcementMode?: EnforcementMode;
     readonly id?: string;
     identity?: Identity;
+    readonly instanceId?: string;
     readonly latestDefinitionVersion?: string;
     location?: string;
     metadata?: any;
@@ -226,7 +269,6 @@ export type PolicyAssignmentsDeleteResponse = PolicyAssignment;
 
 // @public
 export interface PolicyAssignmentsGetByIdOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -349,6 +391,8 @@ export class PolicyClient extends coreClient.ServiceClient {
     // (undocumented)
     policySetDefinitionVersions: PolicySetDefinitionVersions;
     // (undocumented)
+    policyTokens: PolicyTokens;
+    // (undocumented)
     subscriptionId?: string;
 }
 
@@ -363,6 +407,7 @@ export interface PolicyClientOptionalParams extends coreClient.ServiceClientOpti
 export interface PolicyDefinition {
     description?: string;
     displayName?: string;
+    externalEvaluationEnforcementSettings?: ExternalEvaluationEnforcementSettings;
     readonly id?: string;
     metadata?: any;
     mode?: string;
@@ -515,6 +560,7 @@ export type PolicyDefinitionsListResponse = PolicyDefinitionListResult;
 export interface PolicyDefinitionVersion {
     description?: string;
     displayName?: string;
+    externalEvaluationEnforcementSettings?: ExternalEvaluationEnforcementSettings;
     readonly id?: string;
     metadata?: any;
     mode?: string;
@@ -660,6 +706,31 @@ export interface PolicyDefinitionVersionsListOptionalParams extends coreClient.O
 
 // @public
 export type PolicyDefinitionVersionsListResponse = PolicyDefinitionVersionListResult;
+
+// @public
+export interface PolicyLogInfo {
+    ancestors?: string;
+    complianceReasonCode?: string;
+    policyAssignmentDisplayName?: string;
+    policyAssignmentId?: string;
+    policyAssignmentName?: string;
+    policyAssignmentScope?: string;
+    policyAssignmentVersion?: string;
+    policyDefinitionDisplayName?: string;
+    policyDefinitionEffect?: string;
+    policyDefinitionGroupNames?: string[];
+    policyDefinitionId?: string;
+    policyDefinitionName?: string;
+    policyDefinitionReferenceId?: string;
+    policyDefinitionVersion?: string;
+    policyExemptionIds?: string[];
+    policySetDefinitionCategory?: string;
+    policySetDefinitionDisplayName?: string;
+    policySetDefinitionId?: string;
+    policySetDefinitionName?: string;
+    policySetDefinitionVersion?: string;
+    resourceLocation?: string;
+}
 
 // @public
 export interface PolicySetDefinition {
@@ -952,6 +1023,49 @@ export interface PolicySetDefinitionVersionsListOptionalParams extends coreClien
 
 // @public
 export type PolicySetDefinitionVersionsListResponse = PolicySetDefinitionVersionListResult;
+
+// @public
+export interface PolicyTokenOperation {
+    content?: any;
+    httpMethod?: string;
+    uri?: string;
+}
+
+// @public
+export interface PolicyTokenRequest {
+    changeReference?: string;
+    operation?: PolicyTokenOperation;
+}
+
+// @public
+export interface PolicyTokenResponse {
+    changeReference?: string;
+    expiration?: Date;
+    message?: string;
+    result?: PolicyTokenResult;
+    results?: ExternalEvaluationEndpointInvocationResult[];
+    retryAfter?: Date;
+    token?: string;
+    tokenId?: string;
+}
+
+// @public
+export type PolicyTokenResult = string;
+
+// @public
+export interface PolicyTokens {
+    beginAcquire(parameters: PolicyTokenRequest, options?: PolicyTokensAcquireOptionalParams): Promise<SimplePollerLike<OperationState<PolicyTokensAcquireResponse>, PolicyTokensAcquireResponse>>;
+    beginAcquireAndWait(parameters: PolicyTokenRequest, options?: PolicyTokensAcquireOptionalParams): Promise<PolicyTokensAcquireResponse>;
+}
+
+// @public
+export interface PolicyTokensAcquireOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PolicyTokensAcquireResponse = PolicyTokenResponse;
 
 // @public
 export type PolicyType = string;
