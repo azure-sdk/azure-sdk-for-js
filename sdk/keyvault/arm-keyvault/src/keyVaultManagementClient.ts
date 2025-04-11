@@ -20,6 +20,7 @@ import {
   VaultsImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
+  NetworkSecurityPerimeterOperationsImpl,
   ManagedHsmsImpl,
   MhsmPrivateEndpointConnectionsImpl,
   MhsmPrivateLinkResourcesImpl,
@@ -33,6 +34,7 @@ import {
   Vaults,
   PrivateEndpointConnections,
   PrivateLinkResources,
+  NetworkSecurityPerimeterOperations,
   ManagedHsms,
   MhsmPrivateEndpointConnections,
   MhsmPrivateLinkResources,
@@ -75,7 +77,7 @@ export class KeyVaultManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-keyvault/3.2.0`;
+    const packageDetails = `azsdk-js-arm-keyvault/3.3.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -129,12 +131,14 @@ export class KeyVaultManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-11-01";
+    this.apiVersion = options.apiVersion || "2025-04-01";
     this.keys = new KeysImpl(this);
     this.managedHsmKeys = new ManagedHsmKeysImpl(this);
     this.vaults = new VaultsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.networkSecurityPerimeterOperations =
+      new NetworkSecurityPerimeterOperationsImpl(this);
     this.managedHsms = new ManagedHsmsImpl(this);
     this.mhsmPrivateEndpointConnections =
       new MhsmPrivateEndpointConnectionsImpl(this);
@@ -178,6 +182,7 @@ export class KeyVaultManagementClient extends coreClient.ServiceClient {
   vaults: Vaults;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
+  networkSecurityPerimeterOperations: NetworkSecurityPerimeterOperations;
   managedHsms: ManagedHsms;
   mhsmPrivateEndpointConnections: MhsmPrivateEndpointConnections;
   mhsmPrivateLinkResources: MhsmPrivateLinkResources;
