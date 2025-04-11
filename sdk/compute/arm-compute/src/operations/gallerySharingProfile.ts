@@ -38,13 +38,11 @@ export class GallerySharingProfileImpl implements GallerySharingProfile {
   /**
    * Update sharing profile of a gallery.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery.
    * @param sharingUpdate Parameters supplied to the update gallery sharing profile.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    galleryName: string,
     sharingUpdate: SharingUpdate,
     options?: GallerySharingProfileUpdateOptionalParams,
   ): Promise<
@@ -93,7 +91,7 @@ export class GallerySharingProfileImpl implements GallerySharingProfile {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, galleryName, sharingUpdate, options },
+      args: { resourceGroupName, sharingUpdate, options },
       spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -110,19 +108,16 @@ export class GallerySharingProfileImpl implements GallerySharingProfile {
   /**
    * Update sharing profile of a gallery.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery.
    * @param sharingUpdate Parameters supplied to the update gallery sharing profile.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    galleryName: string,
     sharingUpdate: SharingUpdate,
     options?: GallerySharingProfileUpdateOptionalParams,
   ): Promise<GallerySharingProfileUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      galleryName,
       sharingUpdate,
       options,
     );

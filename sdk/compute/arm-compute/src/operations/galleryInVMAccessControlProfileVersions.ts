@@ -54,21 +54,17 @@ export class GalleryInVMAccessControlProfileVersionsImpl
   /**
    * List gallery inVMAccessControlProfile versions in a gallery inVMAccessControlProfile
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the inVMAccessControlProfile
-   *                    resides.
    * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile from which the
    *                                     inVMAccessControlProfile versions are to be listed.
    * @param options The options parameters.
    */
   public listByGalleryInVMAccessControlProfile(
     resourceGroupName: string,
-    galleryName: string,
     inVMAccessControlProfileName: string,
     options?: GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileOptionalParams,
   ): PagedAsyncIterableIterator<GalleryInVMAccessControlProfileVersion> {
     const iter = this.listByGalleryInVMAccessControlProfilePagingAll(
       resourceGroupName,
-      galleryName,
       inVMAccessControlProfileName,
       options,
     );
@@ -85,7 +81,6 @@ export class GalleryInVMAccessControlProfileVersionsImpl
         }
         return this.listByGalleryInVMAccessControlProfilePagingPage(
           resourceGroupName,
-          galleryName,
           inVMAccessControlProfileName,
           options,
           settings,
@@ -96,7 +91,6 @@ export class GalleryInVMAccessControlProfileVersionsImpl
 
   private async *listByGalleryInVMAccessControlProfilePagingPage(
     resourceGroupName: string,
-    galleryName: string,
     inVMAccessControlProfileName: string,
     options?: GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileOptionalParams,
     settings?: PageSettings,
@@ -106,7 +100,6 @@ export class GalleryInVMAccessControlProfileVersionsImpl
     if (!continuationToken) {
       result = await this._listByGalleryInVMAccessControlProfile(
         resourceGroupName,
-        galleryName,
         inVMAccessControlProfileName,
         options,
       );
@@ -118,7 +111,6 @@ export class GalleryInVMAccessControlProfileVersionsImpl
     while (continuationToken) {
       result = await this._listByGalleryInVMAccessControlProfileNext(
         resourceGroupName,
-        galleryName,
         inVMAccessControlProfileName,
         continuationToken,
         options,
@@ -132,13 +124,11 @@ export class GalleryInVMAccessControlProfileVersionsImpl
 
   private async *listByGalleryInVMAccessControlProfilePagingAll(
     resourceGroupName: string,
-    galleryName: string,
     inVMAccessControlProfileName: string,
     options?: GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileOptionalParams,
   ): AsyncIterableIterator<GalleryInVMAccessControlProfileVersion> {
     for await (const page of this.listByGalleryInVMAccessControlProfilePagingPage(
       resourceGroupName,
-      galleryName,
       inVMAccessControlProfileName,
       options,
     )) {
@@ -149,8 +139,6 @@ export class GalleryInVMAccessControlProfileVersionsImpl
   /**
    * Create or update a gallery inVMAccessControlProfile version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the inVMAccessControlProfile
-   *                    resides.
    * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile in which the
    *                                     inVMAccessControlProfile version is to be created.
    * @param inVMAccessControlProfileVersionName The name of the gallery inVMAccessControlProfile version
@@ -163,7 +151,6 @@ export class GalleryInVMAccessControlProfileVersionsImpl
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    galleryName: string,
     inVMAccessControlProfileName: string,
     inVMAccessControlProfileVersionName: string,
     galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersion,
@@ -216,7 +203,6 @@ export class GalleryInVMAccessControlProfileVersionsImpl
       sendOperationFn,
       args: {
         resourceGroupName,
-        galleryName,
         inVMAccessControlProfileName,
         inVMAccessControlProfileVersionName,
         galleryInVMAccessControlProfileVersion,
@@ -238,8 +224,6 @@ export class GalleryInVMAccessControlProfileVersionsImpl
   /**
    * Create or update a gallery inVMAccessControlProfile version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the inVMAccessControlProfile
-   *                    resides.
    * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile in which the
    *                                     inVMAccessControlProfile version is to be created.
    * @param inVMAccessControlProfileVersionName The name of the gallery inVMAccessControlProfile version
@@ -252,7 +236,6 @@ export class GalleryInVMAccessControlProfileVersionsImpl
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    galleryName: string,
     inVMAccessControlProfileName: string,
     inVMAccessControlProfileVersionName: string,
     galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersion,
@@ -260,7 +243,6 @@ export class GalleryInVMAccessControlProfileVersionsImpl
   ): Promise<GalleryInVMAccessControlProfileVersionsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      galleryName,
       inVMAccessControlProfileName,
       inVMAccessControlProfileVersionName,
       galleryInVMAccessControlProfileVersion,
@@ -272,8 +254,6 @@ export class GalleryInVMAccessControlProfileVersionsImpl
   /**
    * Update a gallery inVMAccessControlProfile version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the inVMAccessControlProfile
-   *                    resides.
    * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile in which the
    *                                     inVMAccessControlProfile version is to be updated.
    * @param inVMAccessControlProfileVersionName The name of the gallery inVMAccessControlProfile version
@@ -286,7 +266,6 @@ export class GalleryInVMAccessControlProfileVersionsImpl
    */
   async beginUpdate(
     resourceGroupName: string,
-    galleryName: string,
     inVMAccessControlProfileName: string,
     inVMAccessControlProfileVersionName: string,
     galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersionUpdate,
@@ -339,7 +318,6 @@ export class GalleryInVMAccessControlProfileVersionsImpl
       sendOperationFn,
       args: {
         resourceGroupName,
-        galleryName,
         inVMAccessControlProfileName,
         inVMAccessControlProfileVersionName,
         galleryInVMAccessControlProfileVersion,
@@ -361,8 +339,6 @@ export class GalleryInVMAccessControlProfileVersionsImpl
   /**
    * Update a gallery inVMAccessControlProfile version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the inVMAccessControlProfile
-   *                    resides.
    * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile in which the
    *                                     inVMAccessControlProfile version is to be updated.
    * @param inVMAccessControlProfileVersionName The name of the gallery inVMAccessControlProfile version
@@ -375,7 +351,6 @@ export class GalleryInVMAccessControlProfileVersionsImpl
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    galleryName: string,
     inVMAccessControlProfileName: string,
     inVMAccessControlProfileVersionName: string,
     galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersionUpdate,
@@ -383,7 +358,6 @@ export class GalleryInVMAccessControlProfileVersionsImpl
   ): Promise<GalleryInVMAccessControlProfileVersionsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      galleryName,
       inVMAccessControlProfileName,
       inVMAccessControlProfileVersionName,
       galleryInVMAccessControlProfileVersion,
@@ -395,8 +369,6 @@ export class GalleryInVMAccessControlProfileVersionsImpl
   /**
    * Retrieves information about a gallery inVMAccessControlProfile version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the inVMAccessControlProfile
-   *                    resides.
    * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile in which the
    *                                     inVMAccessControlProfile version resides.
    * @param inVMAccessControlProfileVersionName The name of the gallery inVMAccessControlProfile version
@@ -405,7 +377,6 @@ export class GalleryInVMAccessControlProfileVersionsImpl
    */
   get(
     resourceGroupName: string,
-    galleryName: string,
     inVMAccessControlProfileName: string,
     inVMAccessControlProfileVersionName: string,
     options?: GalleryInVMAccessControlProfileVersionsGetOptionalParams,
@@ -413,7 +384,6 @@ export class GalleryInVMAccessControlProfileVersionsImpl
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        galleryName,
         inVMAccessControlProfileName,
         inVMAccessControlProfileVersionName,
         options,
@@ -425,8 +395,6 @@ export class GalleryInVMAccessControlProfileVersionsImpl
   /**
    * Delete a gallery inVMAccessControlProfile version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the inVMAccessControlProfile
-   *                    resides.
    * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile in which the
    *                                     inVMAccessControlProfile version resides.
    * @param inVMAccessControlProfileVersionName The name of the gallery inVMAccessControlProfile version
@@ -435,7 +403,6 @@ export class GalleryInVMAccessControlProfileVersionsImpl
    */
   async beginDelete(
     resourceGroupName: string,
-    galleryName: string,
     inVMAccessControlProfileName: string,
     inVMAccessControlProfileVersionName: string,
     options?: GalleryInVMAccessControlProfileVersionsDeleteOptionalParams,
@@ -487,7 +454,6 @@ export class GalleryInVMAccessControlProfileVersionsImpl
       sendOperationFn,
       args: {
         resourceGroupName,
-        galleryName,
         inVMAccessControlProfileName,
         inVMAccessControlProfileVersionName,
         options,
@@ -508,8 +474,6 @@ export class GalleryInVMAccessControlProfileVersionsImpl
   /**
    * Delete a gallery inVMAccessControlProfile version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the inVMAccessControlProfile
-   *                    resides.
    * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile in which the
    *                                     inVMAccessControlProfile version resides.
    * @param inVMAccessControlProfileVersionName The name of the gallery inVMAccessControlProfile version
@@ -518,14 +482,12 @@ export class GalleryInVMAccessControlProfileVersionsImpl
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    galleryName: string,
     inVMAccessControlProfileName: string,
     inVMAccessControlProfileVersionName: string,
     options?: GalleryInVMAccessControlProfileVersionsDeleteOptionalParams,
   ): Promise<GalleryInVMAccessControlProfileVersionsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      galleryName,
       inVMAccessControlProfileName,
       inVMAccessControlProfileVersionName,
       options,
@@ -536,20 +498,17 @@ export class GalleryInVMAccessControlProfileVersionsImpl
   /**
    * List gallery inVMAccessControlProfile versions in a gallery inVMAccessControlProfile
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the inVMAccessControlProfile
-   *                    resides.
    * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile from which the
    *                                     inVMAccessControlProfile versions are to be listed.
    * @param options The options parameters.
    */
   private _listByGalleryInVMAccessControlProfile(
     resourceGroupName: string,
-    galleryName: string,
     inVMAccessControlProfileName: string,
     options?: GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileOptionalParams,
   ): Promise<GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, galleryName, inVMAccessControlProfileName, options },
+      { resourceGroupName, inVMAccessControlProfileName, options },
       listByGalleryInVMAccessControlProfileOperationSpec,
     );
   }
@@ -557,8 +516,6 @@ export class GalleryInVMAccessControlProfileVersionsImpl
   /**
    * ListByGalleryInVMAccessControlProfileNext
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the inVMAccessControlProfile
-   *                    resides.
    * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile from which the
    *                                     inVMAccessControlProfile versions are to be listed.
    * @param nextLink The nextLink from the previous successful call to the
@@ -567,19 +524,12 @@ export class GalleryInVMAccessControlProfileVersionsImpl
    */
   private _listByGalleryInVMAccessControlProfileNext(
     resourceGroupName: string,
-    galleryName: string,
     inVMAccessControlProfileName: string,
     nextLink: string,
     options?: GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileNextOptionalParams,
   ): Promise<GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileNextResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        galleryName,
-        inVMAccessControlProfileName,
-        nextLink,
-        options,
-      },
+      { resourceGroupName, inVMAccessControlProfileName, nextLink, options },
       listByGalleryInVMAccessControlProfileNextOperationSpec,
     );
   }
@@ -613,7 +563,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.galleryName1,
+    Parameters.galleryName,
     Parameters.inVMAccessControlProfileName,
     Parameters.inVMAccessControlProfileVersionName,
   ],
@@ -731,7 +681,7 @@ const listByGalleryInVMAccessControlProfileOperationSpec: coreClient.OperationSp
       Parameters.$host,
       Parameters.subscriptionId,
       Parameters.resourceGroupName,
-      Parameters.galleryName1,
+      Parameters.galleryName,
       Parameters.inVMAccessControlProfileName2,
     ],
     headerParameters: [Parameters.accept],
@@ -754,7 +704,7 @@ const listByGalleryInVMAccessControlProfileNextOperationSpec: coreClient.Operati
       Parameters.subscriptionId,
       Parameters.nextLink,
       Parameters.resourceGroupName,
-      Parameters.galleryName1,
+      Parameters.galleryName,
       Parameters.inVMAccessControlProfileName2,
     ],
     headerParameters: [Parameters.accept],

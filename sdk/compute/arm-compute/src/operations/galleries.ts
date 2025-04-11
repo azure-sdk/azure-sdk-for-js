@@ -178,14 +178,11 @@ export class GalleriesImpl implements Galleries {
   /**
    * Create or update a Shared Image Gallery.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery. The allowed characters are alphabets and
-   *                    numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
    * @param gallery Parameters supplied to the create or update Shared Image Gallery operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    galleryName: string,
     gallery: Gallery,
     options?: GalleriesCreateOrUpdateOptionalParams,
   ): Promise<
@@ -234,7 +231,7 @@ export class GalleriesImpl implements Galleries {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, galleryName, gallery, options },
+      args: { resourceGroupName, gallery, options },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -251,20 +248,16 @@ export class GalleriesImpl implements Galleries {
   /**
    * Create or update a Shared Image Gallery.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery. The allowed characters are alphabets and
-   *                    numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
    * @param gallery Parameters supplied to the create or update Shared Image Gallery operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    galleryName: string,
     gallery: Gallery,
     options?: GalleriesCreateOrUpdateOptionalParams,
   ): Promise<GalleriesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      galleryName,
       gallery,
       options,
     );
@@ -274,14 +267,11 @@ export class GalleriesImpl implements Galleries {
   /**
    * Update a Shared Image Gallery.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery. The allowed characters are alphabets and
-   *                    numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
    * @param gallery Parameters supplied to the update Shared Image Gallery operation.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    galleryName: string,
     gallery: GalleryUpdate,
     options?: GalleriesUpdateOptionalParams,
   ): Promise<
@@ -330,7 +320,7 @@ export class GalleriesImpl implements Galleries {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, galleryName, gallery, options },
+      args: { resourceGroupName, gallery, options },
       spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -347,39 +337,29 @@ export class GalleriesImpl implements Galleries {
   /**
    * Update a Shared Image Gallery.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery. The allowed characters are alphabets and
-   *                    numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
    * @param gallery Parameters supplied to the update Shared Image Gallery operation.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    galleryName: string,
     gallery: GalleryUpdate,
     options?: GalleriesUpdateOptionalParams,
   ): Promise<GalleriesUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      galleryName,
-      gallery,
-      options,
-    );
+    const poller = await this.beginUpdate(resourceGroupName, gallery, options);
     return poller.pollUntilDone();
   }
 
   /**
    * Retrieves information about a Shared Image Gallery.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    galleryName: string,
     options?: GalleriesGetOptionalParams,
   ): Promise<GalleriesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, galleryName, options },
+      { resourceGroupName, options },
       getOperationSpec,
     );
   }
@@ -387,12 +367,10 @@ export class GalleriesImpl implements Galleries {
   /**
    * Delete a Shared Image Gallery.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery to be deleted.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    galleryName: string,
     options?: GalleriesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
@@ -435,7 +413,7 @@ export class GalleriesImpl implements Galleries {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, galleryName, options },
+      args: { resourceGroupName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
@@ -449,19 +427,13 @@ export class GalleriesImpl implements Galleries {
   /**
    * Delete a Shared Image Gallery.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery to be deleted.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    galleryName: string,
     options?: GalleriesDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      galleryName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, options);
     return poller.pollUntilDone();
   }
 

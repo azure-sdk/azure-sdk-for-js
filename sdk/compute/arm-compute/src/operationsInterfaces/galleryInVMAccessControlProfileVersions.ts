@@ -28,23 +28,18 @@ export interface GalleryInVMAccessControlProfileVersions {
   /**
    * List gallery inVMAccessControlProfile versions in a gallery inVMAccessControlProfile
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the inVMAccessControlProfile
-   *                    resides.
    * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile from which the
    *                                     inVMAccessControlProfile versions are to be listed.
    * @param options The options parameters.
    */
   listByGalleryInVMAccessControlProfile(
     resourceGroupName: string,
-    galleryName: string,
     inVMAccessControlProfileName: string,
     options?: GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileOptionalParams,
   ): PagedAsyncIterableIterator<GalleryInVMAccessControlProfileVersion>;
   /**
    * Create or update a gallery inVMAccessControlProfile version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the inVMAccessControlProfile
-   *                    resides.
    * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile in which the
    *                                     inVMAccessControlProfile version is to be created.
    * @param inVMAccessControlProfileVersionName The name of the gallery inVMAccessControlProfile version
@@ -57,7 +52,6 @@ export interface GalleryInVMAccessControlProfileVersions {
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
-    galleryName: string,
     inVMAccessControlProfileName: string,
     inVMAccessControlProfileVersionName: string,
     galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersion,
@@ -71,8 +65,6 @@ export interface GalleryInVMAccessControlProfileVersions {
   /**
    * Create or update a gallery inVMAccessControlProfile version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the inVMAccessControlProfile
-   *                    resides.
    * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile in which the
    *                                     inVMAccessControlProfile version is to be created.
    * @param inVMAccessControlProfileVersionName The name of the gallery inVMAccessControlProfile version
@@ -85,7 +77,6 @@ export interface GalleryInVMAccessControlProfileVersions {
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    galleryName: string,
     inVMAccessControlProfileName: string,
     inVMAccessControlProfileVersionName: string,
     galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersion,
@@ -94,8 +85,6 @@ export interface GalleryInVMAccessControlProfileVersions {
   /**
    * Update a gallery inVMAccessControlProfile version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the inVMAccessControlProfile
-   *                    resides.
    * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile in which the
    *                                     inVMAccessControlProfile version is to be updated.
    * @param inVMAccessControlProfileVersionName The name of the gallery inVMAccessControlProfile version
@@ -108,7 +97,6 @@ export interface GalleryInVMAccessControlProfileVersions {
    */
   beginUpdate(
     resourceGroupName: string,
-    galleryName: string,
     inVMAccessControlProfileName: string,
     inVMAccessControlProfileVersionName: string,
     galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersionUpdate,
@@ -122,8 +110,6 @@ export interface GalleryInVMAccessControlProfileVersions {
   /**
    * Update a gallery inVMAccessControlProfile version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the inVMAccessControlProfile
-   *                    resides.
    * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile in which the
    *                                     inVMAccessControlProfile version is to be updated.
    * @param inVMAccessControlProfileVersionName The name of the gallery inVMAccessControlProfile version
@@ -136,7 +122,6 @@ export interface GalleryInVMAccessControlProfileVersions {
    */
   beginUpdateAndWait(
     resourceGroupName: string,
-    galleryName: string,
     inVMAccessControlProfileName: string,
     inVMAccessControlProfileVersionName: string,
     galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersionUpdate,
@@ -145,8 +130,6 @@ export interface GalleryInVMAccessControlProfileVersions {
   /**
    * Retrieves information about a gallery inVMAccessControlProfile version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the inVMAccessControlProfile
-   *                    resides.
    * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile in which the
    *                                     inVMAccessControlProfile version resides.
    * @param inVMAccessControlProfileVersionName The name of the gallery inVMAccessControlProfile version
@@ -155,7 +138,6 @@ export interface GalleryInVMAccessControlProfileVersions {
    */
   get(
     resourceGroupName: string,
-    galleryName: string,
     inVMAccessControlProfileName: string,
     inVMAccessControlProfileVersionName: string,
     options?: GalleryInVMAccessControlProfileVersionsGetOptionalParams,
@@ -163,8 +145,6 @@ export interface GalleryInVMAccessControlProfileVersions {
   /**
    * Delete a gallery inVMAccessControlProfile version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the inVMAccessControlProfile
-   *                    resides.
    * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile in which the
    *                                     inVMAccessControlProfile version resides.
    * @param inVMAccessControlProfileVersionName The name of the gallery inVMAccessControlProfile version
@@ -173,7 +153,6 @@ export interface GalleryInVMAccessControlProfileVersions {
    */
   beginDelete(
     resourceGroupName: string,
-    galleryName: string,
     inVMAccessControlProfileName: string,
     inVMAccessControlProfileVersionName: string,
     options?: GalleryInVMAccessControlProfileVersionsDeleteOptionalParams,
@@ -186,8 +165,6 @@ export interface GalleryInVMAccessControlProfileVersions {
   /**
    * Delete a gallery inVMAccessControlProfile version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the inVMAccessControlProfile
-   *                    resides.
    * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile in which the
    *                                     inVMAccessControlProfile version resides.
    * @param inVMAccessControlProfileVersionName The name of the gallery inVMAccessControlProfile version
@@ -196,7 +173,6 @@ export interface GalleryInVMAccessControlProfileVersions {
    */
   beginDeleteAndWait(
     resourceGroupName: string,
-    galleryName: string,
     inVMAccessControlProfileName: string,
     inVMAccessControlProfileVersionName: string,
     options?: GalleryInVMAccessControlProfileVersionsDeleteOptionalParams,
