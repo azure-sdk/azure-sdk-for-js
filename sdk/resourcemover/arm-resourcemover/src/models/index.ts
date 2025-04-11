@@ -421,6 +421,8 @@ export interface ResourceSettings {
   targetResourceName?: string;
   /** Gets or sets the target resource group name. */
   targetResourceGroupName?: string;
+  /** Gets or sets the target subscription id. */
+  targetSubscriptionId?: string;
 }
 
 /** Defines the move resource status. */
@@ -688,6 +690,14 @@ export interface UnresolvedDependenciesFilterProperties {
   count?: number;
 }
 
+/** Defines the virtual machine disk details. */
+export interface DiskDetails {
+  /** Gets or sets the source disk Id. */
+  sourceId?: string;
+  /** Gets or sets the target disk name. */
+  targetDiskName?: string;
+}
+
 /** Defines the virtual network subnets resource settings. */
 export interface SubnetResourceSettings {
   /** Gets or sets the Subnet name. */
@@ -816,6 +826,8 @@ export interface VirtualMachineResourceSettings extends ResourceSettings {
   targetVmSize?: string;
   /** Gets or sets the target availability set id for virtual machines not in an availability set at source. */
   targetAvailabilitySetId?: string;
+  /** Gets or sets the disk details. */
+  targetDiskDetails?: DiskDetails[];
 }
 
 /** Gets or sets the availability set resource settings. */
@@ -987,7 +999,7 @@ export enum KnownResourceIdentityType {
   /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
   /** UserAssigned */
-  UserAssigned = "UserAssigned"
+  UserAssigned = "UserAssigned",
 }
 
 /**
@@ -1010,7 +1022,7 @@ export enum KnownProvisioningState {
   /** Creating */
   Creating = "Creating",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -1030,7 +1042,7 @@ export enum KnownMoveType {
   /** RegionToRegion */
   RegionToRegion = "RegionToRegion",
   /** RegionToZone */
-  RegionToZone = "RegionToZone"
+  RegionToZone = "RegionToZone",
 }
 
 /**
@@ -1052,7 +1064,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -1072,7 +1084,7 @@ export enum KnownMoveResourceInputType {
   /** MoveResourceId */
   MoveResourceId = "MoveResourceId",
   /** MoveResourceSourceId */
-  MoveResourceSourceId = "MoveResourceSourceId"
+  MoveResourceSourceId = "MoveResourceSourceId",
 }
 
 /**
@@ -1116,7 +1128,7 @@ export enum KnownMoveState {
   /** DeleteSourcePending */
   DeleteSourcePending = "DeleteSourcePending",
   /** ResourceMoveCompleted */
-  ResourceMoveCompleted = "ResourceMoveCompleted"
+  ResourceMoveCompleted = "ResourceMoveCompleted",
 }
 
 /**
@@ -1145,7 +1157,7 @@ export type MoveState = string;
 /** Known values of {@link JobName} that the service accepts. */
 export enum KnownJobName {
   /** InitialSync */
-  InitialSync = "InitialSync"
+  InitialSync = "InitialSync",
 }
 
 /**
@@ -1162,7 +1174,7 @@ export enum KnownResolutionType {
   /** Manual */
   Manual = "Manual",
   /** Automatic */
-  Automatic = "Automatic"
+  Automatic = "Automatic",
 }
 
 /**
@@ -1180,7 +1192,7 @@ export enum KnownDependencyType {
   /** RequiredForPrepare */
   RequiredForPrepare = "RequiredForPrepare",
   /** RequiredForMove */
-  RequiredForMove = "RequiredForMove"
+  RequiredForMove = "RequiredForMove",
 }
 
 /**
@@ -1198,7 +1210,7 @@ export enum KnownDependencyLevel {
   /** Direct */
   Direct = "Direct",
   /** Descendant */
-  Descendant = "Descendant"
+  Descendant = "Descendant",
 }
 
 /**
@@ -1220,7 +1232,7 @@ export enum KnownTargetAvailabilityZone {
   /** Three */
   Three = "3",
   /** NA */
-  NA = "NA"
+  NA = "NA",
 }
 
 /**
@@ -1240,7 +1252,7 @@ export enum KnownZoneRedundant {
   /** Enable */
   Enable = "Enable",
   /** Disable */
-  Disable = "Disable"
+  Disable = "Disable",
 }
 
 /**
@@ -1379,35 +1391,40 @@ export interface MoveCollectionsListMoveCollectionsBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMoveCollectionsBySubscription operation. */
-export type MoveCollectionsListMoveCollectionsBySubscriptionResponse = MoveCollectionResultList;
+export type MoveCollectionsListMoveCollectionsBySubscriptionResponse =
+  MoveCollectionResultList;
 
 /** Optional parameters. */
 export interface MoveCollectionsListMoveCollectionsByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMoveCollectionsByResourceGroup operation. */
-export type MoveCollectionsListMoveCollectionsByResourceGroupResponse = MoveCollectionResultList;
+export type MoveCollectionsListMoveCollectionsByResourceGroupResponse =
+  MoveCollectionResultList;
 
 /** Optional parameters. */
 export interface MoveCollectionsListRequiredForOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRequiredFor operation. */
-export type MoveCollectionsListRequiredForResponse = RequiredForResourcesCollection;
+export type MoveCollectionsListRequiredForResponse =
+  RequiredForResourcesCollection;
 
 /** Optional parameters. */
 export interface MoveCollectionsListMoveCollectionsBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMoveCollectionsBySubscriptionNext operation. */
-export type MoveCollectionsListMoveCollectionsBySubscriptionNextResponse = MoveCollectionResultList;
+export type MoveCollectionsListMoveCollectionsBySubscriptionNextResponse =
+  MoveCollectionResultList;
 
 /** Optional parameters. */
 export interface MoveCollectionsListMoveCollectionsByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMoveCollectionsByResourceGroupNext operation. */
-export type MoveCollectionsListMoveCollectionsByResourceGroupNextResponse = MoveCollectionResultList;
+export type MoveCollectionsListMoveCollectionsByResourceGroupNextResponse =
+  MoveCollectionResultList;
 
 /** Optional parameters. */
 export interface MoveResourcesListOptionalParams
@@ -1478,7 +1495,8 @@ export interface UnresolvedDependenciesGetNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getNext operation. */
-export type UnresolvedDependenciesGetNextResponse = UnresolvedDependencyCollection;
+export type UnresolvedDependenciesGetNextResponse =
+  UnresolvedDependencyCollection;
 
 /** Optional parameters. */
 export interface OperationsDiscoveryGetOptionalParams
