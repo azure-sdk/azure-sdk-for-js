@@ -1,15 +1,14 @@
 # Release History
-
-## 1.0.1 (Unreleased)
-
+    
+## 1.1.0 (2025-04-11)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+    
+    
 ## 1.0.0 (2025-01-24)
 
 ### Features Added
