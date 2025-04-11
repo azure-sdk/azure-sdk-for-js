@@ -16,7 +16,7 @@ import { ResourceConnectorManagementClient } from "../resourceConnectorManagemen
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
@@ -48,7 +48,7 @@ import {
   AppliancesGetUpgradeGraphResponse,
   AppliancesListOperationsNextResponse,
   AppliancesListBySubscriptionNextResponse,
-  AppliancesListByResourceGroupNextResponse
+  AppliancesListByResourceGroupNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -69,7 +69,7 @@ export class AppliancesImpl implements Appliances {
    * @param options The options parameters.
    */
   public listOperations(
-    options?: AppliancesListOperationsOptionalParams
+    options?: AppliancesListOperationsOptionalParams,
   ): PagedAsyncIterableIterator<ApplianceOperation> {
     const iter = this.listOperationsPagingAll(options);
     return {
@@ -84,13 +84,13 @@ export class AppliancesImpl implements Appliances {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listOperationsPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listOperationsPagingPage(
     options?: AppliancesListOperationsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ApplianceOperation[]> {
     let result: AppliancesListOperationsResponse;
     let continuationToken = settings?.continuationToken;
@@ -111,7 +111,7 @@ export class AppliancesImpl implements Appliances {
   }
 
   private async *listOperationsPagingAll(
-    options?: AppliancesListOperationsOptionalParams
+    options?: AppliancesListOperationsOptionalParams,
   ): AsyncIterableIterator<ApplianceOperation> {
     for await (const page of this.listOperationsPagingPage(options)) {
       yield* page;
@@ -124,7 +124,7 @@ export class AppliancesImpl implements Appliances {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: AppliancesListBySubscriptionOptionalParams
+    options?: AppliancesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Appliance> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -139,13 +139,13 @@ export class AppliancesImpl implements Appliances {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: AppliancesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Appliance[]> {
     let result: AppliancesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -166,7 +166,7 @@ export class AppliancesImpl implements Appliances {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: AppliancesListBySubscriptionOptionalParams
+    options?: AppliancesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<Appliance> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -181,7 +181,7 @@ export class AppliancesImpl implements Appliances {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: AppliancesListByResourceGroupOptionalParams
+    options?: AppliancesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Appliance> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -198,16 +198,16 @@ export class AppliancesImpl implements Appliances {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: AppliancesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Appliance[]> {
     let result: AppliancesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -222,7 +222,7 @@ export class AppliancesImpl implements Appliances {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -233,11 +233,11 @@ export class AppliancesImpl implements Appliances {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: AppliancesListByResourceGroupOptionalParams
+    options?: AppliancesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Appliance> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -248,11 +248,11 @@ export class AppliancesImpl implements Appliances {
    * @param options The options parameters.
    */
   private _listOperations(
-    options?: AppliancesListOperationsOptionalParams
+    options?: AppliancesListOperationsOptionalParams,
   ): Promise<AppliancesListOperationsResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listOperationsOperationSpec
+      listOperationsOperationSpec,
     );
   }
 
@@ -262,11 +262,11 @@ export class AppliancesImpl implements Appliances {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: AppliancesListBySubscriptionOptionalParams
+    options?: AppliancesListBySubscriptionOptionalParams,
   ): Promise<AppliancesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -275,11 +275,11 @@ export class AppliancesImpl implements Appliances {
    * @param options The options parameters.
    */
   getTelemetryConfig(
-    options?: AppliancesGetTelemetryConfigOptionalParams
+    options?: AppliancesGetTelemetryConfigOptionalParams,
   ): Promise<AppliancesGetTelemetryConfigResponse> {
     return this.client.sendOperationRequest(
       { options },
-      getTelemetryConfigOperationSpec
+      getTelemetryConfigOperationSpec,
     );
   }
 
@@ -291,11 +291,11 @@ export class AppliancesImpl implements Appliances {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: AppliancesListByResourceGroupOptionalParams
+    options?: AppliancesListByResourceGroupOptionalParams,
   ): Promise<AppliancesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -308,11 +308,11 @@ export class AppliancesImpl implements Appliances {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: AppliancesGetOptionalParams
+    options?: AppliancesGetOptionalParams,
   ): Promise<AppliancesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -327,7 +327,7 @@ export class AppliancesImpl implements Appliances {
     resourceGroupName: string,
     resourceName: string,
     parameters: Appliance,
-    options?: AppliancesCreateOrUpdateOptionalParams
+    options?: AppliancesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AppliancesCreateOrUpdateResponse>,
@@ -336,21 +336,20 @@ export class AppliancesImpl implements Appliances {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AppliancesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -359,8 +358,8 @@ export class AppliancesImpl implements Appliances {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -368,15 +367,15 @@ export class AppliancesImpl implements Appliances {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, resourceName, parameters, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       AppliancesCreateOrUpdateResponse,
@@ -384,7 +383,7 @@ export class AppliancesImpl implements Appliances {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -401,13 +400,13 @@ export class AppliancesImpl implements Appliances {
     resourceGroupName: string,
     resourceName: string,
     parameters: Appliance,
-    options?: AppliancesCreateOrUpdateOptionalParams
+    options?: AppliancesCreateOrUpdateOptionalParams,
   ): Promise<AppliancesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       resourceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -421,25 +420,24 @@ export class AppliancesImpl implements Appliances {
   async beginDelete(
     resourceGroupName: string,
     resourceName: string,
-    options?: AppliancesDeleteOptionalParams
+    options?: AppliancesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -448,8 +446,8 @@ export class AppliancesImpl implements Appliances {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -457,20 +455,20 @@ export class AppliancesImpl implements Appliances {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, resourceName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -485,12 +483,12 @@ export class AppliancesImpl implements Appliances {
   async beginDeleteAndWait(
     resourceGroupName: string,
     resourceName: string,
-    options?: AppliancesDeleteOptionalParams
+    options?: AppliancesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       resourceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -505,11 +503,11 @@ export class AppliancesImpl implements Appliances {
   update(
     resourceGroupName: string,
     resourceName: string,
-    options?: AppliancesUpdateOptionalParams
+    options?: AppliancesUpdateOptionalParams,
   ): Promise<AppliancesUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -522,11 +520,11 @@ export class AppliancesImpl implements Appliances {
   listClusterUserCredential(
     resourceGroupName: string,
     resourceName: string,
-    options?: AppliancesListClusterUserCredentialOptionalParams
+    options?: AppliancesListClusterUserCredentialOptionalParams,
   ): Promise<AppliancesListClusterUserCredentialResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listClusterUserCredentialOperationSpec
+      listClusterUserCredentialOperationSpec,
     );
   }
 
@@ -539,11 +537,11 @@ export class AppliancesImpl implements Appliances {
   listKeys(
     resourceGroupName: string,
     resourceName: string,
-    options?: AppliancesListKeysOptionalParams
+    options?: AppliancesListKeysOptionalParams,
   ): Promise<AppliancesListKeysResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listKeysOperationSpec
+      listKeysOperationSpec,
     );
   }
 
@@ -559,11 +557,11 @@ export class AppliancesImpl implements Appliances {
     resourceGroupName: string,
     resourceName: string,
     upgradeGraph: string,
-    options?: AppliancesGetUpgradeGraphOptionalParams
+    options?: AppliancesGetUpgradeGraphOptionalParams,
   ): Promise<AppliancesGetUpgradeGraphResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, upgradeGraph, options },
-      getUpgradeGraphOperationSpec
+      getUpgradeGraphOperationSpec,
     );
   }
 
@@ -574,11 +572,11 @@ export class AppliancesImpl implements Appliances {
    */
   private _listOperationsNext(
     nextLink: string,
-    options?: AppliancesListOperationsNextOptionalParams
+    options?: AppliancesListOperationsNextOptionalParams,
   ): Promise<AppliancesListOperationsNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listOperationsNextOperationSpec
+      listOperationsNextOperationSpec,
     );
   }
 
@@ -589,11 +587,11 @@ export class AppliancesImpl implements Appliances {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: AppliancesListBySubscriptionNextOptionalParams
+    options?: AppliancesListBySubscriptionNextOptionalParams,
   ): Promise<AppliancesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -606,11 +604,11 @@ export class AppliancesImpl implements Appliances {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: AppliancesListByResourceGroupNextOptionalParams
+    options?: AppliancesListByResourceGroupNextOptionalParams,
   ): Promise<AppliancesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -622,232 +620,79 @@ const listOperationsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplianceOperationsList
+      bodyMapper: Mappers.ApplianceOperationsList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceConnector/appliances",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceConnector/appliances",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplianceListResult
+      bodyMapper: Mappers.ApplianceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getTelemetryConfigOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceConnector/telemetryconfig",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceConnector/telemetryconfig",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplianceGetTelemetryConfigResult
+      bodyMapper: Mappers.ApplianceGetTelemetryConfigResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceConnector/appliances",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceConnector/appliances",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplianceListResult
+      bodyMapper: Mappers.ApplianceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceConnector/appliances/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceConnector/appliances/{resourceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Appliance
+      bodyMapper: Mappers.Appliance,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceConnector/appliances/{resourceName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Appliance
+      bodyMapper: Mappers.ErrorResponse,
     },
-    201: {
-      bodyMapper: Mappers.Appliance
-    },
-    202: {
-      bodyMapper: Mappers.Appliance
-    },
-    204: {
-      bodyMapper: Mappers.Appliance
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceConnector/appliances/{resourceName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceConnector/appliances/{resourceName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Appliance
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: {
-    parameterPath: { tags: ["options", "tags"] },
-    mapper: { ...Mappers.PatchableAppliance, required: true }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const listClusterUserCredentialOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceConnector/appliances/{resourceName}/listClusterUserCredential",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApplianceListCredentialResults
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceConnector/appliances/{resourceName}/listkeys",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApplianceListKeysResults
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getUpgradeGraphOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceConnector/appliances/{resourceName}/upgradeGraphs/{upgradeGraph}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.UpgradeGraph
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -855,62 +700,205 @@ const getUpgradeGraphOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.upgradeGraph
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceConnector/appliances/{resourceName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Appliance,
+    },
+    201: {
+      bodyMapper: Mappers.Appliance,
+    },
+    202: {
+      bodyMapper: Mappers.Appliance,
+    },
+    204: {
+      bodyMapper: Mappers.Appliance,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceConnector/appliances/{resourceName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceConnector/appliances/{resourceName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Appliance,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: {
+    parameterPath: { tags: ["options", "tags"] },
+    mapper: { ...Mappers.PatchableAppliance, required: true },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const listClusterUserCredentialOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceConnector/appliances/{resourceName}/listClusterUserCredential",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplianceListCredentialResults,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listKeysOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceConnector/appliances/{resourceName}/listkeys",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplianceListKeysResults,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.artifactType],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getUpgradeGraphOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceConnector/appliances/{resourceName}/upgradeGraphs/{upgradeGraph}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.UpgradeGraph,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+    Parameters.upgradeGraph,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listOperationsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplianceOperationsList
+      bodyMapper: Mappers.ApplianceOperationsList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplianceListResult
+      bodyMapper: Mappers.ApplianceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplianceListResult
+      bodyMapper: Mappers.ApplianceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
