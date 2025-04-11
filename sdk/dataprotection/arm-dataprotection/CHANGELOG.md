@@ -1,15 +1,32 @@
 # Release History
-
-## 2.1.1 (Unreleased)
-
+    
+## 2.2.0 (2025-04-11)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation BackupInstances.beginValidateForModifyBackup
+  - Added operation BackupInstances.beginValidateForModifyBackupAndWait
+  - Added Interface AdlsBlobBackupDatasourceParameters
+  - Added Interface BackupInstancesValidateForModifyBackupHeaders
+  - Added Interface BackupInstancesValidateForModifyBackupOptionalParams
+  - Added Interface ValidateForModifyBackupRequest
+  - Added Type Alias AKSVolumeTypes
+  - Added Type Alias BackupInstancesValidateForModifyBackupResponse
+  - Added Type Alias BlobBackupDatasourceParametersUnion
+  - Interface AzureBackupJobResourceList has a new optional parameter nextLink
+  - Interface AzureBackupRecoveryPointResourceList has a new optional parameter nextLink
+  - Interface BackupInstanceResourceList has a new optional parameter nextLink
+  - Interface BackupVaultResourceList has a new optional parameter nextLink
+  - Interface BaseBackupPolicyResourceList has a new optional parameter nextLink
+  - Interface DeletedBackupInstanceResourceList has a new optional parameter nextLink
+  - Interface KubernetesClusterBackupDatasourceParameters has a new optional parameter includedVolumeTypes
+  - Interface ResourceGuardProxyBaseResourceList has a new optional parameter nextLink
+  - Interface ResourceGuardResourceList has a new optional parameter nextLink
+  - Type of parameter objectType of interface BackupDatasourceParameters is changed from "KubernetesClusterBackupDatasourceParameters" | "BlobBackupDatasourceParameters" to "KubernetesClusterBackupDatasourceParameters" | "BlobBackupDatasourceParameters" | "AdlsBlobBackupDatasourceParameters"
+  - Type of parameter objectType of interface BlobBackupDatasourceParameters is changed from "BlobBackupDatasourceParameters" to "BlobBackupDatasourceParameters" | "AdlsBlobBackupDatasourceParameters"
+  - Added Enum KnownAKSVolumeTypes
+    
+    
 ## 2.1.0 (2024-07-08)
     
 ### Features Added
