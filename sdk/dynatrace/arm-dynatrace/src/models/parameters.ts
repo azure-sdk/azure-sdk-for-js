@@ -9,93 +9,23 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
+  LogStatusRequest as LogStatusRequestMapper,
+  AgentStatusRequest as AgentStatusRequestMapper,
   MonitorResource as MonitorResourceMapper,
   MonitorResourceUpdate as MonitorResourceUpdateMapper,
+  MarketplaceSubscriptionIdRequest as MarketplaceSubscriptionIdRequestMapper,
   MarketplaceSaaSResourceDetailsRequest as MarketplaceSaaSResourceDetailsRequestMapper,
+  MetricStatusRequest as MetricStatusRequestMapper,
+  UpgradePlanRequest as UpgradePlanRequestMapper,
   SSODetailsRequest as SSODetailsRequestMapper,
   LinkableEnvironmentRequest as LinkableEnvironmentRequestMapper,
+  MonitoredSubscriptionProperties as MonitoredSubscriptionPropertiesMapper,
   TagRule as TagRuleMapper,
-  DynatraceSingleSignOnResource as DynatraceSingleSignOnResourceMapper
+  DynatraceSingleSignOnResource as DynatraceSingleSignOnResourceMapper,
 } from "../models/mappers.js";
-
-export const accept: OperationParameter = {
-  parameterPath: "accept",
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Accept",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const $host: OperationURLParameter = {
-  parameterPath: "$host",
-  mapper: {
-    serializedName: "$host",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2023-04-27",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    constraints: {
-      MinLength: 1
-    },
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceGroupName: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    constraints: {
-      MaxLength: 90,
-      MinLength: 1
-    },
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const monitorName: OperationURLParameter = {
-  parameterPath: "monitorName",
-  mapper: {
-    serializedName: "monitorName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
@@ -104,34 +34,135 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const request: OperationParameter = {
+  parameterPath: ["options", "request"],
+  mapper: LogStatusRequestMapper,
+};
+
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const $host: OperationURLParameter = {
+  parameterPath: "$host",
+  mapper: {
+    serializedName: "$host",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2024-04-24",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "Uuid",
+    },
+  },
+};
+
+export const resourceGroupName: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const monitorName: OperationURLParameter = {
+  parameterPath: "monitorName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9_-]*$"),
+    },
+    serializedName: "monitorName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const request1: OperationParameter = {
+  parameterPath: "request",
+  mapper: AgentStatusRequestMapper,
 };
 
 export const resource: OperationParameter = {
   parameterPath: "resource",
-  mapper: MonitorResourceMapper
+  mapper: MonitorResourceMapper,
 };
 
 export const resource1: OperationParameter = {
   parameterPath: "resource",
-  mapper: MonitorResourceUpdateMapper
-};
-
-export const request: OperationParameter = {
-  parameterPath: "request",
-  mapper: MarketplaceSaaSResourceDetailsRequestMapper
-};
-
-export const request1: OperationParameter = {
-  parameterPath: ["options", "request"],
-  mapper: SSODetailsRequestMapper
+  mapper: MonitorResourceUpdateMapper,
 };
 
 export const request2: OperationParameter = {
   parameterPath: "request",
-  mapper: LinkableEnvironmentRequestMapper
+  mapper: MarketplaceSubscriptionIdRequestMapper,
+};
+
+export const request3: OperationParameter = {
+  parameterPath: "request",
+  mapper: MarketplaceSaaSResourceDetailsRequestMapper,
+};
+
+export const request4: OperationParameter = {
+  parameterPath: ["options", "request"],
+  mapper: MetricStatusRequestMapper,
+};
+
+export const request5: OperationParameter = {
+  parameterPath: "request",
+  mapper: UpgradePlanRequestMapper,
+};
+
+export const request6: OperationParameter = {
+  parameterPath: ["options", "request"],
+  mapper: SSODetailsRequestMapper,
+};
+
+export const request7: OperationParameter = {
+  parameterPath: "request",
+  mapper: LinkableEnvironmentRequestMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -140,40 +171,62 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
+};
+
+export const body: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: MonitoredSubscriptionPropertiesMapper,
+};
+
+export const dynatraceEnvironmentId: OperationURLParameter = {
+  parameterPath: "dynatraceEnvironmentId",
+  mapper: {
+    serializedName: "dynatraceEnvironmentId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const ruleSetName: OperationURLParameter = {
   parameterPath: "ruleSetName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z]*$"),
+    },
     serializedName: "ruleSetName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resource2: OperationParameter = {
   parameterPath: "resource",
-  mapper: TagRuleMapper
+  mapper: TagRuleMapper,
 };
 
 export const resource3: OperationParameter = {
   parameterPath: "resource",
-  mapper: DynatraceSingleSignOnResourceMapper
+  mapper: DynatraceSingleSignOnResourceMapper,
 };
 
 export const configurationName: OperationURLParameter = {
   parameterPath: "configurationName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z]*$"),
+    },
     serializedName: "configurationName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };

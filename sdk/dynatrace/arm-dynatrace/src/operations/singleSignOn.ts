@@ -16,7 +16,7 @@ import { DynatraceObservability } from "../dynatraceObservability.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
@@ -28,7 +28,7 @@ import {
   SingleSignOnCreateOrUpdateResponse,
   SingleSignOnGetOptionalParams,
   SingleSignOnGetResponse,
-  SingleSignOnListNextResponse
+  SingleSignOnListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,7 +53,7 @@ export class SingleSignOnImpl implements SingleSignOn {
   public list(
     resourceGroupName: string,
     monitorName: string,
-    options?: SingleSignOnListOptionalParams
+    options?: SingleSignOnListOptionalParams,
   ): PagedAsyncIterableIterator<DynatraceSingleSignOnResource> {
     const iter = this.listPagingAll(resourceGroupName, monitorName, options);
     return {
@@ -71,9 +71,9 @@ export class SingleSignOnImpl implements SingleSignOn {
           resourceGroupName,
           monitorName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -81,7 +81,7 @@ export class SingleSignOnImpl implements SingleSignOn {
     resourceGroupName: string,
     monitorName: string,
     options?: SingleSignOnListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DynatraceSingleSignOnResource[]> {
     let result: SingleSignOnListResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,12 +93,7 @@ export class SingleSignOnImpl implements SingleSignOn {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        monitorName,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(resourceGroupName, monitorName, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -109,12 +104,12 @@ export class SingleSignOnImpl implements SingleSignOn {
   private async *listPagingAll(
     resourceGroupName: string,
     monitorName: string,
-    options?: SingleSignOnListOptionalParams
+    options?: SingleSignOnListOptionalParams,
   ): AsyncIterableIterator<DynatraceSingleSignOnResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       monitorName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -133,7 +128,7 @@ export class SingleSignOnImpl implements SingleSignOn {
     monitorName: string,
     configurationName: string,
     resource: DynatraceSingleSignOnResource,
-    options?: SingleSignOnCreateOrUpdateOptionalParams
+    options?: SingleSignOnCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SingleSignOnCreateOrUpdateResponse>,
@@ -142,21 +137,20 @@ export class SingleSignOnImpl implements SingleSignOn {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SingleSignOnCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -165,8 +159,8 @@ export class SingleSignOnImpl implements SingleSignOn {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -174,8 +168,8 @@ export class SingleSignOnImpl implements SingleSignOn {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -186,9 +180,9 @@ export class SingleSignOnImpl implements SingleSignOn {
         monitorName,
         configurationName,
         resource,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       SingleSignOnCreateOrUpdateResponse,
@@ -196,7 +190,7 @@ export class SingleSignOnImpl implements SingleSignOn {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -215,14 +209,14 @@ export class SingleSignOnImpl implements SingleSignOn {
     monitorName: string,
     configurationName: string,
     resource: DynatraceSingleSignOnResource,
-    options?: SingleSignOnCreateOrUpdateOptionalParams
+    options?: SingleSignOnCreateOrUpdateOptionalParams,
   ): Promise<SingleSignOnCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       monitorName,
       configurationName,
       resource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -238,11 +232,11 @@ export class SingleSignOnImpl implements SingleSignOn {
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: SingleSignOnGetOptionalParams
+    options?: SingleSignOnGetOptionalParams,
   ): Promise<SingleSignOnGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, configurationName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -255,11 +249,11 @@ export class SingleSignOnImpl implements SingleSignOn {
   private _list(
     resourceGroupName: string,
     monitorName: string,
-    options?: SingleSignOnListOptionalParams
+    options?: SingleSignOnListOptionalParams,
   ): Promise<SingleSignOnListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -267,18 +261,16 @@ export class SingleSignOnImpl implements SingleSignOn {
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
-   * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     monitorName: string,
-    nextLink: string,
-    options?: SingleSignOnListNextOptionalParams
+    options?: SingleSignOnListNextOptionalParams,
   ): Promise<SingleSignOnListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, monitorName, nextLink, options },
-      listNextOperationSpec
+      { resourceGroupName, monitorName, options },
+      listNextOperationSpec,
     );
   }
 }
@@ -286,25 +278,24 @@ export class SingleSignOnImpl implements SingleSignOn {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/singleSignOnConfigurations/{configurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/singleSignOnConfigurations/{configurationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DynatraceSingleSignOnResource
+      bodyMapper: Mappers.DynatraceSingleSignOnResource,
     },
     201: {
-      bodyMapper: Mappers.DynatraceSingleSignOnResource
+      bodyMapper: Mappers.DynatraceSingleSignOnResource,
     },
     202: {
-      bodyMapper: Mappers.DynatraceSingleSignOnResource
+      bodyMapper: Mappers.DynatraceSingleSignOnResource,
     },
     204: {
-      bodyMapper: Mappers.DynatraceSingleSignOnResource
+      bodyMapper: Mappers.DynatraceSingleSignOnResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.resource3,
   queryParameters: [Parameters.apiVersion],
@@ -313,23 +304,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.monitorName,
-    Parameters.configurationName
+    Parameters.configurationName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/singleSignOnConfigurations/{configurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/singleSignOnConfigurations/{configurationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DynatraceSingleSignOnResource
+      bodyMapper: Mappers.DynatraceSingleSignOnResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -337,51 +327,50 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.monitorName,
-    Parameters.configurationName
+    Parameters.configurationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/singleSignOnConfigurations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/singleSignOnConfigurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DynatraceSingleSignOnResourceListResult
+      bodyMapper: Mappers.DynatraceSingleSignOnResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DynatraceSingleSignOnResourceListResult
+      bodyMapper: Mappers.DynatraceSingleSignOnResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.monitorName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
