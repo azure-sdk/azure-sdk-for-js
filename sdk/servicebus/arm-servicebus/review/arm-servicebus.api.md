@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AccessKeys {
@@ -336,7 +336,7 @@ export interface MigrationConfigProperties extends ProxyResource {
 
 // @public
 export interface MigrationConfigs {
-    beginCreateAndStartMigration(resourceGroupName: string, namespaceName: string, configName: MigrationConfigurationName, parameters: MigrationConfigProperties, options?: MigrationConfigsCreateAndStartMigrationOptionalParams): Promise<PollerLike<PollOperationState<MigrationConfigsCreateAndStartMigrationResponse>, MigrationConfigsCreateAndStartMigrationResponse>>;
+    beginCreateAndStartMigration(resourceGroupName: string, namespaceName: string, configName: MigrationConfigurationName, parameters: MigrationConfigProperties, options?: MigrationConfigsCreateAndStartMigrationOptionalParams): Promise<SimplePollerLike<OperationState<MigrationConfigsCreateAndStartMigrationResponse>, MigrationConfigsCreateAndStartMigrationResponse>>;
     beginCreateAndStartMigrationAndWait(resourceGroupName: string, namespaceName: string, configName: MigrationConfigurationName, parameters: MigrationConfigProperties, options?: MigrationConfigsCreateAndStartMigrationOptionalParams): Promise<MigrationConfigsCreateAndStartMigrationResponse>;
     completeMigration(resourceGroupName: string, namespaceName: string, configName: MigrationConfigurationName, options?: MigrationConfigsCompleteMigrationOptionalParams): Promise<void>;
     delete(resourceGroupName: string, namespaceName: string, configName: MigrationConfigurationName, options?: MigrationConfigsDeleteOptionalParams): Promise<void>;
@@ -392,9 +392,9 @@ export type MigrationConfigurationName = string;
 
 // @public
 export interface Namespaces {
-    beginCreateOrUpdate(resourceGroupName: string, namespaceName: string, parameters: SBNamespace, options?: NamespacesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<NamespacesCreateOrUpdateResponse>, NamespacesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, namespaceName: string, parameters: SBNamespace, options?: NamespacesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NamespacesCreateOrUpdateResponse>, NamespacesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, namespaceName: string, parameters: SBNamespace, options?: NamespacesCreateOrUpdateOptionalParams): Promise<NamespacesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams): Promise<void>;
     checkNameAvailability(parameters: CheckNameAvailability, options?: NamespacesCheckNameAvailabilityOptionalParams): Promise<NamespacesCheckNameAvailabilityResponse>;
     createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: SBAuthorizationRule, options?: NamespacesCreateOrUpdateAuthorizationRuleOptionalParams): Promise<NamespacesCreateOrUpdateAuthorizationRuleResponse>;
@@ -644,7 +644,7 @@ export interface PrivateEndpointConnectionListResult {
 
 // @public
 export interface PrivateEndpointConnections {
-    beginDelete(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
     get(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
