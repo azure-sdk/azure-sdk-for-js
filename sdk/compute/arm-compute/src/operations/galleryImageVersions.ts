@@ -51,20 +51,17 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
   /**
    * List gallery image versions in a gallery image definition.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
    * @param galleryImageName The name of the Shared Image Gallery Image Definition from which the Image
    *                         Versions are to be listed.
    * @param options The options parameters.
    */
   public listByGalleryImage(
     resourceGroupName: string,
-    galleryName: string,
     galleryImageName: string,
     options?: GalleryImageVersionsListByGalleryImageOptionalParams,
   ): PagedAsyncIterableIterator<GalleryImageVersion> {
     const iter = this.listByGalleryImagePagingAll(
       resourceGroupName,
-      galleryName,
       galleryImageName,
       options,
     );
@@ -81,7 +78,6 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
         }
         return this.listByGalleryImagePagingPage(
           resourceGroupName,
-          galleryName,
           galleryImageName,
           options,
           settings,
@@ -92,7 +88,6 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
 
   private async *listByGalleryImagePagingPage(
     resourceGroupName: string,
-    galleryName: string,
     galleryImageName: string,
     options?: GalleryImageVersionsListByGalleryImageOptionalParams,
     settings?: PageSettings,
@@ -102,7 +97,6 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
     if (!continuationToken) {
       result = await this._listByGalleryImage(
         resourceGroupName,
-        galleryName,
         galleryImageName,
         options,
       );
@@ -114,7 +108,6 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
     while (continuationToken) {
       result = await this._listByGalleryImageNext(
         resourceGroupName,
-        galleryName,
         galleryImageName,
         continuationToken,
         options,
@@ -128,13 +121,11 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
 
   private async *listByGalleryImagePagingAll(
     resourceGroupName: string,
-    galleryName: string,
     galleryImageName: string,
     options?: GalleryImageVersionsListByGalleryImageOptionalParams,
   ): AsyncIterableIterator<GalleryImageVersion> {
     for await (const page of this.listByGalleryImagePagingPage(
       resourceGroupName,
-      galleryName,
       galleryImageName,
       options,
     )) {
@@ -145,7 +136,6 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
   /**
    * Create or update a gallery image version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
    * @param galleryImageName The name of the gallery image definition in which the Image Version is to be
    *                         created.
    * @param galleryImageVersionName The name of the gallery image version to be created. Needs to follow
@@ -157,7 +147,6 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    galleryName: string,
     galleryImageName: string,
     galleryImageVersionName: string,
     galleryImageVersion: GalleryImageVersion,
@@ -210,7 +199,6 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
       sendOperationFn,
       args: {
         resourceGroupName,
-        galleryName,
         galleryImageName,
         galleryImageVersionName,
         galleryImageVersion,
@@ -232,7 +220,6 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
   /**
    * Create or update a gallery image version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
    * @param galleryImageName The name of the gallery image definition in which the Image Version is to be
    *                         created.
    * @param galleryImageVersionName The name of the gallery image version to be created. Needs to follow
@@ -244,7 +231,6 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    galleryName: string,
     galleryImageName: string,
     galleryImageVersionName: string,
     galleryImageVersion: GalleryImageVersion,
@@ -252,7 +238,6 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
   ): Promise<GalleryImageVersionsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      galleryName,
       galleryImageName,
       galleryImageVersionName,
       galleryImageVersion,
@@ -264,7 +249,6 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
   /**
    * Update a gallery image version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
    * @param galleryImageName The name of the gallery image definition in which the Image Version is to be
    *                         updated.
    * @param galleryImageVersionName The name of the gallery image version to be updated. Needs to follow
@@ -275,7 +259,6 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
    */
   async beginUpdate(
     resourceGroupName: string,
-    galleryName: string,
     galleryImageName: string,
     galleryImageVersionName: string,
     galleryImageVersion: GalleryImageVersionUpdate,
@@ -328,7 +311,6 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
       sendOperationFn,
       args: {
         resourceGroupName,
-        galleryName,
         galleryImageName,
         galleryImageVersionName,
         galleryImageVersion,
@@ -350,7 +332,6 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
   /**
    * Update a gallery image version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
    * @param galleryImageName The name of the gallery image definition in which the Image Version is to be
    *                         updated.
    * @param galleryImageVersionName The name of the gallery image version to be updated. Needs to follow
@@ -361,7 +342,6 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    galleryName: string,
     galleryImageName: string,
     galleryImageVersionName: string,
     galleryImageVersion: GalleryImageVersionUpdate,
@@ -369,7 +349,6 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
   ): Promise<GalleryImageVersionsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      galleryName,
       galleryImageName,
       galleryImageVersionName,
       galleryImageVersion,
@@ -381,26 +360,18 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
   /**
    * Retrieves information about a gallery image version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
    * @param galleryImageName The name of the gallery image definition in which the Image Version resides.
    * @param galleryImageVersionName The name of the gallery image version to be retrieved.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    galleryName: string,
     galleryImageName: string,
     galleryImageVersionName: string,
     options?: GalleryImageVersionsGetOptionalParams,
   ): Promise<GalleryImageVersionsGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        galleryName,
-        galleryImageName,
-        galleryImageVersionName,
-        options,
-      },
+      { resourceGroupName, galleryImageName, galleryImageVersionName, options },
       getOperationSpec,
     );
   }
@@ -408,14 +379,12 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
   /**
    * Delete a gallery image version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
    * @param galleryImageName The name of the gallery image definition in which the Image Version resides.
    * @param galleryImageVersionName The name of the gallery image version to be deleted.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    galleryName: string,
     galleryImageName: string,
     galleryImageVersionName: string,
     options?: GalleryImageVersionsDeleteOptionalParams,
@@ -462,7 +431,6 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
       sendOperationFn,
       args: {
         resourceGroupName,
-        galleryName,
         galleryImageName,
         galleryImageVersionName,
         options,
@@ -480,21 +448,18 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
   /**
    * Delete a gallery image version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
    * @param galleryImageName The name of the gallery image definition in which the Image Version resides.
    * @param galleryImageVersionName The name of the gallery image version to be deleted.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    galleryName: string,
     galleryImageName: string,
     galleryImageVersionName: string,
     options?: GalleryImageVersionsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      galleryName,
       galleryImageName,
       galleryImageVersionName,
       options,
@@ -505,19 +470,17 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
   /**
    * List gallery image versions in a gallery image definition.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
    * @param galleryImageName The name of the Shared Image Gallery Image Definition from which the Image
    *                         Versions are to be listed.
    * @param options The options parameters.
    */
   private _listByGalleryImage(
     resourceGroupName: string,
-    galleryName: string,
     galleryImageName: string,
     options?: GalleryImageVersionsListByGalleryImageOptionalParams,
   ): Promise<GalleryImageVersionsListByGalleryImageResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, galleryName, galleryImageName, options },
+      { resourceGroupName, galleryImageName, options },
       listByGalleryImageOperationSpec,
     );
   }
@@ -525,7 +488,6 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
   /**
    * ListByGalleryImageNext
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
    * @param galleryImageName The name of the Shared Image Gallery Image Definition from which the Image
    *                         Versions are to be listed.
    * @param nextLink The nextLink from the previous successful call to the ListByGalleryImage method.
@@ -533,13 +495,12 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
    */
   private _listByGalleryImageNext(
     resourceGroupName: string,
-    galleryName: string,
     galleryImageName: string,
     nextLink: string,
     options?: GalleryImageVersionsListByGalleryImageNextOptionalParams,
   ): Promise<GalleryImageVersionsListByGalleryImageNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, galleryName, galleryImageName, nextLink, options },
+      { resourceGroupName, galleryImageName, nextLink, options },
       listByGalleryImageNextOperationSpec,
     );
   }

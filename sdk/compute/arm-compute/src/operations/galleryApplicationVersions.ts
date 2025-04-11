@@ -53,21 +53,17 @@ export class GalleryApplicationVersionsImpl
   /**
    * List gallery Application Versions in a gallery Application Definition.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
    * @param galleryApplicationName The name of the Shared Application Gallery Application Definition from
    *                               which the Application Versions are to be listed.
    * @param options The options parameters.
    */
   public listByGalleryApplication(
     resourceGroupName: string,
-    galleryName: string,
     galleryApplicationName: string,
     options?: GalleryApplicationVersionsListByGalleryApplicationOptionalParams,
   ): PagedAsyncIterableIterator<GalleryApplicationVersion> {
     const iter = this.listByGalleryApplicationPagingAll(
       resourceGroupName,
-      galleryName,
       galleryApplicationName,
       options,
     );
@@ -84,7 +80,6 @@ export class GalleryApplicationVersionsImpl
         }
         return this.listByGalleryApplicationPagingPage(
           resourceGroupName,
-          galleryName,
           galleryApplicationName,
           options,
           settings,
@@ -95,7 +90,6 @@ export class GalleryApplicationVersionsImpl
 
   private async *listByGalleryApplicationPagingPage(
     resourceGroupName: string,
-    galleryName: string,
     galleryApplicationName: string,
     options?: GalleryApplicationVersionsListByGalleryApplicationOptionalParams,
     settings?: PageSettings,
@@ -105,7 +99,6 @@ export class GalleryApplicationVersionsImpl
     if (!continuationToken) {
       result = await this._listByGalleryApplication(
         resourceGroupName,
-        galleryName,
         galleryApplicationName,
         options,
       );
@@ -117,7 +110,6 @@ export class GalleryApplicationVersionsImpl
     while (continuationToken) {
       result = await this._listByGalleryApplicationNext(
         resourceGroupName,
-        galleryName,
         galleryApplicationName,
         continuationToken,
         options,
@@ -131,13 +123,11 @@ export class GalleryApplicationVersionsImpl
 
   private async *listByGalleryApplicationPagingAll(
     resourceGroupName: string,
-    galleryName: string,
     galleryApplicationName: string,
     options?: GalleryApplicationVersionsListByGalleryApplicationOptionalParams,
   ): AsyncIterableIterator<GalleryApplicationVersion> {
     for await (const page of this.listByGalleryApplicationPagingPage(
       resourceGroupName,
-      galleryName,
       galleryApplicationName,
       options,
     )) {
@@ -148,8 +138,6 @@ export class GalleryApplicationVersionsImpl
   /**
    * Create or update a gallery Application Version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
    * @param galleryApplicationName The name of the gallery Application Definition in which the
    *                               Application Version is to be created.
    * @param galleryApplicationVersionName The name of the gallery Application Version to be created.
@@ -161,7 +149,6 @@ export class GalleryApplicationVersionsImpl
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    galleryName: string,
     galleryApplicationName: string,
     galleryApplicationVersionName: string,
     galleryApplicationVersion: GalleryApplicationVersion,
@@ -214,7 +201,6 @@ export class GalleryApplicationVersionsImpl
       sendOperationFn,
       args: {
         resourceGroupName,
-        galleryName,
         galleryApplicationName,
         galleryApplicationVersionName,
         galleryApplicationVersion,
@@ -236,8 +222,6 @@ export class GalleryApplicationVersionsImpl
   /**
    * Create or update a gallery Application Version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
    * @param galleryApplicationName The name of the gallery Application Definition in which the
    *                               Application Version is to be created.
    * @param galleryApplicationVersionName The name of the gallery Application Version to be created.
@@ -249,7 +233,6 @@ export class GalleryApplicationVersionsImpl
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    galleryName: string,
     galleryApplicationName: string,
     galleryApplicationVersionName: string,
     galleryApplicationVersion: GalleryApplicationVersion,
@@ -257,7 +240,6 @@ export class GalleryApplicationVersionsImpl
   ): Promise<GalleryApplicationVersionsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      galleryName,
       galleryApplicationName,
       galleryApplicationVersionName,
       galleryApplicationVersion,
@@ -269,8 +251,6 @@ export class GalleryApplicationVersionsImpl
   /**
    * Update a gallery Application Version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
    * @param galleryApplicationName The name of the gallery Application Definition in which the
    *                               Application Version is to be updated.
    * @param galleryApplicationVersionName The name of the gallery Application Version to be updated.
@@ -282,7 +262,6 @@ export class GalleryApplicationVersionsImpl
    */
   async beginUpdate(
     resourceGroupName: string,
-    galleryName: string,
     galleryApplicationName: string,
     galleryApplicationVersionName: string,
     galleryApplicationVersion: GalleryApplicationVersionUpdate,
@@ -335,7 +314,6 @@ export class GalleryApplicationVersionsImpl
       sendOperationFn,
       args: {
         resourceGroupName,
-        galleryName,
         galleryApplicationName,
         galleryApplicationVersionName,
         galleryApplicationVersion,
@@ -357,8 +335,6 @@ export class GalleryApplicationVersionsImpl
   /**
    * Update a gallery Application Version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
    * @param galleryApplicationName The name of the gallery Application Definition in which the
    *                               Application Version is to be updated.
    * @param galleryApplicationVersionName The name of the gallery Application Version to be updated.
@@ -370,7 +346,6 @@ export class GalleryApplicationVersionsImpl
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    galleryName: string,
     galleryApplicationName: string,
     galleryApplicationVersionName: string,
     galleryApplicationVersion: GalleryApplicationVersionUpdate,
@@ -378,7 +353,6 @@ export class GalleryApplicationVersionsImpl
   ): Promise<GalleryApplicationVersionsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      galleryName,
       galleryApplicationName,
       galleryApplicationVersionName,
       galleryApplicationVersion,
@@ -390,8 +364,6 @@ export class GalleryApplicationVersionsImpl
   /**
    * Retrieves information about a gallery Application Version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
    * @param galleryApplicationName The name of the gallery Application Definition in which the
    *                               Application Version resides.
    * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
@@ -399,7 +371,6 @@ export class GalleryApplicationVersionsImpl
    */
   get(
     resourceGroupName: string,
-    galleryName: string,
     galleryApplicationName: string,
     galleryApplicationVersionName: string,
     options?: GalleryApplicationVersionsGetOptionalParams,
@@ -407,7 +378,6 @@ export class GalleryApplicationVersionsImpl
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        galleryName,
         galleryApplicationName,
         galleryApplicationVersionName,
         options,
@@ -419,8 +389,6 @@ export class GalleryApplicationVersionsImpl
   /**
    * Delete a gallery Application Version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
    * @param galleryApplicationName The name of the gallery Application Definition in which the
    *                               Application Version resides.
    * @param galleryApplicationVersionName The name of the gallery Application Version to be deleted.
@@ -428,7 +396,6 @@ export class GalleryApplicationVersionsImpl
    */
   async beginDelete(
     resourceGroupName: string,
-    galleryName: string,
     galleryApplicationName: string,
     galleryApplicationVersionName: string,
     options?: GalleryApplicationVersionsDeleteOptionalParams,
@@ -475,7 +442,6 @@ export class GalleryApplicationVersionsImpl
       sendOperationFn,
       args: {
         resourceGroupName,
-        galleryName,
         galleryApplicationName,
         galleryApplicationVersionName,
         options,
@@ -493,8 +459,6 @@ export class GalleryApplicationVersionsImpl
   /**
    * Delete a gallery Application Version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
    * @param galleryApplicationName The name of the gallery Application Definition in which the
    *                               Application Version resides.
    * @param galleryApplicationVersionName The name of the gallery Application Version to be deleted.
@@ -502,14 +466,12 @@ export class GalleryApplicationVersionsImpl
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    galleryName: string,
     galleryApplicationName: string,
     galleryApplicationVersionName: string,
     options?: GalleryApplicationVersionsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      galleryName,
       galleryApplicationName,
       galleryApplicationVersionName,
       options,
@@ -520,20 +482,17 @@ export class GalleryApplicationVersionsImpl
   /**
    * List gallery Application Versions in a gallery Application Definition.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
    * @param galleryApplicationName The name of the Shared Application Gallery Application Definition from
    *                               which the Application Versions are to be listed.
    * @param options The options parameters.
    */
   private _listByGalleryApplication(
     resourceGroupName: string,
-    galleryName: string,
     galleryApplicationName: string,
     options?: GalleryApplicationVersionsListByGalleryApplicationOptionalParams,
   ): Promise<GalleryApplicationVersionsListByGalleryApplicationResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, galleryName, galleryApplicationName, options },
+      { resourceGroupName, galleryApplicationName, options },
       listByGalleryApplicationOperationSpec,
     );
   }
@@ -541,8 +500,6 @@ export class GalleryApplicationVersionsImpl
   /**
    * ListByGalleryApplicationNext
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
    * @param galleryApplicationName The name of the Shared Application Gallery Application Definition from
    *                               which the Application Versions are to be listed.
    * @param nextLink The nextLink from the previous successful call to the ListByGalleryApplication
@@ -551,19 +508,12 @@ export class GalleryApplicationVersionsImpl
    */
   private _listByGalleryApplicationNext(
     resourceGroupName: string,
-    galleryName: string,
     galleryApplicationName: string,
     nextLink: string,
     options?: GalleryApplicationVersionsListByGalleryApplicationNextOptionalParams,
   ): Promise<GalleryApplicationVersionsListByGalleryApplicationNextResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        galleryName,
-        galleryApplicationName,
-        nextLink,
-        options,
-      },
+      { resourceGroupName, galleryApplicationName, nextLink, options },
       listByGalleryApplicationNextOperationSpec,
     );
   }
