@@ -1,5 +1,30 @@
 # Release History
     
+## 4.0.0 (2025-04-11)
+    
+### Features Added
+
+  - Added operation WorkspaceConnections.update
+  - Added Interface WorkspaceConnectionsUpdateOptionalParams
+  - Added Interface WorkspaceConnectionUpdateParameter
+  - Added Interface WorkspacesDeleteHeaders
+  - Added Type Alias FirewallSku
+  - Added Type Alias WorkspaceConnectionsUpdateResponse
+  - Interface InferenceContainerProperties has a new optional parameter startupRoute
+  - Interface ManagedNetworkSettings has a new optional parameter firewallSku
+  - Interface OnlineDeploymentProperties has a new optional parameter startupProbe
+  - Interface WorkspaceConnectionsListOptionalParams has a new optional parameter includeAll
+  - Added Enum KnownFirewallSku
+  - Enum KnownConnectionCategory has a new value Elasticsearch
+  - Enum KnownConnectionCategory has a new value ManagedOnlineEndpoint
+  - Enum KnownConnectionCategory has a new value Pinecone
+
+### Breaking Changes
+
+  - Interface AcrDetails no longer has parameter userCreatedAcrAccount
+  - Interface StorageAccountDetails no longer has parameter userCreatedStorageAccount
+    
+    
 ## 3.0.0 (2024-08-15)
     
 ### Features Added
