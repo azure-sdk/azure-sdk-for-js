@@ -1314,10 +1314,6 @@ packages:
     resolution: {integrity: sha512-+BsxHcFzJH28hMAsyI+bbAYVw79d12WagttmFvoidXXq76/5KpNCA2NWTGSV0AlJ+QaCF6+7I7P91PRYnJsr+w==}
     engines: {node: '>=14.0.0'}
 
-  '@azure/arm-resources@5.2.0':
-    resolution: {integrity: sha512-wQyuhL8WQsLkW/KMdik8bLJIJCz3Z6mg/+AKm0KedgK73SKhicSqYP+ed3t+43tLlRFltcrmGKMcHLQ+Jhv/6A==}
-    engines: {node: '>=14.0.0'}
-
   '@azure/arm-search@3.2.0':
     resolution: {integrity: sha512-KxbVA8jsoBj/PrtF7Dh/1mGNatGzKIHooYiKD59K78io3jE7jT0Y6L0ngUx4hImW5G+AGlZBB8rSeGIvIfjuDA==}
     engines: {node: '>=16.0.0'}
@@ -2559,7 +2555,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-changes@file:projects/arm-changes.tgz':
-    resolution: {integrity: sha512-O8bkam5n8MQmqhrtOm4xMHoB8RQLcJoOk9HXWPnLIglQu7V3HmSgZOrhB90fI/juNoR2gHRNWGHSQijL46ECcA==, tarball: file:projects/arm-changes.tgz}
+    resolution: {integrity: sha512-1OKPmkxJHJkseNErKRNs2tGkCNhG0Dmlbh/13NQA27mvaAFc8MYzoKaxYbgoTqITnmmSF0g54LzSCOdUAS+wrA==, tarball: file:projects/arm-changes.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-chaos@file:projects/arm-chaos.tgz':
@@ -2675,7 +2671,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-databoundaries@file:projects/arm-databoundaries.tgz':
-    resolution: {integrity: sha512-aykdaWjFLHFfaaEcB3WJq+ksQUIemsODGgJQuIfeg/gQj2zpPqXygYljlXwvFyEPWopX8rwOgQ4+LzNsDaNMcA==, tarball: file:projects/arm-databoundaries.tgz}
+    resolution: {integrity: sha512-N4EbDls48GdlroM403flJOg4Ir5c9tRKPBqABXq4Wjtk0NwvG2SJiUKxULEt8DKWmcSn7kBeKb6umai5W+JnTQ==, tarball: file:projects/arm-databoundaries.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-databox@file:projects/arm-databox.tgz':
@@ -2827,7 +2823,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-features@file:projects/arm-features.tgz':
-    resolution: {integrity: sha512-u+ef83YbMGbznuM6QofrygLENrHKu7sXNdAv8BcpraRx1+CbVBYf19WB54kaIGrLmrXBABYnrMhhWA5Jg6v+2A==, tarball: file:projects/arm-features.tgz}
+    resolution: {integrity: sha512-zV9Y2IyloEOvjezvsCF+NknB164Y+FmdZSRemhfUF8boKOO1g2llQPUeioxM8MQieLiIkvC0w7e6mi0cUkbrcQ==, tarball: file:projects/arm-features.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-fluidrelay@file:projects/arm-fluidrelay.tgz':
@@ -2951,7 +2947,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-links@file:projects/arm-links.tgz':
-    resolution: {integrity: sha512-/FYKqWx00GkmI7PWY9aYsTYeQHq5z630d224CnfKR2IrXmjBVs5291AKowt5zBaR21Mk0KanF19kV8C+COfnYw==, tarball: file:projects/arm-links.tgz}
+    resolution: {integrity: sha512-Yb47IFjEYflJ9MLiNqzlmi6DZ1MTH8ULV6m2Ctw6IPaHWbi7PaUdu4d2s2hLEtYg38AEwCSsLdaEL5rNjJZJag==, tarball: file:projects/arm-links.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-loadtesting@file:projects/arm-loadtesting.tgz':
@@ -2963,7 +2959,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-locks@file:projects/arm-locks.tgz':
-    resolution: {integrity: sha512-ygVGZkzUbPfGlZmQx/9M/QR9QWVoTPQovA2grQIHptb7eKx/NixXSVjeNDyLK8LaKfa3XS01GU1fDIpaHTpRIA==, tarball: file:projects/arm-locks.tgz}
+    resolution: {integrity: sha512-hd0JM6dMAu1ojh6eKcZHfZIEqDojdTOA8JiGKDA3I4nb5pac9e2m0hp+AEGg5L/8tDOW1xio7+ObhWUs40LDUQ==, tarball: file:projects/arm-locks.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-logic@file:projects/arm-logic.tgz':
@@ -2987,7 +2983,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-managedapplications@file:projects/arm-managedapplications.tgz':
-    resolution: {integrity: sha512-UbbFrI6JYvteNsOjTYYZb1Brf4NHXw3gDHEJUfQrKyJ+mT2n/xDIVtDHEFyA7V5dFiL4GDcw4EBx35cNrry6Tw==, tarball: file:projects/arm-managedapplications.tgz}
+    resolution: {integrity: sha512-2ibaqd9ubpXgOUPi8syFR0rbmMd/0T7Uf0+wO1ZzNyzFarS5VG/7GLBJt86LOAZJ946y9cHroRDcla/oHzprlw==, tarball: file:projects/arm-managedapplications.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-managednetworkfabric@file:projects/arm-managednetworkfabric.tgz':
@@ -3139,7 +3135,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-policy@file:projects/arm-policy.tgz':
-    resolution: {integrity: sha512-eG2msw9BjjdYyVmU8OIbHWkhosPcUSedfWbK6D4nGNLtwWpwBlL8wtWG0Sn1zz8kSm4/Z0O4tzGKZBiV53qknw==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-uiQb6/fTKpTFjwW9LzxLRalbl+plkulkGLBw7Tm/dvL/TkwSgepUgS8tkpm2ojfd3q/j6dVkONvHun1uTmTLGw==, tarball: file:projects/arm-policy.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-policyinsights@file:projects/arm-policyinsights.tgz':
@@ -3243,15 +3239,15 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-resources-subscriptions@file:projects/arm-resources-subscriptions.tgz':
-    resolution: {integrity: sha512-dpbuMBCn5+QceRpPWU/tAM7gsWY1cxrowdGKEarYfN21uvIbyJgl/cjUSzwpIcFte22xsuT5p2xJvbUrNCERgw==, tarball: file:projects/arm-resources-subscriptions.tgz}
+    resolution: {integrity: sha512-mx0G4qasQnI1ls3gsVExtT/80R6l1lv8O/IekvSdxZQwcMMITHO+Vj9QoNNKYNQtx3XT6RHVGOafjhWeaMFFsw==, tarball: file:projects/arm-resources-subscriptions.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-resources@file:projects/arm-resources.tgz':
-    resolution: {integrity: sha512-57n2SVw1pGJQZ5elm5bvsD46REaPIsFssfaamhneMTyJW3BT/VjCBUMUcbhAxmbZKXqnlr2jceDe3wAirDVmTQ==, tarball: file:projects/arm-resources.tgz}
+    resolution: {integrity: sha512-+/V4roGAVT6pl3PzE70NWBubS3LeyM3n6lhlY6sO6LxHOnAqDL+wMsptM4DTsxyA409kYd8vzZEFVjPsAEYnQg==, tarball: file:projects/arm-resources.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-resourcesdeploymentstacks@file:projects/arm-resourcesdeploymentstacks.tgz':
-    resolution: {integrity: sha512-Zag8EFItLBCwNHvwDUzd0TYDcoqFJFUm9NfHCd7yTFQGxkbXVQ2HPVlzp69mfHxTFbtUF334/e8HffWj9UdPgQ==, tarball: file:projects/arm-resourcesdeploymentstacks.tgz}
+    resolution: {integrity: sha512-aikrMu+q48PVbb+0dKqSgJiSygCmUtnF1zsIv07cOg1/A7RdDnqjRWARdbN27pwL4+c7sIR6NWRFspY2uWuQSg==, tarball: file:projects/arm-resourcesdeploymentstacks.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-scvmm@file:projects/arm-scvmm.tgz':
@@ -3395,7 +3391,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-templatespecs@file:projects/arm-templatespecs.tgz':
-    resolution: {integrity: sha512-4xOW7LuC+PWooZssCQ3TCQ0VuFD8Ood75hZhtqcpGTvs/Hwze+CVEo9Cy9B8vmWuQxMKyMRPoOtt2vYibi4csg==, tarball: file:projects/arm-templatespecs.tgz}
+    resolution: {integrity: sha512-If/hdmTbseJaK5HdcT3jzP2v0Pw2BzCNdiK+K55Z/OEwL8B6DMHqiY0hZaEYqeift7dtq++Djh2S604KIH3b3Q==, tarball: file:projects/arm-templatespecs.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-terraform@file:projects/arm-terraform.tgz':
@@ -3527,7 +3523,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/core-amqp@file:projects/core-amqp.tgz':
-    resolution: {integrity: sha512-RTu5/bU3psfv+ddDd9NuchUkuus5zhXrW00gN7tT6iARihBF73K5yO/pf/S+f2ze05NBPX9svrhept5/Vc9Ndw==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-eOM7tW3KINmw2eWEbwoyeFSiKlEQsFbCOmIsHNVmGdMi1cWfgcq03aSJNmglNWYtLv179AxVbQhvw1fB7qfGJA==, tarball: file:projects/core-amqp.tgz}
     version: 0.0.0
 
   '@rush-temp/core-auth@file:projects/core-auth.tgz':
@@ -7420,18 +7416,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@azure/arm-resources@5.2.0':
-    dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.9.0
-      '@azure/core-client': 1.9.3
-      '@azure/core-lro': 2.7.2
-      '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.19.1
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - supports-color
-
   '@azure/arm-search@3.2.0':
     dependencies:
       '@azure/abort-controller': 1.1.0
@@ -10518,6 +10502,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
       '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
+      dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
       typescript: 5.8.3
@@ -12851,6 +12836,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
       '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
+      dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
       typescript: 5.8.3
@@ -13928,10 +13914,10 @@ snapshots:
 
   '@rush-temp/arm-links@file:projects/arm-links.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
-      '@azure/arm-resources': 5.2.0
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
       '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
+      dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
       typescript: 5.8.3
@@ -14034,6 +14020,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
       '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
+      dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
       typescript: 5.8.3
@@ -15555,13 +15542,14 @@ snapshots:
 
   '@rush-temp/arm-policy@file:projects/arm-policy.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
+      '@azure/core-lro': 2.7.2
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
       '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
       dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.8.3
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -17784,6 +17772,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
       '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
+      dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
       typescript: 5.8.3
@@ -22900,7 +22889,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.2.1
 
   '@types/chai-as-promised@8.0.2':
     dependencies:
