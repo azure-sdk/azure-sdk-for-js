@@ -2633,7 +2633,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-containerservice-1@file:projects/arm-containerservice-1.tgz':
-    resolution: {integrity: sha512-FlSeF1C6UFKLra6uIpTfbc0Ml87kiVyZvOF10BVL+qIk5HRYXfxktNUvadVjdNHyzTZd8TVJBT7B1W4mWZUBFA==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-RLv51kXkwUReSY6g5W7UDvnQDbLbc8pgURa8mCN6jbaYfFbCKS1XRfI9RDOe8B46PHpeNAboZcj6aE7P2lqipQ==, tarball: file:projects/arm-containerservice-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-containerservice@file:projects/arm-containerservice.tgz':
@@ -3561,7 +3561,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/core-util@file:projects/core-util.tgz':
-    resolution: {integrity: sha512-PfVQ8uRgK0bQkG5oMjYLgMFpNuNTb2pN5jJelthVnqwGeT7mpFI9EHoxNUdJpgNxOAfSl8SaVvYTX9vI1bZp2g==, tarball: file:projects/core-util.tgz}
+    resolution: {integrity: sha512-lR66vzUOf7ap31GfD1cm5aUIJo8HL+kD3rUYZdjr3x8cuiH1iMCYVhJK8hesmqCP7fqll/aIFj06qbObHRrnhQ==, tarball: file:projects/core-util.tgz}
     version: 0.0.0
 
   '@rush-temp/core-xml@file:projects/core-xml.tgz':
@@ -11075,7 +11075,7 @@ snapshots:
       dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.8.3
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
