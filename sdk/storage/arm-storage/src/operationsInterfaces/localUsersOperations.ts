@@ -26,8 +26,7 @@ import {
 export interface LocalUsersOperations {
   /**
    * List the local users associated with the storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -40,8 +39,7 @@ export interface LocalUsersOperations {
   ): PagedAsyncIterableIterator<LocalUser>;
   /**
    * Get the local user of the storage account by username.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -58,8 +56,7 @@ export interface LocalUsersOperations {
   /**
    * Create or update the properties of a local user associated with the storage account. Properties for
    * NFSv3 enablement and extended groups cannot be set with other properties.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -77,8 +74,7 @@ export interface LocalUsersOperations {
   ): Promise<LocalUsersCreateOrUpdateResponse>;
   /**
    * Deletes the local user associated with the specified storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -94,8 +90,7 @@ export interface LocalUsersOperations {
   ): Promise<void>;
   /**
    * List SSH authorized keys and shared key of the local user.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -111,8 +106,7 @@ export interface LocalUsersOperations {
   ): Promise<LocalUsersListKeysResponse>;
   /**
    * Regenerate the local user SSH password.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.

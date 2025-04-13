@@ -18,12 +18,12 @@ import {
   EncryptionScopesListNextOptionalParams,
   EncryptionScopesListOptionalParams,
   EncryptionScopesListResponse,
+  EncryptionScopesGetOptionalParams,
+  EncryptionScopesGetResponse,
   EncryptionScopesPutOptionalParams,
   EncryptionScopesPutResponse,
   EncryptionScopesPatchOptionalParams,
   EncryptionScopesPatchResponse,
-  EncryptionScopesGetOptionalParams,
-  EncryptionScopesGetResponse,
   EncryptionScopesListNextResponse,
 } from "../models/index.js";
 
@@ -42,8 +42,7 @@ export class EncryptionScopesImpl implements EncryptionScopes {
 
   /**
    * Lists all the encryption scopes available under the specified storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -120,11 +119,53 @@ export class EncryptionScopesImpl implements EncryptionScopes {
   }
 
   /**
+   * Lists all the encryption scopes available under the specified storage account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: EncryptionScopesListOptionalParams,
+  ): Promise<EncryptionScopesListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
+   * Returns the properties for the specified encryption scope.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param encryptionScopeName The name of the encryption scope within the specified storage account.
+   *                            Encryption scope names must be between 3 and 63 characters in length and use numbers, lower-case
+   *                            letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by a
+   *                            letter or number.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    encryptionScopeName: string,
+    options?: EncryptionScopesGetOptionalParams,
+  ): Promise<EncryptionScopesGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, encryptionScopeName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
    * Synchronously creates or updates an encryption scope under the specified storage account. If an
    * encryption scope is already created and a subsequent request is issued with different properties,
    * the encryption scope properties will be updated per the specified request.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -157,8 +198,7 @@ export class EncryptionScopesImpl implements EncryptionScopes {
   /**
    * Update encryption scope properties as specified in the request body. Update fails if the specified
    * encryption scope does not already exist.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -189,54 +229,8 @@ export class EncryptionScopesImpl implements EncryptionScopes {
   }
 
   /**
-   * Returns the properties for the specified encryption scope.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param encryptionScopeName The name of the encryption scope within the specified storage account.
-   *                            Encryption scope names must be between 3 and 63 characters in length and use numbers, lower-case
-   *                            letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by a
-   *                            letter or number.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    accountName: string,
-    encryptionScopeName: string,
-    options?: EncryptionScopesGetOptionalParams,
-  ): Promise<EncryptionScopesGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, encryptionScopeName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * Lists all the encryption scopes available under the specified storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    accountName: string,
-    options?: EncryptionScopesListOptionalParams,
-  ): Promise<EncryptionScopesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, options },
-      listOperationSpec,
-    );
-  }
-
-  /**
    * ListNext
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -258,6 +252,54 @@ export class EncryptionScopesImpl implements EncryptionScopes {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.EncryptionScopeListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.maxpagesize1,
+    Parameters.include1,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes/{encryptionScopeName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.EncryptionScope,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
+    Parameters.encryptionScopeName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const putOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes/{encryptionScopeName}",
   httpMethod: "PUT",
@@ -276,9 +318,9 @@ const putOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.encryptionScopeName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -300,58 +342,13 @@ const patchOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.encryptionScopeName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes/{encryptionScopeName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.EncryptionScope,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
-    Parameters.encryptionScopeName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.EncryptionScopeListResult,
-    },
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.maxpagesize2,
-    Parameters.include3,
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept],
   serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -361,13 +358,16 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.EncryptionScopeListResult,
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,

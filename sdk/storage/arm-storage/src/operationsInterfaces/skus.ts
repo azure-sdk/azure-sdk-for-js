@@ -6,17 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SkuInformation, SkusListOptionalParams } from "../models/index.js";
+import { SkusListOptionalParams, SkusListResponse } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a Skus. */
 export interface Skus {
   /**
    * Lists the available SKUs supported by Microsoft.Storage for given subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: SkusListOptionalParams,
-  ): PagedAsyncIterableIterator<SkuInformation>;
+  list(options?: SkusListOptionalParams): Promise<SkusListResponse>;
 }

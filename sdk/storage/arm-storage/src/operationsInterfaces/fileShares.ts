@@ -10,18 +10,18 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   FileShareItem,
   FileSharesListOptionalParams,
+  FileSharesGetOptionalParams,
+  FileSharesGetResponse,
   FileShare,
   FileSharesCreateOptionalParams,
   FileSharesCreateResponse,
   FileSharesUpdateOptionalParams,
   FileSharesUpdateResponse,
-  FileSharesGetOptionalParams,
-  FileSharesGetResponse,
   FileSharesDeleteOptionalParams,
-  DeletedShare,
-  FileSharesRestoreOptionalParams,
   FileSharesLeaseOptionalParams,
   FileSharesLeaseResponse,
+  DeletedShare,
+  FileSharesRestoreOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,8 +29,7 @@ import {
 export interface FileShares {
   /**
    * Lists all shares.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -42,11 +41,27 @@ export interface FileShares {
     options?: FileSharesListOptionalParams,
   ): PagedAsyncIterableIterator<FileShareItem>;
   /**
+   * Gets properties of a specified share.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param shareName The name of the file share within the specified storage account. File share names
+   *                  must be between 3 and 63 characters in length and use numbers, lower-case letters and dash (-) only.
+   *                  Every dash (-) character must be immediately preceded and followed by a letter or number.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    shareName: string,
+    options?: FileSharesGetOptionalParams,
+  ): Promise<FileSharesGetResponse>;
+  /**
    * Creates a new share under the specified account as described by request body. The share resource
    * includes metadata and properties for that share. It does not include a list of the files contained
    * by the share.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -66,8 +81,7 @@ export interface FileShares {
   /**
    * Updates share properties as specified in request body. Properties not mentioned in the request will
    * not be changed. Update fails if the specified share does not already exist.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -85,27 +99,8 @@ export interface FileShares {
     options?: FileSharesUpdateOptionalParams,
   ): Promise<FileSharesUpdateResponse>;
   /**
-   * Gets properties of a specified share.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param shareName The name of the file share within the specified storage account. File share names
-   *                  must be between 3 and 63 characters in length and use numbers, lower-case letters and dash (-) only.
-   *                  Every dash (-) character must be immediately preceded and followed by a letter or number.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    accountName: string,
-    shareName: string,
-    options?: FileSharesGetOptionalParams,
-  ): Promise<FileSharesGetResponse>;
-  /**
    * Deletes specified share under its account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -121,9 +116,26 @@ export interface FileShares {
     options?: FileSharesDeleteOptionalParams,
   ): Promise<void>;
   /**
+   * The Lease Share operation establishes and manages a lock on a share for delete operations. The lock
+   * duration can be 15 to 60 seconds, or can be infinite.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param shareName The name of the file share within the specified storage account. File share names
+   *                  must be between 3 and 63 characters in length and use numbers, lower-case letters and dash (-) only.
+   *                  Every dash (-) character must be immediately preceded and followed by a letter or number.
+   * @param options The options parameters.
+   */
+  lease(
+    resourceGroupName: string,
+    accountName: string,
+    shareName: string,
+    options?: FileSharesLeaseOptionalParams,
+  ): Promise<FileSharesLeaseResponse>;
+  /**
    * Restore a file share within a valid retention days if share soft delete is enabled
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -140,23 +152,4 @@ export interface FileShares {
     deletedShare: DeletedShare,
     options?: FileSharesRestoreOptionalParams,
   ): Promise<void>;
-  /**
-   * The Lease Share operation establishes and manages a lock on a share for delete operations. The lock
-   * duration can be 15 to 60 seconds, or can be infinite.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param shareName The name of the file share within the specified storage account. File share names
-   *                  must be between 3 and 63 characters in length and use numbers, lower-case letters and dash (-) only.
-   *                  Every dash (-) character must be immediately preceded and followed by a letter or number.
-   * @param options The options parameters.
-   */
-  lease(
-    resourceGroupName: string,
-    accountName: string,
-    shareName: string,
-    options?: FileSharesLeaseOptionalParams,
-  ): Promise<FileSharesLeaseResponse>;
 }

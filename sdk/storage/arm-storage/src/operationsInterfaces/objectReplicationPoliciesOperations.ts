@@ -6,24 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  ObjectReplicationPolicy,
   ObjectReplicationPoliciesListOptionalParams,
+  ObjectReplicationPoliciesListResponse,
   ObjectReplicationPoliciesGetOptionalParams,
   ObjectReplicationPoliciesGetResponse,
+  ObjectReplicationPolicy,
   ObjectReplicationPoliciesCreateOrUpdateOptionalParams,
   ObjectReplicationPoliciesCreateOrUpdateResponse,
   ObjectReplicationPoliciesDeleteOptionalParams,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a ObjectReplicationPoliciesOperations. */
 export interface ObjectReplicationPoliciesOperations {
   /**
    * List the object replication policies associated with the storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -33,11 +31,10 @@ export interface ObjectReplicationPoliciesOperations {
     resourceGroupName: string,
     accountName: string,
     options?: ObjectReplicationPoliciesListOptionalParams,
-  ): PagedAsyncIterableIterator<ObjectReplicationPolicy>;
+  ): Promise<ObjectReplicationPoliciesListResponse>;
   /**
    * Get the object replication policy of the storage account by policy ID.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -55,8 +52,7 @@ export interface ObjectReplicationPoliciesOperations {
   ): Promise<ObjectReplicationPoliciesGetResponse>;
   /**
    * Create or update the object replication policy of the storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -77,8 +73,7 @@ export interface ObjectReplicationPoliciesOperations {
   ): Promise<ObjectReplicationPoliciesCreateOrUpdateResponse>;
   /**
    * Deletes the object replication policy associated with the specified storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.

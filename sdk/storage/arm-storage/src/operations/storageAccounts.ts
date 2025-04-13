@@ -28,40 +28,40 @@ import {
   StorageAccountsListByResourceGroupOptionalParams,
   StorageAccountsListByResourceGroupResponse,
   StorageAccountCheckNameAvailabilityParameters,
-  StorageAccountsCheckNameAvailabilityOptionalParams,
-  StorageAccountsCheckNameAvailabilityResponse,
+  StorageAccountsCheckStorageAccountNameAvailabilityOptionalParams,
+  StorageAccountsCheckStorageAccountNameAvailabilityResponse,
+  StorageAccountsGetPropertiesOptionalParams,
+  StorageAccountsGetPropertiesResponse,
   StorageAccountCreateParameters,
   StorageAccountsCreateOptionalParams,
   StorageAccountsCreateResponse,
-  StorageAccountsDeleteOptionalParams,
-  StorageAccountsGetPropertiesOptionalParams,
-  StorageAccountsGetPropertiesResponse,
   StorageAccountUpdateParameters,
   StorageAccountsUpdateOptionalParams,
   StorageAccountsUpdateResponse,
-  StorageAccountsListKeysOptionalParams,
-  StorageAccountsListKeysResponse,
-  StorageAccountRegenerateKeyParameters,
-  StorageAccountsRegenerateKeyOptionalParams,
-  StorageAccountsRegenerateKeyResponse,
-  AccountSasParameters,
-  StorageAccountsListAccountSASOptionalParams,
-  StorageAccountsListAccountSASResponse,
-  ServiceSasParameters,
-  StorageAccountsListServiceSASOptionalParams,
-  StorageAccountsListServiceSASResponse,
-  StorageAccountsFailoverOptionalParams,
-  StorageAccountsHierarchicalNamespaceMigrationOptionalParams,
+  StorageAccountsDeleteOptionalParams,
   StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams,
-  StorageAccountMigration,
-  StorageAccountsCustomerInitiatedMigrationOptionalParams,
   MigrationName,
   StorageAccountsGetCustomerInitiatedMigrationOptionalParams,
   StorageAccountsGetCustomerInitiatedMigrationResponse,
+  StorageAccountsFailoverOptionalParams,
+  StorageAccountsHierarchicalNamespaceMigrationOptionalParams,
+  AccountSasParameters,
+  StorageAccountsListAccountSASOptionalParams,
+  StorageAccountsListAccountSASResponse,
+  StorageAccountsListKeysOptionalParams,
+  StorageAccountsListKeysResponse,
+  ServiceSasParameters,
+  StorageAccountsListServiceSASOptionalParams,
+  StorageAccountsListServiceSASResponse,
+  StorageAccountRegenerateKeyParameters,
+  StorageAccountsRegenerateKeyOptionalParams,
+  StorageAccountsRegenerateKeyResponse,
   BlobRestoreParameters,
   StorageAccountsRestoreBlobRangesOptionalParams,
   StorageAccountsRestoreBlobRangesResponse,
   StorageAccountsRevokeUserDelegationKeysOptionalParams,
+  StorageAccountMigration,
+  StorageAccountsCustomerInitiatedMigrationOptionalParams,
   StorageAccountsListNextResponse,
   StorageAccountsListByResourceGroupNextResponse,
 } from "../models/index.js";
@@ -137,8 +137,7 @@ export class StorageAccountsImpl implements StorageAccounts {
   /**
    * Lists all the storage accounts available under the given resource group. Note that storage keys are
    * not returned; use the ListKeys operation for this.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -212,13 +211,60 @@ export class StorageAccountsImpl implements StorageAccounts {
    *                    only.
    * @param options The options parameters.
    */
-  checkNameAvailability(
+  checkStorageAccountNameAvailability(
     accountName: StorageAccountCheckNameAvailabilityParameters,
-    options?: StorageAccountsCheckNameAvailabilityOptionalParams,
-  ): Promise<StorageAccountsCheckNameAvailabilityResponse> {
+    options?: StorageAccountsCheckStorageAccountNameAvailabilityOptionalParams,
+  ): Promise<StorageAccountsCheckStorageAccountNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { accountName, options },
-      checkNameAvailabilityOperationSpec,
+      checkStorageAccountNameAvailabilityOperationSpec,
+    );
+  }
+
+  /**
+   * Lists all the storage accounts available under the subscription. Note that storage keys are not
+   * returned; use the ListKeys operation for this.
+   * @param options The options parameters.
+   */
+  private _list(
+    options?: StorageAccountsListOptionalParams,
+  ): Promise<StorageAccountsListResponse> {
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
+  }
+
+  /**
+   * Lists all the storage accounts available under the given resource group. Note that storage keys are
+   * not returned; use the ListKeys operation for this.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: StorageAccountsListByResourceGroupOptionalParams,
+  ): Promise<StorageAccountsListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
+    );
+  }
+
+  /**
+   * Returns the properties for the specified storage account including but not limited to name, SKU
+   * name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param options The options parameters.
+   */
+  getProperties(
+    resourceGroupName: string,
+    accountName: string,
+    options?: StorageAccountsGetPropertiesOptionalParams,
+  ): Promise<StorageAccountsGetPropertiesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, options },
+      getPropertiesOperationSpec,
     );
   }
 
@@ -227,8 +273,7 @@ export class StorageAccountsImpl implements StorageAccounts {
    * created and a subsequent create request is issued with different properties, the account properties
    * will be updated. If an account is already created and a subsequent create or update request is
    * issued with the exact same set of properties, the request will succeed.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -295,6 +340,7 @@ export class StorageAccountsImpl implements StorageAccounts {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -305,8 +351,7 @@ export class StorageAccountsImpl implements StorageAccounts {
    * created and a subsequent create request is issued with different properties, the account properties
    * will be updated. If an account is already created and a subsequent create or update request is
    * issued with the exact same set of properties, the request will succeed.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -329,47 +374,6 @@ export class StorageAccountsImpl implements StorageAccounts {
   }
 
   /**
-   * Deletes a storage account in Microsoft Azure.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    accountName: string,
-    options?: StorageAccountsDeleteOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, options },
-      deleteOperationSpec,
-    );
-  }
-
-  /**
-   * Returns the properties for the specified storage account including but not limited to name, SKU
-   * name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param options The options parameters.
-   */
-  getProperties(
-    resourceGroupName: string,
-    accountName: string,
-    options?: StorageAccountsGetPropertiesOptionalParams,
-  ): Promise<StorageAccountsGetPropertiesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, options },
-      getPropertiesOperationSpec,
-    );
-  }
-
-  /**
    * The update operation can be used to update the SKU, encryption, access tier, or tags for a storage
    * account. It can also be used to map the account to a custom domain. Only one custom domain is
    * supported per storage account; the replacement/change of custom domain is not supported. In order to
@@ -377,8 +381,7 @@ export class StorageAccountsImpl implements StorageAccounts {
    * set. The update of multiple properties is supported. This call does not change the storage keys for
    * the account. If you want to change the storage account keys, use the regenerate keys operation. The
    * location and name of the storage account cannot be changed after creation.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -398,118 +401,128 @@ export class StorageAccountsImpl implements StorageAccounts {
   }
 
   /**
-   * Lists all the storage accounts available under the subscription. Note that storage keys are not
-   * returned; use the ListKeys operation for this.
-   * @param options The options parameters.
-   */
-  private _list(
-    options?: StorageAccountsListOptionalParams,
-  ): Promise<StorageAccountsListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
-  }
-
-  /**
-   * Lists all the storage accounts available under the given resource group. Note that storage keys are
-   * not returned; use the ListKeys operation for this.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: StorageAccountsListByResourceGroupOptionalParams,
-  ): Promise<StorageAccountsListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec,
-    );
-  }
-
-  /**
-   * Lists the access keys or Kerberos keys (if active directory enabled) for the specified storage
-   * account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * Deletes a storage account in Microsoft Azure.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
    * @param options The options parameters.
    */
-  listKeys(
+  delete(
     resourceGroupName: string,
     accountName: string,
-    options?: StorageAccountsListKeysOptionalParams,
-  ): Promise<StorageAccountsListKeysResponse> {
+    options?: StorageAccountsDeleteOptionalParams,
+  ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listKeysOperationSpec,
+      deleteOperationSpec,
     );
   }
 
   /**
-   * Regenerates one of the access keys or Kerberos keys for the specified storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * Abort live Migration of storage account to enable Hns
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
-   * @param regenerateKey Specifies name of the key which should be regenerated -- key1, key2, kerb1,
-   *                      kerb2.
    * @param options The options parameters.
    */
-  regenerateKey(
+  async beginAbortHierarchicalNamespaceMigration(
     resourceGroupName: string,
     accountName: string,
-    regenerateKey: StorageAccountRegenerateKeyParameters,
-    options?: StorageAccountsRegenerateKeyOptionalParams,
-  ): Promise<StorageAccountsRegenerateKeyResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, regenerateKey, options },
-      regenerateKeyOperationSpec,
-    );
+    options?: StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, options },
+      spec: abortHierarchicalNamespaceMigrationOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * List SAS credentials of a storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * Abort live Migration of storage account to enable Hns
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
-   * @param parameters The parameters to provide to list SAS credentials for the storage account.
    * @param options The options parameters.
    */
-  listAccountSAS(
+  async beginAbortHierarchicalNamespaceMigrationAndWait(
     resourceGroupName: string,
     accountName: string,
-    parameters: AccountSasParameters,
-    options?: StorageAccountsListAccountSASOptionalParams,
-  ): Promise<StorageAccountsListAccountSASResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, parameters, options },
-      listAccountSASOperationSpec,
+    options?: StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginAbortHierarchicalNamespaceMigration(
+      resourceGroupName,
+      accountName,
+      options,
     );
+    return poller.pollUntilDone();
   }
 
   /**
-   * List service SAS credentials of a specific resource.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * Gets the status of the ongoing migration for the specified storage account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
-   * @param parameters The parameters to provide to list service SAS credentials.
+   * @param migrationName The name of the Storage Account Migration. It should always be 'default'
    * @param options The options parameters.
    */
-  listServiceSAS(
+  getCustomerInitiatedMigration(
     resourceGroupName: string,
     accountName: string,
-    parameters: ServiceSasParameters,
-    options?: StorageAccountsListServiceSASOptionalParams,
-  ): Promise<StorageAccountsListServiceSASResponse> {
+    migrationName: MigrationName,
+    options?: StorageAccountsGetCustomerInitiatedMigrationOptionalParams,
+  ): Promise<StorageAccountsGetCustomerInitiatedMigrationResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, parameters, options },
-      listServiceSASOperationSpec,
+      { resourceGroupName, accountName, migrationName, options },
+      getCustomerInitiatedMigrationOperationSpec,
     );
   }
 
@@ -524,8 +537,7 @@ export class StorageAccountsImpl implements StorageAccounts {
    * disaster recovery testing drills. This type of failover is invoked by setting FailoverType parameter
    * to 'Planned'. Learn more about the failover options here-
    * https://learn.microsoft.com/en-us/azure/storage/common/storage-disaster-recovery-guidance
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -599,8 +611,7 @@ export class StorageAccountsImpl implements StorageAccounts {
    * disaster recovery testing drills. This type of failover is invoked by setting FailoverType parameter
    * to 'Planned'. Learn more about the failover options here-
    * https://learn.microsoft.com/en-us/azure/storage/common/storage-disaster-recovery-guidance
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -621,8 +632,7 @@ export class StorageAccountsImpl implements StorageAccounts {
 
   /**
    * Live Migration of storage account to enable Hns
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -692,8 +702,7 @@ export class StorageAccountsImpl implements StorageAccounts {
 
   /**
    * Live Migration of storage account to enable Hns
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -719,218 +728,92 @@ export class StorageAccountsImpl implements StorageAccounts {
   }
 
   /**
-   * Abort live Migration of storage account to enable Hns
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * List SAS credentials of a storage account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
+   * @param parameters The parameters to provide to list SAS credentials for the storage account.
    * @param options The options parameters.
    */
-  async beginAbortHierarchicalNamespaceMigration(
+  listAccountSAS(
     resourceGroupName: string,
     accountName: string,
-    options?: StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, accountName, options },
-      spec: abortHierarchicalNamespaceMigrationOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Abort live Migration of storage account to enable Hns
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param options The options parameters.
-   */
-  async beginAbortHierarchicalNamespaceMigrationAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    options?: StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginAbortHierarchicalNamespaceMigration(
-      resourceGroupName,
-      accountName,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Account Migration request can be triggered for a storage account to change its redundancy level. The
-   * migration updates the non-zonal redundant storage account to a zonal redundant account or vice-versa
-   * in order to have better reliability and availability. Zone-redundant storage (ZRS) replicates your
-   * storage account synchronously across three Azure availability zones in the primary region.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param parameters The request parameters required to perform storage account migration.
-   * @param options The options parameters.
-   */
-  async beginCustomerInitiatedMigration(
-    resourceGroupName: string,
-    accountName: string,
-    parameters: StorageAccountMigration,
-    options?: StorageAccountsCustomerInitiatedMigrationOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, accountName, parameters, options },
-      spec: customerInitiatedMigrationOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Account Migration request can be triggered for a storage account to change its redundancy level. The
-   * migration updates the non-zonal redundant storage account to a zonal redundant account or vice-versa
-   * in order to have better reliability and availability. Zone-redundant storage (ZRS) replicates your
-   * storage account synchronously across three Azure availability zones in the primary region.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param parameters The request parameters required to perform storage account migration.
-   * @param options The options parameters.
-   */
-  async beginCustomerInitiatedMigrationAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    parameters: StorageAccountMigration,
-    options?: StorageAccountsCustomerInitiatedMigrationOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginCustomerInitiatedMigration(
-      resourceGroupName,
-      accountName,
-      parameters,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Gets the status of the ongoing migration for the specified storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param migrationName The name of the Storage Account Migration. It should always be 'default'
-   * @param options The options parameters.
-   */
-  getCustomerInitiatedMigration(
-    resourceGroupName: string,
-    accountName: string,
-    migrationName: MigrationName,
-    options?: StorageAccountsGetCustomerInitiatedMigrationOptionalParams,
-  ): Promise<StorageAccountsGetCustomerInitiatedMigrationResponse> {
+    parameters: AccountSasParameters,
+    options?: StorageAccountsListAccountSASOptionalParams,
+  ): Promise<StorageAccountsListAccountSASResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, migrationName, options },
-      getCustomerInitiatedMigrationOperationSpec,
+      { resourceGroupName, accountName, parameters, options },
+      listAccountSASOperationSpec,
+    );
+  }
+
+  /**
+   * Lists the access keys or Kerberos keys (if active directory enabled) for the specified storage
+   * account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param options The options parameters.
+   */
+  listKeys(
+    resourceGroupName: string,
+    accountName: string,
+    options?: StorageAccountsListKeysOptionalParams,
+  ): Promise<StorageAccountsListKeysResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, options },
+      listKeysOperationSpec,
+    );
+  }
+
+  /**
+   * List service SAS credentials of a specific resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param parameters The parameters to provide to list service SAS credentials.
+   * @param options The options parameters.
+   */
+  listServiceSAS(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: ServiceSasParameters,
+    options?: StorageAccountsListServiceSASOptionalParams,
+  ): Promise<StorageAccountsListServiceSASResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, parameters, options },
+      listServiceSASOperationSpec,
+    );
+  }
+
+  /**
+   * Regenerates one of the access keys or Kerberos keys for the specified storage account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param regenerateKey Specifies name of the key which should be regenerated -- key1, key2, kerb1,
+   *                      kerb2.
+   * @param options The options parameters.
+   */
+  regenerateKey(
+    resourceGroupName: string,
+    accountName: string,
+    regenerateKey: StorageAccountRegenerateKeyParameters,
+    options?: StorageAccountsRegenerateKeyOptionalParams,
+  ): Promise<StorageAccountsRegenerateKeyResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, regenerateKey, options },
+      regenerateKeyOperationSpec,
     );
   }
 
   /**
    * Restore blobs in the specified blob ranges
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -1005,8 +888,7 @@ export class StorageAccountsImpl implements StorageAccounts {
 
   /**
    * Restore blobs in the specified blob ranges
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -1030,8 +912,7 @@ export class StorageAccountsImpl implements StorageAccounts {
 
   /**
    * Revoke user delegation keys.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -1046,6 +927,103 @@ export class StorageAccountsImpl implements StorageAccounts {
       { resourceGroupName, accountName, options },
       revokeUserDelegationKeysOperationSpec,
     );
+  }
+
+  /**
+   * Account Migration request can be triggered for a storage account to change its redundancy level. The
+   * migration updates the non-zonal redundant storage account to a zonal redundant account or vice-versa
+   * in order to have better reliability and availability. Zone-redundant storage (ZRS) replicates your
+   * storage account synchronously across three Azure availability zones in the primary region.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param parameters The request parameters required to perform storage account migration.
+   * @param options The options parameters.
+   */
+  async beginCustomerInitiatedMigration(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: StorageAccountMigration,
+    options?: StorageAccountsCustomerInitiatedMigrationOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, parameters, options },
+      spec: customerInitiatedMigrationOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Account Migration request can be triggered for a storage account to change its redundancy level. The
+   * migration updates the non-zonal redundant storage account to a zonal redundant account or vice-versa
+   * in order to have better reliability and availability. Zone-redundant storage (ZRS) replicates your
+   * storage account synchronously across three Azure availability zones in the primary region.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param parameters The request parameters required to perform storage account migration.
+   * @param options The options parameters.
+   */
+  async beginCustomerInitiatedMigrationAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: StorageAccountMigration,
+    options?: StorageAccountsCustomerInitiatedMigrationOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginCustomerInitiatedMigration(
+      resourceGroupName,
+      accountName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -1065,8 +1043,7 @@ export class StorageAccountsImpl implements StorageAccounts {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
@@ -1084,19 +1061,80 @@ export class StorageAccountsImpl implements StorageAccounts {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/checkNameAvailability",
-  httpMethod: "POST",
+const checkStorageAccountNameAvailabilityOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/checkNameAvailability",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.CheckNameAvailabilityResult,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
+    },
+    requestBody: Parameters.accountName,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [Parameters.$host, Parameters.subscriptionId],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/storageAccounts",
+  httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityResult,
+      bodyMapper: Mappers.StorageAccountListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.accountName1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StorageAccountListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getPropertiesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StorageAccount,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
+  ],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
@@ -1115,48 +1153,20 @@ const createOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.StorageAccount,
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
-  httpMethod: "DELETE",
-  responses: { 200: {}, 204: {} },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
-  ],
-  serializer,
-};
-const getPropertiesOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.StorageAccount,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept],
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
@@ -1166,165 +1176,45 @@ const updateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.StorageAccount,
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/storageAccounts",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.StorageAccountListResult,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.StorageAccountListResult,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listKeysOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/listKeys",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.StorageAccountListKeysResult,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const regenerateKeyOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/regenerateKey",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.StorageAccountListKeysResult,
-    },
-  },
-  requestBody: Parameters.regenerateKey,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const listAccountSASOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/ListAccountSas",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ListAccountSasResponse,
-    },
-  },
-  requestBody: Parameters.parameters8,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const listServiceSASOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/ListServiceSas",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ListServiceSasResponse,
-    },
-  },
-  requestBody: Parameters.parameters9,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const failoverOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/failover",
-  httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
-  queryParameters: [Parameters.apiVersion, Parameters.failoverType],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
-  ],
-  serializer,
-};
-const hierarchicalNamespaceMigrationOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/hnsonmigration",
-  httpMethod: "POST",
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
+  httpMethod: "DELETE",
   responses: {
     200: {},
-    201: {},
-    202: {},
     204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.requestType],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const abortHierarchicalNamespaceMigrationOperationSpec: coreClient.OperationSpec =
   {
-    path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/aborthnsonmigration",
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/aborthnsonmigration",
     httpMethod: "POST",
     responses: {
       200: {},
@@ -1338,37 +1228,13 @@ const abortHierarchicalNamespaceMigrationOperationSpec: coreClient.OperationSpec
     queryParameters: [Parameters.apiVersion],
     urlParameters: [
       Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.accountName,
       Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.accountName1,
     ],
     headerParameters: [Parameters.accept],
     serializer,
   };
-const customerInitiatedMigrationOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/startAccountMigration",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated,
-    },
-  },
-  requestBody: Parameters.parameters10,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
 const getCustomerInitiatedMigrationOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/accountMigrations/{migrationName}",
   httpMethod: "GET",
@@ -1377,18 +1243,152 @@ const getCustomerInitiatedMigrationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.StorageAccountMigration,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.migrationName,
   ],
   headerParameters: [Parameters.accept],
+  serializer,
+};
+const failoverOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/failover",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.failoverType],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const hierarchicalNamespaceMigrationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/hnsonmigration",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.requestType],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listAccountSASOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/listAccountSas",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListAccountSasResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const listKeysOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/listKeys",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StorageAccountListKeysResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.expand1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listServiceSASOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/listServiceSas",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListServiceSasResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters3,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const regenerateKeyOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/regenerateKey",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StorageAccountListKeysResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.regenerateKey,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };
 const restoreBlobRangesOperationSpec: coreClient.OperationSpec = {
@@ -1407,14 +1407,17 @@ const restoreBlobRangesOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.BlobRestoreStatus,
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters11,
+  requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -1423,14 +1426,44 @@ const restoreBlobRangesOperationSpec: coreClient.OperationSpec = {
 const revokeUserDelegationKeysOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/revokeUserDelegationKeys",
   httpMethod: "POST",
-  responses: { 200: {} },
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.accountName2,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
   ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const customerInitiatedMigrationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/startAccountMigration",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters5,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -1440,11 +1473,14 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.StorageAccountListResult,
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1456,12 +1492,15 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.StorageAccountListResult,
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

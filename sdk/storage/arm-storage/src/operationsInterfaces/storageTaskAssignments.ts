@@ -11,13 +11,13 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   StorageTaskAssignment,
   StorageTaskAssignmentsListOptionalParams,
+  StorageTaskAssignmentsGetOptionalParams,
+  StorageTaskAssignmentsGetResponse,
   StorageTaskAssignmentsCreateOptionalParams,
   StorageTaskAssignmentsCreateResponse,
   StorageTaskAssignmentUpdateParameters,
   StorageTaskAssignmentsUpdateOptionalParams,
   StorageTaskAssignmentsUpdateResponse,
-  StorageTaskAssignmentsGetOptionalParams,
-  StorageTaskAssignmentsGetResponse,
   StorageTaskAssignmentsDeleteOptionalParams,
   StorageTaskAssignmentsDeleteResponse,
 } from "../models/index.js";
@@ -38,6 +38,23 @@ export interface StorageTaskAssignments {
     accountName: string,
     options?: StorageTaskAssignmentsListOptionalParams,
   ): PagedAsyncIterableIterator<StorageTaskAssignment>;
+  /**
+   * Get the storage task assignment properties
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param storageTaskAssignmentName The name of the storage task assignment within the specified
+   *                                  resource group. Storage task assignment names must be between 3 and 24 characters in length and use
+   *                                  numbers and lower-case letters only.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    storageTaskAssignmentName: string,
+    options?: StorageTaskAssignmentsGetOptionalParams,
+  ): Promise<StorageTaskAssignmentsGetResponse>;
   /**
    * Asynchronously creates a new storage task assignment sub-resource with the specified parameters. If
    * a storage task assignment is already created and a subsequent create request is issued with
@@ -132,23 +149,6 @@ export interface StorageTaskAssignments {
     parameters: StorageTaskAssignmentUpdateParameters,
     options?: StorageTaskAssignmentsUpdateOptionalParams,
   ): Promise<StorageTaskAssignmentsUpdateResponse>;
-  /**
-   * Get the storage task assignment properties
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param storageTaskAssignmentName The name of the storage task assignment within the specified
-   *                                  resource group. Storage task assignment names must be between 3 and 24 characters in length and use
-   *                                  numbers and lower-case letters only.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    accountName: string,
-    storageTaskAssignmentName: string,
-    options?: StorageTaskAssignmentsGetOptionalParams,
-  ): Promise<StorageTaskAssignmentsGetResponse>;
   /**
    * Delete the storage task assignment sub-resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

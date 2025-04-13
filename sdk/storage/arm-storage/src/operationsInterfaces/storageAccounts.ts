@@ -13,40 +13,40 @@ import {
   StorageAccountsListOptionalParams,
   StorageAccountsListByResourceGroupOptionalParams,
   StorageAccountCheckNameAvailabilityParameters,
-  StorageAccountsCheckNameAvailabilityOptionalParams,
-  StorageAccountsCheckNameAvailabilityResponse,
+  StorageAccountsCheckStorageAccountNameAvailabilityOptionalParams,
+  StorageAccountsCheckStorageAccountNameAvailabilityResponse,
+  StorageAccountsGetPropertiesOptionalParams,
+  StorageAccountsGetPropertiesResponse,
   StorageAccountCreateParameters,
   StorageAccountsCreateOptionalParams,
   StorageAccountsCreateResponse,
-  StorageAccountsDeleteOptionalParams,
-  StorageAccountsGetPropertiesOptionalParams,
-  StorageAccountsGetPropertiesResponse,
   StorageAccountUpdateParameters,
   StorageAccountsUpdateOptionalParams,
   StorageAccountsUpdateResponse,
-  StorageAccountsListKeysOptionalParams,
-  StorageAccountsListKeysResponse,
-  StorageAccountRegenerateKeyParameters,
-  StorageAccountsRegenerateKeyOptionalParams,
-  StorageAccountsRegenerateKeyResponse,
-  AccountSasParameters,
-  StorageAccountsListAccountSASOptionalParams,
-  StorageAccountsListAccountSASResponse,
-  ServiceSasParameters,
-  StorageAccountsListServiceSASOptionalParams,
-  StorageAccountsListServiceSASResponse,
-  StorageAccountsFailoverOptionalParams,
-  StorageAccountsHierarchicalNamespaceMigrationOptionalParams,
+  StorageAccountsDeleteOptionalParams,
   StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams,
-  StorageAccountMigration,
-  StorageAccountsCustomerInitiatedMigrationOptionalParams,
   MigrationName,
   StorageAccountsGetCustomerInitiatedMigrationOptionalParams,
   StorageAccountsGetCustomerInitiatedMigrationResponse,
+  StorageAccountsFailoverOptionalParams,
+  StorageAccountsHierarchicalNamespaceMigrationOptionalParams,
+  AccountSasParameters,
+  StorageAccountsListAccountSASOptionalParams,
+  StorageAccountsListAccountSASResponse,
+  StorageAccountsListKeysOptionalParams,
+  StorageAccountsListKeysResponse,
+  ServiceSasParameters,
+  StorageAccountsListServiceSASOptionalParams,
+  StorageAccountsListServiceSASResponse,
+  StorageAccountRegenerateKeyParameters,
+  StorageAccountsRegenerateKeyOptionalParams,
+  StorageAccountsRegenerateKeyResponse,
   BlobRestoreParameters,
   StorageAccountsRestoreBlobRangesOptionalParams,
   StorageAccountsRestoreBlobRangesResponse,
   StorageAccountsRevokeUserDelegationKeysOptionalParams,
+  StorageAccountMigration,
+  StorageAccountsCustomerInitiatedMigrationOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -63,8 +63,7 @@ export interface StorageAccounts {
   /**
    * Lists all the storage accounts available under the given resource group. Note that storage keys are
    * not returned; use the ListKeys operation for this.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
@@ -78,17 +77,30 @@ export interface StorageAccounts {
    *                    only.
    * @param options The options parameters.
    */
-  checkNameAvailability(
+  checkStorageAccountNameAvailability(
     accountName: StorageAccountCheckNameAvailabilityParameters,
-    options?: StorageAccountsCheckNameAvailabilityOptionalParams,
-  ): Promise<StorageAccountsCheckNameAvailabilityResponse>;
+    options?: StorageAccountsCheckStorageAccountNameAvailabilityOptionalParams,
+  ): Promise<StorageAccountsCheckStorageAccountNameAvailabilityResponse>;
+  /**
+   * Returns the properties for the specified storage account including but not limited to name, SKU
+   * name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param options The options parameters.
+   */
+  getProperties(
+    resourceGroupName: string,
+    accountName: string,
+    options?: StorageAccountsGetPropertiesOptionalParams,
+  ): Promise<StorageAccountsGetPropertiesResponse>;
   /**
    * Asynchronously creates a new storage account with the specified parameters. If an account is already
    * created and a subsequent create request is issued with different properties, the account properties
    * will be updated. If an account is already created and a subsequent create or update request is
    * issued with the exact same set of properties, the request will succeed.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -111,8 +123,7 @@ export interface StorageAccounts {
    * created and a subsequent create request is issued with different properties, the account properties
    * will be updated. If an account is already created and a subsequent create or update request is
    * issued with the exact same set of properties, the request will succeed.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -126,35 +137,6 @@ export interface StorageAccounts {
     options?: StorageAccountsCreateOptionalParams,
   ): Promise<StorageAccountsCreateResponse>;
   /**
-   * Deletes a storage account in Microsoft Azure.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    accountName: string,
-    options?: StorageAccountsDeleteOptionalParams,
-  ): Promise<void>;
-  /**
-   * Returns the properties for the specified storage account including but not limited to name, SKU
-   * name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param options The options parameters.
-   */
-  getProperties(
-    resourceGroupName: string,
-    accountName: string,
-    options?: StorageAccountsGetPropertiesOptionalParams,
-  ): Promise<StorageAccountsGetPropertiesResponse>;
-  /**
    * The update operation can be used to update the SKU, encryption, access tier, or tags for a storage
    * account. It can also be used to map the account to a custom domain. Only one custom domain is
    * supported per storage account; the replacement/change of custom domain is not supported. In order to
@@ -162,8 +144,7 @@ export interface StorageAccounts {
    * set. The update of multiple properties is supported. This call does not change the storage keys for
    * the account. If you want to change the storage account keys, use the regenerate keys operation. The
    * location and name of the storage account cannot be changed after creation.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -177,69 +158,59 @@ export interface StorageAccounts {
     options?: StorageAccountsUpdateOptionalParams,
   ): Promise<StorageAccountsUpdateResponse>;
   /**
-   * Lists the access keys or Kerberos keys (if active directory enabled) for the specified storage
-   * account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * Deletes a storage account in Microsoft Azure.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
    * @param options The options parameters.
    */
-  listKeys(
+  delete(
     resourceGroupName: string,
     accountName: string,
-    options?: StorageAccountsListKeysOptionalParams,
-  ): Promise<StorageAccountsListKeysResponse>;
+    options?: StorageAccountsDeleteOptionalParams,
+  ): Promise<void>;
   /**
-   * Regenerates one of the access keys or Kerberos keys for the specified storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * Abort live Migration of storage account to enable Hns
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
-   * @param regenerateKey Specifies name of the key which should be regenerated -- key1, key2, kerb1,
-   *                      kerb2.
    * @param options The options parameters.
    */
-  regenerateKey(
+  beginAbortHierarchicalNamespaceMigration(
     resourceGroupName: string,
     accountName: string,
-    regenerateKey: StorageAccountRegenerateKeyParameters,
-    options?: StorageAccountsRegenerateKeyOptionalParams,
-  ): Promise<StorageAccountsRegenerateKeyResponse>;
+    options?: StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * List SAS credentials of a storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * Abort live Migration of storage account to enable Hns
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
-   * @param parameters The parameters to provide to list SAS credentials for the storage account.
    * @param options The options parameters.
    */
-  listAccountSAS(
+  beginAbortHierarchicalNamespaceMigrationAndWait(
     resourceGroupName: string,
     accountName: string,
-    parameters: AccountSasParameters,
-    options?: StorageAccountsListAccountSASOptionalParams,
-  ): Promise<StorageAccountsListAccountSASResponse>;
+    options?: StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams,
+  ): Promise<void>;
   /**
-   * List service SAS credentials of a specific resource.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * Gets the status of the ongoing migration for the specified storage account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
-   * @param parameters The parameters to provide to list service SAS credentials.
+   * @param migrationName The name of the Storage Account Migration. It should always be 'default'
    * @param options The options parameters.
    */
-  listServiceSAS(
+  getCustomerInitiatedMigration(
     resourceGroupName: string,
     accountName: string,
-    parameters: ServiceSasParameters,
-    options?: StorageAccountsListServiceSASOptionalParams,
-  ): Promise<StorageAccountsListServiceSASResponse>;
+    migrationName: MigrationName,
+    options?: StorageAccountsGetCustomerInitiatedMigrationOptionalParams,
+  ): Promise<StorageAccountsGetCustomerInitiatedMigrationResponse>;
   /**
    * A failover request can be triggered for a storage account in the event a primary endpoint becomes
    * unavailable for any reason. The failover occurs from the storage account's primary cluster to the
@@ -251,8 +222,7 @@ export interface StorageAccounts {
    * disaster recovery testing drills. This type of failover is invoked by setting FailoverType parameter
    * to 'Planned'. Learn more about the failover options here-
    * https://learn.microsoft.com/en-us/azure/storage/common/storage-disaster-recovery-guidance
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -274,8 +244,7 @@ export interface StorageAccounts {
    * disaster recovery testing drills. This type of failover is invoked by setting FailoverType parameter
    * to 'Planned'. Learn more about the failover options here-
    * https://learn.microsoft.com/en-us/azure/storage/common/storage-disaster-recovery-guidance
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -288,8 +257,7 @@ export interface StorageAccounts {
   ): Promise<void>;
   /**
    * Live Migration of storage account to enable Hns
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -307,8 +275,7 @@ export interface StorageAccounts {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Live Migration of storage account to enable Hns
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -325,91 +292,68 @@ export interface StorageAccounts {
     options?: StorageAccountsHierarchicalNamespaceMigrationOptionalParams,
   ): Promise<void>;
   /**
-   * Abort live Migration of storage account to enable Hns
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * List SAS credentials of a storage account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
+   * @param parameters The parameters to provide to list SAS credentials for the storage account.
    * @param options The options parameters.
    */
-  beginAbortHierarchicalNamespaceMigration(
+  listAccountSAS(
     resourceGroupName: string,
     accountName: string,
-    options?: StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    parameters: AccountSasParameters,
+    options?: StorageAccountsListAccountSASOptionalParams,
+  ): Promise<StorageAccountsListAccountSASResponse>;
   /**
-   * Abort live Migration of storage account to enable Hns
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * Lists the access keys or Kerberos keys (if active directory enabled) for the specified storage
+   * account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
    * @param options The options parameters.
    */
-  beginAbortHierarchicalNamespaceMigrationAndWait(
+  listKeys(
     resourceGroupName: string,
     accountName: string,
-    options?: StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams,
-  ): Promise<void>;
+    options?: StorageAccountsListKeysOptionalParams,
+  ): Promise<StorageAccountsListKeysResponse>;
   /**
-   * Account Migration request can be triggered for a storage account to change its redundancy level. The
-   * migration updates the non-zonal redundant storage account to a zonal redundant account or vice-versa
-   * in order to have better reliability and availability. Zone-redundant storage (ZRS) replicates your
-   * storage account synchronously across three Azure availability zones in the primary region.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * List service SAS credentials of a specific resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
-   * @param parameters The request parameters required to perform storage account migration.
+   * @param parameters The parameters to provide to list service SAS credentials.
    * @param options The options parameters.
    */
-  beginCustomerInitiatedMigration(
+  listServiceSAS(
     resourceGroupName: string,
     accountName: string,
-    parameters: StorageAccountMigration,
-    options?: StorageAccountsCustomerInitiatedMigrationOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    parameters: ServiceSasParameters,
+    options?: StorageAccountsListServiceSASOptionalParams,
+  ): Promise<StorageAccountsListServiceSASResponse>;
   /**
-   * Account Migration request can be triggered for a storage account to change its redundancy level. The
-   * migration updates the non-zonal redundant storage account to a zonal redundant account or vice-versa
-   * in order to have better reliability and availability. Zone-redundant storage (ZRS) replicates your
-   * storage account synchronously across three Azure availability zones in the primary region.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * Regenerates one of the access keys or Kerberos keys for the specified storage account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
-   * @param parameters The request parameters required to perform storage account migration.
+   * @param regenerateKey Specifies name of the key which should be regenerated -- key1, key2, kerb1,
+   *                      kerb2.
    * @param options The options parameters.
    */
-  beginCustomerInitiatedMigrationAndWait(
+  regenerateKey(
     resourceGroupName: string,
     accountName: string,
-    parameters: StorageAccountMigration,
-    options?: StorageAccountsCustomerInitiatedMigrationOptionalParams,
-  ): Promise<void>;
-  /**
-   * Gets the status of the ongoing migration for the specified storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param migrationName The name of the Storage Account Migration. It should always be 'default'
-   * @param options The options parameters.
-   */
-  getCustomerInitiatedMigration(
-    resourceGroupName: string,
-    accountName: string,
-    migrationName: MigrationName,
-    options?: StorageAccountsGetCustomerInitiatedMigrationOptionalParams,
-  ): Promise<StorageAccountsGetCustomerInitiatedMigrationResponse>;
+    regenerateKey: StorageAccountRegenerateKeyParameters,
+    options?: StorageAccountsRegenerateKeyOptionalParams,
+  ): Promise<StorageAccountsRegenerateKeyResponse>;
   /**
    * Restore blobs in the specified blob ranges
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -429,8 +373,7 @@ export interface StorageAccounts {
   >;
   /**
    * Restore blobs in the specified blob ranges
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -445,8 +388,7 @@ export interface StorageAccounts {
   ): Promise<StorageAccountsRestoreBlobRangesResponse>;
   /**
    * Revoke user delegation keys.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -456,5 +398,41 @@ export interface StorageAccounts {
     resourceGroupName: string,
     accountName: string,
     options?: StorageAccountsRevokeUserDelegationKeysOptionalParams,
+  ): Promise<void>;
+  /**
+   * Account Migration request can be triggered for a storage account to change its redundancy level. The
+   * migration updates the non-zonal redundant storage account to a zonal redundant account or vice-versa
+   * in order to have better reliability and availability. Zone-redundant storage (ZRS) replicates your
+   * storage account synchronously across three Azure availability zones in the primary region.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param parameters The request parameters required to perform storage account migration.
+   * @param options The options parameters.
+   */
+  beginCustomerInitiatedMigration(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: StorageAccountMigration,
+    options?: StorageAccountsCustomerInitiatedMigrationOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Account Migration request can be triggered for a storage account to change its redundancy level. The
+   * migration updates the non-zonal redundant storage account to a zonal redundant account or vice-versa
+   * in order to have better reliability and availability. Zone-redundant storage (ZRS) replicates your
+   * storage account synchronously across three Azure availability zones in the primary region.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param parameters The request parameters required to perform storage account migration.
+   * @param options The options parameters.
+   */
+  beginCustomerInitiatedMigrationAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: StorageAccountMigration,
+    options?: StorageAccountsCustomerInitiatedMigrationOptionalParams,
   ): Promise<void>;
 }
