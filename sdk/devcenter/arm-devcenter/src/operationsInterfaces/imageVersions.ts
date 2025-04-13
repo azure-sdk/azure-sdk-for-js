@@ -10,8 +10,11 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ImageVersion,
   ImageVersionsListByImageOptionalParams,
+  ImageVersionsListByProjectOptionalParams,
   ImageVersionsGetOptionalParams,
   ImageVersionsGetResponse,
+  ImageVersionsGetByProjectOptionalParams,
+  ImageVersionsGetByProjectResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,6 +36,19 @@ export interface ImageVersions {
     options?: ImageVersionsListByImageOptionalParams,
   ): PagedAsyncIterableIterator<ImageVersion>;
   /**
+   * Lists versions for an image.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param imageName The name of the image.
+   * @param options The options parameters.
+   */
+  listByProject(
+    resourceGroupName: string,
+    projectName: string,
+    imageName: string,
+    options?: ImageVersionsListByProjectOptionalParams,
+  ): PagedAsyncIterableIterator<ImageVersion>;
+  /**
    * Gets an image version.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
@@ -49,4 +65,19 @@ export interface ImageVersions {
     versionName: string,
     options?: ImageVersionsGetOptionalParams,
   ): Promise<ImageVersionsGetResponse>;
+  /**
+   * Gets an image version.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param imageName The name of the image.
+   * @param versionName The version of the image.
+   * @param options The options parameters.
+   */
+  getByProject(
+    resourceGroupName: string,
+    projectName: string,
+    imageName: string,
+    versionName: string,
+    options?: ImageVersionsGetByProjectOptionalParams,
+  ): Promise<ImageVersionsGetByProjectResponse>;
 }
