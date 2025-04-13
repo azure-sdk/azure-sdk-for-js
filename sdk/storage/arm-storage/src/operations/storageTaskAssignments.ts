@@ -24,13 +24,13 @@ import {
   StorageTaskAssignmentsListNextOptionalParams,
   StorageTaskAssignmentsListOptionalParams,
   StorageTaskAssignmentsListResponse,
+  StorageTaskAssignmentsGetOptionalParams,
+  StorageTaskAssignmentsGetResponse,
   StorageTaskAssignmentsCreateOptionalParams,
   StorageTaskAssignmentsCreateResponse,
   StorageTaskAssignmentUpdateParameters,
   StorageTaskAssignmentsUpdateOptionalParams,
   StorageTaskAssignmentsUpdateResponse,
-  StorageTaskAssignmentsGetOptionalParams,
-  StorageTaskAssignmentsGetResponse,
   StorageTaskAssignmentsDeleteOptionalParams,
   StorageTaskAssignmentsDeleteResponse,
   StorageTaskAssignmentsListNextResponse,
@@ -125,6 +125,48 @@ export class StorageTaskAssignmentsImpl implements StorageTaskAssignments {
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * List all the storage task assignments in an account
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: StorageTaskAssignmentsListOptionalParams,
+  ): Promise<StorageTaskAssignmentsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
+   * Get the storage task assignment properties
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param storageTaskAssignmentName The name of the storage task assignment within the specified
+   *                                  resource group. Storage task assignment names must be between 3 and 24 characters in length and use
+   *                                  numbers and lower-case letters only.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    storageTaskAssignmentName: string,
+    options?: StorageTaskAssignmentsGetOptionalParams,
+  ): Promise<StorageTaskAssignmentsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, storageTaskAssignmentName, options },
+      getOperationSpec,
+    );
   }
 
   /**
@@ -364,29 +406,6 @@ export class StorageTaskAssignmentsImpl implements StorageTaskAssignments {
   }
 
   /**
-   * Get the storage task assignment properties
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param storageTaskAssignmentName The name of the storage task assignment within the specified
-   *                                  resource group. Storage task assignment names must be between 3 and 24 characters in length and use
-   *                                  numbers and lower-case letters only.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    accountName: string,
-    storageTaskAssignmentName: string,
-    options?: StorageTaskAssignmentsGetOptionalParams,
-  ): Promise<StorageTaskAssignmentsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, storageTaskAssignmentName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
    * Delete the storage task assignment sub-resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
@@ -495,25 +514,6 @@ export class StorageTaskAssignmentsImpl implements StorageTaskAssignments {
   }
 
   /**
-   * List all the storage task assignments in an account
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    accountName: string,
-    options?: StorageTaskAssignmentsListOptionalParams,
-  ): Promise<StorageTaskAssignmentsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, options },
-      listOperationSpec,
-    );
-  }
-
-  /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
@@ -537,6 +537,49 @@ export class StorageTaskAssignmentsImpl implements StorageTaskAssignments {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/storageTaskAssignments",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StorageTaskAssignmentsList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/storageTaskAssignments/{storageTaskAssignmentName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StorageTaskAssignment,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
+    Parameters.storageTaskAssignmentName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/storageTaskAssignments/{storageTaskAssignmentName}",
   httpMethod: "PUT",
@@ -554,16 +597,16 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.StorageTaskAssignment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters14,
+  requestBody: Parameters.parameters13,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.storageTaskAssignmentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -587,42 +630,20 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.StorageTaskAssignment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters15,
+  requestBody: Parameters.parameters14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.storageTaskAssignmentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/storageTaskAssignments/{storageTaskAssignmentName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.StorageTaskAssignment,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
-    Parameters.storageTaskAssignmentName,
-  ],
-  headerParameters: [Parameters.accept],
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
@@ -642,37 +663,16 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.StorageTaskAssignmentsDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.storageTaskAssignmentName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/storageTaskAssignments",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.StorageTaskAssignmentsList,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -685,15 +685,15 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.StorageTaskAssignmentsList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,

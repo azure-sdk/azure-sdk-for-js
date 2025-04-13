@@ -18,18 +18,18 @@ import {
   FileSharesListNextOptionalParams,
   FileSharesListOptionalParams,
   FileSharesListResponse,
+  FileSharesGetOptionalParams,
+  FileSharesGetResponse,
   FileShare,
   FileSharesCreateOptionalParams,
   FileSharesCreateResponse,
   FileSharesUpdateOptionalParams,
   FileSharesUpdateResponse,
-  FileSharesGetOptionalParams,
-  FileSharesGetResponse,
   FileSharesDeleteOptionalParams,
-  DeletedShare,
-  FileSharesRestoreOptionalParams,
   FileSharesLeaseOptionalParams,
   FileSharesLeaseResponse,
+  DeletedShare,
+  FileSharesRestoreOptionalParams,
   FileSharesListNextResponse,
 } from "../models/index.js";
 
@@ -48,8 +48,7 @@ export class FileSharesImpl implements FileShares {
 
   /**
    * Lists all shares.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -127,8 +126,7 @@ export class FileSharesImpl implements FileShares {
 
   /**
    * Lists all shares.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -146,11 +144,33 @@ export class FileSharesImpl implements FileShares {
   }
 
   /**
+   * Gets properties of a specified share.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param shareName The name of the file share within the specified storage account. File share names
+   *                  must be between 3 and 63 characters in length and use numbers, lower-case letters and dash (-) only.
+   *                  Every dash (-) character must be immediately preceded and followed by a letter or number.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    shareName: string,
+    options?: FileSharesGetOptionalParams,
+  ): Promise<FileSharesGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, shareName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
    * Creates a new share under the specified account as described by request body. The share resource
    * includes metadata and properties for that share. It does not include a list of the files contained
    * by the share.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -176,8 +196,7 @@ export class FileSharesImpl implements FileShares {
   /**
    * Updates share properties as specified in request body. Properties not mentioned in the request will
    * not be changed. Update fails if the specified share does not already exist.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -201,33 +220,8 @@ export class FileSharesImpl implements FileShares {
   }
 
   /**
-   * Gets properties of a specified share.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param shareName The name of the file share within the specified storage account. File share names
-   *                  must be between 3 and 63 characters in length and use numbers, lower-case letters and dash (-) only.
-   *                  Every dash (-) character must be immediately preceded and followed by a letter or number.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    accountName: string,
-    shareName: string,
-    options?: FileSharesGetOptionalParams,
-  ): Promise<FileSharesGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, shareName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
    * Deletes specified share under its account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -249,9 +243,32 @@ export class FileSharesImpl implements FileShares {
   }
 
   /**
+   * The Lease Share operation establishes and manages a lock on a share for delete operations. The lock
+   * duration can be 15 to 60 seconds, or can be infinite.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param shareName The name of the file share within the specified storage account. File share names
+   *                  must be between 3 and 63 characters in length and use numbers, lower-case letters and dash (-) only.
+   *                  Every dash (-) character must be immediately preceded and followed by a letter or number.
+   * @param options The options parameters.
+   */
+  lease(
+    resourceGroupName: string,
+    accountName: string,
+    shareName: string,
+    options?: FileSharesLeaseOptionalParams,
+  ): Promise<FileSharesLeaseResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, shareName, options },
+      leaseOperationSpec,
+    );
+  }
+
+  /**
    * Restore a file share within a valid retention days if share soft delete is enabled
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -275,34 +292,8 @@ export class FileSharesImpl implements FileShares {
   }
 
   /**
-   * The Lease Share operation establishes and manages a lock on a share for delete operations. The lock
-   * duration can be 15 to 60 seconds, or can be infinite.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param shareName The name of the file share within the specified storage account. File share names
-   *                  must be between 3 and 63 characters in length and use numbers, lower-case letters and dash (-) only.
-   *                  Every dash (-) character must be immediately preceded and followed by a letter or number.
-   * @param options The options parameters.
-   */
-  lease(
-    resourceGroupName: string,
-    accountName: string,
-    shareName: string,
-    options?: FileSharesLeaseOptionalParams,
-  ): Promise<FileSharesLeaseResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, shareName, options },
-      leaseOperationSpec,
-    );
-  }
-
-  /**
    * ListNext
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -332,22 +323,44 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.FileShareItems,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.maxpagesize,
     Parameters.filter,
-    Parameters.expand,
+    Parameters.expand2,
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FileShare,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.expand2],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
+    Parameters.shareName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.xMsSnapshot],
   serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
@@ -361,16 +374,16 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.FileShare,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.fileShare,
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  queryParameters: [Parameters.apiVersion, Parameters.expand2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.shareName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -385,42 +398,20 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.FileShare,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.fileShare,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.shareName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.FileShare,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
-    Parameters.shareName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.xMsSnapshot],
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
@@ -430,40 +421,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.include1],
+  queryParameters: [Parameters.apiVersion, Parameters.include2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.shareName,
   ],
   headerParameters: [Parameters.accept, Parameters.xMsSnapshot],
-  serializer,
-};
-const restoreOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}/restore",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  requestBody: Parameters.deletedShare,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
-    Parameters.shareName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer,
 };
 const leaseOperationSpec: coreClient.OperationSpec = {
@@ -475,16 +444,16 @@ const leaseOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.FileSharesLeaseHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.shareName,
   ],
   headerParameters: [
@@ -492,6 +461,28 @@ const leaseOperationSpec: coreClient.OperationSpec = {
     Parameters.contentType,
     Parameters.xMsSnapshot,
   ],
+  mediaType: "json",
+  serializer,
+};
+const restoreOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}/restore",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.deletedShare,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
+    Parameters.shareName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -503,15 +494,15 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.FileShareItems,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,

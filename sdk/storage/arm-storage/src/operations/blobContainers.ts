@@ -24,32 +24,33 @@ import {
   BlobContainersListNextOptionalParams,
   BlobContainersListOptionalParams,
   BlobContainersListResponse,
+  BlobContainersGetOptionalParams,
+  BlobContainersGetResponse,
   BlobContainer,
   BlobContainersCreateOptionalParams,
   BlobContainersCreateResponse,
   BlobContainersUpdateOptionalParams,
   BlobContainersUpdateResponse,
-  BlobContainersGetOptionalParams,
-  BlobContainersGetResponse,
   BlobContainersDeleteOptionalParams,
   LegalHold,
-  BlobContainersSetLegalHoldOptionalParams,
-  BlobContainersSetLegalHoldResponse,
   BlobContainersClearLegalHoldOptionalParams,
   BlobContainersClearLegalHoldResponse,
-  BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams,
-  BlobContainersCreateOrUpdateImmutabilityPolicyResponse,
   BlobContainersGetImmutabilityPolicyOptionalParams,
   BlobContainersGetImmutabilityPolicyResponse,
+  ImmutabilityPolicy,
+  BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams,
+  BlobContainersCreateOrUpdateImmutabilityPolicyResponse,
   BlobContainersDeleteImmutabilityPolicyOptionalParams,
   BlobContainersDeleteImmutabilityPolicyResponse,
-  BlobContainersLockImmutabilityPolicyOptionalParams,
-  BlobContainersLockImmutabilityPolicyResponse,
   BlobContainersExtendImmutabilityPolicyOptionalParams,
   BlobContainersExtendImmutabilityPolicyResponse,
+  BlobContainersLockImmutabilityPolicyOptionalParams,
+  BlobContainersLockImmutabilityPolicyResponse,
   BlobContainersLeaseOptionalParams,
   BlobContainersLeaseResponse,
   BlobContainersObjectLevelWormOptionalParams,
+  BlobContainersSetLegalHoldOptionalParams,
+  BlobContainersSetLegalHoldResponse,
   BlobContainersListNextResponse,
 } from "../models/index.js";
 
@@ -69,8 +70,7 @@ export class BlobContainersImpl implements BlobContainers {
   /**
    * Lists all containers and does not support a prefix like data plane. Also SRP today does not return
    * continuation token.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -149,8 +149,7 @@ export class BlobContainersImpl implements BlobContainers {
   /**
    * Lists all containers and does not support a prefix like data plane. Also SRP today does not return
    * continuation token.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -168,11 +167,34 @@ export class BlobContainersImpl implements BlobContainers {
   }
 
   /**
+   * Gets properties of a specified container.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   *                      container names must be between 3 and 63 characters in length and use numbers, lower-case letters
+   *                      and dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter or
+   *                      number.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    options?: BlobContainersGetOptionalParams,
+  ): Promise<BlobContainersGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, containerName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
    * Creates a new container under the specified account as described by request body. The container
    * resource includes metadata and properties for that container. It does not include a list of the
    * blobs contained by the container.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -199,8 +221,7 @@ export class BlobContainersImpl implements BlobContainers {
   /**
    * Updates container properties as specified in request body. Properties not mentioned in the request
    * will be unchanged. Update fails if the specified container doesn't already exist.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -225,34 +246,8 @@ export class BlobContainersImpl implements BlobContainers {
   }
 
   /**
-   * Gets properties of a specified container.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param containerName The name of the blob container within the specified storage account. Blob
-   *                      container names must be between 3 and 63 characters in length and use numbers, lower-case letters
-   *                      and dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter or
-   *                      number.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    accountName: string,
-    containerName: string,
-    options?: BlobContainersGetOptionalParams,
-  ): Promise<BlobContainersGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, containerName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
    * Deletes specified container under its account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -275,38 +270,9 @@ export class BlobContainersImpl implements BlobContainers {
   }
 
   /**
-   * Sets legal hold tags. Setting the same tag results in an idempotent operation. SetLegalHold follows
-   * an append pattern and does not clear out the existing tags that are not specified in the request.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param containerName The name of the blob container within the specified storage account. Blob
-   *                      container names must be between 3 and 63 characters in length and use numbers, lower-case letters
-   *                      and dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter or
-   *                      number.
-   * @param legalHold The LegalHold property that will be set to a blob container.
-   * @param options The options parameters.
-   */
-  setLegalHold(
-    resourceGroupName: string,
-    accountName: string,
-    containerName: string,
-    legalHold: LegalHold,
-    options?: BlobContainersSetLegalHoldOptionalParams,
-  ): Promise<BlobContainersSetLegalHoldResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, containerName, legalHold, options },
-      setLegalHoldOperationSpec,
-    );
-  }
-
-  /**
    * Clears legal hold tags. Clearing the same or non-existent tag results in an idempotent operation.
    * ClearLegalHold clears out only the specified tags in the request.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -331,36 +297,9 @@ export class BlobContainersImpl implements BlobContainers {
   }
 
   /**
-   * Creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but not
-   * required for this operation.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param containerName The name of the blob container within the specified storage account. Blob
-   *                      container names must be between 3 and 63 characters in length and use numbers, lower-case letters
-   *                      and dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter or
-   *                      number.
-   * @param options The options parameters.
-   */
-  createOrUpdateImmutabilityPolicy(
-    resourceGroupName: string,
-    accountName: string,
-    containerName: string,
-    options?: BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams,
-  ): Promise<BlobContainersCreateOrUpdateImmutabilityPolicyResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, containerName, options },
-      createOrUpdateImmutabilityPolicyOperationSpec,
-    );
-  }
-
-  /**
    * Gets the existing immutability policy along with the corresponding ETag in response headers and
    * body.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -383,12 +322,9 @@ export class BlobContainersImpl implements BlobContainers {
   }
 
   /**
-   * Aborts an unlocked immutability policy. The response of delete has
-   * immutabilityPeriodSinceCreationInDays set to 0. ETag in If-Match is required for this operation.
-   * Deleting a locked immutability policy is not allowed, the only way is to delete the container after
-   * deleting all expired blobs inside the policy locked container.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * Creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but not
+   * required for this operation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -396,9 +332,39 @@ export class BlobContainersImpl implements BlobContainers {
    *                      container names must be between 3 and 63 characters in length and use numbers, lower-case letters
    *                      and dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter or
    *                      number.
-   * @param ifMatch The entity state (ETag) version of the immutability policy to update must be returned
-   *                to the server for all update operations. The ETag value must include the leading and trailing double
-   *                quotes as returned by the service.
+   * @param parameters The ImmutabilityPolicy Properties that will be created or updated to a blob
+   *                   container.
+   * @param options The options parameters.
+   */
+  createOrUpdateImmutabilityPolicy(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    parameters: ImmutabilityPolicy,
+    options?: BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams,
+  ): Promise<BlobContainersCreateOrUpdateImmutabilityPolicyResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, containerName, parameters, options },
+      createOrUpdateImmutabilityPolicyOperationSpec,
+    );
+  }
+
+  /**
+   * Aborts an unlocked immutability policy. The response of delete has
+   * immutabilityPeriodSinceCreationInDays set to 0. ETag in If-Match is required for this operation.
+   * Deleting a locked immutability policy is not allowed, the only way is to delete the container after
+   * deleting all expired blobs inside the policy locked container.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   *                      container names must be between 3 and 63 characters in length and use numbers, lower-case letters
+   *                      and dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter or
+   *                      number.
+   * @param ifMatch The entity state (ETag) version of the immutability policy to update. A value of "*"
+   *                can be used to apply the operation only if the immutability policy already exists. If omitted, this
+   *                operation will always be applied.
    * @param options The options parameters.
    */
   deleteImmutabilityPolicy(
@@ -415,40 +381,9 @@ export class BlobContainersImpl implements BlobContainers {
   }
 
   /**
-   * Sets the ImmutabilityPolicy to Locked state. The only action allowed on a Locked policy is
-   * ExtendImmutabilityPolicy action. ETag in If-Match is required for this operation.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param containerName The name of the blob container within the specified storage account. Blob
-   *                      container names must be between 3 and 63 characters in length and use numbers, lower-case letters
-   *                      and dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter or
-   *                      number.
-   * @param ifMatch The entity state (ETag) version of the immutability policy to update must be returned
-   *                to the server for all update operations. The ETag value must include the leading and trailing double
-   *                quotes as returned by the service.
-   * @param options The options parameters.
-   */
-  lockImmutabilityPolicy(
-    resourceGroupName: string,
-    accountName: string,
-    containerName: string,
-    ifMatch: string,
-    options?: BlobContainersLockImmutabilityPolicyOptionalParams,
-  ): Promise<BlobContainersLockImmutabilityPolicyResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, containerName, ifMatch, options },
-      lockImmutabilityPolicyOperationSpec,
-    );
-  }
-
-  /**
    * Extends the immutabilityPeriodSinceCreationInDays of a locked immutabilityPolicy. The only action
    * allowed on a Locked policy will be this action. ETag in If-Match is required for this operation.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -456,9 +391,9 @@ export class BlobContainersImpl implements BlobContainers {
    *                      container names must be between 3 and 63 characters in length and use numbers, lower-case letters
    *                      and dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter or
    *                      number.
-   * @param ifMatch The entity state (ETag) version of the immutability policy to update must be returned
-   *                to the server for all update operations. The ETag value must include the leading and trailing double
-   *                quotes as returned by the service.
+   * @param ifMatch The entity state (ETag) version of the immutability policy to update. A value of "*"
+   *                can be used to apply the operation only if the immutability policy already exists. If omitted, this
+   *                operation will always be applied.
    * @param options The options parameters.
    */
   extendImmutabilityPolicy(
@@ -475,10 +410,38 @@ export class BlobContainersImpl implements BlobContainers {
   }
 
   /**
+   * Sets the ImmutabilityPolicy to Locked state. The only action allowed on a Locked policy is
+   * ExtendImmutabilityPolicy action. ETag in If-Match is required for this operation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   *                      container names must be between 3 and 63 characters in length and use numbers, lower-case letters
+   *                      and dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter or
+   *                      number.
+   * @param ifMatch The entity state (ETag) version of the immutability policy to update. A value of "*"
+   *                can be used to apply the operation only if the immutability policy already exists. If omitted, this
+   *                operation will always be applied.
+   * @param options The options parameters.
+   */
+  lockImmutabilityPolicy(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    ifMatch: string,
+    options?: BlobContainersLockImmutabilityPolicyOptionalParams,
+  ): Promise<BlobContainersLockImmutabilityPolicyResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, containerName, ifMatch, options },
+      lockImmutabilityPolicyOperationSpec,
+    );
+  }
+
+  /**
    * The Lease Container operation establishes and manages a lock on a container for delete operations.
    * The lock duration can be 15 to 60 seconds, or can be infinite.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -505,8 +468,7 @@ export class BlobContainersImpl implements BlobContainers {
    * enabled container. Prerequisites require a container level immutability policy either in locked or
    * unlocked state, Account level versioning must be enabled and there should be no Legal hold on the
    * container.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -579,8 +541,7 @@ export class BlobContainersImpl implements BlobContainers {
    * enabled container. Prerequisites require a container level immutability policy either in locked or
    * unlocked state, Account level versioning must be enabled and there should be no Legal hold on the
    * container.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -606,9 +567,35 @@ export class BlobContainersImpl implements BlobContainers {
   }
 
   /**
+   * Sets legal hold tags. Setting the same tag results in an idempotent operation. SetLegalHold follows
+   * an append pattern and does not clear out the existing tags that are not specified in the request.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   *                      container names must be between 3 and 63 characters in length and use numbers, lower-case letters
+   *                      and dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter or
+   *                      number.
+   * @param legalHold The LegalHold property that will be set to a blob container.
+   * @param options The options parameters.
+   */
+  setLegalHold(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    legalHold: LegalHold,
+    options?: BlobContainersSetLegalHoldOptionalParams,
+  ): Promise<BlobContainersSetLegalHoldResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, containerName, legalHold, options },
+      setLegalHoldOperationSpec,
+    );
+  }
+
+  /**
    * ListNext
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -637,6 +624,9 @@ const listOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ListContainerItems,
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
@@ -646,9 +636,31 @@ const listOperationSpec: coreClient.OperationSpec = {
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BlobContainer,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
+    Parameters.containerName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -663,14 +675,17 @@ const createOperationSpec: coreClient.OperationSpec = {
     201: {
       bodyMapper: Mappers.BlobContainer,
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.blobContainer,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.containerName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -684,72 +699,42 @@ const updateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.BlobContainer,
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.blobContainer,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.containerName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BlobContainer,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
-    Parameters.containerName,
-  ],
-  headerParameters: [Parameters.accept],
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 204: {} },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
-    Parameters.containerName,
-  ],
-  serializer,
-};
-const setLegalHoldOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/setLegalHold",
-  httpMethod: "POST",
   responses: {
-    200: {
-      bodyMapper: Mappers.LegalHold,
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.legalHold,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.containerName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const clearLegalHoldOperationSpec: coreClient.OperationSpec = {
@@ -759,23 +744,49 @@ const clearLegalHoldOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.LegalHold,
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.legalHold,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.containerName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
+const getImmutabilityPolicyOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/default",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ImmutabilityPolicy,
+      headersMapper: Mappers.BlobContainersGetImmutabilityPolicyHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
+    Parameters.containerName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.ifMatch],
+  serializer,
+};
 const createOrUpdateImmutabilityPolicyOperationSpec: coreClient.OperationSpec =
   {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/{immutabilityPolicyName}",
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/default",
     httpMethod: "PUT",
     responses: {
       200: {
@@ -783,16 +794,18 @@ const createOrUpdateImmutabilityPolicyOperationSpec: coreClient.OperationSpec =
         headersMapper:
           Mappers.BlobContainersCreateOrUpdateImmutabilityPolicyHeaders,
       },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    requestBody: Parameters.parameters1,
+    requestBody: Parameters.parameters7,
     queryParameters: [Parameters.apiVersion],
     urlParameters: [
       Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.accountName,
       Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.accountName1,
       Parameters.containerName,
-      Parameters.immutabilityPolicyName,
     ],
     headerParameters: [
       Parameters.accept,
@@ -802,63 +815,24 @@ const createOrUpdateImmutabilityPolicyOperationSpec: coreClient.OperationSpec =
     mediaType: "json",
     serializer,
   };
-const getImmutabilityPolicyOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/{immutabilityPolicyName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ImmutabilityPolicy,
-      headersMapper: Mappers.BlobContainersGetImmutabilityPolicyHeaders,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
-    Parameters.containerName,
-    Parameters.immutabilityPolicyName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.ifMatch],
-  serializer,
-};
 const deleteImmutabilityPolicyOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/{immutabilityPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/default",
   httpMethod: "DELETE",
   responses: {
     200: {
       bodyMapper: Mappers.ImmutabilityPolicy,
       headersMapper: Mappers.BlobContainersDeleteImmutabilityPolicyHeaders,
     },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
-    Parameters.containerName,
-    Parameters.immutabilityPolicyName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer,
-};
-const lockImmutabilityPolicyOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/default/lock",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ImmutabilityPolicy,
-      headersMapper: Mappers.BlobContainersLockImmutabilityPolicyHeaders,
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.containerName,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
@@ -872,14 +846,17 @@ const extendImmutabilityPolicyOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ImmutabilityPolicy,
       headersMapper: Mappers.BlobContainersExtendImmutabilityPolicyHeaders,
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.containerName,
   ],
   headerParameters: [
@@ -890,6 +867,29 @@ const extendImmutabilityPolicyOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
+const lockImmutabilityPolicyOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/default/lock",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ImmutabilityPolicy,
+      headersMapper: Mappers.BlobContainersLockImmutabilityPolicyHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
+    Parameters.containerName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.ifMatch1],
+  serializer,
+};
 const leaseOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/lease",
   httpMethod: "POST",
@@ -897,14 +897,17 @@ const leaseOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.LeaseContainerResponse,
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.containerName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -920,18 +923,42 @@ const objectLevelWormOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.containerName,
   ],
   headerParameters: [Parameters.accept],
+  serializer,
+};
+const setLegalHoldOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/setLegalHold",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LegalHold,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.legalHold,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
+    Parameters.containerName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -941,13 +968,16 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ListContainerItems,
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,

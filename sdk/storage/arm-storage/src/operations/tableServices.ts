@@ -14,11 +14,11 @@ import { StorageManagementClient } from "../storageManagementClient.js";
 import {
   TableServicesListOptionalParams,
   TableServicesListResponse,
+  TableServicesGetServicePropertiesOptionalParams,
+  TableServicesGetServicePropertiesResponse,
   TableServiceProperties,
   TableServicesSetServicePropertiesOptionalParams,
   TableServicesSetServicePropertiesResponse,
-  TableServicesGetServicePropertiesOptionalParams,
-  TableServicesGetServicePropertiesResponse,
 } from "../models/index.js";
 
 /** Class containing TableServices operations. */
@@ -35,8 +35,7 @@ export class TableServicesImpl implements TableServices {
 
   /**
    * List all table services for the storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -54,10 +53,29 @@ export class TableServicesImpl implements TableServices {
   }
 
   /**
+   * Gets the properties of a storage account’s Table service, including properties for Storage Analytics
+   * and CORS (Cross-Origin Resource Sharing) rules.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param options The options parameters.
+   */
+  getServiceProperties(
+    resourceGroupName: string,
+    accountName: string,
+    options?: TableServicesGetServicePropertiesOptionalParams,
+  ): Promise<TableServicesGetServicePropertiesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, options },
+      getServicePropertiesOperationSpec,
+    );
+  }
+
+  /**
    * Sets the properties of a storage account’s Table service, including properties for Storage Analytics
    * and CORS (Cross-Origin Resource Sharing) rules.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -76,27 +94,6 @@ export class TableServicesImpl implements TableServices {
       setServicePropertiesOperationSpec,
     );
   }
-
-  /**
-   * Gets the properties of a storage account’s Table service, including properties for Storage Analytics
-   * and CORS (Cross-Origin Resource Sharing) rules.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param options The options parameters.
-   */
-  getServiceProperties(
-    resourceGroupName: string,
-    accountName: string,
-    options?: TableServicesGetServicePropertiesOptionalParams,
-  ): Promise<TableServicesGetServicePropertiesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, options },
-      getServicePropertiesOperationSpec,
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -109,62 +106,60 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ListTableServices,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const setServicePropertiesOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/{tableServiceName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.TableServiceProperties,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  requestBody: Parameters.parameters12,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
-    Parameters.tableServiceName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
 const getServicePropertiesOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/{tableServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.TableServiceProperties,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.tableServiceName,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept],
+  serializer,
+};
+const setServicePropertiesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TableServiceProperties,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters15,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };

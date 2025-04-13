@@ -20,8 +20,7 @@ import {
 export interface ManagementPolicies {
   /**
    * Gets the managementpolicy associated with the specified storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -37,8 +36,7 @@ export interface ManagementPolicies {
   ): Promise<ManagementPoliciesGetResponse>;
   /**
    * Sets the managementpolicy to the specified storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -56,8 +54,7 @@ export interface ManagementPolicies {
   ): Promise<ManagementPoliciesCreateOrUpdateResponse>;
   /**
    * Deletes the managementpolicy associated with the specified storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
