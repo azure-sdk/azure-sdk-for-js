@@ -1,13 +1,7 @@
 # Release History
-
-## 1.0.0-beta.2 (2024-11-07)
-
-### Features Added
-
-- Update API version to `2024-07-01.20.0` for Azure Batch service.
-
-## 1.0.0-beta.1 (2024-08-07)
+    
+## 1.0.0 (2025-04-14)
 
 ### Features Added
 
-- This is the initial beta release for the Azure Batch SDK, which is a common API supporting Azure Batch services.
+The package of @azure-rest/batch is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
