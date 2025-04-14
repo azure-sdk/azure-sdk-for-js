@@ -7,6 +7,8 @@
  */
 
 export * from "./devCenters.js";
+export * from "./encryptionSets.js";
+export * from "./projectPolicies.js";
 export * from "./projects.js";
 export * from "./attachedNetworks.js";
 export * from "./projectCatalogs.js";
@@ -15,6 +17,7 @@ export * from "./projectCatalogEnvironmentDefinitions.js";
 export * from "./galleries.js";
 export * from "./images.js";
 export * from "./imageVersions.js";
+export * from "./skus.js";
 export * from "./catalogs.js";
 export * from "./environmentTypes.js";
 export * from "./projectAllowedEnvironmentTypes.js";
@@ -25,7 +28,13 @@ export * from "./operationStatuses.js";
 export * from "./usages.js";
 export * from "./checkNameAvailability.js";
 export * from "./checkScopedNameAvailability.js";
-export * from "./skus.js";
+export * from "./customizationTasks.js";
+export * from "./devCenterCatalogImageDefinitions.js";
+export * from "./devCenterCatalogImageDefinitionBuilds.js";
+export * from "./devCenterCatalogImageDefinitionBuild.js";
+export * from "./projectCatalogImageDefinitions.js";
+export * from "./projectCatalogImageDefinitionBuilds.js";
+export * from "./projectCatalogImageDefinitionBuild.js";
 export * from "./pools.js";
 export * from "./schedules.js";
 export * from "./networkConnections.js";
