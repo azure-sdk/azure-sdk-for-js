@@ -3097,7 +3097,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-oracledatabase@file:projects/arm-oracledatabase.tgz':
-    resolution: {integrity: sha512-5wo23x3DxcyJlaV41nNL3Vq/Wy5NNaburM4z2OXyXrZT9g9Zg+UeHZ1gWR19Z24rjl1u+ufuIrUlqtSZkiVOnw==, tarball: file:projects/arm-oracledatabase.tgz}
+    resolution: {integrity: sha512-L6+1jesdMbLR2lufqmf4O9Nociymi8x48JkLBue6YBEnOmuG4kjYDya1O3w/t5+LrSo//INbSVt3bKteEuUNRg==, tarball: file:projects/arm-oracledatabase.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-orbital@file:projects/arm-orbital.tgz':
@@ -15153,11 +15153,11 @@ snapshots:
 
   '@rush-temp/arm-oracledatabase@file:projects/arm-oracledatabase.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
-      '@azure/core-lro': 2.7.2
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
       '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
       dotenv: 16.5.0
+      eslint: 9.24.0
       playwright: 1.51.1
       tslib: 2.8.1
       typescript: 5.8.3
