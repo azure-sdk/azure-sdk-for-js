@@ -2801,7 +2801,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-eventgrid@file:projects/arm-eventgrid.tgz':
-    resolution: {integrity: sha512-eUBU5xbz+ZkTF9ic97wZofIxzBew5fN3K+PTmSn6umwJlvEZWb5U1V8KCUhhphPSeTJ3c10t4QZu/qt5D//ZeQ==, tarball: file:projects/arm-eventgrid.tgz}
+    resolution: {integrity: sha512-r6lrYxeQBI4FjmGGwXUa/n7Pgtn7/eoOeaZW8cfr4i5TdBFhLKQKwVetm1j/zdtxIcTvT2v+hx0IhYONgNAWvQ==, tarball: file:projects/arm-eventgrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-eventhub-profile-2020-09-01-hybrid@file:projects/arm-eventhub-profile-2020-09-01-hybrid.tgz':
@@ -3561,7 +3561,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/core-util@file:projects/core-util.tgz':
-    resolution: {integrity: sha512-PfVQ8uRgK0bQkG5oMjYLgMFpNuNTb2pN5jJelthVnqwGeT7mpFI9EHoxNUdJpgNxOAfSl8SaVvYTX9vI1bZp2g==, tarball: file:projects/core-util.tgz}
+    resolution: {integrity: sha512-lR66vzUOf7ap31GfD1cm5aUIJo8HL+kD3rUYZdjr3x8cuiH1iMCYVhJK8hesmqCP7fqll/aIFj06qbObHRrnhQ==, tarball: file:projects/core-util.tgz}
     version: 0.0.0
 
   '@rush-temp/core-xml@file:projects/core-xml.tgz':
