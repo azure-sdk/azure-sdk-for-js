@@ -14,9 +14,9 @@ import {
   ApplicationsGetResponse,
   ApplicationsCreateOrUpdateOptionalParams,
   ApplicationsCreateOrUpdateResponse,
-  ApplicationsDeleteOptionalParams,
   ApplicationsUpdateOptionalParams,
   ApplicationsUpdateResponse,
+  ApplicationsDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -62,19 +62,6 @@ export interface Applications {
     options?: ApplicationsCreateOrUpdateOptionalParams,
   ): Promise<ApplicationsCreateOrUpdateResponse>;
   /**
-   * Remove an application.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param applicationGroupName The name of the application group
-   * @param applicationName The name of the application within the specified application group
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    applicationGroupName: string,
-    applicationName: string,
-    options?: ApplicationsDeleteOptionalParams,
-  ): Promise<void>;
-  /**
    * Update an application.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param applicationGroupName The name of the application group
@@ -87,4 +74,17 @@ export interface Applications {
     applicationName: string,
     options?: ApplicationsUpdateOptionalParams,
   ): Promise<ApplicationsUpdateResponse>;
+  /**
+   * Remove an application.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applicationGroupName The name of the application group
+   * @param applicationName The name of the application within the specified application group
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    applicationGroupName: string,
+    applicationName: string,
+    options?: ApplicationsDeleteOptionalParams,
+  ): Promise<void>;
 }
