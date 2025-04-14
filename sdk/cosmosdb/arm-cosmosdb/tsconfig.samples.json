@@ -2,7 +2,9 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-cosmosdb": ["./dist/esm"]
+      "@azure/arm-cosmosdb": [
+        "./dist/esm"
+      ]
     }
   }
 }
