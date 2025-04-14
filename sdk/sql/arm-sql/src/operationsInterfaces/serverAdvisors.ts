@@ -14,7 +14,7 @@ import {
   Advisor,
   ServerAdvisorsUpdateOptionalParams,
   ServerAdvisorsUpdateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a ServerAdvisors. */
 export interface ServerAdvisors {

@@ -32,7 +32,7 @@ import {
   ManagedInstancesStartResponse,
   ManagedInstancesStopOptionalParams,
   ManagedInstancesStopResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedInstances. */

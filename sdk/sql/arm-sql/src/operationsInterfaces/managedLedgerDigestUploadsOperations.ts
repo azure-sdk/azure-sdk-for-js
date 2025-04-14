@@ -18,7 +18,7 @@ import {
   ManagedLedgerDigestUploadsCreateOrUpdateResponse,
   ManagedLedgerDigestUploadsDisableOptionalParams,
   ManagedLedgerDigestUploadsDisableResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedLedgerDigestUploadsOperations. */

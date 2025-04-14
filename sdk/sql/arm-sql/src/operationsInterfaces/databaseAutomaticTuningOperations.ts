@@ -12,7 +12,7 @@ import {
   DatabaseAutomaticTuning,
   DatabaseAutomaticTuningUpdateOptionalParams,
   DatabaseAutomaticTuningUpdateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a DatabaseAutomaticTuningOperations. */
 export interface DatabaseAutomaticTuningOperations {

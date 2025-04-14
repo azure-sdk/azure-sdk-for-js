@@ -19,7 +19,7 @@ import {
   JobAgentUpdate,
   JobAgentsUpdateOptionalParams,
   JobAgentsUpdateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a JobAgents. */

@@ -15,7 +15,7 @@ import {
   IPv6FirewallRulesCreateOrUpdateOptionalParams,
   IPv6FirewallRulesCreateOrUpdateResponse,
   IPv6FirewallRulesDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a IPv6FirewallRules. */

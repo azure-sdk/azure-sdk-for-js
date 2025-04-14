@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { ManagedDatabaseSensitivityLabels } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { ManagedDatabaseSensitivityLabels } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { SqlManagementClient } from "../sqlManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SensitivityLabel,
   ManagedDatabaseSensitivityLabelsListCurrentByDatabaseNextOptionalParams,
@@ -33,7 +33,7 @@ import {
   ManagedDatabaseSensitivityLabelsUpdateOptionalParams,
   ManagedDatabaseSensitivityLabelsListCurrentByDatabaseNextResponse,
   ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedDatabaseSensitivityLabels operations. */
@@ -579,7 +579,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  requestBody: Parameters.parameters65,
+  requestBody: Parameters.parameters64,
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
@@ -679,7 +679,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/currentSensitivityLabels",
   httpMethod: "PATCH",
   responses: { 200: {}, default: {} },
-  requestBody: Parameters.parameters66,
+  requestBody: Parameters.parameters65,
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
