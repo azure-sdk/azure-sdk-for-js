@@ -27,8 +27,17 @@ import {
   ApplicationsImpl,
   DesktopsImpl,
   HostPoolsImpl,
+  SessionHostManagementsImpl,
+  InitiateSessionHostUpdateImpl,
+  ControlSessionHostUpdateImpl,
+  ControlSessionHostProvisioningImpl,
+  SessionHostManagementsUpdateStatusImpl,
+  SessionHostProvisioningStatusesImpl,
+  SessionHostConfigurationsImpl,
+  ActiveSessionHostConfigurationsImpl,
   UserSessionsImpl,
   SessionHostsImpl,
+  SessionHostOperationsImpl,
   MsixPackagesImpl,
   AppAttachPackageInfoImpl,
   MsixImagesImpl,
@@ -47,8 +56,17 @@ import {
   Applications,
   Desktops,
   HostPools,
+  SessionHostManagements,
+  InitiateSessionHostUpdate,
+  ControlSessionHostUpdate,
+  ControlSessionHostProvisioning,
+  SessionHostManagementsUpdateStatus,
+  SessionHostProvisioningStatuses,
+  SessionHostConfigurations,
+  ActiveSessionHostConfigurations,
   UserSessions,
   SessionHosts,
+  SessionHostOperations,
   MsixPackages,
   AppAttachPackageInfo,
   MsixImages,
@@ -88,7 +106,7 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-desktopvirtualization/1.2.1`;
+    const packageDetails = `azsdk-js-arm-desktopvirtualization/2.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -142,7 +160,7 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-04-03";
+    this.apiVersion = options.apiVersion || "2025-03-01-preview";
     this.operations = new OperationsImpl(this);
     this.workspaces = new WorkspacesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
@@ -157,8 +175,21 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
     this.applications = new ApplicationsImpl(this);
     this.desktops = new DesktopsImpl(this);
     this.hostPools = new HostPoolsImpl(this);
+    this.sessionHostManagements = new SessionHostManagementsImpl(this);
+    this.initiateSessionHostUpdate = new InitiateSessionHostUpdateImpl(this);
+    this.controlSessionHostUpdate = new ControlSessionHostUpdateImpl(this);
+    this.controlSessionHostProvisioning =
+      new ControlSessionHostProvisioningImpl(this);
+    this.sessionHostManagementsUpdateStatus =
+      new SessionHostManagementsUpdateStatusImpl(this);
+    this.sessionHostProvisioningStatuses =
+      new SessionHostProvisioningStatusesImpl(this);
+    this.sessionHostConfigurations = new SessionHostConfigurationsImpl(this);
+    this.activeSessionHostConfigurations =
+      new ActiveSessionHostConfigurationsImpl(this);
     this.userSessions = new UserSessionsImpl(this);
     this.sessionHosts = new SessionHostsImpl(this);
+    this.sessionHostOperations = new SessionHostOperationsImpl(this);
     this.msixPackages = new MsixPackagesImpl(this);
     this.appAttachPackageInfo = new AppAttachPackageInfoImpl(this);
     this.msixImages = new MsixImagesImpl(this);
@@ -206,8 +237,17 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
   applications: Applications;
   desktops: Desktops;
   hostPools: HostPools;
+  sessionHostManagements: SessionHostManagements;
+  initiateSessionHostUpdate: InitiateSessionHostUpdate;
+  controlSessionHostUpdate: ControlSessionHostUpdate;
+  controlSessionHostProvisioning: ControlSessionHostProvisioning;
+  sessionHostManagementsUpdateStatus: SessionHostManagementsUpdateStatus;
+  sessionHostProvisioningStatuses: SessionHostProvisioningStatuses;
+  sessionHostConfigurations: SessionHostConfigurations;
+  activeSessionHostConfigurations: ActiveSessionHostConfigurations;
   userSessions: UserSessions;
   sessionHosts: SessionHosts;
+  sessionHostOperations: SessionHostOperations;
   msixPackages: MsixPackages;
   appAttachPackageInfo: AppAttachPackageInfo;
   msixImages: MsixImages;
