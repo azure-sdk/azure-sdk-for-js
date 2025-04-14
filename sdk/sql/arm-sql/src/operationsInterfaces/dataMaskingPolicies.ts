@@ -12,7 +12,7 @@ import {
   DataMaskingPoliciesCreateOrUpdateResponse,
   DataMaskingPoliciesGetOptionalParams,
   DataMaskingPoliciesGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a DataMaskingPolicies. */
 export interface DataMaskingPolicies {

@@ -9,7 +9,7 @@
 import {
   CapabilitiesListByLocationOptionalParams,
   CapabilitiesListByLocationResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a Capabilities. */
 export interface Capabilities {

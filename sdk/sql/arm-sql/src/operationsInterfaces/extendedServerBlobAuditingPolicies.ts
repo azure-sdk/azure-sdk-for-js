@@ -15,7 +15,7 @@ import {
   ExtendedServerBlobAuditingPoliciesGetResponse,
   ExtendedServerBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   ExtendedServerBlobAuditingPoliciesCreateOrUpdateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ExtendedServerBlobAuditingPolicies. */

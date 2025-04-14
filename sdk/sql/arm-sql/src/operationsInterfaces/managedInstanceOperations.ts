@@ -13,7 +13,7 @@ import {
   ManagedInstanceOperationsGetOptionalParams,
   ManagedInstanceOperationsGetResponse,
   ManagedInstanceOperationsCancelOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedInstanceOperations. */

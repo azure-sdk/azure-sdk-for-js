@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { LongTermRetentionBackups } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { LongTermRetentionBackups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { SqlManagementClient } from "../sqlManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   LongTermRetentionBackup,
   LongTermRetentionBackupsListByLocationNextOptionalParams,
@@ -66,7 +66,7 @@ import {
   LongTermRetentionBackupsListByResourceGroupLocationNextResponse,
   LongTermRetentionBackupsListByResourceGroupServerNextResponse,
   LongTermRetentionBackupsListByResourceGroupDatabaseNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LongTermRetentionBackups operations. */
@@ -1971,7 +1971,7 @@ const changeAccessTierOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters98,
+  requestBody: Parameters.parameters97,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -2005,7 +2005,7 @@ const copyOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters99,
+  requestBody: Parameters.parameters98,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -2039,7 +2039,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters100,
+  requestBody: Parameters.parameters99,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -2200,7 +2200,7 @@ const changeAccessTierByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters98,
+  requestBody: Parameters.parameters97,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -2235,7 +2235,7 @@ const copyByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters99,
+  requestBody: Parameters.parameters98,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -2270,7 +2270,7 @@ const updateByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters100,
+  requestBody: Parameters.parameters99,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
