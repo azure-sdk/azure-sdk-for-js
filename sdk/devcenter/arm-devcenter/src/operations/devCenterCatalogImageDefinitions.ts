@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { Galleries } from "../operationsInterfaces/index.js";
+import { DevCenterCatalogImageDefinitions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -20,26 +20,28 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  Gallery,
-  GalleriesListByDevCenterNextOptionalParams,
-  GalleriesListByDevCenterOptionalParams,
-  GalleriesListByDevCenterResponse,
-  GalleriesGetOptionalParams,
-  GalleriesGetResponse,
-  GalleriesCreateOrUpdateOptionalParams,
-  GalleriesCreateOrUpdateResponse,
-  GalleriesDeleteOptionalParams,
-  GalleriesDeleteResponse,
-  GalleriesListByDevCenterNextResponse,
+  ImageDefinition,
+  DevCenterCatalogImageDefinitionsListByDevCenterCatalogNextOptionalParams,
+  DevCenterCatalogImageDefinitionsListByDevCenterCatalogOptionalParams,
+  DevCenterCatalogImageDefinitionsListByDevCenterCatalogResponse,
+  DevCenterCatalogImageDefinitionsGetByDevCenterCatalogOptionalParams,
+  DevCenterCatalogImageDefinitionsGetByDevCenterCatalogResponse,
+  DevCenterCatalogImageDefinitionsGetErrorDetailsOptionalParams,
+  DevCenterCatalogImageDefinitionsGetErrorDetailsResponse,
+  DevCenterCatalogImageDefinitionsBuildImageOptionalParams,
+  DevCenterCatalogImageDefinitionsBuildImageResponse,
+  DevCenterCatalogImageDefinitionsListByDevCenterCatalogNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Galleries operations. */
-export class GalleriesImpl implements Galleries {
+/** Class containing DevCenterCatalogImageDefinitions operations. */
+export class DevCenterCatalogImageDefinitionsImpl
+  implements DevCenterCatalogImageDefinitions
+{
   private readonly client: DevCenterClient;
 
   /**
-   * Initialize a new instance of the class Galleries class.
+   * Initialize a new instance of the class DevCenterCatalogImageDefinitions class.
    * @param client Reference to the service client
    */
   constructor(client: DevCenterClient) {
@@ -47,19 +49,22 @@ export class GalleriesImpl implements Galleries {
   }
 
   /**
-   * Lists galleries for a devcenter.
+   * List Image Definitions in the catalog.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
+   * @param catalogName The name of the Catalog.
    * @param options The options parameters.
    */
-  public listByDevCenter(
+  public listByDevCenterCatalog(
     resourceGroupName: string,
     devCenterName: string,
-    options?: GalleriesListByDevCenterOptionalParams,
-  ): PagedAsyncIterableIterator<Gallery> {
-    const iter = this.listByDevCenterPagingAll(
+    catalogName: string,
+    options?: DevCenterCatalogImageDefinitionsListByDevCenterCatalogOptionalParams,
+  ): PagedAsyncIterableIterator<ImageDefinition> {
+    const iter = this.listByDevCenterCatalogPagingAll(
       resourceGroupName,
       devCenterName,
+      catalogName,
       options,
     );
     return {
@@ -73,9 +78,10 @@ export class GalleriesImpl implements Galleries {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByDevCenterPagingPage(
+        return this.listByDevCenterCatalogPagingPage(
           resourceGroupName,
           devCenterName,
+          catalogName,
           options,
           settings,
         );
@@ -83,18 +89,20 @@ export class GalleriesImpl implements Galleries {
     };
   }
 
-  private async *listByDevCenterPagingPage(
+  private async *listByDevCenterCatalogPagingPage(
     resourceGroupName: string,
     devCenterName: string,
-    options?: GalleriesListByDevCenterOptionalParams,
+    catalogName: string,
+    options?: DevCenterCatalogImageDefinitionsListByDevCenterCatalogOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Gallery[]> {
-    let result: GalleriesListByDevCenterResponse;
+  ): AsyncIterableIterator<ImageDefinition[]> {
+    let result: DevCenterCatalogImageDefinitionsListByDevCenterCatalogResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByDevCenter(
+      result = await this._listByDevCenterCatalog(
         resourceGroupName,
         devCenterName,
+        catalogName,
         options,
       );
       let page = result.value || [];
@@ -103,9 +111,10 @@ export class GalleriesImpl implements Galleries {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByDevCenterNext(
+      result = await this._listByDevCenterCatalogNext(
         resourceGroupName,
         devCenterName,
+        catalogName,
         continuationToken,
         options,
       );
@@ -116,14 +125,16 @@ export class GalleriesImpl implements Galleries {
     }
   }
 
-  private async *listByDevCenterPagingAll(
+  private async *listByDevCenterCatalogPagingAll(
     resourceGroupName: string,
     devCenterName: string,
-    options?: GalleriesListByDevCenterOptionalParams,
-  ): AsyncIterableIterator<Gallery> {
-    for await (const page of this.listByDevCenterPagingPage(
+    catalogName: string,
+    options?: DevCenterCatalogImageDefinitionsListByDevCenterCatalogOptionalParams,
+  ): AsyncIterableIterator<ImageDefinition> {
+    for await (const page of this.listByDevCenterCatalogPagingPage(
       resourceGroupName,
       devCenterName,
+      catalogName,
       options,
     )) {
       yield* page;
@@ -131,65 +142,102 @@ export class GalleriesImpl implements Galleries {
   }
 
   /**
-   * Lists galleries for a devcenter.
+   * List Image Definitions in the catalog.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
+   * @param catalogName The name of the Catalog.
    * @param options The options parameters.
    */
-  private _listByDevCenter(
+  private _listByDevCenterCatalog(
     resourceGroupName: string,
     devCenterName: string,
-    options?: GalleriesListByDevCenterOptionalParams,
-  ): Promise<GalleriesListByDevCenterResponse> {
+    catalogName: string,
+    options?: DevCenterCatalogImageDefinitionsListByDevCenterCatalogOptionalParams,
+  ): Promise<DevCenterCatalogImageDefinitionsListByDevCenterCatalogResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, devCenterName, options },
-      listByDevCenterOperationSpec,
+      { resourceGroupName, devCenterName, catalogName, options },
+      listByDevCenterCatalogOperationSpec,
     );
   }
 
   /**
-   * Gets a gallery
+   * Gets an Image Definition from the catalog
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
-   * @param galleryName The name of the gallery.
+   * @param catalogName The name of the Catalog.
+   * @param imageDefinitionName The name of the Image Definition.
    * @param options The options parameters.
    */
-  get(
+  getByDevCenterCatalog(
     resourceGroupName: string,
     devCenterName: string,
-    galleryName: string,
-    options?: GalleriesGetOptionalParams,
-  ): Promise<GalleriesGetResponse> {
+    catalogName: string,
+    imageDefinitionName: string,
+    options?: DevCenterCatalogImageDefinitionsGetByDevCenterCatalogOptionalParams,
+  ): Promise<DevCenterCatalogImageDefinitionsGetByDevCenterCatalogResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, devCenterName, galleryName, options },
-      getOperationSpec,
+      {
+        resourceGroupName,
+        devCenterName,
+        catalogName,
+        imageDefinitionName,
+        options,
+      },
+      getByDevCenterCatalogOperationSpec,
     );
   }
 
   /**
-   * Creates or updates a gallery.
+   * Gets Image Definition error details
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
-   * @param galleryName The name of the gallery.
-   * @param body Represents a gallery.
+   * @param catalogName The name of the Catalog.
+   * @param imageDefinitionName The name of the Image Definition.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdate(
+  getErrorDetails(
     resourceGroupName: string,
     devCenterName: string,
-    galleryName: string,
-    body: Gallery,
-    options?: GalleriesCreateOrUpdateOptionalParams,
+    catalogName: string,
+    imageDefinitionName: string,
+    options?: DevCenterCatalogImageDefinitionsGetErrorDetailsOptionalParams,
+  ): Promise<DevCenterCatalogImageDefinitionsGetErrorDetailsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        devCenterName,
+        catalogName,
+        imageDefinitionName,
+        options,
+      },
+      getErrorDetailsOperationSpec,
+    );
+  }
+
+  /**
+   * Builds an image for the specified Image Definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param devCenterName The name of the devcenter.
+   * @param catalogName The name of the Catalog.
+   * @param imageDefinitionName The name of the Image Definition.
+   * @param options The options parameters.
+   */
+  async beginBuildImage(
+    resourceGroupName: string,
+    devCenterName: string,
+    catalogName: string,
+    imageDefinitionName: string,
+    options?: DevCenterCatalogImageDefinitionsBuildImageOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<GalleriesCreateOrUpdateResponse>,
-      GalleriesCreateOrUpdateResponse
+      OperationState<DevCenterCatalogImageDefinitionsBuildImageResponse>,
+      DevCenterCatalogImageDefinitionsBuildImageResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<GalleriesCreateOrUpdateResponse> => {
+    ): Promise<DevCenterCatalogImageDefinitionsBuildImageResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -226,12 +274,18 @@ export class GalleriesImpl implements Galleries {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, devCenterName, galleryName, body, options },
-      spec: createOrUpdateOperationSpec,
+      args: {
+        resourceGroupName,
+        devCenterName,
+        catalogName,
+        imageDefinitionName,
+        options,
+      },
+      spec: buildImageOperationSpec,
     });
     const poller = await createHttpPoller<
-      GalleriesCreateOrUpdateResponse,
-      OperationState<GalleriesCreateOrUpdateResponse>
+      DevCenterCatalogImageDefinitionsBuildImageResponse,
+      OperationState<DevCenterCatalogImageDefinitionsBuildImageResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -242,153 +296,60 @@ export class GalleriesImpl implements Galleries {
   }
 
   /**
-   * Creates or updates a gallery.
+   * Builds an image for the specified Image Definition.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
-   * @param galleryName The name of the gallery.
-   * @param body Represents a gallery.
+   * @param catalogName The name of the Catalog.
+   * @param imageDefinitionName The name of the Image Definition.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdateAndWait(
+  async beginBuildImageAndWait(
     resourceGroupName: string,
     devCenterName: string,
-    galleryName: string,
-    body: Gallery,
-    options?: GalleriesCreateOrUpdateOptionalParams,
-  ): Promise<GalleriesCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
+    catalogName: string,
+    imageDefinitionName: string,
+    options?: DevCenterCatalogImageDefinitionsBuildImageOptionalParams,
+  ): Promise<DevCenterCatalogImageDefinitionsBuildImageResponse> {
+    const poller = await this.beginBuildImage(
       resourceGroupName,
       devCenterName,
-      galleryName,
-      body,
+      catalogName,
+      imageDefinitionName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Deletes a gallery resource.
+   * ListByDevCenterCatalogNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
-   * @param galleryName The name of the gallery.
+   * @param catalogName The name of the Catalog.
+   * @param nextLink The nextLink from the previous successful call to the ListByDevCenterCatalog method.
    * @param options The options parameters.
    */
-  async beginDelete(
+  private _listByDevCenterCatalogNext(
     resourceGroupName: string,
     devCenterName: string,
-    galleryName: string,
-    options?: GalleriesDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<GalleriesDeleteResponse>,
-      GalleriesDeleteResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<GalleriesDeleteResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, devCenterName, galleryName, options },
-      spec: deleteOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      GalleriesDeleteResponse,
-      OperationState<GalleriesDeleteResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Deletes a gallery resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param devCenterName The name of the devcenter.
-   * @param galleryName The name of the gallery.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    resourceGroupName: string,
-    devCenterName: string,
-    galleryName: string,
-    options?: GalleriesDeleteOptionalParams,
-  ): Promise<GalleriesDeleteResponse> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      devCenterName,
-      galleryName,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * ListByDevCenterNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param devCenterName The name of the devcenter.
-   * @param nextLink The nextLink from the previous successful call to the ListByDevCenter method.
-   * @param options The options parameters.
-   */
-  private _listByDevCenterNext(
-    resourceGroupName: string,
-    devCenterName: string,
+    catalogName: string,
     nextLink: string,
-    options?: GalleriesListByDevCenterNextOptionalParams,
-  ): Promise<GalleriesListByDevCenterNextResponse> {
+    options?: DevCenterCatalogImageDefinitionsListByDevCenterCatalogNextOptionalParams,
+  ): Promise<DevCenterCatalogImageDefinitionsListByDevCenterCatalogNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, devCenterName, nextLink, options },
-      listByDevCenterNextOperationSpec,
+      { resourceGroupName, devCenterName, catalogName, nextLink, options },
+      listByDevCenterCatalogNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByDevCenterOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/galleries",
+const listByDevCenterCatalogOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}/imageDefinitions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GalleryListResult,
+      bodyMapper: Mappers.ImageDefinitionListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -400,16 +361,17 @@ const listByDevCenterOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
+    Parameters.catalogName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/galleries/{galleryName}",
+const getByDevCenterCatalogOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}/imageDefinitions/{imageDefinitionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Gallery,
+      bodyMapper: Mappers.ImageDefinition,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -421,59 +383,18 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.galleryName,
+    Parameters.catalogName,
+    Parameters.imageDefinitionName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/galleries/{galleryName}",
-  httpMethod: "PUT",
+const getErrorDetailsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}/imageDefinitions/{imageDefinitionName}/getErrorDetails",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Gallery,
-    },
-    201: {
-      bodyMapper: Mappers.Gallery,
-    },
-    202: {
-      bodyMapper: Mappers.Gallery,
-    },
-    204: {
-      bodyMapper: Mappers.Gallery,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.body11,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.devCenterName,
-    Parameters.galleryName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/galleries/{galleryName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {
-      headersMapper: Mappers.GalleriesDeleteHeaders,
-    },
-    201: {
-      headersMapper: Mappers.GalleriesDeleteHeaders,
-    },
-    202: {
-      headersMapper: Mappers.GalleriesDeleteHeaders,
-    },
-    204: {
-      headersMapper: Mappers.GalleriesDeleteHeaders,
+      bodyMapper: Mappers.CatalogResourceValidationErrorDetails,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -485,17 +406,50 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.galleryName,
+    Parameters.catalogName,
+    Parameters.imageDefinitionName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByDevCenterNextOperationSpec: coreClient.OperationSpec = {
+const buildImageOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}/imageDefinitions/{imageDefinitionName}/buildImage",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.DevCenterCatalogImageDefinitionsBuildImageHeaders,
+    },
+    201: {
+      headersMapper: Mappers.DevCenterCatalogImageDefinitionsBuildImageHeaders,
+    },
+    202: {
+      headersMapper: Mappers.DevCenterCatalogImageDefinitionsBuildImageHeaders,
+    },
+    204: {
+      headersMapper: Mappers.DevCenterCatalogImageDefinitionsBuildImageHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.devCenterName,
+    Parameters.catalogName,
+    Parameters.imageDefinitionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByDevCenterCatalogNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GalleryListResult,
+      bodyMapper: Mappers.ImageDefinitionListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -507,6 +461,7 @@ const listByDevCenterNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.devCenterName,
     Parameters.nextLink,
+    Parameters.catalogName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

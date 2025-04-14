@@ -2725,7 +2725,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-devcenter@file:projects/arm-devcenter.tgz':
-    resolution: {integrity: sha512-1rUJyYA/f5+Gi6ugTKbDYnzScCQj/VQ/FDh73X3dnzTnToefcANp1ZhH9UFfCJuED1J8jvYrUPic0PQ8kQ8MxQ==, tarball: file:projects/arm-devcenter.tgz}
+    resolution: {integrity: sha512-JFbffwTr9XmqNef03SKoTcZrzlRDwDtBkEek2B6eF/F8zMOQldXb9aMFGveSsntUUiXEh+mXrwBF6/F3b1rIHg==, tarball: file:projects/arm-devcenter.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-devhub@file:projects/arm-devhub.tgz':
@@ -3561,7 +3561,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/core-util@file:projects/core-util.tgz':
-    resolution: {integrity: sha512-PfVQ8uRgK0bQkG5oMjYLgMFpNuNTb2pN5jJelthVnqwGeT7mpFI9EHoxNUdJpgNxOAfSl8SaVvYTX9vI1bZp2g==, tarball: file:projects/core-util.tgz}
+    resolution: {integrity: sha512-lR66vzUOf7ap31GfD1cm5aUIJo8HL+kD3rUYZdjr3x8cuiH1iMCYVhJK8hesmqCP7fqll/aIFj06qbObHRrnhQ==, tarball: file:projects/core-util.tgz}
     version: 0.0.0
 
   '@rush-temp/core-xml@file:projects/core-xml.tgz':
