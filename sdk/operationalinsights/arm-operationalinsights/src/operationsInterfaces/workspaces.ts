@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Workspace,
   WorkspacesListOptionalParams,
@@ -19,7 +19,11 @@ import {
   WorkspacesGetResponse,
   WorkspacePatch,
   WorkspacesUpdateOptionalParams,
-  WorkspacesUpdateResponse
+  WorkspacesUpdateResponse,
+  WorkspacesFailoverOptionalParams,
+  WorkspacesFailoverResponse,
+  WorkspacesFailbackOptionalParams,
+  WorkspacesFailbackResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +34,7 @@ export interface Workspaces {
    * @param options The options parameters.
    */
   list(
-    options?: WorkspacesListOptionalParams
+    options?: WorkspacesListOptionalParams,
   ): PagedAsyncIterableIterator<Workspace>;
   /**
    * Gets workspaces in a resource group.
@@ -39,7 +43,7 @@ export interface Workspaces {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: WorkspacesListByResourceGroupOptionalParams
+    options?: WorkspacesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Workspace>;
   /**
    * Create or update a workspace.
@@ -52,10 +56,10 @@ export interface Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     parameters: Workspace,
-    options?: WorkspacesCreateOrUpdateOptionalParams
+    options?: WorkspacesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkspacesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WorkspacesCreateOrUpdateResponse>,
       WorkspacesCreateOrUpdateResponse
     >
   >;
@@ -70,7 +74,7 @@ export interface Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     parameters: Workspace,
-    options?: WorkspacesCreateOrUpdateOptionalParams
+    options?: WorkspacesCreateOrUpdateOptionalParams,
   ): Promise<WorkspacesCreateOrUpdateResponse>;
   /**
    * Deletes a workspace resource. To recover the workspace, create it again with the same name, in the
@@ -83,8 +87,8 @@ export interface Workspaces {
   beginDelete(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: WorkspacesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a workspace resource. To recover the workspace, create it again with the same name, in the
    * same subscription, resource group and location. The name is kept for 14 days and cannot be used for
@@ -96,7 +100,7 @@ export interface Workspaces {
   beginDeleteAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesDeleteOptionalParams
+    options?: WorkspacesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets a workspace instance.
@@ -107,7 +111,7 @@ export interface Workspaces {
   get(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesGetOptionalParams
+    options?: WorkspacesGetOptionalParams,
   ): Promise<WorkspacesGetResponse>;
   /**
    * Updates a workspace.
@@ -120,6 +124,78 @@ export interface Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     parameters: WorkspacePatch,
-    options?: WorkspacesUpdateOptionalParams
+    options?: WorkspacesUpdateOptionalParams,
   ): Promise<WorkspacesUpdateResponse>;
+  /**
+   * Activates failover for the specified workspace.
+   *
+   * The specified replication location must match the location of the enabled replication for this
+   * workspace. The failover operation is asynchronous and can take up to 30 minutes to complete. The
+   * status of the operation can be checked using the operationId returned in the response.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location The name of the Azure region.
+   * @param workspaceName The name of the workspace.
+   * @param options The options parameters.
+   */
+  beginFailover(
+    resourceGroupName: string,
+    location: string,
+    workspaceName: string,
+    options?: WorkspacesFailoverOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WorkspacesFailoverResponse>,
+      WorkspacesFailoverResponse
+    >
+  >;
+  /**
+   * Activates failover for the specified workspace.
+   *
+   * The specified replication location must match the location of the enabled replication for this
+   * workspace. The failover operation is asynchronous and can take up to 30 minutes to complete. The
+   * status of the operation can be checked using the operationId returned in the response.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location The name of the Azure region.
+   * @param workspaceName The name of the workspace.
+   * @param options The options parameters.
+   */
+  beginFailoverAndWait(
+    resourceGroupName: string,
+    location: string,
+    workspaceName: string,
+    options?: WorkspacesFailoverOptionalParams,
+  ): Promise<WorkspacesFailoverResponse>;
+  /**
+   * Deactivates failover for the specified workspace.
+   *
+   * The failback operation is asynchronous and can take up to 30 minutes to complete. The status of the
+   * operation can be checked using the operationId returned in the response.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param options The options parameters.
+   */
+  beginFailback(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: WorkspacesFailbackOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WorkspacesFailbackResponse>,
+      WorkspacesFailbackResponse
+    >
+  >;
+  /**
+   * Deactivates failover for the specified workspace.
+   *
+   * The failback operation is asynchronous and can take up to 30 minutes to complete. The status of the
+   * operation can be checked using the operationId returned in the response.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param options The options parameters.
+   */
+  beginFailbackAndWait(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: WorkspacesFailbackOptionalParams,
+  ): Promise<WorkspacesFailbackResponse>;
 }

@@ -10,7 +10,7 @@ import {
   IntelligencePacksDisableOptionalParams,
   IntelligencePacksEnableOptionalParams,
   IntelligencePacksListOptionalParams,
-  IntelligencePacksListResponse
+  IntelligencePacksListResponse,
 } from "../models/index.js";
 
 /** Interface representing a IntelligencePacks. */
@@ -26,7 +26,7 @@ export interface IntelligencePacks {
     resourceGroupName: string,
     workspaceName: string,
     intelligencePackName: string,
-    options?: IntelligencePacksDisableOptionalParams
+    options?: IntelligencePacksDisableOptionalParams,
   ): Promise<void>;
   /**
    * Enables an intelligence pack for a given workspace.
@@ -39,7 +39,7 @@ export interface IntelligencePacks {
     resourceGroupName: string,
     workspaceName: string,
     intelligencePackName: string,
-    options?: IntelligencePacksEnableOptionalParams
+    options?: IntelligencePacksEnableOptionalParams,
   ): Promise<void>;
   /**
    * Lists all the intelligence packs possible and whether they are enabled or disabled for a given
@@ -51,6 +51,6 @@ export interface IntelligencePacks {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: IntelligencePacksListOptionalParams
+    options?: IntelligencePacksListOptionalParams,
   ): Promise<IntelligencePacksListResponse>;
 }
