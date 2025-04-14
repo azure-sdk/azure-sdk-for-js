@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { LongTermRetentionPolicies } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { LongTermRetentionPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { SqlManagementClient } from "../sqlManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   LongTermRetentionPolicy,
   LongTermRetentionPoliciesListByDatabaseNextOptionalParams,
@@ -30,7 +30,7 @@ import {
   LongTermRetentionPoliciesCreateOrUpdateOptionalParams,
   LongTermRetentionPoliciesCreateOrUpdateResponse,
   LongTermRetentionPoliciesListByDatabaseNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LongTermRetentionPolicies operations. */
@@ -386,7 +386,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters101,
+  requestBody: Parameters.parameters100,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,

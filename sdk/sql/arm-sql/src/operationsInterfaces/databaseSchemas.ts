@@ -12,7 +12,7 @@ import {
   DatabaseSchemasListByDatabaseOptionalParams,
   DatabaseSchemasGetOptionalParams,
   DatabaseSchemasGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DatabaseSchemas. */

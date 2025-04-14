@@ -10,7 +10,7 @@ import {
   RestoreDetailsName,
   ManagedDatabaseRestoreDetailsGetOptionalParams,
   ManagedDatabaseRestoreDetailsGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a ManagedDatabaseRestoreDetails. */
 export interface ManagedDatabaseRestoreDetails {

@@ -16,7 +16,7 @@ import {
   ServerKeysCreateOrUpdateOptionalParams,
   ServerKeysCreateOrUpdateResponse,
   ServerKeysDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ServerKeys. */

@@ -12,7 +12,7 @@ import {
   TimeZonesListByLocationOptionalParams,
   TimeZonesGetOptionalParams,
   TimeZonesGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a TimeZones. */

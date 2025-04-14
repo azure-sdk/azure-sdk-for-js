@@ -16,7 +16,7 @@ import {
   ServerConfigurationOptionsGetResponse,
   ServerConfigurationOptionsCreateOrUpdateOptionalParams,
   ServerConfigurationOptionsCreateOrUpdateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ServerConfigurationOptions. */

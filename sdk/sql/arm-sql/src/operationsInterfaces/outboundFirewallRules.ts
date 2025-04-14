@@ -16,7 +16,7 @@ import {
   OutboundFirewallRulesCreateOrUpdateOptionalParams,
   OutboundFirewallRulesCreateOrUpdateResponse,
   OutboundFirewallRulesDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a OutboundFirewallRules. */
