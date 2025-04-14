@@ -12,7 +12,7 @@ import {
   ServerAutomaticTuning,
   ServerAutomaticTuningUpdateOptionalParams,
   ServerAutomaticTuningUpdateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a ServerAutomaticTuningOperations. */
 export interface ServerAutomaticTuningOperations {

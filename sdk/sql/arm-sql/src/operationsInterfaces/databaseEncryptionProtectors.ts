@@ -11,7 +11,7 @@ import {
   EncryptionProtectorName,
   DatabaseEncryptionProtectorsRevalidateOptionalParams,
   DatabaseEncryptionProtectorsRevertOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a DatabaseEncryptionProtectors. */
 export interface DatabaseEncryptionProtectors {

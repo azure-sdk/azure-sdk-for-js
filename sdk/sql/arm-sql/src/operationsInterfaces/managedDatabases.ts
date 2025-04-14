@@ -27,7 +27,7 @@ import {
   ManagedDatabasesCompleteRestoreOptionalParams,
   ManagedDatabaseStartMoveDefinition,
   ManagedDatabasesStartMoveOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedDatabases. */

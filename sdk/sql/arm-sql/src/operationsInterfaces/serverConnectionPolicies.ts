@@ -16,7 +16,7 @@ import {
   ServerConnectionPoliciesGetResponse,
   ServerConnectionPoliciesCreateOrUpdateOptionalParams,
   ServerConnectionPoliciesCreateOrUpdateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ServerConnectionPolicies. */

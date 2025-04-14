@@ -12,7 +12,7 @@ import {
   ManagedDatabaseQueriesListByQueryOptionalParams,
   ManagedDatabaseQueriesGetOptionalParams,
   ManagedDatabaseQueriesGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedDatabaseQueries. */

@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { ManagedInstanceDtcs } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { ManagedInstanceDtcs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { SqlManagementClient } from "../sqlManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   ManagedInstanceDtc,
   ManagedInstanceDtcsListByManagedInstanceNextOptionalParams,
@@ -30,7 +30,7 @@ import {
   ManagedInstanceDtcsCreateOrUpdateOptionalParams,
   ManagedInstanceDtcsCreateOrUpdateResponse,
   ManagedInstanceDtcsListByManagedInstanceNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedInstanceDtcs operations. */
@@ -355,7 +355,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  requestBody: Parameters.parameters78,
+  requestBody: Parameters.parameters77,
   queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
