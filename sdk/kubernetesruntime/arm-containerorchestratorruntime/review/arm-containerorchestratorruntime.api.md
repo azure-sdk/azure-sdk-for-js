@@ -4,14 +4,11 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
+import * as coreAuth from '@azure/core-auth';
+import * as coreClient from '@azure/core-client';
 import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AccessMode = string;
@@ -23,42 +20,66 @@ export type ActionType = string;
 export type AdvertiseMode = string;
 
 // @public
-export interface BgpPeer extends ExtensionResource {
-    properties?: BgpPeerProperties;
-}
-
-// @public
-export interface BgpPeerProperties {
-    myAsn: number;
-    peerAddress: string;
-    peerAsn: number;
+export interface BgpPeer extends ProxyResource {
+    myAsn?: number;
+    peerAddress?: string;
+    peerAsn?: number;
     readonly provisioningState?: ProvisioningState;
 }
 
 // @public
-export interface BgpPeersCreateOrUpdateOptionalParams extends OperationOptions {
+export interface BgpPeerListResult {
+    nextLink?: string;
+    value: BgpPeer[];
+}
+
+// @public
+export interface BgpPeers {
+    beginCreateOrUpdate(resourceUri: string, bgpPeerName: string, resource: BgpPeer, options?: BgpPeersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BgpPeersCreateOrUpdateResponse>, BgpPeersCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceUri: string, bgpPeerName: string, resource: BgpPeer, options?: BgpPeersCreateOrUpdateOptionalParams): Promise<BgpPeersCreateOrUpdateResponse>;
+    delete(resourceUri: string, bgpPeerName: string, options?: BgpPeersDeleteOptionalParams): Promise<void>;
+    get(resourceUri: string, bgpPeerName: string, options?: BgpPeersGetOptionalParams): Promise<BgpPeersGetResponse>;
+    list(resourceUri: string, options?: BgpPeersListOptionalParams): PagedAsyncIterableIterator<BgpPeer>;
+}
+
+// @public
+export interface BgpPeersCreateOrUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface BgpPeersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface BgpPeersDeleteOptionalParams extends OperationOptions {
+export type BgpPeersCreateOrUpdateResponse = BgpPeer;
+
+// @public
+export interface BgpPeersDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface BgpPeersGetOptionalParams extends OperationOptions {
+export interface BgpPeersGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface BgpPeersListOptionalParams extends OperationOptions {
+export type BgpPeersGetResponse = BgpPeer;
+
+// @public
+export interface BgpPeersListNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface BgpPeersOperations {
-    createOrUpdate: (resourceUri: string, bgpPeerName: string, resource: BgpPeer, options?: BgpPeersCreateOrUpdateOptionalParams) => PollerLike<OperationState<BgpPeer>, BgpPeer>;
-    delete: (resourceUri: string, bgpPeerName: string, options?: BgpPeersDeleteOptionalParams) => Promise<void>;
-    get: (resourceUri: string, bgpPeerName: string, options?: BgpPeersGetOptionalParams) => Promise<BgpPeer>;
-    list: (resourceUri: string, options?: BgpPeersListOptionalParams) => PagedAsyncIterableIterator<BgpPeer>;
+export type BgpPeersListNextResponse = BgpPeerListResult;
+
+// @public
+export interface BgpPeersListOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export type BgpPeersListResponse = BgpPeerListResult;
 
 // @public
 export interface BlobStorageClassTypeProperties extends StorageClassTypeProperties {
@@ -68,22 +89,36 @@ export interface BlobStorageClassTypeProperties extends StorageClassTypeProperti
 }
 
 // @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
-
-// @public
 export type CreatedByType = string;
 
 // @public
 export type DataResilienceTier = string;
 
 // @public
-export interface ExtensionResource extends Resource {
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
 export type FailoverTier = string;
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export enum KnownAccessMode {
@@ -179,59 +214,95 @@ export enum KnownVolumeExpansion {
     Disallow = "Disallow"
 }
 
-// @public (undocumented)
-export class KubernetesRuntimeClient {
-    constructor(credential: TokenCredential, options?: KubernetesRuntimeClientOptionalParams);
-    readonly bgpPeers: BgpPeersOperations;
-    readonly loadBalancers: LoadBalancersOperations;
-    readonly operations: OperationsOperations;
-    readonly pipeline: Pipeline;
-    readonly services: ServicesOperations;
-    readonly storageClass: StorageClassOperations;
-}
-
 // @public
-export interface KubernetesRuntimeClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-}
-
-// @public
-export interface LoadBalancer extends ExtensionResource {
-    properties?: LoadBalancerProperties;
-}
-
-// @public
-export interface LoadBalancerProperties {
-    addresses: string[];
-    advertiseMode: AdvertiseMode;
+export interface LoadBalancer extends ProxyResource {
+    addresses?: string[];
+    advertiseMode?: AdvertiseMode;
     bgpPeers?: string[];
     readonly provisioningState?: ProvisioningState;
-    serviceSelector?: Record<string, string>;
+    serviceSelector?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
-export interface LoadBalancersCreateOrUpdateOptionalParams extends OperationOptions {
+export interface LoadBalancerListResult {
+    nextLink?: string;
+    value: LoadBalancer[];
+}
+
+// @public
+export interface LoadBalancers {
+    beginCreateOrUpdate(resourceUri: string, loadBalancerName: string, resource: LoadBalancer, options?: LoadBalancersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LoadBalancersCreateOrUpdateResponse>, LoadBalancersCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceUri: string, loadBalancerName: string, resource: LoadBalancer, options?: LoadBalancersCreateOrUpdateOptionalParams): Promise<LoadBalancersCreateOrUpdateResponse>;
+    delete(resourceUri: string, loadBalancerName: string, options?: LoadBalancersDeleteOptionalParams): Promise<void>;
+    get(resourceUri: string, loadBalancerName: string, options?: LoadBalancersGetOptionalParams): Promise<LoadBalancersGetResponse>;
+    list(resourceUri: string, options?: LoadBalancersListOptionalParams): PagedAsyncIterableIterator<LoadBalancer>;
+}
+
+// @public
+export interface LoadBalancersCreateOrUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface LoadBalancersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface LoadBalancersDeleteOptionalParams extends OperationOptions {
+export type LoadBalancersCreateOrUpdateResponse = LoadBalancer;
+
+// @public
+export interface LoadBalancersDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface LoadBalancersGetOptionalParams extends OperationOptions {
+export interface LoadBalancersGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface LoadBalancersListOptionalParams extends OperationOptions {
+export type LoadBalancersGetResponse = LoadBalancer;
+
+// @public
+export interface LoadBalancersListNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface LoadBalancersOperations {
-    createOrUpdate: (resourceUri: string, loadBalancerName: string, resource: LoadBalancer, options?: LoadBalancersCreateOrUpdateOptionalParams) => PollerLike<OperationState<LoadBalancer>, LoadBalancer>;
-    delete: (resourceUri: string, loadBalancerName: string, options?: LoadBalancersDeleteOptionalParams) => Promise<void>;
-    get: (resourceUri: string, loadBalancerName: string, options?: LoadBalancersGetOptionalParams) => Promise<LoadBalancer>;
-    list: (resourceUri: string, options?: LoadBalancersListOptionalParams) => PagedAsyncIterableIterator<LoadBalancer>;
+export type LoadBalancersListNextResponse = LoadBalancerListResult;
+
+// @public
+export interface LoadBalancersListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LoadBalancersListResponse = LoadBalancerListResult;
+
+// @public (undocumented)
+export class MicrosoftKubernetesRuntime extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
+    constructor(credentials: coreAuth.TokenCredential, options?: MicrosoftKubernetesRuntimeOptionalParams);
+    // (undocumented)
+    apiVersion: string;
+    // (undocumented)
+    bgpPeers: BgpPeers;
+    // (undocumented)
+    loadBalancers: LoadBalancers;
+    // (undocumented)
+    operations: Operations;
+    // (undocumented)
+    services: Services;
+    // (undocumented)
+    storageClass: StorageClass;
+}
+
+// @public
+export interface MicrosoftKubernetesRuntimeOptionalParams extends coreClient.ServiceClientOptions {
+    $host?: string;
+    apiVersion?: string;
+    endpoint?: string;
 }
 
 // @public
@@ -254,8 +325,8 @@ export interface NfsStorageClassTypeProperties extends StorageClassTypePropertie
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -270,28 +341,32 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationsListOptionalParams extends OperationOptions {
+export interface OperationListResult {
+    readonly nextLink?: string;
+    readonly value?: Operation[];
 }
 
 // @public
-export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
+export interface Operations {
+    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
+
+// @public
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListNextResponse = OperationListResult;
+
+// @public
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListResponse = OperationListResult;
 
 // @public
 export type Origin = string;
-
-// @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
 
 // @public
 export type PerformanceTier = string;
@@ -300,21 +375,15 @@ export type PerformanceTier = string;
 export type ProvisioningState = string;
 
 // @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
-}
-
-// @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: KubernetesRuntimeClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -327,39 +396,56 @@ export interface RwxStorageClassTypeProperties extends StorageClassTypePropertie
 export type SCType = string;
 
 // @public
-export interface ServiceProperties {
+export interface ServiceResource extends ProxyResource {
     readonly provisioningState?: ProvisioningState;
     readonly rpObjectId?: string;
 }
 
 // @public
-export interface ServiceResource extends ExtensionResource {
-    properties?: ServiceProperties;
+export interface ServiceResourceListResult {
+    nextLink?: string;
+    value: ServiceResource[];
 }
 
 // @public
-export interface ServicesCreateOrUpdateOptionalParams extends OperationOptions {
+export interface Services {
+    createOrUpdate(resourceUri: string, serviceName: string, resource: ServiceResource, options?: ServicesCreateOrUpdateOptionalParams): Promise<ServicesCreateOrUpdateResponse>;
+    delete(resourceUri: string, serviceName: string, options?: ServicesDeleteOptionalParams): Promise<void>;
+    get(resourceUri: string, serviceName: string, options?: ServicesGetOptionalParams): Promise<ServicesGetResponse>;
+    list(resourceUri: string, options?: ServicesListOptionalParams): PagedAsyncIterableIterator<ServiceResource>;
 }
 
 // @public
-export interface ServicesDeleteOptionalParams extends OperationOptions {
+export interface ServicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface ServicesGetOptionalParams extends OperationOptions {
+export type ServicesCreateOrUpdateResponse = ServiceResource;
+
+// @public
+export interface ServicesDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface ServicesListOptionalParams extends OperationOptions {
+export interface ServicesGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface ServicesOperations {
-    createOrUpdate: (resourceUri: string, serviceName: string, resource: ServiceResource, options?: ServicesCreateOrUpdateOptionalParams) => Promise<ServiceResource>;
-    delete: (resourceUri: string, serviceName: string, options?: ServicesDeleteOptionalParams) => Promise<void>;
-    get: (resourceUri: string, serviceName: string, options?: ServicesGetOptionalParams) => Promise<ServiceResource>;
-    list: (resourceUri: string, options?: ServicesListOptionalParams) => PagedAsyncIterableIterator<ServiceResource>;
+export type ServicesGetResponse = ServiceResource;
+
+// @public
+export interface ServicesListNextOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export type ServicesListNextResponse = ServiceResourceListResult;
+
+// @public
+export interface ServicesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServicesListResponse = ServiceResourceListResult;
 
 // @public
 export interface SmbStorageClassTypeProperties extends StorageClassTypeProperties {
@@ -372,47 +458,66 @@ export interface SmbStorageClassTypeProperties extends StorageClassTypePropertie
 }
 
 // @public
-export interface StorageClassCreateOrUpdateOptionalParams extends OperationOptions {
+export interface StorageClass {
+    beginCreateOrUpdate(resourceUri: string, storageClassName: string, resource: StorageClassResource, options?: StorageClassCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<StorageClassCreateOrUpdateResponse>, StorageClassCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceUri: string, storageClassName: string, resource: StorageClassResource, options?: StorageClassCreateOrUpdateOptionalParams): Promise<StorageClassCreateOrUpdateResponse>;
+    beginDelete(resourceUri: string, storageClassName: string, options?: StorageClassDeleteOptionalParams): Promise<SimplePollerLike<OperationState<StorageClassDeleteResponse>, StorageClassDeleteResponse>>;
+    beginDeleteAndWait(resourceUri: string, storageClassName: string, options?: StorageClassDeleteOptionalParams): Promise<StorageClassDeleteResponse>;
+    beginUpdate(resourceUri: string, storageClassName: string, properties: StorageClassResourceUpdate, options?: StorageClassUpdateOptionalParams): Promise<SimplePollerLike<OperationState<StorageClassUpdateResponse>, StorageClassUpdateResponse>>;
+    beginUpdateAndWait(resourceUri: string, storageClassName: string, properties: StorageClassResourceUpdate, options?: StorageClassUpdateOptionalParams): Promise<StorageClassUpdateResponse>;
+    get(resourceUri: string, storageClassName: string, options?: StorageClassGetOptionalParams): Promise<StorageClassGetResponse>;
+    list(resourceUri: string, options?: StorageClassListOptionalParams): PagedAsyncIterableIterator<StorageClassResource>;
+}
+
+// @public
+export interface StorageClassCreateOrUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface StorageClassCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface StorageClassDeleteOptionalParams extends OperationOptions {
+export type StorageClassCreateOrUpdateResponse = StorageClassResource;
+
+// @public
+export interface StorageClassDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface StorageClassDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface StorageClassGetOptionalParams extends OperationOptions {
+export type StorageClassDeleteResponse = StorageClassDeleteHeaders;
+
+// @public
+export interface StorageClassGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface StorageClassListOptionalParams extends OperationOptions {
+export type StorageClassGetResponse = StorageClassResource;
+
+// @public
+export interface StorageClassListNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface StorageClassOperations {
-    createOrUpdate: (resourceUri: string, storageClassName: string, resource: StorageClassResource, options?: StorageClassCreateOrUpdateOptionalParams) => PollerLike<OperationState<StorageClassResource>, StorageClassResource>;
-    delete: (resourceUri: string, storageClassName: string, options?: StorageClassDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceUri: string, storageClassName: string, options?: StorageClassGetOptionalParams) => Promise<StorageClassResource>;
-    list: (resourceUri: string, options?: StorageClassListOptionalParams) => PagedAsyncIterableIterator<StorageClassResource>;
-    update: (resourceUri: string, storageClassName: string, properties: StorageClassResourceUpdate, options?: StorageClassUpdateOptionalParams) => PollerLike<OperationState<StorageClassResource>, StorageClassResource>;
+export type StorageClassListNextResponse = StorageClassResourceListResult;
+
+// @public
+export interface StorageClassListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface StorageClassProperties {
-    accessModes?: AccessMode[];
-    allowVolumeExpansion?: VolumeExpansion;
-    dataResilience?: DataResilienceTier;
-    failoverSpeed?: FailoverTier;
-    limitations?: string[];
-    mountOptions?: string[];
-    performance?: PerformanceTier;
-    priority?: number;
-    provisioner?: string;
-    readonly provisioningState?: ProvisioningState;
-    typeProperties: StorageClassTypePropertiesUnion;
-    volumeBindingMode?: VolumeBindingMode;
-}
+export type StorageClassListResponse = StorageClassResourceListResult;
 
 // @public
 export interface StorageClassPropertiesUpdate {
@@ -428,8 +533,25 @@ export interface StorageClassPropertiesUpdate {
 }
 
 // @public
-export interface StorageClassResource extends ExtensionResource {
-    properties?: StorageClassProperties;
+export interface StorageClassResource extends ProxyResource {
+    accessModes?: AccessMode[];
+    allowVolumeExpansion?: VolumeExpansion;
+    dataResilience?: DataResilienceTier;
+    failoverSpeed?: FailoverTier;
+    limitations?: string[];
+    mountOptions?: string[];
+    performance?: PerformanceTier;
+    priority?: number;
+    provisioner?: string;
+    readonly provisioningState?: ProvisioningState;
+    typeProperties?: StorageClassTypePropertiesUnion;
+    volumeBindingMode?: VolumeBindingMode;
+}
+
+// @public
+export interface StorageClassResourceListResult {
+    nextLink?: string;
+    value: StorageClassResource[];
 }
 
 // @public
@@ -439,11 +561,11 @@ export interface StorageClassResourceUpdate {
 
 // @public
 export interface StorageClassTypeProperties {
-    type: SCType;
+    type: "Blob" | "Native" | "NFS" | "RWX" | "SMB";
 }
 
-// @public
-export type StorageClassTypePropertiesUnion = NativeStorageClassTypeProperties | RwxStorageClassTypeProperties | BlobStorageClassTypeProperties | NfsStorageClassTypeProperties | SmbStorageClassTypeProperties | StorageClassTypeProperties;
+// @public (undocumented)
+export type StorageClassTypePropertiesUnion = StorageClassTypeProperties | BlobStorageClassTypeProperties | NativeStorageClassTypeProperties | NfsStorageClassTypeProperties | RwxStorageClassTypeProperties | SmbStorageClassTypeProperties;
 
 // @public
 export interface StorageClassTypePropertiesUpdate {
@@ -462,9 +584,19 @@ export interface StorageClassTypePropertiesUpdate {
 }
 
 // @public
-export interface StorageClassUpdateOptionalParams extends OperationOptions {
+export interface StorageClassUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface StorageClassUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type StorageClassUpdateResponse = StorageClassResource;
 
 // @public
 export interface SystemData {
