@@ -2645,7 +2645,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-cosmosdb@file:projects/arm-cosmosdb.tgz':
-    resolution: {integrity: sha512-agz2lF4nGqX8RK60MXSLBmnhN7Ueo/KrEHNgsJsCmafU58HYXST57MOvRBqRHRSpG4sKrW02BR2Hj8agPCzw5A==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-QjZQyWewCpbxyTRadbkPyJ5ig8pU6a4v97RTn+MMxXMjA68BT3wFwGgt5VBnl2azoi/5cmub6kYI+5pVkLMW3w==, tarball: file:projects/arm-cosmosdb.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-cosmosdbforpostgresql@file:projects/arm-cosmosdbforpostgresql.tgz':
@@ -3561,7 +3561,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/core-util@file:projects/core-util.tgz':
-    resolution: {integrity: sha512-PfVQ8uRgK0bQkG5oMjYLgMFpNuNTb2pN5jJelthVnqwGeT7mpFI9EHoxNUdJpgNxOAfSl8SaVvYTX9vI1bZp2g==, tarball: file:projects/core-util.tgz}
+    resolution: {integrity: sha512-lR66vzUOf7ap31GfD1cm5aUIJo8HL+kD3rUYZdjr3x8cuiH1iMCYVhJK8hesmqCP7fqll/aIFj06qbObHRrnhQ==, tarball: file:projects/core-util.tgz}
     version: 0.0.0
 
   '@rush-temp/core-xml@file:projects/core-xml.tgz':
@@ -11182,7 +11182,7 @@ snapshots:
       dotenv: 16.4.7
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.6.3
+      typescript: 5.8.3
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
