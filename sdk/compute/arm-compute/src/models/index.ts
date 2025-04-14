@@ -9151,7 +9151,7 @@ export type AlternativeType = string;
 /** Known values of {@link Expand} that the service accepts. */
 export enum KnownExpand {
   /** Properties */
-  Properties = "Properties",
+  Properties = "properties",
 }
 
 /**
@@ -9159,7 +9159,7 @@ export enum KnownExpand {
  * {@link KnownExpand} can be used interchangeably with Expand,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Properties**
+ * **properties**
  */
 export type Expand = string;
 
