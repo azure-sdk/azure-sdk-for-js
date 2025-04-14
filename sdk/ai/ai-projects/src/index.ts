@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectsClient, AIProjectsClientOptions } from "./aiProjectsClient.js";
-import { ProjectsClientOptions } from "./generated/src/projectsClient.js";
-export { AgentsOperations } from "./agents/index.js";
-export { ConnectionsOperations } from "./connections/index.js";
-export { TelemetryOperations, TelemetryOptions } from "./telemetry/index.js";
+import ProjectsClient from "./projectsClient.js";
 
-export * from "./agents/inputOutputs.js";
-export * from "./connections/inputOutput.js";
-export { AzureAISearchQueryType, CreateAzureAISearchToolOptions } from "./customization/models.js";
+export * from "./projectsClient.js";
+export * from "./parameters.js";
+export * from "./responses.js";
+export * from "./clientDefinitions.js";
+export * from "./isUnexpected.js";
+export * from "./models.js";
+export * from "./outputModels.js";
+export * from "./paginateHelper.js";
 
-export { AIProjectsClient, AIProjectsClientOptions, ProjectsClientOptions };
+export default ProjectsClient;
