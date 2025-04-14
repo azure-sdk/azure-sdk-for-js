@@ -2697,7 +2697,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-datafactory@file:projects/arm-datafactory.tgz':
-    resolution: {integrity: sha512-HgJz2N5jNNuxb/8qZqKooHInHrwELAro6z3Q/Fp/nxbwMlV/Q/xfBqPcrSOtvfMwHjfFWen+zcWNdXQV/Q+XHA==, tarball: file:projects/arm-datafactory.tgz}
+    resolution: {integrity: sha512-+FbZqAqRiHtUnpbraqYZ1l8yva7qiMku9/ACtkVXVWmEbjB95Lo6PydfEWISN8Qlat1NW8AuEGq0mLvYWJXWsw==, tarball: file:projects/arm-datafactory.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-datalake-analytics@file:projects/arm-datalake-analytics.tgz':
@@ -3561,7 +3561,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/core-util@file:projects/core-util.tgz':
-    resolution: {integrity: sha512-PfVQ8uRgK0bQkG5oMjYLgMFpNuNTb2pN5jJelthVnqwGeT7mpFI9EHoxNUdJpgNxOAfSl8SaVvYTX9vI1bZp2g==, tarball: file:projects/core-util.tgz}
+    resolution: {integrity: sha512-lR66vzUOf7ap31GfD1cm5aUIJo8HL+kD3rUYZdjr3x8cuiH1iMCYVhJK8hesmqCP7fqll/aIFj06qbObHRrnhQ==, tarball: file:projects/core-util.tgz}
     version: 0.0.0
 
   '@rush-temp/core-xml@file:projects/core-xml.tgz':
