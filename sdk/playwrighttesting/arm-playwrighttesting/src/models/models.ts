@@ -1,14 +1,200 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/** A quota resource for a Playwright service account. */
-export interface AccountQuota extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: AccountQuotaProperties;
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface _OperationListResult {
+  /** The Operation items on this page */
+  value: Operation[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
-export function accountQuotaDeserializer(item: any): AccountQuota {
+export function _operationListResultDeserializer(item: any): _OperationListResult {
   return {
+    value: operationArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function operationArrayDeserializer(result: Array<Operation>): any[] {
+  return result.map((item) => {
+    return operationDeserializer(item);
+  });
+}
+
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
+  /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
+  readonly name?: string;
+  /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+  /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+  readonly origin?: Origin;
+  /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+  readonly actionType?: ActionType;
+}
+
+export function operationDeserializer(item: any): Operation {
+  return {
+    name: item["name"],
+    isDataAction: item["isDataAction"],
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    origin: item["origin"],
+    actionType: item["actionType"],
+  };
+}
+
+/** Localized display information for and operation. */
+export interface OperationDisplay {
+  /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
+  readonly provider?: string;
+  /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
+  readonly resource?: string;
+  /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
+  readonly operation?: string;
+  /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
+  readonly description?: string;
+}
+
+export function operationDisplayDeserializer(item: any): OperationDisplay {
+  return {
+    provider: item["provider"],
+    resource: item["resource"],
+    operation: item["operation"],
+    description: item["description"],
+  };
+}
+
+/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+export enum KnownOrigin {
+  /** Indicates the operation is initiated by a user. */
+  User = "user",
+  /** Indicates the operation is initiated by a system. */
+  System = "system",
+  /** Indicates the operation is initiated by a user or system. */
+  UserSystem = "user,system",
+}
+
+/**
+ * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user**: Indicates the operation is initiated by a user. \
+ * **system**: Indicates the operation is initiated by a system. \
+ * **user,system**: Indicates the operation is initiated by a user or system.
+ */
+export type Origin = string;
+
+/** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+export enum KnownActionType {
+  /** Actions are for internal-only APIs. */
+  Internal = "Internal",
+}
+
+/**
+ * Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**: Actions are for internal-only APIs.
+ */
+export type ActionType = string;
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+export function errorResponseDeserializer(item: any): ErrorResponse {
+  return {
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+  };
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+export function errorDetailDeserializer(item: any): ErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
+  };
+}
+
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+  return result.map((item) => {
+    return errorDetailDeserializer(item);
+  });
+}
+
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+  return result.map((item) => {
+    return errorAdditionalInfoDeserializer(item);
+  });
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: Record<string, any>;
+}
+
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+  return {
+    type: item["type"],
+    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+  };
+}
+
+/** model interface _ErrorAdditionalInfoInfo */
+export interface _ErrorAdditionalInfoInfo {}
+
+export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
+  return item;
+}
+
+/** A Playwright service account resource. */
+export interface Account extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: AccountProperties;
+}
+
+export function accountSerializer(item: Account): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : accountPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function accountDeserializer(item: any): Account {
+  return {
+    tags: item["tags"],
+    location: item["location"],
     id: item["id"],
     name: item["name"],
     type: item["type"],
@@ -17,50 +203,63 @@ export function accountQuotaDeserializer(item: any): AccountQuota {
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : accountQuotaPropertiesDeserializer(item["properties"]),
+      : accountPropertiesDeserializer(item["properties"]),
   };
 }
 
-/** The Playwright service account quota resource properties. */
-export interface AccountQuotaProperties {
-  /** The Playwright service account quota resource free-trial properties. */
-  freeTrial?: AccountFreeTrialProperties;
+/** Account resource properties. */
+export interface AccountProperties {
+  /** The Playwright testing dashboard URI for the account resource. */
+  readonly dashboardUri?: string;
+  /** This property sets the connection region for Playwright client workers to cloud-hosted browsers. If enabled, workers connect to browsers in the closest Azure region, ensuring lower latency. If disabled, workers connect to browsers in the Azure region in which the workspace was initially created. */
+  regionalAffinity?: EnablementStatus;
+  /** When enabled, Playwright client workers can connect to cloud-hosted browsers. This can increase the number of parallel workers for a test run, significantly minimizing test completion durations. */
+  scalableExecution?: EnablementStatus;
+  /** When enabled, this feature allows the workspace to upload and display test results, including artifacts like traces and screenshots, in the Playwright portal. This enables faster and more efficient troubleshooting. */
+  reporting?: EnablementStatus;
+  /** When enabled, this feature allows the workspace to use local auth (through service access token) for executing operations. */
+  localAuth?: EnablementStatus;
   /** The status of the last operation. */
   readonly provisioningState?: ProvisioningState;
 }
 
-export function accountQuotaPropertiesDeserializer(item: any): AccountQuotaProperties {
+export function accountPropertiesSerializer(item: AccountProperties): any {
   return {
-    freeTrial: !item["freeTrial"]
-      ? item["freeTrial"]
-      : accountFreeTrialPropertiesDeserializer(item["freeTrial"]),
+    regionalAffinity: item["regionalAffinity"],
+    scalableExecution: item["scalableExecution"],
+    reporting: item["reporting"],
+    localAuth: item["localAuth"],
+  };
+}
+
+export function accountPropertiesDeserializer(item: any): AccountProperties {
+  return {
+    dashboardUri: item["dashboardUri"],
+    regionalAffinity: item["regionalAffinity"],
+    scalableExecution: item["scalableExecution"],
+    reporting: item["reporting"],
+    localAuth: item["localAuth"],
     provisioningState: item["provisioningState"],
   };
 }
 
-/** The Playwright service account quota resource free-trial properties. */
-export interface AccountFreeTrialProperties {
-  /** The free-trial createdAt utcDateTime. */
-  readonly createdAt: Date;
-  /** The free-trial expiryAt utcDateTime. */
-  readonly expiryAt: Date;
-  /** The free-trial allocated limit value eg. allocated free minutes. */
-  readonly allocatedValue: number;
-  /** The free-trial used value eg. used free minutes. */
-  readonly usedValue: number;
-  /** The free-trial percentage used. */
-  readonly percentageUsed: number;
+/** The enablement status of a feature. */
+export enum KnownEnablementStatus {
+  /** The feature is Enabled. */
+  Enabled = "Enabled",
+  /** The feature is Disabled. */
+  Disabled = "Disabled",
 }
 
-export function accountFreeTrialPropertiesDeserializer(item: any): AccountFreeTrialProperties {
-  return {
-    createdAt: new Date(item["createdAt"]),
-    expiryAt: new Date(item["expiryAt"]),
-    allocatedValue: item["allocatedValue"],
-    usedValue: item["usedValue"],
-    percentageUsed: item["percentageUsed"],
-  };
-}
+/**
+ * The enablement status of a feature. \
+ * {@link KnownEnablementStatus} can be used interchangeably with EnablementStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: The feature is Enabled. \
+ * **Disabled**: The feature is Disabled.
+ */
+export type EnablementStatus = string;
 
 /** The status of the current operation. */
 export enum KnownProvisioningState {
@@ -92,28 +291,19 @@ export enum KnownProvisioningState {
  */
 export type ProvisioningState = string;
 
-/** The enum for quota name. */
-export enum KnownQuotaNames {
-  /** The quota details for scalable execution feature. When enabled, Playwright client workers can connect to cloud-hosted browsers. This can increase the number of parallel workers for a test run, significantly minimizing test completion durations. */
-  ScalableExecution = "ScalableExecution",
-  /** The quota details for reporting feature. When enabled, Playwright client will be able to upload and display test results, including artifacts like traces and screenshots, in the Playwright portal. This enables faster and more efficient troubleshooting. */
-  Reporting = "Reporting",
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The geo-location where the resource lives */
+  location: string;
 }
 
-/**
- * The enum for quota name. \
- * {@link KnownQuotaNames} can be used interchangeably with QuotaNames,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ScalableExecution**: The quota details for scalable execution feature. When enabled, Playwright client workers can connect to cloud-hosted browsers. This can increase the number of parallel workers for a test run, significantly minimizing test completion durations. \
- * **Reporting**: The quota details for reporting feature. When enabled, Playwright client will be able to upload and display test results, including artifacts like traces and screenshots, in the Playwright portal. This enables faster and more efficient troubleshooting.
- */
-export type QuotaNames = string;
+export function trackedResourceSerializer(item: TrackedResource): any {
+  return { tags: item["tags"], location: item["location"] };
+}
 
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
-
-export function proxyResourceDeserializer(item: any): ProxyResource {
+export function trackedResourceDeserializer(item: any): TrackedResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -121,6 +311,8 @@ export function proxyResourceDeserializer(item: any): ProxyResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
+    tags: item["tags"],
+    location: item["location"],
   };
 }
 
@@ -204,26 +396,120 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
-/** The response of a AccountQuota list operation. */
-export interface _AccountQuotaListResult {
-  /** The AccountQuota items on this page */
-  value: AccountQuota[];
+/** The type used for update operations of the Account. */
+export interface AccountUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: AccountUpdateProperties;
+}
+
+export function accountUpdateSerializer(item: AccountUpdate): any {
+  return {
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : accountUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** The updatable properties of the Account. */
+export interface AccountUpdateProperties {
+  /** This property sets the connection region for Playwright client workers to cloud-hosted browsers. If enabled, workers connect to browsers in the closest Azure region, ensuring lower latency. If disabled, workers connect to browsers in the Azure region in which the workspace was initially created. */
+  regionalAffinity?: EnablementStatus;
+  /** When enabled, Playwright client workers can connect to cloud-hosted browsers. This can increase the number of parallel workers for a test run, significantly minimizing test completion durations. */
+  scalableExecution?: EnablementStatus;
+  /** When enabled, this feature allows the workspace to upload and display test results, including artifacts like traces and screenshots, in the Playwright portal. This enables faster and more efficient troubleshooting. */
+  reporting?: EnablementStatus;
+  /** When enabled, this feature allows the workspace to use local auth (through service access token) for executing operations. */
+  localAuth?: EnablementStatus;
+}
+
+export function accountUpdatePropertiesSerializer(item: AccountUpdateProperties): any {
+  return {
+    regionalAffinity: item["regionalAffinity"],
+    scalableExecution: item["scalableExecution"],
+    reporting: item["reporting"],
+    localAuth: item["localAuth"],
+  };
+}
+
+/** The response of a Account list operation. */
+export interface _AccountListResult {
+  /** The Account items on this page */
+  value: Account[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _accountQuotaListResultDeserializer(item: any): _AccountQuotaListResult {
+export function _accountListResultDeserializer(item: any): _AccountListResult {
   return {
-    value: accountQuotaArrayDeserializer(item["value"]),
+    value: accountArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function accountQuotaArrayDeserializer(result: Array<AccountQuota>): any[] {
+export function accountArraySerializer(result: Array<Account>): any[] {
   return result.map((item) => {
-    return accountQuotaDeserializer(item);
+    return accountSerializer(item);
   });
 }
+
+export function accountArrayDeserializer(result: Array<Account>): any[] {
+  return result.map((item) => {
+    return accountDeserializer(item);
+  });
+}
+
+/** The check availability request body. */
+export interface CheckNameAvailabilityRequest {
+  /** The name of the resource for which availability needs to be checked. */
+  name?: string;
+  /** The resource type. */
+  type?: string;
+}
+
+export function checkNameAvailabilityRequestSerializer(item: CheckNameAvailabilityRequest): any {
+  return { name: item["name"], type: item["type"] };
+}
+
+/** The check availability result. */
+export interface CheckNameAvailabilityResponse {
+  /** Indicates if the resource name is available. */
+  nameAvailable?: boolean;
+  /** The reason why the given name is not available. */
+  reason?: CheckNameAvailabilityReason;
+  /** Detailed reason why the given name is not available. */
+  message?: string;
+}
+
+export function checkNameAvailabilityResponseDeserializer(
+  item: any,
+): CheckNameAvailabilityResponse {
+  return {
+    nameAvailable: item["nameAvailable"],
+    reason: item["reason"],
+    message: item["message"],
+  };
+}
+
+/** Possible reasons for a name not being available. */
+export enum KnownCheckNameAvailabilityReason {
+  /** Name is invalid. */
+  Invalid = "Invalid",
+  /** Name already exists. */
+  AlreadyExists = "AlreadyExists",
+}
+
+/**
+ * Possible reasons for a name not being available. \
+ * {@link KnownCheckNameAvailabilityReason} can be used interchangeably with CheckNameAvailabilityReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid**: Name is invalid. \
+ * **AlreadyExists**: Name already exists.
+ */
+export type CheckNameAvailabilityReason = string;
 
 /** A subscription quota resource. */
 export interface Quota extends ProxyResource {
@@ -328,6 +614,38 @@ export enum KnownOfferingType {
  */
 export type OfferingType = string;
 
+/** The enum for quota name. */
+export enum KnownQuotaNames {
+  /** The quota details for scalable execution feature. When enabled, Playwright client workers can connect to cloud-hosted browsers. This can increase the number of parallel workers for a test run, significantly minimizing test completion durations. */
+  ScalableExecution = "ScalableExecution",
+  /** The quota details for reporting feature. When enabled, Playwright client will be able to upload and display test results, including artifacts like traces and screenshots, in the Playwright portal. This enables faster and more efficient troubleshooting. */
+  Reporting = "Reporting",
+}
+
+/**
+ * The enum for quota name. \
+ * {@link KnownQuotaNames} can be used interchangeably with QuotaNames,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ScalableExecution**: The quota details for scalable execution feature. When enabled, Playwright client workers can connect to cloud-hosted browsers. This can increase the number of parallel workers for a test run, significantly minimizing test completion durations. \
+ * **Reporting**: The quota details for reporting feature. When enabled, Playwright client will be able to upload and display test results, including artifacts like traces and screenshots, in the Playwright portal. This enables faster and more efficient troubleshooting.
+ */
+export type QuotaNames = string;
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+export function proxyResourceDeserializer(item: any): ProxyResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
 /** The response of a Quota list operation. */
 export interface _QuotaListResult {
   /** The Quota items on this page */
@@ -349,26 +667,14 @@ export function quotaArrayDeserializer(result: Array<Quota>): any[] {
   });
 }
 
-/** A Playwright service account resource. */
-export interface Account extends TrackedResource {
+/** A quota resource for a Playwright service account. */
+export interface AccountQuota extends ProxyResource {
   /** The resource-specific properties for this resource. */
-  properties?: AccountProperties;
+  properties?: AccountQuotaProperties;
 }
 
-export function accountSerializer(item: Account): any {
+export function accountQuotaDeserializer(item: any): AccountQuota {
   return {
-    tags: item["tags"],
-    location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : accountPropertiesSerializer(item["properties"]),
-  };
-}
-
-export function accountDeserializer(item: any): Account {
-  return {
-    tags: item["tags"],
-    location: item["location"],
     id: item["id"],
     name: item["name"],
     type: item["type"],
@@ -377,305 +683,71 @@ export function accountDeserializer(item: any): Account {
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : accountPropertiesDeserializer(item["properties"]),
+      : accountQuotaPropertiesDeserializer(item["properties"]),
   };
 }
 
-/** Account resource properties. */
-export interface AccountProperties {
-  /** The Playwright testing dashboard URI for the account resource. */
-  readonly dashboardUri?: string;
-  /** This property sets the connection region for Playwright client workers to cloud-hosted browsers. If enabled, workers connect to browsers in the closest Azure region, ensuring lower latency. If disabled, workers connect to browsers in the Azure region in which the workspace was initially created. */
-  regionalAffinity?: EnablementStatus;
-  /** When enabled, Playwright client workers can connect to cloud-hosted browsers. This can increase the number of parallel workers for a test run, significantly minimizing test completion durations. */
-  scalableExecution?: EnablementStatus;
-  /** When enabled, this feature allows the workspace to upload and display test results, including artifacts like traces and screenshots, in the Playwright portal. This enables faster and more efficient troubleshooting. */
-  reporting?: EnablementStatus;
-  /** When enabled, this feature allows the workspace to use local auth(through access key) for authentication of test runs. */
-  localAuth?: EnablementStatus;
+/** The Playwright service account quota resource properties. */
+export interface AccountQuotaProperties {
+  /** The Playwright service account quota resource free-trial properties. */
+  freeTrial?: AccountFreeTrialProperties;
   /** The status of the last operation. */
   readonly provisioningState?: ProvisioningState;
 }
 
-export function accountPropertiesSerializer(item: AccountProperties): any {
+export function accountQuotaPropertiesDeserializer(item: any): AccountQuotaProperties {
   return {
-    regionalAffinity: item["regionalAffinity"],
-    scalableExecution: item["scalableExecution"],
-    reporting: item["reporting"],
-    localAuth: item["localAuth"],
-  };
-}
-
-export function accountPropertiesDeserializer(item: any): AccountProperties {
-  return {
-    dashboardUri: item["dashboardUri"],
-    regionalAffinity: item["regionalAffinity"],
-    scalableExecution: item["scalableExecution"],
-    reporting: item["reporting"],
-    localAuth: item["localAuth"],
+    freeTrial: !item["freeTrial"]
+      ? item["freeTrial"]
+      : accountFreeTrialPropertiesDeserializer(item["freeTrial"]),
     provisioningState: item["provisioningState"],
   };
 }
 
-/** The enablement status of a feature. */
-export enum KnownEnablementStatus {
-  /** The feature is Enabled. */
-  Enabled = "Enabled",
-  /** The feature is Disabled. */
-  Disabled = "Disabled",
+/** The Playwright service account quota resource free-trial properties. */
+export interface AccountFreeTrialProperties {
+  /** The free-trial createdAt utcDateTime. */
+  readonly createdAt: Date;
+  /** The free-trial expiryAt utcDateTime. */
+  readonly expiryAt: Date;
+  /** The free-trial allocated limit value eg. allocated free minutes. */
+  readonly allocatedValue: number;
+  /** The free-trial used value eg. used free minutes. */
+  readonly usedValue: number;
+  /** The free-trial percentage used. */
+  readonly percentageUsed: number;
 }
 
-/**
- * The enablement status of a feature. \
- * {@link KnownEnablementStatus} can be used interchangeably with EnablementStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled**: The feature is Enabled. \
- * **Disabled**: The feature is Disabled.
- */
-export type EnablementStatus = string;
-
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResource extends Resource {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
-  location: string;
-}
-
-export function trackedResourceSerializer(item: TrackedResource): any {
-  return { tags: item["tags"], location: item["location"] };
-}
-
-export function trackedResourceDeserializer(item: any): TrackedResource {
+export function accountFreeTrialPropertiesDeserializer(item: any): AccountFreeTrialProperties {
   return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
-    location: item["location"],
+    createdAt: new Date(item["createdAt"]),
+    expiryAt: new Date(item["expiryAt"]),
+    allocatedValue: item["allocatedValue"],
+    usedValue: item["usedValue"],
+    percentageUsed: item["percentageUsed"],
   };
 }
 
-/** The type used for update operations of the Account. */
-export interface AccountUpdate {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The resource-specific properties for this resource. */
-  properties?: AccountUpdateProperties;
-}
-
-export function accountUpdateSerializer(item: AccountUpdate): any {
-  return {
-    tags: item["tags"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : accountUpdatePropertiesSerializer(item["properties"]),
-  };
-}
-
-/** The updatable properties of the Account. */
-export interface AccountUpdateProperties {
-  /** This property sets the connection region for Playwright client workers to cloud-hosted browsers. If enabled, workers connect to browsers in the closest Azure region, ensuring lower latency. If disabled, workers connect to browsers in the Azure region in which the workspace was initially created. */
-  regionalAffinity?: EnablementStatus;
-  /** When enabled, Playwright client workers can connect to cloud-hosted browsers. This can increase the number of parallel workers for a test run, significantly minimizing test completion durations. */
-  scalableExecution?: EnablementStatus;
-  /** When enabled, this feature allows the workspace to upload and display test results, including artifacts like traces and screenshots, in the Playwright portal. This enables faster and more efficient troubleshooting. */
-  reporting?: EnablementStatus;
-  /** When enabled, this feature allows the workspace to use local auth(through access key) for authentication of test runs. */
-  localAuth?: EnablementStatus;
-}
-
-export function accountUpdatePropertiesSerializer(item: AccountUpdateProperties): any {
-  return {
-    regionalAffinity: item["regionalAffinity"],
-    scalableExecution: item["scalableExecution"],
-    reporting: item["reporting"],
-    localAuth: item["localAuth"],
-  };
-}
-
-/** The response of a Account list operation. */
-export interface _AccountListResult {
-  /** The Account items on this page */
-  value: Account[];
+/** The response of a AccountQuota list operation. */
+export interface _AccountQuotaListResult {
+  /** The AccountQuota items on this page */
+  value: AccountQuota[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _accountListResultDeserializer(item: any): _AccountListResult {
+export function _accountQuotaListResultDeserializer(item: any): _AccountQuotaListResult {
   return {
-    value: accountArrayDeserializer(item["value"]),
+    value: accountQuotaArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function accountArraySerializer(result: Array<Account>): any[] {
+export function accountQuotaArrayDeserializer(result: Array<AccountQuota>): any[] {
   return result.map((item) => {
-    return accountSerializer(item);
+    return accountQuotaDeserializer(item);
   });
 }
-
-export function accountArrayDeserializer(result: Array<Account>): any[] {
-  return result.map((item) => {
-    return accountDeserializer(item);
-  });
-}
-
-/** The check availability request body. */
-export interface CheckNameAvailabilityRequest {
-  /** The name of the resource for which availability needs to be checked. */
-  name?: string;
-  /** The resource type. */
-  type?: string;
-}
-
-export function checkNameAvailabilityRequestSerializer(item: CheckNameAvailabilityRequest): any {
-  return { name: item["name"], type: item["type"] };
-}
-
-/** The check availability result. */
-export interface CheckNameAvailabilityResponse {
-  /** Indicates if the resource name is available. */
-  nameAvailable?: boolean;
-  /** The reason why the given name is not available. */
-  reason?: CheckNameAvailabilityReason;
-  /** Detailed reason why the given name is not available. */
-  message?: string;
-}
-
-export function checkNameAvailabilityResponseDeserializer(
-  item: any,
-): CheckNameAvailabilityResponse {
-  return {
-    nameAvailable: item["nameAvailable"],
-    reason: item["reason"],
-    message: item["message"],
-  };
-}
-
-/** Possible reasons for a name not being available. */
-export enum KnownCheckNameAvailabilityReason {
-  /** Name is invalid. */
-  Invalid = "Invalid",
-  /** Name already exists. */
-  AlreadyExists = "AlreadyExists",
-}
-
-/**
- * Possible reasons for a name not being available. \
- * {@link KnownCheckNameAvailabilityReason} can be used interchangeably with CheckNameAvailabilityReason,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Invalid**: Name is invalid. \
- * **AlreadyExists**: Name already exists.
- */
-export type CheckNameAvailabilityReason = string;
-
-/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
-export interface _OperationListResult {
-  /** The Operation items on this page */
-  value: Operation[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _operationListResultDeserializer(item: any): _OperationListResult {
-  return {
-    value: operationArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function operationArrayDeserializer(result: Array<Operation>): any[] {
-  return result.map((item) => {
-    return operationDeserializer(item);
-  });
-}
-
-/** Details of a REST API operation, returned from the Resource Provider Operations API */
-export interface Operation {
-  /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  readonly name?: string;
-  /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
-  readonly isDataAction?: boolean;
-  /** Localized display information for this particular operation. */
-  readonly display?: OperationDisplay;
-  /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  readonly origin?: Origin;
-  /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: ActionType;
-}
-
-export function operationDeserializer(item: any): Operation {
-  return {
-    name: item["name"],
-    isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
-    origin: item["origin"],
-    actionType: item["actionType"],
-  };
-}
-
-/** Localized display information for and operation. */
-export interface OperationDisplay {
-  /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  readonly provider?: string;
-  /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  readonly resource?: string;
-  /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  readonly operation?: string;
-  /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  readonly description?: string;
-}
-
-export function operationDisplayDeserializer(item: any): OperationDisplay {
-  return {
-    provider: item["provider"],
-    resource: item["resource"],
-    operation: item["operation"],
-    description: item["description"],
-  };
-}
-
-/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-export enum KnownOrigin {
-  /** Indicates the operation is initiated by a user. */
-  User = "user",
-  /** Indicates the operation is initiated by a system. */
-  System = "system",
-  /** Indicates the operation is initiated by a user or system. */
-  UserSystem = "user,system",
-}
-
-/**
- * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" \
- * {@link KnownOrigin} can be used interchangeably with Origin,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **user**: Indicates the operation is initiated by a user. \
- * **system**: Indicates the operation is initiated by a system. \
- * **user,system**: Indicates the operation is initiated by a user or system.
- */
-export type Origin = string;
-
-/** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-export enum KnownActionType {
-  /** Actions are for internal-only APIs. */
-  Internal = "Internal",
-}
-
-/**
- * Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. \
- * {@link KnownActionType} can be used interchangeably with ActionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Internal**: Actions are for internal-only APIs.
- */
-export type ActionType = string;
 
 /** Microsoft.AzurePlaywrightService Management API Versions. */
 export enum KnownVersions {

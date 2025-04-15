@@ -23,7 +23,7 @@ async function accountsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  accountsCreateOrUpdate();
+  await accountsCreateOrUpdate();
 }
 
 main().catch(console.error);

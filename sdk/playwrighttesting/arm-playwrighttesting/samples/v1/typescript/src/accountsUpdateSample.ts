@@ -22,7 +22,7 @@ async function accountsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  accountsUpdate();
+  await accountsUpdate();
 }
 
 main().catch(console.error);
