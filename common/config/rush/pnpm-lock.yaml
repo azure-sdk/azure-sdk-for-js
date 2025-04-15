@@ -3601,7 +3601,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/eventgrid-systemevents@file:projects/eventgrid-systemevents.tgz':
-    resolution: {integrity: sha512-sJCymGa6VWPdsiqpVXIwb0lWVvBXIr54H+f5FeDWogkYclW31Yem9h7u+1hz/lDChqgh3sQ6/cn8PWUamE1ozA==, tarball: file:projects/eventgrid-systemevents.tgz}
+    resolution: {integrity: sha512-W2ttixa4EX9tVAQVFvP2Q7khkkNZaejzGg2DMU57bqH2yatxI6IKCWXrCvCB0LKyQRO5J1nKSVXbCw2oC66deg==, tarball: file:projects/eventgrid-systemevents.tgz}
     version: 0.0.0
 
   '@rush-temp/eventgrid@file:projects/eventgrid.tgz':
@@ -19667,6 +19667,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
       '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
+      dotenv: 16.5.0
       eslint: 9.24.0
       playwright: 1.51.1
       tslib: 2.8.1
