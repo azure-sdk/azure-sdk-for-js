@@ -4,14 +4,14 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
-
-// @public
-export type ActionType = string;
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface ConfigurationData {
@@ -29,6 +29,11 @@ export interface ConfigurationData {
 }
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -39,7 +44,7 @@ export type DataSource = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: Record<string, any>;
     readonly type?: string;
 }
 
@@ -79,14 +84,6 @@ export interface ExtendedLocation {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
-export enum KnownActionType {
-    Internal = "Internal"
-}
-
-// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -121,13 +118,6 @@ export enum KnownOperatingSystem {
     Suse = "SUSE",
     Unix = "Unix",
     WindowsServer = "WindowsServer"
-}
-
-// @public
-export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
 }
 
 // @public
@@ -177,48 +167,6 @@ export interface NativePerformanceData extends PerformanceData {
 export type OperatingSystem = string;
 
 // @public
-export interface Operation {
-    readonly actionType?: ActionType;
-    display?: OperationDisplay;
-    readonly isDataAction?: boolean;
-    readonly name?: string;
-    readonly origin?: Origin;
-}
-
-// @public
-export interface OperationDisplay {
-    readonly description?: string;
-    readonly operation?: string;
-    readonly provider?: string;
-    readonly resource?: string;
-}
-
-// @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
-}
-
-// @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
-
-// @public
 export interface OperationStatusResult {
     endTime?: Date;
     error?: ErrorDetail;
@@ -231,15 +179,24 @@ export interface OperationStatusResult {
 }
 
 // @public
-export type Origin = string;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export interface PerformanceData {
-    dataSource: "Excel" | "Native";
+    dataSource: DataSource;
 }
 
-// @public (undocumented)
-export type PerformanceDataUnion = PerformanceData | ExcelPerformanceData | NativePerformanceData;
+// @public
+export type PerformanceDataUnion = ExcelPerformanceData | NativePerformanceData | PerformanceData;
 
 // @public
 export type ProvisioningState = string;
@@ -257,15 +214,19 @@ export interface Resource {
 }
 
 // @public
-export interface SAPDiscoverySite extends TrackedResource {
-    extendedLocation?: ExtendedLocation;
-    properties?: SAPDiscoverySiteProperties;
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: WorkloadsClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export interface SAPDiscoverySiteListResult {
-    readonly nextLink?: string;
-    value: SAPDiscoverySite[];
+export interface SAPDiscoverySite extends TrackedResource {
+    extendedLocation?: ExtendedLocation;
+    properties?: SAPDiscoverySiteProperties;
 }
 
 // @public
@@ -277,107 +238,50 @@ export interface SAPDiscoverySiteProperties {
 }
 
 // @public
-export interface SapDiscoverySites {
-    beginCreate(resourceGroupName: string, sapDiscoverySiteName: string, resource: SAPDiscoverySite, options?: SapDiscoverySitesCreateOptionalParams): Promise<SimplePollerLike<OperationState<SapDiscoverySitesCreateResponse>, SapDiscoverySitesCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, sapDiscoverySiteName: string, resource: SAPDiscoverySite, options?: SapDiscoverySitesCreateOptionalParams): Promise<SapDiscoverySitesCreateResponse>;
-    beginDelete(resourceGroupName: string, sapDiscoverySiteName: string, options?: SapDiscoverySitesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, sapDiscoverySiteName: string, options?: SapDiscoverySitesDeleteOptionalParams): Promise<void>;
-    beginImportEntities(resourceGroupName: string, sapDiscoverySiteName: string, options?: SapDiscoverySitesImportEntitiesOptionalParams): Promise<SimplePollerLike<OperationState<SapDiscoverySitesImportEntitiesResponse>, SapDiscoverySitesImportEntitiesResponse>>;
-    beginImportEntitiesAndWait(resourceGroupName: string, sapDiscoverySiteName: string, options?: SapDiscoverySitesImportEntitiesOptionalParams): Promise<SapDiscoverySitesImportEntitiesResponse>;
-    get(resourceGroupName: string, sapDiscoverySiteName: string, options?: SapDiscoverySitesGetOptionalParams): Promise<SapDiscoverySitesGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: SapDiscoverySitesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SAPDiscoverySite>;
-    listBySubscription(options?: SapDiscoverySitesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<SAPDiscoverySite>;
-    update(resourceGroupName: string, sapDiscoverySiteName: string, properties: SAPDiscoverySiteTagsUpdate, options?: SapDiscoverySitesUpdateOptionalParams): Promise<SapDiscoverySitesUpdateResponse>;
-}
-
-// @public
-export interface SapDiscoverySitesCreateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface SapDiscoverySitesCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SAPDiscoverySitesCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type SapDiscoverySitesCreateResponse = SAPDiscoverySite;
-
-// @public
-export interface SapDiscoverySitesDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface SapDiscoverySitesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SAPDiscoverySitesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface SapDiscoverySitesGetOptionalParams extends coreClient.OperationOptions {
+export interface SAPDiscoverySitesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SapDiscoverySitesGetResponse = SAPDiscoverySite;
-
-// @public
-export interface SapDiscoverySitesImportEntitiesHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface SapDiscoverySitesImportEntitiesOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SAPDiscoverySitesImportEntitiesOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type SapDiscoverySitesImportEntitiesResponse = OperationStatusResult;
-
-// @public
-export interface SapDiscoverySitesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface SAPDiscoverySitesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SapDiscoverySitesListByResourceGroupNextResponse = SAPDiscoverySiteListResult;
-
-// @public
-export interface SapDiscoverySitesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface SAPDiscoverySitesListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SapDiscoverySitesListByResourceGroupResponse = SAPDiscoverySiteListResult;
-
-// @public
-export interface SapDiscoverySitesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface SAPDiscoverySitesOperations {
+    create: (resourceGroupName: string, sapDiscoverySiteName: string, resource: SAPDiscoverySite, options?: SAPDiscoverySitesCreateOptionalParams) => PollerLike<OperationState<SAPDiscoverySite>, SAPDiscoverySite>;
+    delete: (resourceGroupName: string, sapDiscoverySiteName: string, options?: SAPDiscoverySitesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, sapDiscoverySiteName: string, options?: SAPDiscoverySitesGetOptionalParams) => Promise<SAPDiscoverySite>;
+    importEntities: (resourceGroupName: string, sapDiscoverySiteName: string, options?: SAPDiscoverySitesImportEntitiesOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    listByResourceGroup: (resourceGroupName: string, options?: SAPDiscoverySitesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<SAPDiscoverySite>;
+    listBySubscription: (options?: SAPDiscoverySitesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<SAPDiscoverySite>;
+    update: (resourceGroupName: string, sapDiscoverySiteName: string, properties: SAPDiscoverySiteTagsUpdate, options?: SAPDiscoverySitesUpdateOptionalParams) => Promise<SAPDiscoverySite>;
 }
 
 // @public
-export type SapDiscoverySitesListBySubscriptionNextResponse = SAPDiscoverySiteListResult;
-
-// @public
-export interface SapDiscoverySitesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface SAPDiscoverySitesUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type SapDiscoverySitesListBySubscriptionResponse = SAPDiscoverySiteListResult;
-
-// @public
-export interface SapDiscoverySitesUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SapDiscoverySitesUpdateResponse = SAPDiscoverySite;
 
 // @public
 export interface SAPDiscoverySiteTagsUpdate {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -387,12 +291,6 @@ export interface SAPInstance extends TrackedResource {
 
 // @public
 export type SapInstanceEnvironment = string;
-
-// @public
-export interface SAPInstanceListResult {
-    readonly nextLink?: string;
-    value: SAPInstance[];
-}
 
 // @public
 export interface SAPInstanceProperties {
@@ -405,75 +303,39 @@ export interface SAPInstanceProperties {
 }
 
 // @public
-export interface SapInstances {
-    beginCreate(resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, resource: SAPInstance, options?: SapInstancesCreateOptionalParams): Promise<SimplePollerLike<OperationState<SapInstancesCreateResponse>, SapInstancesCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, resource: SAPInstance, options?: SapInstancesCreateOptionalParams): Promise<SapInstancesCreateResponse>;
-    beginDelete(resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, options?: SapInstancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, options?: SapInstancesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, options?: SapInstancesGetOptionalParams): Promise<SapInstancesGetResponse>;
-    listBySapDiscoverySite(resourceGroupName: string, sapDiscoverySiteName: string, options?: SapInstancesListBySapDiscoverySiteOptionalParams): PagedAsyncIterableIterator<SAPInstance>;
-    update(resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, properties: SAPInstanceTagsUpdate, options?: SapInstancesUpdateOptionalParams): Promise<SapInstancesUpdateResponse>;
-}
-
-// @public
-export interface SapInstancesCreateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface SapInstancesCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SAPInstancesCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type SapInstancesCreateResponse = SAPInstance;
-
-// @public
-export interface SapInstancesDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface SapInstancesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SAPInstancesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface SapInstancesGetOptionalParams extends coreClient.OperationOptions {
+export interface SAPInstancesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SapInstancesGetResponse = SAPInstance;
-
-// @public
-export interface SapInstancesListBySapDiscoverySiteNextOptionalParams extends coreClient.OperationOptions {
+export interface SAPInstancesListBySapDiscoverySiteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SapInstancesListBySapDiscoverySiteNextResponse = SAPInstanceListResult;
-
-// @public
-export interface SapInstancesListBySapDiscoverySiteOptionalParams extends coreClient.OperationOptions {
+export interface SAPInstancesOperations {
+    create: (resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, resource: SAPInstance, options?: SAPInstancesCreateOptionalParams) => PollerLike<OperationState<SAPInstance>, SAPInstance>;
+    delete: (resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, options?: SAPInstancesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, options?: SAPInstancesGetOptionalParams) => Promise<SAPInstance>;
+    listBySapDiscoverySite: (resourceGroupName: string, sapDiscoverySiteName: string, options?: SAPInstancesListBySapDiscoverySiteOptionalParams) => PagedAsyncIterableIterator<SAPInstance>;
+    update: (resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, properties: SAPInstanceTagsUpdate, options?: SAPInstancesUpdateOptionalParams) => Promise<SAPInstance>;
 }
 
 // @public
-export type SapInstancesListBySapDiscoverySiteResponse = SAPInstanceListResult;
-
-// @public
-export interface SapInstancesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface SAPInstancesUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type SapInstancesUpdateResponse = SAPInstance;
 
 // @public
 export interface SAPInstanceTagsUpdate {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -487,12 +349,6 @@ export interface SAPMigrateError {
 // @public
 export interface ServerInstance extends ProxyResource {
     properties?: ServerInstanceProperties;
-}
-
-// @public
-export interface ServerInstanceListResult {
-    readonly nextLink?: string;
-    value: ServerInstance[];
 }
 
 // @public
@@ -510,69 +366,35 @@ export interface ServerInstanceProperties {
 }
 
 // @public
-export interface ServerInstances {
-    beginCreate(resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, serverInstanceName: string, resource: ServerInstance, options?: ServerInstancesCreateOptionalParams): Promise<SimplePollerLike<OperationState<ServerInstancesCreateResponse>, ServerInstancesCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, serverInstanceName: string, resource: ServerInstance, options?: ServerInstancesCreateOptionalParams): Promise<ServerInstancesCreateResponse>;
-    beginDelete(resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, serverInstanceName: string, options?: ServerInstancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, serverInstanceName: string, options?: ServerInstancesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, serverInstanceName: string, options?: ServerInstancesGetOptionalParams): Promise<ServerInstancesGetResponse>;
-    listBySapInstance(resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, options?: ServerInstancesListBySapInstanceOptionalParams): PagedAsyncIterableIterator<ServerInstance>;
-    update(resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, serverInstanceName: string, properties: UpdateServerInstanceRequest, options?: ServerInstancesUpdateOptionalParams): Promise<ServerInstancesUpdateResponse>;
-}
-
-// @public
-export interface ServerInstancesCreateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface ServerInstancesCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ServerInstancesCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ServerInstancesCreateResponse = ServerInstance;
-
-// @public
-export interface ServerInstancesDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface ServerInstancesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ServerInstancesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ServerInstancesGetOptionalParams extends coreClient.OperationOptions {
+export interface ServerInstancesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ServerInstancesGetResponse = ServerInstance;
-
-// @public
-export interface ServerInstancesListBySapInstanceNextOptionalParams extends coreClient.OperationOptions {
+export interface ServerInstancesListBySapInstanceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ServerInstancesListBySapInstanceNextResponse = ServerInstanceListResult;
-
-// @public
-export interface ServerInstancesListBySapInstanceOptionalParams extends coreClient.OperationOptions {
+export interface ServerInstancesOperations {
+    create: (resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, serverInstanceName: string, resource: ServerInstance, options?: ServerInstancesCreateOptionalParams) => PollerLike<OperationState<ServerInstance>, ServerInstance>;
+    delete: (resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, serverInstanceName: string, options?: ServerInstancesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, serverInstanceName: string, options?: ServerInstancesGetOptionalParams) => Promise<ServerInstance>;
+    listBySapInstance: (resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, options?: ServerInstancesListBySapInstanceOptionalParams) => PagedAsyncIterableIterator<ServerInstance>;
+    update: (resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, serverInstanceName: string, properties: UpdateServerInstanceRequest, options?: ServerInstancesUpdateOptionalParams) => Promise<ServerInstance>;
 }
 
 // @public
-export type ServerInstancesListBySapInstanceResponse = ServerInstanceListResult;
-
-// @public
-export interface ServerInstancesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ServerInstancesUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ServerInstancesUpdateResponse = ServerInstance;
 
 // @public
 export interface SystemData {
@@ -587,9 +409,7 @@ export interface SystemData {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -597,33 +417,18 @@ export interface UpdateServerInstanceRequest {
     properties?: ServerInstanceProperties;
 }
 
-// @public
-export type Versions = string;
-
 // @public (undocumented)
-export class WorkloadsClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: WorkloadsClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    sapDiscoverySites: SapDiscoverySites;
-    // (undocumented)
-    sapInstances: SapInstances;
-    // (undocumented)
-    serverInstances: ServerInstances;
-    // (undocumented)
-    subscriptionId: string;
+export class WorkloadsClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: WorkloadsClientOptionalParams);
+    readonly pipeline: Pipeline;
+    readonly sapDiscoverySites: SAPDiscoverySitesOperations;
+    readonly sapInstances: SAPInstancesOperations;
+    readonly serverInstances: ServerInstancesOperations;
 }
 
 // @public
-export interface WorkloadsClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface WorkloadsClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
 }
 
 // (No @packageDocumentation comment for this package)
