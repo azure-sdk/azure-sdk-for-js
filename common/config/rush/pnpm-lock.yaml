@@ -3297,7 +3297,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-servicenetworking@file:projects/arm-servicenetworking.tgz':
-    resolution: {integrity: sha512-1RinigiNjCl/JhAG8sXzrsUNkHRk7LrG3wW/++lE9eeThWvwlijeDafZIKUdd8EDj9Gf+UCN6t04j8+A3XQ3RA==, tarball: file:projects/arm-servicenetworking.tgz}
+    resolution: {integrity: sha512-qdYbZKzf9/jrBhjgbDvr3WEv2KQvFlqyG16+In6cTjc+tHzppZ3XwpqF12Pcw6Hk2cGBpWWqHYe7uUHtPlL/ag==, tarball: file:projects/arm-servicenetworking.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-signalr@file:projects/arm-signalr.tgz':
@@ -16898,7 +16898,7 @@ snapshots:
       eslint: 9.24.0
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.6.3
+      typescript: 5.8.3
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
