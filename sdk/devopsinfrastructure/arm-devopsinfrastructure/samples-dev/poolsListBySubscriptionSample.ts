@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Pool resources by subscription ID
  *
  * @summary list Pool resources by subscription ID
- * x-ms-original-file: 2024-10-19/ListPoolsBySubscription.json
+ * x-ms-original-file: 2025-01-21/ListPoolsBySubscription.json
  */
 async function poolsListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
