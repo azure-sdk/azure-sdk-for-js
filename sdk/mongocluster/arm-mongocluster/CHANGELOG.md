@@ -1,15 +1,21 @@
 # Release History
-
-## 1.0.2 (Unreleased)
-
+    
+## 1.1.0-beta.1 (2025-04-15)
+Compared with version 1.0.1
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface DataApiProperties
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Type Alias DataApiMode
+  - Interface MongoClusterProperties has a new optional parameter dataApi
+  - Interface MongoClusterUpdateProperties has a new optional parameter dataApi
+  - Added Enum KnownDataApiMode
+  - Added Enum KnownVersions
+    
+    
 ## 1.0.1 (2024-10-14)
 
 ### Bugs Fixed
