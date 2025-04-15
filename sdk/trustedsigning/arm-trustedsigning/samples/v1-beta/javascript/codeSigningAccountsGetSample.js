@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a trusted Signing Account.
  *
  * @summary get a trusted Signing Account.
- * x-ms-original-file: 2024-02-05-preview/CodeSigningAccounts_Get.json
+ * x-ms-original-file: 2024-09-30-preview/CodeSigningAccounts_Get.json
  */
 async function getATrustedSigningAccount() {
   const credential = new DefaultAzureCredential();
@@ -19,7 +19,7 @@ async function getATrustedSigningAccount() {
 }
 
 async function main() {
-  getATrustedSigningAccount();
+  await getATrustedSigningAccount();
 }
 
 main().catch(console.error);
