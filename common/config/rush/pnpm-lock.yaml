@@ -2657,7 +2657,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-databasewatcher@file:projects/arm-databasewatcher.tgz':
-    resolution: {integrity: sha512-7y063dspuSvXuskConzwoDnY7qe/t8SE8XiUgXxa7y1PX6DR1ZD5qTKw460QbWpmxWSt7w3amCBLfGqk6PGh/Q==, tarball: file:projects/arm-databasewatcher.tgz}
+    resolution: {integrity: sha512-GENYwU0NM2OsHKKlwaxfM5Pb+SrBQo6A48ZAT8w5JRvB1j1H31Blxghkl2k1bEarEvJ4/lM2Y6R5P7PPuR2IGg==, tarball: file:projects/arm-databasewatcher.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-databoundaries@file:projects/arm-databoundaries.tgz':
@@ -11340,7 +11340,7 @@ snapshots:
       eslint: 9.24.0
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.6.3
+      typescript: 5.8.3
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
