@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { PartnerRegistrations } from "../operationsInterfaces";
+import { PartnerDestinations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,31 +20,34 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  PartnerRegistration,
-  PartnerRegistrationsListBySubscriptionNextOptionalParams,
-  PartnerRegistrationsListBySubscriptionOptionalParams,
-  PartnerRegistrationsListBySubscriptionResponse,
-  PartnerRegistrationsListByResourceGroupNextOptionalParams,
-  PartnerRegistrationsListByResourceGroupOptionalParams,
-  PartnerRegistrationsListByResourceGroupResponse,
-  PartnerRegistrationsGetOptionalParams,
-  PartnerRegistrationsGetResponse,
-  PartnerRegistrationsCreateOrUpdateOptionalParams,
-  PartnerRegistrationsCreateOrUpdateResponse,
-  PartnerRegistrationsDeleteOptionalParams,
-  PartnerRegistrationUpdateParameters,
-  PartnerRegistrationsUpdateOptionalParams,
-  PartnerRegistrationsListBySubscriptionNextResponse,
-  PartnerRegistrationsListByResourceGroupNextResponse,
+  PartnerDestination,
+  PartnerDestinationsListBySubscriptionNextOptionalParams,
+  PartnerDestinationsListBySubscriptionOptionalParams,
+  PartnerDestinationsListBySubscriptionResponse,
+  PartnerDestinationsListByResourceGroupNextOptionalParams,
+  PartnerDestinationsListByResourceGroupOptionalParams,
+  PartnerDestinationsListByResourceGroupResponse,
+  PartnerDestinationsGetOptionalParams,
+  PartnerDestinationsGetResponse,
+  PartnerDestinationsCreateOrUpdateOptionalParams,
+  PartnerDestinationsCreateOrUpdateResponse,
+  PartnerDestinationsDeleteOptionalParams,
+  PartnerDestinationUpdateParameters,
+  PartnerDestinationsUpdateOptionalParams,
+  PartnerDestinationsUpdateResponse,
+  PartnerDestinationsActivateOptionalParams,
+  PartnerDestinationsActivateResponse,
+  PartnerDestinationsListBySubscriptionNextResponse,
+  PartnerDestinationsListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing PartnerRegistrations operations. */
-export class PartnerRegistrationsImpl implements PartnerRegistrations {
+/** Class containing PartnerDestinations operations. */
+export class PartnerDestinationsImpl implements PartnerDestinations {
   private readonly client: EventGridManagementClient;
 
   /**
-   * Initialize a new instance of the class PartnerRegistrations class.
+   * Initialize a new instance of the class PartnerDestinations class.
    * @param client Reference to the service client
    */
   constructor(client: EventGridManagementClient) {
@@ -52,12 +55,12 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
   }
 
   /**
-   * List all the partner registrations under an Azure subscription.
+   * List all the partner destinations under an Azure subscription.
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: PartnerRegistrationsListBySubscriptionOptionalParams,
-  ): PagedAsyncIterableIterator<PartnerRegistration> {
+    options?: PartnerDestinationsListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<PartnerDestination> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
@@ -76,10 +79,10 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: PartnerRegistrationsListBySubscriptionOptionalParams,
+    options?: PartnerDestinationsListBySubscriptionOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<PartnerRegistration[]> {
-    let result: PartnerRegistrationsListBySubscriptionResponse;
+  ): AsyncIterableIterator<PartnerDestination[]> {
+    let result: PartnerDestinationsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listBySubscription(options);
@@ -98,22 +101,22 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: PartnerRegistrationsListBySubscriptionOptionalParams,
-  ): AsyncIterableIterator<PartnerRegistration> {
+    options?: PartnerDestinationsListBySubscriptionOptionalParams,
+  ): AsyncIterableIterator<PartnerDestination> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * List all the partner registrations under a resource group.
+   * List all the partner destinations under a resource group.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: PartnerRegistrationsListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<PartnerRegistration> {
+    options?: PartnerDestinationsListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<PartnerDestination> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -137,10 +140,10 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: PartnerRegistrationsListByResourceGroupOptionalParams,
+    options?: PartnerDestinationsListByResourceGroupOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<PartnerRegistration[]> {
-    let result: PartnerRegistrationsListByResourceGroupResponse;
+  ): AsyncIterableIterator<PartnerDestination[]> {
+    let result: PartnerDestinationsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
@@ -164,8 +167,8 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: PartnerRegistrationsListByResourceGroupOptionalParams,
-  ): AsyncIterableIterator<PartnerRegistration> {
+    options?: PartnerDestinationsListByResourceGroupOptionalParams,
+  ): AsyncIterableIterator<PartnerDestination> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options,
@@ -175,44 +178,44 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
   }
 
   /**
-   * Gets a partner registration with the specified parameters.
+   * Get properties of a partner destination.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param partnerRegistrationName Name of the partner registration.
+   * @param partnerDestinationName Name of the partner destination.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    partnerRegistrationName: string,
-    options?: PartnerRegistrationsGetOptionalParams,
-  ): Promise<PartnerRegistrationsGetResponse> {
+    partnerDestinationName: string,
+    options?: PartnerDestinationsGetOptionalParams,
+  ): Promise<PartnerDestinationsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, partnerRegistrationName, options },
+      { resourceGroupName, partnerDestinationName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates a new partner registration with the specified parameters.
+   * Asynchronously creates a new partner destination with the specified parameters.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param partnerRegistrationName Name of the partner registration.
-   * @param partnerRegistrationInfo PartnerRegistration information.
+   * @param partnerDestinationName Name of the partner destination.
+   * @param partnerDestination Partner destination create information.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    partnerRegistrationName: string,
-    partnerRegistrationInfo: PartnerRegistration,
-    options?: PartnerRegistrationsCreateOrUpdateOptionalParams,
+    partnerDestinationName: string,
+    partnerDestination: PartnerDestination,
+    options?: PartnerDestinationsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<PartnerRegistrationsCreateOrUpdateResponse>,
-      PartnerRegistrationsCreateOrUpdateResponse
+      OperationState<PartnerDestinationsCreateOrUpdateResponse>,
+      PartnerDestinationsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<PartnerRegistrationsCreateOrUpdateResponse> => {
+    ): Promise<PartnerDestinationsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -251,55 +254,56 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
       sendOperationFn,
       args: {
         resourceGroupName,
-        partnerRegistrationName,
-        partnerRegistrationInfo,
+        partnerDestinationName,
+        partnerDestination,
         options,
       },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      PartnerRegistrationsCreateOrUpdateResponse,
-      OperationState<PartnerRegistrationsCreateOrUpdateResponse>
+      PartnerDestinationsCreateOrUpdateResponse,
+      OperationState<PartnerDestinationsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Creates a new partner registration with the specified parameters.
+   * Asynchronously creates a new partner destination with the specified parameters.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param partnerRegistrationName Name of the partner registration.
-   * @param partnerRegistrationInfo PartnerRegistration information.
+   * @param partnerDestinationName Name of the partner destination.
+   * @param partnerDestination Partner destination create information.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    partnerRegistrationName: string,
-    partnerRegistrationInfo: PartnerRegistration,
-    options?: PartnerRegistrationsCreateOrUpdateOptionalParams,
-  ): Promise<PartnerRegistrationsCreateOrUpdateResponse> {
+    partnerDestinationName: string,
+    partnerDestination: PartnerDestination,
+    options?: PartnerDestinationsCreateOrUpdateOptionalParams,
+  ): Promise<PartnerDestinationsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      partnerRegistrationName,
-      partnerRegistrationInfo,
+      partnerDestinationName,
+      partnerDestination,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Deletes a partner registration with the specified parameters.
+   * Delete existing partner destination.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param partnerRegistrationName Name of the partner registration.
+   * @param partnerDestinationName Name of the partner destination.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    partnerRegistrationName: string,
-    options?: PartnerRegistrationsDeleteOptionalParams,
+    partnerDestinationName: string,
+    options?: PartnerDestinationsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -341,53 +345,59 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, partnerRegistrationName, options },
+      args: { resourceGroupName, partnerDestinationName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Deletes a partner registration with the specified parameters.
+   * Delete existing partner destination.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param partnerRegistrationName Name of the partner registration.
+   * @param partnerDestinationName Name of the partner destination.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    partnerRegistrationName: string,
-    options?: PartnerRegistrationsDeleteOptionalParams,
+    partnerDestinationName: string,
+    options?: PartnerDestinationsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      partnerRegistrationName,
+      partnerDestinationName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Updates a partner registration with the specified parameters.
+   * Asynchronously updates a partner destination with the specified parameters.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param partnerRegistrationName Name of the partner registration.
-   * @param partnerRegistrationUpdateParameters Partner registration update information.
+   * @param partnerDestinationName Name of the partner destination.
+   * @param partnerDestinationUpdateParameters Partner destination update information.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    partnerRegistrationName: string,
-    partnerRegistrationUpdateParameters: PartnerRegistrationUpdateParameters,
-    options?: PartnerRegistrationsUpdateOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    partnerDestinationName: string,
+    partnerDestinationUpdateParameters: PartnerDestinationUpdateParameters,
+    options?: PartnerDestinationsUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PartnerDestinationsUpdateResponse>,
+      PartnerDestinationsUpdateResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<PartnerDestinationsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -426,49 +436,53 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
       sendOperationFn,
       args: {
         resourceGroupName,
-        partnerRegistrationName,
-        partnerRegistrationUpdateParameters,
+        partnerDestinationName,
+        partnerDestinationUpdateParameters,
         options,
       },
       spec: updateOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      PartnerDestinationsUpdateResponse,
+      OperationState<PartnerDestinationsUpdateResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Updates a partner registration with the specified parameters.
+   * Asynchronously updates a partner destination with the specified parameters.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param partnerRegistrationName Name of the partner registration.
-   * @param partnerRegistrationUpdateParameters Partner registration update information.
+   * @param partnerDestinationName Name of the partner destination.
+   * @param partnerDestinationUpdateParameters Partner destination update information.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    partnerRegistrationName: string,
-    partnerRegistrationUpdateParameters: PartnerRegistrationUpdateParameters,
-    options?: PartnerRegistrationsUpdateOptionalParams,
-  ): Promise<void> {
+    partnerDestinationName: string,
+    partnerDestinationUpdateParameters: PartnerDestinationUpdateParameters,
+    options?: PartnerDestinationsUpdateOptionalParams,
+  ): Promise<PartnerDestinationsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      partnerRegistrationName,
-      partnerRegistrationUpdateParameters,
+      partnerDestinationName,
+      partnerDestinationUpdateParameters,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * List all the partner registrations under an Azure subscription.
+   * List all the partner destinations under an Azure subscription.
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: PartnerRegistrationsListBySubscriptionOptionalParams,
-  ): Promise<PartnerRegistrationsListBySubscriptionResponse> {
+    options?: PartnerDestinationsListBySubscriptionOptionalParams,
+  ): Promise<PartnerDestinationsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
       listBySubscriptionOperationSpec,
@@ -476,17 +490,34 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
   }
 
   /**
-   * List all the partner registrations under a resource group.
+   * List all the partner destinations under a resource group.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: PartnerRegistrationsListByResourceGroupOptionalParams,
-  ): Promise<PartnerRegistrationsListByResourceGroupResponse> {
+    options?: PartnerDestinationsListByResourceGroupOptionalParams,
+  ): Promise<PartnerDestinationsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec,
+    );
+  }
+
+  /**
+   * Activate a newly created partner destination.
+   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param partnerDestinationName Name of the partner destination.
+   * @param options The options parameters.
+   */
+  activate(
+    resourceGroupName: string,
+    partnerDestinationName: string,
+    options?: PartnerDestinationsActivateOptionalParams,
+  ): Promise<PartnerDestinationsActivateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, partnerDestinationName, options },
+      activateOperationSpec,
     );
   }
 
@@ -497,8 +528,8 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: PartnerRegistrationsListBySubscriptionNextOptionalParams,
-  ): Promise<PartnerRegistrationsListBySubscriptionNextResponse> {
+    options?: PartnerDestinationsListBySubscriptionNextOptionalParams,
+  ): Promise<PartnerDestinationsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listBySubscriptionNextOperationSpec,
@@ -514,8 +545,8 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: PartnerRegistrationsListByResourceGroupNextOptionalParams,
-  ): Promise<PartnerRegistrationsListByResourceGroupNextResponse> {
+    options?: PartnerDestinationsListByResourceGroupNextOptionalParams,
+  ): Promise<PartnerDestinationsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec,
@@ -526,91 +557,122 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerRegistrations/{partnerRegistrationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerDestinations/{partnerDestinationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PartnerRegistration,
+      bodyMapper: Mappers.PartnerDestination,
     },
-    default: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.partnerRegistrationName,
+    Parameters.partnerDestinationName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerRegistrations/{partnerRegistrationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerDestinations/{partnerDestinationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PartnerRegistration,
+      bodyMapper: Mappers.PartnerDestination,
     },
     201: {
-      bodyMapper: Mappers.PartnerRegistration,
+      bodyMapper: Mappers.PartnerDestination,
     },
     202: {
-      bodyMapper: Mappers.PartnerRegistration,
+      bodyMapper: Mappers.PartnerDestination,
     },
     204: {
-      bodyMapper: Mappers.PartnerRegistration,
+      bodyMapper: Mappers.PartnerDestination,
     },
-    default: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.partnerRegistrationInfo,
+  requestBody: Parameters.partnerDestination,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.partnerRegistrationName,
+    Parameters.partnerDestinationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerRegistrations/{partnerRegistrationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerDestinations/{partnerDestinationName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.partnerRegistrationName,
+    Parameters.partnerDestinationName,
   ],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerRegistrations/{partnerRegistrationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerDestinations/{partnerDestinationName}",
   httpMethod: "PATCH",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  requestBody: Parameters.partnerRegistrationUpdateParameters,
+  responses: {
+    200: {
+      bodyMapper: Mappers.PartnerDestination,
+    },
+    201: {
+      bodyMapper: Mappers.PartnerDestination,
+    },
+    202: {
+      bodyMapper: Mappers.PartnerDestination,
+    },
+    204: {
+      bodyMapper: Mappers.PartnerDestination,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.partnerDestinationUpdateParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.partnerRegistrationName,
+    Parameters.partnerDestinationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.EventGrid/partnerRegistrations",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.EventGrid/partnerDestinations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PartnerRegistrationsListResult,
+      bodyMapper: Mappers.PartnerDestinationsListResult,
     },
-    default: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
@@ -618,19 +680,42 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerRegistrations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerDestinations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PartnerRegistrationsListResult,
+      bodyMapper: Mappers.PartnerDestinationsListResult,
     },
-    default: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const activateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerDestinations/{partnerDestinationName}/activate",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PartnerDestination,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.partnerDestinationName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -640,9 +725,11 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PartnerRegistrationsListResult,
+      bodyMapper: Mappers.PartnerDestinationsListResult,
     },
-    default: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -657,9 +744,11 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PartnerRegistrationsListResult,
+      bodyMapper: Mappers.PartnerDestinationsListResult,
     },
-    default: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
