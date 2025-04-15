@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { IPv6FirewallRules } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { IPv6FirewallRules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { SqlManagementClient } from "../sqlManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { SqlManagementClient } from "../sqlManagementClient";
 import {
   IPv6FirewallRule,
   IPv6FirewallRulesListByServerNextOptionalParams,
@@ -24,7 +24,7 @@ import {
   IPv6FirewallRulesCreateOrUpdateResponse,
   IPv6FirewallRulesDeleteOptionalParams,
   IPv6FirewallRulesListByServerNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing IPv6FirewallRules operations. */
@@ -274,7 +274,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  requestBody: Parameters.parameters90,
+  requestBody: Parameters.parameters89,
   queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,

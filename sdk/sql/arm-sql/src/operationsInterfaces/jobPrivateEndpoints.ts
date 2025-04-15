@@ -16,7 +16,7 @@ import {
   JobPrivateEndpointsCreateOrUpdateOptionalParams,
   JobPrivateEndpointsCreateOrUpdateResponse,
   JobPrivateEndpointsDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a JobPrivateEndpoints. */

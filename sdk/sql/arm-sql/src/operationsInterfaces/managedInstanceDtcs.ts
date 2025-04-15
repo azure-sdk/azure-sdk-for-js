@@ -16,7 +16,7 @@ import {
   ManagedInstanceDtcsGetResponse,
   ManagedInstanceDtcsCreateOrUpdateOptionalParams,
   ManagedInstanceDtcsCreateOrUpdateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedInstanceDtcs. */

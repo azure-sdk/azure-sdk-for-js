@@ -16,7 +16,7 @@ import {
   ManagedInstancePrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ManagedInstancePrivateEndpointConnectionsCreateOrUpdateResponse,
   ManagedInstancePrivateEndpointConnectionsDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedInstancePrivateEndpointConnections. */

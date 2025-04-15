@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { MaintenanceWindowsOperations } from "../operationsInterfaces/index.js";
+import { MaintenanceWindowsOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { SqlManagementClient } from "../sqlManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { SqlManagementClient } from "../sqlManagementClient";
 import {
   MaintenanceWindowsGetOptionalParams,
   MaintenanceWindowsGetResponse,
   MaintenanceWindows,
   MaintenanceWindowsCreateOrUpdateOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing MaintenanceWindowsOperations operations. */
 export class MaintenanceWindowsOperationsImpl

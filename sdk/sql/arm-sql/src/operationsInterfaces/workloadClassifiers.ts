@@ -16,7 +16,7 @@ import {
   WorkloadClassifiersCreateOrUpdateOptionalParams,
   WorkloadClassifiersCreateOrUpdateResponse,
   WorkloadClassifiersDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WorkloadClassifiers. */

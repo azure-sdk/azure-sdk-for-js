@@ -17,7 +17,7 @@ import {
   ServerAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams,
   ServerAzureADOnlyAuthenticationsCreateOrUpdateResponse,
   ServerAzureADOnlyAuthenticationsDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ServerAzureADOnlyAuthentications. */
