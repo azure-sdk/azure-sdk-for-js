@@ -841,6 +841,9 @@ importers:
       '@rush-temp/batch':
         specifier: file:./projects/batch.tgz
         version: file:projects/batch.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
+      '@rush-temp/codetransparency-rest':
+        specifier: file:./projects/codetransparency-rest.tgz
+        version: file:projects/codetransparency-rest.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
       '@rush-temp/communication-alpha-ids':
         specifier: file:./projects/communication-alpha-ids.tgz
         version: file:projects/communication-alpha-ids.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
@@ -3442,6 +3445,10 @@ packages:
 
   '@rush-temp/batch@file:projects/batch.tgz':
     resolution: {integrity: sha512-0lJBMO9HJ5ljwFRJ/NubrZC8cJgU+L0vfcTknTtZzzP0NCnG+KnvfxKZ/0qvtnysbFYyE5E9xaEBOVQfNk6BMA==, tarball: file:projects/batch.tgz}
+    version: 0.0.0
+
+  '@rush-temp/codetransparency-rest@file:projects/codetransparency-rest.tgz':
+    resolution: {integrity: sha512-I0bcScCu1jU9v1Kw51fSUc95U0vHUmK/uJ1ywenvS9ExvOfXhaPMFeSrIr2B2JUzJ9Gh2ABhHsM5zJ+ZQpnd7g==, tarball: file:projects/codetransparency-rest.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-alpha-ids@file:projects/communication-alpha-ids.tgz':
@@ -18148,6 +18155,41 @@ snapshots:
       dotenv: 16.5.0
       eslint: 9.24.0
       moment: 2.30.1
+      playwright: 1.51.1
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/codetransparency-rest@file:projects/codetransparency-rest.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
+    dependencies:
+      '@types/node': 18.19.86
+      '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
+      '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
+      dotenv: 16.5.0
+      eslint: 9.24.0
       playwright: 1.51.1
       tslib: 2.8.1
       typescript: 5.8.3
