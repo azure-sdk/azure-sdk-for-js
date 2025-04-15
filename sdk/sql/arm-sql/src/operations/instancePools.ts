@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { InstancePools } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { InstancePools } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { SqlManagementClient } from "../sqlManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { SqlManagementClient } from "../sqlManagementClient";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   InstancePool,
   InstancePoolsListNextOptionalParams,
@@ -37,7 +37,7 @@ import {
   InstancePoolsUpdateResponse,
   InstancePoolsListNextResponse,
   InstancePoolsListByResourceGroupNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing InstancePools operations. */
@@ -600,7 +600,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  requestBody: Parameters.parameters96,
+  requestBody: Parameters.parameters95,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -643,7 +643,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  requestBody: Parameters.parameters97,
+  requestBody: Parameters.parameters96,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,

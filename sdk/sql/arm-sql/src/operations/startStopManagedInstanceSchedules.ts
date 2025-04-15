@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { StartStopManagedInstanceSchedules } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { StartStopManagedInstanceSchedules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { SqlManagementClient } from "../sqlManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { SqlManagementClient } from "../sqlManagementClient";
 import {
   StartStopManagedInstanceSchedule,
   StartStopManagedInstanceSchedulesListByInstanceNextOptionalParams,
@@ -25,7 +25,7 @@ import {
   StartStopManagedInstanceSchedulesCreateOrUpdateResponse,
   StartStopManagedInstanceSchedulesDeleteOptionalParams,
   StartStopManagedInstanceSchedulesListByInstanceNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing StartStopManagedInstanceSchedules operations. */
@@ -297,7 +297,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  requestBody: Parameters.parameters88,
+  requestBody: Parameters.parameters87,
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,

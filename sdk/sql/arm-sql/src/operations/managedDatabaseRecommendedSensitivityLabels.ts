@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ManagedDatabaseRecommendedSensitivityLabels } from "../operationsInterfaces/index.js";
+import { ManagedDatabaseRecommendedSensitivityLabels } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { SqlManagementClient } from "../sqlManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { SqlManagementClient } from "../sqlManagementClient";
 import {
   RecommendedSensitivityLabelUpdateList,
   ManagedDatabaseRecommendedSensitivityLabelsUpdateOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing ManagedDatabaseRecommendedSensitivityLabels operations. */
 export class ManagedDatabaseRecommendedSensitivityLabelsImpl
@@ -65,7 +65,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/recommendedSensitivityLabels",
   httpMethod: "PATCH",
   responses: { 200: {}, default: {} },
-  requestBody: Parameters.parameters67,
+  requestBody: Parameters.parameters66,
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,

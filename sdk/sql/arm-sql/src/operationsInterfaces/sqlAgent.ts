@@ -12,7 +12,7 @@ import {
   SqlAgentConfiguration,
   SqlAgentCreateOrUpdateOptionalParams,
   SqlAgentCreateOrUpdateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a SqlAgent. */
 export interface SqlAgent {

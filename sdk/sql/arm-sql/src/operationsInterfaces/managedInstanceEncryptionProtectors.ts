@@ -17,7 +17,7 @@ import {
   ManagedInstanceEncryptionProtectorsGetResponse,
   ManagedInstanceEncryptionProtectorsCreateOrUpdateOptionalParams,
   ManagedInstanceEncryptionProtectorsCreateOrUpdateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedInstanceEncryptionProtectors. */
