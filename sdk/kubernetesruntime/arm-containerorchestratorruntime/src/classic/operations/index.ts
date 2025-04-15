@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { KubernetesRuntimeContext } from "../../api/kubernetesRuntimeContext.js";
-import { operationsList } from "../../api/operations/index.js";
-import { OperationsListOptionalParams } from "../../api/options.js";
 import { Operation } from "../../models/models.js";
+import { OperationsListOptionalParams } from "../../api/operations/options.js";
+import { list } from "../../api/operations/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Operations operations. */
@@ -13,14 +13,14 @@ export interface OperationsOperations {
   list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
-export function getOperations(context: KubernetesRuntimeContext) {
+function _getOperations(context: KubernetesRuntimeContext) {
   return {
-    list: (options?: OperationsListOptionalParams) => operationsList(context, options),
+    list: (options?: OperationsListOptionalParams) => list(context, options),
   };
 }
 
-export function getOperationsOperations(context: KubernetesRuntimeContext): OperationsOperations {
+export function _getOperationsOperations(context: KubernetesRuntimeContext): OperationsOperations {
   return {
-    ...getOperations(context),
+    ..._getOperations(context),
   };
 }
