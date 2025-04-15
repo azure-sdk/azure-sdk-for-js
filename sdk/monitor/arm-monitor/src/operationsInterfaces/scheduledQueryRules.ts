@@ -19,7 +19,7 @@ import {
   ScheduledQueryRulesUpdateOptionalParams,
   ScheduledQueryRulesUpdateResponse,
   ScheduledQueryRulesDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ScheduledQueryRules. */
