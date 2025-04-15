@@ -12,7 +12,7 @@ import {
   PrivateLinkResourcesListByConfigurationStoreOptionalParams,
   PrivateLinkResourcesGetOptionalParams,
   PrivateLinkResourcesGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PrivateLinkResources. */
