@@ -1,0 +1,4 @@
+directory: specification/monitor/Microsoft.Monitor.Management
+commit: ab06b0340a39c7c3efad7991c946f6c0b618e8d7
+repo: ../azure-rest-api-specs
+additionalDirectories: 
