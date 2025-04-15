@@ -250,6 +250,9 @@ importers:
       '@rush-temp/arm-dashboard':
         specifier: file:./projects/arm-dashboard.tgz
         version: file:projects/arm-dashboard.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
+      '@rush-temp/arm-databasefleetmanager':
+        specifier: file:./projects/arm-databasefleetmanager.tgz
+        version: file:projects/arm-databasefleetmanager.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
       '@rush-temp/arm-databasewatcher':
         specifier: file:./projects/arm-databasewatcher.tgz
         version: file:projects/arm-databasewatcher.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
@@ -2654,6 +2657,10 @@ packages:
 
   '@rush-temp/arm-dashboard@file:projects/arm-dashboard.tgz':
     resolution: {integrity: sha512-Av27br5X4bQOVHVtG72OEeXOy2S0ilo/sem4ozjoBFJhWPcQlEodNnUuPxIRt+AnebU00ks0tKZXofgZHk1Mwg==, tarball: file:projects/arm-dashboard.tgz}
+    version: 0.0.0
+
+  '@rush-temp/arm-databasefleetmanager@file:projects/arm-databasefleetmanager.tgz':
+    resolution: {integrity: sha512-+M0mINFhoqOAQMOuDdSasv1sSZcFISPVfoeXSoEHHADBeVL41vBqK7HNWN7H8NRLlMqskEAiK39G9y/aPW94TQ==, tarball: file:projects/arm-databasefleetmanager.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-databasewatcher@file:projects/arm-databasewatcher.tgz':
@@ -11303,6 +11310,41 @@ snapshots:
       '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
       '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
       dotenv: 16.5.0
+      playwright: 1.51.1
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/arm-databasefleetmanager@file:projects/arm-databasefleetmanager.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
+    dependencies:
+      '@types/node': 18.19.86
+      '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
+      '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
+      dotenv: 16.5.0
+      eslint: 9.24.0
       playwright: 1.51.1
       tslib: 2.8.1
       typescript: 5.8.3
