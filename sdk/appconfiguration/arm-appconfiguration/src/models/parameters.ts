@@ -20,7 +20,7 @@ import {
   KeyValue as KeyValueMapper,
   Replica as ReplicaMapper,
   Snapshot as SnapshotMapper,
-} from "../models/mappers.js";
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -60,7 +60,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-05-01",
+    defaultValue: "2024-06-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -200,7 +200,7 @@ export const keyValueName: OperationURLParameter = {
 };
 
 export const keyValueParameters: OperationParameter = {
-  parameterPath: ["options", "keyValueParameters"],
+  parameterPath: "keyValueParameters",
   mapper: KeyValueMapper,
 };
 
