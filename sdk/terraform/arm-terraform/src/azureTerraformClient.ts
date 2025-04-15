@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
-import { getTerraformOperations, TerraformOperations } from "./classic/terraform/index.js";
 import {
   createAzureTerraform,
   AzureTerraformContext,
   AzureTerraformClientOptionalParams,
 } from "./api/index.js";
+import { TerraformOperations, _getTerraformOperations } from "./classic/terraform/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -28,17 +28,17 @@ export class AzureTerraformClient {
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createAzureTerraform(credential, {
+    this._client = createAzureTerraform(credential, subscriptionId, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.operations = getOperationsOperations(this._client);
-    this.terraform = getTerraformOperations(this._client, subscriptionId);
+    this.terraform = _getTerraformOperations(this._client);
+    this.operations = _getOperationsOperations(this._client);
   }
 
-  /** The operation groups for Operations */
-  public readonly operations: OperationsOperations;
-  /** The operation groups for Terraform */
+  /** The operation groups for terraform */
   public readonly terraform: TerraformOperations;
+  /** The operation groups for operations */
+  public readonly operations: OperationsOperations;
 }
