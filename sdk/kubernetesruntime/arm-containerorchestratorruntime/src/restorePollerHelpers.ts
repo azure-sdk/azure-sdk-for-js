@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import { KubernetesRuntimeClient } from "./kubernetesRuntimeClient.js";
+import { _createOrUpdateDeserialize } from "./api/bgpPeers/operations.js";
+import { _createOrUpdateDeserialize as _createOrUpdateDeserializeLoadBalancers } from "./api/loadBalancers/operations.js";
 import {
-  _storageClassCreateOrUpdateDeserialize,
-  _storageClassUpdateDeserialize,
-  _storageClassDeleteDeserialize,
-} from "./api/storageClass/index.js";
-import { _loadBalancersCreateOrUpdateDeserialize } from "./api/loadBalancers/index.js";
-import { _bgpPeersCreateOrUpdateDeserialize } from "./api/bgpPeers/index.js";
+  _$deleteDeserialize,
+  _updateDeserialize,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeStorageClass,
+} from "./api/storageClass/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -82,24 +82,24 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "PUT /{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}": {
-    deserializer: _storageClassCreateOrUpdateDeserialize,
+  "PUT /{resourceUri}/providers/Microsoft.KubernetesRuntime/bgpPeers/{bgpPeerName}": {
+    deserializer: _createOrUpdateDeserialize,
     expectedStatuses: ["200", "201"],
-  },
-  "PATCH /{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}": {
-    deserializer: _storageClassUpdateDeserialize,
-    expectedStatuses: ["200", "202"],
-  },
-  "DELETE /{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}": {
-    deserializer: _storageClassDeleteDeserialize,
-    expectedStatuses: ["202", "204", "200"],
   },
   "PUT /{resourceUri}/providers/Microsoft.KubernetesRuntime/loadBalancers/{loadBalancerName}": {
-    deserializer: _loadBalancersCreateOrUpdateDeserialize,
+    deserializer: _createOrUpdateDeserializeLoadBalancers,
     expectedStatuses: ["200", "201"],
   },
-  "PUT /{resourceUri}/providers/Microsoft.KubernetesRuntime/bgpPeers/{bgpPeerName}": {
-    deserializer: _bgpPeersCreateOrUpdateDeserialize,
+  "DELETE /{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}": {
+    deserializer: _$deleteDeserialize,
+    expectedStatuses: ["202", "204", "200"],
+  },
+  "PATCH /{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}": {
+    deserializer: _updateDeserialize,
+    expectedStatuses: ["200", "202"],
+  },
+  "PUT /{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}": {
+    deserializer: _createOrUpdateDeserializeStorageClass,
     expectedStatuses: ["200", "201"],
   },
 };
