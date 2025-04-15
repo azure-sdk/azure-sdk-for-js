@@ -22,7 +22,7 @@ async function accountsCheckNameAvailability(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  accountsCheckNameAvailability();
+  await accountsCheckNameAvailability();
 }
 
 main().catch(console.error);
