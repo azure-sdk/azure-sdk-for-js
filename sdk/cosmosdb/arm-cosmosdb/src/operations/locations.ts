@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { Locations } from "../operationsInterfaces/index.js";
+import { Locations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { CosmosDBManagementClient } from "../cosmosDBManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import {
   LocationGetResult,
   LocationsListOptionalParams,
   LocationsListResponse,
   LocationsGetOptionalParams,
   LocationsGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Locations operations. */

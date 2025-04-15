@@ -12,7 +12,7 @@ import {
   CollectionPartitionListMetricsOptionalParams,
   PartitionUsage,
   CollectionPartitionListUsagesOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CollectionPartition. */

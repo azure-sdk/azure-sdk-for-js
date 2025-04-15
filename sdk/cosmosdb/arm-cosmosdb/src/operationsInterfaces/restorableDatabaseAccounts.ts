@@ -13,7 +13,7 @@ import {
   RestorableDatabaseAccountsListOptionalParams,
   RestorableDatabaseAccountsGetByLocationOptionalParams,
   RestorableDatabaseAccountsGetByLocationResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RestorableDatabaseAccounts. */
