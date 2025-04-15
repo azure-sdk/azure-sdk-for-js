@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { ScheduledQueryRules } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { ScheduledQueryRules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { MonitorClient } from "../monitorClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { MonitorClient } from "../monitorClient";
 import {
   ScheduledQueryRuleResource,
   ScheduledQueryRulesListBySubscriptionNextOptionalParams,
@@ -31,7 +31,7 @@ import {
   ScheduledQueryRulesDeleteOptionalParams,
   ScheduledQueryRulesListBySubscriptionNextResponse,
   ScheduledQueryRulesListByResourceGroupNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ScheduledQueryRules operations. */
@@ -315,7 +315,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract,
     },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -331,11 +331,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract,
     },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -351,11 +351,11 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract,
     },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.ruleName,
   ],
   headerParameters: [Parameters.accept],
@@ -375,15 +375,15 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract,
     },
   },
-  requestBody: Parameters.parameters6,
-  queryParameters: [Parameters.apiVersion10],
+  requestBody: Parameters.parameters,
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.ruleName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -398,15 +398,15 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract,
     },
   },
-  requestBody: Parameters.parameters7,
-  queryParameters: [Parameters.apiVersion10],
+  requestBody: Parameters.parameters1,
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.ruleName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -420,11 +420,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract,
     },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.ruleName,
   ],
   headerParameters: [Parameters.accept],
@@ -462,8 +462,8 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
