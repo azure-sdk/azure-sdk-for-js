@@ -6,23 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ContainerAppsBuilds } from "../operationsInterfaces/index.js";
+import { ContainerAppsBuilds } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   ContainerAppsBuildsGetOptionalParams,
   ContainerAppsBuildsGetResponse,
   ContainerAppsBuildsDeleteOptionalParams,
   ContainerAppsBuildsDeleteResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing ContainerAppsBuilds operations. */
 export class ContainerAppsBuildsImpl implements ContainerAppsBuilds {
