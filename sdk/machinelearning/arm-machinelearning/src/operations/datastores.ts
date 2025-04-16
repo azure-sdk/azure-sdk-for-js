@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { Datastores } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { Datastores } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient";
 import {
   Datastore,
   DatastoresListNextOptionalParams,
@@ -26,7 +26,7 @@ import {
   DatastoresListSecretsOptionalParams,
   DatastoresListSecretsResponse,
   DatastoresListNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Datastores operations. */
@@ -321,7 +321,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body19,
+  requestBody: Parameters.body18,
   queryParameters: [Parameters.apiVersion, Parameters.skipValidation],
   urlParameters: [
     Parameters.$host,
@@ -345,6 +345,7 @@ const listSecretsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
+  requestBody: Parameters.body19,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -353,7 +354,8 @@ const listSecretsOperationSpec: coreClient.OperationSpec = {
     Parameters.workspaceName,
     Parameters.name,
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -370,9 +372,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

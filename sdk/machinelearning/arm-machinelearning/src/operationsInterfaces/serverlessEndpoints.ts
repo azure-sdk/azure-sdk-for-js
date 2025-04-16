@@ -25,7 +25,7 @@ import {
   RegenerateEndpointKeysRequest,
   ServerlessEndpointsRegenerateKeysOptionalParams,
   ServerlessEndpointsRegenerateKeysResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ServerlessEndpoints. */
