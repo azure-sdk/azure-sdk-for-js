@@ -21,7 +21,7 @@ import {
   RaiBlocklistItemsBatchAddOptionalParams,
   RaiBlocklistItemsBatchAddResponse,
   RaiBlocklistItemsBatchDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RaiBlocklistItems. */

@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Deployments } from "../operationsInterfaces";
+import { Projects } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,33 +20,27 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  Deployment,
-  DeploymentsListNextOptionalParams,
-  DeploymentsListOptionalParams,
-  DeploymentsListResponse,
-  SkuResource,
-  DeploymentsListSkusNextOptionalParams,
-  DeploymentsListSkusOptionalParams,
-  DeploymentsListSkusResponse,
-  DeploymentsGetOptionalParams,
-  DeploymentsGetResponse,
-  DeploymentsCreateOrUpdateOptionalParams,
-  DeploymentsCreateOrUpdateResponse,
-  PatchResourceTagsAndSku,
-  DeploymentsUpdateOptionalParams,
-  DeploymentsUpdateResponse,
-  DeploymentsDeleteOptionalParams,
-  DeploymentsListNextResponse,
-  DeploymentsListSkusNextResponse,
+  Project,
+  ProjectsListNextOptionalParams,
+  ProjectsListOptionalParams,
+  ProjectsListResponse,
+  ProjectsCreateOptionalParams,
+  ProjectsCreateResponse,
+  ProjectsUpdateOptionalParams,
+  ProjectsUpdateResponse,
+  ProjectsDeleteOptionalParams,
+  ProjectsGetOptionalParams,
+  ProjectsGetResponse,
+  ProjectsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Deployments operations. */
-export class DeploymentsImpl implements Deployments {
+/** Class containing Projects operations. */
+export class ProjectsImpl implements Projects {
   private readonly client: CognitiveServicesManagementClient;
 
   /**
-   * Initialize a new instance of the class Deployments class.
+   * Initialize a new instance of the class Projects class.
    * @param client Reference to the service client
    */
   constructor(client: CognitiveServicesManagementClient) {
@@ -54,7 +48,7 @@ export class DeploymentsImpl implements Deployments {
   }
 
   /**
-   * Gets the deployments associated with the Cognitive Services account.
+   * Returns all the projects in a Cognitive Services account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param options The options parameters.
@@ -62,8 +56,8 @@ export class DeploymentsImpl implements Deployments {
   public list(
     resourceGroupName: string,
     accountName: string,
-    options?: DeploymentsListOptionalParams,
-  ): PagedAsyncIterableIterator<Deployment> {
+    options?: ProjectsListOptionalParams,
+  ): PagedAsyncIterableIterator<Project> {
     const iter = this.listPagingAll(resourceGroupName, accountName, options);
     return {
       next() {
@@ -89,10 +83,10 @@ export class DeploymentsImpl implements Deployments {
   private async *listPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: DeploymentsListOptionalParams,
+    options?: ProjectsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Deployment[]> {
-    let result: DeploymentsListResponse;
+  ): AsyncIterableIterator<Project[]> {
+    let result: ProjectsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, accountName, options);
@@ -118,8 +112,8 @@ export class DeploymentsImpl implements Deployments {
   private async *listPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: DeploymentsListOptionalParams,
-  ): AsyncIterableIterator<Deployment> {
+    options?: ProjectsListOptionalParams,
+  ): AsyncIterableIterator<Project> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       accountName,
@@ -130,158 +124,30 @@ export class DeploymentsImpl implements Deployments {
   }
 
   /**
-   * Lists the specified deployments skus associated with the Cognitive Services account.
+   * Create Cognitive Services Account's Project. Project is a sub-resource of an account which give AI
+   * developer it's individual container to work on.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
-   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
+   * @param projectName The name of Cognitive Services account's project.
+   * @param project The parameters to provide for the created project.
    * @param options The options parameters.
    */
-  public listSkus(
+  async beginCreate(
     resourceGroupName: string,
     accountName: string,
-    deploymentName: string,
-    options?: DeploymentsListSkusOptionalParams,
-  ): PagedAsyncIterableIterator<SkuResource> {
-    const iter = this.listSkusPagingAll(
-      resourceGroupName,
-      accountName,
-      deploymentName,
-      options,
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listSkusPagingPage(
-          resourceGroupName,
-          accountName,
-          deploymentName,
-          options,
-          settings,
-        );
-      },
-    };
-  }
-
-  private async *listSkusPagingPage(
-    resourceGroupName: string,
-    accountName: string,
-    deploymentName: string,
-    options?: DeploymentsListSkusOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<SkuResource[]> {
-    let result: DeploymentsListSkusResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listSkus(
-        resourceGroupName,
-        accountName,
-        deploymentName,
-        options,
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listSkusNext(
-        resourceGroupName,
-        accountName,
-        deploymentName,
-        continuationToken,
-        options,
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listSkusPagingAll(
-    resourceGroupName: string,
-    accountName: string,
-    deploymentName: string,
-    options?: DeploymentsListSkusOptionalParams,
-  ): AsyncIterableIterator<SkuResource> {
-    for await (const page of this.listSkusPagingPage(
-      resourceGroupName,
-      accountName,
-      deploymentName,
-      options,
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Gets the deployments associated with the Cognitive Services account.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of Cognitive Services account.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    accountName: string,
-    options?: DeploymentsListOptionalParams,
-  ): Promise<DeploymentsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, options },
-      listOperationSpec,
-    );
-  }
-
-  /**
-   * Gets the specified deployments associated with the Cognitive Services account.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of Cognitive Services account.
-   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    accountName: string,
-    deploymentName: string,
-    options?: DeploymentsGetOptionalParams,
-  ): Promise<DeploymentsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, deploymentName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * Update the state of specified deployments associated with the Cognitive Services account.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of Cognitive Services account.
-   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
-   * @param deployment The deployment properties.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdate(
-    resourceGroupName: string,
-    accountName: string,
-    deploymentName: string,
-    deployment: Deployment,
-    options?: DeploymentsCreateOrUpdateOptionalParams,
+    projectName: string,
+    project: Project,
+    options?: ProjectsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<DeploymentsCreateOrUpdateResponse>,
-      DeploymentsCreateOrUpdateResponse
+      OperationState<ProjectsCreateResponse>,
+      ProjectsCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<DeploymentsCreateOrUpdateResponse> => {
+    ): Promise<ProjectsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -318,76 +184,70 @@ export class DeploymentsImpl implements Deployments {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        accountName,
-        deploymentName,
-        deployment,
-        options,
-      },
-      spec: createOrUpdateOperationSpec,
+      args: { resourceGroupName, accountName, projectName, project, options },
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
-      DeploymentsCreateOrUpdateResponse,
-      OperationState<DeploymentsCreateOrUpdateResponse>
+      ProjectsCreateResponse,
+      OperationState<ProjectsCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Update the state of specified deployments associated with the Cognitive Services account.
+   * Create Cognitive Services Account's Project. Project is a sub-resource of an account which give AI
+   * developer it's individual container to work on.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
-   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
-   * @param deployment The deployment properties.
+   * @param projectName The name of Cognitive Services account's project.
+   * @param project The parameters to provide for the created project.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdateAndWait(
+  async beginCreateAndWait(
     resourceGroupName: string,
     accountName: string,
-    deploymentName: string,
-    deployment: Deployment,
-    options?: DeploymentsCreateOrUpdateOptionalParams,
-  ): Promise<DeploymentsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
+    projectName: string,
+    project: Project,
+    options?: ProjectsCreateOptionalParams,
+  ): Promise<ProjectsCreateResponse> {
+    const poller = await this.beginCreate(
       resourceGroupName,
       accountName,
-      deploymentName,
-      deployment,
+      projectName,
+      project,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Update specified deployments associated with the Cognitive Services account.
+   * Updates a Cognitive Services Project
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
-   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
-   * @param deployment The deployment properties.
+   * @param projectName The name of Cognitive Services account's project.
+   * @param project The parameters to provide for the created project.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
     accountName: string,
-    deploymentName: string,
-    deployment: PatchResourceTagsAndSku,
-    options?: DeploymentsUpdateOptionalParams,
+    projectName: string,
+    project: Project,
+    options?: ProjectsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<DeploymentsUpdateResponse>,
-      DeploymentsUpdateResponse
+      OperationState<ProjectsUpdateResponse>,
+      ProjectsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<DeploymentsUpdateResponse> => {
+    ): Promise<ProjectsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -424,64 +284,57 @@ export class DeploymentsImpl implements Deployments {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        accountName,
-        deploymentName,
-        deployment,
-        options,
-      },
+      args: { resourceGroupName, accountName, projectName, project, options },
       spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
-      DeploymentsUpdateResponse,
-      OperationState<DeploymentsUpdateResponse>
+      ProjectsUpdateResponse,
+      OperationState<ProjectsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Update specified deployments associated with the Cognitive Services account.
+   * Updates a Cognitive Services Project
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
-   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
-   * @param deployment The deployment properties.
+   * @param projectName The name of Cognitive Services account's project.
+   * @param project The parameters to provide for the created project.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
     accountName: string,
-    deploymentName: string,
-    deployment: PatchResourceTagsAndSku,
-    options?: DeploymentsUpdateOptionalParams,
-  ): Promise<DeploymentsUpdateResponse> {
+    projectName: string,
+    project: Project,
+    options?: ProjectsUpdateOptionalParams,
+  ): Promise<ProjectsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       accountName,
-      deploymentName,
-      deployment,
+      projectName,
+      project,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Deletes the specified deployment associated with the Cognitive Services account.
+   * Deletes a Cognitive Services project from the resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
-   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
+   * @param projectName The name of Cognitive Services account's project.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     accountName: string,
-    deploymentName: string,
-    options?: DeploymentsDeleteOptionalParams,
+    projectName: string,
+    options?: ProjectsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -523,7 +376,7 @@ export class DeploymentsImpl implements Deployments {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, accountName, deploymentName, options },
+      args: { resourceGroupName, accountName, projectName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
@@ -535,43 +388,60 @@ export class DeploymentsImpl implements Deployments {
   }
 
   /**
-   * Deletes the specified deployment associated with the Cognitive Services account.
+   * Deletes a Cognitive Services project from the resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
-   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
+   * @param projectName The name of Cognitive Services account's project.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     accountName: string,
-    deploymentName: string,
-    options?: DeploymentsDeleteOptionalParams,
+    projectName: string,
+    options?: ProjectsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       accountName,
-      deploymentName,
+      projectName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Lists the specified deployments skus associated with the Cognitive Services account.
+   * Returns a Cognitive Services project specified by the parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
-   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
+   * @param projectName The name of Cognitive Services account's project.
    * @param options The options parameters.
    */
-  private _listSkus(
+  get(
     resourceGroupName: string,
     accountName: string,
-    deploymentName: string,
-    options?: DeploymentsListSkusOptionalParams,
-  ): Promise<DeploymentsListSkusResponse> {
+    projectName: string,
+    options?: ProjectsGetOptionalParams,
+  ): Promise<ProjectsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, deploymentName, options },
-      listSkusOperationSpec,
+      { resourceGroupName, accountName, projectName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * Returns all the projects in a Cognitive Services account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: ProjectsListOptionalParams,
+  ): Promise<ProjectsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, options },
+      listOperationSpec,
     );
   }
 
@@ -586,149 +456,85 @@ export class DeploymentsImpl implements Deployments {
     resourceGroupName: string,
     accountName: string,
     nextLink: string,
-    options?: DeploymentsListNextOptionalParams,
-  ): Promise<DeploymentsListNextResponse> {
+    options?: ProjectsListNextOptionalParams,
+  ): Promise<ProjectsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, nextLink, options },
       listNextOperationSpec,
-    );
-  }
-
-  /**
-   * ListSkusNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of Cognitive Services account.
-   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
-   * @param nextLink The nextLink from the previous successful call to the ListSkus method.
-   * @param options The options parameters.
-   */
-  private _listSkusNext(
-    resourceGroupName: string,
-    accountName: string,
-    deploymentName: string,
-    nextLink: string,
-    options?: DeploymentsListSkusNextOptionalParams,
-  ): Promise<DeploymentsListSkusNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, deploymentName, nextLink, options },
-      listSkusNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeploymentListResult,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments/{deploymentName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Deployment,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
-    Parameters.deploymentName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments/{deploymentName}",
+const createOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Deployment,
+      bodyMapper: Mappers.Project,
     },
     201: {
-      bodyMapper: Mappers.Deployment,
+      bodyMapper: Mappers.Project,
     },
     202: {
-      bodyMapper: Mappers.Deployment,
+      bodyMapper: Mappers.Project,
     },
     204: {
-      bodyMapper: Mappers.Deployment,
+      bodyMapper: Mappers.Project,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.deployment,
+  requestBody: Parameters.project,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.deploymentName,
+    Parameters.projectName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments/{deploymentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Deployment,
+      bodyMapper: Mappers.Project,
     },
     201: {
-      bodyMapper: Mappers.Deployment,
+      bodyMapper: Mappers.Project,
     },
     202: {
-      bodyMapper: Mappers.Deployment,
+      bodyMapper: Mappers.Project,
     },
     204: {
-      bodyMapper: Mappers.Deployment,
+      bodyMapper: Mappers.Project,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.deployment1,
+  requestBody: Parameters.project,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.deploymentName,
+    Parameters.projectName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments/{deploymentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -745,17 +551,17 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.deploymentName,
+    Parameters.projectName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listSkusOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments/{deploymentName}/skus",
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentSkuListResult,
+      bodyMapper: Mappers.Project,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -767,7 +573,28 @@ const listSkusOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.deploymentName,
+    Parameters.projectName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProjectListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -777,7 +604,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentListResult,
+      bodyMapper: Mappers.ProjectListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -789,28 +616,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listSkusNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeploymentSkuListResult,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.deploymentName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
