@@ -16,7 +16,7 @@ import {
   PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   PrivateEndpointConnectionsCreateOrUpdateResponse,
   PrivateEndpointConnectionsDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a PrivateEndpointConnections. */
 export interface PrivateEndpointConnections {
