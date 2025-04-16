@@ -2493,14 +2493,6 @@ export interface VmImagesInEdgeZoneListResult {
   nextLink?: string;
 }
 
-/** The List Virtual Machine Images operation response. */
-export interface VirtualMachineImagesWithPropertiesListResult {
-  /** The list of virtual machine images. */
-  value?: VirtualMachineImage[];
-  /** The URI to fetch the next page of virtual machine images. Call ListNext() with this URI to fetch the next page of virtual machine images. */
-  nextLink?: string;
-}
-
 /** Describes the Availability Set properties related to migration to Flexible Virtual Machine Scale Set. */
 export interface VirtualMachineScaleSetMigrationInfo {
   /**
@@ -9148,21 +9140,6 @@ export enum KnownAlternativeType {
  */
 export type AlternativeType = string;
 
-/** Known values of {@link Expand} that the service accepts. */
-export enum KnownExpand {
-  /** Properties */
-  Properties = "Properties",
-}
-
-/**
- * Defines values for Expand. \
- * {@link KnownExpand} can be used interchangeably with Expand,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Properties**
- */
-export type Expand = string;
-
 /** Known values of {@link ProximityPlacementGroupType} that the service accepts. */
 export enum KnownProximityPlacementGroupType {
   /** Standard */
@@ -11572,15 +11549,7 @@ export interface VirtualMachineImagesListWithPropertiesOptionalParams
 
 /** Contains response data for the listWithProperties operation. */
 export type VirtualMachineImagesListWithPropertiesResponse =
-  VirtualMachineImagesWithPropertiesListResult;
-
-/** Optional parameters. */
-export interface VirtualMachineImagesListWithPropertiesNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listWithPropertiesNext operation. */
-export type VirtualMachineImagesListWithPropertiesNextResponse =
-  VirtualMachineImagesWithPropertiesListResult;
+  VirtualMachineImage[];
 
 /** Optional parameters. */
 export interface VirtualMachineImagesEdgeZoneGetOptionalParams
