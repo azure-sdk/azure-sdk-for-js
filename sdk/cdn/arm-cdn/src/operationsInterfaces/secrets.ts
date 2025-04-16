@@ -16,7 +16,7 @@ import {
   SecretsCreateOptionalParams,
   SecretsCreateResponse,
   SecretsDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Secrets. */
@@ -24,8 +24,8 @@ export interface Secrets {
   /**
    * Lists existing AzureFrontDoor secrets.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param options The options parameters.
    */
   listByProfile(
@@ -36,8 +36,8 @@ export interface Secrets {
   /**
    * Gets an existing Secret within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param secretName Name of the Secret under the profile.
    * @param options The options parameters.
    */
@@ -50,8 +50,8 @@ export interface Secrets {
   /**
    * Creates a new Secret within the specified profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param secretName Name of the Secret under the profile.
    * @param secret The Secret properties.
    * @param options The options parameters.
@@ -71,8 +71,8 @@ export interface Secrets {
   /**
    * Creates a new Secret within the specified profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param secretName Name of the Secret under the profile.
    * @param secret The Secret properties.
    * @param options The options parameters.
@@ -87,8 +87,8 @@ export interface Secrets {
   /**
    * Deletes an existing Secret within profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param secretName Name of the Secret under the profile.
    * @param options The options parameters.
    */
@@ -101,8 +101,8 @@ export interface Secrets {
   /**
    * Deletes an existing Secret within profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param secretName Name of the Secret under the profile.
    * @param options The options parameters.
    */

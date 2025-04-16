@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { Secrets } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { Secrets } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { CdnManagementClient } from "../cdnManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { CdnManagementClient } from "../cdnManagementClient";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   Secret,
   SecretsListByProfileNextOptionalParams,
@@ -30,7 +30,7 @@ import {
   SecretsCreateResponse,
   SecretsDeleteOptionalParams,
   SecretsListByProfileNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Secrets operations. */
@@ -48,8 +48,8 @@ export class SecretsImpl implements Secrets {
   /**
    * Lists existing AzureFrontDoor secrets.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param options The options parameters.
    */
   public listByProfile(
@@ -133,8 +133,8 @@ export class SecretsImpl implements Secrets {
   /**
    * Lists existing AzureFrontDoor secrets.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param options The options parameters.
    */
   private _listByProfile(
@@ -151,8 +151,8 @@ export class SecretsImpl implements Secrets {
   /**
    * Gets an existing Secret within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param secretName Name of the Secret under the profile.
    * @param options The options parameters.
    */
@@ -171,8 +171,8 @@ export class SecretsImpl implements Secrets {
   /**
    * Creates a new Secret within the specified profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param secretName Name of the Secret under the profile.
    * @param secret The Secret properties.
    * @param options The options parameters.
@@ -247,8 +247,8 @@ export class SecretsImpl implements Secrets {
   /**
    * Creates a new Secret within the specified profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param secretName Name of the Secret under the profile.
    * @param secret The Secret properties.
    * @param options The options parameters.
@@ -273,8 +273,8 @@ export class SecretsImpl implements Secrets {
   /**
    * Deletes an existing Secret within profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param secretName Name of the Secret under the profile.
    * @param options The options parameters.
    */
@@ -339,8 +339,8 @@ export class SecretsImpl implements Secrets {
   /**
    * Deletes an existing Secret within profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param secretName Name of the Secret under the profile.
    * @param options The options parameters.
    */
@@ -362,8 +362,8 @@ export class SecretsImpl implements Secrets {
   /**
    * ListByProfileNext
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param nextLink The nextLink from the previous successful call to the ListByProfile method.
    * @param options The options parameters.
    */
@@ -398,7 +398,7 @@ const listByProfileOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -419,7 +419,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.secretName,
   ],
   headerParameters: [Parameters.accept],
@@ -451,7 +451,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.secretName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -475,7 +475,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.secretName,
   ],
   headerParameters: [Parameters.accept],
@@ -496,7 +496,7 @@ const listByProfileNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],

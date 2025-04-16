@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { AfdOrigins } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { AfdOrigins } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { CdnManagementClient } from "../cdnManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { CdnManagementClient } from "../cdnManagementClient";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   AFDOrigin,
   AfdOriginsListByOriginGroupNextOptionalParams,
@@ -33,7 +33,7 @@ import {
   AfdOriginsUpdateResponse,
   AfdOriginsDeleteOptionalParams,
   AfdOriginsListByOriginGroupNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AfdOrigins operations. */
@@ -51,8 +51,8 @@ export class AfdOriginsImpl implements AfdOrigins {
   /**
    * Lists all of the existing origins within an origin group.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param options The options parameters.
    */
@@ -145,8 +145,8 @@ export class AfdOriginsImpl implements AfdOrigins {
   /**
    * Lists all of the existing origins within an origin group.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param options The options parameters.
    */
@@ -165,8 +165,8 @@ export class AfdOriginsImpl implements AfdOrigins {
   /**
    * Gets an existing origin within an origin group.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param originName Name of the origin which is unique within the profile.
    * @param options The options parameters.
@@ -187,8 +187,8 @@ export class AfdOriginsImpl implements AfdOrigins {
   /**
    * Creates a new origin within the specified origin group.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param originName Name of the origin that is unique within the profile.
    * @param origin Origin properties
@@ -272,8 +272,8 @@ export class AfdOriginsImpl implements AfdOrigins {
   /**
    * Creates a new origin within the specified origin group.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param originName Name of the origin that is unique within the profile.
    * @param origin Origin properties
@@ -301,8 +301,8 @@ export class AfdOriginsImpl implements AfdOrigins {
   /**
    * Updates an existing origin within an origin group.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param originName Name of the origin which is unique within the profile.
    * @param originUpdateProperties Origin properties
@@ -386,8 +386,8 @@ export class AfdOriginsImpl implements AfdOrigins {
   /**
    * Updates an existing origin within an origin group.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param originName Name of the origin which is unique within the profile.
    * @param originUpdateProperties Origin properties
@@ -415,8 +415,8 @@ export class AfdOriginsImpl implements AfdOrigins {
   /**
    * Deletes an existing origin within an origin group.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param originName Name of the origin which is unique within the profile.
    * @param options The options parameters.
@@ -489,8 +489,8 @@ export class AfdOriginsImpl implements AfdOrigins {
   /**
    * Deletes an existing origin within an origin group.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param originName Name of the origin which is unique within the profile.
    * @param options The options parameters.
@@ -515,8 +515,8 @@ export class AfdOriginsImpl implements AfdOrigins {
   /**
    * ListByOriginGroupNext
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param nextLink The nextLink from the previous successful call to the ListByOriginGroup method.
    * @param options The options parameters.
@@ -553,7 +553,7 @@ const listByOriginGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.originGroupName,
   ],
   headerParameters: [Parameters.accept],
@@ -575,7 +575,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.originGroupName,
     Parameters.originName,
   ],
@@ -608,7 +608,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.originGroupName,
     Parameters.originName,
   ],
@@ -642,7 +642,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.originGroupName,
     Parameters.originName,
   ],
@@ -667,7 +667,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.originGroupName,
     Parameters.originName,
   ],
@@ -689,7 +689,7 @@ const listByOriginGroupNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.nextLink,
     Parameters.originGroupName,
   ],

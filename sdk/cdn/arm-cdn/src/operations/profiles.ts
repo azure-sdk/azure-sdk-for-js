@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { Profiles } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { Profiles } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { CdnManagementClient } from "../cdnManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { CdnManagementClient } from "../cdnManagementClient";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   Profile,
   ProfilesListNextOptionalParams,
@@ -50,10 +50,17 @@ import {
   ProfilesGenerateSsoUriResponse,
   ProfilesListSupportedOptimizationTypesOptionalParams,
   ProfilesListSupportedOptimizationTypesResponse,
+  ProfilesCdnCanMigrateToAfdOptionalParams,
+  ProfilesCdnCanMigrateToAfdResponse,
+  CdnMigrationToAfdParameters,
+  ProfilesCdnMigrateToAfdOptionalParams,
+  ProfilesCdnMigrateToAfdResponse,
+  ProfilesMigrationAbortOptionalParams,
+  ProfilesMigrationAbortResponse,
   ProfilesListNextResponse,
   ProfilesListByResourceGroupNextResponse,
   ProfilesListResourceUsageNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Profiles operations. */
@@ -938,6 +945,289 @@ export class ProfilesImpl implements Profiles {
   }
 
   /**
+   * Checks if CDN profile can be migrated to Azure Frontdoor(Standard/Premium) profile.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param options The options parameters.
+   */
+  async beginCdnCanMigrateToAfd(
+    resourceGroupName: string,
+    profileName: string,
+    options?: ProfilesCdnCanMigrateToAfdOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ProfilesCdnCanMigrateToAfdResponse>,
+      ProfilesCdnCanMigrateToAfdResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ProfilesCdnCanMigrateToAfdResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, profileName, options },
+      spec: cdnCanMigrateToAfdOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ProfilesCdnCanMigrateToAfdResponse,
+      OperationState<ProfilesCdnCanMigrateToAfdResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Checks if CDN profile can be migrated to Azure Frontdoor(Standard/Premium) profile.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param options The options parameters.
+   */
+  async beginCdnCanMigrateToAfdAndWait(
+    resourceGroupName: string,
+    profileName: string,
+    options?: ProfilesCdnCanMigrateToAfdOptionalParams,
+  ): Promise<ProfilesCdnCanMigrateToAfdResponse> {
+    const poller = await this.beginCdnCanMigrateToAfd(
+      resourceGroupName,
+      profileName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Migrate the CDN profile to Azure Frontdoor(Standard/Premium) profile. This step prepares the profile
+   * for migration and will be followed by Commit to finalize the migration.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param migrationParameters Properties needed to migrate the profile.
+   * @param options The options parameters.
+   */
+  async beginCdnMigrateToAfd(
+    resourceGroupName: string,
+    profileName: string,
+    migrationParameters: CdnMigrationToAfdParameters,
+    options?: ProfilesCdnMigrateToAfdOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ProfilesCdnMigrateToAfdResponse>,
+      ProfilesCdnMigrateToAfdResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ProfilesCdnMigrateToAfdResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, profileName, migrationParameters, options },
+      spec: cdnMigrateToAfdOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ProfilesCdnMigrateToAfdResponse,
+      OperationState<ProfilesCdnMigrateToAfdResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Migrate the CDN profile to Azure Frontdoor(Standard/Premium) profile. This step prepares the profile
+   * for migration and will be followed by Commit to finalize the migration.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param migrationParameters Properties needed to migrate the profile.
+   * @param options The options parameters.
+   */
+  async beginCdnMigrateToAfdAndWait(
+    resourceGroupName: string,
+    profileName: string,
+    migrationParameters: CdnMigrationToAfdParameters,
+    options?: ProfilesCdnMigrateToAfdOptionalParams,
+  ): Promise<ProfilesCdnMigrateToAfdResponse> {
+    const poller = await this.beginCdnMigrateToAfd(
+      resourceGroupName,
+      profileName,
+      migrationParameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Abort the migration to Azure Frontdoor Premium/Standard.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param options The options parameters.
+   */
+  async beginMigrationAbort(
+    resourceGroupName: string,
+    profileName: string,
+    options?: ProfilesMigrationAbortOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ProfilesMigrationAbortResponse>,
+      ProfilesMigrationAbortResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ProfilesMigrationAbortResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, profileName, options },
+      spec: migrationAbortOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ProfilesMigrationAbortResponse,
+      OperationState<ProfilesMigrationAbortResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Abort the migration to Azure Frontdoor Premium/Standard.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param options The options parameters.
+   */
+  async beginMigrationAbortAndWait(
+    resourceGroupName: string,
+    profileName: string,
+    options?: ProfilesMigrationAbortOptionalParams,
+  ): Promise<ProfilesMigrationAbortResponse> {
+    const poller = await this.beginMigrationAbort(
+      resourceGroupName,
+      profileName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListNext
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -1282,6 +1572,98 @@ const listResourceUsageOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
+const cdnCanMigrateToAfdOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/cdnCanMigrateToAfd",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CanMigrateResult,
+    },
+    201: {
+      bodyMapper: Mappers.CanMigrateResult,
+    },
+    202: {
+      bodyMapper: Mappers.CanMigrateResult,
+    },
+    204: {
+      bodyMapper: Mappers.CanMigrateResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.profileName,
+    Parameters.resourceGroupName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const cdnMigrateToAfdOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/cdnMigrateToAfd",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MigrateResult,
+    },
+    201: {
+      bodyMapper: Mappers.MigrateResult,
+    },
+    202: {
+      bodyMapper: Mappers.MigrateResult,
+    },
+    204: {
+      bodyMapper: Mappers.MigrateResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
+  },
+  requestBody: Parameters.migrationParameters1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.profileName,
+    Parameters.resourceGroupName1,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const migrationAbortOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/migrationAbort",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.ProfilesMigrationAbortHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ProfilesMigrationAbortHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ProfilesMigrationAbortHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ProfilesMigrationAbortHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.profileName,
+    Parameters.resourceGroupName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -1336,8 +1718,8 @@ const listResourceUsageNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
     Parameters.nextLink,
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
