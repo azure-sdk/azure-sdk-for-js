@@ -10,7 +10,7 @@ import {
   SignatureOverridesFilterValuesQuery,
   FirewallPolicyIdpsSignaturesFilterValuesListOptionalParams,
   FirewallPolicyIdpsSignaturesFilterValuesListResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a FirewallPolicyIdpsSignaturesFilterValues. */
 export interface FirewallPolicyIdpsSignaturesFilterValues {

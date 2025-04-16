@@ -16,7 +16,7 @@ import {
   RoutesGetResponse,
   RoutesCreateOrUpdateOptionalParams,
   RoutesCreateOrUpdateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Routes. */

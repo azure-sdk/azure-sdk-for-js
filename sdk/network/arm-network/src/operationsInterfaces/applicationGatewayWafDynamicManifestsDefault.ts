@@ -9,7 +9,7 @@
 import {
   ApplicationGatewayWafDynamicManifestsDefaultGetOptionalParams,
   ApplicationGatewayWafDynamicManifestsDefaultGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a ApplicationGatewayWafDynamicManifestsDefault. */
 export interface ApplicationGatewayWafDynamicManifestsDefault {

@@ -30,7 +30,7 @@ import {
   PublicIPAddressesDdosProtectionStatusResponse,
   PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams,
   PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PublicIPAddresses. */

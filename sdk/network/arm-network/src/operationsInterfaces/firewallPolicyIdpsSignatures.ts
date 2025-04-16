@@ -10,7 +10,7 @@ import {
   IdpsQueryObject,
   FirewallPolicyIdpsSignaturesListOptionalParams,
   FirewallPolicyIdpsSignaturesListResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a FirewallPolicyIdpsSignatures. */
 export interface FirewallPolicyIdpsSignatures {

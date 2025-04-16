@@ -20,7 +20,7 @@ import {
   PacketCapturesStopOptionalParams,
   PacketCapturesGetStatusOptionalParams,
   PacketCapturesGetStatusResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PacketCaptures. */

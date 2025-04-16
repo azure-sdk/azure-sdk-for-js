@@ -12,7 +12,7 @@ import {
   VirtualApplianceSkusListOptionalParams,
   VirtualApplianceSkusGetOptionalParams,
   VirtualApplianceSkusGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a VirtualApplianceSkus. */

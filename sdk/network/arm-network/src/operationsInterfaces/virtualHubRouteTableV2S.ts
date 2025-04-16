@@ -16,7 +16,7 @@ import {
   VirtualHubRouteTableV2SCreateOrUpdateOptionalParams,
   VirtualHubRouteTableV2SCreateOrUpdateResponse,
   VirtualHubRouteTableV2SDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a VirtualHubRouteTableV2S. */

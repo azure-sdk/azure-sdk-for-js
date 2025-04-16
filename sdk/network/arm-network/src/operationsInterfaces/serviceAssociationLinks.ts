@@ -9,7 +9,7 @@
 import {
   ServiceAssociationLinksListOptionalParams,
   ServiceAssociationLinksListResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a ServiceAssociationLinks. */
 export interface ServiceAssociationLinks {

@@ -17,7 +17,7 @@ import {
   TagsObject,
   DdosCustomPoliciesUpdateTagsOptionalParams,
   DdosCustomPoliciesUpdateTagsResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a DdosCustomPolicies. */
 export interface DdosCustomPolicies {

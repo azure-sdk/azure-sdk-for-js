@@ -16,7 +16,7 @@ import {
   VirtualApplianceSitesGetResponse,
   VirtualApplianceSitesCreateOrUpdateOptionalParams,
   VirtualApplianceSitesCreateOrUpdateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a VirtualApplianceSites. */

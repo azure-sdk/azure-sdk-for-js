@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { AvailablePrivateEndpointTypes } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { AvailablePrivateEndpointTypes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { NetworkManagementClient } from "../networkManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { NetworkManagementClient } from "../networkManagementClient";
 import {
   AvailablePrivateEndpointType,
   AvailablePrivateEndpointTypesListNextOptionalParams,
@@ -23,7 +23,7 @@ import {
   AvailablePrivateEndpointTypesListByResourceGroupResponse,
   AvailablePrivateEndpointTypesListNextResponse,
   AvailablePrivateEndpointTypesListByResourceGroupNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AvailablePrivateEndpointTypes operations. */

@@ -9,7 +9,7 @@
 import {
   VpnSiteLinkConnectionsGetOptionalParams,
   VpnSiteLinkConnectionsGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a VpnSiteLinkConnections. */
 export interface VpnSiteLinkConnections {

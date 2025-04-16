@@ -14,7 +14,7 @@ import {
   VirtualHubBgpConnectionCreateOrUpdateOptionalParams,
   VirtualHubBgpConnectionCreateOrUpdateResponse,
   VirtualHubBgpConnectionDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a VirtualHubBgpConnection. */
 export interface VirtualHubBgpConnection {

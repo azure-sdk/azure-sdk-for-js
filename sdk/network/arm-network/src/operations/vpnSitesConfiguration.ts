@@ -6,21 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { VpnSitesConfiguration } from "../operationsInterfaces/index.js";
+import { VpnSitesConfiguration } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { NetworkManagementClient } from "../networkManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   GetVpnSitesConfigurationRequest,
   VpnSitesConfigurationDownloadOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing VpnSitesConfiguration operations. */
 export class VpnSitesConfigurationImpl implements VpnSitesConfiguration {
@@ -136,7 +136,7 @@ const downloadOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.request2,
+  requestBody: Parameters.request3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
