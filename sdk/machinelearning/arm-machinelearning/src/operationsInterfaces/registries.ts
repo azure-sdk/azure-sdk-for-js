@@ -22,7 +22,7 @@ import {
   RegistriesCreateOrUpdateResponse,
   RegistriesRemoveRegionsOptionalParams,
   RegistriesRemoveRegionsResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Registries. */

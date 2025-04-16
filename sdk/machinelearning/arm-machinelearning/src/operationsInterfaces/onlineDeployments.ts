@@ -24,7 +24,7 @@ import {
   DeploymentLogsRequest,
   OnlineDeploymentsGetLogsOptionalParams,
   OnlineDeploymentsGetLogsResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a OnlineDeployments. */
