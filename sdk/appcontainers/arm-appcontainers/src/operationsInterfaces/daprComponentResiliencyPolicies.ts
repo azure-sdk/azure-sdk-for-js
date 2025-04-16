@@ -15,7 +15,7 @@ import {
   DaprComponentResiliencyPoliciesCreateOrUpdateOptionalParams,
   DaprComponentResiliencyPoliciesCreateOrUpdateResponse,
   DaprComponentResiliencyPoliciesDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DaprComponentResiliencyPolicies. */

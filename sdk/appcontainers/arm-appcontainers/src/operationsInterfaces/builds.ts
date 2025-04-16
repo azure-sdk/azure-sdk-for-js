@@ -15,7 +15,7 @@ import {
   BuildsCreateOrUpdateResponse,
   BuildsDeleteOptionalParams,
   BuildsDeleteResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a Builds. */
 export interface Builds {

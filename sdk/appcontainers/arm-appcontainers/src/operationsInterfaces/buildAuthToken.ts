@@ -9,7 +9,7 @@
 import {
   BuildAuthTokenListOptionalParams,
   BuildAuthTokenListResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a BuildAuthToken. */
 export interface BuildAuthToken {
