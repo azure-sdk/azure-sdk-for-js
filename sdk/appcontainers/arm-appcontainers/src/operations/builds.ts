@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Builds } from "../operationsInterfaces/index.js";
+import { Builds } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   BuildsGetOptionalParams,
   BuildsGetResponse,
@@ -25,7 +25,7 @@ import {
   BuildsCreateOrUpdateResponse,
   BuildsDeleteOptionalParams,
   BuildsDeleteResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing Builds operations. */
 export class BuildsImpl implements Builds {
