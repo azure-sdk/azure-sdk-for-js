@@ -9,7 +9,7 @@
 import {
   ResourceNavigationLinksListOptionalParams,
   ResourceNavigationLinksListResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a ResourceNavigationLinks. */
 export interface ResourceNavigationLinks {

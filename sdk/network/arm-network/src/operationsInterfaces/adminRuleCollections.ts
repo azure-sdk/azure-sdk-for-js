@@ -16,7 +16,7 @@ import {
   AdminRuleCollectionsCreateOrUpdateOptionalParams,
   AdminRuleCollectionsCreateOrUpdateResponse,
   AdminRuleCollectionsDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AdminRuleCollections. */

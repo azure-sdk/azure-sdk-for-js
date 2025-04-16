@@ -20,7 +20,7 @@ import {
   TagsObject,
   NetworkSecurityGroupsUpdateTagsOptionalParams,
   NetworkSecurityGroupsUpdateTagsResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a NetworkSecurityGroups. */

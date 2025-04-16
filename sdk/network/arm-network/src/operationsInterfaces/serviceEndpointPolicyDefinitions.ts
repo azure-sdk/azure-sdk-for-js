@@ -16,7 +16,7 @@ import {
   ServiceEndpointPolicyDefinitionsGetResponse,
   ServiceEndpointPolicyDefinitionsCreateOrUpdateOptionalParams,
   ServiceEndpointPolicyDefinitionsCreateOrUpdateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ServiceEndpointPolicyDefinitions. */

@@ -16,7 +16,7 @@ import {
   ExpressRouteCircuitPeeringsGetResponse,
   ExpressRouteCircuitPeeringsCreateOrUpdateOptionalParams,
   ExpressRouteCircuitPeeringsCreateOrUpdateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ExpressRouteCircuitPeerings. */

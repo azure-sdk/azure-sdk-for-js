@@ -25,7 +25,7 @@ import {
   FirewallPacketCaptureParameters,
   AzureFirewallsPacketCaptureOptionalParams,
   AzureFirewallsPacketCaptureResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AzureFirewalls. */

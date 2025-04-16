@@ -16,7 +16,7 @@ import {
   FirewallPolicyIdpsSignaturesOverridesGetResponse,
   FirewallPolicyIdpsSignaturesOverridesListOptionalParams,
   FirewallPolicyIdpsSignaturesOverridesListResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a FirewallPolicyIdpsSignaturesOverrides. */
 export interface FirewallPolicyIdpsSignaturesOverrides {

@@ -10,7 +10,7 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   GetVpnSitesConfigurationRequest,
   VpnSitesConfigurationDownloadOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a VpnSitesConfiguration. */
 export interface VpnSitesConfiguration {

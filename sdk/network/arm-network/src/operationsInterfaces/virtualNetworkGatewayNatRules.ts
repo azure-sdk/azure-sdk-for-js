@@ -16,7 +16,7 @@ import {
   VirtualNetworkGatewayNatRulesCreateOrUpdateOptionalParams,
   VirtualNetworkGatewayNatRulesCreateOrUpdateResponse,
   VirtualNetworkGatewayNatRulesDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a VirtualNetworkGatewayNatRules. */

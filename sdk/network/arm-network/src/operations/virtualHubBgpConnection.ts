@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { VirtualHubBgpConnection } from "../operationsInterfaces/index.js";
+import { VirtualHubBgpConnection } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { NetworkManagementClient } from "../networkManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   VirtualHubBgpConnectionGetOptionalParams,
   VirtualHubBgpConnectionGetResponse,
@@ -24,7 +24,7 @@ import {
   VirtualHubBgpConnectionCreateOrUpdateOptionalParams,
   VirtualHubBgpConnectionCreateOrUpdateResponse,
   VirtualHubBgpConnectionDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing VirtualHubBgpConnection operations. */
 export class VirtualHubBgpConnectionImpl implements VirtualHubBgpConnection {
@@ -297,7 +297,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters90,
+  requestBody: Parameters.parameters98,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

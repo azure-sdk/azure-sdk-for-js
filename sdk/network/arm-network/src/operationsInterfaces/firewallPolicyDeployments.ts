@@ -10,7 +10,7 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   FirewallPolicyDeploymentsDeployOptionalParams,
   FirewallPolicyDeploymentsDeployResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a FirewallPolicyDeployments. */
 export interface FirewallPolicyDeployments {

@@ -9,7 +9,7 @@
 import {
   ExpressRouteProviderPortsLocationListOptionalParams,
   ExpressRouteProviderPortsLocationListResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a ExpressRouteProviderPortsLocation. */
 export interface ExpressRouteProviderPortsLocation {

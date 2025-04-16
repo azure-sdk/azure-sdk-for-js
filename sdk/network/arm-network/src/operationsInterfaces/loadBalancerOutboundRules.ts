@@ -12,7 +12,7 @@ import {
   LoadBalancerOutboundRulesListOptionalParams,
   LoadBalancerOutboundRulesGetOptionalParams,
   LoadBalancerOutboundRulesGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a LoadBalancerOutboundRules. */

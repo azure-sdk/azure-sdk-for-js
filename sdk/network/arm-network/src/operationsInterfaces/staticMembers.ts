@@ -15,7 +15,7 @@ import {
   StaticMembersCreateOrUpdateOptionalParams,
   StaticMembersCreateOrUpdateResponse,
   StaticMembersDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a StaticMembers. */

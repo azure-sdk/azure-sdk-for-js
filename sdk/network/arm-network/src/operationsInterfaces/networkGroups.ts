@@ -16,7 +16,7 @@ import {
   NetworkGroupsCreateOrUpdateOptionalParams,
   NetworkGroupsCreateOrUpdateResponse,
   NetworkGroupsDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a NetworkGroups. */

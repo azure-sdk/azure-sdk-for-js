@@ -11,7 +11,7 @@ import {
   AvailablePrivateEndpointType,
   AvailablePrivateEndpointTypesListOptionalParams,
   AvailablePrivateEndpointTypesListByResourceGroupOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AvailablePrivateEndpointTypes. */

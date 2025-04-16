@@ -10,13 +10,13 @@ import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "./pagingHelper.js";
+import { setContinuationToken } from "./pagingHelper";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "./lroImpl.js";
+import { createLroSpec } from "./lroImpl";
 import {
   ApplicationGatewaysImpl,
   ApplicationGatewayPrivateLinkResourcesImpl,
@@ -98,6 +98,15 @@ import {
   NetworkSecurityGroupsImpl,
   SecurityRulesImpl,
   DefaultSecurityRulesImpl,
+  NetworkSecurityPerimetersImpl,
+  NetworkSecurityPerimeterProfilesImpl,
+  NetworkSecurityPerimeterAccessRulesImpl,
+  NetworkSecurityPerimeterAssociationsImpl,
+  NetworkSecurityPerimeterAssociableResourceTypesImpl,
+  NetworkSecurityPerimeterLinksImpl,
+  NetworkSecurityPerimeterLinkReferencesImpl,
+  NetworkSecurityPerimeterLoggingConfigurationsImpl,
+  NetworkSecurityPerimeterOperationStatusesImpl,
   ReachabilityAnalysisIntentsImpl,
   ReachabilityAnalysisRunsImpl,
   VerifierWorkspacesImpl,
@@ -164,7 +173,7 @@ import {
   HubRouteTablesImpl,
   RoutingIntentOperationsImpl,
   WebApplicationFirewallPoliciesImpl,
-} from "./operations/index.js";
+} from "./operations";
 import {
   ApplicationGateways,
   ApplicationGatewayPrivateLinkResources,
@@ -246,6 +255,15 @@ import {
   NetworkSecurityGroups,
   SecurityRules,
   DefaultSecurityRules,
+  NetworkSecurityPerimeters,
+  NetworkSecurityPerimeterProfiles,
+  NetworkSecurityPerimeterAccessRules,
+  NetworkSecurityPerimeterAssociations,
+  NetworkSecurityPerimeterAssociableResourceTypes,
+  NetworkSecurityPerimeterLinks,
+  NetworkSecurityPerimeterLinkReferences,
+  NetworkSecurityPerimeterLoggingConfigurations,
+  NetworkSecurityPerimeterOperationStatuses,
   ReachabilityAnalysisIntents,
   ReachabilityAnalysisRuns,
   VerifierWorkspaces,
@@ -312,9 +330,9 @@ import {
   HubRouteTables,
   RoutingIntentOperations,
   WebApplicationFirewallPolicies,
-} from "./operationsInterfaces/index.js";
-import * as Parameters from "./models/parameters.js";
-import * as Mappers from "./models/mappers.js";
+} from "./operationsInterfaces";
+import * as Parameters from "./models/parameters";
+import * as Mappers from "./models/mappers";
 import {
   NetworkManagementClientOptionalParams,
   BastionShareableLink,
@@ -361,7 +379,7 @@ import {
   GetBastionShareableLinkNextResponse,
   GetActiveSessionsNextResponse,
   DisconnectActiveSessionsNextResponse,
-} from "./models/index.js";
+} from "./models";
 
 /// <reference lib="esnext.asynciterable" />
 export class NetworkManagementClient extends coreClient.ServiceClient {
@@ -410,7 +428,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-network/33.5.0`;
+    const packageDetails = `azsdk-js-arm-network/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -586,6 +604,24 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     this.networkSecurityGroups = new NetworkSecurityGroupsImpl(this);
     this.securityRules = new SecurityRulesImpl(this);
     this.defaultSecurityRules = new DefaultSecurityRulesImpl(this);
+    this.networkSecurityPerimeters = new NetworkSecurityPerimetersImpl(this);
+    this.networkSecurityPerimeterProfiles =
+      new NetworkSecurityPerimeterProfilesImpl(this);
+    this.networkSecurityPerimeterAccessRules =
+      new NetworkSecurityPerimeterAccessRulesImpl(this);
+    this.networkSecurityPerimeterAssociations =
+      new NetworkSecurityPerimeterAssociationsImpl(this);
+    this.networkSecurityPerimeterAssociableResourceTypes =
+      new NetworkSecurityPerimeterAssociableResourceTypesImpl(this);
+    this.networkSecurityPerimeterLinks = new NetworkSecurityPerimeterLinksImpl(
+      this,
+    );
+    this.networkSecurityPerimeterLinkReferences =
+      new NetworkSecurityPerimeterLinkReferencesImpl(this);
+    this.networkSecurityPerimeterLoggingConfigurations =
+      new NetworkSecurityPerimeterLoggingConfigurationsImpl(this);
+    this.networkSecurityPerimeterOperationStatuses =
+      new NetworkSecurityPerimeterOperationStatusesImpl(this);
     this.reachabilityAnalysisIntents = new ReachabilityAnalysisIntentsImpl(
       this,
     );
@@ -1790,6 +1826,15 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
   networkSecurityGroups: NetworkSecurityGroups;
   securityRules: SecurityRules;
   defaultSecurityRules: DefaultSecurityRules;
+  networkSecurityPerimeters: NetworkSecurityPerimeters;
+  networkSecurityPerimeterProfiles: NetworkSecurityPerimeterProfiles;
+  networkSecurityPerimeterAccessRules: NetworkSecurityPerimeterAccessRules;
+  networkSecurityPerimeterAssociations: NetworkSecurityPerimeterAssociations;
+  networkSecurityPerimeterAssociableResourceTypes: NetworkSecurityPerimeterAssociableResourceTypes;
+  networkSecurityPerimeterLinks: NetworkSecurityPerimeterLinks;
+  networkSecurityPerimeterLinkReferences: NetworkSecurityPerimeterLinkReferences;
+  networkSecurityPerimeterLoggingConfigurations: NetworkSecurityPerimeterLoggingConfigurations;
+  networkSecurityPerimeterOperationStatuses: NetworkSecurityPerimeterOperationStatuses;
   reachabilityAnalysisIntents: ReachabilityAnalysisIntents;
   reachabilityAnalysisRuns: ReachabilityAnalysisRuns;
   verifierWorkspaces: VerifierWorkspaces;

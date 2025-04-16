@@ -11,7 +11,7 @@ import {
   NetworkManagerCommit,
   NetworkManagerCommitsPostOptionalParams,
   NetworkManagerCommitsPostResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a NetworkManagerCommits. */
 export interface NetworkManagerCommits {

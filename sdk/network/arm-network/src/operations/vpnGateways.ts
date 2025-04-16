@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { VpnGateways } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { VpnGateways } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { NetworkManagementClient } from "../networkManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   VpnGateway,
   VpnGatewaysListByResourceGroupNextOptionalParams,
@@ -43,7 +43,7 @@ import {
   VpnGatewaysStopPacketCaptureResponse,
   VpnGatewaysListByResourceGroupNextResponse,
   VpnGatewaysListNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing VpnGateways operations. */
@@ -957,7 +957,7 @@ const startPacketCaptureOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters85,
+  requestBody: Parameters.parameters93,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -989,7 +989,7 @@ const stopPacketCaptureOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters86,
+  requestBody: Parameters.parameters94,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

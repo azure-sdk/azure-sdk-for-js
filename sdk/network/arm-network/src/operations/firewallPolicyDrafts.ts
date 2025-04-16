@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { FirewallPolicyDrafts } from "../operationsInterfaces/index.js";
+import { FirewallPolicyDrafts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { NetworkManagementClient } from "../networkManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { NetworkManagementClient } from "../networkManagementClient";
 import {
   FirewallPolicyDraft,
   FirewallPolicyDraftsCreateOrUpdateOptionalParams,
@@ -18,7 +18,7 @@ import {
   FirewallPolicyDraftsDeleteOptionalParams,
   FirewallPolicyDraftsGetOptionalParams,
   FirewallPolicyDraftsGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing FirewallPolicyDrafts operations. */
 export class FirewallPolicyDraftsImpl implements FirewallPolicyDrafts {

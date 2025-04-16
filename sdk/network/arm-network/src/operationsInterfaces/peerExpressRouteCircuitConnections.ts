@@ -12,7 +12,7 @@ import {
   PeerExpressRouteCircuitConnectionsListOptionalParams,
   PeerExpressRouteCircuitConnectionsGetOptionalParams,
   PeerExpressRouteCircuitConnectionsGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PeerExpressRouteCircuitConnections. */

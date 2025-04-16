@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DdosCustomPolicies } from "../operationsInterfaces/index.js";
+import { DdosCustomPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { NetworkManagementClient } from "../networkManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   DdosCustomPoliciesDeleteOptionalParams,
   DdosCustomPoliciesGetOptionalParams,
@@ -27,7 +27,7 @@ import {
   TagsObject,
   DdosCustomPoliciesUpdateTagsOptionalParams,
   DdosCustomPoliciesUpdateTagsResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing DdosCustomPolicies operations. */
 export class DdosCustomPoliciesImpl implements DdosCustomPolicies {

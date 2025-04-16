@@ -14,7 +14,7 @@ import {
   VipSwapCreateOptionalParams,
   VipSwapListOptionalParams,
   VipSwapListResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a VipSwap. */
 export interface VipSwap {
