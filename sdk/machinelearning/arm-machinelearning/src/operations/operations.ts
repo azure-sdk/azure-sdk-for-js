@@ -7,16 +7,16 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { Operations } from "../operationsInterfaces/index.js";
+import { Operations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient";
 import {
   Operation,
   OperationsListOptionalParams,
   OperationsListResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Operations operations. */
@@ -32,7 +32,7 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Lists all of the available Azure Machine Learning Workspaces REST API operations.
+   * Lists all of the available Azure Machine Learning Workspaces REST API operations
    * @param options The options parameters.
    */
   public list(
@@ -73,7 +73,7 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Lists all of the available Azure Machine Learning Workspaces REST API operations.
+   * Lists all of the available Azure Machine Learning Workspaces REST API operations
    * @param options The options parameters.
    */
   private _list(

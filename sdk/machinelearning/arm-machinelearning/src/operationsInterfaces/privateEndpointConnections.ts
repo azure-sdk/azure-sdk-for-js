@@ -10,20 +10,20 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionsListOptionalParams,
+  PrivateEndpointConnectionsDeleteOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
   PrivateEndpointConnectionsGetResponse,
   PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   PrivateEndpointConnectionsCreateOrUpdateResponse,
-  PrivateEndpointConnectionsDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PrivateEndpointConnections. */
 export interface PrivateEndpointConnections {
   /**
-   * List all the private endpoint connections associated with the workspace.
+   * Called by end-users to get all PE connections.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param options The options parameters.
    */
   list(
@@ -32,11 +32,23 @@ export interface PrivateEndpointConnections {
     options?: PrivateEndpointConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
-   * Gets the specified private endpoint connection associated with the workspace.
+   * Called by end-users to delete a PE connection.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      workspace
+   * @param workspaceName Azure Machine Learning Workspace Name
+   * @param privateEndpointConnectionName NRP Private Endpoint Connection Name
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    workspaceName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
+  ): Promise<void>;
+  /**
+   * Called by end-users to get a PE connection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Azure Machine Learning Workspace Name
+   * @param privateEndpointConnectionName NRP Private Endpoint Connection Name
    * @param options The options parameters.
    */
   get(
@@ -46,33 +58,19 @@ export interface PrivateEndpointConnections {
     options?: PrivateEndpointConnectionsGetOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
-   * Update the state of specified private endpoint connection associated with the workspace.
+   * Called by end-users to approve or reject a PE connection.
+   * This method must validate and forward the call to NRP.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      workspace
-   * @param properties The private endpoint connection properties.
+   * @param workspaceName Azure Machine Learning Workspace Name
+   * @param privateEndpointConnectionName NRP Private Endpoint Connection Name
+   * @param body PrivateEndpointConnection object
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     workspaceName: string,
     privateEndpointConnectionName: string,
-    properties: PrivateEndpointConnection,
+    body: PrivateEndpointConnection,
     options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
-  /**
-   * Deletes the specified private endpoint connection associated with the workspace.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      workspace
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    workspaceName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams,
-  ): Promise<void>;
 }

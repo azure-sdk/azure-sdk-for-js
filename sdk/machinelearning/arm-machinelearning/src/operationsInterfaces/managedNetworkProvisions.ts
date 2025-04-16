@@ -10,14 +10,14 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ManagedNetworkProvisionsProvisionManagedNetworkOptionalParams,
   ManagedNetworkProvisionsProvisionManagedNetworkResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a ManagedNetworkProvisions. */
 export interface ManagedNetworkProvisions {
   /**
    * Provisions the managed network of a machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param options The options parameters.
    */
   beginProvisionManagedNetwork(
@@ -33,7 +33,7 @@ export interface ManagedNetworkProvisions {
   /**
    * Provisions the managed network of a machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param options The options parameters.
    */
   beginProvisionManagedNetworkAndWait(
