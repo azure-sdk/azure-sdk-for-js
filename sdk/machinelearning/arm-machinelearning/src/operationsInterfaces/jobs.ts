@@ -17,7 +17,7 @@ import {
   JobsCreateOrUpdateOptionalParams,
   JobsCreateOrUpdateResponse,
   JobsCancelOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Jobs. */

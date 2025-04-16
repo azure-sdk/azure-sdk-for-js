@@ -6,21 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ManagedNetworkProvisions } from "../operationsInterfaces/index.js";
+import { ManagedNetworkProvisions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   ManagedNetworkProvisionsProvisionManagedNetworkOptionalParams,
   ManagedNetworkProvisionsProvisionManagedNetworkResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing ManagedNetworkProvisions operations. */
 export class ManagedNetworkProvisionsImpl implements ManagedNetworkProvisions {
@@ -147,7 +147,7 @@ const provisionManagedNetworkOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body1,
+  requestBody: Parameters.body37,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
