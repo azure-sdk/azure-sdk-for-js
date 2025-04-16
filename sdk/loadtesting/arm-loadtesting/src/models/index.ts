@@ -121,77 +121,15 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** List of quota bucket objects. It contains a URL link to get the next set of results. */
-export interface QuotaResourceList {
-  /**
-   * List of quota bucket objects provided by the loadtestservice.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: QuotaResource[];
-  /**
-   * URL to get the next set of quota bucket objects results (if there are any).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-/** Dimensions for new quota request. */
-export interface QuotaBucketRequestPropertiesDimensions {
-  /** Subscription Id dimension for new quota request of the quota bucket. */
-  subscriptionId?: string;
-  /** Location dimension for new quota request of the quota bucket. */
-  location?: string;
-}
-
-/** List of resources page result. */
-export interface LoadTestResourcePageList {
-  /** List of resources in current page. */
-  value?: LoadTestResource[];
-  /** Link to next page of resources. */
+/** The response of a LoadTestResource list operation. */
+export interface LoadTestResourceListResult {
+  /** The LoadTestResource items on this page */
+  value: LoadTestResource[];
+  /** The link to the next page of items */
   nextLink?: string;
 }
 
-/** Key and identity details for Customer Managed Key encryption of load test resource */
+/** Key and identity details for Customer Managed Key encryption of load test resource. */
 export interface EncryptionProperties {
   /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
   identity?: EncryptionPropertiesIdentity;
@@ -201,9 +139,9 @@ export interface EncryptionProperties {
 
 /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
 export interface EncryptionPropertiesIdentity {
-  /** Managed identity type to use for accessing encryption key Url */
+  /** Managed identity type to use for accessing encryption key Url. */
   type?: Type;
-  /** user assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId */
+  /** User assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/a0a0a0a0-bbbb-cccc-dddd-e1e1e1e1e1e1/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. */
   resourceId?: string;
 }
 
@@ -241,12 +179,108 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-/** LoadTest resource patch request body. */
-export interface LoadTestResourcePatchRequestBody {
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** The response of a QuotaResource list operation. */
+export interface QuotaResourceListResult {
+  /** The QuotaResource items on this page */
+  value: QuotaResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Request object of new quota for a quota bucket. */
+export interface QuotaBucketRequest {
+  /** Current quota usage of the quota bucket. */
+  currentUsage?: number;
+  /** Current quota limit of the quota bucket. */
+  currentQuota?: number;
+  /** New quota limit of the quota bucket. */
+  newQuota?: number;
+  /** Dimensions for new quota request. */
+  dimensions?: QuotaBucketRequestPropertiesDimensions;
+}
+
+/** Dimensions for new quota request. */
+export interface QuotaBucketRequestPropertiesDimensions {
+  /** Subscription Id dimension for new quota request of the quota bucket. */
+  subscriptionId?: string;
+  /** Location dimension for new quota request of the quota bucket. */
+  location?: string;
+}
+
+/** Check quota availability response object. */
+export interface CheckQuotaAvailabilityResponse {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The name of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /** True/False indicating whether the quota request be granted based on availability. */
+  isAvailable?: boolean;
+  /** Message indicating additional details to add to quota support request. */
+  availabilityStatus?: string;
+}
+
+/** The type used for update operations of the LoadTestResource. */
+export interface LoadTestResourceUpdate {
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** The type of identity used for the resource. */
-  identity?: ManagedServiceIdentity;
   /** Description of the resource. */
   description?: string;
   /** CMK Encryption property. */
@@ -254,13 +288,10 @@ export interface LoadTestResourcePatchRequestBody {
 }
 
 /** Values returned by the List operation. */
-export interface OutboundEnvironmentEndpointCollection {
-  /**
-   * The collection of outbound network dependency endpoints returned by the listing operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: OutboundEnvironmentEndpoint[];
-  /** The continuation token. */
+export interface PagedOutboundEnvironmentEndpoint {
+  /** The OutboundEnvironmentEndpoint items on this page */
+  value: OutboundEnvironmentEndpoint[];
+  /** The link to the next page of items */
   nextLink?: string;
 }
 
@@ -284,7 +315,7 @@ export interface EndpointDependency {
    * The domain name of the dependency. Domain names may be fully qualified or may contain a * wildcard.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly domainName?: string;
+  readonly domainName: string;
   /**
    * Human-readable supplemental information about the dependency and when it is applicable.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -306,39 +337,6 @@ export interface EndpointDetail {
   readonly port?: number;
 }
 
-/** Quota bucket details object. */
-export interface QuotaResource extends Resource {
-  /** Current quota limit of the quota bucket. */
-  limit?: number;
-  /** Current quota usage of the quota bucket. */
-  usage?: number;
-  /**
-   * Resource provisioning state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ResourceState;
-}
-
-/** Request object of new quota for a quota bucket. */
-export interface QuotaBucketRequest extends Resource {
-  /** Current quota usage of the quota bucket. */
-  currentUsage?: number;
-  /** Current quota limit of the quota bucket. */
-  currentQuota?: number;
-  /** New quota limit of the quota bucket. */
-  newQuota?: number;
-  /** Dimensions for new quota request. */
-  dimensions?: QuotaBucketRequestPropertiesDimensions;
-}
-
-/** Check quota availability response object. */
-export interface CheckQuotaAvailabilityResponse extends Resource {
-  /** True/False indicating whether the quota request be granted based on availability. */
-  isAvailable?: boolean;
-  /** Message indicating additional details to add to quota support request. */
-  availabilityStatus?: string;
-}
-
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
   /** Resource tags. */
@@ -347,9 +345,12 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-/** LoadTest details */
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+/** LoadTest details. */
 export interface LoadTestResource extends TrackedResource {
-  /** The type of identity used for the resource. */
+  /** The managed service identities assigned to this resource. */
   identity?: ManagedServiceIdentity;
   /** Description of the resource. */
   description?: string;
@@ -367,22 +368,43 @@ export interface LoadTestResource extends TrackedResource {
   encryption?: EncryptionProperties;
 }
 
+/** Quota bucket details object. */
+export interface QuotaResource extends ProxyResource {
+  /** Current quota limit of the quota bucket. */
+  limit?: number;
+  /** Current quota usage of the quota bucket. */
+  usage?: number;
+  /**
+   * Resource provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ResourceState;
+}
+
 /** Defines headers for LoadTests_createOrUpdate operation. */
 export interface LoadTestsCreateOrUpdateHeaders {
-  /** URL to query for status of the operation. */
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for LoadTests_update operation. */
 export interface LoadTestsUpdateHeaders {
-  /** URL to query for status of the operation. */
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for LoadTests_delete operation. */
 export interface LoadTestsDeleteHeaders {
-  /** URL to query for status of the operation. */
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
@@ -392,7 +414,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -409,7 +431,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -423,14 +445,14 @@ export type ActionType = string;
 
 /** Known values of {@link ResourceState} that the service accepts. */
 export enum KnownResourceState {
-  /** Succeeded */
+  /** Resource has been created. */
   Succeeded = "Succeeded",
-  /** Failed */
+  /** Resource creation failed. */
   Failed = "Failed",
-  /** Canceled */
+  /** Resource creation was canceled. */
   Canceled = "Canceled",
-  /** Deleted */
-  Deleted = "Deleted"
+  /** Deleted state. */
+  Deleted = "Deleted",
 }
 
 /**
@@ -438,43 +460,19 @@ export enum KnownResourceState {
  * {@link KnownResourceState} can be used interchangeably with ResourceState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Deleted**
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
+ * **Deleted**: Deleted state.
  */
 export type ResourceState = string;
 
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key"
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
-
 /** Known values of {@link Type} that the service accepts. */
 export enum KnownType {
-  /** SystemAssigned */
+  /** System assigned identity. */
   SystemAssigned = "SystemAssigned",
-  /** UserAssigned */
-  UserAssigned = "UserAssigned"
+  /** User assigned identity. */
+  UserAssigned = "UserAssigned",
 }
 
 /**
@@ -482,8 +480,8 @@ export enum KnownType {
  * {@link KnownType} can be used interchangeably with Type,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **SystemAssigned** \
- * **UserAssigned**
+ * **SystemAssigned**: System assigned identity. \
+ * **UserAssigned**: User assigned identity.
  */
 export type Type = string;
 
@@ -496,7 +494,7 @@ export enum KnownManagedServiceIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
@@ -510,6 +508,30 @@ export enum KnownManagedServiceIdentityType {
  * **SystemAssigned,UserAssigned**
  */
 export type ManagedServiceIdentityType = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -526,44 +548,18 @@ export interface OperationsListNextOptionalParams
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface QuotasListOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type QuotasListResponse = QuotaResourceList;
-
-/** Optional parameters. */
-export interface QuotasGetOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type QuotasGetResponse = QuotaResource;
-
-/** Optional parameters. */
-export interface QuotasCheckAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the checkAvailability operation. */
-export type QuotasCheckAvailabilityResponse = CheckQuotaAvailabilityResponse;
-
-/** Optional parameters. */
-export interface QuotasListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type QuotasListNextResponse = QuotaResourceList;
-
-/** Optional parameters. */
 export interface LoadTestsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type LoadTestsListBySubscriptionResponse = LoadTestResourcePageList;
+export type LoadTestsListBySubscriptionResponse = LoadTestResourceListResult;
 
 /** Optional parameters. */
 export interface LoadTestsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type LoadTestsListByResourceGroupResponse = LoadTestResourcePageList;
+export type LoadTestsListByResourceGroupResponse = LoadTestResourceListResult;
 
 /** Optional parameters. */
 export interface LoadTestsGetOptionalParams
@@ -605,33 +601,66 @@ export interface LoadTestsDeleteOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the delete operation. */
+export type LoadTestsDeleteResponse = LoadTestsDeleteHeaders;
+
 /** Optional parameters. */
 export interface LoadTestsListOutboundNetworkDependenciesEndpointsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOutboundNetworkDependenciesEndpoints operation. */
-export type LoadTestsListOutboundNetworkDependenciesEndpointsResponse = OutboundEnvironmentEndpointCollection;
+export type LoadTestsListOutboundNetworkDependenciesEndpointsResponse =
+  PagedOutboundEnvironmentEndpoint;
 
 /** Optional parameters. */
 export interface LoadTestsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type LoadTestsListBySubscriptionNextResponse = LoadTestResourcePageList;
+export type LoadTestsListBySubscriptionNextResponse =
+  LoadTestResourceListResult;
 
 /** Optional parameters. */
 export interface LoadTestsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type LoadTestsListByResourceGroupNextResponse = LoadTestResourcePageList;
+export type LoadTestsListByResourceGroupNextResponse =
+  LoadTestResourceListResult;
 
 /** Optional parameters. */
 export interface LoadTestsListOutboundNetworkDependenciesEndpointsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOutboundNetworkDependenciesEndpointsNext operation. */
-export type LoadTestsListOutboundNetworkDependenciesEndpointsNextResponse = OutboundEnvironmentEndpointCollection;
+export type LoadTestsListOutboundNetworkDependenciesEndpointsNextResponse =
+  PagedOutboundEnvironmentEndpoint;
+
+/** Optional parameters. */
+export interface QuotasListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type QuotasListResponse = QuotaResourceListResult;
+
+/** Optional parameters. */
+export interface QuotasGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type QuotasGetResponse = QuotaResource;
+
+/** Optional parameters. */
+export interface QuotasCheckAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkAvailability operation. */
+export type QuotasCheckAvailabilityResponse = CheckQuotaAvailabilityResponse;
+
+/** Optional parameters. */
+export interface QuotasListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type QuotasListNextResponse = QuotaResourceListResult;
 
 /** Optional parameters. */
 export interface LoadTestClientOptionalParams
