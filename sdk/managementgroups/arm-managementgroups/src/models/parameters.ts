@@ -9,14 +9,14 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   CreateManagementGroupRequest as CreateManagementGroupRequestMapper,
   PatchManagementGroupRequest as PatchManagementGroupRequestMapper,
   CreateOrUpdateSettingsRequest as CreateOrUpdateSettingsRequestMapper,
-  CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper
-} from "../models/mappers.js";
+  CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -25,9 +25,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -36,22 +36,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-04-01",
+    defaultValue: "2023-04-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const cacheControl: OperationParameter = {
@@ -60,9 +60,9 @@ export const cacheControl: OperationParameter = {
     defaultValue: "no-cache",
     serializedName: "Cache-Control",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const skiptoken: OperationQueryParameter = {
@@ -70,9 +70,9 @@ export const skiptoken: OperationQueryParameter = {
   mapper: {
     serializedName: "$skiptoken",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const groupId: OperationURLParameter = {
@@ -81,9 +81,9 @@ export const groupId: OperationURLParameter = {
     serializedName: "groupId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const expand: OperationQueryParameter = {
@@ -91,9 +91,9 @@ export const expand: OperationQueryParameter = {
   mapper: {
     serializedName: "$expand",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const recurse: OperationQueryParameter = {
@@ -101,9 +101,9 @@ export const recurse: OperationQueryParameter = {
   mapper: {
     serializedName: "$recurse",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const filter: OperationQueryParameter = {
@@ -111,9 +111,9 @@ export const filter: OperationQueryParameter = {
   mapper: {
     serializedName: "$filter",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -123,19 +123,19 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const createManagementGroupRequest: OperationParameter = {
   parameterPath: "createManagementGroupRequest",
-  mapper: CreateManagementGroupRequestMapper
+  mapper: CreateManagementGroupRequestMapper,
 };
 
 export const patchGroupRequest: OperationParameter = {
   parameterPath: "patchGroupRequest",
-  mapper: PatchManagementGroupRequestMapper
+  mapper: PatchManagementGroupRequestMapper,
 };
 
 export const top: OperationQueryParameter = {
@@ -143,9 +143,9 @@ export const top: OperationQueryParameter = {
   mapper: {
     serializedName: "$top",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -154,10 +154,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -166,19 +166,19 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const createTenantSettingsRequest: OperationParameter = {
   parameterPath: "createTenantSettingsRequest",
-  mapper: CreateOrUpdateSettingsRequestMapper
+  mapper: CreateOrUpdateSettingsRequestMapper,
 };
 
 export const checkNameAvailabilityRequest: OperationParameter = {
   parameterPath: "checkNameAvailabilityRequest",
-  mapper: CheckNameAvailabilityRequestMapper
+  mapper: CheckNameAvailabilityRequestMapper,
 };
 
 export const skip: OperationQueryParameter = {
@@ -186,9 +186,9 @@ export const skip: OperationQueryParameter = {
   mapper: {
     serializedName: "$skip",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const select: OperationQueryParameter = {
@@ -196,9 +196,9 @@ export const select: OperationQueryParameter = {
   mapper: {
     serializedName: "$select",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const search: OperationQueryParameter = {
@@ -206,9 +206,9 @@ export const search: OperationQueryParameter = {
   mapper: {
     serializedName: "$search",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const view: OperationQueryParameter = {
@@ -216,9 +216,9 @@ export const view: OperationQueryParameter = {
   mapper: {
     serializedName: "$view",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const groupName: OperationQueryParameter = {
@@ -226,7 +226,7 @@ export const groupName: OperationQueryParameter = {
   mapper: {
     serializedName: "groupName",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
