@@ -649,47 +649,29 @@ export interface ManagementGroupsDeleteHeaders {
   azureAsyncOperation?: string;
 }
 
-/** Known values of {@link Enum0} that the service accepts. */
-export enum KnownEnum0 {
+/** Known values of {@link ManagementGroupExpandType} that the service accepts. */
+export enum KnownManagementGroupExpandType {
   /** Children */
   Children = "children",
   /** Path */
   Path = "path",
   /** Ancestors */
-  Ancestors = "ancestors"
+  Ancestors = "ancestors",
 }
 
 /**
- * Defines values for Enum0. \
- * {@link KnownEnum0} can be used interchangeably with Enum0,
+ * Defines values for ManagementGroupExpandType. \
+ * {@link KnownManagementGroupExpandType} can be used interchangeably with ManagementGroupExpandType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **children** \
  * **path** \
  * **ancestors**
  */
-export type Enum0 = string;
+export type ManagementGroupExpandType = string;
 
-/** Known values of {@link ManagementGroupChildType} that the service accepts. */
-export enum KnownManagementGroupChildType {
-  /** MicrosoftManagementManagementGroups */
-  MicrosoftManagementManagementGroups = "Microsoft.Management/managementGroups",
-  /** Subscriptions */
-  Subscriptions = "/subscriptions"
-}
-
-/**
- * Defines values for ManagementGroupChildType. \
- * {@link KnownManagementGroupChildType} can be used interchangeably with ManagementGroupChildType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Microsoft.Management\/managementGroups** \
- * **\/subscriptions**
- */
-export type ManagementGroupChildType = string;
-
-/** Known values of {@link Enum2} that the service accepts. */
-export enum KnownEnum2 {
+/** Known values of {@link EntitySearchType} that the service accepts. */
+export enum KnownEntitySearchType {
   /** AllowedParents */
   AllowedParents = "AllowedParents",
   /** AllowedChildren */
@@ -699,12 +681,12 @@ export enum KnownEnum2 {
   /** ParentOnly */
   ParentOnly = "ParentOnly",
   /** ChildrenOnly */
-  ChildrenOnly = "ChildrenOnly"
+  ChildrenOnly = "ChildrenOnly",
 }
 
 /**
- * Defines values for Enum2. \
- * {@link KnownEnum2} can be used interchangeably with Enum2,
+ * Defines values for EntitySearchType. \
+ * {@link KnownEntitySearchType} can be used interchangeably with EntitySearchType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **AllowedParents** \
@@ -713,10 +695,10 @@ export enum KnownEnum2 {
  * **ParentOnly** \
  * **ChildrenOnly**
  */
-export type Enum2 = string;
+export type EntitySearchType = string;
 
-/** Known values of {@link Enum3} that the service accepts. */
-export enum KnownEnum3 {
+/** Known values of {@link EntityViewParameterType} that the service accepts. */
+export enum KnownEntityViewParameterType {
   /** FullHierarchy */
   FullHierarchy = "FullHierarchy",
   /** GroupsOnly */
@@ -724,12 +706,12 @@ export enum KnownEnum3 {
   /** SubscriptionsOnly */
   SubscriptionsOnly = "SubscriptionsOnly",
   /** Audit */
-  Audit = "Audit"
+  Audit = "Audit",
 }
 
 /**
- * Defines values for Enum3. \
- * {@link KnownEnum3} can be used interchangeably with Enum3,
+ * Defines values for EntityViewParameterType. \
+ * {@link KnownEntityViewParameterType} can be used interchangeably with EntityViewParameterType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **FullHierarchy** \
@@ -737,33 +719,15 @@ export enum KnownEnum3 {
  * **SubscriptionsOnly** \
  * **Audit**
  */
-export type Enum3 = string;
-
-/** Known values of {@link Permissions} that the service accepts. */
-export enum KnownPermissions {
-  /** Noaccess */
-  Noaccess = "noaccess",
-  /** View */
-  View = "view",
-  /** Edit */
-  Edit = "edit",
-  /** Delete */
-  Delete = "delete"
-}
-
-/**
- * Defines values for Permissions. \
- * {@link KnownPermissions} can be used interchangeably with Permissions,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **noaccess** \
- * **view** \
- * **edit** \
- * **delete**
- */
-export type Permissions = string;
+export type EntityViewParameterType = string;
+/** Defines values for ManagementGroupChildType. */
+export type ManagementGroupChildType =
+  | "Microsoft.Management/managementGroups"
+  | "/subscriptions";
 /** Defines values for Reason. */
 export type Reason = "Invalid" | "AlreadyExists";
+/** Defines values for Permissions. */
+export type Permissions = "noaccess" | "view" | "edit" | "delete";
 /** Defines values for Status. */
 export type Status =
   | "NotStarted"
@@ -795,7 +759,7 @@ export interface ManagementGroupsGetOptionalParams
   /** Indicates whether the request should utilize any caches. Populate the header with 'no-cache' value to bypass existing caches. */
   cacheControl?: string;
   /** The $expand=children query string parameter allows clients to request inclusion of children in the response payload.  $expand=path includes the path from the root group to the current group.  $expand=ancestors includes the ancestor Ids of the current group. */
-  expand?: Enum0;
+  expand?: ManagementGroupExpandType;
   /** The $recurse=true query string parameter allows clients to request inclusion of entire hierarchy in the response payload. Note that  $expand=children must be passed up if $recurse is set to true. */
   recurse?: boolean;
   /** A filter which allows the exclusion of subscriptions from results (i.e. '$filter=children.childType ne Subscription') */
@@ -865,12 +829,6 @@ export interface ManagementGroupsListNextOptionalParams
   extends coreClient.OperationOptions {
   /** Indicates whether the request should utilize any caches. Populate the header with 'no-cache' value to bypass existing caches. */
   cacheControl?: string;
-  /**
-   * Page continuation token is only used if a previous operation returned a partial result.
-   * If a previous response contains a nextLink element, the value of the nextLink element will include a token parameter that specifies a starting point to use for subsequent calls.
-   *
-   */
-  skiptoken?: string;
 }
 
 /** Contains response data for the listNext operation. */
@@ -878,16 +836,7 @@ export type ManagementGroupsListNextResponse = ManagementGroupListResult;
 
 /** Optional parameters. */
 export interface ManagementGroupsGetDescendantsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /**
-   * Page continuation token is only used if a previous operation returned a partial result.
-   * If a previous response contains a nextLink element, the value of the nextLink element will include a token parameter that specifies a starting point to use for subsequent calls.
-   *
-   */
-  skiptoken?: string;
-  /** Number of elements to return when retrieving results. Passing this in will override $skipToken. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDescendantsNext operation. */
 export type ManagementGroupsGetDescendantsNextResponse = DescendantListResult;
@@ -900,7 +849,8 @@ export interface ManagementGroupSubscriptionsCreateOptionalParams
 }
 
 /** Contains response data for the create operation. */
-export type ManagementGroupSubscriptionsCreateResponse = SubscriptionUnderManagementGroup;
+export type ManagementGroupSubscriptionsCreateResponse =
+  SubscriptionUnderManagementGroup;
 
 /** Optional parameters. */
 export interface ManagementGroupSubscriptionsDeleteOptionalParams
@@ -917,7 +867,8 @@ export interface ManagementGroupSubscriptionsGetSubscriptionOptionalParams
 }
 
 /** Contains response data for the getSubscription operation. */
-export type ManagementGroupSubscriptionsGetSubscriptionResponse = SubscriptionUnderManagementGroup;
+export type ManagementGroupSubscriptionsGetSubscriptionResponse =
+  SubscriptionUnderManagementGroup;
 
 /** Optional parameters. */
 export interface ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupOptionalParams
@@ -931,21 +882,16 @@ export interface ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGrou
 }
 
 /** Contains response data for the getSubscriptionsUnderManagementGroup operation. */
-export type ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupResponse = ListSubscriptionUnderManagementGroup;
+export type ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupResponse =
+  ListSubscriptionUnderManagementGroup;
 
 /** Optional parameters. */
 export interface ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /**
-   * Page continuation token is only used if a previous operation returned a partial result.
-   * If a previous response contains a nextLink element, the value of the nextLink element will include a token parameter that specifies a starting point to use for subsequent calls.
-   *
-   */
-  skiptoken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSubscriptionsUnderManagementGroupNext operation. */
-export type ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupNextResponse = ListSubscriptionUnderManagementGroup;
+export type ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupNextResponse =
+  ListSubscriptionUnderManagementGroup;
 
 /** Optional parameters. */
 export interface HierarchySettingsListOptionalParams
@@ -1041,9 +987,9 @@ export interface EntitiesListOptionalParams
    * With $search=ParentOnly the API will return only the group if the user has access to at least one of the descendants of the group.
    * With $search=ChildrenOnly the API will return only the first level of children of the group entity info specified in $filter.  The user must have direct access to the children entities or one of it's descendants for it to show up in the results.
    */
-  search?: Enum2;
+  search?: EntitySearchType;
   /** The view parameter allows clients to filter the type of data that is returned by the getEntities call. */
-  view?: Enum3;
+  view?: EntityViewParameterType;
   /** A filter which allows the get entities call to focus on a particular group (i.e. "$filter=name eq 'groupName'") */
   groupName?: string;
 }
@@ -1056,33 +1002,6 @@ export interface EntitiesListNextOptionalParams
   extends coreClient.OperationOptions {
   /** Indicates whether the request should utilize any caches. Populate the header with 'no-cache' value to bypass existing caches. */
   cacheControl?: string;
-  /**
-   * Page continuation token is only used if a previous operation returned a partial result.
-   * If a previous response contains a nextLink element, the value of the nextLink element will include a token parameter that specifies a starting point to use for subsequent calls.
-   *
-   */
-  skiptoken?: string;
-  /** The filter parameter allows you to filter on the the name or display name fields. You can check for equality on the name field (e.g. name eq '{entityName}')  and you can check for substrings on either the name or display name fields(e.g. contains(name, '{substringToSearch}'), contains(displayName, '{substringToSearch')). Note that the '{entityName}' and '{substringToSearch}' fields are checked case insensitively. */
-  filter?: string;
-  /** Number of elements to return when retrieving results. Passing this in will override $skipToken. */
-  top?: number;
-  /** Number of entities to skip over when retrieving results. Passing this in will override $skipToken. */
-  skip?: number;
-  /** This parameter specifies the fields to include in the response. Can include any combination of Name,DisplayName,Type,ParentDisplayNameChain,ParentChain, e.g. '$select=Name,DisplayName,Type,ParentDisplayNameChain,ParentNameChain'. When specified the $select parameter can override select in $skipToken. */
-  select?: string;
-  /**
-   * The $search parameter is used in conjunction with the $filter parameter to return three different outputs depending on the parameter passed in.
-   * With $search=AllowedParents the API will return the entity info of all groups that the requested entity will be able to reparent to as determined by the user's permissions.
-   * With $search=AllowedChildren the API will return the entity info of all entities that can be added as children of the requested entity.
-   * With $search=ParentAndFirstLevelChildren the API will return the parent and  first level of children that the user has either direct access to or indirect access via one of their descendants.
-   * With $search=ParentOnly the API will return only the group if the user has access to at least one of the descendants of the group.
-   * With $search=ChildrenOnly the API will return only the first level of children of the group entity info specified in $filter.  The user must have direct access to the children entities or one of it's descendants for it to show up in the results.
-   */
-  search?: Enum2;
-  /** The view parameter allows clients to filter the type of data that is returned by the getEntities call. */
-  view?: Enum3;
-  /** A filter which allows the get entities call to focus on a particular group (i.e. "$filter=name eq 'groupName'") */
-  groupName?: string;
 }
 
 /** Contains response data for the listNext operation. */

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ManagementGroupInfo,
   ManagementGroupsListOptionalParams,
@@ -22,8 +22,8 @@ import {
   ManagementGroupsUpdateOptionalParams,
   ManagementGroupsUpdateResponse,
   ManagementGroupsDeleteOptionalParams,
-  ManagementGroupsDeleteResponse
-} from "../models/index.js";
+  ManagementGroupsDeleteResponse,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagementGroups. */
@@ -34,7 +34,7 @@ export interface ManagementGroups {
    * @param options The options parameters.
    */
   list(
-    options?: ManagementGroupsListOptionalParams
+    options?: ManagementGroupsListOptionalParams,
   ): PagedAsyncIterableIterator<ManagementGroupInfo>;
   /**
    * List all entities that descend from a management group.
@@ -44,7 +44,7 @@ export interface ManagementGroups {
    */
   listDescendants(
     groupId: string,
-    options?: ManagementGroupsGetDescendantsOptionalParams
+    options?: ManagementGroupsGetDescendantsOptionalParams,
   ): PagedAsyncIterableIterator<DescendantInfo>;
   /**
    * Get the details of the management group.
@@ -54,7 +54,7 @@ export interface ManagementGroups {
    */
   get(
     groupId: string,
-    options?: ManagementGroupsGetOptionalParams
+    options?: ManagementGroupsGetOptionalParams,
   ): Promise<ManagementGroupsGetResponse>;
   /**
    * Create or update a management group.
@@ -68,10 +68,10 @@ export interface ManagementGroups {
   beginCreateOrUpdate(
     groupId: string,
     createManagementGroupRequest: CreateManagementGroupRequest,
-    options?: ManagementGroupsCreateOrUpdateOptionalParams
+    options?: ManagementGroupsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagementGroupsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ManagementGroupsCreateOrUpdateResponse>,
       ManagementGroupsCreateOrUpdateResponse
     >
   >;
@@ -87,7 +87,7 @@ export interface ManagementGroups {
   beginCreateOrUpdateAndWait(
     groupId: string,
     createManagementGroupRequest: CreateManagementGroupRequest,
-    options?: ManagementGroupsCreateOrUpdateOptionalParams
+    options?: ManagementGroupsCreateOrUpdateOptionalParams,
   ): Promise<ManagementGroupsCreateOrUpdateResponse>;
   /**
    * Update a management group.
@@ -99,7 +99,7 @@ export interface ManagementGroups {
   update(
     groupId: string,
     patchGroupRequest: PatchManagementGroupRequest,
-    options?: ManagementGroupsUpdateOptionalParams
+    options?: ManagementGroupsUpdateOptionalParams,
   ): Promise<ManagementGroupsUpdateResponse>;
   /**
    * Delete management group.
@@ -110,10 +110,10 @@ export interface ManagementGroups {
    */
   beginDelete(
     groupId: string,
-    options?: ManagementGroupsDeleteOptionalParams
+    options?: ManagementGroupsDeleteOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagementGroupsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<ManagementGroupsDeleteResponse>,
       ManagementGroupsDeleteResponse
     >
   >;
@@ -126,6 +126,6 @@ export interface ManagementGroups {
    */
   beginDeleteAndWait(
     groupId: string,
-    options?: ManagementGroupsDeleteOptionalParams
+    options?: ManagementGroupsDeleteOptionalParams,
   ): Promise<ManagementGroupsDeleteResponse>;
 }

@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { HierarchySettingsOperations } from "../operationsInterfaces/index.js";
+import { HierarchySettingsOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { ManagementGroupsAPI } from "../managementGroupsAPI.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ManagementGroupsAPI } from "../managementGroupsAPI";
 import {
   HierarchySettingsListOptionalParams,
   HierarchySettingsListResponse,
@@ -21,12 +21,13 @@ import {
   HierarchySettingsCreateOrUpdateResponse,
   HierarchySettingsUpdateOptionalParams,
   HierarchySettingsUpdateResponse,
-  HierarchySettingsDeleteOptionalParams
-} from "../models/index.js";
+  HierarchySettingsDeleteOptionalParams,
+} from "../models";
 
 /** Class containing HierarchySettingsOperations operations. */
 export class HierarchySettingsOperationsImpl
-  implements HierarchySettingsOperations {
+  implements HierarchySettingsOperations
+{
   private readonly client: ManagementGroupsAPI;
 
   /**
@@ -46,11 +47,11 @@ export class HierarchySettingsOperationsImpl
    */
   list(
     groupId: string,
-    options?: HierarchySettingsListOptionalParams
+    options?: HierarchySettingsListOptionalParams,
   ): Promise<HierarchySettingsListResponse> {
     return this.client.sendOperationRequest(
       { groupId, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -63,11 +64,11 @@ export class HierarchySettingsOperationsImpl
    */
   get(
     groupId: string,
-    options?: HierarchySettingsGetOptionalParams
+    options?: HierarchySettingsGetOptionalParams,
   ): Promise<HierarchySettingsGetResponse> {
     return this.client.sendOperationRequest(
       { groupId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -81,11 +82,11 @@ export class HierarchySettingsOperationsImpl
   createOrUpdate(
     groupId: string,
     createTenantSettingsRequest: CreateOrUpdateSettingsRequest,
-    options?: HierarchySettingsCreateOrUpdateOptionalParams
+    options?: HierarchySettingsCreateOrUpdateOptionalParams,
   ): Promise<HierarchySettingsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { groupId, createTenantSettingsRequest, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -99,11 +100,11 @@ export class HierarchySettingsOperationsImpl
   update(
     groupId: string,
     createTenantSettingsRequest: CreateOrUpdateSettingsRequest,
-    options?: HierarchySettingsUpdateOptionalParams
+    options?: HierarchySettingsUpdateOptionalParams,
   ): Promise<HierarchySettingsUpdateResponse> {
     return this.client.sendOperationRequest(
       { groupId, createTenantSettingsRequest, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -115,11 +116,11 @@ export class HierarchySettingsOperationsImpl
    */
   delete(
     groupId: string,
-    options?: HierarchySettingsDeleteOptionalParams
+    options?: HierarchySettingsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { groupId, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 }
@@ -131,84 +132,80 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HierarchySettingsList
+      bodyMapper: Mappers.HierarchySettingsList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.groupId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Management/managementGroups/{groupId}/settings/default",
+  path: "/providers/Microsoft.Management/managementGroups/{groupId}/settings/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HierarchySettings
+      bodyMapper: Mappers.HierarchySettings,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.groupId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Management/managementGroups/{groupId}/settings/default",
+  path: "/providers/Microsoft.Management/managementGroups/{groupId}/settings/default",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.HierarchySettings
+      bodyMapper: Mappers.HierarchySettings,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.createTenantSettingsRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.groupId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Management/managementGroups/{groupId}/settings/default",
+  path: "/providers/Microsoft.Management/managementGroups/{groupId}/settings/default",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.HierarchySettings
+      bodyMapper: Mappers.HierarchySettings,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.createTenantSettingsRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.groupId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Management/managementGroups/{groupId}/settings/default",
+  path: "/providers/Microsoft.Management/managementGroups/{groupId}/settings/default",
   httpMethod: "DELETE",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.groupId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

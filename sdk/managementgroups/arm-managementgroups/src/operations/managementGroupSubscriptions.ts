@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { ManagementGroupSubscriptions } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { ManagementGroupSubscriptions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { ManagementGroupsAPI } from "../managementGroupsAPI.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ManagementGroupsAPI } from "../managementGroupsAPI";
 import {
   SubscriptionUnderManagementGroup,
   ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupNextOptionalParams,
@@ -23,13 +23,14 @@ import {
   ManagementGroupSubscriptionsDeleteOptionalParams,
   ManagementGroupSubscriptionsGetSubscriptionOptionalParams,
   ManagementGroupSubscriptionsGetSubscriptionResponse,
-  ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupNextResponse
-} from "../models/index.js";
+  ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupNextResponse,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagementGroupSubscriptions operations. */
 export class ManagementGroupSubscriptionsImpl
-  implements ManagementGroupSubscriptions {
+  implements ManagementGroupSubscriptions
+{
   private readonly client: ManagementGroupsAPI;
 
   /**
@@ -48,11 +49,11 @@ export class ManagementGroupSubscriptionsImpl
    */
   public listSubscriptionsUnderManagementGroup(
     groupId: string,
-    options?: ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupOptionalParams
+    options?: ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupOptionalParams,
   ): PagedAsyncIterableIterator<SubscriptionUnderManagementGroup> {
     const iter = this.getSubscriptionsUnderManagementGroupPagingAll(
       groupId,
-      options
+      options,
     );
     return {
       next() {
@@ -68,23 +69,23 @@ export class ManagementGroupSubscriptionsImpl
         return this.getSubscriptionsUnderManagementGroupPagingPage(
           groupId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *getSubscriptionsUnderManagementGroupPagingPage(
     groupId: string,
     options?: ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SubscriptionUnderManagementGroup[]> {
     let result: ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._getSubscriptionsUnderManagementGroup(
         groupId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -95,7 +96,7 @@ export class ManagementGroupSubscriptionsImpl
       result = await this._getSubscriptionsUnderManagementGroupNext(
         groupId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -106,11 +107,11 @@ export class ManagementGroupSubscriptionsImpl
 
   private async *getSubscriptionsUnderManagementGroupPagingAll(
     groupId: string,
-    options?: ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupOptionalParams
+    options?: ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupOptionalParams,
   ): AsyncIterableIterator<SubscriptionUnderManagementGroup> {
     for await (const page of this.getSubscriptionsUnderManagementGroupPagingPage(
       groupId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -126,11 +127,11 @@ export class ManagementGroupSubscriptionsImpl
   create(
     groupId: string,
     subscriptionId: string,
-    options?: ManagementGroupSubscriptionsCreateOptionalParams
+    options?: ManagementGroupSubscriptionsCreateOptionalParams,
   ): Promise<ManagementGroupSubscriptionsCreateResponse> {
     return this.client.sendOperationRequest(
       { groupId, subscriptionId, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -144,11 +145,11 @@ export class ManagementGroupSubscriptionsImpl
   delete(
     groupId: string,
     subscriptionId: string,
-    options?: ManagementGroupSubscriptionsDeleteOptionalParams
+    options?: ManagementGroupSubscriptionsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { groupId, subscriptionId, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -162,11 +163,11 @@ export class ManagementGroupSubscriptionsImpl
   getSubscription(
     groupId: string,
     subscriptionId: string,
-    options?: ManagementGroupSubscriptionsGetSubscriptionOptionalParams
+    options?: ManagementGroupSubscriptionsGetSubscriptionOptionalParams,
   ): Promise<ManagementGroupSubscriptionsGetSubscriptionResponse> {
     return this.client.sendOperationRequest(
       { groupId, subscriptionId, options },
-      getSubscriptionOperationSpec
+      getSubscriptionOperationSpec,
     );
   }
 
@@ -178,13 +179,11 @@ export class ManagementGroupSubscriptionsImpl
    */
   private _getSubscriptionsUnderManagementGroup(
     groupId: string,
-    options?: ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupOptionalParams
-  ): Promise<
-    ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupResponse
-  > {
+    options?: ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupOptionalParams,
+  ): Promise<ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupResponse> {
     return this.client.sendOperationRequest(
       { groupId, options },
-      getSubscriptionsUnderManagementGroupOperationSpec
+      getSubscriptionsUnderManagementGroupOperationSpec,
     );
   }
 
@@ -198,13 +197,11 @@ export class ManagementGroupSubscriptionsImpl
   private _getSubscriptionsUnderManagementGroupNext(
     groupId: string,
     nextLink: string,
-    options?: ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupNextOptionalParams
-  ): Promise<
-    ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupNextResponse
-  > {
+    options?: ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupNextOptionalParams,
+  ): Promise<ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupNextResponse> {
     return this.client.sendOperationRequest(
       { groupId, nextLink, options },
-      getSubscriptionsUnderManagementGroupNextOperationSpec
+      getSubscriptionsUnderManagementGroupNextOperationSpec,
     );
   }
 }
@@ -212,97 +209,94 @@ export class ManagementGroupSubscriptionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Management/managementGroups/{groupId}/subscriptions/{subscriptionId}",
+  path: "/providers/Microsoft.Management/managementGroups/{groupId}/subscriptions/{subscriptionId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionUnderManagementGroup
+      bodyMapper: Mappers.SubscriptionUnderManagementGroup,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.groupId,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.cacheControl],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Management/managementGroups/{groupId}/subscriptions/{subscriptionId}",
+  path: "/providers/Microsoft.Management/managementGroups/{groupId}/subscriptions/{subscriptionId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.groupId,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.cacheControl],
-  serializer
+  serializer,
 };
 const getSubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Management/managementGroups/{groupId}/subscriptions/{subscriptionId}",
+  path: "/providers/Microsoft.Management/managementGroups/{groupId}/subscriptions/{subscriptionId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionUnderManagementGroup
+      bodyMapper: Mappers.SubscriptionUnderManagementGroup,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.groupId,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.cacheControl],
-  serializer
+  serializer,
 };
-const getSubscriptionsUnderManagementGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Management/managementGroups/{groupId}/subscriptions",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ListSubscriptionUnderManagementGroup
+const getSubscriptionsUnderManagementGroupOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/providers/Microsoft.Management/managementGroups/{groupId}/subscriptions",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ListSubscriptionUnderManagementGroup,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
-  urlParameters: [Parameters.$host, Parameters.groupId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getSubscriptionsUnderManagementGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ListSubscriptionUnderManagementGroup
+    queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
+    urlParameters: [Parameters.$host, Parameters.groupId],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const getSubscriptionsUnderManagementGroupNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ListSubscriptionUnderManagementGroup,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
-  urlParameters: [Parameters.$host, Parameters.groupId, Parameters.nextLink],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    urlParameters: [Parameters.$host, Parameters.groupId, Parameters.nextLink],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
