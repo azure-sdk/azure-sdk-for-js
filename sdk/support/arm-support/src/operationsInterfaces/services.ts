@@ -12,7 +12,7 @@ import {
   ServicesListOptionalParams,
   ServicesGetOptionalParams,
   ServicesGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Services. */
@@ -32,7 +32,8 @@ export interface Services {
   ): PagedAsyncIterableIterator<Service>;
   /**
    * Gets a specific Azure service for support ticket creation.
-   * @param serviceName Name of the Azure service.
+   * @param serviceName Name of the Azure service for which the problem classifications need to be
+   *                    retrieved.
    * @param options The options parameters.
    */
   get(
