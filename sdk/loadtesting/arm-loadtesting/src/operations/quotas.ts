@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { Quotas } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { Quotas } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { LoadTestClient } from "../loadTestClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { LoadTestClient } from "../loadTestClient";
 import {
   QuotaResource,
   QuotasListNextOptionalParams,
@@ -23,8 +23,8 @@ import {
   QuotaBucketRequest,
   QuotasCheckAvailabilityOptionalParams,
   QuotasCheckAvailabilityResponse,
-  QuotasListNextResponse
-} from "../models/index.js";
+  QuotasListNextResponse,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Quotas operations. */
@@ -40,13 +40,13 @@ export class QuotasImpl implements Quotas {
   }
 
   /**
-   * Lists all the available quota per region per subscription.
-   * @param location The name of Azure region.
+   * List quotas for a given subscription Id.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   public list(
     location: string,
-    options?: QuotasListOptionalParams
+    options?: QuotasListOptionalParams,
   ): PagedAsyncIterableIterator<QuotaResource> {
     const iter = this.listPagingAll(location, options);
     return {
@@ -61,14 +61,14 @@ export class QuotasImpl implements Quotas {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     location: string,
     options?: QuotasListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<QuotaResource[]> {
     let result: QuotasListResponse;
     let continuationToken = settings?.continuationToken;
@@ -90,7 +90,7 @@ export class QuotasImpl implements Quotas {
 
   private async *listPagingAll(
     location: string,
-    options?: QuotasListOptionalParams
+    options?: QuotasListOptionalParams,
   ): AsyncIterableIterator<QuotaResource> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
@@ -98,70 +98,70 @@ export class QuotasImpl implements Quotas {
   }
 
   /**
-   * Lists all the available quota per region per subscription.
-   * @param location The name of Azure region.
+   * List quotas for a given subscription Id.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   private _list(
     location: string,
-    options?: QuotasListOptionalParams
+    options?: QuotasListOptionalParams,
   ): Promise<QuotasListResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
    * Get the available quota for a quota bucket per region per subscription.
-   * @param location The name of Azure region.
-   * @param quotaBucketName Quota Bucket name.
+   * @param location The name of the Azure region.
+   * @param quotaBucketName The quota name.
    * @param options The options parameters.
    */
   get(
     location: string,
     quotaBucketName: string,
-    options?: QuotasGetOptionalParams
+    options?: QuotasGetOptionalParams,
   ): Promise<QuotasGetResponse> {
     return this.client.sendOperationRequest(
       { location, quotaBucketName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
    * Check Quota Availability on quota bucket per region per subscription.
-   * @param location The name of Azure region.
-   * @param quotaBucketName Quota Bucket name.
-   * @param quotaBucketRequest Quota Bucket Request data
+   * @param location The name of the Azure region.
+   * @param quotaBucketName The quota name.
+   * @param body The content of the action request
    * @param options The options parameters.
    */
   checkAvailability(
     location: string,
     quotaBucketName: string,
-    quotaBucketRequest: QuotaBucketRequest,
-    options?: QuotasCheckAvailabilityOptionalParams
+    body: QuotaBucketRequest,
+    options?: QuotasCheckAvailabilityOptionalParams,
   ): Promise<QuotasCheckAvailabilityResponse> {
     return this.client.sendOperationRequest(
-      { location, quotaBucketName, quotaBucketRequest, options },
-      checkAvailabilityOperationSpec
+      { location, quotaBucketName, body, options },
+      checkAvailabilityOperationSpec,
     );
   }
 
   /**
    * ListNext
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     location: string,
     nextLink: string,
-    options?: QuotasListNextOptionalParams
+    options?: QuotasListNextOptionalParams,
   ): Promise<QuotasListNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -169,89 +169,86 @@ export class QuotasImpl implements Quotas {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.LoadTestService/locations/{location}/quotas",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.LoadTestService/locations/{location}/quotas",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaResourceList
+      bodyMapper: Mappers.QuotaResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.LoadTestService/locations/{location}/quotas/{quotaBucketName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.QuotaResource
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location,
-    Parameters.quotaBucketName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.LoadTestService/locations/{location}/quotas/{quotaBucketName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.QuotaResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location,
+    Parameters.quotaBucketName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const checkAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.LoadTestService/locations/{location}/quotas/{quotaBucketName}/checkAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.LoadTestService/locations/{location}/quotas/{quotaBucketName}/checkAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckQuotaAvailabilityResponse
+      bodyMapper: Mappers.CheckQuotaAvailabilityResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.quotaBucketRequest,
+  requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location,
-    Parameters.quotaBucketName
+    Parameters.quotaBucketName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaResourceList
+      bodyMapper: Mappers.QuotaResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
