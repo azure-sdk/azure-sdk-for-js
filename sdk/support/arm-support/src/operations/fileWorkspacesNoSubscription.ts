@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { FileWorkspacesNoSubscription } from "../operationsInterfaces/index.js";
+import { FileWorkspacesNoSubscription } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { MicrosoftSupport } from "../microsoftSupport.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { MicrosoftSupport } from "../microsoftSupport";
 import {
   FileWorkspacesNoSubscriptionGetOptionalParams,
   FileWorkspacesNoSubscriptionGetResponse,
   FileWorkspacesNoSubscriptionCreateOptionalParams,
   FileWorkspacesNoSubscriptionCreateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing FileWorkspacesNoSubscription operations. */
 export class FileWorkspacesNoSubscriptionImpl

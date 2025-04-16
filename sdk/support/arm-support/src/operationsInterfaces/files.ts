@@ -16,7 +16,7 @@ import {
   FilesCreateResponse,
   UploadFile,
   FilesUploadOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Files. */

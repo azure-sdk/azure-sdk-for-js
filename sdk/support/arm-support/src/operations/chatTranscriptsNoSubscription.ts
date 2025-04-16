@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { ChatTranscriptsNoSubscription } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { ChatTranscriptsNoSubscription } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { MicrosoftSupport } from "../microsoftSupport.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { MicrosoftSupport } from "../microsoftSupport";
 import {
   ChatTranscriptDetails,
   ChatTranscriptsNoSubscriptionListNextOptionalParams,
@@ -21,7 +21,7 @@ import {
   ChatTranscriptsNoSubscriptionGetOptionalParams,
   ChatTranscriptsNoSubscriptionGetResponse,
   ChatTranscriptsNoSubscriptionListNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ChatTranscriptsNoSubscription operations. */
@@ -40,7 +40,7 @@ export class ChatTranscriptsNoSubscriptionImpl
 
   /**
    * Lists all chat transcripts for a support ticket
-   * @param supportTicketName Support ticket name
+   * @param supportTicketName Support ticket name.
    * @param options The options parameters.
    */
   public list(
@@ -102,7 +102,7 @@ export class ChatTranscriptsNoSubscriptionImpl
 
   /**
    * Lists all chat transcripts for a support ticket
-   * @param supportTicketName Support ticket name
+   * @param supportTicketName Support ticket name.
    * @param options The options parameters.
    */
   private _list(
@@ -134,7 +134,7 @@ export class ChatTranscriptsNoSubscriptionImpl
 
   /**
    * ListNext
-   * @param supportTicketName Support ticket name
+   * @param supportTicketName Support ticket name.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
