@@ -9,7 +9,7 @@
 import {
   FunctionsExtensionInvokeFunctionsHostOptionalParams,
   FunctionsExtensionInvokeFunctionsHostResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a FunctionsExtension. */
 export interface FunctionsExtension {
