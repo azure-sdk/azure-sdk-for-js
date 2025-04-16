@@ -27,7 +27,7 @@ import {
   AvailabilitySetsCancelMigrationToVirtualMachineScaleSetOptionalParams,
   AvailabilitySetsValidateMigrationToVirtualMachineScaleSetOptionalParams,
   AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AvailabilitySets. */
