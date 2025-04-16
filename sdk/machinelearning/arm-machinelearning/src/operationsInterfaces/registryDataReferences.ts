@@ -10,7 +10,7 @@ import {
   GetBlobReferenceSASRequestDto,
   RegistryDataReferencesGetBlobReferenceSASOptionalParams,
   RegistryDataReferencesGetBlobReferenceSASResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a RegistryDataReferences. */
 export interface RegistryDataReferences {
