@@ -24,7 +24,7 @@ import {
   LogicAppsProxyMethod,
   LogicAppsInvokeOptionalParams,
   LogicAppsInvokeResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a LogicApps. */
