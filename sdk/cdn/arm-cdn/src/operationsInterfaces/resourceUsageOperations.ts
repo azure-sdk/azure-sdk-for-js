@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { ResourceUsage, ResourceUsageListOptionalParams } from "../models/index.js";
+import { ResourceUsage, ResourceUsageListOptionalParams } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ResourceUsageOperations. */

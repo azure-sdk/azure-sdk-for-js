@@ -26,7 +26,7 @@ import {
   WafRankingType,
   LogAnalyticsGetWafLogAnalyticsRankingsOptionalParams,
   LogAnalyticsGetWafLogAnalyticsRankingsResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a LogAnalytics. */
 export interface LogAnalytics {

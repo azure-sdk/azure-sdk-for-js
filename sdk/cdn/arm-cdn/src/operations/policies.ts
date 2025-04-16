@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { Policies } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { Policies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { CdnManagementClient } from "../cdnManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { CdnManagementClient } from "../cdnManagementClient";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   CdnWebApplicationFirewallPolicy,
   PoliciesListNextOptionalParams,
@@ -33,7 +33,7 @@ import {
   PoliciesUpdateResponse,
   PoliciesDeleteOptionalParams,
   PoliciesListNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Policies operations. */
@@ -396,7 +396,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
+    Parameters.resourceGroupName2,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -416,7 +416,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
+    Parameters.resourceGroupName2,
     Parameters.policyName,
   ],
   headerParameters: [Parameters.accept],
@@ -447,7 +447,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
+    Parameters.resourceGroupName2,
     Parameters.policyName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -479,7 +479,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
+    Parameters.resourceGroupName2,
     Parameters.policyName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -500,7 +500,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
+    Parameters.resourceGroupName2,
     Parameters.policyName,
   ],
   headerParameters: [Parameters.accept],
@@ -521,7 +521,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceGroupName1,
+    Parameters.resourceGroupName2,
   ],
   headerParameters: [Parameters.accept],
   serializer,

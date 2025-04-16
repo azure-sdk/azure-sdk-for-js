@@ -19,7 +19,7 @@ import {
   SecurityPoliciesPatchOptionalParams,
   SecurityPoliciesPatchResponse,
   SecurityPoliciesDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SecurityPolicies. */
@@ -27,8 +27,8 @@ export interface SecurityPolicies {
   /**
    * Lists security policies associated with the profile
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param options The options parameters.
    */
   listByProfile(
@@ -39,8 +39,8 @@ export interface SecurityPolicies {
   /**
    * Gets an existing security policy within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param securityPolicyName Name of the security policy under the profile.
    * @param options The options parameters.
    */
@@ -53,8 +53,8 @@ export interface SecurityPolicies {
   /**
    * Creates a new security policy within the specified profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param securityPolicyName Name of the security policy under the profile.
    * @param securityPolicy The security policy properties.
    * @param options The options parameters.
@@ -74,8 +74,8 @@ export interface SecurityPolicies {
   /**
    * Creates a new security policy within the specified profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param securityPolicyName Name of the security policy under the profile.
    * @param securityPolicy The security policy properties.
    * @param options The options parameters.
@@ -90,8 +90,8 @@ export interface SecurityPolicies {
   /**
    * Updates an existing security policy within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param securityPolicyName Name of the security policy under the profile.
    * @param securityPolicyUpdateProperties Security policy update properties
    * @param options The options parameters.
@@ -111,8 +111,8 @@ export interface SecurityPolicies {
   /**
    * Updates an existing security policy within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param securityPolicyName Name of the security policy under the profile.
    * @param securityPolicyUpdateProperties Security policy update properties
    * @param options The options parameters.
@@ -127,8 +127,8 @@ export interface SecurityPolicies {
   /**
    * Deletes an existing security policy within profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param securityPolicyName Name of the security policy under the profile.
    * @param options The options parameters.
    */
@@ -141,8 +141,8 @@ export interface SecurityPolicies {
   /**
    * Deletes an existing security policy within profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param securityPolicyName Name of the security policy under the profile.
    * @param options The options parameters.
    */

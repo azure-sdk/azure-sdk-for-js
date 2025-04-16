@@ -36,7 +36,7 @@ import {
   EdgeNodesImpl,
   PoliciesImpl,
   ManagedRuleSetsImpl,
-} from "./operations/index.js";
+} from "./operations";
 import {
   AfdProfiles,
   AfdCustomDomains,
@@ -59,9 +59,9 @@ import {
   EdgeNodes,
   Policies,
   ManagedRuleSets,
-} from "./operationsInterfaces/index.js";
-import * as Parameters from "./models/parameters.js";
-import * as Mappers from "./models/mappers.js";
+} from "./operationsInterfaces";
+import * as Parameters from "./models/parameters";
+import * as Mappers from "./models/mappers";
 import {
   CdnManagementClientOptionalParams,
   CheckEndpointNameAvailabilityInput,
@@ -75,7 +75,7 @@ import {
   ValidateProbeInput,
   ValidateProbeOptionalParams,
   ValidateProbeResponse,
-} from "./models/index.js";
+} from "./models";
 
 export class CdnManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -123,7 +123,7 @@ export class CdnManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-cdn/9.1.1`;
+    const packageDetails = `azsdk-js-arm-cdn/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -177,7 +177,7 @@ export class CdnManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-02-01";
+    this.apiVersion = options.apiVersion || "2025-04-15";
     this.afdProfiles = new AfdProfilesImpl(this);
     this.afdCustomDomains = new AfdCustomDomainsImpl(this);
     this.afdEndpoints = new AfdEndpointsImpl(this);
