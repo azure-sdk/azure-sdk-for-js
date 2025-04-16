@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { Ledger } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { Ledger } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { ConfidentialLedgerClient } from "../confidentialLedgerClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ConfidentialLedgerClient } from "../confidentialLedgerClient";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   ConfidentialLedger,
   LedgerListByResourceGroupNextOptionalParams,
@@ -42,7 +42,7 @@ import {
   LedgerRestoreResponse,
   LedgerListByResourceGroupNextResponse,
   LedgerListBySubscriptionNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Ledger operations. */
