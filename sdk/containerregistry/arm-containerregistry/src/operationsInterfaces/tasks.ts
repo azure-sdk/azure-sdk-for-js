@@ -21,7 +21,7 @@ import {
   TasksUpdateResponse,
   TasksGetDetailsOptionalParams,
   TasksGetDetailsResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Tasks. */

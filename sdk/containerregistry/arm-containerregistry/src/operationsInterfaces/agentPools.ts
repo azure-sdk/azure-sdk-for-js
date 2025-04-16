@@ -21,7 +21,7 @@ import {
   AgentPoolsUpdateResponse,
   AgentPoolsGetQueueStatusOptionalParams,
   AgentPoolsGetQueueStatusResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AgentPools. */
