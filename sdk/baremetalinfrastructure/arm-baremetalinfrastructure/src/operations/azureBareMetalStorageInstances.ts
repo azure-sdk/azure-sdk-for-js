@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { AzureBareMetalStorageInstances } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { AzureBareMetalStorageInstances } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { BareMetalInfrastructureClient } from "../bareMetalInfrastructureClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { BareMetalInfrastructureClient } from "../bareMetalInfrastructureClient";
 import {
   AzureBareMetalStorageInstance,
   AzureBareMetalStorageInstancesListBySubscriptionNextOptionalParams,
@@ -25,18 +25,19 @@ import {
   AzureBareMetalStorageInstancesGetResponse,
   AzureBareMetalStorageInstancesCreateOptionalParams,
   AzureBareMetalStorageInstancesCreateResponse,
-  Tags,
+  AzureBareMetalStorageInstanceBody,
   AzureBareMetalStorageInstancesUpdateOptionalParams,
   AzureBareMetalStorageInstancesUpdateResponse,
   AzureBareMetalStorageInstancesDeleteOptionalParams,
   AzureBareMetalStorageInstancesListBySubscriptionNextResponse,
-  AzureBareMetalStorageInstancesListByResourceGroupNextResponse
-} from "../models/index.js";
+  AzureBareMetalStorageInstancesListByResourceGroupNextResponse,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AzureBareMetalStorageInstances operations. */
 export class AzureBareMetalStorageInstancesImpl
-  implements AzureBareMetalStorageInstances {
+  implements AzureBareMetalStorageInstances
+{
   private readonly client: BareMetalInfrastructureClient;
 
   /**
@@ -53,7 +54,7 @@ export class AzureBareMetalStorageInstancesImpl
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: AzureBareMetalStorageInstancesListBySubscriptionOptionalParams
+    options?: AzureBareMetalStorageInstancesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<AzureBareMetalStorageInstance> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -68,13 +69,13 @@ export class AzureBareMetalStorageInstancesImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: AzureBareMetalStorageInstancesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AzureBareMetalStorageInstance[]> {
     let result: AzureBareMetalStorageInstancesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -95,7 +96,7 @@ export class AzureBareMetalStorageInstancesImpl
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: AzureBareMetalStorageInstancesListBySubscriptionOptionalParams
+    options?: AzureBareMetalStorageInstancesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<AzureBareMetalStorageInstance> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -110,7 +111,7 @@ export class AzureBareMetalStorageInstancesImpl
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: AzureBareMetalStorageInstancesListByResourceGroupOptionalParams
+    options?: AzureBareMetalStorageInstancesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AzureBareMetalStorageInstance> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -127,16 +128,16 @@ export class AzureBareMetalStorageInstancesImpl
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: AzureBareMetalStorageInstancesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AzureBareMetalStorageInstance[]> {
     let result: AzureBareMetalStorageInstancesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -151,7 +152,7 @@ export class AzureBareMetalStorageInstancesImpl
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -162,11 +163,11 @@ export class AzureBareMetalStorageInstancesImpl
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: AzureBareMetalStorageInstancesListByResourceGroupOptionalParams
+    options?: AzureBareMetalStorageInstancesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<AzureBareMetalStorageInstance> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -178,11 +179,11 @@ export class AzureBareMetalStorageInstancesImpl
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: AzureBareMetalStorageInstancesListBySubscriptionOptionalParams
+    options?: AzureBareMetalStorageInstancesListBySubscriptionOptionalParams,
   ): Promise<AzureBareMetalStorageInstancesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -194,11 +195,11 @@ export class AzureBareMetalStorageInstancesImpl
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: AzureBareMetalStorageInstancesListByResourceGroupOptionalParams
+    options?: AzureBareMetalStorageInstancesListByResourceGroupOptionalParams,
   ): Promise<AzureBareMetalStorageInstancesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -213,16 +214,17 @@ export class AzureBareMetalStorageInstancesImpl
   get(
     resourceGroupName: string,
     azureBareMetalStorageInstanceName: string,
-    options?: AzureBareMetalStorageInstancesGetOptionalParams
+    options?: AzureBareMetalStorageInstancesGetOptionalParams,
   ): Promise<AzureBareMetalStorageInstancesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, azureBareMetalStorageInstanceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
-   * Create an azure bare metal storage resource.
+   * Creates an Azure Bare Metal Storage Instance for the specified subscription, resource group, and
+   * instance name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param azureBareMetalStorageInstanceName Name of the Azure Bare Metal Storage Instance, also known
    *                                          as the ResourceName.
@@ -233,47 +235,49 @@ export class AzureBareMetalStorageInstancesImpl
     resourceGroupName: string,
     azureBareMetalStorageInstanceName: string,
     requestBodyParameters: AzureBareMetalStorageInstance,
-    options?: AzureBareMetalStorageInstancesCreateOptionalParams
+    options?: AzureBareMetalStorageInstancesCreateOptionalParams,
   ): Promise<AzureBareMetalStorageInstancesCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         azureBareMetalStorageInstanceName,
         requestBodyParameters,
-        options
+        options,
       },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
   /**
-   * Patches the Tags field of a Azure Bare Metal Storage instance for the specified subscription,
-   * resource group, and instance name.
+   * Patches the Tags field of a Azure BareMetalStorage instance for the specified subscription, resource
+   * group, and instance name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param azureBareMetalStorageInstanceName Name of the Azure Bare Metal Storage Instance, also known
    *                                          as the ResourceName.
-   * @param tagsParameter Request body that only contains the new Tags field
+   * @param azureBareMetalStorageInstanceBodyParameter Request body that only contains the Tags and
+   *                                                   Identity Field
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     azureBareMetalStorageInstanceName: string,
-    tagsParameter: Tags,
-    options?: AzureBareMetalStorageInstancesUpdateOptionalParams
+    azureBareMetalStorageInstanceBodyParameter: AzureBareMetalStorageInstanceBody,
+    options?: AzureBareMetalStorageInstancesUpdateOptionalParams,
   ): Promise<AzureBareMetalStorageInstancesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         azureBareMetalStorageInstanceName,
-        tagsParameter,
-        options
+        azureBareMetalStorageInstanceBodyParameter,
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
   /**
-   * Delete an AzureBareMetalStorageInstance.
+   * Deletes an Azure Bare Metal Storage Instance for the specified subscription, resource group, and
+   * instance name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param azureBareMetalStorageInstanceName Name of the Azure Bare Metal Storage Instance, also known
    *                                          as the ResourceName.
@@ -282,11 +286,11 @@ export class AzureBareMetalStorageInstancesImpl
   delete(
     resourceGroupName: string,
     azureBareMetalStorageInstanceName: string,
-    options?: AzureBareMetalStorageInstancesDeleteOptionalParams
+    options?: AzureBareMetalStorageInstancesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, azureBareMetalStorageInstanceName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -297,11 +301,11 @@ export class AzureBareMetalStorageInstancesImpl
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: AzureBareMetalStorageInstancesListBySubscriptionNextOptionalParams
+    options?: AzureBareMetalStorageInstancesListBySubscriptionNextOptionalParams,
   ): Promise<AzureBareMetalStorageInstancesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -314,11 +318,11 @@ export class AzureBareMetalStorageInstancesImpl
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: AzureBareMetalStorageInstancesListByResourceGroupNextOptionalParams
+    options?: AzureBareMetalStorageInstancesListByResourceGroupNextOptionalParams,
   ): Promise<AzureBareMetalStorageInstancesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -326,173 +330,167 @@ export class AzureBareMetalStorageInstancesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.BareMetalInfrastructure/bareMetalStorageInstances",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.BareMetalInfrastructure/bareMetalStorageInstances",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureBareMetalStorageInstancesListResult
+      bodyMapper: Mappers.AzureBareMetalStorageInstanceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalStorageInstances",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalStorageInstances",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureBareMetalStorageInstancesListResult
+      bodyMapper: Mappers.AzureBareMetalStorageInstanceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalStorageInstances/{azureBareMetalStorageInstanceName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AzureBareMetalStorageInstance
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.azureBareMetalStorageInstanceName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalStorageInstances/{azureBareMetalStorageInstanceName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AzureBareMetalStorageInstance,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.azureBareMetalStorageInstanceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalStorageInstances/{azureBareMetalStorageInstanceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalStorageInstances/{azureBareMetalStorageInstanceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureBareMetalStorageInstance
+      bodyMapper: Mappers.AzureBareMetalStorageInstance,
     },
     201: {
-      bodyMapper: Mappers.AzureBareMetalStorageInstance
+      bodyMapper: Mappers.AzureBareMetalStorageInstance,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.requestBodyParameters,
+  requestBody: Parameters.requestBodyParameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.azureBareMetalStorageInstanceName
+    Parameters.azureBareMetalStorageInstanceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalStorageInstances/{azureBareMetalStorageInstanceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalStorageInstances/{azureBareMetalStorageInstanceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureBareMetalStorageInstance
+      bodyMapper: Mappers.AzureBareMetalStorageInstance,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.tagsParameter,
+  requestBody: Parameters.azureBareMetalStorageInstanceBodyParameter,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.azureBareMetalStorageInstanceName
+    Parameters.azureBareMetalStorageInstanceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalStorageInstances/{azureBareMetalStorageInstanceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalStorageInstances/{azureBareMetalStorageInstanceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.azureBareMetalStorageInstanceName
+    Parameters.azureBareMetalStorageInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureBareMetalStorageInstancesListResult
+      bodyMapper: Mappers.AzureBareMetalStorageInstanceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureBareMetalStorageInstancesListResult
+      bodyMapper: Mappers.AzureBareMetalStorageInstanceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

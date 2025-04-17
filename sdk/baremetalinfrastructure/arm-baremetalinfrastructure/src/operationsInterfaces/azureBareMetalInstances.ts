@@ -12,18 +12,21 @@ import {
   AzureBareMetalInstance,
   AzureBareMetalInstancesListBySubscriptionOptionalParams,
   AzureBareMetalInstancesListByResourceGroupOptionalParams,
-  AzureBareMetalInstancesStartOptionalParams,
-  AzureBareMetalInstancesStartResponse,
+  AzureBareMetalInstancesGetOptionalParams,
+  AzureBareMetalInstancesGetResponse,
+  AzureBareMetalInstancesCreateOptionalParams,
+  AzureBareMetalInstancesCreateResponse,
+  Tags,
+  AzureBareMetalInstancesUpdateOptionalParams,
+  AzureBareMetalInstancesUpdateResponse,
+  AzureBareMetalInstancesDeleteOptionalParams,
   AzureBareMetalInstancesRestartOptionalParams,
   AzureBareMetalInstancesRestartResponse,
   AzureBareMetalInstancesShutdownOptionalParams,
   AzureBareMetalInstancesShutdownResponse,
-  AzureBareMetalInstancesGetOptionalParams,
-  AzureBareMetalInstancesGetResponse,
-  Tags,
-  AzureBareMetalInstancesUpdateOptionalParams,
-  AzureBareMetalInstancesUpdateResponse
-} from "../models/index.js";
+  AzureBareMetalInstancesStartOptionalParams,
+  AzureBareMetalInstancesStartResponse,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AzureBareMetalInstances. */
@@ -34,7 +37,7 @@ export interface AzureBareMetalInstances {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: AzureBareMetalInstancesListBySubscriptionOptionalParams
+    options?: AzureBareMetalInstancesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<AzureBareMetalInstance>;
   /**
    * Gets a list of Azure Bare Metal Instances in the specified subscription and resource group. The
@@ -44,37 +47,63 @@ export interface AzureBareMetalInstances {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: AzureBareMetalInstancesListByResourceGroupOptionalParams
+    options?: AzureBareMetalInstancesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AzureBareMetalInstance>;
   /**
-   * The operation to start an Azure Bare Metal instance
+   * Gets an Azure Bare Metal Instance for the specified subscription, resource group, and instance name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param azureBareMetalInstanceName Name of the Azure Bare Metal Instance, also known as the
    *                                   ResourceName.
    * @param options The options parameters.
    */
-  beginStart(
+  get(
     resourceGroupName: string,
     azureBareMetalInstanceName: string,
-    options?: AzureBareMetalInstancesStartOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<AzureBareMetalInstancesStartResponse>,
-      AzureBareMetalInstancesStartResponse
-    >
-  >;
+    options?: AzureBareMetalInstancesGetOptionalParams,
+  ): Promise<AzureBareMetalInstancesGetResponse>;
   /**
-   * The operation to start an Azure Bare Metal instance
+   * Creates an Azure Bare Metal Instance for the specified subscription, resource group, and instance
+   * name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param azureBareMetalInstanceName Name of the Azure Bare Metal Instance, also known as the
+   *                                   ResourceName.
+   * @param requestBodyParameters Resource create parameters.
+   * @param options The options parameters.
+   */
+  create(
+    resourceGroupName: string,
+    azureBareMetalInstanceName: string,
+    requestBodyParameters: AzureBareMetalInstance,
+    options?: AzureBareMetalInstancesCreateOptionalParams,
+  ): Promise<AzureBareMetalInstancesCreateResponse>;
+  /**
+   * Patches the Tags field of a Azure Bare Metal Instance for the specified subscription, resource
+   * group, and instance name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param azureBareMetalInstanceName Name of the Azure Bare Metal Instance, also known as the
+   *                                   ResourceName.
+   * @param tagsParameter Request body that only contains the new Tags field
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    azureBareMetalInstanceName: string,
+    tagsParameter: Tags,
+    options?: AzureBareMetalInstancesUpdateOptionalParams,
+  ): Promise<AzureBareMetalInstancesUpdateResponse>;
+  /**
+   * Deletes an Azure Bare Metal Instance for the specified subscription, resource group, and instance
+   * name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param azureBareMetalInstanceName Name of the Azure Bare Metal Instance, also known as the
    *                                   ResourceName.
    * @param options The options parameters.
    */
-  beginStartAndWait(
+  delete(
     resourceGroupName: string,
     azureBareMetalInstanceName: string,
-    options?: AzureBareMetalInstancesStartOptionalParams
-  ): Promise<AzureBareMetalInstancesStartResponse>;
+    options?: AzureBareMetalInstancesDeleteOptionalParams,
+  ): Promise<void>;
   /**
    * The operation to restart an Azure Bare Metal Instance
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -85,7 +114,7 @@ export interface AzureBareMetalInstances {
   beginRestart(
     resourceGroupName: string,
     azureBareMetalInstanceName: string,
-    options?: AzureBareMetalInstancesRestartOptionalParams
+    options?: AzureBareMetalInstancesRestartOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AzureBareMetalInstancesRestartResponse>,
@@ -102,7 +131,7 @@ export interface AzureBareMetalInstances {
   beginRestartAndWait(
     resourceGroupName: string,
     azureBareMetalInstanceName: string,
-    options?: AzureBareMetalInstancesRestartOptionalParams
+    options?: AzureBareMetalInstancesRestartOptionalParams,
   ): Promise<AzureBareMetalInstancesRestartResponse>;
   /**
    * The operation to shutdown an Azure Bare Metal Instance
@@ -114,7 +143,7 @@ export interface AzureBareMetalInstances {
   beginShutdown(
     resourceGroupName: string,
     azureBareMetalInstanceName: string,
-    options?: AzureBareMetalInstancesShutdownOptionalParams
+    options?: AzureBareMetalInstancesShutdownOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AzureBareMetalInstancesShutdownResponse>,
@@ -131,33 +160,35 @@ export interface AzureBareMetalInstances {
   beginShutdownAndWait(
     resourceGroupName: string,
     azureBareMetalInstanceName: string,
-    options?: AzureBareMetalInstancesShutdownOptionalParams
+    options?: AzureBareMetalInstancesShutdownOptionalParams,
   ): Promise<AzureBareMetalInstancesShutdownResponse>;
   /**
-   * Gets an Azure Bare Metal Instance for the specified subscription, resource group, and instance name.
+   * The operation to start an Azure Bare Metal instance
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param azureBareMetalInstanceName Name of the Azure Bare Metal Instance, also known as the
    *                                   ResourceName.
    * @param options The options parameters.
    */
-  get(
+  beginStart(
     resourceGroupName: string,
     azureBareMetalInstanceName: string,
-    options?: AzureBareMetalInstancesGetOptionalParams
-  ): Promise<AzureBareMetalInstancesGetResponse>;
+    options?: AzureBareMetalInstancesStartOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AzureBareMetalInstancesStartResponse>,
+      AzureBareMetalInstancesStartResponse
+    >
+  >;
   /**
-   * Patches the Tags field of a Azure Bare Metal Instance for the specified subscription, resource
-   * group, and instance name.
+   * The operation to start an Azure Bare Metal instance
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param azureBareMetalInstanceName Name of the Azure Bare Metal Instance, also known as the
    *                                   ResourceName.
-   * @param tagsParameter Request body that only contains the new Tags field
    * @param options The options parameters.
    */
-  update(
+  beginStartAndWait(
     resourceGroupName: string,
     azureBareMetalInstanceName: string,
-    tagsParameter: Tags,
-    options?: AzureBareMetalInstancesUpdateOptionalParams
-  ): Promise<AzureBareMetalInstancesUpdateResponse>;
+    options?: AzureBareMetalInstancesStartOptionalParams,
+  ): Promise<AzureBareMetalInstancesStartResponse>;
 }
