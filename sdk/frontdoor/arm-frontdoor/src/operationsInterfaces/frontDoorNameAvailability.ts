@@ -10,7 +10,7 @@ import {
   CheckNameAvailabilityInput,
   FrontDoorNameAvailabilityCheckOptionalParams,
   FrontDoorNameAvailabilityCheckResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a FrontDoorNameAvailability. */
 export interface FrontDoorNameAvailability {
