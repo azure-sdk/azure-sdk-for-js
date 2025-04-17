@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import type { Operations } from "../operationsInterfaces/index.js";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { Operations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import type { SearchManagementClient } from "../searchManagementClient.js";
-import type {
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { SearchManagementClient } from "../searchManagementClient";
+import {
   Operation,
   OperationsListOptionalParams,
   OperationsListResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Operations operations. */
@@ -35,7 +35,9 @@ export class OperationsImpl implements Operations {
    * Lists all of the available REST API operations of the Microsoft.Search provider.
    * @param options The options parameters.
    */
-  public list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation> {
+  public list(
+    options?: OperationsListOptionalParams,
+  ): PagedAsyncIterableIterator<Operation> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -74,7 +76,9 @@ export class OperationsImpl implements Operations {
    * Lists all of the available REST API operations of the Microsoft.Search provider.
    * @param options The options parameters.
    */
-  private _list(options?: OperationsListOptionalParams): Promise<OperationsListResponse> {
+  private _list(
+    options?: OperationsListOptionalParams,
+  ): Promise<OperationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 }
