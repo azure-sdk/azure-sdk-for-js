@@ -18,7 +18,7 @@ import {
   ModelVersionsCreateOrUpdateResponse,
   DestinationAsset,
   ModelVersionsPublishOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ModelVersions. */
