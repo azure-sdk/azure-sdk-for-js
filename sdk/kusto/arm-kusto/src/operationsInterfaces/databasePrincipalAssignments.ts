@@ -19,7 +19,7 @@ import {
   DatabasePrincipalAssignmentsCreateOrUpdateOptionalParams,
   DatabasePrincipalAssignmentsCreateOrUpdateResponse,
   DatabasePrincipalAssignmentsDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DatabasePrincipalAssignments. */

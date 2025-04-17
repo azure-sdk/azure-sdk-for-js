@@ -21,7 +21,7 @@ import {
   ManagedPrivateEndpointsUpdateOptionalParams,
   ManagedPrivateEndpointsUpdateResponse,
   ManagedPrivateEndpointsDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedPrivateEndpoints. */

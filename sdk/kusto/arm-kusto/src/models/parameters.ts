@@ -40,7 +40,7 @@ import {
   DataConnectionValidation as DataConnectionValidationMapper,
   DataConnectionCheckNameRequest as DataConnectionCheckNameRequestMapper,
   DataConnection as DataConnectionMapper,
-} from "../models/mappers.js";
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

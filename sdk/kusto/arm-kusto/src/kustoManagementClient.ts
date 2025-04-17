@@ -31,7 +31,7 @@ import {
   OperationsImpl,
   OperationsResultsImpl,
   OperationsResultsLocationImpl,
-} from "./operations/index.js";
+} from "./operations";
 import {
   Clusters,
   ClusterPrincipalAssignments,
@@ -49,8 +49,8 @@ import {
   Operations,
   OperationsResults,
   OperationsResultsLocation,
-} from "./operationsInterfaces/index.js";
-import { KustoManagementClientOptionalParams } from "./models/index.js";
+} from "./operationsInterfaces";
+import { KustoManagementClientOptionalParams } from "./models";
 
 export class KustoManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -84,7 +84,7 @@ export class KustoManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-kusto/8.2.1`;
+    const packageDetails = `azsdk-js-arm-kusto/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SkuDescription, SkusListOptionalParams } from "../models/index.js";
+import { SkuDescription, SkusListOptionalParams } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Skus. */

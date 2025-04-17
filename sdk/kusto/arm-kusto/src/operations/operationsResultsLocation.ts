@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { OperationsResultsLocation } from "../operationsInterfaces/index.js";
+import { OperationsResultsLocation } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { KustoManagementClient } from "../kustoManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { KustoManagementClient } from "../kustoManagementClient";
 import {
   OperationsResultsLocationGetOptionalParams,
   OperationsResultsLocationGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing OperationsResultsLocation operations. */
 export class OperationsResultsLocationImpl
