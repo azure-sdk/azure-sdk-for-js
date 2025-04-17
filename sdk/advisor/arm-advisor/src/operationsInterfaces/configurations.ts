@@ -16,7 +16,7 @@ import {
   ConfigurationsCreateInSubscriptionResponse,
   ConfigurationsCreateInResourceGroupOptionalParams,
   ConfigurationsCreateInResourceGroupResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Configurations. */

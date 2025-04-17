@@ -7,16 +7,16 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { OperationEntity, OperationsListOptionalParams } from "../models";
+import { WorkloadResult, WorkloadsListOptionalParams } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a Operations. */
-export interface Operations {
+/** Interface representing a Workloads. */
+export interface Workloads {
   /**
-   * Lists all the available Advisor REST API operations.
+   * Get list of Workloads.
    * @param options The options parameters.
    */
   list(
-    options?: OperationsListOptionalParams,
-  ): PagedAsyncIterableIterator<OperationEntity>;
+    options?: WorkloadsListOptionalParams,
+  ): PagedAsyncIterableIterator<WorkloadResult>;
 }
