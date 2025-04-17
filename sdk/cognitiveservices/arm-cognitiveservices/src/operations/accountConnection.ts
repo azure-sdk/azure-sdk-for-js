@@ -8,38 +8,33 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { RaiBlocklists } from "../operationsInterfaces";
+import { AccountConnection } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CognitiveServicesManagementClient } from "../cognitiveServicesManagementClient";
 import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
-import {
-  RaiBlocklist,
-  RaiBlocklistsListNextOptionalParams,
-  RaiBlocklistsListOptionalParams,
-  RaiBlocklistsListResponse,
-  RaiBlocklistsGetOptionalParams,
-  RaiBlocklistsGetResponse,
-  RaiBlocklistsCreateOrUpdateOptionalParams,
-  RaiBlocklistsCreateOrUpdateResponse,
-  RaiBlocklistsDeleteOptionalParams,
-  RaiBlocklistsDeleteResponse,
-  RaiBlocklistsListNextResponse,
+  ConnectionPropertiesV2BasicResource,
+  AccountConnectionListNextOptionalParams,
+  AccountConnectionListOptionalParams,
+  AccountConnectionListResponse,
+  AccountConnectionDeleteOptionalParams,
+  AccountConnectionGetOptionalParams,
+  AccountConnectionGetResponse,
+  AccountConnectionUpdateOptionalParams,
+  AccountConnectionUpdateResponse,
+  AccountConnectionCreateOptionalParams,
+  AccountConnectionCreateResponse,
+  AccountConnectionListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing RaiBlocklists operations. */
-export class RaiBlocklistsImpl implements RaiBlocklists {
+/** Class containing AccountConnection operations. */
+export class AccountConnectionImpl implements AccountConnection {
   private readonly client: CognitiveServicesManagementClient;
 
   /**
-   * Initialize a new instance of the class RaiBlocklists class.
+   * Initialize a new instance of the class AccountConnection class.
    * @param client Reference to the service client
    */
   constructor(client: CognitiveServicesManagementClient) {
@@ -47,7 +42,7 @@ export class RaiBlocklistsImpl implements RaiBlocklists {
   }
 
   /**
-   * Gets the custom blocklists associated with the Azure OpenAI account.
+   * Lists all the available  Cognitive Services account connections under the specified account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param options The options parameters.
@@ -55,8 +50,8 @@ export class RaiBlocklistsImpl implements RaiBlocklists {
   public list(
     resourceGroupName: string,
     accountName: string,
-    options?: RaiBlocklistsListOptionalParams,
-  ): PagedAsyncIterableIterator<RaiBlocklist> {
+    options?: AccountConnectionListOptionalParams,
+  ): PagedAsyncIterableIterator<ConnectionPropertiesV2BasicResource> {
     const iter = this.listPagingAll(resourceGroupName, accountName, options);
     return {
       next() {
@@ -82,10 +77,10 @@ export class RaiBlocklistsImpl implements RaiBlocklists {
   private async *listPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: RaiBlocklistsListOptionalParams,
+    options?: AccountConnectionListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<RaiBlocklist[]> {
-    let result: RaiBlocklistsListResponse;
+  ): AsyncIterableIterator<ConnectionPropertiesV2BasicResource[]> {
+    let result: AccountConnectionListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, accountName, options);
@@ -111,8 +106,8 @@ export class RaiBlocklistsImpl implements RaiBlocklists {
   private async *listPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: RaiBlocklistsListOptionalParams,
-  ): AsyncIterableIterator<RaiBlocklist> {
+    options?: AccountConnectionListOptionalParams,
+  ): AsyncIterableIterator<ConnectionPropertiesV2BasicResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       accountName,
@@ -123,7 +118,83 @@ export class RaiBlocklistsImpl implements RaiBlocklists {
   }
 
   /**
-   * Gets the custom blocklists associated with the Azure OpenAI account.
+   * Delete Cognitive Services account connection by name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param connectionName Friendly name of the connection
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    accountName: string,
+    connectionName: string,
+    options?: AccountConnectionDeleteOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, connectionName, options },
+      deleteOperationSpec,
+    );
+  }
+
+  /**
+   * Lists Cognitive Services account connection by name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param connectionName Friendly name of the connection
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    connectionName: string,
+    options?: AccountConnectionGetOptionalParams,
+  ): Promise<AccountConnectionGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, connectionName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * Update Cognitive Services account connection under the specified account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param connectionName Friendly name of the connection
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    connectionName: string,
+    options?: AccountConnectionUpdateOptionalParams,
+  ): Promise<AccountConnectionUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, connectionName, options },
+      updateOperationSpec,
+    );
+  }
+
+  /**
+   * Create or update Cognitive Services account connection under the specified account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param connectionName Friendly name of the connection
+   * @param options The options parameters.
+   */
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    connectionName: string,
+    options?: AccountConnectionCreateOptionalParams,
+  ): Promise<AccountConnectionCreateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, connectionName, options },
+      createOperationSpec,
+    );
+  }
+
+  /**
+   * Lists all the available  Cognitive Services account connections under the specified account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param options The options parameters.
@@ -131,153 +202,12 @@ export class RaiBlocklistsImpl implements RaiBlocklists {
   private _list(
     resourceGroupName: string,
     accountName: string,
-    options?: RaiBlocklistsListOptionalParams,
-  ): Promise<RaiBlocklistsListResponse> {
+    options?: AccountConnectionListOptionalParams,
+  ): Promise<AccountConnectionListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
       listOperationSpec,
     );
-  }
-
-  /**
-   * Gets the specified custom blocklist associated with the Azure OpenAI account.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of Cognitive Services account.
-   * @param raiBlocklistName The name of the RaiBlocklist associated with the Cognitive Services Account
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    accountName: string,
-    raiBlocklistName: string,
-    options?: RaiBlocklistsGetOptionalParams,
-  ): Promise<RaiBlocklistsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, raiBlocklistName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * Update the state of specified blocklist associated with the Azure OpenAI account.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of Cognitive Services account.
-   * @param raiBlocklistName The name of the RaiBlocklist associated with the Cognitive Services Account
-   * @param raiBlocklist Properties describing the custom blocklist.
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    accountName: string,
-    raiBlocklistName: string,
-    raiBlocklist: RaiBlocklist,
-    options?: RaiBlocklistsCreateOrUpdateOptionalParams,
-  ): Promise<RaiBlocklistsCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        accountName,
-        raiBlocklistName,
-        raiBlocklist,
-        options,
-      },
-      createOrUpdateOperationSpec,
-    );
-  }
-
-  /**
-   * Deletes the specified custom blocklist associated with the Azure OpenAI account.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of Cognitive Services account.
-   * @param raiBlocklistName The name of the RaiBlocklist associated with the Cognitive Services Account
-   * @param options The options parameters.
-   */
-  async beginDelete(
-    resourceGroupName: string,
-    accountName: string,
-    raiBlocklistName: string,
-    options?: RaiBlocklistsDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<RaiBlocklistsDeleteResponse>,
-      RaiBlocklistsDeleteResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<RaiBlocklistsDeleteResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, accountName, raiBlocklistName, options },
-      spec: deleteOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      RaiBlocklistsDeleteResponse,
-      OperationState<RaiBlocklistsDeleteResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Deletes the specified custom blocklist associated with the Azure OpenAI account.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of Cognitive Services account.
-   * @param raiBlocklistName The name of the RaiBlocklist associated with the Cognitive Services Account
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    raiBlocklistName: string,
-    options?: RaiBlocklistsDeleteOptionalParams,
-  ): Promise<RaiBlocklistsDeleteResponse> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      accountName,
-      raiBlocklistName,
-      options,
-    );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -291,8 +221,8 @@ export class RaiBlocklistsImpl implements RaiBlocklists {
     resourceGroupName: string,
     accountName: string,
     nextLink: string,
-    options?: RaiBlocklistsListNextOptionalParams,
-  ): Promise<RaiBlocklistsListNextResponse> {
+    options?: AccountConnectionListNextOptionalParams,
+  ): Promise<AccountConnectionListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, nextLink, options },
       listNextOperationSpec,
@@ -302,13 +232,12 @@ export class RaiBlocklistsImpl implements RaiBlocklists {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/raiBlocklists",
-  httpMethod: "GET",
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/connections/{connectionName}",
+  httpMethod: "DELETE",
   responses: {
-    200: {
-      bodyMapper: Mappers.RaiBlockListResult,
-    },
+    200: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
@@ -319,16 +248,17 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.connectionName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/raiBlocklists/{raiBlocklistName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/connections/{connectionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RaiBlocklist,
+      bodyMapper: Mappers.ConnectionPropertiesV2BasicResource,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -340,65 +270,81 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.raiBlocklistName,
+    Parameters.connectionName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/raiBlocklists/{raiBlocklistName}",
-  httpMethod: "PUT",
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/connections/{connectionName}",
+  httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.RaiBlocklist,
-    },
-    201: {
-      bodyMapper: Mappers.RaiBlocklist,
+      bodyMapper: Mappers.ConnectionPropertiesV2BasicResource,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.raiBlocklist,
+  requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.raiBlocklistName,
+    Parameters.connectionName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/raiBlocklists/{raiBlocklistName}",
-  httpMethod: "DELETE",
+const createOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/connections/{connectionName}",
+  httpMethod: "PUT",
   responses: {
     200: {
-      headersMapper: Mappers.RaiBlocklistsDeleteHeaders,
-    },
-    201: {
-      headersMapper: Mappers.RaiBlocklistsDeleteHeaders,
-    },
-    202: {
-      headersMapper: Mappers.RaiBlocklistsDeleteHeaders,
-    },
-    204: {
-      headersMapper: Mappers.RaiBlocklistsDeleteHeaders,
+      bodyMapper: Mappers.ConnectionPropertiesV2BasicResource,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
+  requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.raiBlocklistName,
+    Parameters.connectionName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/connections",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ConnectionPropertiesV2BasicResourceArmPaginatedResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.target,
+    Parameters.category,
+    Parameters.includeAll,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -408,7 +354,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RaiBlockListResult,
+      bodyMapper: Mappers.ConnectionPropertiesV2BasicResourceArmPaginatedResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
