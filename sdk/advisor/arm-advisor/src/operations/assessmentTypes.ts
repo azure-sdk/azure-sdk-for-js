@@ -8,28 +8,26 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { RecommendationMetadata } from "../operationsInterfaces";
+import { AssessmentTypes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AdvisorManagementClient } from "../advisorManagementClient";
 import {
-  MetadataEntity,
-  RecommendationMetadataListNextOptionalParams,
-  RecommendationMetadataListOptionalParams,
-  RecommendationMetadataListResponse,
-  RecommendationMetadataGetOptionalParams,
-  RecommendationMetadataGetResponse,
-  RecommendationMetadataListNextResponse,
+  AssessmentTypeResult,
+  AssessmentTypesListNextOptionalParams,
+  AssessmentTypesListOptionalParams,
+  AssessmentTypesListResponse,
+  AssessmentTypesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing RecommendationMetadata operations. */
-export class RecommendationMetadataImpl implements RecommendationMetadata {
+/** Class containing AssessmentTypes operations. */
+export class AssessmentTypesImpl implements AssessmentTypes {
   private readonly client: AdvisorManagementClient;
 
   /**
-   * Initialize a new instance of the class RecommendationMetadata class.
+   * Initialize a new instance of the class AssessmentTypes class.
    * @param client Reference to the service client
    */
   constructor(client: AdvisorManagementClient) {
@@ -37,12 +35,12 @@ export class RecommendationMetadataImpl implements RecommendationMetadata {
   }
 
   /**
-   * Gets the list of metadata entities.
+   * Get list of Azure Advisor assessment types.
    * @param options The options parameters.
    */
   public list(
-    options?: RecommendationMetadataListOptionalParams,
-  ): PagedAsyncIterableIterator<MetadataEntity> {
+    options?: AssessmentTypesListOptionalParams,
+  ): PagedAsyncIterableIterator<AssessmentTypeResult> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -61,10 +59,10 @@ export class RecommendationMetadataImpl implements RecommendationMetadata {
   }
 
   private async *listPagingPage(
-    options?: RecommendationMetadataListOptionalParams,
+    options?: AssessmentTypesListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<MetadataEntity[]> {
-    let result: RecommendationMetadataListResponse;
+  ): AsyncIterableIterator<AssessmentTypeResult[]> {
+    let result: AssessmentTypesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(options);
@@ -83,35 +81,20 @@ export class RecommendationMetadataImpl implements RecommendationMetadata {
   }
 
   private async *listPagingAll(
-    options?: RecommendationMetadataListOptionalParams,
-  ): AsyncIterableIterator<MetadataEntity> {
+    options?: AssessmentTypesListOptionalParams,
+  ): AsyncIterableIterator<AssessmentTypeResult> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Gets the metadata entity.
-   * @param name Name of metadata entity.
-   * @param options The options parameters.
-   */
-  get(
-    name: string,
-    options?: RecommendationMetadataGetOptionalParams,
-  ): Promise<RecommendationMetadataGetResponse> {
-    return this.client.sendOperationRequest(
-      { name, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * Gets the list of metadata entities.
+   * Get list of Azure Advisor assessment types.
    * @param options The options parameters.
    */
   private _list(
-    options?: RecommendationMetadataListOptionalParams,
-  ): Promise<RecommendationMetadataListResponse> {
+    options?: AssessmentTypesListOptionalParams,
+  ): Promise<AssessmentTypesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -122,8 +105,8 @@ export class RecommendationMetadataImpl implements RecommendationMetadata {
    */
   private _listNext(
     nextLink: string,
-    options?: RecommendationMetadataListNextOptionalParams,
-  ): Promise<RecommendationMetadataListNextResponse> {
+    options?: AssessmentTypesListNextOptionalParams,
+  ): Promise<AssessmentTypesListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec,
@@ -133,39 +116,19 @@ export class RecommendationMetadataImpl implements RecommendationMetadata {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Advisor/metadata/{name}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MetadataEntity,
-    },
-    404: {
-      bodyMapper: Mappers.ARMErrorResponseBody,
-      isError: true,
-    },
-    default: {
-      bodyMapper: Mappers.ArmErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.name],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Advisor/metadata",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/assessmentTypes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetadataEntityListResult,
+      bodyMapper: Mappers.AssessmentTypeListResult,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -174,13 +137,17 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetadataEntityListResult,
+      bodyMapper: Mappers.AssessmentTypeListResult,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [Parameters.$host, Parameters.nextLink],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };

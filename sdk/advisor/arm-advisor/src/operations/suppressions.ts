@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { Suppressions } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { Suppressions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { AdvisorManagementClient } from "../advisorManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { AdvisorManagementClient } from "../advisorManagementClient";
 import {
   SuppressionContract,
   SuppressionsListNextOptionalParams,
@@ -24,7 +24,7 @@ import {
   SuppressionsCreateResponse,
   SuppressionsDeleteOptionalParams,
   SuppressionsListNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Suppressions operations. */
@@ -164,7 +164,9 @@ export class SuppressionsImpl implements Suppressions {
    * attribute of a recommendation is referred to as a suppression.
    * @param options The options parameters.
    */
-  private _list(options?: SuppressionsListOptionalParams): Promise<SuppressionsListResponse> {
+  private _list(
+    options?: SuppressionsListOptionalParams,
+  ): Promise<SuppressionsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -177,7 +179,10 @@ export class SuppressionsImpl implements Suppressions {
     nextLink: string,
     options?: SuppressionsListNextOptionalParams,
   ): Promise<SuppressionsListNextResponse> {
-    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listNextOperationSpec,
+    );
   }
 }
 // Operation Specifications
@@ -265,7 +270,11 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ArmErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.skipToken],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.top,
+    Parameters.skipToken,
+  ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -281,7 +290,11 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ArmErrorResponse,
     },
   },
-  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };

@@ -6,8 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./recommendationMetadata.js";
-export * from "./configurations.js";
-export * from "./recommendations.js";
-export * from "./operations.js";
-export * from "./suppressions.js";
+export * from "./recommendationMetadata";
+export * from "./configurations";
+export * from "./recommendations";
+export * from "./operations";
+export * from "./suppressions";
+export * from "./advisorScores";
+export * from "./assessments";
+export * from "./assessmentTypes";
+export * from "./workloads";
+export * from "./resiliencyReviews";
+export * from "./triageRecommendations";
+export * from "./triageResources";
