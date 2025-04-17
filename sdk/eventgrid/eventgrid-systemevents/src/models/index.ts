@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { SystemEventsClient } from "./systemEventsClient.js";
 export {
   ApiCenterApiDefinitionAddedEventData,
   ApiCenterApiSpecification,
@@ -186,6 +185,7 @@ export {
   DataBoxStageName,
   DataBoxCopyCompletedEventData,
   DataBoxOrderCompletedEventData,
+  EdgeSolutionVersionPublishedEventData,
   EventHubCaptureFileCreatedEventData,
   MapsGeofenceEvent,
   MapsGeofenceGeometry,
@@ -324,5 +324,4 @@ export {
   ResourceNotificationsResourceManagementDeletedEventData,
   ResourceNotificationsContainerServiceEventResourcesScheduledEventData,
   KnownServiceApiVersions,
-} from "./models/index.js";
-export { SystemEventsClientOptionalParams } from "./api/index.js";
+} from "./models.js";
