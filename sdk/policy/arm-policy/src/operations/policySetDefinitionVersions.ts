@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import type { PolicySetDefinitionVersions } from "../operationsInterfaces/index.js";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
+import { PolicySetDefinitionVersions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import type { PolicyClient } from "../policyClient.js";
-import type {
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { PolicyClient } from "../policyClient";
+import {
   PolicySetDefinitionVersion,
   PolicySetDefinitionVersionsListNextOptionalParams,
   PolicySetDefinitionVersionsListOptionalParams,
@@ -45,11 +45,13 @@ import type {
   PolicySetDefinitionVersionsListNextResponse,
   PolicySetDefinitionVersionsListBuiltInNextResponse,
   PolicySetDefinitionVersionsListByManagementGroupNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PolicySetDefinitionVersions operations. */
-export class PolicySetDefinitionVersionsImpl implements PolicySetDefinitionVersions {
+export class PolicySetDefinitionVersionsImpl
+  implements PolicySetDefinitionVersions
+{
   private readonly client: PolicyClient;
 
   /**
@@ -102,7 +104,11 @@ export class PolicySetDefinitionVersionsImpl implements PolicySetDefinitionVersi
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(policySetDefinitionName, continuationToken, options);
+      result = await this._listNext(
+        policySetDefinitionName,
+        continuationToken,
+        options,
+      );
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -114,7 +120,10 @@ export class PolicySetDefinitionVersionsImpl implements PolicySetDefinitionVersi
     policySetDefinitionName: string,
     options?: PolicySetDefinitionVersionsListOptionalParams,
   ): AsyncIterableIterator<PolicySetDefinitionVersion> {
-    for await (const page of this.listPagingPage(policySetDefinitionName, options)) {
+    for await (const page of this.listPagingPage(
+      policySetDefinitionName,
+      options,
+    )) {
       yield* page;
     }
   }
@@ -141,7 +150,11 @@ export class PolicySetDefinitionVersionsImpl implements PolicySetDefinitionVersi
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listBuiltInPagingPage(policySetDefinitionName, options, settings);
+        return this.listBuiltInPagingPage(
+          policySetDefinitionName,
+          options,
+          settings,
+        );
       },
     };
   }
@@ -161,7 +174,11 @@ export class PolicySetDefinitionVersionsImpl implements PolicySetDefinitionVersi
       yield page;
     }
     while (continuationToken) {
-      result = await this._listBuiltInNext(policySetDefinitionName, continuationToken, options);
+      result = await this._listBuiltInNext(
+        policySetDefinitionName,
+        continuationToken,
+        options,
+      );
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -173,7 +190,10 @@ export class PolicySetDefinitionVersionsImpl implements PolicySetDefinitionVersi
     policySetDefinitionName: string,
     options?: PolicySetDefinitionVersionsListBuiltInOptionalParams,
   ): AsyncIterableIterator<PolicySetDefinitionVersion> {
-    for await (const page of this.listBuiltInPagingPage(policySetDefinitionName, options)) {
+    for await (const page of this.listBuiltInPagingPage(
+      policySetDefinitionName,
+      options,
+    )) {
       yield* page;
     }
   }
@@ -271,7 +291,10 @@ export class PolicySetDefinitionVersionsImpl implements PolicySetDefinitionVersi
   listAllBuiltins(
     options?: PolicySetDefinitionVersionsListAllBuiltinsOptionalParams,
   ): Promise<PolicySetDefinitionVersionsListAllBuiltinsResponse> {
-    return this.client.sendOperationRequest({ options }, listAllBuiltinsOperationSpec);
+    return this.client.sendOperationRequest(
+      { options },
+      listAllBuiltinsOperationSpec,
+    );
   }
 
   /**
@@ -573,7 +596,7 @@ const listAllBuiltinsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicySetDefinitionVersionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -589,7 +612,7 @@ const listAllAtManagementGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicySetDefinitionVersionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -605,7 +628,7 @@ const listAllOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicySetDefinitionVersionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -624,10 +647,10 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicySetDefinitionVersion,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters3,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -635,7 +658,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.policyDefinitionVersion,
     Parameters.policySetDefinitionName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -646,7 +669,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -667,7 +690,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicySetDefinitionVersion,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
@@ -688,7 +711,7 @@ const getBuiltInOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicySetDefinitionVersion,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
@@ -708,11 +731,15 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicySetDefinitionVersionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.expand],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.policySetDefinitionName],
+  queryParameters: [Parameters.apiVersion, Parameters.expand, Parameters.top],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.policySetDefinitionName,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -724,10 +751,10 @@ const listBuiltInOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicySetDefinitionVersionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.expand],
+  queryParameters: [Parameters.apiVersion, Parameters.expand, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.policySetDefinitionName],
   headerParameters: [Parameters.accept],
   serializer,
@@ -743,10 +770,10 @@ const createOrUpdateAtManagementGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicySetDefinitionVersion,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters3,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -754,7 +781,7 @@ const createOrUpdateAtManagementGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.policyDefinitionVersion,
     Parameters.policySetDefinitionName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -765,7 +792,7 @@ const deleteAtManagementGroupOperationSpec: coreClient.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -786,7 +813,7 @@ const getAtManagementGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicySetDefinitionVersion,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
@@ -807,10 +834,10 @@ const listByManagementGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicySetDefinitionVersionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.expand],
+  queryParameters: [Parameters.apiVersion, Parameters.expand, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.managementGroupName,
@@ -827,7 +854,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicySetDefinitionVersionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
@@ -847,10 +874,14 @@ const listBuiltInNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicySetDefinitionVersionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.policySetDefinitionName],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.policySetDefinitionName,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -862,7 +893,7 @@ const listByManagementGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicySetDefinitionVersionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [

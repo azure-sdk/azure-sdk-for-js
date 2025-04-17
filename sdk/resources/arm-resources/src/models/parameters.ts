@@ -24,7 +24,7 @@ import {
   ExportTemplateRequest as ExportTemplateRequestMapper,
   TagsResource as TagsResourceMapper,
   TagsPatchResource as TagsPatchResourceMapper,
-} from "../models/mappers.js";
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -53,7 +53,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-11-01",
+    defaultValue: "2025-04-01",
     isConstant: true,
     serializedName: "api-version",
     type: {

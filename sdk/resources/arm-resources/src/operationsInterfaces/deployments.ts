@@ -89,7 +89,7 @@ import {
   DeploymentsExportTemplateResponse,
   DeploymentsCalculateTemplateHashOptionalParams,
   DeploymentsCalculateTemplateHashResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Deployments. */

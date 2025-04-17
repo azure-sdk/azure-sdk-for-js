@@ -40,7 +40,7 @@ import {
   DeploymentStacksValidateStackAtSubscriptionResponse,
   DeploymentStacksValidateStackAtManagementGroupOptionalParams,
   DeploymentStacksValidateStackAtManagementGroupResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DeploymentStacks. */

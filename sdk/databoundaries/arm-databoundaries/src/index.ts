@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./models/index.js";
-export { DataboundariesManegementClient } from "./databoundariesManegementClient.js";
-export * from "./operationsInterfaces/index.js";
+/// <reference lib="esnext.asynciterable" />
+export { getContinuationToken } from "./pagingHelper";
+export * from "./models";
+export { DataboundariesManegementClient } from "./databoundariesManegementClient";
+export * from "./operationsInterfaces";
