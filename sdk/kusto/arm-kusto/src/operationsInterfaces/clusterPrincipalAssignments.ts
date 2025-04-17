@@ -19,7 +19,7 @@ import {
   ClusterPrincipalAssignmentsCreateOrUpdateOptionalParams,
   ClusterPrincipalAssignmentsCreateOrUpdateResponse,
   ClusterPrincipalAssignmentsDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ClusterPrincipalAssignments. */
