@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Regenerates the specified account key for the specified Cognitive Services account.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/RegenerateKey.json
  */
-async function regenerateKeys() {
+async function regenerateKeys(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
@@ -36,7 +36,7 @@ async function regenerateKeys() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   regenerateKeys();
 }
 
