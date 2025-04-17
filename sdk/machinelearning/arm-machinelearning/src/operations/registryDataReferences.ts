@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { RegistryDataReferences } from "../operationsInterfaces/index.js";
+import { RegistryDataReferences } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient";
 import {
   GetBlobReferenceSASRequestDto,
   RegistryDataReferencesGetBlobReferenceSASOptionalParams,
   RegistryDataReferencesGetBlobReferenceSASResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing RegistryDataReferences operations. */
 export class RegistryDataReferencesImpl implements RegistryDataReferences {
@@ -66,7 +66,7 @@ const getBlobReferenceSASOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body9,
+  requestBody: Parameters.body7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
