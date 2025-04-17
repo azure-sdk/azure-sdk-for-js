@@ -14,7 +14,7 @@ import {
   DeletedAccountsGetOptionalParams,
   DeletedAccountsGetResponse,
   DeletedAccountsPurgeOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DeletedAccounts. */
