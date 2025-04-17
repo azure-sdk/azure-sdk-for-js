@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DataBoundaries } from "../operationsInterfaces/index.js";
+import { DataBoundaries } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { DataboundariesManegementClient } from "../databoundariesManegementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { DataboundariesManegementClient } from "../databoundariesManegementClient";
 import {
   DataBoundaryDefinition,
   DefaultName,
@@ -20,7 +20,7 @@ import {
   DataBoundariesGetTenantResponse,
   DataBoundariesGetScopeOptionalParams,
   DataBoundariesGetScopeResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing DataBoundaries operations. */
 export class DataBoundariesImpl implements DataBoundaries {
@@ -103,7 +103,7 @@ const putOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.dataBoundaryDefinition,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.defaultParam],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };

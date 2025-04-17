@@ -26,7 +26,7 @@ import {
   TagsGetAtScopeOptionalParams,
   TagsGetAtScopeResponse,
   TagsDeleteAtScopeOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a TagsOperations. */

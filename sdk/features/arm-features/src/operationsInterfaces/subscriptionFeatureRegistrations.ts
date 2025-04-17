@@ -15,8 +15,8 @@ import {
   SubscriptionFeatureRegistrationsGetResponse,
   SubscriptionFeatureRegistrationsCreateOrUpdateOptionalParams,
   SubscriptionFeatureRegistrationsCreateOrUpdateResponse,
-  SubscriptionFeatureRegistrationsDeleteOptionalParams
-} from "../models/index.js";
+  SubscriptionFeatureRegistrationsDeleteOptionalParams,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SubscriptionFeatureRegistrations. */
@@ -28,14 +28,14 @@ export interface SubscriptionFeatureRegistrations {
    */
   listBySubscription(
     providerNamespace: string,
-    options?: SubscriptionFeatureRegistrationsListBySubscriptionOptionalParams
+    options?: SubscriptionFeatureRegistrationsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<SubscriptionFeatureRegistration>;
   /**
    * Returns subscription feature registrations for given subscription.
    * @param options The options parameters.
    */
   listAllBySubscription(
-    options?: SubscriptionFeatureRegistrationsListAllBySubscriptionOptionalParams
+    options?: SubscriptionFeatureRegistrationsListAllBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<SubscriptionFeatureRegistration>;
   /**
    * Returns a feature registration
@@ -46,7 +46,7 @@ export interface SubscriptionFeatureRegistrations {
   get(
     providerNamespace: string,
     featureName: string,
-    options?: SubscriptionFeatureRegistrationsGetOptionalParams
+    options?: SubscriptionFeatureRegistrationsGetOptionalParams,
   ): Promise<SubscriptionFeatureRegistrationsGetResponse>;
   /**
    * Create or update a feature registration.
@@ -57,7 +57,7 @@ export interface SubscriptionFeatureRegistrations {
   createOrUpdate(
     providerNamespace: string,
     featureName: string,
-    options?: SubscriptionFeatureRegistrationsCreateOrUpdateOptionalParams
+    options?: SubscriptionFeatureRegistrationsCreateOrUpdateOptionalParams,
   ): Promise<SubscriptionFeatureRegistrationsCreateOrUpdateResponse>;
   /**
    * Deletes a feature registration
@@ -68,6 +68,6 @@ export interface SubscriptionFeatureRegistrations {
   delete(
     providerNamespace: string,
     featureName: string,
-    options?: SubscriptionFeatureRegistrationsDeleteOptionalParams
+    options?: SubscriptionFeatureRegistrationsDeleteOptionalParams,
   ): Promise<void>;
 }

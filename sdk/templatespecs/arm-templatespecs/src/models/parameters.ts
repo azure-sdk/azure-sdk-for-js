@@ -9,14 +9,14 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   TemplateSpec as TemplateSpecMapper,
   TemplateSpecUpdateModel as TemplateSpecUpdateModelMapper,
   TemplateSpecVersion as TemplateSpecVersionMapper,
-  TemplateSpecVersionUpdateModel as TemplateSpecVersionUpdateModelMapper
-} from "../models/mappers.js";
+  TemplateSpecVersionUpdateModel as TemplateSpecVersionUpdateModelMapper,
+} from "../models/mappers";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
@@ -25,14 +25,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const templateSpec: OperationParameter = {
   parameterPath: "templateSpec",
-  mapper: TemplateSpecMapper
+  mapper: TemplateSpecMapper,
 };
 
 export const accept: OperationParameter = {
@@ -42,9 +42,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -53,10 +53,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -65,9 +65,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -76,14 +76,14 @@ export const resourceGroupName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const templateSpecName: OperationURLParameter = {
@@ -92,31 +92,31 @@ export const templateSpecName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "templateSpecName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-05-01",
+    defaultValue: "2022-02-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const templateSpec1: OperationParameter = {
   parameterPath: ["options", "templateSpec"],
-  mapper: TemplateSpecUpdateModelMapper
+  mapper: TemplateSpecUpdateModelMapper,
 };
 
 export const expand: OperationQueryParameter = {
@@ -124,9 +124,9 @@ export const expand: OperationQueryParameter = {
   mapper: {
     serializedName: "$expand",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -135,15 +135,15 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const templateSpecVersionModel: OperationParameter = {
   parameterPath: "templateSpecVersionModel",
-  mapper: TemplateSpecVersionMapper
+  mapper: TemplateSpecVersionMapper,
 };
 
 export const templateSpecVersion: OperationURLParameter = {
@@ -152,17 +152,17 @@ export const templateSpecVersion: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "templateSpecVersion",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const templateSpecVersionUpdateModel: OperationParameter = {
   parameterPath: ["options", "templateSpecVersionUpdateModel"],
-  mapper: TemplateSpecVersionUpdateModelMapper
+  mapper: TemplateSpecVersionUpdateModelMapper,
 };
