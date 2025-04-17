@@ -12,7 +12,7 @@ import {
   RaiContentFiltersListOptionalParams,
   RaiContentFiltersGetOptionalParams,
   RaiContentFiltersGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RaiContentFilters. */
