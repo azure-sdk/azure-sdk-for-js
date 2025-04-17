@@ -2523,6 +2523,42 @@ export const RecoveryPointProperties: coreClient.CompositeMapper = {
   },
 };
 
+export const RecoveryPointTierInformation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RecoveryPointTierInformation",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: ["Invalid", "InstantRP", "HardenedRP", "ArchivedRP"],
+        },
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Invalid",
+            "Valid",
+            "Disabled",
+            "Deleted",
+            "Rehydrated",
+          ],
+        },
+      },
+      extendedInfo: {
+        serializedName: "extendedInfo",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
+};
+
 export const RestoreFileSpecs: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3391,42 +3427,6 @@ export const PointInTimeRange: coreClient.CompositeMapper = {
         serializedName: "endTime",
         type: {
           name: "DateTime",
-        },
-      },
-    },
-  },
-};
-
-export const RecoveryPointTierInformation: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RecoveryPointTierInformation",
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        type: {
-          name: "Enum",
-          allowedValues: ["Invalid", "InstantRP", "HardenedRP", "ArchivedRP"],
-        },
-      },
-      status: {
-        serializedName: "status",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Invalid",
-            "Valid",
-            "Disabled",
-            "Deleted",
-            "Rehydrated",
-          ],
-        },
-      },
-      extendedInfo: {
-        serializedName: "extendedInfo",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } },
         },
       },
     },
@@ -5924,6 +5924,12 @@ export const ProtectionIntentResourceList: coreClient.CompositeMapper = {
           },
         },
       },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -5944,6 +5950,12 @@ export const RecoveryPointResourceList: coreClient.CompositeMapper = {
               className: "RecoveryPointResource",
             },
           },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
@@ -5968,6 +5980,12 @@ export const ProtectionPolicyResourceList: coreClient.CompositeMapper = {
           },
         },
       },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -5988,6 +6006,12 @@ export const JobResourceList: coreClient.CompositeMapper = {
               className: "JobResource",
             },
           },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
@@ -6012,6 +6036,12 @@ export const ProtectedItemResourceList: coreClient.CompositeMapper = {
           },
         },
       },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -6032,6 +6062,12 @@ export const BackupEngineBaseResourceList: coreClient.CompositeMapper = {
               className: "BackupEngineBaseResource",
             },
           },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
@@ -6056,6 +6092,12 @@ export const ProtectableContainerResourceList: coreClient.CompositeMapper = {
           },
         },
       },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -6076,6 +6118,12 @@ export const WorkloadItemResourceList: coreClient.CompositeMapper = {
               className: "WorkloadItemResource",
             },
           },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
@@ -6100,6 +6148,12 @@ export const WorkloadProtectableItemResourceList: coreClient.CompositeMapper = {
           },
         },
       },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -6122,6 +6176,12 @@ export const ProtectionContainerResourceList: coreClient.CompositeMapper = {
           },
         },
       },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -6142,6 +6202,12 @@ export const ResourceGuardProxyBaseResourceList: coreClient.CompositeMapper = {
               className: "ResourceGuardProxyBaseResource",
             },
           },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
@@ -6784,6 +6850,18 @@ export const AzureFileShareRecoveryPoint: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "RecoveryPointProperties",
+        },
+      },
+      recoveryPointTierDetails: {
+        serializedName: "recoveryPointTierDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RecoveryPointTierInformation",
+            },
+          },
         },
       },
     },
@@ -8387,6 +8465,12 @@ export const AzureStorageContainer: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      operationType: {
+        serializedName: "operationType",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -8980,6 +9064,16 @@ export const AzureIaaSVMHealthDetails: coreClient.CompositeMapper = {
   },
 };
 
+export const RecoveryPointTierInformationV2: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RecoveryPointTierInformationV2",
+    modelProperties: {
+      ...RecoveryPointTierInformation.type.modelProperties,
+    },
+  },
+};
+
 export const LogSchedulePolicy: coreClient.CompositeMapper = {
   serializedName: "LogSchedulePolicy",
   type: {
@@ -9172,16 +9266,6 @@ export const SimpleRetentionPolicy: coreClient.CompositeMapper = {
           className: "RetentionDuration",
         },
       },
-    },
-  },
-};
-
-export const RecoveryPointTierInformationV2: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RecoveryPointTierInformationV2",
-    modelProperties: {
-      ...RecoveryPointTierInformation.type.modelProperties,
     },
   },
 };
