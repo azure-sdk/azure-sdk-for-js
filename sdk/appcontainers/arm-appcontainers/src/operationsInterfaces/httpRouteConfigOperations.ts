@@ -8,23 +8,22 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  Certificate,
-  CertificatesListOptionalParams,
-  CertificatesGetOptionalParams,
-  CertificatesGetResponse,
-  CertificatesCreateOrUpdateOptionalParams,
-  CertificatesCreateOrUpdateResponse,
-  CertificatesDeleteOptionalParams,
-  CertificatePatch,
-  CertificatesUpdateOptionalParams,
-  CertificatesUpdateResponse,
+  HttpRouteConfig,
+  HttpRouteConfigListOptionalParams,
+  HttpRouteConfigGetOptionalParams,
+  HttpRouteConfigGetResponse,
+  HttpRouteConfigCreateOrUpdateOptionalParams,
+  HttpRouteConfigCreateOrUpdateResponse,
+  HttpRouteConfigUpdateOptionalParams,
+  HttpRouteConfigUpdateResponse,
+  HttpRouteConfigDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a Certificates. */
-export interface Certificates {
+/** Interface representing a HttpRouteConfigOperations. */
+export interface HttpRouteConfigOperations {
   /**
-   * Get the Certificates in a given managed environment.
+   * Get the Managed Http Routes in a given managed environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param environmentName Name of the Managed Environment.
    * @param options The options parameters.
@@ -32,60 +31,60 @@ export interface Certificates {
   list(
     resourceGroupName: string,
     environmentName: string,
-    options?: CertificatesListOptionalParams,
-  ): PagedAsyncIterableIterator<Certificate>;
+    options?: HttpRouteConfigListOptionalParams,
+  ): PagedAsyncIterableIterator<HttpRouteConfig>;
   /**
-   * Get the specified Certificate.
+   * Get the specified Managed Http Route Config.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param environmentName Name of the Managed Environment.
-   * @param certificateName Name of the Certificate.
+   * @param httpRouteName Name of the Http Route Config Resource.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     environmentName: string,
-    certificateName: string,
-    options?: CertificatesGetOptionalParams,
-  ): Promise<CertificatesGetResponse>;
+    httpRouteName: string,
+    options?: HttpRouteConfigGetOptionalParams,
+  ): Promise<HttpRouteConfigGetResponse>;
   /**
-   * Create or Update a Certificate.
+   * Create or Update a Http Route Config.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param environmentName Name of the Managed Environment.
-   * @param certificateName Name of the Certificate.
+   * @param httpRouteName Name of the Http Route Config Resource.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     environmentName: string,
-    certificateName: string,
-    options?: CertificatesCreateOrUpdateOptionalParams,
-  ): Promise<CertificatesCreateOrUpdateResponse>;
+    httpRouteName: string,
+    options?: HttpRouteConfigCreateOrUpdateOptionalParams,
+  ): Promise<HttpRouteConfigCreateOrUpdateResponse>;
   /**
-   * Deletes the specified Certificate.
+   * Patches an http route config resource. Only patching of tags is supported
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param environmentName Name of the Managed Environment.
-   * @param certificateName Name of the Certificate.
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    environmentName: string,
-    certificateName: string,
-    options?: CertificatesDeleteOptionalParams,
-  ): Promise<void>;
-  /**
-   * Patches a certificate. Currently only patching of tags is supported
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
-   * @param certificateName Name of the Certificate.
-   * @param certificateEnvelope Properties of a certificate that need to be updated
+   * @param httpRouteName Name of the Http Route Config Resource.
+   * @param httpRouteConfigEnvelope Properties of http route config that need to be updated
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     environmentName: string,
-    certificateName: string,
-    certificateEnvelope: CertificatePatch,
-    options?: CertificatesUpdateOptionalParams,
-  ): Promise<CertificatesUpdateResponse>;
+    httpRouteName: string,
+    httpRouteConfigEnvelope: HttpRouteConfig,
+    options?: HttpRouteConfigUpdateOptionalParams,
+  ): Promise<HttpRouteConfigUpdateResponse>;
+  /**
+   * Deletes the specified Managed Http Route.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param environmentName Name of the Managed Environment.
+   * @param httpRouteName Name of the Http Route Config Resource.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    environmentName: string,
+    httpRouteName: string,
+    options?: HttpRouteConfigDeleteOptionalParams,
+  ): Promise<void>;
 }
