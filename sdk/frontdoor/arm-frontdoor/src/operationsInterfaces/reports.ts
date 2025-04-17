@@ -14,7 +14,7 @@ import {
   TimeseriesType,
   ReportsGetTimeseriesOptionalParams,
   ReportsGetTimeseriesResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a Reports. */
 export interface Reports {

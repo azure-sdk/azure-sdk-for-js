@@ -20,7 +20,7 @@ import {
   PoliciesUpdateOptionalParams,
   PoliciesUpdateResponse,
   PoliciesDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Policies. */

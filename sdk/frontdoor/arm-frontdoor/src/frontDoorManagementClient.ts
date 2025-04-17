@@ -22,7 +22,7 @@ import {
   PreconfiguredEndpointsImpl,
   ExperimentsImpl,
   ReportsImpl,
-} from "./operations/index.js";
+} from "./operations";
 import {
   Policies,
   ManagedRuleSets,
@@ -36,8 +36,8 @@ import {
   PreconfiguredEndpoints,
   Experiments,
   Reports,
-} from "./operationsInterfaces/index.js";
-import { FrontDoorManagementClientOptionalParams } from "./models/index.js";
+} from "./operationsInterfaces";
+import { FrontDoorManagementClientOptionalParams } from "./models";
 
 export class FrontDoorManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -85,7 +85,7 @@ export class FrontDoorManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-frontdoor/5.3.1`;
+    const packageDetails = `azsdk-js-arm-frontdoor/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

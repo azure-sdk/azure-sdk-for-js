@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Reports } from "../operationsInterfaces/index.js";
+import { Reports } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { FrontDoorManagementClient } from "../frontDoorManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { FrontDoorManagementClient } from "../frontDoorManagementClient";
 import {
   LatencyScorecardAggregationInterval,
   ReportsGetLatencyScorecardsOptionalParams,
@@ -19,7 +19,7 @@ import {
   TimeseriesType,
   ReportsGetTimeseriesOptionalParams,
   ReportsGetTimeseriesResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing Reports operations. */
 export class ReportsImpl implements Reports {

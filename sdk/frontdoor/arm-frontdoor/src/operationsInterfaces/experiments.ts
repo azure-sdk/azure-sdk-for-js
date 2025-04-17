@@ -19,7 +19,7 @@ import {
   ExperimentsUpdateOptionalParams,
   ExperimentsUpdateResponse,
   ExperimentsDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Experiments. */
