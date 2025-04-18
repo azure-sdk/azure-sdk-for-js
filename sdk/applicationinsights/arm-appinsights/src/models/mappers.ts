@@ -1079,25 +1079,25 @@ export const ApplicationInsightsComponentProactiveDetectionConfiguration: coreCl
       className: "ApplicationInsightsComponentProactiveDetectionConfiguration",
       modelProperties: {
         name: {
-          serializedName: "Name",
+          serializedName: "name",
           type: {
             name: "String",
           },
         },
         enabled: {
-          serializedName: "Enabled",
+          serializedName: "enabled",
           type: {
             name: "Boolean",
           },
         },
         sendEmailsToSubscriptionOwners: {
-          serializedName: "SendEmailsToSubscriptionOwners",
+          serializedName: "sendEmailsToSubscriptionOwners",
           type: {
             name: "Boolean",
           },
         },
         customEmails: {
-          serializedName: "CustomEmails",
+          serializedName: "customEmails",
           type: {
             name: "Sequence",
             element: {
@@ -1108,13 +1108,13 @@ export const ApplicationInsightsComponentProactiveDetectionConfiguration: coreCl
           },
         },
         lastUpdatedTime: {
-          serializedName: "LastUpdatedTime",
+          serializedName: "lastUpdatedTime",
           type: {
             name: "String",
           },
         },
         ruleDefinitions: {
-          serializedName: "RuleDefinitions",
+          serializedName: "ruleDefinitions",
           type: {
             name: "Composite",
             className:
