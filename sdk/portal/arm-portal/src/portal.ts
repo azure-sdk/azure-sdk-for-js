@@ -11,45 +11,58 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   DashboardsImpl,
+  ListTenantConfigurationViolationsImpl,
   TenantConfigurationsImpl,
-  ListTenantConfigurationViolationsImpl
 } from "./operations/index.js";
 import {
   Operations,
   Dashboards,
+  ListTenantConfigurationViolations,
   TenantConfigurations,
-  ListTenantConfigurationViolations
 } from "./operationsInterfaces/index.js";
 import { PortalOptionalParams } from "./models/index.js";
 
 export class Portal extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the Portal class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The Azure subscription ID. This is a GUID-formatted string (e.g.
-   *                       00000000-0000-0000-0000-000000000000)
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: PortalOptionalParams
+    options?: PortalOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: PortalOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: PortalOptionalParams | string,
+    options?: PortalOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -58,7 +71,7 @@ export class Portal extends coreClient.ServiceClient {
     }
     const defaults: PortalOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
     const packageDetails = `azsdk-js-arm-portal/1.0.0-beta.6`;
@@ -71,20 +84,21 @@ export class Portal extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -94,7 +108,7 @@ export class Portal extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -104,9 +118,9 @@ export class Portal extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -114,13 +128,12 @@ export class Portal extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2020-09-01-preview";
+    this.apiVersion = options.apiVersion || "2025-04-01-preview";
     this.operations = new OperationsImpl(this);
     this.dashboards = new DashboardsImpl(this);
+    this.listTenantConfigurationViolations =
+      new ListTenantConfigurationViolationsImpl(this);
     this.tenantConfigurations = new TenantConfigurationsImpl(this);
-    this.listTenantConfigurationViolations = new ListTenantConfigurationViolationsImpl(
-      this
-    );
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -133,7 +146,7 @@ export class Portal extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -147,13 +160,13 @@ export class Portal extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   operations: Operations;
   dashboards: Dashboards;
-  tenantConfigurations: TenantConfigurations;
   listTenantConfigurationViolations: ListTenantConfigurationViolations;
+  tenantConfigurations: TenantConfigurations;
 }

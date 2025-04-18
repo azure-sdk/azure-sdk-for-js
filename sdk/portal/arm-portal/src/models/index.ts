@@ -12,86 +12,138 @@ export type DashboardPartMetadataUnion =
   | DashboardPartMetadata
   | MarkdownPartMetadata;
 
-/** Results of the request to list operations. */
-export interface ResourceProviderOperationList {
-  /** List of operations supported by this resource provider. */
-  value?: ResourceProviderOperation[];
-  /** The URL to use for getting the next set of results. */
-  nextLink?: string;
-}
-
-/** Supported operations of this resource provider. */
-export interface ResourceProviderOperation {
-  /** Operation name, in format of {provider}/{resource}/{operation} */
-  name?: string;
-  /** Indicates whether the operation applies to data-plane. */
-  isDataAction?: string;
-  /** Display metadata associated with the operation. */
-  display?: ResourceProviderOperationDisplay;
-}
-
-/** Display metadata associated with the operation. */
-export interface ResourceProviderOperationDisplay {
-  /** Resource provider: Microsoft Custom Providers. */
-  provider?: string;
-  /** Resource on which the operation is performed. */
-  resource?: string;
-  /** Type of operation: get, read, delete, etc. */
-  operation?: string;
-  /** Description of this operation. */
-  description?: string;
-}
-
-/** Error response. */
-export interface ErrorResponse {
-  /** The error details. */
-  error?: ErrorDefinition;
-}
-
-/** Error definition. */
-export interface ErrorDefinition {
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface OperationListResult {
   /**
-   * Service specific error code which serves as the substatus for the HTTP error code.
+   * List of operations supported by the resource provider
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly code?: number;
+  readonly value?: Operation[];
   /**
-   * Description of the error.
+   * URL to get the next set of operation list results (if there are any).
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly message?: string;
-  /**
-   * Internal error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorDefinition[];
+  readonly nextLink?: string;
 }
 
-/** The shared dashboard resource definition. */
-export interface Dashboard {
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
   /**
-   * Resource Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Resource name
+   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * Resource type
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+  /**
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: Origin;
+  /**
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionType?: ActionType;
+}
+
+/** Localized display information for this particular operation. */
+export interface OperationDisplay {
+  /**
+   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provider?: string;
+  /**
+   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resource?: string;
+  /**
+   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-  /** Resource location */
-  location: string;
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** The response of a Dashboard list operation. */
+export interface DashboardListResult {
+  /** The Dashboard items on this page */
+  value: Dashboard[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Dashboard Properties with Provisioning state */
+export interface DashboardPropertiesWithProvisioningState {
   /** The dashboard lenses. */
   lenses?: DashboardLens[];
   /** The dashboard metadata. */
-  metadata?: { [propertyName: string]: Record<string, unknown> };
+  metadata?: Record<string, unknown>;
+  /**
+   * The status of the last operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ResourceProvisioningState;
 }
 
 /** A dashboard lens. */
@@ -101,7 +153,7 @@ export interface DashboardLens {
   /** The dashboard parts. */
   parts: DashboardParts[];
   /** The dashboard len's metadata. */
-  metadata?: { [propertyName: string]: Record<string, unknown> };
+  metadata?: Record<string, unknown>;
 }
 
 /** A dashboard part. */
@@ -123,47 +175,19 @@ export interface DashboardPartsPosition {
   /** The dashboard's part column span. */
   colSpan: number;
   /** The dashboard part's metadata. */
-  metadata?: { [propertyName: string]: Record<string, unknown> };
+  metadata?: Record<string, unknown>;
 }
 
 /** A dashboard part metadata. */
 export interface DashboardPartMetadata {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Extension/HubsExtension/PartType/MarkdownPart";
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-}
-
-/** The shared dashboard resource definition. */
-export interface PatchableDashboard {
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-  /** The dashboard lenses. */
-  lenses?: DashboardLens[];
-  /** The dashboard metadata. */
-  metadata?: { [propertyName: string]: Record<string, unknown> };
-}
-
-/** List of dashboards. */
-export interface DashboardListResult {
-  /** The array of custom resource provider manifests. */
-  value?: Dashboard[];
-  /** The URL to use for getting the next set of results. */
-  nextLink?: string;
-}
-
-/** List of tenant configurations. */
-export interface ConfigurationList {
-  /** The array of tenant configurations. */
-  value?: Configuration[];
-  /** The URL to use for getting the next set of results. */
-  nextLink?: string;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -177,13 +201,50 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** The shared dashboard resource definition. */
+export interface PatchableDashboard {
+  /** The shared dashboard properties. */
+  properties?: DashboardProperties;
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+}
+
+/** The shared dashboard properties. */
+export interface DashboardProperties {
+  /** The dashboard lenses. */
+  lenses?: DashboardLens[];
+  /** The dashboard metadata. */
+  metadata?: Record<string, unknown>;
 }
 
 /** List of list of items that violate tenant's configuration. */
 export interface ViolationsList {
-  /** The array of violations. */
-  value?: Violation[];
-  /** The URL to use for getting the next set of results. */
+  /** The Violation items on this page */
+  value: Violation[];
+  /** The link to the next page of items */
   nextLink?: string;
 }
 
@@ -206,6 +267,25 @@ export interface Violation {
   readonly errorMessage?: string;
 }
 
+/** The response of a Configuration list operation. */
+export interface ConfigurationListResult {
+  /** The Configuration items on this page */
+  value: Configuration[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Tenant Configuration Properties with Provisioning state */
+export interface ConfigurationProperties {
+  /** When flag is set to true Markdown tile will require external storage configuration (URI). The inline content configuration will be prohibited. */
+  enforcePrivateMarkdownStorage?: boolean;
+  /**
+   * The status of the last operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ResourceProvisioningState;
+}
+
 /** Markdown part settings. */
 export interface MarkdownPartMetadataSettings {
   /** The content of markdown part. */
@@ -214,12 +294,6 @@ export interface MarkdownPartMetadataSettings {
 
 /** The content of markdown part. */
 export interface MarkdownPartMetadataSettingsContent {
-  /** The setting of the content of markdown part. */
-  settings?: MarkdownPartMetadataSettingsContentSettings;
-}
-
-/** The setting of the content of markdown part. */
-export interface MarkdownPartMetadataSettingsContentSettings {
   /** The content of the markdown part. */
   content?: string;
   /** The title of the markdown part. */
@@ -242,75 +316,138 @@ export interface MarkdownPartMetadata extends DashboardPartMetadata {
   settings?: MarkdownPartMetadataSettings;
 }
 
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-/** Tenant configuration. */
-export interface Configuration extends ProxyResource {
-  /** When flag is set to true Markdown tile will require external storage configuration (URI). The inline content configuration will be prohibited. */
-  enforcePrivateMarkdownStorage?: boolean;
+/** The shared dashboard resource definition. */
+export interface Dashboard extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: DashboardPropertiesWithProvisioningState;
 }
 
-/** Known values of {@link ConfigurationName} that the service accepts. */
-export enum KnownConfigurationName {
-  /** Default */
-  Default = "default"
+/** The tenant configuration resource definition. */
+export interface Configuration extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ConfigurationProperties;
+}
+
+/** Known values of {@link Origin} that the service accepts. */
+export enum KnownOrigin {
+  /** User */
+  User = "user",
+  /** System */
+  System = "system",
+  /** UserSystem */
+  UserSystem = "user,system",
 }
 
 /**
- * Defines values for ConfigurationName. \
- * {@link KnownConfigurationName} can be used interchangeably with ConfigurationName,
+ * Defines values for Origin. \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **default**
+ * **user** \
+ * **system** \
+ * **user,system**
  */
-export type ConfigurationName = string;
+export type Origin = string;
+
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  /** Internal */
+  Internal = "Internal",
+}
+
+/**
+ * Defines values for ActionType. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**
+ */
+export type ActionType = string;
+
+/** Known values of {@link DashboardPartMetadataType} that the service accepts. */
+export enum KnownDashboardPartMetadataType {
+  /** The markdown part type. */
+  Markdown = "Extension/HubsExtension/PartType/MarkdownPart",
+}
+
+/**
+ * Defines values for DashboardPartMetadataType. \
+ * {@link KnownDashboardPartMetadataType} can be used interchangeably with DashboardPartMetadataType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Extension\/HubsExtension\/PartType\/MarkdownPart**: The markdown part type.
+ */
+export type DashboardPartMetadataType = string;
+
+/** Known values of {@link ResourceProvisioningState} that the service accepts. */
+export enum KnownResourceProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+}
+
+/**
+ * Defines values for ResourceProvisioningState. \
+ * {@link KnownResourceProvisioningState} can be used interchangeably with ResourceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled.
+ */
+export type ResourceProvisioningState = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type OperationsListResponse = ResourceProviderOperationList;
+export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface OperationsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type OperationsListNextResponse = ResourceProviderOperationList;
-
-/** Optional parameters. */
-export interface DashboardsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type DashboardsCreateOrUpdateResponse = Dashboard;
-
-/** Optional parameters. */
-export interface DashboardsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface DashboardsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type DashboardsGetResponse = Dashboard;
-
-/** Optional parameters. */
-export interface DashboardsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type DashboardsUpdateResponse = Dashboard;
-
-/** Optional parameters. */
-export interface DashboardsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type DashboardsListByResourceGroupResponse = DashboardListResult;
+export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface DashboardsListBySubscriptionOptionalParams
@@ -320,11 +457,36 @@ export interface DashboardsListBySubscriptionOptionalParams
 export type DashboardsListBySubscriptionResponse = DashboardListResult;
 
 /** Optional parameters. */
-export interface DashboardsListByResourceGroupNextOptionalParams
+export interface DashboardsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByResourceGroupNext operation. */
-export type DashboardsListByResourceGroupNextResponse = DashboardListResult;
+/** Contains response data for the listByResourceGroup operation. */
+export type DashboardsListByResourceGroupResponse = DashboardListResult;
+
+/** Optional parameters. */
+export interface DashboardsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DashboardsGetResponse = Dashboard;
+
+/** Optional parameters. */
+export interface DashboardsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DashboardsCreateOrUpdateResponse = Dashboard;
+
+/** Optional parameters. */
+export interface DashboardsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type DashboardsUpdateResponse = Dashboard;
+
+/** Optional parameters. */
+export interface DashboardsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface DashboardsListBySubscriptionNextOptionalParams
@@ -334,11 +496,32 @@ export interface DashboardsListBySubscriptionNextOptionalParams
 export type DashboardsListBySubscriptionNextResponse = DashboardListResult;
 
 /** Optional parameters. */
+export interface DashboardsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type DashboardsListByResourceGroupNextResponse = DashboardListResult;
+
+/** Optional parameters. */
+export interface ListTenantConfigurationViolationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ListTenantConfigurationViolationsListResponse = ViolationsList;
+
+/** Optional parameters. */
+export interface ListTenantConfigurationViolationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ListTenantConfigurationViolationsListNextResponse = ViolationsList;
+
+/** Optional parameters. */
 export interface TenantConfigurationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type TenantConfigurationsListResponse = ConfigurationList;
+export type TenantConfigurationsListResponse = ConfigurationListResult;
 
 /** Optional parameters. */
 export interface TenantConfigurationsGetOptionalParams
@@ -363,21 +546,7 @@ export interface TenantConfigurationsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type TenantConfigurationsListNextResponse = ConfigurationList;
-
-/** Optional parameters. */
-export interface ListTenantConfigurationViolationsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ListTenantConfigurationViolationsListResponse = ViolationsList;
-
-/** Optional parameters. */
-export interface ListTenantConfigurationViolationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ListTenantConfigurationViolationsListNextResponse = ViolationsList;
+export type TenantConfigurationsListNextResponse = ConfigurationListResult;
 
 /** Optional parameters. */
 export interface PortalOptionalParams extends coreClient.ServiceClientOptions {
