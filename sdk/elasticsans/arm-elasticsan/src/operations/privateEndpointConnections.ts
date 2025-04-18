@@ -22,10 +22,10 @@ import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionsListOptionalParams,
   PrivateEndpointConnectionsListResponse,
-  PrivateEndpointConnectionsCreateOptionalParams,
-  PrivateEndpointConnectionsCreateResponse,
   PrivateEndpointConnectionsGetOptionalParams,
   PrivateEndpointConnectionsGetResponse,
+  PrivateEndpointConnectionsCreateOptionalParams,
+  PrivateEndpointConnectionsCreateResponse,
   PrivateEndpointConnectionsDeleteOptionalParams,
 } from "../models/index.js";
 
@@ -100,6 +100,47 @@ export class PrivateEndpointConnectionsImpl
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * List all Private Endpoint Connections associated with the Elastic San.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param elasticSanName The name of the ElasticSan.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    elasticSanName: string,
+    options?: PrivateEndpointConnectionsListOptionalParams,
+  ): Promise<PrivateEndpointConnectionsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, elasticSanName, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
+   * Gets the specified private endpoint connection associated with the Elastic San
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param elasticSanName The name of the ElasticSan.
+   * @param privateEndpointConnectionName The name of the Private Endpoint connection.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    elasticSanName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsGetOptionalParams,
+  ): Promise<PrivateEndpointConnectionsGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        elasticSanName,
+        privateEndpointConnectionName,
+        options,
+      },
+      getOperationSpec,
+    );
   }
 
   /**
@@ -209,30 +250,6 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Gets the specified private endpoint connection associated with the Elastic San
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param elasticSanName The name of the ElasticSan.
-   * @param privateEndpointConnectionName The name of the Private Endpoint connection.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    elasticSanName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams,
-  ): Promise<PrivateEndpointConnectionsGetResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        elasticSanName,
-        privateEndpointConnectionName,
-        options,
-      },
-      getOperationSpec,
-    );
-  }
-
-  /**
    * Deletes the specified private endpoint connection associated with the Elastic San
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param elasticSanName The name of the ElasticSan.
@@ -323,58 +340,29 @@ export class PrivateEndpointConnectionsImpl
     );
     return poller.pollUntilDone();
   }
-
-  /**
-   * List all Private Endpoint Connections associated with the Elastic San.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param elasticSanName The name of the ElasticSan.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    elasticSanName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams,
-  ): Promise<PrivateEndpointConnectionsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, elasticSanName, options },
-      listOperationSpec,
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/privateEndpointConnections/{privateEndpointConnectionName}",
-  httpMethod: "PUT",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/privateEndpointConnections",
+  httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection,
-    },
-    201: {
-      bodyMapper: Mappers.PrivateEndpointConnection,
-    },
-    202: {
-      bodyMapper: Mappers.PrivateEndpointConnection,
-    },
-    204: {
-      bodyMapper: Mappers.PrivateEndpointConnection,
+      bodyMapper: Mappers.PrivateEndpointConnectionListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.elasticSanName,
-    Parameters.privateEndpointConnectionName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
@@ -399,6 +387,39 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
+const createOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnection,
+    },
+    201: {
+      bodyMapper: Mappers.PrivateEndpointConnection,
+    },
+    202: {
+      bodyMapper: Mappers.PrivateEndpointConnection,
+    },
+    204: {
+      bodyMapper: Mappers.PrivateEndpointConnection,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.elasticSanName,
+    Parameters.privateEndpointConnectionName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "DELETE",
@@ -418,27 +439,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.elasticSanName,
     Parameters.privateEndpointConnectionName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/privateEndpointConnections",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.elasticSanName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

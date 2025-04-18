@@ -24,11 +24,11 @@ import {
   VolumeSnapshotsListByVolumeGroupNextOptionalParams,
   VolumeSnapshotsListByVolumeGroupOptionalParams,
   VolumeSnapshotsListByVolumeGroupResponse,
+  VolumeSnapshotsGetOptionalParams,
+  VolumeSnapshotsGetResponse,
   VolumeSnapshotsCreateOptionalParams,
   VolumeSnapshotsCreateResponse,
   VolumeSnapshotsDeleteOptionalParams,
-  VolumeSnapshotsGetOptionalParams,
-  VolumeSnapshotsGetResponse,
   VolumeSnapshotsListByVolumeGroupNextResponse,
 } from "../models/index.js";
 
@@ -154,6 +154,33 @@ export class VolumeSnapshotsImpl implements VolumeSnapshots {
     return this.client.sendOperationRequest(
       { resourceGroupName, elasticSanName, volumeGroupName, options },
       listByVolumeGroupOperationSpec,
+    );
+  }
+
+  /**
+   * Get a Volume Snapshot.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param elasticSanName The name of the ElasticSan.
+   * @param volumeGroupName The name of the VolumeGroup.
+   * @param snapshotName The name of the volume snapshot within the given volume group.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    elasticSanName: string,
+    volumeGroupName: string,
+    snapshotName: string,
+    options?: VolumeSnapshotsGetOptionalParams,
+  ): Promise<VolumeSnapshotsGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        elasticSanName,
+        volumeGroupName,
+        snapshotName,
+        options,
+      },
+      getOperationSpec,
     );
   }
 
@@ -368,33 +395,6 @@ export class VolumeSnapshotsImpl implements VolumeSnapshots {
   }
 
   /**
-   * Get a Volume Snapshot.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param elasticSanName The name of the ElasticSan.
-   * @param volumeGroupName The name of the VolumeGroup.
-   * @param snapshotName The name of the volume snapshot within the given volume group.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    elasticSanName: string,
-    volumeGroupName: string,
-    snapshotName: string,
-    options?: VolumeSnapshotsGetOptionalParams,
-  ): Promise<VolumeSnapshotsGetResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        elasticSanName,
-        volumeGroupName,
-        snapshotName,
-        options,
-      },
-      getOperationSpec,
-    );
-  }
-
-  /**
    * ListByVolumeGroupNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param elasticSanName The name of the ElasticSan.
@@ -440,6 +440,29 @@ const listByVolumeGroupOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/snapshots/{snapshotName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Snapshot,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.elasticSanName,
+    Parameters.volumeGroupName,
+    Parameters.snapshotName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/snapshots/{snapshotName}",
   httpMethod: "PUT",
@@ -460,7 +483,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -482,29 +505,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     201: {},
     202: {},
     204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.elasticSanName,
-    Parameters.volumeGroupName,
-    Parameters.snapshotName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/snapshots/{snapshotName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Snapshot,
-    },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },

@@ -27,14 +27,14 @@ import {
   ElasticSansListByResourceGroupNextOptionalParams,
   ElasticSansListByResourceGroupOptionalParams,
   ElasticSansListByResourceGroupResponse,
+  ElasticSansGetOptionalParams,
+  ElasticSansGetResponse,
   ElasticSansCreateOptionalParams,
   ElasticSansCreateResponse,
   ElasticSanUpdate,
   ElasticSansUpdateOptionalParams,
   ElasticSansUpdateResponse,
   ElasticSansDeleteOptionalParams,
-  ElasticSansGetOptionalParams,
-  ElasticSansGetResponse,
   ElasticSansListBySubscriptionNextResponse,
   ElasticSansListByResourceGroupNextResponse,
 } from "../models/index.js";
@@ -200,6 +200,23 @@ export class ElasticSansImpl implements ElasticSans {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec,
+    );
+  }
+
+  /**
+   * Get a ElasticSan.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param elasticSanName The name of the ElasticSan.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    elasticSanName: string,
+    options?: ElasticSansGetOptionalParams,
+  ): Promise<ElasticSansGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, elasticSanName, options },
+      getOperationSpec,
     );
   }
 
@@ -476,23 +493,6 @@ export class ElasticSansImpl implements ElasticSans {
   }
 
   /**
-   * Get a ElasticSan.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param elasticSanName The name of the ElasticSan.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    elasticSanName: string,
-    options?: ElasticSansGetOptionalParams,
-  ): Promise<ElasticSansGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, elasticSanName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
    * ListBySubscriptionNext
    * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
@@ -559,6 +559,27 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ElasticSan,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.elasticSanName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -635,27 +656,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     201: {},
     202: {},
     204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.elasticSanName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ElasticSan,
-    },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
