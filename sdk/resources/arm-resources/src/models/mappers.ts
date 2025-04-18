@@ -211,6 +211,13 @@ export const Deployment: coreClient.CompositeMapper = {
           value: { type: { name: "String" } },
         },
       },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "DeploymentIdentity",
+        },
+      },
     },
   },
 };
@@ -243,11 +250,49 @@ export const DeploymentProperties: coreClient.CompositeMapper = {
           },
         },
       },
+      externalInputs: {
+        serializedName: "externalInputs",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "DeploymentExternalInput" },
+          },
+        },
+      },
+      externalInputDefinitions: {
+        serializedName: "externalInputDefinitions",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "DeploymentExternalInputDefinition",
+            },
+          },
+        },
+      },
       parametersLink: {
         serializedName: "parametersLink",
         type: {
           name: "Composite",
           className: "ParametersLink",
+        },
+      },
+      extensionConfigs: {
+        serializedName: "extensionConfigs",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Dictionary",
+              value: {
+                type: {
+                  name: "Composite",
+                  className: "DeploymentExtensionConfigItem",
+                },
+              },
+            },
+          },
         },
       },
       mode: {
@@ -346,6 +391,12 @@ export const DeploymentParameter: coreClient.CompositeMapper = {
           className: "KeyVaultParameterReference",
         },
       },
+      expression: {
+        serializedName: "expression",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -395,6 +446,44 @@ export const KeyVaultReference: coreClient.CompositeMapper = {
   },
 };
 
+export const DeploymentExternalInput: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeploymentExternalInput",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "any",
+        },
+      },
+    },
+  },
+};
+
+export const DeploymentExternalInputDefinition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeploymentExternalInputDefinition",
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      config: {
+        serializedName: "config",
+        type: {
+          name: "any",
+        },
+      },
+    },
+  },
+};
+
 export const ParametersLink: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -411,6 +500,35 @@ export const ParametersLink: coreClient.CompositeMapper = {
         serializedName: "contentVersion",
         type: {
           name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DeploymentExtensionConfigItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeploymentExtensionConfigItem",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "any",
+        },
+      },
+      keyVaultReference: {
+        serializedName: "keyVaultReference",
+        type: {
+          name: "Composite",
+          className: "KeyVaultParameterReference",
         },
       },
     },
@@ -463,6 +581,54 @@ export const ExpressionEvaluationOptions: coreClient.CompositeMapper = {
         serializedName: "scope",
         type: {
           name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DeploymentIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeploymentIdentity",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "UserAssignedIdentity" },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const UserAssignedIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserAssignedIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "Uuid",
+        },
+      },
+      clientId: {
+        serializedName: "clientId",
+        readOnly: true,
+        type: {
+          name: "Uuid",
         },
       },
     },
@@ -606,6 +772,19 @@ export const DeploymentPropertiesExtended: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ParametersLink",
+        },
+      },
+      extensions: {
+        serializedName: "extensions",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DeploymentExtensionDefinition",
+            },
+          },
         },
       },
       mode: {
@@ -1146,6 +1325,56 @@ export const BasicDependency: coreClient.CompositeMapper = {
   },
 };
 
+export const DeploymentExtensionDefinition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeploymentExtensionDefinition",
+    modelProperties: {
+      alias: {
+        serializedName: "alias",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      version: {
+        serializedName: "version",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      configId: {
+        serializedName: "configId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      config: {
+        serializedName: "config",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "DeploymentExtensionConfigItem",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
 export const OnErrorDeploymentExtended: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1182,6 +1411,35 @@ export const ResourceReference: coreClient.CompositeMapper = {
     modelProperties: {
       id: {
         serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      extension: {
+        serializedName: "extension",
+        type: {
+          name: "Composite",
+          className: "DeploymentExtensionDefinition",
+        },
+      },
+      resourceType: {
+        serializedName: "resourceType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      identifiers: {
+        serializedName: "identifiers",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
+      },
+      apiVersion: {
+        serializedName: "apiVersion",
         readOnly: true,
         type: {
           name: "String",
@@ -1488,6 +1746,13 @@ export const WhatIfChange: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } },
+        },
+      },
+      extension: {
+        serializedName: "extension",
+        type: {
+          name: "Composite",
+          className: "DeploymentExtensionDefinition",
         },
       },
       changeType: {
@@ -2624,6 +2889,32 @@ export const TargetResource: coreClient.CompositeMapper = {
       },
       resourceType: {
         serializedName: "resourceType",
+        type: {
+          name: "String",
+        },
+      },
+      extension: {
+        serializedName: "extension",
+        type: {
+          name: "Composite",
+          className: "DeploymentExtensionDefinition",
+        },
+      },
+      identifiers: {
+        serializedName: "identifiers",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
+      },
+      apiVersion: {
+        serializedName: "apiVersion",
+        type: {
+          name: "String",
+        },
+      },
+      symbolicName: {
+        serializedName: "symbolicName",
         type: {
           name: "String",
         },
