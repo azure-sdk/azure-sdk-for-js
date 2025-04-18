@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { ReplicationMigrationItems } from "../operationsInterfaces/index.js";
+import { ReplicationProtectionClusters } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -20,53 +20,50 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  MigrationItem,
-  ReplicationMigrationItemsListByReplicationProtectionContainersNextOptionalParams,
-  ReplicationMigrationItemsListByReplicationProtectionContainersOptionalParams,
-  ReplicationMigrationItemsListByReplicationProtectionContainersResponse,
-  ReplicationMigrationItemsListNextOptionalParams,
-  ReplicationMigrationItemsListOptionalParams,
-  ReplicationMigrationItemsListResponse,
-  ReplicationMigrationItemsGetOptionalParams,
-  ReplicationMigrationItemsGetResponse,
-  EnableMigrationInput,
-  ReplicationMigrationItemsCreateOptionalParams,
-  ReplicationMigrationItemsCreateResponse,
-  ReplicationMigrationItemsDeleteOptionalParams,
-  UpdateMigrationItemInput,
-  ReplicationMigrationItemsUpdateOptionalParams,
-  ReplicationMigrationItemsUpdateResponse,
-  MigrateInput,
-  ReplicationMigrationItemsMigrateOptionalParams,
-  ReplicationMigrationItemsMigrateResponse,
-  PauseReplicationInput,
-  ReplicationMigrationItemsPauseReplicationOptionalParams,
-  ReplicationMigrationItemsPauseReplicationResponse,
-  ResumeReplicationInput,
-  ReplicationMigrationItemsResumeReplicationOptionalParams,
-  ReplicationMigrationItemsResumeReplicationResponse,
-  ResyncInput,
-  ReplicationMigrationItemsResyncOptionalParams,
-  ReplicationMigrationItemsResyncResponse,
-  TestMigrateInput,
-  ReplicationMigrationItemsTestMigrateOptionalParams,
-  ReplicationMigrationItemsTestMigrateResponse,
-  TestMigrateCleanupInput,
-  ReplicationMigrationItemsTestMigrateCleanupOptionalParams,
-  ReplicationMigrationItemsTestMigrateCleanupResponse,
-  ReplicationMigrationItemsListByReplicationProtectionContainersNextResponse,
-  ReplicationMigrationItemsListNextResponse,
+  ReplicationProtectionCluster,
+  ReplicationProtectionClustersListByReplicationProtectionContainersNextOptionalParams,
+  ReplicationProtectionClustersListByReplicationProtectionContainersOptionalParams,
+  ReplicationProtectionClustersListByReplicationProtectionContainersResponse,
+  ReplicationProtectionClustersListNextOptionalParams,
+  ReplicationProtectionClustersListOptionalParams,
+  ReplicationProtectionClustersListResponse,
+  ReplicationProtectionClustersGetOptionalParams,
+  ReplicationProtectionClustersGetResponse,
+  ReplicationProtectionClustersCreateOptionalParams,
+  ReplicationProtectionClustersCreateResponse,
+  ReplicationProtectionClustersPurgeOptionalParams,
+  ReplicationProtectionClustersPurgeResponse,
+  ApplyClusterRecoveryPointInput,
+  ReplicationProtectionClustersApplyRecoveryPointOptionalParams,
+  ReplicationProtectionClustersApplyRecoveryPointResponse,
+  ReplicationProtectionClustersFailoverCommitOptionalParams,
+  ReplicationProtectionClustersFailoverCommitResponse,
+  ReplicationProtectionClustersGetOperationResultsOptionalParams,
+  ReplicationProtectionClustersGetOperationResultsResponse,
+  ReplicationProtectionClustersRepairReplicationOptionalParams,
+  ReplicationProtectionClustersRepairReplicationResponse,
+  ClusterTestFailoverInput,
+  ReplicationProtectionClustersTestFailoverOptionalParams,
+  ReplicationProtectionClustersTestFailoverResponse,
+  ClusterTestFailoverCleanupInput,
+  ReplicationProtectionClustersTestFailoverCleanupOptionalParams,
+  ReplicationProtectionClustersTestFailoverCleanupResponse,
+  ClusterUnplannedFailoverInput,
+  ReplicationProtectionClustersUnplannedFailoverOptionalParams,
+  ReplicationProtectionClustersUnplannedFailoverResponse,
+  ReplicationProtectionClustersListByReplicationProtectionContainersNextResponse,
+  ReplicationProtectionClustersListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ReplicationMigrationItems operations. */
-export class ReplicationMigrationItemsImpl
-  implements ReplicationMigrationItems
+/** Class containing ReplicationProtectionClusters operations. */
+export class ReplicationProtectionClustersImpl
+  implements ReplicationProtectionClusters
 {
   private readonly client: SiteRecoveryManagementClient;
 
   /**
-   * Initialize a new instance of the class ReplicationMigrationItems class.
+   * Initialize a new instance of the class ReplicationProtectionClusters class.
    * @param client Reference to the service client
    */
   constructor(client: SiteRecoveryManagementClient) {
@@ -74,7 +71,7 @@ export class ReplicationMigrationItemsImpl
   }
 
   /**
-   * Gets the list of ASR migration items in the protection container.
+   * Gets the list of ASR replication protected clusters in the protection container.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
    * @param resourceName The name of the recovery services vault.
@@ -87,8 +84,8 @@ export class ReplicationMigrationItemsImpl
     resourceName: string,
     fabricName: string,
     protectionContainerName: string,
-    options?: ReplicationMigrationItemsListByReplicationProtectionContainersOptionalParams,
-  ): PagedAsyncIterableIterator<MigrationItem> {
+    options?: ReplicationProtectionClustersListByReplicationProtectionContainersOptionalParams,
+  ): PagedAsyncIterableIterator<ReplicationProtectionCluster> {
     const iter = this.listByReplicationProtectionContainersPagingAll(
       resourceGroupName,
       resourceName,
@@ -124,10 +121,10 @@ export class ReplicationMigrationItemsImpl
     resourceName: string,
     fabricName: string,
     protectionContainerName: string,
-    options?: ReplicationMigrationItemsListByReplicationProtectionContainersOptionalParams,
+    options?: ReplicationProtectionClustersListByReplicationProtectionContainersOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<MigrationItem[]> {
-    let result: ReplicationMigrationItemsListByReplicationProtectionContainersResponse;
+  ): AsyncIterableIterator<ReplicationProtectionCluster[]> {
+    let result: ReplicationProtectionClustersListByReplicationProtectionContainersResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByReplicationProtectionContainers(
@@ -163,8 +160,8 @@ export class ReplicationMigrationItemsImpl
     resourceName: string,
     fabricName: string,
     protectionContainerName: string,
-    options?: ReplicationMigrationItemsListByReplicationProtectionContainersOptionalParams,
-  ): AsyncIterableIterator<MigrationItem> {
+    options?: ReplicationProtectionClustersListByReplicationProtectionContainersOptionalParams,
+  ): AsyncIterableIterator<ReplicationProtectionCluster> {
     for await (const page of this.listByReplicationProtectionContainersPagingPage(
       resourceGroupName,
       resourceName,
@@ -177,7 +174,7 @@ export class ReplicationMigrationItemsImpl
   }
 
   /**
-   * Gets the list of migration items in the vault.
+   * Gets the list of ASR replication protected clusters in the vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
    * @param resourceName The name of the recovery services vault.
@@ -186,8 +183,8 @@ export class ReplicationMigrationItemsImpl
   public list(
     resourceGroupName: string,
     resourceName: string,
-    options?: ReplicationMigrationItemsListOptionalParams,
-  ): PagedAsyncIterableIterator<MigrationItem> {
+    options?: ReplicationProtectionClustersListOptionalParams,
+  ): PagedAsyncIterableIterator<ReplicationProtectionCluster> {
     const iter = this.listPagingAll(resourceGroupName, resourceName, options);
     return {
       next() {
@@ -213,10 +210,10 @@ export class ReplicationMigrationItemsImpl
   private async *listPagingPage(
     resourceGroupName: string,
     resourceName: string,
-    options?: ReplicationMigrationItemsListOptionalParams,
+    options?: ReplicationProtectionClustersListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<MigrationItem[]> {
-    let result: ReplicationMigrationItemsListResponse;
+  ): AsyncIterableIterator<ReplicationProtectionCluster[]> {
+    let result: ReplicationProtectionClustersListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, resourceName, options);
@@ -242,8 +239,8 @@ export class ReplicationMigrationItemsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: ReplicationMigrationItemsListOptionalParams,
-  ): AsyncIterableIterator<MigrationItem> {
+    options?: ReplicationProtectionClustersListOptionalParams,
+  ): AsyncIterableIterator<ReplicationProtectionCluster> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       resourceName,
@@ -254,7 +251,7 @@ export class ReplicationMigrationItemsImpl
   }
 
   /**
-   * Gets the list of ASR migration items in the protection container.
+   * Gets the list of ASR replication protected clusters in the protection container.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
    * @param resourceName The name of the recovery services vault.
@@ -267,8 +264,8 @@ export class ReplicationMigrationItemsImpl
     resourceName: string,
     fabricName: string,
     protectionContainerName: string,
-    options?: ReplicationMigrationItemsListByReplicationProtectionContainersOptionalParams,
-  ): Promise<ReplicationMigrationItemsListByReplicationProtectionContainersResponse> {
+    options?: ReplicationProtectionClustersListByReplicationProtectionContainersOptionalParams,
+  ): Promise<ReplicationProtectionClustersListByReplicationProtectionContainersResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -282,13 +279,13 @@ export class ReplicationMigrationItemsImpl
   }
 
   /**
-   * Gets the details of a migration item.
+   * Gets the details of an ASR replication protection cluster.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
    * @param resourceName The name of the recovery services vault.
-   * @param fabricName Fabric unique name.
+   * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
-   * @param migrationItemName Migration item name.
+   * @param replicationProtectionClusterName Replication protection cluster name.
    * @param options The options parameters.
    */
   get(
@@ -296,16 +293,16 @@ export class ReplicationMigrationItemsImpl
     resourceName: string,
     fabricName: string,
     protectionContainerName: string,
-    migrationItemName: string,
-    options?: ReplicationMigrationItemsGetOptionalParams,
-  ): Promise<ReplicationMigrationItemsGetResponse> {
+    replicationProtectionClusterName: string,
+    options?: ReplicationProtectionClustersGetOptionalParams,
+  ): Promise<ReplicationProtectionClustersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         resourceName,
         fabricName,
         protectionContainerName,
-        migrationItemName,
+        replicationProtectionClusterName,
         options,
       },
       getOperationSpec,
@@ -313,14 +310,14 @@ export class ReplicationMigrationItemsImpl
   }
 
   /**
-   * The operation to create an ASR migration item (enable migration).
+   * The operation to create an ASR replication protection cluster item.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
    * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
-   * @param migrationItemName Migration item name.
-   * @param input Enable migration input.
+   * @param replicationProtectionClusterName Replication protection cluster name.
+   * @param replicationProtectionCluster Create replication protection cluster Input.
    * @param options The options parameters.
    */
   async beginCreate(
@@ -328,19 +325,19 @@ export class ReplicationMigrationItemsImpl
     resourceName: string,
     fabricName: string,
     protectionContainerName: string,
-    migrationItemName: string,
-    input: EnableMigrationInput,
-    options?: ReplicationMigrationItemsCreateOptionalParams,
+    replicationProtectionClusterName: string,
+    replicationProtectionCluster: ReplicationProtectionCluster,
+    options?: ReplicationProtectionClustersCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ReplicationMigrationItemsCreateResponse>,
-      ReplicationMigrationItemsCreateResponse
+      OperationState<ReplicationProtectionClustersCreateResponse>,
+      ReplicationProtectionClustersCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ReplicationMigrationItemsCreateResponse> => {
+    ): Promise<ReplicationProtectionClustersCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -382,15 +379,15 @@ export class ReplicationMigrationItemsImpl
         resourceName,
         fabricName,
         protectionContainerName,
-        migrationItemName,
-        input,
+        replicationProtectionClusterName,
+        replicationProtectionCluster,
         options,
       },
       spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
-      ReplicationMigrationItemsCreateResponse,
-      OperationState<ReplicationMigrationItemsCreateResponse>
+      ReplicationProtectionClustersCreateResponse,
+      OperationState<ReplicationProtectionClustersCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -400,14 +397,14 @@ export class ReplicationMigrationItemsImpl
   }
 
   /**
-   * The operation to create an ASR migration item (enable migration).
+   * The operation to create an ASR replication protection cluster item.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
    * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
-   * @param migrationItemName Migration item name.
-   * @param input Enable migration input.
+   * @param replicationProtectionClusterName Replication protection cluster name.
+   * @param replicationProtectionCluster Create replication protection cluster Input.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
@@ -415,156 +412,51 @@ export class ReplicationMigrationItemsImpl
     resourceName: string,
     fabricName: string,
     protectionContainerName: string,
-    migrationItemName: string,
-    input: EnableMigrationInput,
-    options?: ReplicationMigrationItemsCreateOptionalParams,
-  ): Promise<ReplicationMigrationItemsCreateResponse> {
+    replicationProtectionClusterName: string,
+    replicationProtectionCluster: ReplicationProtectionCluster,
+    options?: ReplicationProtectionClustersCreateOptionalParams,
+  ): Promise<ReplicationProtectionClustersCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       resourceName,
       fabricName,
       protectionContainerName,
-      migrationItemName,
-      input,
+      replicationProtectionClusterName,
+      replicationProtectionCluster,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * The operation to delete an ASR migration item.
+   * The operation to purge the replication protection cluster. This operation will force delete the
+   * replication protection cluster. Use the remove operation on replication protection cluster to
+   * perform a clean disable replication protection cluster.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
    * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
-   * @param migrationItemName Migration item name.
+   * @param replicationProtectionClusterName Replication protection cluster name.
    * @param options The options parameters.
    */
-  async beginDelete(
+  async beginPurge(
     resourceGroupName: string,
     resourceName: string,
     fabricName: string,
     protectionContainerName: string,
-    migrationItemName: string,
-    options?: ReplicationMigrationItemsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        resourceName,
-        fabricName,
-        protectionContainerName,
-        migrationItemName,
-        options,
-      },
-      spec: deleteOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * The operation to delete an ASR migration item.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
-   * @param resourceName The name of the recovery services vault.
-   * @param fabricName Fabric name.
-   * @param protectionContainerName Protection container name.
-   * @param migrationItemName Migration item name.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    resourceGroupName: string,
-    resourceName: string,
-    fabricName: string,
-    protectionContainerName: string,
-    migrationItemName: string,
-    options?: ReplicationMigrationItemsDeleteOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      resourceName,
-      fabricName,
-      protectionContainerName,
-      migrationItemName,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * The operation to update the recovery settings of an ASR migration item.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
-   * @param resourceName The name of the recovery services vault.
-   * @param fabricName Fabric name.
-   * @param protectionContainerName Protection container name.
-   * @param migrationItemName Migration item name.
-   * @param input Update migration item input.
-   * @param options The options parameters.
-   */
-  async beginUpdate(
-    resourceGroupName: string,
-    resourceName: string,
-    fabricName: string,
-    protectionContainerName: string,
-    migrationItemName: string,
-    input: UpdateMigrationItemInput,
-    options?: ReplicationMigrationItemsUpdateOptionalParams,
+    replicationProtectionClusterName: string,
+    options?: ReplicationProtectionClustersPurgeOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ReplicationMigrationItemsUpdateResponse>,
-      ReplicationMigrationItemsUpdateResponse
+      OperationState<ReplicationProtectionClustersPurgeResponse>,
+      ReplicationProtectionClustersPurgeResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ReplicationMigrationItemsUpdateResponse> => {
+    ): Promise<ReplicationProtectionClustersPurgeResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -606,84 +498,83 @@ export class ReplicationMigrationItemsImpl
         resourceName,
         fabricName,
         protectionContainerName,
-        migrationItemName,
-        input,
+        replicationProtectionClusterName,
         options,
       },
-      spec: updateOperationSpec,
+      spec: purgeOperationSpec,
     });
     const poller = await createHttpPoller<
-      ReplicationMigrationItemsUpdateResponse,
-      OperationState<ReplicationMigrationItemsUpdateResponse>
+      ReplicationProtectionClustersPurgeResponse,
+      OperationState<ReplicationProtectionClustersPurgeResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * The operation to update the recovery settings of an ASR migration item.
+   * The operation to purge the replication protection cluster. This operation will force delete the
+   * replication protection cluster. Use the remove operation on replication protection cluster to
+   * perform a clean disable replication protection cluster.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
    * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
-   * @param migrationItemName Migration item name.
-   * @param input Update migration item input.
+   * @param replicationProtectionClusterName Replication protection cluster name.
    * @param options The options parameters.
    */
-  async beginUpdateAndWait(
+  async beginPurgeAndWait(
     resourceGroupName: string,
     resourceName: string,
     fabricName: string,
     protectionContainerName: string,
-    migrationItemName: string,
-    input: UpdateMigrationItemInput,
-    options?: ReplicationMigrationItemsUpdateOptionalParams,
-  ): Promise<ReplicationMigrationItemsUpdateResponse> {
-    const poller = await this.beginUpdate(
+    replicationProtectionClusterName: string,
+    options?: ReplicationProtectionClustersPurgeOptionalParams,
+  ): Promise<ReplicationProtectionClustersPurgeResponse> {
+    const poller = await this.beginPurge(
       resourceGroupName,
       resourceName,
       fabricName,
       protectionContainerName,
-      migrationItemName,
-      input,
+      replicationProtectionClusterName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * The operation to initiate migration of the item.
+   * Operation to apply a new cluster recovery point on the Protection cluster.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
    * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
-   * @param migrationItemName Migration item name.
-   * @param migrateInput Migrate input.
+   * @param replicationProtectionClusterName Replication protection cluster name.
+   * @param applyClusterRecoveryPointInput Apply recovery point input.
    * @param options The options parameters.
    */
-  async beginMigrate(
+  async beginApplyRecoveryPoint(
     resourceGroupName: string,
     resourceName: string,
     fabricName: string,
     protectionContainerName: string,
-    migrationItemName: string,
-    migrateInput: MigrateInput,
-    options?: ReplicationMigrationItemsMigrateOptionalParams,
+    replicationProtectionClusterName: string,
+    applyClusterRecoveryPointInput: ApplyClusterRecoveryPointInput,
+    options?: ReplicationProtectionClustersApplyRecoveryPointOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ReplicationMigrationItemsMigrateResponse>,
-      ReplicationMigrationItemsMigrateResponse
+      OperationState<ReplicationProtectionClustersApplyRecoveryPointResponse>,
+      ReplicationProtectionClustersApplyRecoveryPointResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ReplicationMigrationItemsMigrateResponse> => {
+    ): Promise<ReplicationProtectionClustersApplyRecoveryPointResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -725,84 +616,83 @@ export class ReplicationMigrationItemsImpl
         resourceName,
         fabricName,
         protectionContainerName,
-        migrationItemName,
-        migrateInput,
+        replicationProtectionClusterName,
+        applyClusterRecoveryPointInput,
         options,
       },
-      spec: migrateOperationSpec,
+      spec: applyRecoveryPointOperationSpec,
     });
     const poller = await createHttpPoller<
-      ReplicationMigrationItemsMigrateResponse,
-      OperationState<ReplicationMigrationItemsMigrateResponse>
+      ReplicationProtectionClustersApplyRecoveryPointResponse,
+      OperationState<ReplicationProtectionClustersApplyRecoveryPointResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * The operation to initiate migration of the item.
+   * Operation to apply a new cluster recovery point on the Protection cluster.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
    * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
-   * @param migrationItemName Migration item name.
-   * @param migrateInput Migrate input.
+   * @param replicationProtectionClusterName Replication protection cluster name.
+   * @param applyClusterRecoveryPointInput Apply recovery point input.
    * @param options The options parameters.
    */
-  async beginMigrateAndWait(
+  async beginApplyRecoveryPointAndWait(
     resourceGroupName: string,
     resourceName: string,
     fabricName: string,
     protectionContainerName: string,
-    migrationItemName: string,
-    migrateInput: MigrateInput,
-    options?: ReplicationMigrationItemsMigrateOptionalParams,
-  ): Promise<ReplicationMigrationItemsMigrateResponse> {
-    const poller = await this.beginMigrate(
+    replicationProtectionClusterName: string,
+    applyClusterRecoveryPointInput: ApplyClusterRecoveryPointInput,
+    options?: ReplicationProtectionClustersApplyRecoveryPointOptionalParams,
+  ): Promise<ReplicationProtectionClustersApplyRecoveryPointResponse> {
+    const poller = await this.beginApplyRecoveryPoint(
       resourceGroupName,
       resourceName,
       fabricName,
       protectionContainerName,
-      migrationItemName,
-      migrateInput,
+      replicationProtectionClusterName,
+      applyClusterRecoveryPointInput,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * The operation to initiate pause replication of the item.
+   * Operation to initiate commit failover of the replication protection cluster.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
    * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
-   * @param migrationItemName Migration item name.
-   * @param pauseReplicationInput Pause replication input.
+   * @param replicationProtectionClusterName Replication protection cluster name.
    * @param options The options parameters.
    */
-  async beginPauseReplication(
+  async beginFailoverCommit(
     resourceGroupName: string,
     resourceName: string,
     fabricName: string,
     protectionContainerName: string,
-    migrationItemName: string,
-    pauseReplicationInput: PauseReplicationInput,
-    options?: ReplicationMigrationItemsPauseReplicationOptionalParams,
+    replicationProtectionClusterName: string,
+    options?: ReplicationProtectionClustersFailoverCommitOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ReplicationMigrationItemsPauseReplicationResponse>,
-      ReplicationMigrationItemsPauseReplicationResponse
+      OperationState<ReplicationProtectionClustersFailoverCommitResponse>,
+      ReplicationProtectionClustersFailoverCommitResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ReplicationMigrationItemsPauseReplicationResponse> => {
+    ): Promise<ReplicationProtectionClustersFailoverCommitResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -844,84 +734,113 @@ export class ReplicationMigrationItemsImpl
         resourceName,
         fabricName,
         protectionContainerName,
-        migrationItemName,
-        pauseReplicationInput,
+        replicationProtectionClusterName,
         options,
       },
-      spec: pauseReplicationOperationSpec,
+      spec: failoverCommitOperationSpec,
     });
     const poller = await createHttpPoller<
-      ReplicationMigrationItemsPauseReplicationResponse,
-      OperationState<ReplicationMigrationItemsPauseReplicationResponse>
+      ReplicationProtectionClustersFailoverCommitResponse,
+      OperationState<ReplicationProtectionClustersFailoverCommitResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * The operation to initiate pause replication of the item.
+   * Operation to initiate commit failover of the replication protection cluster.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
    * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
-   * @param migrationItemName Migration item name.
-   * @param pauseReplicationInput Pause replication input.
+   * @param replicationProtectionClusterName Replication protection cluster name.
    * @param options The options parameters.
    */
-  async beginPauseReplicationAndWait(
+  async beginFailoverCommitAndWait(
     resourceGroupName: string,
     resourceName: string,
     fabricName: string,
     protectionContainerName: string,
-    migrationItemName: string,
-    pauseReplicationInput: PauseReplicationInput,
-    options?: ReplicationMigrationItemsPauseReplicationOptionalParams,
-  ): Promise<ReplicationMigrationItemsPauseReplicationResponse> {
-    const poller = await this.beginPauseReplication(
+    replicationProtectionClusterName: string,
+    options?: ReplicationProtectionClustersFailoverCommitOptionalParams,
+  ): Promise<ReplicationProtectionClustersFailoverCommitResponse> {
+    const poller = await this.beginFailoverCommit(
       resourceGroupName,
       resourceName,
       fabricName,
       protectionContainerName,
-      migrationItemName,
-      pauseReplicationInput,
+      replicationProtectionClusterName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * The operation to initiate resume replication of the item.
+   * Track the results of an asynchronous operation on the replication protection cluster.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
    * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
-   * @param migrationItemName Migration item name.
-   * @param resumeReplicationInput Resume replication input.
+   * @param replicationProtectionClusterName Replication protection cluster name.
+   * @param jobId job id to track.
    * @param options The options parameters.
    */
-  async beginResumeReplication(
+  getOperationResults(
     resourceGroupName: string,
     resourceName: string,
     fabricName: string,
     protectionContainerName: string,
-    migrationItemName: string,
-    resumeReplicationInput: ResumeReplicationInput,
-    options?: ReplicationMigrationItemsResumeReplicationOptionalParams,
+    replicationProtectionClusterName: string,
+    jobId: string,
+    options?: ReplicationProtectionClustersGetOperationResultsOptionalParams,
+  ): Promise<ReplicationProtectionClustersGetOperationResultsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        resourceName,
+        fabricName,
+        protectionContainerName,
+        replicationProtectionClusterName,
+        jobId,
+        options,
+      },
+      getOperationResultsOperationSpec,
+    );
+  }
+
+  /**
+   * The operation to repair replication protection cluster.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
+   * @param resourceName The name of the recovery services vault.
+   * @param fabricName Fabric name.
+   * @param protectionContainerName Protection container name.
+   * @param replicationProtectionClusterName Replication protection cluster name.
+   * @param options The options parameters.
+   */
+  async beginRepairReplication(
+    resourceGroupName: string,
+    resourceName: string,
+    fabricName: string,
+    protectionContainerName: string,
+    replicationProtectionClusterName: string,
+    options?: ReplicationProtectionClustersRepairReplicationOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ReplicationMigrationItemsResumeReplicationResponse>,
-      ReplicationMigrationItemsResumeReplicationResponse
+      OperationState<ReplicationProtectionClustersRepairReplicationResponse>,
+      ReplicationProtectionClustersRepairReplicationResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ReplicationMigrationItemsResumeReplicationResponse> => {
+    ): Promise<ReplicationProtectionClustersRepairReplicationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -963,84 +882,81 @@ export class ReplicationMigrationItemsImpl
         resourceName,
         fabricName,
         protectionContainerName,
-        migrationItemName,
-        resumeReplicationInput,
+        replicationProtectionClusterName,
         options,
       },
-      spec: resumeReplicationOperationSpec,
+      spec: repairReplicationOperationSpec,
     });
     const poller = await createHttpPoller<
-      ReplicationMigrationItemsResumeReplicationResponse,
-      OperationState<ReplicationMigrationItemsResumeReplicationResponse>
+      ReplicationProtectionClustersRepairReplicationResponse,
+      OperationState<ReplicationProtectionClustersRepairReplicationResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * The operation to initiate resume replication of the item.
+   * The operation to repair replication protection cluster.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
    * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
-   * @param migrationItemName Migration item name.
-   * @param resumeReplicationInput Resume replication input.
+   * @param replicationProtectionClusterName Replication protection cluster name.
    * @param options The options parameters.
    */
-  async beginResumeReplicationAndWait(
+  async beginRepairReplicationAndWait(
     resourceGroupName: string,
     resourceName: string,
     fabricName: string,
     protectionContainerName: string,
-    migrationItemName: string,
-    resumeReplicationInput: ResumeReplicationInput,
-    options?: ReplicationMigrationItemsResumeReplicationOptionalParams,
-  ): Promise<ReplicationMigrationItemsResumeReplicationResponse> {
-    const poller = await this.beginResumeReplication(
+    replicationProtectionClusterName: string,
+    options?: ReplicationProtectionClustersRepairReplicationOptionalParams,
+  ): Promise<ReplicationProtectionClustersRepairReplicationResponse> {
+    const poller = await this.beginRepairReplication(
       resourceGroupName,
       resourceName,
       fabricName,
       protectionContainerName,
-      migrationItemName,
-      resumeReplicationInput,
+      replicationProtectionClusterName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * The operation to resynchronize replication of an ASR migration item.
+   * Operation to initiate a failover of the replication protection cluster.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
    * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
-   * @param migrationItemName Migration item name.
-   * @param input Resync input.
+   * @param replicationProtectionClusterName Replication protection cluster name.
+   * @param failoverInput Cluster test failover input body.
    * @param options The options parameters.
    */
-  async beginResync(
+  async beginTestFailover(
     resourceGroupName: string,
     resourceName: string,
     fabricName: string,
     protectionContainerName: string,
-    migrationItemName: string,
-    input: ResyncInput,
-    options?: ReplicationMigrationItemsResyncOptionalParams,
+    replicationProtectionClusterName: string,
+    failoverInput: ClusterTestFailoverInput,
+    options?: ReplicationProtectionClustersTestFailoverOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ReplicationMigrationItemsResyncResponse>,
-      ReplicationMigrationItemsResyncResponse
+      OperationState<ReplicationProtectionClustersTestFailoverResponse>,
+      ReplicationProtectionClustersTestFailoverResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ReplicationMigrationItemsResyncResponse> => {
+    ): Promise<ReplicationProtectionClustersTestFailoverResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -1082,84 +998,85 @@ export class ReplicationMigrationItemsImpl
         resourceName,
         fabricName,
         protectionContainerName,
-        migrationItemName,
-        input,
+        replicationProtectionClusterName,
+        failoverInput,
         options,
       },
-      spec: resyncOperationSpec,
+      spec: testFailoverOperationSpec,
     });
     const poller = await createHttpPoller<
-      ReplicationMigrationItemsResyncResponse,
-      OperationState<ReplicationMigrationItemsResyncResponse>
+      ReplicationProtectionClustersTestFailoverResponse,
+      OperationState<ReplicationProtectionClustersTestFailoverResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * The operation to resynchronize replication of an ASR migration item.
+   * Operation to initiate a failover of the replication protection cluster.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
    * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
-   * @param migrationItemName Migration item name.
-   * @param input Resync input.
+   * @param replicationProtectionClusterName Replication protection cluster name.
+   * @param failoverInput Cluster test failover input body.
    * @param options The options parameters.
    */
-  async beginResyncAndWait(
+  async beginTestFailoverAndWait(
     resourceGroupName: string,
     resourceName: string,
     fabricName: string,
     protectionContainerName: string,
-    migrationItemName: string,
-    input: ResyncInput,
-    options?: ReplicationMigrationItemsResyncOptionalParams,
-  ): Promise<ReplicationMigrationItemsResyncResponse> {
-    const poller = await this.beginResync(
+    replicationProtectionClusterName: string,
+    failoverInput: ClusterTestFailoverInput,
+    options?: ReplicationProtectionClustersTestFailoverOptionalParams,
+  ): Promise<ReplicationProtectionClustersTestFailoverResponse> {
+    const poller = await this.beginTestFailover(
       resourceGroupName,
       resourceName,
       fabricName,
       protectionContainerName,
-      migrationItemName,
-      input,
+      replicationProtectionClusterName,
+      failoverInput,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * The operation to initiate test migration of the item.
+   * Operation to clean up the test failover of a replication protected cluster.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
    * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
-   * @param migrationItemName Migration item name.
-   * @param testMigrateInput Test migrate input.
+   * @param replicationProtectionClusterName Replication protection cluster name.
+   * @param cleanupInput Test failover cleanup input.
    * @param options The options parameters.
    */
-  async beginTestMigrate(
+  async beginTestFailoverCleanup(
     resourceGroupName: string,
     resourceName: string,
     fabricName: string,
     protectionContainerName: string,
-    migrationItemName: string,
-    testMigrateInput: TestMigrateInput,
-    options?: ReplicationMigrationItemsTestMigrateOptionalParams,
+    replicationProtectionClusterName: string,
+    cleanupInput: ClusterTestFailoverCleanupInput,
+    options?: ReplicationProtectionClustersTestFailoverCleanupOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ReplicationMigrationItemsTestMigrateResponse>,
-      ReplicationMigrationItemsTestMigrateResponse
+      OperationState<ReplicationProtectionClustersTestFailoverCleanupResponse>,
+      ReplicationProtectionClustersTestFailoverCleanupResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ReplicationMigrationItemsTestMigrateResponse> => {
+    ): Promise<ReplicationProtectionClustersTestFailoverCleanupResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -1201,84 +1118,85 @@ export class ReplicationMigrationItemsImpl
         resourceName,
         fabricName,
         protectionContainerName,
-        migrationItemName,
-        testMigrateInput,
+        replicationProtectionClusterName,
+        cleanupInput,
         options,
       },
-      spec: testMigrateOperationSpec,
+      spec: testFailoverCleanupOperationSpec,
     });
     const poller = await createHttpPoller<
-      ReplicationMigrationItemsTestMigrateResponse,
-      OperationState<ReplicationMigrationItemsTestMigrateResponse>
+      ReplicationProtectionClustersTestFailoverCleanupResponse,
+      OperationState<ReplicationProtectionClustersTestFailoverCleanupResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * The operation to initiate test migration of the item.
+   * Operation to clean up the test failover of a replication protected cluster.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
    * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
-   * @param migrationItemName Migration item name.
-   * @param testMigrateInput Test migrate input.
+   * @param replicationProtectionClusterName Replication protection cluster name.
+   * @param cleanupInput Test failover cleanup input.
    * @param options The options parameters.
    */
-  async beginTestMigrateAndWait(
+  async beginTestFailoverCleanupAndWait(
     resourceGroupName: string,
     resourceName: string,
     fabricName: string,
     protectionContainerName: string,
-    migrationItemName: string,
-    testMigrateInput: TestMigrateInput,
-    options?: ReplicationMigrationItemsTestMigrateOptionalParams,
-  ): Promise<ReplicationMigrationItemsTestMigrateResponse> {
-    const poller = await this.beginTestMigrate(
+    replicationProtectionClusterName: string,
+    cleanupInput: ClusterTestFailoverCleanupInput,
+    options?: ReplicationProtectionClustersTestFailoverCleanupOptionalParams,
+  ): Promise<ReplicationProtectionClustersTestFailoverCleanupResponse> {
+    const poller = await this.beginTestFailoverCleanup(
       resourceGroupName,
       resourceName,
       fabricName,
       protectionContainerName,
-      migrationItemName,
-      testMigrateInput,
+      replicationProtectionClusterName,
+      cleanupInput,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * The operation to initiate test migrate cleanup.
+   * Operation to initiate a failover of the replication protection cluster.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
    * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
-   * @param migrationItemName Migration item name.
-   * @param testMigrateCleanupInput Test migrate cleanup input.
+   * @param replicationProtectionClusterName Replication protection cluster name.
+   * @param failoverInput Failover input.
    * @param options The options parameters.
    */
-  async beginTestMigrateCleanup(
+  async beginUnplannedFailover(
     resourceGroupName: string,
     resourceName: string,
     fabricName: string,
     protectionContainerName: string,
-    migrationItemName: string,
-    testMigrateCleanupInput: TestMigrateCleanupInput,
-    options?: ReplicationMigrationItemsTestMigrateCleanupOptionalParams,
+    replicationProtectionClusterName: string,
+    failoverInput: ClusterUnplannedFailoverInput,
+    options?: ReplicationProtectionClustersUnplannedFailoverOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ReplicationMigrationItemsTestMigrateCleanupResponse>,
-      ReplicationMigrationItemsTestMigrateCleanupResponse
+      OperationState<ReplicationProtectionClustersUnplannedFailoverResponse>,
+      ReplicationProtectionClustersUnplannedFailoverResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ReplicationMigrationItemsTestMigrateCleanupResponse> => {
+    ): Promise<ReplicationProtectionClustersUnplannedFailoverResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -1320,57 +1238,58 @@ export class ReplicationMigrationItemsImpl
         resourceName,
         fabricName,
         protectionContainerName,
-        migrationItemName,
-        testMigrateCleanupInput,
+        replicationProtectionClusterName,
+        failoverInput,
         options,
       },
-      spec: testMigrateCleanupOperationSpec,
+      spec: unplannedFailoverOperationSpec,
     });
     const poller = await createHttpPoller<
-      ReplicationMigrationItemsTestMigrateCleanupResponse,
-      OperationState<ReplicationMigrationItemsTestMigrateCleanupResponse>
+      ReplicationProtectionClustersUnplannedFailoverResponse,
+      OperationState<ReplicationProtectionClustersUnplannedFailoverResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * The operation to initiate test migrate cleanup.
+   * Operation to initiate a failover of the replication protection cluster.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
    * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
-   * @param migrationItemName Migration item name.
-   * @param testMigrateCleanupInput Test migrate cleanup input.
+   * @param replicationProtectionClusterName Replication protection cluster name.
+   * @param failoverInput Failover input.
    * @param options The options parameters.
    */
-  async beginTestMigrateCleanupAndWait(
+  async beginUnplannedFailoverAndWait(
     resourceGroupName: string,
     resourceName: string,
     fabricName: string,
     protectionContainerName: string,
-    migrationItemName: string,
-    testMigrateCleanupInput: TestMigrateCleanupInput,
-    options?: ReplicationMigrationItemsTestMigrateCleanupOptionalParams,
-  ): Promise<ReplicationMigrationItemsTestMigrateCleanupResponse> {
-    const poller = await this.beginTestMigrateCleanup(
+    replicationProtectionClusterName: string,
+    failoverInput: ClusterUnplannedFailoverInput,
+    options?: ReplicationProtectionClustersUnplannedFailoverOptionalParams,
+  ): Promise<ReplicationProtectionClustersUnplannedFailoverResponse> {
+    const poller = await this.beginUnplannedFailover(
       resourceGroupName,
       resourceName,
       fabricName,
       protectionContainerName,
-      migrationItemName,
-      testMigrateCleanupInput,
+      replicationProtectionClusterName,
+      failoverInput,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Gets the list of migration items in the vault.
+   * Gets the list of ASR replication protected clusters in the vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
    * @param resourceName The name of the recovery services vault.
@@ -1379,8 +1298,8 @@ export class ReplicationMigrationItemsImpl
   private _list(
     resourceGroupName: string,
     resourceName: string,
-    options?: ReplicationMigrationItemsListOptionalParams,
-  ): Promise<ReplicationMigrationItemsListResponse> {
+    options?: ReplicationProtectionClustersListOptionalParams,
+  ): Promise<ReplicationProtectionClustersListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
       listOperationSpec,
@@ -1404,8 +1323,8 @@ export class ReplicationMigrationItemsImpl
     fabricName: string,
     protectionContainerName: string,
     nextLink: string,
-    options?: ReplicationMigrationItemsListByReplicationProtectionContainersNextOptionalParams,
-  ): Promise<ReplicationMigrationItemsListByReplicationProtectionContainersNextResponse> {
+    options?: ReplicationProtectionClustersListByReplicationProtectionContainersNextOptionalParams,
+  ): Promise<ReplicationProtectionClustersListByReplicationProtectionContainersNextResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1431,8 +1350,8 @@ export class ReplicationMigrationItemsImpl
     resourceGroupName: string,
     resourceName: string,
     nextLink: string,
-    options?: ReplicationMigrationItemsListNextOptionalParams,
-  ): Promise<ReplicationMigrationItemsListNextResponse> {
+    options?: ReplicationProtectionClustersListNextOptionalParams,
+  ): Promise<ReplicationProtectionClustersListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, nextLink, options },
       listNextOperationSpec,
@@ -1444,36 +1363,37 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByReplicationProtectionContainersOperationSpec: coreClient.OperationSpec =
   {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems",
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionClusters",
     httpMethod: "GET",
     responses: {
       200: {
-        bodyMapper: Mappers.MigrationItemCollection,
+        bodyMapper: Mappers.ReplicationProtectionClusterCollection,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
       },
     },
-    queryParameters: [
-      Parameters.apiVersion,
-      Parameters.filter,
-      Parameters.skipToken,
-      Parameters.takeToken,
-    ],
+    queryParameters: [Parameters.apiVersion],
     urlParameters: [
       Parameters.$host,
       Parameters.resourceGroupName,
       Parameters.subscriptionId,
-      Parameters.resourceName,
-      Parameters.fabricName,
-      Parameters.protectionContainerName,
+      Parameters.resourceName1,
+      Parameters.fabricName1,
+      Parameters.protectionContainerName1,
     ],
     headerParameters: [Parameters.accept],
     serializer,
   };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionClusters/{replicationProtectionClusterName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationItem,
+      bodyMapper: Mappers.ReplicationProtectionCluster,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -1481,305 +1401,334 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName,
-    Parameters.fabricName,
-    Parameters.protectionContainerName,
-    Parameters.migrationItemName,
+    Parameters.resourceName1,
+    Parameters.fabricName1,
+    Parameters.protectionContainerName1,
+    Parameters.replicationProtectionClusterName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionClusters/{replicationProtectionClusterName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationItem,
+      bodyMapper: Mappers.ReplicationProtectionCluster,
     },
     201: {
-      bodyMapper: Mappers.MigrationItem,
+      bodyMapper: Mappers.ReplicationProtectionCluster,
     },
     202: {
-      bodyMapper: Mappers.MigrationItem,
+      bodyMapper: Mappers.ReplicationProtectionCluster,
     },
     204: {
-      bodyMapper: Mappers.MigrationItem,
+      bodyMapper: Mappers.ReplicationProtectionCluster,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.input3,
+  requestBody: Parameters.replicationProtectionCluster,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.fabricName,
-    Parameters.protectionContainerName,
-    Parameters.migrationItemName,
+    Parameters.fabricName1,
+    Parameters.protectionContainerName1,
+    Parameters.replicationProtectionClusterName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}",
+const purgeOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionClusters/{replicationProtectionClusterName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
-  queryParameters: [Parameters.apiVersion, Parameters.deleteOption],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName,
-    Parameters.fabricName,
-    Parameters.protectionContainerName,
-    Parameters.migrationItemName,
-  ],
-  serializer,
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}",
-  httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationItem,
+      headersMapper: Mappers.ReplicationProtectionClustersPurgeHeaders,
     },
     201: {
-      bodyMapper: Mappers.MigrationItem,
+      headersMapper: Mappers.ReplicationProtectionClustersPurgeHeaders,
     },
     202: {
-      bodyMapper: Mappers.MigrationItem,
+      headersMapper: Mappers.ReplicationProtectionClustersPurgeHeaders,
     },
     204: {
-      bodyMapper: Mappers.MigrationItem,
+      headersMapper: Mappers.ReplicationProtectionClustersPurgeHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.input4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.fabricName,
-    Parameters.protectionContainerName,
-    Parameters.migrationItemName,
+    Parameters.fabricName1,
+    Parameters.protectionContainerName1,
+    Parameters.replicationProtectionClusterName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const applyRecoveryPointOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionClusters/{replicationProtectionClusterName}/applyRecoveryPoint",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReplicationProtectionCluster,
+    },
+    201: {
+      bodyMapper: Mappers.ReplicationProtectionCluster,
+    },
+    202: {
+      bodyMapper: Mappers.ReplicationProtectionCluster,
+    },
+    204: {
+      bodyMapper: Mappers.ReplicationProtectionCluster,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.applyClusterRecoveryPointInput,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.resourceName1,
+    Parameters.fabricName1,
+    Parameters.protectionContainerName1,
+    Parameters.replicationProtectionClusterName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
-const migrateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/migrate",
+const failoverCommitOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionClusters/{replicationProtectionClusterName}/failoverCommit",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationItem,
+      bodyMapper: Mappers.ReplicationProtectionCluster,
     },
     201: {
-      bodyMapper: Mappers.MigrationItem,
+      bodyMapper: Mappers.ReplicationProtectionCluster,
     },
     202: {
-      bodyMapper: Mappers.MigrationItem,
+      bodyMapper: Mappers.ReplicationProtectionCluster,
     },
     204: {
-      bodyMapper: Mappers.MigrationItem,
+      bodyMapper: Mappers.ReplicationProtectionCluster,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.migrateInput,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName,
-    Parameters.fabricName,
-    Parameters.protectionContainerName,
-    Parameters.migrationItemName,
+    Parameters.resourceName1,
+    Parameters.fabricName1,
+    Parameters.protectionContainerName1,
+    Parameters.replicationProtectionClusterName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationResultsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionClusters/{replicationProtectionClusterName}/operationResults/{jobId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReplicationProtectionCluster,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.resourceName1,
+    Parameters.fabricName1,
+    Parameters.protectionContainerName1,
+    Parameters.replicationProtectionClusterName,
+    Parameters.jobId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const repairReplicationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionClusters/{replicationProtectionClusterName}/repairReplication",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReplicationProtectionCluster,
+    },
+    201: {
+      bodyMapper: Mappers.ReplicationProtectionCluster,
+    },
+    202: {
+      bodyMapper: Mappers.ReplicationProtectionCluster,
+    },
+    204: {
+      bodyMapper: Mappers.ReplicationProtectionCluster,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.resourceName1,
+    Parameters.fabricName1,
+    Parameters.protectionContainerName1,
+    Parameters.replicationProtectionClusterName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const testFailoverOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionClusters/{replicationProtectionClusterName}/testFailover",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReplicationProtectionCluster,
+    },
+    201: {
+      bodyMapper: Mappers.ReplicationProtectionCluster,
+    },
+    202: {
+      bodyMapper: Mappers.ReplicationProtectionCluster,
+    },
+    204: {
+      bodyMapper: Mappers.ReplicationProtectionCluster,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.failoverInput2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.resourceName1,
+    Parameters.fabricName1,
+    Parameters.protectionContainerName1,
+    Parameters.replicationProtectionClusterName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
-const pauseReplicationOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/pauseReplication",
+const testFailoverCleanupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionClusters/{replicationProtectionClusterName}/testFailoverCleanup",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationItem,
+      bodyMapper: Mappers.ReplicationProtectionCluster,
     },
     201: {
-      bodyMapper: Mappers.MigrationItem,
+      bodyMapper: Mappers.ReplicationProtectionCluster,
     },
     202: {
-      bodyMapper: Mappers.MigrationItem,
+      bodyMapper: Mappers.ReplicationProtectionCluster,
     },
     204: {
-      bodyMapper: Mappers.MigrationItem,
+      bodyMapper: Mappers.ReplicationProtectionCluster,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.pauseReplicationInput,
+  requestBody: Parameters.cleanupInput1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName,
-    Parameters.fabricName,
-    Parameters.protectionContainerName,
-    Parameters.migrationItemName,
+    Parameters.resourceName1,
+    Parameters.fabricName1,
+    Parameters.protectionContainerName1,
+    Parameters.replicationProtectionClusterName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
-const resumeReplicationOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/resumeReplication",
+const unplannedFailoverOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionClusters/{replicationProtectionClusterName}/unplannedFailover",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationItem,
+      bodyMapper: Mappers.ReplicationProtectionCluster,
     },
     201: {
-      bodyMapper: Mappers.MigrationItem,
+      bodyMapper: Mappers.ReplicationProtectionCluster,
     },
     202: {
-      bodyMapper: Mappers.MigrationItem,
+      bodyMapper: Mappers.ReplicationProtectionCluster,
     },
     204: {
-      bodyMapper: Mappers.MigrationItem,
+      bodyMapper: Mappers.ReplicationProtectionCluster,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.resumeReplicationInput,
+  requestBody: Parameters.failoverInput3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName,
-    Parameters.fabricName,
-    Parameters.protectionContainerName,
-    Parameters.migrationItemName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const resyncOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/resync",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MigrationItem,
-    },
-    201: {
-      bodyMapper: Mappers.MigrationItem,
-    },
-    202: {
-      bodyMapper: Mappers.MigrationItem,
-    },
-    204: {
-      bodyMapper: Mappers.MigrationItem,
-    },
-  },
-  requestBody: Parameters.input5,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName,
-    Parameters.fabricName,
-    Parameters.protectionContainerName,
-    Parameters.migrationItemName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const testMigrateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/testMigrate",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MigrationItem,
-    },
-    201: {
-      bodyMapper: Mappers.MigrationItem,
-    },
-    202: {
-      bodyMapper: Mappers.MigrationItem,
-    },
-    204: {
-      bodyMapper: Mappers.MigrationItem,
-    },
-  },
-  requestBody: Parameters.testMigrateInput,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName,
-    Parameters.fabricName,
-    Parameters.protectionContainerName,
-    Parameters.migrationItemName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const testMigrateCleanupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/testMigrateCleanup",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MigrationItem,
-    },
-    201: {
-      bodyMapper: Mappers.MigrationItem,
-    },
-    202: {
-      bodyMapper: Mappers.MigrationItem,
-    },
-    204: {
-      bodyMapper: Mappers.MigrationItem,
-    },
-  },
-  requestBody: Parameters.testMigrateCleanupInput,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName,
-    Parameters.fabricName,
-    Parameters.protectionContainerName,
-    Parameters.migrationItemName,
+    Parameters.resourceName1,
+    Parameters.fabricName1,
+    Parameters.protectionContainerName1,
+    Parameters.replicationProtectionClusterName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationMigrationItems",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectionClusters",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationItemCollection,
+      bodyMapper: Mappers.ReplicationProtectionClusterCollection,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
     Parameters.skipToken,
-    Parameters.takeToken,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName,
+    Parameters.resourceName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1790,7 +1739,10 @@ const listByReplicationProtectionContainersNextOperationSpec: coreClient.Operati
     httpMethod: "GET",
     responses: {
       200: {
-        bodyMapper: Mappers.MigrationItemCollection,
+        bodyMapper: Mappers.ReplicationProtectionClusterCollection,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
       },
     },
     urlParameters: [
@@ -1798,9 +1750,9 @@ const listByReplicationProtectionContainersNextOperationSpec: coreClient.Operati
       Parameters.resourceGroupName,
       Parameters.subscriptionId,
       Parameters.nextLink,
-      Parameters.resourceName,
-      Parameters.fabricName,
-      Parameters.protectionContainerName,
+      Parameters.resourceName1,
+      Parameters.fabricName1,
+      Parameters.protectionContainerName1,
     ],
     headerParameters: [Parameters.accept],
     serializer,
@@ -1810,7 +1762,10 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationItemCollection,
+      bodyMapper: Mappers.ReplicationProtectionClusterCollection,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
@@ -1818,7 +1773,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceName,
+    Parameters.resourceName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
