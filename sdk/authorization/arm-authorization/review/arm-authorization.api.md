@@ -1455,6 +1455,9 @@ export interface ErrorResponse {
     error?: ErrorDetail;
 }
 
+// @public
+export type ExcludedPrincipalTypes = string;
+
 // @public (undocumented)
 export interface ExpandedProperties {
     principal?: ExpandedPropertiesPrincipal;
@@ -1665,6 +1668,12 @@ export enum KnownEnablementRules {
 }
 
 // @public
+export enum KnownExcludedPrincipalTypes {
+    ServicePrincipalsAsRequestor = "ServicePrincipalsAsRequestor",
+    ServicePrincipalsAsTarget = "ServicePrincipalsAsTarget"
+}
+
+// @public
 export enum KnownMemberType {
     Direct = "Direct",
     Group = "Group",
@@ -1681,6 +1690,13 @@ export enum KnownNotificationLevel {
     All = "All",
     Critical = "Critical",
     None = "None"
+}
+
+// @public
+export enum KnownPIMOnlyMode {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    ReportOnly = "ReportOnly"
 }
 
 // @public
@@ -1724,7 +1740,8 @@ export enum KnownRoleManagementPolicyRuleType {
     RoleManagementPolicyAuthenticationContextRule = "RoleManagementPolicyAuthenticationContextRule",
     RoleManagementPolicyEnablementRule = "RoleManagementPolicyEnablementRule",
     RoleManagementPolicyExpirationRule = "RoleManagementPolicyExpirationRule",
-    RoleManagementPolicyNotificationRule = "RoleManagementPolicyNotificationRule"
+    RoleManagementPolicyNotificationRule = "RoleManagementPolicyNotificationRule",
+    RoleManagementPolicyPimOnlyModeRule = "RoleManagementPolicyPimOnlyModeRule"
 }
 
 // @public
@@ -1770,6 +1787,7 @@ export enum KnownType {
 // @public
 export enum KnownUserType {
     Group = "Group",
+    ServicePrincipal = "ServicePrincipal",
     User = "User"
 }
 
@@ -1874,7 +1892,17 @@ export interface PermissionsListForResourceOptionalParams extends coreClient.Ope
 // @public
 export type PermissionsListForResourceResponse = PermissionGetResult;
 
-// @public (undocumented)
+// @public
+export type PIMOnlyMode = string;
+
+// @public
+export interface PIMOnlyModeSettings {
+    excludedAssignmentTypes?: ExcludedPrincipalTypes[];
+    excludes?: UsersOrServicePrincipalSet[];
+    mode?: PIMOnlyMode;
+}
+
+// @public
 export interface PolicyAssignmentProperties {
     policy?: PolicyAssignmentPropertiesPolicy;
     roleDefinition?: PolicyAssignmentPropertiesRoleDefinition;
@@ -1902,7 +1930,7 @@ export interface PolicyAssignmentPropertiesScope {
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PolicyProperties {
     readonly scope?: PolicyPropertiesScope;
 }
@@ -2786,6 +2814,7 @@ export interface RoleManagementPolicyApprovalRule extends RoleManagementPolicyRu
 
 // @public
 export interface RoleManagementPolicyAssignment {
+    readonly effectiveRules?: RoleManagementPolicyRuleUnion[];
     readonly id?: string;
     readonly name?: string;
     readonly policyAssignmentProperties?: PolicyAssignmentProperties;
@@ -2856,6 +2885,7 @@ export interface RoleManagementPolicyEnablementRule extends RoleManagementPolicy
 
 // @public
 export interface RoleManagementPolicyExpirationRule extends RoleManagementPolicyRule {
+    exceptionMembers?: UserSet[];
     isExpirationRequired?: boolean;
     maximumDuration?: string;
     ruleType: "RoleManagementPolicyExpirationRule";
@@ -2878,9 +2908,15 @@ export interface RoleManagementPolicyNotificationRule extends RoleManagementPoli
 }
 
 // @public
+export interface RoleManagementPolicyPimOnlyModeRule extends RoleManagementPolicyRule {
+    pimOnlyModeSettings?: PIMOnlyModeSettings;
+    ruleType: "RoleManagementPolicyPimOnlyModeRule";
+}
+
+// @public
 export interface RoleManagementPolicyRule {
     id?: string;
-    ruleType: "RoleManagementPolicyApprovalRule" | "RoleManagementPolicyAuthenticationContextRule" | "RoleManagementPolicyEnablementRule" | "RoleManagementPolicyExpirationRule" | "RoleManagementPolicyNotificationRule";
+    ruleType: "RoleManagementPolicyApprovalRule" | "RoleManagementPolicyAuthenticationContextRule" | "RoleManagementPolicyEnablementRule" | "RoleManagementPolicyExpirationRule" | "RoleManagementPolicyNotificationRule" | "RoleManagementPolicyPimOnlyModeRule";
     target?: RoleManagementPolicyRuleTarget;
 }
 
@@ -2898,7 +2934,7 @@ export interface RoleManagementPolicyRuleTarget {
 export type RoleManagementPolicyRuleType = string;
 
 // @public (undocumented)
-export type RoleManagementPolicyRuleUnion = RoleManagementPolicyRule | RoleManagementPolicyApprovalRule | RoleManagementPolicyAuthenticationContextRule | RoleManagementPolicyEnablementRule | RoleManagementPolicyExpirationRule | RoleManagementPolicyNotificationRule;
+export type RoleManagementPolicyRuleUnion = RoleManagementPolicyRule | RoleManagementPolicyApprovalRule | RoleManagementPolicyAuthenticationContextRule | RoleManagementPolicyEnablementRule | RoleManagementPolicyExpirationRule | RoleManagementPolicyNotificationRule | RoleManagementPolicyPimOnlyModeRule;
 
 // @public
 export interface ScopeAccessReviewDefaultSettings {
@@ -3208,6 +3244,13 @@ export interface UserSet {
     id?: string;
     isBackup?: boolean;
     userType?: UserType;
+}
+
+// @public
+export interface UsersOrServicePrincipalSet {
+    displayName?: string;
+    id?: string;
+    type?: UserType;
 }
 
 // @public

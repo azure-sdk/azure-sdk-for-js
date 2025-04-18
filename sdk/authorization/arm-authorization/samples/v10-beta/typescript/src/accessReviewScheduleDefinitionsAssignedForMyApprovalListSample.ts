@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get access review instances assigned for my approval.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2021-12-01-preview/examples/GetAccessReviewScheduleDefinitionsAssignedForMyApproval.json
  */
-async function getAccessReviews() {
+async function getAccessReviews(): Promise<void> {
   const filter = "assignedToMeToReview()";
   const options: AccessReviewScheduleDefinitionsAssignedForMyApprovalListOptionalParams = {
     filter
@@ -34,7 +34,7 @@ async function getAccessReviews() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAccessReviews();
 }
 

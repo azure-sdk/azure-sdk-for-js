@@ -10,7 +10,7 @@ import {
   AccessReviewHistoryDefinitionProperties,
   ScopeAccessReviewHistoryDefinitionCreateOptionalParams,
   ScopeAccessReviewHistoryDefinitionCreateResponse,
-  ScopeAccessReviewHistoryDefinitionDeleteByIdOptionalParams
+  ScopeAccessReviewHistoryDefinitionDeleteByIdOptionalParams,
 } from "../models/index.js";
 
 /** Interface representing a ScopeAccessReviewHistoryDefinition. */
@@ -26,7 +26,7 @@ export interface ScopeAccessReviewHistoryDefinition {
     scope: string,
     historyDefinitionId: string,
     properties: AccessReviewHistoryDefinitionProperties,
-    options?: ScopeAccessReviewHistoryDefinitionCreateOptionalParams
+    options?: ScopeAccessReviewHistoryDefinitionCreateOptionalParams,
   ): Promise<ScopeAccessReviewHistoryDefinitionCreateResponse>;
   /**
    * Delete an access review history definition
@@ -37,6 +37,6 @@ export interface ScopeAccessReviewHistoryDefinition {
   deleteById(
     scope: string,
     historyDefinitionId: string,
-    options?: ScopeAccessReviewHistoryDefinitionDeleteByIdOptionalParams
+    options?: ScopeAccessReviewHistoryDefinitionDeleteByIdOptionalParams,
   ): Promise<void>;
 }

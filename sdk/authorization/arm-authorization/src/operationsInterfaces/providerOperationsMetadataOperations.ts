@@ -11,7 +11,7 @@ import {
   ProviderOperationsMetadata,
   ProviderOperationsMetadataListOptionalParams,
   ProviderOperationsMetadataGetOptionalParams,
-  ProviderOperationsMetadataGetResponse
+  ProviderOperationsMetadataGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,7 +22,7 @@ export interface ProviderOperationsMetadataOperations {
    * @param options The options parameters.
    */
   list(
-    options?: ProviderOperationsMetadataListOptionalParams
+    options?: ProviderOperationsMetadataListOptionalParams,
   ): PagedAsyncIterableIterator<ProviderOperationsMetadata>;
   /**
    * Gets provider operations metadata for the specified resource provider.
@@ -31,6 +31,6 @@ export interface ProviderOperationsMetadataOperations {
    */
   get(
     resourceProviderNamespace: string,
-    options?: ProviderOperationsMetadataGetOptionalParams
+    options?: ProviderOperationsMetadataGetOptionalParams,
   ): Promise<ProviderOperationsMetadataGetResponse>;
 }

@@ -21,7 +21,8 @@ export type RoleManagementPolicyRuleUnion =
   | RoleManagementPolicyAuthenticationContextRule
   | RoleManagementPolicyEnablementRule
   | RoleManagementPolicyExpirationRule
-  | RoleManagementPolicyNotificationRule;
+  | RoleManagementPolicyNotificationRule
+  | RoleManagementPolicyPimOnlyModeRule;
 export type AlertIncidentPropertiesUnion =
   | AlertIncidentProperties
   | AzureRolesAssignedOutsidePimAlertIncidentProperties
@@ -2060,7 +2061,8 @@ export interface RoleManagementPolicyRule {
     | "RoleManagementPolicyAuthenticationContextRule"
     | "RoleManagementPolicyEnablementRule"
     | "RoleManagementPolicyExpirationRule"
-    | "RoleManagementPolicyNotificationRule";
+    | "RoleManagementPolicyNotificationRule"
+    | "RoleManagementPolicyPimOnlyModeRule";
   /** The id of the rule. */
   id?: string;
   /** The target of the current rule. */
@@ -2083,6 +2085,7 @@ export interface RoleManagementPolicyRuleTarget {
   enforcedSettings?: string[];
 }
 
+/** Expanded info of resource scope */
 export interface PolicyProperties {
   /**
    * Details of the resource scope
@@ -2133,12 +2136,18 @@ export interface RoleManagementPolicyAssignment {
   /** The policy id role management policy assignment. */
   policyId?: string;
   /**
+   * The readonly computed rule applied to the policy.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly effectiveRules?: RoleManagementPolicyRuleUnion[];
+  /**
    * Additional properties of scope, role definition and policy
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly policyAssignmentProperties?: PolicyAssignmentProperties;
 }
 
+/** Expanded info of resource scope, role definition and policy */
 export interface PolicyAssignmentProperties {
   /** Details of the resource scope */
   scope?: PolicyAssignmentPropertiesScope;
@@ -2562,6 +2571,26 @@ export interface UserSet {
   description?: string;
 }
 
+/** The detail of a subject. */
+export interface UsersOrServicePrincipalSet {
+  /** The type of user. */
+  type?: UserType;
+  /** The object id of the entity. */
+  id?: string;
+  /** The display Name of the entity. */
+  displayName?: string;
+}
+
+/** The PIM Only Mode settings. */
+export interface PIMOnlyModeSettings {
+  /** Determines whether the setting is enabled, disabled or report only. */
+  mode?: PIMOnlyMode;
+  /** The list of excluded entities that the rule does not apply to. */
+  excludes?: UsersOrServicePrincipalSet[];
+  /** The list of excluded assignment types allowed. */
+  excludedAssignmentTypes?: ExcludedPrincipalTypes[];
+}
+
 /** Role assignment schedule filter */
 export interface RoleAssignmentScheduleFilter {
   /** Returns role assignment schedule of the specific principal. */
@@ -2704,6 +2733,8 @@ export interface RoleManagementPolicyExpirationRule
   isExpirationRequired?: boolean;
   /** The maximum duration of expiration in timespan. */
   maximumDuration?: string;
+  /** The members not restricted by expiration rule. */
+  exceptionMembers?: UserSet[];
 }
 
 /** The role management policy notification rule. */
@@ -2721,6 +2752,15 @@ export interface RoleManagementPolicyNotificationRule
   notificationRecipients?: string[];
   /** Determines if the notification will be sent to the recipient type specified in the policy rule. */
   isDefaultRecipientsEnabled?: boolean;
+}
+
+/** The role management policy PIM only mode rule. */
+export interface RoleManagementPolicyPimOnlyModeRule
+  extends RoleManagementPolicyRule {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  ruleType: "RoleManagementPolicyPimOnlyModeRule";
+  /** The PIM Only Mode settings */
+  pimOnlyModeSettings?: PIMOnlyModeSettings;
 }
 
 /** Azure roles assigned outside PIM alert incident properties. */
@@ -2893,7 +2933,7 @@ export enum KnownPrincipalType {
   /** ForeignGroup */
   ForeignGroup = "ForeignGroup",
   /** Device */
-  Device = "Device"
+  Device = "Device",
 }
 
 /**
@@ -2920,7 +2960,7 @@ export enum KnownAccessReviewResult {
   /** DontKnow */
   DontKnow = "DontKnow",
   /** NotNotified */
-  NotNotified = "NotNotified"
+  NotNotified = "NotNotified",
 }
 
 /**
@@ -2945,7 +2985,7 @@ export enum KnownAccessReviewHistoryDefinitionStatus {
   /** Done */
   Done = "Done",
   /** Error */
-  Error = "Error"
+  Error = "Error",
 }
 
 /**
@@ -2965,7 +3005,7 @@ export enum KnownAccessReviewActorIdentityType {
   /** User */
   User = "user",
   /** ServicePrincipal */
-  ServicePrincipal = "servicePrincipal"
+  ServicePrincipal = "servicePrincipal",
 }
 
 /**
@@ -2989,7 +3029,7 @@ export enum KnownAccessReviewScopePrincipalType {
   /** UserGroup */
   UserGroup = "user,group",
   /** RedeemedGuestUser */
-  RedeemedGuestUser = "redeemedGuestUser"
+  RedeemedGuestUser = "redeemedGuestUser",
 }
 
 /**
@@ -3010,7 +3050,7 @@ export enum KnownAccessReviewScopeAssignmentState {
   /** Eligible */
   Eligible = "eligible",
   /** Active */
-  Active = "active"
+  Active = "active",
 }
 
 /**
@@ -3028,7 +3068,7 @@ export enum KnownAccessReviewRecurrencePatternType {
   /** Weekly */
   Weekly = "weekly",
   /** AbsoluteMonthly */
-  AbsoluteMonthly = "absoluteMonthly"
+  AbsoluteMonthly = "absoluteMonthly",
 }
 
 /**
@@ -3048,7 +3088,7 @@ export enum KnownAccessReviewRecurrenceRangeType {
   /** NoEnd */
   NoEnd = "noEnd",
   /** Numbered */
-  Numbered = "numbered"
+  Numbered = "numbered",
 }
 
 /**
@@ -3085,7 +3125,7 @@ export enum KnownAccessReviewScheduleDefinitionStatus {
   /** AutoReviewed */
   AutoReviewed = "AutoReviewed",
   /** Starting */
-  Starting = "Starting"
+  Starting = "Starting",
 }
 
 /**
@@ -3114,7 +3154,7 @@ export enum KnownDefaultDecisionType {
   /** Deny */
   Deny = "Deny",
   /** Recommendation */
-  Recommendation = "Recommendation"
+  Recommendation = "Recommendation",
 }
 
 /**
@@ -3133,7 +3173,7 @@ export enum KnownAccessReviewReviewerType {
   /** User */
   User = "user",
   /** ServicePrincipal */
-  ServicePrincipal = "servicePrincipal"
+  ServicePrincipal = "servicePrincipal",
 }
 
 /**
@@ -3153,7 +3193,7 @@ export enum KnownAccessReviewScheduleDefinitionReviewersType {
   /** Self */
   Self = "Self",
   /** Managers */
-  Managers = "Managers"
+  Managers = "Managers",
 }
 
 /**
@@ -3190,7 +3230,7 @@ export enum KnownAccessReviewInstanceStatus {
   /** AutoReviewed */
   AutoReviewed = "AutoReviewed",
   /** Starting */
-  Starting = "Starting"
+  Starting = "Starting",
 }
 
 /**
@@ -3219,7 +3259,7 @@ export enum KnownAccessReviewInstanceReviewersType {
   /** Self */
   Self = "Self",
   /** Managers */
-  Managers = "Managers"
+  Managers = "Managers",
 }
 
 /**
@@ -3238,7 +3278,7 @@ export enum KnownDecisionTargetType {
   /** User */
   User = "user",
   /** ServicePrincipal */
-  ServicePrincipal = "servicePrincipal"
+  ServicePrincipal = "servicePrincipal",
 }
 
 /**
@@ -3254,7 +3294,7 @@ export type DecisionTargetType = string;
 /** Known values of {@link DecisionResourceType} that the service accepts. */
 export enum KnownDecisionResourceType {
   /** AzureRole */
-  AzureRole = "azureRole"
+  AzureRole = "azureRole",
 }
 
 /**
@@ -3273,7 +3313,7 @@ export enum KnownAccessRecommendationType {
   /** Deny */
   Deny = "Deny",
   /** NoInfoAvailable */
-  NoInfoAvailable = "NoInfoAvailable"
+  NoInfoAvailable = "NoInfoAvailable",
 }
 
 /**
@@ -3300,7 +3340,7 @@ export enum KnownAccessReviewApplyResult {
   /** AppliedSuccessfullyButObjectNotFound */
   AppliedSuccessfullyButObjectNotFound = "AppliedSuccessfullyButObjectNotFound",
   /** ApplyNotSupported */
-  ApplyNotSupported = "ApplyNotSupported"
+  ApplyNotSupported = "ApplyNotSupported",
 }
 
 /**
@@ -3320,7 +3360,7 @@ export type AccessReviewApplyResult = string;
 /** Known values of {@link AccessReviewDecisionInsightType} that the service accepts. */
 export enum KnownAccessReviewDecisionInsightType {
   /** UserSignInInsight */
-  UserSignInInsight = "userSignInInsight"
+  UserSignInInsight = "userSignInInsight",
 }
 
 /**
@@ -3337,7 +3377,7 @@ export enum KnownAccessReviewDecisionPrincipalResourceMembershipType {
   /** Direct */
   Direct = "direct",
   /** Indirect */
-  Indirect = "indirect"
+  Indirect = "indirect",
 }
 
 /**
@@ -3355,7 +3395,7 @@ export enum KnownRecordAllDecisionsResult {
   /** Approve */
   Approve = "Approve",
   /** Deny */
-  Deny = "Deny"
+  Deny = "Deny",
 }
 
 /**
@@ -3373,7 +3413,7 @@ export enum KnownAssignmentType {
   /** Activated */
   Activated = "Activated",
   /** Assigned */
-  Assigned = "Assigned"
+  Assigned = "Assigned",
 }
 
 /**
@@ -3393,7 +3433,7 @@ export enum KnownMemberType {
   /** Direct */
   Direct = "Direct",
   /** Group */
-  Group = "Group"
+  Group = "Group",
 }
 
 /**
@@ -3452,7 +3492,7 @@ export enum KnownStatus {
   /** ScheduleCreated */
   ScheduleCreated = "ScheduleCreated",
   /** PendingExternalProvisioning */
-  PendingExternalProvisioning = "PendingExternalProvisioning"
+  PendingExternalProvisioning = "PendingExternalProvisioning",
 }
 
 /**
@@ -3504,7 +3544,7 @@ export enum KnownRequestType {
   /** SelfExtend */
   SelfExtend = "SelfExtend",
   /** SelfRenew */
-  SelfRenew = "SelfRenew"
+  SelfRenew = "SelfRenew",
 }
 
 /**
@@ -3531,7 +3571,7 @@ export enum KnownType {
   /** AfterDateTime */
   AfterDateTime = "AfterDateTime",
   /** NoExpiration */
-  NoExpiration = "NoExpiration"
+  NoExpiration = "NoExpiration",
 }
 
 /**
@@ -3556,7 +3596,9 @@ export enum KnownRoleManagementPolicyRuleType {
   /** RoleManagementPolicyExpirationRule */
   RoleManagementPolicyExpirationRule = "RoleManagementPolicyExpirationRule",
   /** RoleManagementPolicyNotificationRule */
-  RoleManagementPolicyNotificationRule = "RoleManagementPolicyNotificationRule"
+  RoleManagementPolicyNotificationRule = "RoleManagementPolicyNotificationRule",
+  /** RoleManagementPolicyPimOnlyModeRule */
+  RoleManagementPolicyPimOnlyModeRule = "RoleManagementPolicyPimOnlyModeRule",
 }
 
 /**
@@ -3568,7 +3610,8 @@ export enum KnownRoleManagementPolicyRuleType {
  * **RoleManagementPolicyAuthenticationContextRule** \
  * **RoleManagementPolicyEnablementRule** \
  * **RoleManagementPolicyExpirationRule** \
- * **RoleManagementPolicyNotificationRule**
+ * **RoleManagementPolicyNotificationRule** \
+ * **RoleManagementPolicyPimOnlyModeRule**
  */
 export type RoleManagementPolicyRuleType = string;
 
@@ -3579,7 +3622,7 @@ export enum KnownSeverityLevel {
   /** Medium */
   Medium = "Medium",
   /** High */
-  High = "High"
+  High = "High",
 }
 
 /**
@@ -3602,7 +3645,7 @@ export enum KnownApprovalMode {
   /** Parallel */
   Parallel = "Parallel",
   /** NoApproval */
-  NoApproval = "NoApproval"
+  NoApproval = "NoApproval",
 }
 
 /**
@@ -3622,7 +3665,9 @@ export enum KnownUserType {
   /** User */
   User = "User",
   /** Group */
-  Group = "Group"
+  Group = "Group",
+  /** ServicePrincipal */
+  ServicePrincipal = "ServicePrincipal",
 }
 
 /**
@@ -3631,7 +3676,8 @@ export enum KnownUserType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User** \
- * **Group**
+ * **Group** \
+ * **ServicePrincipal**
  */
 export type UserType = string;
 
@@ -3642,7 +3688,7 @@ export enum KnownEnablementRules {
   /** Justification */
   Justification = "Justification",
   /** Ticketing */
-  Ticketing = "Ticketing"
+  Ticketing = "Ticketing",
 }
 
 /**
@@ -3659,7 +3705,7 @@ export type EnablementRules = string;
 /** Known values of {@link NotificationDeliveryMechanism} that the service accepts. */
 export enum KnownNotificationDeliveryMechanism {
   /** Email */
-  Email = "Email"
+  Email = "Email",
 }
 
 /**
@@ -3678,7 +3724,7 @@ export enum KnownNotificationLevel {
   /** Critical */
   Critical = "Critical",
   /** All */
-  All = "All"
+  All = "All",
 }
 
 /**
@@ -3699,7 +3745,7 @@ export enum KnownRecipientType {
   /** Approver */
   Approver = "Approver",
   /** Admin */
-  Admin = "Admin"
+  Admin = "Admin",
 }
 
 /**
@@ -3713,6 +3759,45 @@ export enum KnownRecipientType {
  */
 export type RecipientType = string;
 
+/** Known values of {@link PIMOnlyMode} that the service accepts. */
+export enum KnownPIMOnlyMode {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** ReportOnly */
+  ReportOnly = "ReportOnly",
+}
+
+/**
+ * Defines values for PIMOnlyMode. \
+ * {@link KnownPIMOnlyMode} can be used interchangeably with PIMOnlyMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled** \
+ * **ReportOnly**
+ */
+export type PIMOnlyMode = string;
+
+/** Known values of {@link ExcludedPrincipalTypes} that the service accepts. */
+export enum KnownExcludedPrincipalTypes {
+  /** ServicePrincipalsAsTarget */
+  ServicePrincipalsAsTarget = "ServicePrincipalsAsTarget",
+  /** ServicePrincipalsAsRequestor */
+  ServicePrincipalsAsRequestor = "ServicePrincipalsAsRequestor",
+}
+
+/**
+ * Defines values for ExcludedPrincipalTypes. \
+ * {@link KnownExcludedPrincipalTypes} can be used interchangeably with ExcludedPrincipalTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ServicePrincipalsAsTarget** \
+ * **ServicePrincipalsAsRequestor**
+ */
+export type ExcludedPrincipalTypes = string;
+
 /** Optional parameters. */
 export interface ClassicAdministratorsListOptionalParams
   extends coreClient.OperationOptions {}
@@ -3725,7 +3810,8 @@ export interface ClassicAdministratorsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ClassicAdministratorsListNextResponse = ClassicAdministratorListResult;
+export type ClassicAdministratorsListNextResponse =
+  ClassicAdministratorListResult;
 
 /** Optional parameters. */
 export interface GlobalAdministratorElevateAccessOptionalParams
@@ -3749,7 +3835,8 @@ export interface DenyAssignmentsListForResourceGroupOptionalParams
 }
 
 /** Contains response data for the listForResourceGroup operation. */
-export type DenyAssignmentsListForResourceGroupResponse = DenyAssignmentListResult;
+export type DenyAssignmentsListForResourceGroupResponse =
+  DenyAssignmentListResult;
 
 /** Optional parameters. */
 export interface DenyAssignmentsListOptionalParams
@@ -3790,14 +3877,16 @@ export interface DenyAssignmentsListForResourceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForResourceNext operation. */
-export type DenyAssignmentsListForResourceNextResponse = DenyAssignmentListResult;
+export type DenyAssignmentsListForResourceNextResponse =
+  DenyAssignmentListResult;
 
 /** Optional parameters. */
 export interface DenyAssignmentsListForResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForResourceGroupNext operation. */
-export type DenyAssignmentsListForResourceGroupNextResponse = DenyAssignmentListResult;
+export type DenyAssignmentsListForResourceGroupNextResponse =
+  DenyAssignmentListResult;
 
 /** Optional parameters. */
 export interface DenyAssignmentsListNextOptionalParams
@@ -3831,14 +3920,16 @@ export interface ProviderOperationsMetadataListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type ProviderOperationsMetadataListResponse = ProviderOperationsMetadataListResult;
+export type ProviderOperationsMetadataListResponse =
+  ProviderOperationsMetadataListResult;
 
 /** Optional parameters. */
 export interface ProviderOperationsMetadataListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ProviderOperationsMetadataListNextResponse = ProviderOperationsMetadataListResult;
+export type ProviderOperationsMetadataListNextResponse =
+  ProviderOperationsMetadataListResult;
 
 /** Optional parameters. */
 export interface RoleAssignmentsListForSubscriptionOptionalParams
@@ -3850,7 +3941,8 @@ export interface RoleAssignmentsListForSubscriptionOptionalParams
 }
 
 /** Contains response data for the listForSubscription operation. */
-export type RoleAssignmentsListForSubscriptionResponse = RoleAssignmentListResult;
+export type RoleAssignmentsListForSubscriptionResponse =
+  RoleAssignmentListResult;
 
 /** Optional parameters. */
 export interface RoleAssignmentsListForResourceGroupOptionalParams
@@ -3862,7 +3954,8 @@ export interface RoleAssignmentsListForResourceGroupOptionalParams
 }
 
 /** Contains response data for the listForResourceGroup operation. */
-export type RoleAssignmentsListForResourceGroupResponse = RoleAssignmentListResult;
+export type RoleAssignmentsListForResourceGroupResponse =
+  RoleAssignmentListResult;
 
 /** Optional parameters. */
 export interface RoleAssignmentsListForResourceOptionalParams
@@ -3949,21 +4042,24 @@ export interface RoleAssignmentsListForSubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForSubscriptionNext operation. */
-export type RoleAssignmentsListForSubscriptionNextResponse = RoleAssignmentListResult;
+export type RoleAssignmentsListForSubscriptionNextResponse =
+  RoleAssignmentListResult;
 
 /** Optional parameters. */
 export interface RoleAssignmentsListForResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForResourceGroupNext operation. */
-export type RoleAssignmentsListForResourceGroupNextResponse = RoleAssignmentListResult;
+export type RoleAssignmentsListForResourceGroupNextResponse =
+  RoleAssignmentListResult;
 
 /** Optional parameters. */
 export interface RoleAssignmentsListForResourceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForResourceNext operation. */
-export type RoleAssignmentsListForResourceNextResponse = RoleAssignmentListResult;
+export type RoleAssignmentsListForResourceNextResponse =
+  RoleAssignmentListResult;
 
 /** Optional parameters. */
 export interface RoleAssignmentsListForScopeNextOptionalParams
@@ -4067,28 +4163,32 @@ export interface AccessReviewHistoryDefinitionsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type AccessReviewHistoryDefinitionsListResponse = AccessReviewHistoryDefinitionListResult;
+export type AccessReviewHistoryDefinitionsListResponse =
+  AccessReviewHistoryDefinitionListResult;
 
 /** Optional parameters. */
 export interface AccessReviewHistoryDefinitionsGetByIdOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getById operation. */
-export type AccessReviewHistoryDefinitionsGetByIdResponse = AccessReviewHistoryDefinition;
+export type AccessReviewHistoryDefinitionsGetByIdResponse =
+  AccessReviewHistoryDefinition;
 
 /** Optional parameters. */
 export interface AccessReviewHistoryDefinitionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type AccessReviewHistoryDefinitionsListNextResponse = AccessReviewHistoryDefinitionListResult;
+export type AccessReviewHistoryDefinitionsListNextResponse =
+  AccessReviewHistoryDefinitionListResult;
 
 /** Optional parameters. */
 export interface AccessReviewHistoryDefinitionCreateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
-export type AccessReviewHistoryDefinitionCreateResponse = AccessReviewHistoryDefinition;
+export type AccessReviewHistoryDefinitionCreateResponse =
+  AccessReviewHistoryDefinition;
 
 /** Optional parameters. */
 export interface AccessReviewHistoryDefinitionDeleteByIdOptionalParams
@@ -4099,21 +4199,24 @@ export interface AccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptiona
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the generateDownloadUri operation. */
-export type AccessReviewHistoryDefinitionInstanceGenerateDownloadUriResponse = AccessReviewHistoryInstance;
+export type AccessReviewHistoryDefinitionInstanceGenerateDownloadUriResponse =
+  AccessReviewHistoryInstance;
 
 /** Optional parameters. */
 export interface AccessReviewHistoryDefinitionInstancesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type AccessReviewHistoryDefinitionInstancesListResponse = AccessReviewHistoryDefinitionInstanceListResult;
+export type AccessReviewHistoryDefinitionInstancesListResponse =
+  AccessReviewHistoryDefinitionInstanceListResult;
 
 /** Optional parameters. */
 export interface AccessReviewHistoryDefinitionInstancesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type AccessReviewHistoryDefinitionInstancesListNextResponse = AccessReviewHistoryDefinitionInstanceListResult;
+export type AccessReviewHistoryDefinitionInstancesListNextResponse =
+  AccessReviewHistoryDefinitionInstanceListResult;
 
 /** Optional parameters. */
 export interface AccessReviewScheduleDefinitionsListOptionalParams
@@ -4123,14 +4226,16 @@ export interface AccessReviewScheduleDefinitionsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type AccessReviewScheduleDefinitionsListResponse = AccessReviewScheduleDefinitionListResult;
+export type AccessReviewScheduleDefinitionsListResponse =
+  AccessReviewScheduleDefinitionListResult;
 
 /** Optional parameters. */
 export interface AccessReviewScheduleDefinitionsGetByIdOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getById operation. */
-export type AccessReviewScheduleDefinitionsGetByIdResponse = AccessReviewScheduleDefinition;
+export type AccessReviewScheduleDefinitionsGetByIdResponse =
+  AccessReviewScheduleDefinition;
 
 /** Optional parameters. */
 export interface AccessReviewScheduleDefinitionsDeleteByIdOptionalParams
@@ -4141,7 +4246,8 @@ export interface AccessReviewScheduleDefinitionsCreateOrUpdateByIdOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateById operation. */
-export type AccessReviewScheduleDefinitionsCreateOrUpdateByIdResponse = AccessReviewScheduleDefinition;
+export type AccessReviewScheduleDefinitionsCreateOrUpdateByIdResponse =
+  AccessReviewScheduleDefinition;
 
 /** Optional parameters. */
 export interface AccessReviewScheduleDefinitionsStopOptionalParams
@@ -4152,7 +4258,8 @@ export interface AccessReviewScheduleDefinitionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type AccessReviewScheduleDefinitionsListNextResponse = AccessReviewScheduleDefinitionListResult;
+export type AccessReviewScheduleDefinitionsListNextResponse =
+  AccessReviewScheduleDefinitionListResult;
 
 /** Optional parameters. */
 export interface AccessReviewInstancesListOptionalParams
@@ -4183,7 +4290,8 @@ export interface AccessReviewInstancesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type AccessReviewInstancesListNextResponse = AccessReviewInstanceListResult;
+export type AccessReviewInstancesListNextResponse =
+  AccessReviewInstanceListResult;
 
 /** Optional parameters. */
 export interface AccessReviewInstanceStopOptionalParams
@@ -4213,42 +4321,48 @@ export interface AccessReviewInstanceDecisionsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type AccessReviewInstanceDecisionsListResponse = AccessReviewDecisionListResult;
+export type AccessReviewInstanceDecisionsListResponse =
+  AccessReviewDecisionListResult;
 
 /** Optional parameters. */
 export interface AccessReviewInstanceDecisionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type AccessReviewInstanceDecisionsListNextResponse = AccessReviewDecisionListResult;
+export type AccessReviewInstanceDecisionsListNextResponse =
+  AccessReviewDecisionListResult;
 
 /** Optional parameters. */
 export interface AccessReviewInstanceContactedReviewersListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type AccessReviewInstanceContactedReviewersListResponse = AccessReviewContactedReviewerListResult;
+export type AccessReviewInstanceContactedReviewersListResponse =
+  AccessReviewContactedReviewerListResult;
 
 /** Optional parameters. */
 export interface AccessReviewInstanceContactedReviewersListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type AccessReviewInstanceContactedReviewersListNextResponse = AccessReviewContactedReviewerListResult;
+export type AccessReviewInstanceContactedReviewersListNextResponse =
+  AccessReviewContactedReviewerListResult;
 
 /** Optional parameters. */
 export interface AccessReviewDefaultSettingsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type AccessReviewDefaultSettingsGetResponse = AccessReviewDefaultSettings;
+export type AccessReviewDefaultSettingsGetResponse =
+  AccessReviewDefaultSettings;
 
 /** Optional parameters. */
 export interface AccessReviewDefaultSettingsPutOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the put operation. */
-export type AccessReviewDefaultSettingsPutResponse = AccessReviewDefaultSettings;
+export type AccessReviewDefaultSettingsPutResponse =
+  AccessReviewDefaultSettings;
 
 /** Optional parameters. */
 export interface ScopeAccessReviewHistoryDefinitionsListOptionalParams
@@ -4258,28 +4372,32 @@ export interface ScopeAccessReviewHistoryDefinitionsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type ScopeAccessReviewHistoryDefinitionsListResponse = AccessReviewHistoryDefinitionListResult;
+export type ScopeAccessReviewHistoryDefinitionsListResponse =
+  AccessReviewHistoryDefinitionListResult;
 
 /** Optional parameters. */
 export interface ScopeAccessReviewHistoryDefinitionsGetByIdOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getById operation. */
-export type ScopeAccessReviewHistoryDefinitionsGetByIdResponse = AccessReviewHistoryDefinition;
+export type ScopeAccessReviewHistoryDefinitionsGetByIdResponse =
+  AccessReviewHistoryDefinition;
 
 /** Optional parameters. */
 export interface ScopeAccessReviewHistoryDefinitionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ScopeAccessReviewHistoryDefinitionsListNextResponse = AccessReviewHistoryDefinitionListResult;
+export type ScopeAccessReviewHistoryDefinitionsListNextResponse =
+  AccessReviewHistoryDefinitionListResult;
 
 /** Optional parameters. */
 export interface ScopeAccessReviewHistoryDefinitionCreateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
-export type ScopeAccessReviewHistoryDefinitionCreateResponse = AccessReviewHistoryDefinition;
+export type ScopeAccessReviewHistoryDefinitionCreateResponse =
+  AccessReviewHistoryDefinition;
 
 /** Optional parameters. */
 export interface ScopeAccessReviewHistoryDefinitionDeleteByIdOptionalParams
@@ -4290,21 +4408,24 @@ export interface ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriOp
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the generateDownloadUri operation. */
-export type ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriResponse = AccessReviewHistoryInstance;
+export type ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriResponse =
+  AccessReviewHistoryInstance;
 
 /** Optional parameters. */
 export interface ScopeAccessReviewHistoryDefinitionInstancesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ScopeAccessReviewHistoryDefinitionInstancesListResponse = AccessReviewHistoryDefinitionInstanceListResult;
+export type ScopeAccessReviewHistoryDefinitionInstancesListResponse =
+  AccessReviewHistoryDefinitionInstanceListResult;
 
 /** Optional parameters. */
 export interface ScopeAccessReviewHistoryDefinitionInstancesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ScopeAccessReviewHistoryDefinitionInstancesListNextResponse = AccessReviewHistoryDefinitionInstanceListResult;
+export type ScopeAccessReviewHistoryDefinitionInstancesListNextResponse =
+  AccessReviewHistoryDefinitionInstanceListResult;
 
 /** Optional parameters. */
 export interface ScopeAccessReviewScheduleDefinitionsListOptionalParams
@@ -4314,14 +4435,16 @@ export interface ScopeAccessReviewScheduleDefinitionsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type ScopeAccessReviewScheduleDefinitionsListResponse = AccessReviewScheduleDefinitionListResult;
+export type ScopeAccessReviewScheduleDefinitionsListResponse =
+  AccessReviewScheduleDefinitionListResult;
 
 /** Optional parameters. */
 export interface ScopeAccessReviewScheduleDefinitionsGetByIdOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getById operation. */
-export type ScopeAccessReviewScheduleDefinitionsGetByIdResponse = AccessReviewScheduleDefinition;
+export type ScopeAccessReviewScheduleDefinitionsGetByIdResponse =
+  AccessReviewScheduleDefinition;
 
 /** Optional parameters. */
 export interface ScopeAccessReviewScheduleDefinitionsDeleteByIdOptionalParams
@@ -4332,7 +4455,8 @@ export interface ScopeAccessReviewScheduleDefinitionsCreateOrUpdateByIdOptionalP
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateById operation. */
-export type ScopeAccessReviewScheduleDefinitionsCreateOrUpdateByIdResponse = AccessReviewScheduleDefinition;
+export type ScopeAccessReviewScheduleDefinitionsCreateOrUpdateByIdResponse =
+  AccessReviewScheduleDefinition;
 
 /** Optional parameters. */
 export interface ScopeAccessReviewScheduleDefinitionsStopOptionalParams
@@ -4343,7 +4467,8 @@ export interface ScopeAccessReviewScheduleDefinitionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ScopeAccessReviewScheduleDefinitionsListNextResponse = AccessReviewScheduleDefinitionListResult;
+export type ScopeAccessReviewScheduleDefinitionsListNextResponse =
+  AccessReviewScheduleDefinitionListResult;
 
 /** Optional parameters. */
 export interface ScopeAccessReviewInstancesListOptionalParams
@@ -4353,7 +4478,8 @@ export interface ScopeAccessReviewInstancesListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type ScopeAccessReviewInstancesListResponse = AccessReviewInstanceListResult;
+export type ScopeAccessReviewInstancesListResponse =
+  AccessReviewInstanceListResult;
 
 /** Optional parameters. */
 export interface ScopeAccessReviewInstancesGetByIdOptionalParams
@@ -4374,7 +4500,8 @@ export interface ScopeAccessReviewInstancesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ScopeAccessReviewInstancesListNextResponse = AccessReviewInstanceListResult;
+export type ScopeAccessReviewInstancesListNextResponse =
+  AccessReviewInstanceListResult;
 
 /** Optional parameters. */
 export interface ScopeAccessReviewInstanceStopOptionalParams
@@ -4404,42 +4531,48 @@ export interface ScopeAccessReviewInstanceDecisionsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type ScopeAccessReviewInstanceDecisionsListResponse = AccessReviewDecisionListResult;
+export type ScopeAccessReviewInstanceDecisionsListResponse =
+  AccessReviewDecisionListResult;
 
 /** Optional parameters. */
 export interface ScopeAccessReviewInstanceDecisionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ScopeAccessReviewInstanceDecisionsListNextResponse = AccessReviewDecisionListResult;
+export type ScopeAccessReviewInstanceDecisionsListNextResponse =
+  AccessReviewDecisionListResult;
 
 /** Optional parameters. */
 export interface ScopeAccessReviewInstanceContactedReviewersListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ScopeAccessReviewInstanceContactedReviewersListResponse = AccessReviewContactedReviewerListResult;
+export type ScopeAccessReviewInstanceContactedReviewersListResponse =
+  AccessReviewContactedReviewerListResult;
 
 /** Optional parameters. */
 export interface ScopeAccessReviewInstanceContactedReviewersListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ScopeAccessReviewInstanceContactedReviewersListNextResponse = AccessReviewContactedReviewerListResult;
+export type ScopeAccessReviewInstanceContactedReviewersListNextResponse =
+  AccessReviewContactedReviewerListResult;
 
 /** Optional parameters. */
 export interface ScopeAccessReviewDefaultSettingsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ScopeAccessReviewDefaultSettingsGetResponse = AccessReviewDefaultSettings;
+export type ScopeAccessReviewDefaultSettingsGetResponse =
+  AccessReviewDefaultSettings;
 
 /** Optional parameters. */
 export interface ScopeAccessReviewDefaultSettingsPutOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the put operation. */
-export type ScopeAccessReviewDefaultSettingsPutResponse = AccessReviewDefaultSettings;
+export type ScopeAccessReviewDefaultSettingsPutResponse =
+  AccessReviewDefaultSettings;
 
 /** Optional parameters. */
 export interface AccessReviewScheduleDefinitionsAssignedForMyApprovalListOptionalParams
@@ -4449,14 +4582,16 @@ export interface AccessReviewScheduleDefinitionsAssignedForMyApprovalListOptiona
 }
 
 /** Contains response data for the list operation. */
-export type AccessReviewScheduleDefinitionsAssignedForMyApprovalListResponse = AccessReviewScheduleDefinitionListResult;
+export type AccessReviewScheduleDefinitionsAssignedForMyApprovalListResponse =
+  AccessReviewScheduleDefinitionListResult;
 
 /** Optional parameters. */
 export interface AccessReviewScheduleDefinitionsAssignedForMyApprovalListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type AccessReviewScheduleDefinitionsAssignedForMyApprovalListNextResponse = AccessReviewScheduleDefinitionListResult;
+export type AccessReviewScheduleDefinitionsAssignedForMyApprovalListNextResponse =
+  AccessReviewScheduleDefinitionListResult;
 
 /** Optional parameters. */
 export interface AccessReviewInstancesAssignedForMyApprovalListOptionalParams
@@ -4466,21 +4601,24 @@ export interface AccessReviewInstancesAssignedForMyApprovalListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type AccessReviewInstancesAssignedForMyApprovalListResponse = AccessReviewInstanceListResult;
+export type AccessReviewInstancesAssignedForMyApprovalListResponse =
+  AccessReviewInstanceListResult;
 
 /** Optional parameters. */
 export interface AccessReviewInstancesAssignedForMyApprovalGetByIdOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getById operation. */
-export type AccessReviewInstancesAssignedForMyApprovalGetByIdResponse = AccessReviewInstance;
+export type AccessReviewInstancesAssignedForMyApprovalGetByIdResponse =
+  AccessReviewInstance;
 
 /** Optional parameters. */
 export interface AccessReviewInstancesAssignedForMyApprovalListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type AccessReviewInstancesAssignedForMyApprovalListNextResponse = AccessReviewInstanceListResult;
+export type AccessReviewInstancesAssignedForMyApprovalListNextResponse =
+  AccessReviewInstanceListResult;
 
 /** Optional parameters. */
 export interface AccessReviewInstanceMyDecisionsListOptionalParams
@@ -4490,14 +4628,16 @@ export interface AccessReviewInstanceMyDecisionsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type AccessReviewInstanceMyDecisionsListResponse = AccessReviewDecisionListResult;
+export type AccessReviewInstanceMyDecisionsListResponse =
+  AccessReviewDecisionListResult;
 
 /** Optional parameters. */
 export interface AccessReviewInstanceMyDecisionsGetByIdOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getById operation. */
-export type AccessReviewInstanceMyDecisionsGetByIdResponse = AccessReviewDecision;
+export type AccessReviewInstanceMyDecisionsGetByIdResponse =
+  AccessReviewDecision;
 
 /** Optional parameters. */
 export interface AccessReviewInstanceMyDecisionsPatchOptionalParams
@@ -4511,21 +4651,24 @@ export interface AccessReviewInstanceMyDecisionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type AccessReviewInstanceMyDecisionsListNextResponse = AccessReviewDecisionListResult;
+export type AccessReviewInstanceMyDecisionsListNextResponse =
+  AccessReviewDecisionListResult;
 
 /** Optional parameters. */
 export interface TenantLevelAccessReviewInstanceContactedReviewersListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type TenantLevelAccessReviewInstanceContactedReviewersListResponse = AccessReviewContactedReviewerListResult;
+export type TenantLevelAccessReviewInstanceContactedReviewersListResponse =
+  AccessReviewContactedReviewerListResult;
 
 /** Optional parameters. */
 export interface TenantLevelAccessReviewInstanceContactedReviewersListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type TenantLevelAccessReviewInstanceContactedReviewersListNextResponse = AccessReviewContactedReviewerListResult;
+export type TenantLevelAccessReviewInstanceContactedReviewersListNextResponse =
+  AccessReviewContactedReviewerListResult;
 
 /** Optional parameters. */
 export interface EligibleChildResourcesGetOptionalParams
@@ -4535,14 +4678,16 @@ export interface EligibleChildResourcesGetOptionalParams
 }
 
 /** Contains response data for the get operation. */
-export type EligibleChildResourcesGetResponse = EligibleChildResourcesListResult;
+export type EligibleChildResourcesGetResponse =
+  EligibleChildResourcesListResult;
 
 /** Optional parameters. */
 export interface EligibleChildResourcesGetNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getNext operation. */
-export type EligibleChildResourcesGetNextResponse = EligibleChildResourcesListResult;
+export type EligibleChildResourcesGetNextResponse =
+  EligibleChildResourcesListResult;
 
 /** Optional parameters. */
 export interface RoleAssignmentSchedulesGetOptionalParams
@@ -4559,14 +4704,16 @@ export interface RoleAssignmentSchedulesListForScopeOptionalParams
 }
 
 /** Contains response data for the listForScope operation. */
-export type RoleAssignmentSchedulesListForScopeResponse = RoleAssignmentScheduleListResult;
+export type RoleAssignmentSchedulesListForScopeResponse =
+  RoleAssignmentScheduleListResult;
 
 /** Optional parameters. */
 export interface RoleAssignmentSchedulesListForScopeNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForScopeNext operation. */
-export type RoleAssignmentSchedulesListForScopeNextResponse = RoleAssignmentScheduleListResult;
+export type RoleAssignmentSchedulesListForScopeNextResponse =
+  RoleAssignmentScheduleListResult;
 
 /** Optional parameters. */
 export interface RoleAssignmentScheduleInstancesListForScopeOptionalParams
@@ -4576,35 +4723,40 @@ export interface RoleAssignmentScheduleInstancesListForScopeOptionalParams
 }
 
 /** Contains response data for the listForScope operation. */
-export type RoleAssignmentScheduleInstancesListForScopeResponse = RoleAssignmentScheduleInstanceListResult;
+export type RoleAssignmentScheduleInstancesListForScopeResponse =
+  RoleAssignmentScheduleInstanceListResult;
 
 /** Optional parameters. */
 export interface RoleAssignmentScheduleInstancesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type RoleAssignmentScheduleInstancesGetResponse = RoleAssignmentScheduleInstance;
+export type RoleAssignmentScheduleInstancesGetResponse =
+  RoleAssignmentScheduleInstance;
 
 /** Optional parameters. */
 export interface RoleAssignmentScheduleInstancesListForScopeNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForScopeNext operation. */
-export type RoleAssignmentScheduleInstancesListForScopeNextResponse = RoleAssignmentScheduleInstanceListResult;
+export type RoleAssignmentScheduleInstancesListForScopeNextResponse =
+  RoleAssignmentScheduleInstanceListResult;
 
 /** Optional parameters. */
 export interface RoleAssignmentScheduleRequestsCreateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
-export type RoleAssignmentScheduleRequestsCreateResponse = RoleAssignmentScheduleRequest;
+export type RoleAssignmentScheduleRequestsCreateResponse =
+  RoleAssignmentScheduleRequest;
 
 /** Optional parameters. */
 export interface RoleAssignmentScheduleRequestsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type RoleAssignmentScheduleRequestsGetResponse = RoleAssignmentScheduleRequest;
+export type RoleAssignmentScheduleRequestsGetResponse =
+  RoleAssignmentScheduleRequest;
 
 /** Optional parameters. */
 export interface RoleAssignmentScheduleRequestsListForScopeOptionalParams
@@ -4614,7 +4766,8 @@ export interface RoleAssignmentScheduleRequestsListForScopeOptionalParams
 }
 
 /** Contains response data for the listForScope operation. */
-export type RoleAssignmentScheduleRequestsListForScopeResponse = RoleAssignmentScheduleRequestListResult;
+export type RoleAssignmentScheduleRequestsListForScopeResponse =
+  RoleAssignmentScheduleRequestListResult;
 
 /** Optional parameters. */
 export interface RoleAssignmentScheduleRequestsCancelOptionalParams
@@ -4625,14 +4778,16 @@ export interface RoleAssignmentScheduleRequestsValidateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the validate operation. */
-export type RoleAssignmentScheduleRequestsValidateResponse = RoleAssignmentScheduleRequest;
+export type RoleAssignmentScheduleRequestsValidateResponse =
+  RoleAssignmentScheduleRequest;
 
 /** Optional parameters. */
 export interface RoleAssignmentScheduleRequestsListForScopeNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForScopeNext operation. */
-export type RoleAssignmentScheduleRequestsListForScopeNextResponse = RoleAssignmentScheduleRequestListResult;
+export type RoleAssignmentScheduleRequestsListForScopeNextResponse =
+  RoleAssignmentScheduleRequestListResult;
 
 /** Optional parameters. */
 export interface RoleEligibilitySchedulesGetOptionalParams
@@ -4649,14 +4804,16 @@ export interface RoleEligibilitySchedulesListForScopeOptionalParams
 }
 
 /** Contains response data for the listForScope operation. */
-export type RoleEligibilitySchedulesListForScopeResponse = RoleEligibilityScheduleListResult;
+export type RoleEligibilitySchedulesListForScopeResponse =
+  RoleEligibilityScheduleListResult;
 
 /** Optional parameters. */
 export interface RoleEligibilitySchedulesListForScopeNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForScopeNext operation. */
-export type RoleEligibilitySchedulesListForScopeNextResponse = RoleEligibilityScheduleListResult;
+export type RoleEligibilitySchedulesListForScopeNextResponse =
+  RoleEligibilityScheduleListResult;
 
 /** Optional parameters. */
 export interface RoleEligibilityScheduleInstancesListForScopeOptionalParams
@@ -4666,35 +4823,40 @@ export interface RoleEligibilityScheduleInstancesListForScopeOptionalParams
 }
 
 /** Contains response data for the listForScope operation. */
-export type RoleEligibilityScheduleInstancesListForScopeResponse = RoleEligibilityScheduleInstanceListResult;
+export type RoleEligibilityScheduleInstancesListForScopeResponse =
+  RoleEligibilityScheduleInstanceListResult;
 
 /** Optional parameters. */
 export interface RoleEligibilityScheduleInstancesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type RoleEligibilityScheduleInstancesGetResponse = RoleEligibilityScheduleInstance;
+export type RoleEligibilityScheduleInstancesGetResponse =
+  RoleEligibilityScheduleInstance;
 
 /** Optional parameters. */
 export interface RoleEligibilityScheduleInstancesListForScopeNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForScopeNext operation. */
-export type RoleEligibilityScheduleInstancesListForScopeNextResponse = RoleEligibilityScheduleInstanceListResult;
+export type RoleEligibilityScheduleInstancesListForScopeNextResponse =
+  RoleEligibilityScheduleInstanceListResult;
 
 /** Optional parameters. */
 export interface RoleEligibilityScheduleRequestsCreateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
-export type RoleEligibilityScheduleRequestsCreateResponse = RoleEligibilityScheduleRequest;
+export type RoleEligibilityScheduleRequestsCreateResponse =
+  RoleEligibilityScheduleRequest;
 
 /** Optional parameters. */
 export interface RoleEligibilityScheduleRequestsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type RoleEligibilityScheduleRequestsGetResponse = RoleEligibilityScheduleRequest;
+export type RoleEligibilityScheduleRequestsGetResponse =
+  RoleEligibilityScheduleRequest;
 
 /** Optional parameters. */
 export interface RoleEligibilityScheduleRequestsListForScopeOptionalParams
@@ -4704,7 +4866,8 @@ export interface RoleEligibilityScheduleRequestsListForScopeOptionalParams
 }
 
 /** Contains response data for the listForScope operation. */
-export type RoleEligibilityScheduleRequestsListForScopeResponse = RoleEligibilityScheduleRequestListResult;
+export type RoleEligibilityScheduleRequestsListForScopeResponse =
+  RoleEligibilityScheduleRequestListResult;
 
 /** Optional parameters. */
 export interface RoleEligibilityScheduleRequestsCancelOptionalParams
@@ -4715,14 +4878,16 @@ export interface RoleEligibilityScheduleRequestsValidateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the validate operation. */
-export type RoleEligibilityScheduleRequestsValidateResponse = RoleEligibilityScheduleRequest;
+export type RoleEligibilityScheduleRequestsValidateResponse =
+  RoleEligibilityScheduleRequest;
 
 /** Optional parameters. */
 export interface RoleEligibilityScheduleRequestsListForScopeNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForScopeNext operation. */
-export type RoleEligibilityScheduleRequestsListForScopeNextResponse = RoleEligibilityScheduleRequestListResult;
+export type RoleEligibilityScheduleRequestsListForScopeNextResponse =
+  RoleEligibilityScheduleRequestListResult;
 
 /** Optional parameters. */
 export interface RoleManagementPoliciesGetOptionalParams
@@ -4747,28 +4912,32 @@ export interface RoleManagementPoliciesListForScopeOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForScope operation. */
-export type RoleManagementPoliciesListForScopeResponse = RoleManagementPolicyListResult;
+export type RoleManagementPoliciesListForScopeResponse =
+  RoleManagementPolicyListResult;
 
 /** Optional parameters. */
 export interface RoleManagementPoliciesListForScopeNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForScopeNext operation. */
-export type RoleManagementPoliciesListForScopeNextResponse = RoleManagementPolicyListResult;
+export type RoleManagementPoliciesListForScopeNextResponse =
+  RoleManagementPolicyListResult;
 
 /** Optional parameters. */
 export interface RoleManagementPolicyAssignmentsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type RoleManagementPolicyAssignmentsGetResponse = RoleManagementPolicyAssignment;
+export type RoleManagementPolicyAssignmentsGetResponse =
+  RoleManagementPolicyAssignment;
 
 /** Optional parameters. */
 export interface RoleManagementPolicyAssignmentsCreateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
-export type RoleManagementPolicyAssignmentsCreateResponse = RoleManagementPolicyAssignment;
+export type RoleManagementPolicyAssignmentsCreateResponse =
+  RoleManagementPolicyAssignment;
 
 /** Optional parameters. */
 export interface RoleManagementPolicyAssignmentsDeleteOptionalParams
@@ -4779,14 +4948,16 @@ export interface RoleManagementPolicyAssignmentsListForScopeOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForScope operation. */
-export type RoleManagementPolicyAssignmentsListForScopeResponse = RoleManagementPolicyAssignmentListResult;
+export type RoleManagementPolicyAssignmentsListForScopeResponse =
+  RoleManagementPolicyAssignmentListResult;
 
 /** Optional parameters. */
 export interface RoleManagementPolicyAssignmentsListForScopeNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForScopeNext operation. */
-export type RoleManagementPolicyAssignmentsListForScopeNextResponse = RoleManagementPolicyAssignmentListResult;
+export type RoleManagementPolicyAssignmentsListForScopeNextResponse =
+  RoleManagementPolicyAssignmentListResult;
 
 /** Optional parameters. */
 export interface AlertsGetOptionalParams extends coreClient.OperationOptions {}
@@ -4853,14 +5024,16 @@ export interface AlertConfigurationsListForScopeOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForScope operation. */
-export type AlertConfigurationsListForScopeResponse = AlertConfigurationListResult;
+export type AlertConfigurationsListForScopeResponse =
+  AlertConfigurationListResult;
 
 /** Optional parameters. */
 export interface AlertConfigurationsListForScopeNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForScopeNext operation. */
-export type AlertConfigurationsListForScopeNextResponse = AlertConfigurationListResult;
+export type AlertConfigurationsListForScopeNextResponse =
+  AlertConfigurationListResult;
 
 /** Optional parameters. */
 export interface AlertDefinitionsGetOptionalParams
@@ -4881,7 +5054,8 @@ export interface AlertDefinitionsListForScopeNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForScopeNext operation. */
-export type AlertDefinitionsListForScopeNextResponse = AlertDefinitionListResult;
+export type AlertDefinitionsListForScopeNextResponse =
+  AlertDefinitionListResult;
 
 /** Optional parameters. */
 export interface AlertIncidentsGetOptionalParams

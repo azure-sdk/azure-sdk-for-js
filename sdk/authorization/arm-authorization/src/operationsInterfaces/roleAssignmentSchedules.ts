@@ -11,7 +11,7 @@ import {
   RoleAssignmentSchedule,
   RoleAssignmentSchedulesListForScopeOptionalParams,
   RoleAssignmentSchedulesGetOptionalParams,
-  RoleAssignmentSchedulesGetResponse
+  RoleAssignmentSchedulesGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,7 +24,7 @@ export interface RoleAssignmentSchedules {
    */
   listForScope(
     scope: string,
-    options?: RoleAssignmentSchedulesListForScopeOptionalParams
+    options?: RoleAssignmentSchedulesListForScopeOptionalParams,
   ): PagedAsyncIterableIterator<RoleAssignmentSchedule>;
   /**
    * Get the specified role assignment schedule for a resource scope
@@ -35,6 +35,6 @@ export interface RoleAssignmentSchedules {
   get(
     scope: string,
     roleAssignmentScheduleName: string,
-    options?: RoleAssignmentSchedulesGetOptionalParams
+    options?: RoleAssignmentSchedulesGetOptionalParams,
   ): Promise<RoleAssignmentSchedulesGetResponse>;
 }
