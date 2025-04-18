@@ -93,6 +93,8 @@ export interface Deployment {
   properties: DeploymentProperties;
   /** Deployment tags */
   tags?: { [propertyName: string]: string };
+  /** The Managed Identity configuration for a deployment. */
+  identity?: DeploymentIdentity;
 }
 
 /** Deployment properties. */
@@ -103,8 +105,20 @@ export interface DeploymentProperties {
   templateLink?: TemplateLink;
   /** Name and value pairs that define the deployment parameters for the template. You use this element when you want to provide the parameter values directly in the request rather than link to an existing parameter file. Use either the parametersLink property or the parameters property, but not both. It can be a JObject or a well formed JSON string. */
   parameters?: { [propertyName: string]: DeploymentParameter };
+  /** External input values, used by external tooling for parameter evaluation. */
+  externalInputs?: { [propertyName: string]: DeploymentExternalInput };
+  /** External input definitions, used by external tooling to define expected external input values. */
+  externalInputDefinitions?: {
+    [propertyName: string]: DeploymentExternalInputDefinition;
+  };
   /** The URI of parameters file. You use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both. */
   parametersLink?: ParametersLink;
+  /** The configurations to use for deployment extensions. The keys of this object are deployment extension aliases as defined in the deployment template. */
+  extensionConfigs?: {
+    [propertyName: string]: {
+      [propertyName: string]: DeploymentExtensionConfigItem;
+    };
+  };
   /** The mode that is used to deploy resources. This value can be either Incremental or Complete. In Incremental mode, resources are deployed without deleting existing resources that are not included in the template. In Complete mode, resources are deployed and existing resources in the resource group that are not included in the template are deleted. Be careful when using Complete mode as you may unintentionally delete resources. */
   mode: DeploymentMode;
   /** The debug setting of the deployment. */
@@ -137,6 +151,8 @@ export interface DeploymentParameter {
   value?: any;
   /** Azure Key Vault parameter reference. */
   reference?: KeyVaultParameterReference;
+  /** Input expression to the parameter. */
+  expression?: string;
 }
 
 /** Azure Key Vault parameter reference. */
@@ -155,12 +171,38 @@ export interface KeyVaultReference {
   id: string;
 }
 
+/** Deployment external input for parameterization. */
+export interface DeploymentExternalInput {
+  /** External input value. */
+  value: any;
+}
+
+/** Deployment external input definition for parameterization. */
+export interface DeploymentExternalInputDefinition {
+  /** The kind of external input. */
+  kind: string;
+  /** Configuration for the external input. */
+  config?: any;
+}
+
 /** Entity representing the reference to the deployment parameters. */
 export interface ParametersLink {
   /** The URI of the parameters file. */
   uri: string;
   /** If included, must match the ContentVersion in the template. */
   contentVersion?: string;
+}
+
+export interface DeploymentExtensionConfigItem {
+  /**
+   * The value type of the extension config property.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: ExtensionConfigPropertyType;
+  /** The value of the extension config property. */
+  value?: any;
+  /** The Azure Key Vault reference used to retrieve the secret value of the extension config property. */
+  keyVaultReference?: KeyVaultParameterReference;
 }
 
 /** The debug setting. */
@@ -181,6 +223,30 @@ export interface OnErrorDeployment {
 export interface ExpressionEvaluationOptions {
   /** The scope to be used for evaluation of parameters, variables and functions in a nested template. */
   scope?: ExpressionEvaluationOptionsScopeType;
+}
+
+/** The Managed Identity configuration for a deployment. */
+export interface DeploymentIdentity {
+  /** The identity type. */
+  type: DeploymentIdentityType;
+  /** The set of user assigned identities associated with the resource. */
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentity | null;
+  };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
 }
 
 /** Deployment information. */
@@ -260,6 +326,11 @@ export interface DeploymentPropertiesExtended {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly parametersLink?: ParametersLink;
+  /**
+   * The extensions used in this deployment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly extensions?: DeploymentExtensionDefinition[];
   /**
    * The deployment mode. Possible values are Incremental and Complete.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -469,6 +540,34 @@ export interface BasicDependency {
   resourceName?: string;
 }
 
+export interface DeploymentExtensionDefinition {
+  /**
+   * The alias of the extension as defined in the deployment template.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly alias?: string;
+  /**
+   * The extension name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The extension version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+  /**
+   * The extension configuration ID. It uniquely identifies a deployment control plane within an extension.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configId?: string;
+  /**
+   * The extension configuration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly config?: { [propertyName: string]: DeploymentExtensionConfigItem };
+}
+
 /** Deployment on error behavior with additional details. */
 export interface OnErrorDeploymentExtended {
   /**
@@ -485,10 +584,30 @@ export interface OnErrorDeploymentExtended {
 /** The resource Id model. */
 export interface ResourceReference {
   /**
-   * The fully qualified resource Id.
+   * The fully qualified Azure resource ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
+  /**
+   * The extension the resource was deployed with.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly extension?: DeploymentExtensionDefinition;
+  /**
+   * The resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceType?: string;
+  /**
+   * The extensible resource identifiers.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly identifiers?: Record<string, unknown>;
+  /**
+   * The API version the resource was deployed with.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly apiVersion?: string;
 }
 
 export interface DeploymentDiagnosticsDefinition {
@@ -613,6 +732,8 @@ export interface WhatIfChange {
   symbolicName?: string;
   /** A subset of properties that uniquely identify a Bicep extensible resource because it lacks a resource id like an Azure resource has. */
   identifiers?: Record<string, unknown>;
+  /** The extension the resource was deployed with. */
+  extension?: DeploymentExtensionDefinition;
   /** Type of change that will be made to the resource when the deployment is executed. */
   changeType: ChangeType;
   /** The explanation about why the resource is unsupported by What-If. */
@@ -1051,12 +1172,20 @@ export interface StatusMessage {
 
 /** Target resource. */
 export interface TargetResource {
-  /** The ID of the resource. */
+  /** The Azure resource ID of the resource. */
   id?: string;
   /** The name of the resource. */
   resourceName?: string;
   /** The type of the resource. */
   resourceType?: string;
+  /** The extension the resource was deployed with. */
+  extension?: DeploymentExtensionDefinition;
+  /** The extensible resource identifiers. */
+  identifiers?: Record<string, unknown>;
+  /** The API version the resource was deployed with. */
+  apiVersion?: string;
+  /** The symbolic name of the resource as defined in the deployment template. */
+  symbolicName?: string;
 }
 
 /** HTTP message. */
@@ -1260,6 +1389,39 @@ export interface TagsDeleteAtScopeHeaders {
   location?: string;
 }
 
+/** Known values of {@link ExtensionConfigPropertyType} that the service accepts. */
+export enum KnownExtensionConfigPropertyType {
+  /** Property type representing a string value. */
+  String = "String",
+  /** Property type representing an integer value. */
+  Int = "Int",
+  /** Property type representing a boolean value. */
+  Bool = "Bool",
+  /** Property type representing an array value. */
+  Array = "Array",
+  /** Property type representing an object value. */
+  Object = "Object",
+  /** Property type representing a secure string value. */
+  SecureString = "SecureString",
+  /** Property type representing a secure object value. */
+  SecureObject = "SecureObject",
+}
+
+/**
+ * Defines values for ExtensionConfigPropertyType. \
+ * {@link KnownExtensionConfigPropertyType} can be used interchangeably with ExtensionConfigPropertyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **String**: Property type representing a string value. \
+ * **Int**: Property type representing an integer value. \
+ * **Bool**: Property type representing a boolean value. \
+ * **Array**: Property type representing an array value. \
+ * **Object**: Property type representing an object value. \
+ * **SecureString**: Property type representing a secure string value. \
+ * **SecureObject**: Property type representing a secure object value.
+ */
+export type ExtensionConfigPropertyType = string;
+
 /** Known values of {@link ExpressionEvaluationOptionsScopeType} that the service accepts. */
 export enum KnownExpressionEvaluationOptionsScopeType {
   /** NotSpecified */
@@ -1301,6 +1463,24 @@ export enum KnownValidationLevel {
  * **ProviderNoRbac**: Static analysis of the template is performed and resource declarations are sent to resource providers for semantic validation. Skips validating that the caller has RBAC write permissions on each resource.
  */
 export type ValidationLevel = string;
+
+/** Known values of {@link DeploymentIdentityType} that the service accepts. */
+export enum KnownDeploymentIdentityType {
+  /** None */
+  None = "None",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+}
+
+/**
+ * Defines values for DeploymentIdentityType. \
+ * {@link KnownDeploymentIdentityType} can be used interchangeably with DeploymentIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **UserAssigned**
+ */
+export type DeploymentIdentityType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
