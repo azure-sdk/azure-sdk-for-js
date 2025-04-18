@@ -8,6 +8,11 @@
 
 import * as coreClient from "@azure/core-client";
 
+export type HciEdgeDeviceJobPropertiesUnion =
+  | HciEdgeDeviceJobProperties
+  | HciCollectLogJobProperties
+  | HciRemoteSupportJobProperties;
+export type EdgeDeviceJobUnion = EdgeDeviceJob | HciEdgeDeviceJob;
 export type EdgeDeviceUnion = EdgeDevice | HciEdgeDevice;
 
 /** List of ArcSetting proxy resources for the HCI cluster. */
@@ -264,15 +269,15 @@ export interface LogCollectionSession {
    */
   readonly logCollectionStatus?: LogCollectionStatus;
   /**
-   * LogCollection job type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly logCollectionJobType?: LogCollectionJobType;
-  /**
    * CorrelationId of the log collection
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly correlationId?: string;
+  /**
+   * LogCollection job type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly logCollectionJobType?: LogCollectionJobType;
   /**
    * End Time of the logs when it was collected
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -452,6 +457,11 @@ export interface ClusterReportedProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly oemActivation?: OemActivation;
+  /**
+   * Hardware class of the cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hardwareClass?: HardwareClass;
 }
 
 /** Cluster node details. */
@@ -552,6 +562,22 @@ export interface IsolatedVmAttestationConfiguration {
   readonly attestationServiceEndpoint?: string;
 }
 
+/** Secrets location details */
+export interface SecretsLocationDetails {
+  /** Type of secrets to store */
+  secretsType: SecretsType;
+  /** secrets location */
+  secretsLocation: string;
+}
+
+/** Local Availability Zone information for HCI cluster */
+export interface LocalAvailabilityZones {
+  /** Local Availability Zone name for HCI cluster */
+  localAvailabilityZoneName?: string;
+  /** Nodes belonging to a particular zone */
+  nodes?: string[];
+}
+
 /** Cluster details to update. */
 export interface ClusterPatch {
   /** Resource tags. */
@@ -578,6 +604,12 @@ export interface ClusterPatch {
   type?: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
   userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/** Update secrets locations change  Request. */
+export interface SecretsLocationsChangeRequest {
+  /** List of secret locations */
+  properties?: SecretsLocationDetails[];
 }
 
 export interface UploadCertificateRequest {
@@ -692,6 +724,10 @@ export interface DeploymentData {
   secrets?: EceDeploymentSecrets[];
   /** OptionalServices config to deploy AzureStackHCI Cluster. */
   optionalServices?: OptionalServices;
+  /** Local Availability Zone information for HCI cluster */
+  localAvailabilityZones?: LocalAvailabilityZones[];
+  /** Assembly Package details for Validated Solution Recipe for AzureStackHCI Cluster */
+  assemblyInfo?: AssemblyInfo;
 }
 
 /** The SecuritySettings of AzureStackHCI Cluster. */
@@ -740,6 +776,13 @@ export interface DeploymentCluster {
   cloudAccountName?: string;
   /** For Azure blob service endpoint type, select either Default or Custom domain. If you selected **Custom domain, enter the domain for the blob service in this format core.windows.net. */
   azureServiceEndpoint?: string;
+  /** Cluster Pattern supported. */
+  clusterPattern?: ClusterPattern;
+  /**
+   * Hardware class of the cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hardwareClass?: HardwareClass;
 }
 
 /** The Storage config of AzureStackHCI Cluster. */
@@ -894,6 +937,44 @@ export interface OptionalServices {
   customLocation?: string;
 }
 
+/** Assembly Package details for Validated Solution Recipe for AzureStackHCI Cluster */
+export interface AssemblyInfo {
+  /**
+   * Assembly Package version for Validated Solution Recipe for AzureStackHCI Cluster
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly packageVersion?: string;
+  /**
+   * Payload properties for Validated Solution Recipe for AzureStackHCI Cluster
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly payload?: AssemblyInfoPayload[];
+}
+
+/** Payload properties for Validated Solution Recipe for AzureStackHCI Cluster */
+export interface AssemblyInfoPayload {
+  /**
+   * assembly identifier for Validated Solution Recipe for AzureStackHCI Cluster
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly identifier?: string;
+  /**
+   * Hash of assembly package for Validated Solution Recipe for AzureStackHCI Cluster
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hash?: string;
+  /**
+   * File name of assembly package for Validated Solution Recipe for AzureStackHCI Cluster
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fileName?: string;
+  /**
+   * Url of assembly package for Validated Solution Recipe for AzureStackHCI Cluster
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly url?: string;
+}
+
 /** The solution builder extension (SBE) partner deployment info for cluster. */
 export interface SbePartnerInfo {
   /** SBE package and manifest information for the solution Builder Extension staged for AzureStackHCI cluster deployment. */
@@ -1006,6 +1087,14 @@ export interface DeploymentStep {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly exception?: string[];
+}
+
+/** The response of a EdgeDeviceJob list operation. */
+export interface EdgeDeviceJobListResult {
+  /** The EdgeDeviceJob items on this page */
+  value: EdgeDeviceJobUnion[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** The response of a EdgeDevice list operation. */
@@ -1312,15 +1401,25 @@ export interface Step {
   steps?: Step[];
 }
 
-/** List of Update Summaries */
-export interface UpdateSummariesList {
-  /** List of Update Summaries */
-  value?: UpdateSummaries[];
+/** List of Updates */
+export interface UpdateList {
+  /** List of Updates */
+  value?: Update[];
   /**
    * Link to the next set of results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+}
+
+/** If update State is HasPrerequisite, this property contains an array of objects describing prerequisite updates before installing this update. Otherwise, it is empty. */
+export interface UpdatePrerequisite {
+  /** Updatable component type. */
+  updateType?: string;
+  /** Version of the prerequisite. */
+  version?: string;
+  /** Friendly name of the prerequisite. */
+  packageName?: string;
 }
 
 /** Current version of each updatable component. */
@@ -1374,10 +1473,10 @@ export interface PrecheckResultTags {
   value?: string;
 }
 
-/** List of Updates */
-export interface UpdateList {
-  /** List of Updates */
-  value?: Update[];
+/** List of Update Summaries */
+export interface UpdateSummariesList {
+  /** List of Update Summaries */
+  value?: UpdateSummaries[];
   /**
    * Link to the next set of results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1385,14 +1484,108 @@ export interface UpdateList {
   readonly nextLink?: string;
 }
 
-/** If update State is HasPrerequisite, this property contains an array of objects describing prerequisite updates before installing this update. Otherwise, it is empty. */
-export interface UpdatePrerequisite {
-  /** Updatable component type. */
-  updateType?: string;
-  /** Version of the prerequisite. */
-  version?: string;
-  /** Friendly name of the prerequisite. */
-  packageName?: string;
+/** The response of a ValidatedSolutionRecipe list operation. */
+export interface ValidatedSolutionRecipeListResult {
+  /** The ValidatedSolutionRecipe items on this page */
+  value: ValidatedSolutionRecipe[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Represents properties of a validated solution recipe resource. */
+export interface ValidatedSolutionRecipeProperties {
+  /** Represents contents of a validated solution recipe. */
+  recipeContent: ValidatedSolutionRecipeContent;
+  /** Represents the signature of the recipe, to be used for ensuring its integrity. */
+  signature?: string;
+}
+
+/** Represents contents of a validated solution recipe resource. */
+export interface ValidatedSolutionRecipeContent {
+  /** Represents information about a validated solution recipe. */
+  info: ValidatedSolutionRecipeInfo;
+  /** Represents capabilities available in a validated solution recipe. */
+  capabilities?: ValidatedSolutionRecipeCapabilities;
+  /** Represents components available in a validated solution recipe. */
+  components: ValidatedSolutionRecipeComponent[];
+}
+
+/** Represents information about a validated solution recipe. */
+export interface ValidatedSolutionRecipeInfo {
+  /** Represents the solution type for which this validated solution recipe is applicable. */
+  solutionType: string;
+  /** Represents the version for which this validated solution recipe is applicable. */
+  version: string;
+}
+
+/** Represents capabilities available in a validated solution recipe. */
+export interface ValidatedSolutionRecipeCapabilities {
+  /** Represents the cluster capabilities. */
+  clusterCapabilities: ValidatedSolutionRecipeCapability[];
+  /** Represents the node capabilities. */
+  nodeCapabilities: ValidatedSolutionRecipeCapability[];
+}
+
+/** Represents capability available in a validated solution recipe. */
+export interface ValidatedSolutionRecipeCapability {
+  /** Represents the capability name. */
+  capabilityName: string;
+}
+
+/** Represents component available in a validated solution recipe. */
+export interface ValidatedSolutionRecipeComponent {
+  /** Represents the component's name. */
+  name: string;
+  /** Represents the component's type. */
+  type: string;
+  /** Represents the component's required version. */
+  requiredVersion?: string;
+  /** Represents the component's install order. */
+  installOrder?: number;
+  /** Represents the component's tags. */
+  tags: string[];
+  /** Represents the component's payloads. */
+  payloads?: ValidatedSolutionRecipeComponentPayload[];
+  /** Represents the component's metadata. */
+  metadata?: ValidatedSolutionRecipeComponentMetadata;
+}
+
+/** Represents payloads associated with a component available in a validated solution recipe. */
+export interface ValidatedSolutionRecipeComponentPayload {
+  /** Represents the unique identifier of the payload used to query the URL. */
+  identifier: string;
+  /** Represents the cryptographic hash of the payload, ensuring data integrity. */
+  hash: string;
+  /** Represents the name of the file associated with the payload. */
+  fileName: string;
+  /** Represents the URL from which the payload can be downloaded. */
+  url: string;
+}
+
+/** Represents metadata associated with a component available in a validated solution recipe. */
+export interface ValidatedSolutionRecipeComponentMetadata {
+  /** Represents the type of extension. */
+  extensionType?: string;
+  /** Represents the publisher of the extension. */
+  publisher?: string;
+  /** Indicates whether automatic upgrades of the extension are enabled. */
+  enableAutomaticUpgrade?: boolean;
+  /** Indicates whether the LCM (Lifecycle Management) update of the extension is enabled. */
+  lcmUpdate?: boolean;
+  /** Specifies the catalog to which the extension belongs. */
+  catalog?: string;
+  /** Specifies the ring to which the extension belongs, internally used by component. */
+  ring?: string;
+  /** Specifies the release train to which given component belongs. */
+  releaseTrain?: string;
+  /** Specifies the link associated with the extension. */
+  link?: string;
+  /** Specifies the name of the extension. */
+  name?: string;
+  /** Specifies the expected hash of the extension. */
+  expectedHash?: string;
+  /** Specifies the preview source of the extension. */
+  previewSource?: string;
 }
 
 /** Connectivity related configuration required by arc server. */
@@ -1409,6 +1602,267 @@ export interface ServiceConfiguration {
   serviceName: ServiceName;
   /** The port on which service is enabled. */
   port: number;
+}
+
+/** Represents the properties of a log collection job. */
+export interface CollectLogJobProperties {
+  /** From date for log collection. */
+  fromDate: Date;
+  /** To date for log collection. */
+  toDate: Date;
+  /**
+   * To date for log collection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastLogGenerated?: Date;
+  /**
+   * log collection job reported properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reportedProperties?: LogCollectionReportedProperties;
+}
+
+/** Represents the reported properties of a log collection job. */
+export interface LogCollectionReportedProperties {
+  /**
+   * The percentage of the job that is complete.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly percentComplete?: number;
+  /**
+   * Validation status of job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly validationStatus?: EceActionStatus;
+  /**
+   * Deployment status of job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deploymentStatus?: EceActionStatus;
+  /**
+   * Details of the log collection session.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly logCollectionSessionDetails?: LogCollectionJobSession[];
+}
+
+/** Represents a session for collecting logs from an edge device. */
+export interface LogCollectionJobSession {
+  /**
+   * The timestamp when log collection started, in ISO 8601 format.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: string;
+  /**
+   * The timestamp when log collection ended, in ISO 8601 format.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: string;
+  /**
+   * The total time logs were collected for, in ISO 8601 duration format.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly timeCollected?: string;
+  /**
+   * The size of the collected logs in bytes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly logSize?: number;
+  /**
+   * The status of the log collection session.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: DeviceLogCollectionStatus;
+  /**
+   * A unique identifier for correlating this log collection session with other operations or sessions.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
+}
+
+/** Edge device job properties */
+export interface EdgeDeviceJobProperties {
+  /** Deployment mode to trigger job. */
+  deploymentMode?: DeploymentMode;
+  /**
+   * Job provisioning state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique, immutable job id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly jobId?: string;
+  /**
+   * The UTC date and time at which the job started.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTimeUtc?: Date;
+  /**
+   * The UTC date and time at which the job completed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTimeUtc?: Date;
+  /**
+   * Status of Edge device job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: JobStatus;
+}
+
+/** HCI Edge device job properties */
+export interface HciEdgeDeviceJobProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  jobType: "CollectLog" | "RemoteSupport";
+  /** Deployment mode to trigger job. */
+  deploymentMode?: DeploymentMode;
+  /**
+   * Job provisioning state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique, immutable job id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly jobId?: string;
+  /**
+   * The UTC date and time at which the job started.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTimeUtc?: Date;
+  /**
+   * The UTC date and time at which the job completed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTimeUtc?: Date;
+  /**
+   * Status of Edge device job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: JobStatus;
+}
+
+/** Represents the reported properties of a remote support job. */
+export interface RemoteSupportJobReportedProperties {
+  /**
+   * The percentage of the job that is complete.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly percentComplete?: number;
+  /**
+   * Validation status of job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly validationStatus?: EceActionStatus;
+  /**
+   * Deployment status of job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deploymentStatus?: EceActionStatus;
+  /**
+   * Optional settings for configuring the node for remote support.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nodeSettings?: RemoteSupportJobNodeSettings;
+  /**
+   * Details of the remote support session.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sessionDetails?: RemoteSupportSession[];
+}
+
+/** Represents the settings of a remote support node. */
+export interface RemoteSupportJobNodeSettings {
+  /**
+   * The state of the remote support node.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: string;
+  /**
+   * The timestamp when the node settings were created, in UTC.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdAt?: Date;
+  /**
+   * The timestamp when the node settings were last updated, in UTC.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedAt?: Date;
+  /**
+   * The current connection status of the remote support session.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly connectionStatus?: string;
+  /**
+   * The error message, if any, from the last connection attempt.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly connectionErrorMessage?: string;
+}
+
+/** Represents a remote support session. */
+export interface RemoteSupportSession {
+  /**
+   * Unique session Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sessionId?: string;
+  /**
+   * The start time of the remote support session, in UTC.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sessionStartTime?: Date;
+  /**
+   * The end time of the remote support session, in UTC.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sessionEndTime?: Date;
+  /**
+   * The level of access granted during the remote support session.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accessLevel?: RemoteSupportAccessLevel;
+  /**
+   * The location where the session transcript is stored.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transcriptLocation?: string;
+}
+
+/** Reported Properties for job triggered from cloud. */
+export interface JobReportedProperties {
+  /**
+   * The percentage of the job that is complete.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly percentComplete?: number;
+  /**
+   * Validation status of job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly validationStatus?: EceActionStatus;
+  /**
+   * Deployment status of job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deploymentStatus?: EceActionStatus;
+}
+
+/** Represents the properties of a remote support job. */
+export interface RemoteSupportJobProperties {
+  /** Remote support access level. */
+  accessLevel: RemoteSupportAccessLevel;
+  /** Remote support expiration timestamp. */
+  expirationTimestamp: Date;
+  /** Remote support type. */
+  type: RemoteSupportType;
+  /**
+   * log collection job reported properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reportedProperties?: RemoteSupportJobReportedProperties;
 }
 
 /** The AdapterPropertyOverrides of a cluster. */
@@ -1619,6 +2073,11 @@ export interface HciNicDetail {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nicStatus?: string;
+  /**
+   * Describes the RDMA capability of the network adapter.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rdmaCapability?: RdmaCapability;
 }
 
 /** List of switch details for edge device. */
@@ -1862,6 +2321,24 @@ export interface SbeDeploymentPackageInfo {
   readonly sbeManifest?: string;
 }
 
+/** Storage configurations for HCI device. */
+export interface HciStorageProfile {
+  /**
+   * Number of storage disks in the device with $CanPool as true.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly poolableDisksCount?: number;
+}
+
+/** Hardware configurations for HCI device. */
+export interface HciHardwareProfile {
+  /**
+   * Process type of the device
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly processorType?: string;
+}
+
 /** Reported properties pushed from edge device. */
 export interface ReportedProperties {
   /**
@@ -1885,6 +2362,44 @@ export interface TrackedResource extends Resource {
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
+}
+
+/** Represents the properties of an HCI Collect Log job. */
+export interface HciCollectLogJobProperties extends HciEdgeDeviceJobProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  jobType: "CollectLog";
+  /** From date for log collection. */
+  fromDate: Date;
+  /** To date for log collection. */
+  toDate: Date;
+  /**
+   * To date for log collection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastLogGenerated?: Date;
+  /**
+   * log collection job reported properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reportedProperties?: LogCollectionReportedProperties;
+}
+
+/** Represents the properties of a remote support job for HCI. */
+export interface HciRemoteSupportJobProperties
+  extends HciEdgeDeviceJobProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  jobType: "RemoteSupport";
+  /** Remote support access level. */
+  accessLevel: RemoteSupportAccessLevel;
+  /** Remote support expiration timestamp. */
+  expirationTimestamp: Date;
+  /** Remote support type. */
+  type: RemoteSupportType;
+  /**
+   * log collection job reported properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reportedProperties?: RemoteSupportJobReportedProperties;
 }
 
 /** properties for Arc-enabled edge device with HCI OS. */
@@ -1913,6 +2428,16 @@ export interface HciReportedProperties extends ReportedProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly sbeDeploymentPackageInfo?: SbeDeploymentPackageInfo;
+  /**
+   * Hci device storage specific information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly storageProfile?: HciStorageProfile;
+  /**
+   * Hci device hardware specific information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hardwareProfile?: HciHardwareProfile;
 }
 
 /** ArcSetting details. */
@@ -1971,6 +2496,12 @@ export interface DeploymentSetting extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly reportedProperties?: EceReportedProperties;
+}
+
+/** EdgeDevice Jobs resource */
+export interface EdgeDeviceJob extends ProxyResource {
+  /** Edge Solution type to support polymorphic resource. */
+  kind: EdgeDeviceKind;
 }
 
 /** Edge device resource. */
@@ -2118,41 +2649,6 @@ export interface UpdateRun extends ProxyResource {
   steps?: Step[];
 }
 
-/** Get the update summaries for the cluster */
-export interface UpdateSummaries extends ProxyResource {
-  /** The geo-location where the resource lives */
-  location?: string;
-  /**
-   * Provisioning state of the UpdateSummaries proxy resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** OEM family name. */
-  oemFamily?: string;
-  /** Current OEM Version. */
-  currentOemVersion?: string;
-  /** Name of the hardware model. */
-  hardwareModel?: string;
-  /** Current version of each updatable component. */
-  packageVersions?: PackageVersionInfo[];
-  /** Current Solution Bundle version of the stamp. */
-  currentVersion?: string;
-  /** Current Sbe version of the stamp. */
-  currentSbeVersion?: string;
-  /** Last time an update installation completed successfully. */
-  lastUpdated?: Date;
-  /** Last time the update service successfully checked for updates */
-  lastChecked?: Date;
-  /** Overall health state for update-specific health checks. */
-  healthState?: HealthState;
-  /** An array of pre-check result objects. */
-  healthCheckResult?: PrecheckResult[];
-  /** Last time the package-specific checks were run. */
-  healthCheckDate?: Date;
-  /** Overall update state of the stamp. */
-  state?: UpdateSummariesPropertiesState;
-}
-
 /** Update details */
 export interface Update extends ProxyResource {
   /** The geo-location where the resource lives */
@@ -2203,6 +2699,47 @@ export interface Update extends ProxyResource {
   progressPercentage?: number;
   /** Brief message with instructions for updates of AvailabilityType Notify. */
   notifyMessage?: string;
+}
+
+/** Get the update summaries for the cluster */
+export interface UpdateSummaries extends ProxyResource {
+  /** The geo-location where the resource lives */
+  location?: string;
+  /**
+   * Provisioning state of the UpdateSummaries proxy resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** OEM family name. */
+  oemFamily?: string;
+  /** Current OEM Version. */
+  currentOemVersion?: string;
+  /** Name of the hardware model. */
+  hardwareModel?: string;
+  /** Current version of each updatable component. */
+  packageVersions?: PackageVersionInfo[];
+  /** Current Solution Bundle version of the stamp. */
+  currentVersion?: string;
+  /** Current Sbe version of the stamp. */
+  currentSbeVersion?: string;
+  /** Last time an update installation completed successfully. */
+  lastUpdated?: Date;
+  /** Last time the update service successfully checked for updates */
+  lastChecked?: Date;
+  /** Overall health state for update-specific health checks. */
+  healthState?: HealthState;
+  /** An array of pre-check result objects. */
+  healthCheckResult?: PrecheckResult[];
+  /** Last time the package-specific checks were run. */
+  healthCheckDate?: Date;
+  /** Overall update state of the stamp. */
+  state?: UpdateSummariesPropertiesState;
+}
+
+/** Represents a validated solution recipe resource. */
+export interface ValidatedSolutionRecipe extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ValidatedSolutionRecipeProperties;
 }
 
 /** Cluster details. */
@@ -2290,6 +2827,15 @@ export interface Cluster extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceProviderObjectId?: string;
+  /** List of secret locations. */
+  secretsLocations?: SecretsLocationDetails[];
+  /**
+   * Supported Storage Type for HCI Cluster
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clusterPattern?: ClusterPattern;
+  /** Local Availability Zone information for HCI cluster */
+  localAvailabilityZones?: LocalAvailabilityZones[];
   /**
    * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2306,12 +2852,28 @@ export interface Cluster extends TrackedResource {
   userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
 }
 
+/** Edge device job for Azure Stack HCI solution. */
+export interface HciEdgeDeviceJob extends EdgeDeviceJob {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "HCI";
+  /** HCI Edge device job properties */
+  properties: HciEdgeDeviceJobPropertiesUnion;
+}
+
 /** Arc-enabled edge device with HCI OS. */
 export interface HciEdgeDevice extends EdgeDevice {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "HCI";
   /** properties for Arc-enabled edge device with HCI OS. */
   properties?: HciEdgeDeviceProperties;
+}
+
+/** Defines headers for Clusters_updateSecretsLocations operation. */
+export interface ClustersUpdateSecretsLocationsHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for Clusters_triggerLogCollection operation. */
@@ -2336,6 +2898,22 @@ export interface DeploymentSettingsDeleteHeaders {
   retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+}
+
+/** Defines headers for EdgeDeviceJobs_createOrUpdate operation. */
+export interface EdgeDeviceJobsCreateOrUpdateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for EdgeDeviceJobs_delete operation. */
+export interface EdgeDeviceJobsDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for EdgeDevices_createOrUpdate operation. */
@@ -2380,12 +2958,6 @@ export interface UpdateRunsDeleteHeaders {
   azureAsyncOperation?: string;
 }
 
-/** Defines headers for UpdateSummaries_delete operation. */
-export interface UpdateSummariesDeleteHeaders {
-  /** URL to query for status of the operation. */
-  azureAsyncOperation?: string;
-}
-
 /** Defines headers for Updates_post operation. */
 export interface UpdatesPostHeaders {
   /** URL to query for status of the operation. */
@@ -2394,6 +2966,12 @@ export interface UpdatesPostHeaders {
 
 /** Defines headers for Updates_delete operation. */
 export interface UpdatesDeleteHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for UpdateSummaries_delete operation. */
+export interface UpdateSummariesDeleteHeaders {
   /** URL to query for status of the operation. */
   azureAsyncOperation?: string;
 }
@@ -2938,6 +3516,60 @@ export enum KnownImdsAttestation {
  */
 export type ImdsAttestation = string;
 
+/** Known values of {@link HardwareClass} that the service accepts. */
+export enum KnownHardwareClass {
+  /** The hardware class is small. */
+  Small = "Small",
+  /** The hardware class is medium. This corresponds to the default */
+  Medium = "Medium",
+  /** The hardware class is large. */
+  Large = "Large",
+}
+
+/**
+ * Defines values for HardwareClass. \
+ * {@link KnownHardwareClass} can be used interchangeably with HardwareClass,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Small**: The hardware class is small. \
+ * **Medium**: The hardware class is medium. This corresponds to the default \
+ * **Large**: The hardware class is large.
+ */
+export type HardwareClass = string;
+
+/** Known values of {@link SecretsType} that the service accepts. */
+export enum KnownSecretsType {
+  /** Backup secrets type */
+  BackupSecrets = "BackupSecrets",
+}
+
+/**
+ * Defines values for SecretsType. \
+ * {@link KnownSecretsType} can be used interchangeably with SecretsType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **BackupSecrets**: Backup secrets type
+ */
+export type SecretsType = string;
+
+/** Known values of {@link ClusterPattern} that the service accepts. */
+export enum KnownClusterPattern {
+  /** Standard cluster. */
+  Standard = "Standard",
+  /** RackAware cluster. */
+  RackAware = "RackAware",
+}
+
+/**
+ * Defines values for ClusterPattern. \
+ * {@link KnownClusterPattern} can be used interchangeably with ClusterPattern,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard**: Standard cluster. \
+ * **RackAware**: RackAware cluster.
+ */
+export type ClusterPattern = string;
+
 /** Known values of {@link DeploymentMode} that the service accepts. */
 export enum KnownDeploymentMode {
   /** Validate ECE action deployment for a cluster. */
@@ -2997,6 +3629,21 @@ export enum KnownEceSecrets {
  * **WitnessStorageKey**: WitnessStorageKey used for setting up a cloud witness for AzureStackHCI cluster.
  */
 export type EceSecrets = string;
+
+/** Known values of {@link EdgeDeviceKind} that the service accepts. */
+export enum KnownEdgeDeviceKind {
+  /** Arc-enabled edge device with HCI OS. */
+  HCI = "HCI",
+}
+
+/**
+ * Defines values for EdgeDeviceKind. \
+ * {@link KnownEdgeDeviceKind} can be used interchangeably with EdgeDeviceKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **HCI**: Arc-enabled edge device with HCI OS.
+ */
+export type EdgeDeviceKind = string;
 
 /** Known values of {@link DeviceKind} that the service accepts. */
 export enum KnownDeviceKind {
@@ -3280,96 +3927,6 @@ export enum KnownUpdateRunPropertiesState {
  */
 export type UpdateRunPropertiesState = string;
 
-/** Known values of {@link HealthState} that the service accepts. */
-export enum KnownHealthState {
-  /** Unknown */
-  Unknown = "Unknown",
-  /** Success */
-  Success = "Success",
-  /** Failure */
-  Failure = "Failure",
-  /** Warning */
-  Warning = "Warning",
-  /** Error */
-  Error = "Error",
-  /** InProgress */
-  InProgress = "InProgress",
-}
-
-/**
- * Defines values for HealthState. \
- * {@link KnownHealthState} can be used interchangeably with HealthState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unknown** \
- * **Success** \
- * **Failure** \
- * **Warning** \
- * **Error** \
- * **InProgress**
- */
-export type HealthState = string;
-
-/** Known values of {@link Severity} that the service accepts. */
-export enum KnownSeverity {
-  /** Critical */
-  Critical = "Critical",
-  /** Warning */
-  Warning = "Warning",
-  /** Informational */
-  Informational = "Informational",
-  /** Hidden */
-  Hidden = "Hidden",
-}
-
-/**
- * Defines values for Severity. \
- * {@link KnownSeverity} can be used interchangeably with Severity,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Critical** \
- * **Warning** \
- * **Informational** \
- * **Hidden**
- */
-export type Severity = string;
-
-/** Known values of {@link UpdateSummariesPropertiesState} that the service accepts. */
-export enum KnownUpdateSummariesPropertiesState {
-  /** Unknown */
-  Unknown = "Unknown",
-  /** AppliedSuccessfully */
-  AppliedSuccessfully = "AppliedSuccessfully",
-  /** UpdateAvailable */
-  UpdateAvailable = "UpdateAvailable",
-  /** UpdateInProgress */
-  UpdateInProgress = "UpdateInProgress",
-  /** UpdateFailed */
-  UpdateFailed = "UpdateFailed",
-  /** NeedsAttention */
-  NeedsAttention = "NeedsAttention",
-  /** PreparationInProgress */
-  PreparationInProgress = "PreparationInProgress",
-  /** PreparationFailed */
-  PreparationFailed = "PreparationFailed",
-}
-
-/**
- * Defines values for UpdateSummariesPropertiesState. \
- * {@link KnownUpdateSummariesPropertiesState} can be used interchangeably with UpdateSummariesPropertiesState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unknown** \
- * **AppliedSuccessfully** \
- * **UpdateAvailable** \
- * **UpdateInProgress** \
- * **UpdateFailed** \
- * **NeedsAttention** \
- * **PreparationInProgress** \
- * **PreparationFailed**
- */
-export type UpdateSummariesPropertiesState = string;
-
 /** Known values of {@link State} that the service accepts. */
 export enum KnownState {
   /** HasPrerequisite */
@@ -3460,6 +4017,60 @@ export enum KnownRebootRequirement {
  */
 export type RebootRequirement = string;
 
+/** Known values of {@link HealthState} that the service accepts. */
+export enum KnownHealthState {
+  /** Unknown */
+  Unknown = "Unknown",
+  /** Success */
+  Success = "Success",
+  /** Failure */
+  Failure = "Failure",
+  /** Warning */
+  Warning = "Warning",
+  /** Error */
+  Error = "Error",
+  /** InProgress */
+  InProgress = "InProgress",
+}
+
+/**
+ * Defines values for HealthState. \
+ * {@link KnownHealthState} can be used interchangeably with HealthState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **Success** \
+ * **Failure** \
+ * **Warning** \
+ * **Error** \
+ * **InProgress**
+ */
+export type HealthState = string;
+
+/** Known values of {@link Severity} that the service accepts. */
+export enum KnownSeverity {
+  /** Critical */
+  Critical = "Critical",
+  /** Warning */
+  Warning = "Warning",
+  /** Informational */
+  Informational = "Informational",
+  /** Hidden */
+  Hidden = "Hidden",
+}
+
+/**
+ * Defines values for Severity. \
+ * {@link KnownSeverity} can be used interchangeably with Severity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Critical** \
+ * **Warning** \
+ * **Informational** \
+ * **Hidden**
+ */
+export type Severity = string;
+
 /** Known values of {@link AvailabilityType} that the service accepts. */
 export enum KnownAvailabilityType {
   /** Local */
@@ -3481,6 +4092,42 @@ export enum KnownAvailabilityType {
  */
 export type AvailabilityType = string;
 
+/** Known values of {@link UpdateSummariesPropertiesState} that the service accepts. */
+export enum KnownUpdateSummariesPropertiesState {
+  /** Unknown */
+  Unknown = "Unknown",
+  /** AppliedSuccessfully */
+  AppliedSuccessfully = "AppliedSuccessfully",
+  /** UpdateAvailable */
+  UpdateAvailable = "UpdateAvailable",
+  /** UpdateInProgress */
+  UpdateInProgress = "UpdateInProgress",
+  /** UpdateFailed */
+  UpdateFailed = "UpdateFailed",
+  /** NeedsAttention */
+  NeedsAttention = "NeedsAttention",
+  /** PreparationInProgress */
+  PreparationInProgress = "PreparationInProgress",
+  /** PreparationFailed */
+  PreparationFailed = "PreparationFailed",
+}
+
+/**
+ * Defines values for UpdateSummariesPropertiesState. \
+ * {@link KnownUpdateSummariesPropertiesState} can be used interchangeably with UpdateSummariesPropertiesState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **AppliedSuccessfully** \
+ * **UpdateAvailable** \
+ * **UpdateInProgress** \
+ * **UpdateFailed** \
+ * **NeedsAttention** \
+ * **PreparationInProgress** \
+ * **PreparationFailed**
+ */
+export type UpdateSummariesPropertiesState = string;
+
 /** Known values of {@link ServiceName} that the service accepts. */
 export enum KnownServiceName {
   /** WAC */
@@ -3495,6 +4142,120 @@ export enum KnownServiceName {
  * **WAC**
  */
 export type ServiceName = string;
+
+/** Known values of {@link DeviceLogCollectionStatus} that the service accepts. */
+export enum KnownDeviceLogCollectionStatus {
+  /** Log collection operation has not been initiated. */
+  NotStarted = "NotStarted",
+  /** Indicates that the log collection operation is currently running. */
+  Running = "Running",
+  /** Indicates that the log collection operation has failed. */
+  Failed = "Failed",
+  /** Indicates that the log collection operation has completed successfully. */
+  Succeeded = "Succeeded",
+  /** Indicates that the log collection operation has completed successfully. */
+  Canceled = "Canceled",
+}
+
+/**
+ * Defines values for DeviceLogCollectionStatus. \
+ * {@link KnownDeviceLogCollectionStatus} can be used interchangeably with DeviceLogCollectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotStarted**: Log collection operation has not been initiated. \
+ * **Running**: Indicates that the log collection operation is currently running. \
+ * **Failed**: Indicates that the log collection operation has failed. \
+ * **Succeeded**: Indicates that the log collection operation has completed successfully. \
+ * **Canceled**: Indicates that the log collection operation has completed successfully.
+ */
+export type DeviceLogCollectionStatus = string;
+
+/** Known values of {@link JobStatus} that the service accepts. */
+export enum KnownJobStatus {
+  /** The job status has not been specified. */
+  NotSpecified = "NotSpecified",
+  /** The job is currently undergoing validation. */
+  ValidationInProgress = "ValidationInProgress",
+  /** The job has successfully passed validation. */
+  ValidationSuccess = "ValidationSuccess",
+  /** The job has failed validation. */
+  ValidationFailed = "ValidationFailed",
+  /** The job's deployment is currently in progress. */
+  DeploymentInProgress = "DeploymentInProgress",
+  /** The job's deployment has failed. */
+  DeploymentFailed = "DeploymentFailed",
+  /** The job has been successfully deployed. */
+  DeploymentSuccess = "DeploymentSuccess",
+  /** The job has succeeded. */
+  Succeeded = "Succeeded",
+  /** The job has failed. */
+  Failed = "Failed",
+  /** The job has been canceled. */
+  Canceled = "Canceled",
+  /** The job is paused. */
+  Paused = "Paused",
+  /** The job is scheduled to run. */
+  Scheduled = "Scheduled",
+}
+
+/**
+ * Defines values for JobStatus. \
+ * {@link KnownJobStatus} can be used interchangeably with JobStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: The job status has not been specified. \
+ * **ValidationInProgress**: The job is currently undergoing validation. \
+ * **ValidationSuccess**: The job has successfully passed validation. \
+ * **ValidationFailed**: The job has failed validation. \
+ * **DeploymentInProgress**: The job's deployment is currently in progress. \
+ * **DeploymentFailed**: The job's deployment has failed. \
+ * **DeploymentSuccess**: The job has been successfully deployed. \
+ * **Succeeded**: The job has succeeded. \
+ * **Failed**: The job has failed. \
+ * **Canceled**: The job has been canceled. \
+ * **Paused**: The job is paused. \
+ * **Scheduled**: The job is scheduled to run.
+ */
+export type JobStatus = string;
+
+/** Known values of {@link HciEdgeDeviceJobType} that the service accepts. */
+export enum KnownHciEdgeDeviceJobType {
+  /** Job to collect logs from the device. */
+  CollectLog = "CollectLog",
+  /** Job to provide remote support to the device. */
+  RemoteSupport = "RemoteSupport",
+}
+
+/**
+ * Defines values for HciEdgeDeviceJobType. \
+ * {@link KnownHciEdgeDeviceJobType} can be used interchangeably with HciEdgeDeviceJobType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CollectLog**: Job to collect logs from the device. \
+ * **RemoteSupport**: Job to provide remote support to the device.
+ */
+export type HciEdgeDeviceJobType = string;
+
+/** Known values of {@link RemoteSupportAccessLevel} that the service accepts. */
+export enum KnownRemoteSupportAccessLevel {
+  /** No remote support access is granted. */
+  None = "None",
+  /** Access is limited to diagnostics information only. */
+  Diagnostics = "Diagnostics",
+  /** Access includes diagnostics information and the ability to perform repairs. */
+  DiagnosticsAndRepair = "DiagnosticsAndRepair",
+}
+
+/**
+ * Defines values for RemoteSupportAccessLevel. \
+ * {@link KnownRemoteSupportAccessLevel} can be used interchangeably with RemoteSupportAccessLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No remote support access is granted. \
+ * **Diagnostics**: Access is limited to diagnostics information only. \
+ * **DiagnosticsAndRepair**: Access includes diagnostics information and the ability to perform repairs.
+ */
+export type RemoteSupportAccessLevel = string;
 
 /** Known values of {@link ArcExtensionState} that the service accepts. */
 export enum KnownArcExtensionState {
@@ -3538,6 +4299,24 @@ export enum KnownArcExtensionState {
  */
 export type ArcExtensionState = string;
 
+/** Known values of {@link RdmaCapability} that the service accepts. */
+export enum KnownRdmaCapability {
+  /** Network Adapter on the device is RDMA Capable */
+  Enabled = "Enabled",
+  /** Network Adapter on the device is RDMA Capable */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for RdmaCapability. \
+ * {@link KnownRdmaCapability} can be used interchangeably with RdmaCapability,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Network Adapter on the device is RDMA Capable \
+ * **Disabled**: Network Adapter on the device is RDMA Capable
+ */
+export type RdmaCapability = string;
+
 /** Known values of {@link DeviceState} that the service accepts. */
 export enum KnownDeviceState {
   /** The edge device state is not specified. */
@@ -3573,6 +4352,39 @@ export enum KnownDeviceState {
  * **Processing**: The edge device state is in processing state.
  */
 export type DeviceState = string;
+
+/** Known values of {@link EdgeDeviceJobType} that the service accepts. */
+export enum KnownEdgeDeviceJobType {
+  /** Job to collect logs from the device. */
+  CollectLog = "CollectLog",
+  /** Job to provide remote support to the device. */
+  RemoteSupport = "RemoteSupport",
+}
+
+/**
+ * Defines values for EdgeDeviceJobType. \
+ * {@link KnownEdgeDeviceJobType} can be used interchangeably with EdgeDeviceJobType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CollectLog**: Job to collect logs from the device. \
+ * **RemoteSupport**: Job to provide remote support to the device.
+ */
+export type EdgeDeviceJobType = string;
+
+/** Known values of {@link EdgeSolutionType} that the service accepts. */
+export enum KnownEdgeSolutionType {
+  /** Edge solution for Windows based edge devices. */
+  WindowsServer = "WindowsServer",
+}
+
+/**
+ * Defines values for EdgeSolutionType. \
+ * {@link KnownEdgeSolutionType} can be used interchangeably with EdgeSolutionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **WindowsServer**: Edge solution for Windows based edge devices.
+ */
+export type EdgeSolutionType = string;
 
 /** Optional parameters. */
 export interface ArcSettingsListByClusterOptionalParams
@@ -3698,6 +4510,18 @@ export interface ClustersDeleteOptionalParams
 }
 
 /** Optional parameters. */
+export interface ClustersUpdateSecretsLocationsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateSecretsLocations operation. */
+export type ClustersUpdateSecretsLocationsResponse = Cluster;
+
+/** Optional parameters. */
 export interface ClustersUploadCertificateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -3814,6 +4638,52 @@ export interface DeploymentSettingsListByClustersNextOptionalParams
 /** Contains response data for the listByClustersNext operation. */
 export type DeploymentSettingsListByClustersNextResponse =
   DeploymentSettingListResult;
+
+/** Optional parameters. */
+export interface EdgeDeviceJobsListByEdgeDeviceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByEdgeDevice operation. */
+export type EdgeDeviceJobsListByEdgeDeviceResponse = EdgeDeviceJobListResult;
+
+/** Optional parameters. */
+export interface EdgeDeviceJobsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type EdgeDeviceJobsGetResponse = EdgeDeviceJobUnion;
+
+/** Optional parameters. */
+export interface EdgeDeviceJobsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type EdgeDeviceJobsCreateOrUpdateResponse = EdgeDeviceJobUnion;
+
+/** Optional parameters. */
+export interface EdgeDeviceJobsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type EdgeDeviceJobsDeleteResponse = EdgeDeviceJobsDeleteHeaders;
+
+/** Optional parameters. */
+export interface EdgeDeviceJobsListByEdgeDeviceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByEdgeDeviceNext operation. */
+export type EdgeDeviceJobsListByEdgeDeviceNextResponse =
+  EdgeDeviceJobListResult;
 
 /** Optional parameters. */
 export interface EdgeDevicesListOptionalParams
@@ -3986,6 +4856,13 @@ export interface OperationsListOptionalParams
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
+
+/** Optional parameters. */
 export interface PublishersListByClusterOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -4116,43 +4993,6 @@ export interface UpdateRunsListNextOptionalParams
 export type UpdateRunsListNextResponse = UpdateRunList;
 
 /** Optional parameters. */
-export interface UpdateSummariesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type UpdateSummariesListResponse = UpdateSummariesList;
-
-/** Optional parameters. */
-export interface UpdateSummariesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface UpdateSummariesPutOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the put operation. */
-export type UpdateSummariesPutResponse = UpdateSummaries;
-
-/** Optional parameters. */
-export interface UpdateSummariesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type UpdateSummariesGetResponse = UpdateSummaries;
-
-/** Optional parameters. */
-export interface UpdateSummariesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type UpdateSummariesListNextResponse = UpdateSummariesList;
-
-/** Optional parameters. */
 export interface UpdatesPostOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -4194,6 +5034,66 @@ export interface UpdatesListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type UpdatesListNextResponse = UpdateList;
+
+/** Optional parameters. */
+export interface UpdateSummariesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type UpdateSummariesListResponse = UpdateSummariesList;
+
+/** Optional parameters. */
+export interface UpdateSummariesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface UpdateSummariesPutOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the put operation. */
+export type UpdateSummariesPutResponse = UpdateSummaries;
+
+/** Optional parameters. */
+export interface UpdateSummariesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type UpdateSummariesGetResponse = UpdateSummaries;
+
+/** Optional parameters. */
+export interface UpdateSummariesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type UpdateSummariesListNextResponse = UpdateSummariesList;
+
+/** Optional parameters. */
+export interface ValidatedSolutionRecipesListBySubscriptionLocationResourceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionLocationResource operation. */
+export type ValidatedSolutionRecipesListBySubscriptionLocationResourceResponse =
+  ValidatedSolutionRecipeListResult;
+
+/** Optional parameters. */
+export interface ValidatedSolutionRecipesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ValidatedSolutionRecipesGetResponse = ValidatedSolutionRecipe;
+
+/** Optional parameters. */
+export interface ValidatedSolutionRecipesListBySubscriptionLocationResourceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionLocationResourceNext operation. */
+export type ValidatedSolutionRecipesListBySubscriptionLocationResourceNextResponse =
+  ValidatedSolutionRecipeListResult;
 
 /** Optional parameters. */
 export interface AzureStackHCIClientOptionalParams

@@ -155,6 +155,20 @@ export interface ArcSettingsUpdateOptionalParams extends coreClient.OperationOpt
 export type ArcSettingsUpdateResponse = ArcSetting;
 
 // @public
+export interface AssemblyInfo {
+    readonly packageVersion?: string;
+    readonly payload?: AssemblyInfoPayload[];
+}
+
+// @public
+export interface AssemblyInfoPayload {
+    readonly fileName?: string;
+    readonly hash?: string;
+    readonly identifier?: string;
+    readonly url?: string;
+}
+
+// @public
 export type AvailabilityType = string;
 
 // @public (undocumented)
@@ -171,6 +185,8 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
     clusters: Clusters;
     // (undocumented)
     deploymentSettings: DeploymentSettings;
+    // (undocumented)
+    edgeDeviceJobs: EdgeDeviceJobs;
     // (undocumented)
     edgeDevices: EdgeDevices;
     // (undocumented)
@@ -193,6 +209,8 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
     updates: Updates;
     // (undocumented)
     updateSummariesOperations: UpdateSummariesOperations;
+    // (undocumented)
+    validatedSolutionRecipes: ValidatedSolutionRecipes;
 }
 
 // @public
@@ -211,11 +229,13 @@ export interface Cluster extends TrackedResource {
     readonly billingModel?: string;
     readonly cloudId?: string;
     cloudManagementEndpoint?: string;
+    readonly clusterPattern?: ClusterPattern;
     readonly connectivityStatus?: ConnectivityStatus;
     desiredProperties?: ClusterDesiredProperties;
     readonly isolatedVmAttestationConfiguration?: IsolatedVmAttestationConfiguration;
     readonly lastBillingTimestamp?: Date;
     readonly lastSyncTimestamp?: Date;
+    localAvailabilityZones?: LocalAvailabilityZones[];
     logCollectionProperties?: LogCollectionProperties;
     readonly principalId?: string;
     readonly provisioningState?: ProvisioningState;
@@ -223,6 +243,7 @@ export interface Cluster extends TrackedResource {
     remoteSupportProperties?: RemoteSupportProperties;
     readonly reportedProperties?: ClusterReportedProperties;
     readonly resourceProviderObjectId?: string;
+    secretsLocations?: SecretsLocationDetails[];
     readonly serviceEndpoint?: string;
     softwareAssuranceProperties?: SoftwareAssuranceProperties;
     readonly status?: Status;
@@ -298,12 +319,16 @@ export interface ClusterPatch {
 }
 
 // @public
+export type ClusterPattern = string;
+
+// @public
 export interface ClusterReportedProperties {
     readonly clusterId?: string;
     readonly clusterName?: string;
     readonly clusterType?: ClusterNodeType;
     readonly clusterVersion?: string;
     diagnosticLevel?: DiagnosticLevel;
+    readonly hardwareClass?: HardwareClass;
     readonly imdsAttestation?: ImdsAttestation;
     readonly lastUpdated?: Date;
     readonly manufacturer?: string;
@@ -324,6 +349,8 @@ export interface Clusters {
     beginExtendSoftwareAssuranceBenefitAndWait(resourceGroupName: string, clusterName: string, softwareAssuranceChangeRequest: SoftwareAssuranceChangeRequest, options?: ClustersExtendSoftwareAssuranceBenefitOptionalParams): Promise<ClustersExtendSoftwareAssuranceBenefitResponse>;
     beginTriggerLogCollection(resourceGroupName: string, clusterName: string, logCollectionRequest: LogCollectionRequest, options?: ClustersTriggerLogCollectionOptionalParams): Promise<SimplePollerLike<OperationState<ClustersTriggerLogCollectionResponse>, ClustersTriggerLogCollectionResponse>>;
     beginTriggerLogCollectionAndWait(resourceGroupName: string, clusterName: string, logCollectionRequest: LogCollectionRequest, options?: ClustersTriggerLogCollectionOptionalParams): Promise<ClustersTriggerLogCollectionResponse>;
+    beginUpdateSecretsLocations(resourceGroupName: string, clusterName: string, body: SecretsLocationsChangeRequest, options?: ClustersUpdateSecretsLocationsOptionalParams): Promise<SimplePollerLike<OperationState<ClustersUpdateSecretsLocationsResponse>, ClustersUpdateSecretsLocationsResponse>>;
+    beginUpdateSecretsLocationsAndWait(resourceGroupName: string, clusterName: string, body: SecretsLocationsChangeRequest, options?: ClustersUpdateSecretsLocationsOptionalParams): Promise<ClustersUpdateSecretsLocationsResponse>;
     beginUploadCertificate(resourceGroupName: string, clusterName: string, uploadCertificateRequest: UploadCertificateRequest, options?: ClustersUploadCertificateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginUploadCertificateAndWait(resourceGroupName: string, clusterName: string, uploadCertificateRequest: UploadCertificateRequest, options?: ClustersUploadCertificateOptionalParams): Promise<void>;
     create(resourceGroupName: string, clusterName: string, cluster: Cluster, options?: ClustersCreateOptionalParams): Promise<ClustersCreateResponse>;
@@ -437,9 +464,32 @@ export interface ClustersUpdateOptionalParams extends coreClient.OperationOption
 export type ClustersUpdateResponse = Cluster;
 
 // @public
+export interface ClustersUpdateSecretsLocationsHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ClustersUpdateSecretsLocationsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ClustersUpdateSecretsLocationsResponse = Cluster;
+
+// @public
 export interface ClustersUploadCertificateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface CollectLogJobProperties {
+    fromDate: Date;
+    readonly lastLogGenerated?: Date;
+    readonly reportedProperties?: LogCollectionReportedProperties;
+    toDate: Date;
 }
 
 // @public
@@ -464,6 +514,8 @@ export interface DefaultExtensionDetails {
 export interface DeploymentCluster {
     azureServiceEndpoint?: string;
     cloudAccountName?: string;
+    clusterPattern?: ClusterPattern;
+    readonly hardwareClass?: HardwareClass;
     name?: string;
     witnessPath?: string;
     witnessType?: string;
@@ -478,10 +530,12 @@ export interface DeploymentConfiguration {
 // @public
 export interface DeploymentData {
     adouPath?: string;
+    assemblyInfo?: AssemblyInfo;
     cluster?: DeploymentCluster;
     domainFqdn?: string;
     hostNetwork?: DeploymentSettingHostNetwork;
     infrastructureNetwork?: InfrastructureNetwork[];
+    localAvailabilityZones?: LocalAvailabilityZones[];
     namingPrefix?: string;
     observability?: Observability;
     optionalServices?: OptionalServices;
@@ -657,6 +711,9 @@ export interface DeviceConfiguration {
 export type DeviceKind = string;
 
 // @public
+export type DeviceLogCollectionStatus = string;
+
+// @public
 export type DeviceState = string;
 
 // @public
@@ -688,6 +745,97 @@ export type EceSecrets = string;
 export interface EdgeDevice extends ProxyResource {
     kind: DeviceKind;
 }
+
+// @public
+export interface EdgeDeviceJob extends ProxyResource {
+    kind: EdgeDeviceKind;
+}
+
+// @public
+export interface EdgeDeviceJobListResult {
+    nextLink?: string;
+    value: EdgeDeviceJobUnion[];
+}
+
+// @public
+export interface EdgeDeviceJobProperties {
+    deploymentMode?: DeploymentMode;
+    readonly endTimeUtc?: Date;
+    readonly jobId?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly startTimeUtc?: Date;
+    readonly status?: JobStatus;
+}
+
+// @public
+export interface EdgeDeviceJobs {
+    beginCreateOrUpdate(resourceUri: string, edgeDeviceName: string, jobsName: string, resource: EdgeDeviceJobUnion, options?: EdgeDeviceJobsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<EdgeDeviceJobsCreateOrUpdateResponse>, EdgeDeviceJobsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceUri: string, edgeDeviceName: string, jobsName: string, resource: EdgeDeviceJobUnion, options?: EdgeDeviceJobsCreateOrUpdateOptionalParams): Promise<EdgeDeviceJobsCreateOrUpdateResponse>;
+    beginDelete(resourceUri: string, edgeDeviceName: string, jobsName: string, options?: EdgeDeviceJobsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<EdgeDeviceJobsDeleteResponse>, EdgeDeviceJobsDeleteResponse>>;
+    beginDeleteAndWait(resourceUri: string, edgeDeviceName: string, jobsName: string, options?: EdgeDeviceJobsDeleteOptionalParams): Promise<EdgeDeviceJobsDeleteResponse>;
+    get(resourceUri: string, edgeDeviceName: string, jobsName: string, options?: EdgeDeviceJobsGetOptionalParams): Promise<EdgeDeviceJobsGetResponse>;
+    listByEdgeDevice(resourceUri: string, edgeDeviceName: string, options?: EdgeDeviceJobsListByEdgeDeviceOptionalParams): PagedAsyncIterableIterator<EdgeDeviceJobUnion>;
+}
+
+// @public
+export interface EdgeDeviceJobsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface EdgeDeviceJobsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type EdgeDeviceJobsCreateOrUpdateResponse = EdgeDeviceJobUnion;
+
+// @public
+export interface EdgeDeviceJobsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface EdgeDeviceJobsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type EdgeDeviceJobsDeleteResponse = EdgeDeviceJobsDeleteHeaders;
+
+// @public
+export interface EdgeDeviceJobsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EdgeDeviceJobsGetResponse = EdgeDeviceJobUnion;
+
+// @public
+export interface EdgeDeviceJobsListByEdgeDeviceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EdgeDeviceJobsListByEdgeDeviceNextResponse = EdgeDeviceJobListResult;
+
+// @public
+export interface EdgeDeviceJobsListByEdgeDeviceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EdgeDeviceJobsListByEdgeDeviceResponse = EdgeDeviceJobListResult;
+
+// @public
+export type EdgeDeviceJobType = string;
+
+// @public (undocumented)
+export type EdgeDeviceJobUnion = EdgeDeviceJob | HciEdgeDeviceJob;
+
+// @public
+export type EdgeDeviceKind = string;
 
 // @public
 export interface EdgeDeviceListResult {
@@ -780,6 +928,9 @@ export type EdgeDevicesValidateResponse = ValidateResponse;
 
 // @public (undocumented)
 export type EdgeDeviceUnion = EdgeDevice | HciEdgeDevice;
+
+// @public
+export type EdgeSolutionType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -938,6 +1089,18 @@ export interface ExtensionUpgradeParameters {
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
+export type HardwareClass = string;
+
+// @public
+export interface HciCollectLogJobProperties extends HciEdgeDeviceJobProperties {
+    fromDate: Date;
+    jobType: "CollectLog";
+    readonly lastLogGenerated?: Date;
+    readonly reportedProperties?: LogCollectionReportedProperties;
+    toDate: Date;
+}
+
+// @public
 export interface HciEdgeDevice extends EdgeDevice {
     kind: "HCI";
     properties?: HciEdgeDeviceProperties;
@@ -990,6 +1153,29 @@ export interface HciEdgeDeviceIntents {
 }
 
 // @public
+export interface HciEdgeDeviceJob extends EdgeDeviceJob {
+    kind: "HCI";
+    properties: HciEdgeDeviceJobPropertiesUnion;
+}
+
+// @public
+export interface HciEdgeDeviceJobProperties {
+    deploymentMode?: DeploymentMode;
+    readonly endTimeUtc?: Date;
+    readonly jobId?: string;
+    jobType: "CollectLog" | "RemoteSupport";
+    readonly provisioningState?: ProvisioningState;
+    readonly startTimeUtc?: Date;
+    readonly status?: JobStatus;
+}
+
+// @public (undocumented)
+export type HciEdgeDeviceJobPropertiesUnion = HciEdgeDeviceJobProperties | HciCollectLogJobProperties | HciRemoteSupportJobProperties;
+
+// @public
+export type HciEdgeDeviceJobType = string;
+
+// @public
 export interface HciEdgeDeviceProperties extends EdgeDeviceProperties {
     readonly reportedProperties?: HciReportedProperties;
 }
@@ -1016,6 +1202,11 @@ export interface HciEdgeDeviceVirtualSwitchConfigurationOverrides {
 }
 
 // @public
+export interface HciHardwareProfile {
+    readonly processorType?: string;
+}
+
+// @public
 export interface HciNetworkProfile {
     readonly hostNetwork?: HciEdgeDeviceHostNetwork;
     readonly nicDetails?: HciNicDetail[];
@@ -1035,6 +1226,7 @@ export interface HciNicDetail {
     readonly macAddress?: string;
     readonly nicStatus?: string;
     readonly nicType?: string;
+    readonly rdmaCapability?: RdmaCapability;
     readonly slot?: string;
     readonly subnetMask?: string;
     readonly switchName?: string;
@@ -1048,10 +1240,26 @@ export interface HciOsProfile {
 }
 
 // @public
+export interface HciRemoteSupportJobProperties extends HciEdgeDeviceJobProperties {
+    accessLevel: RemoteSupportAccessLevel;
+    expirationTimestamp: Date;
+    jobType: "RemoteSupport";
+    readonly reportedProperties?: RemoteSupportJobReportedProperties;
+    type: RemoteSupportType;
+}
+
+// @public
 export interface HciReportedProperties extends ReportedProperties {
+    readonly hardwareProfile?: HciHardwareProfile;
     readonly networkProfile?: HciNetworkProfile;
     readonly osProfile?: HciOsProfile;
     readonly sbeDeploymentPackageInfo?: SbeDeploymentPackageInfo;
+    readonly storageProfile?: HciStorageProfile;
+}
+
+// @public
+export interface HciStorageProfile {
+    readonly poolableDisksCount?: number;
 }
 
 // @public
@@ -1086,6 +1294,16 @@ export interface IsolatedVmAttestationConfiguration {
     readonly attestationServiceEndpoint?: string;
     readonly relyingPartyServiceEndpoint?: string;
 }
+
+// @public
+export interface JobReportedProperties {
+    readonly deploymentStatus?: EceActionStatus;
+    readonly percentComplete?: number;
+    readonly validationStatus?: EceActionStatus;
+}
+
+// @public
+export type JobStatus = string;
 
 // @public
 export enum KnownAccessLevel {
@@ -1148,6 +1366,12 @@ export enum KnownClusterNodeType {
 }
 
 // @public
+export enum KnownClusterPattern {
+    RackAware = "RackAware",
+    Standard = "Standard"
+}
+
+// @public
 export enum KnownComplianceAssignmentType {
     ApplyAndAutoCorrect = "ApplyAndAutoCorrect",
     Audit = "Audit"
@@ -1190,6 +1414,15 @@ export enum KnownDeviceKind {
 }
 
 // @public
+export enum KnownDeviceLogCollectionStatus {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    NotStarted = "NotStarted",
+    Running = "Running",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownDeviceState {
     Connected = "Connected",
     Disconnected = "Disconnected",
@@ -1214,6 +1447,22 @@ export enum KnownEceSecrets {
     DefaultARBApplication = "DefaultARBApplication",
     LocalAdminCredential = "LocalAdminCredential",
     WitnessStorageKey = "WitnessStorageKey"
+}
+
+// @public
+export enum KnownEdgeDeviceJobType {
+    CollectLog = "CollectLog",
+    RemoteSupport = "RemoteSupport"
+}
+
+// @public
+export enum KnownEdgeDeviceKind {
+    HCI = "HCI"
+}
+
+// @public
+export enum KnownEdgeSolutionType {
+    WindowsServer = "WindowsServer"
 }
 
 // @public
@@ -1245,6 +1494,19 @@ export enum KnownExtensionManagedBy {
 }
 
 // @public
+export enum KnownHardwareClass {
+    Large = "Large",
+    Medium = "Medium",
+    Small = "Small"
+}
+
+// @public
+export enum KnownHciEdgeDeviceJobType {
+    CollectLog = "CollectLog",
+    RemoteSupport = "RemoteSupport"
+}
+
+// @public
 export enum KnownHealthState {
     Error = "Error",
     Failure = "Failure",
@@ -1258,6 +1520,22 @@ export enum KnownHealthState {
 export enum KnownImdsAttestation {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownJobStatus {
+    Canceled = "Canceled",
+    DeploymentFailed = "DeploymentFailed",
+    DeploymentInProgress = "DeploymentInProgress",
+    DeploymentSuccess = "DeploymentSuccess",
+    Failed = "Failed",
+    NotSpecified = "NotSpecified",
+    Paused = "Paused",
+    Scheduled = "Scheduled",
+    Succeeded = "Succeeded",
+    ValidationFailed = "ValidationFailed",
+    ValidationInProgress = "ValidationInProgress",
+    ValidationSuccess = "ValidationSuccess"
 }
 
 // @public
@@ -1367,6 +1645,12 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownRdmaCapability {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownRebootRequirement {
     False = "False",
     True = "True",
@@ -1374,9 +1658,21 @@ export enum KnownRebootRequirement {
 }
 
 // @public
+export enum KnownRemoteSupportAccessLevel {
+    Diagnostics = "Diagnostics",
+    DiagnosticsAndRepair = "DiagnosticsAndRepair",
+    None = "None"
+}
+
+// @public
 export enum KnownRemoteSupportType {
     Enable = "Enable",
     Revoke = "Revoke"
+}
+
+// @public
+export enum KnownSecretsType {
+    BackupSecrets = "BackupSecrets"
 }
 
 // @public
@@ -1480,9 +1776,25 @@ export enum KnownWindowsServerSubscription {
 }
 
 // @public
+export interface LocalAvailabilityZones {
+    localAvailabilityZoneName?: string;
+    nodes?: string[];
+}
+
+// @public
 export interface LogCollectionError {
     readonly errorCode?: string;
     readonly errorMessage?: string;
+}
+
+// @public
+export interface LogCollectionJobSession {
+    readonly correlationId?: string;
+    readonly endTime?: string;
+    readonly logSize?: number;
+    readonly startTime?: string;
+    readonly status?: DeviceLogCollectionStatus;
+    readonly timeCollected?: string;
 }
 
 // @public
@@ -1494,6 +1806,14 @@ export interface LogCollectionProperties {
     readonly lastLogGenerated?: Date;
     readonly logCollectionSessionDetails?: LogCollectionSession[];
     readonly toDate?: Date;
+}
+
+// @public
+export interface LogCollectionReportedProperties {
+    readonly deploymentStatus?: EceActionStatus;
+    readonly logCollectionSessionDetails?: LogCollectionJobSession[];
+    readonly percentComplete?: number;
+    readonly validationStatus?: EceActionStatus;
 }
 
 // @public
@@ -1647,8 +1967,15 @@ export interface OperationListResult {
 
 // @public
 export interface Operations {
-    list(options?: OperationsListOptionalParams): Promise<OperationsListResponse>;
+    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
+
+// @public
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListNextResponse = OperationListResult;
 
 // @public
 export interface OperationsListOptionalParams extends coreClient.OperationOptions {
@@ -1803,7 +2130,39 @@ export interface RawCertificateData {
 }
 
 // @public
+export type RdmaCapability = string;
+
+// @public
 export type RebootRequirement = string;
+
+// @public
+export type RemoteSupportAccessLevel = string;
+
+// @public
+export interface RemoteSupportJobNodeSettings {
+    readonly connectionErrorMessage?: string;
+    readonly connectionStatus?: string;
+    readonly createdAt?: Date;
+    readonly state?: string;
+    readonly updatedAt?: Date;
+}
+
+// @public
+export interface RemoteSupportJobProperties {
+    accessLevel: RemoteSupportAccessLevel;
+    expirationTimestamp: Date;
+    readonly reportedProperties?: RemoteSupportJobReportedProperties;
+    type: RemoteSupportType;
+}
+
+// @public
+export interface RemoteSupportJobReportedProperties {
+    readonly deploymentStatus?: EceActionStatus;
+    readonly nodeSettings?: RemoteSupportJobNodeSettings;
+    readonly percentComplete?: number;
+    readonly sessionDetails?: RemoteSupportSession[];
+    readonly validationStatus?: EceActionStatus;
+}
 
 // @public
 export interface RemoteSupportNodeSettings {
@@ -1835,6 +2194,15 @@ export interface RemoteSupportRequestProperties {
     readonly accessLevel?: AccessLevel;
     expirationTimeStamp?: Date;
     remoteSupportType?: RemoteSupportType;
+}
+
+// @public
+export interface RemoteSupportSession {
+    readonly accessLevel?: RemoteSupportAccessLevel;
+    readonly sessionEndTime?: Date;
+    readonly sessionId?: string;
+    readonly sessionStartTime?: Date;
+    readonly transcriptLocation?: string;
 }
 
 // @public
@@ -1900,6 +2268,20 @@ export interface ScaleUnits {
 export interface SdnIntegration {
     networkController?: NetworkController;
 }
+
+// @public
+export interface SecretsLocationDetails {
+    secretsLocation: string;
+    secretsType: SecretsType;
+}
+
+// @public
+export interface SecretsLocationsChangeRequest {
+    properties?: SecretsLocationDetails[];
+}
+
+// @public
+export type SecretsType = string;
 
 // @public
 export interface SecurityComplianceStatus {
@@ -2397,6 +2779,108 @@ export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
 }
+
+// @public
+export interface ValidatedSolutionRecipe extends ProxyResource {
+    properties?: ValidatedSolutionRecipeProperties;
+}
+
+// @public
+export interface ValidatedSolutionRecipeCapabilities {
+    clusterCapabilities: ValidatedSolutionRecipeCapability[];
+    nodeCapabilities: ValidatedSolutionRecipeCapability[];
+}
+
+// @public
+export interface ValidatedSolutionRecipeCapability {
+    capabilityName: string;
+}
+
+// @public
+export interface ValidatedSolutionRecipeComponent {
+    installOrder?: number;
+    metadata?: ValidatedSolutionRecipeComponentMetadata;
+    name: string;
+    payloads?: ValidatedSolutionRecipeComponentPayload[];
+    requiredVersion?: string;
+    tags: string[];
+    type: string;
+}
+
+// @public
+export interface ValidatedSolutionRecipeComponentMetadata {
+    catalog?: string;
+    enableAutomaticUpgrade?: boolean;
+    expectedHash?: string;
+    extensionType?: string;
+    lcmUpdate?: boolean;
+    link?: string;
+    name?: string;
+    previewSource?: string;
+    publisher?: string;
+    releaseTrain?: string;
+    ring?: string;
+}
+
+// @public
+export interface ValidatedSolutionRecipeComponentPayload {
+    fileName: string;
+    hash: string;
+    identifier: string;
+    url: string;
+}
+
+// @public
+export interface ValidatedSolutionRecipeContent {
+    capabilities?: ValidatedSolutionRecipeCapabilities;
+    components: ValidatedSolutionRecipeComponent[];
+    info: ValidatedSolutionRecipeInfo;
+}
+
+// @public
+export interface ValidatedSolutionRecipeInfo {
+    solutionType: string;
+    version: string;
+}
+
+// @public
+export interface ValidatedSolutionRecipeListResult {
+    nextLink?: string;
+    value: ValidatedSolutionRecipe[];
+}
+
+// @public
+export interface ValidatedSolutionRecipeProperties {
+    recipeContent: ValidatedSolutionRecipeContent;
+    signature?: string;
+}
+
+// @public
+export interface ValidatedSolutionRecipes {
+    get(location: string, validatedSolutionRecipeName: string, options?: ValidatedSolutionRecipesGetOptionalParams): Promise<ValidatedSolutionRecipesGetResponse>;
+    listBySubscriptionLocationResource(location: string, options?: ValidatedSolutionRecipesListBySubscriptionLocationResourceOptionalParams): PagedAsyncIterableIterator<ValidatedSolutionRecipe>;
+}
+
+// @public
+export interface ValidatedSolutionRecipesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ValidatedSolutionRecipesGetResponse = ValidatedSolutionRecipe;
+
+// @public
+export interface ValidatedSolutionRecipesListBySubscriptionLocationResourceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ValidatedSolutionRecipesListBySubscriptionLocationResourceNextResponse = ValidatedSolutionRecipeListResult;
+
+// @public
+export interface ValidatedSolutionRecipesListBySubscriptionLocationResourceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ValidatedSolutionRecipesListBySubscriptionLocationResourceResponse = ValidatedSolutionRecipeListResult;
 
 // @public
 export interface ValidateRequest {

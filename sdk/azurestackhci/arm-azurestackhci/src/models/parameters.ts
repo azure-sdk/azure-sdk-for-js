@@ -16,11 +16,13 @@ import {
   ArcSettingsPatch as ArcSettingsPatchMapper,
   Cluster as ClusterMapper,
   ClusterPatch as ClusterPatchMapper,
+  SecretsLocationsChangeRequest as SecretsLocationsChangeRequestMapper,
   UploadCertificateRequest as UploadCertificateRequestMapper,
   SoftwareAssuranceChangeRequest as SoftwareAssuranceChangeRequestMapper,
   LogCollectionRequest as LogCollectionRequestMapper,
   RemoteSupportRequest as RemoteSupportRequestMapper,
   DeploymentSetting as DeploymentSettingMapper,
+  EdgeDeviceJob as EdgeDeviceJobMapper,
   EdgeDevice as EdgeDeviceMapper,
   ValidateRequest as ValidateRequestMapper,
   Extension as ExtensionMapper,
@@ -28,8 +30,8 @@ import {
   ExtensionUpgradeParameters as ExtensionUpgradeParametersMapper,
   SecuritySetting as SecuritySettingMapper,
   UpdateRun as UpdateRunMapper,
-  UpdateSummaries as UpdateSummariesMapper,
   Update as UpdateMapper,
+  UpdateSummaries as UpdateSummariesMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -96,7 +98,7 @@ export const clusterName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-04-01",
+    defaultValue: "2025-02-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -160,6 +162,11 @@ export const cluster1: OperationParameter = {
   mapper: ClusterPatchMapper,
 };
 
+export const body: OperationParameter = {
+  parameterPath: "body",
+  mapper: SecretsLocationsChangeRequestMapper,
+};
+
 export const uploadCertificateRequest: OperationParameter = {
   parameterPath: "uploadCertificateRequest",
   mapper: UploadCertificateRequestMapper,
@@ -215,6 +222,39 @@ export const resourceUri: OperationURLParameter = {
 export const edgeDeviceName: OperationURLParameter = {
   parameterPath: "edgeDeviceName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,24}$"),
+    },
+    serializedName: "edgeDeviceName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const jobsName: OperationURLParameter = {
+  parameterPath: "jobsName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,24}$"),
+    },
+    serializedName: "jobsName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource1: OperationParameter = {
+  parameterPath: "resource",
+  mapper: EdgeDeviceJobMapper,
+};
+
+export const edgeDeviceName1: OperationURLParameter = {
+  parameterPath: "edgeDeviceName",
+  mapper: {
     defaultValue: "default",
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9-]{3,24}$"),
@@ -227,7 +267,7 @@ export const edgeDeviceName: OperationURLParameter = {
   },
 };
 
-export const resource1: OperationParameter = {
+export const resource2: OperationParameter = {
   parameterPath: "resource",
   mapper: EdgeDeviceMapper,
 };
@@ -310,7 +350,7 @@ export const securitySettingsName: OperationURLParameter = {
   },
 };
 
-export const resource2: OperationParameter = {
+export const resource3: OperationParameter = {
   parameterPath: "resource",
   mapper: SecuritySettingMapper,
 };
@@ -353,12 +393,40 @@ export const updateRunsProperties: OperationParameter = {
   mapper: UpdateRunMapper,
 };
 
+export const updateProperties: OperationParameter = {
+  parameterPath: "updateProperties",
+  mapper: UpdateMapper,
+};
+
 export const updateLocationProperties: OperationParameter = {
   parameterPath: "updateLocationProperties",
   mapper: UpdateSummariesMapper,
 };
 
-export const updateProperties: OperationParameter = {
-  parameterPath: "updateProperties",
-  mapper: UpdateMapper,
+export const location: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    constraints: {
+      MinLength: 1,
+    },
+    serializedName: "location",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const validatedSolutionRecipeName: OperationURLParameter = {
+  parameterPath: "validatedSolutionRecipeName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-.]{3,50}$"),
+    },
+    serializedName: "validatedSolutionRecipeName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
