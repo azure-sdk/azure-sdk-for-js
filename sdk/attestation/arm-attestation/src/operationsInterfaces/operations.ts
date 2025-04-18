@@ -8,7 +8,7 @@
 
 import {
   OperationsListOptionalParams,
-  OperationsListResponse
+  OperationsListResponse,
 } from "../models/index.js";
 
 /** Interface representing a Operations. */
