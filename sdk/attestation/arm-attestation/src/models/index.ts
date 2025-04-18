@@ -41,6 +41,8 @@ export interface OperationsDefinition {
   name?: string;
   /** Display object with properties of the operation. */
   display?: OperationsDisplayDefinition;
+  /** Properties of the operation */
+  properties?: OperationProperties;
 }
 
 /** Display object with properties of the operation. */
@@ -53,6 +55,26 @@ export interface OperationsDisplayDefinition {
   operation?: string;
   /** Description of the operation. */
   description?: string;
+}
+
+/** Extra Operation properties */
+export interface OperationProperties {
+  /** Service specifications of the operation */
+  serviceSpecification?: ServiceSpecification;
+}
+
+/** Service specification payload */
+export interface ServiceSpecification {
+  /** Specifications of the Log for Microsoft Azure Attestation */
+  logSpecifications?: LogSpecification[];
+}
+
+/** Specifications of the Log for Microsoft Azure Attestation */
+export interface LogSpecification {
+  /** Name of the log */
+  name?: string;
+  /** Localized friendly display name of the log */
+  displayName?: string;
 }
 
 /** An error response from Attestation. */
@@ -119,8 +141,12 @@ export interface AttestationServiceCreationParams {
 
 /** Client supplied parameters used to create a new attestation provider. */
 export interface AttestationServiceCreationSpecificParams {
+  /** Controls whether traffic from the public network is allowed to access the Attestation Provider APIs. */
+  publicNetworkAccess?: PublicNetworkAccessType;
   /** JSON Web Key Set defining a set of X.509 Certificates that will represent the parent certificate for the signing certificate used for policy operations */
   policySigningCertificates?: JsonWebKeySet;
+  /** The setting that controls whether authentication is enabled or disabled for TPM Attestation REST APIs. */
+  tpmAttestationAuthentication?: TpmAttestationAuthenticationType;
 }
 
 export interface JsonWebKeySet {
@@ -210,12 +236,28 @@ export interface JsonWebKey {
 export interface AttestationServicePatchParams {
   /** The tags that will be assigned to the attestation provider. */
   tags?: { [propertyName: string]: string };
+  /** Properties of the attestation provider */
+  properties?: AttestationServicePatchSpecificParams;
+}
+
+/** Client supplied parameters used to patch an existing attestation provider. */
+export interface AttestationServicePatchSpecificParams {
+  /** Controls whether traffic from the public network is allowed to access the Attestation Provider APIs. */
+  publicNetworkAccess?: PublicNetworkAccessType;
+  /** The setting that controls whether authentication is enabled or disabled for TPM Attestation REST APIs. */
+  tpmAttestationAuthentication?: TpmAttestationAuthenticationType;
 }
 
 /** List of private endpoint connection associated with the specified storage account */
 export interface PrivateEndpointConnectionListResult {
   /** Array of private endpoint connections */
   value?: PrivateEndpointConnection[];
+}
+
+/** A list of private link resources */
+export interface PrivateLinkResourceListResult {
+  /** Array of private link resources */
+  value?: PrivateLinkResource[];
 }
 
 /** Attestation Providers List. */
@@ -250,6 +292,22 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
+/** A private link resource */
+export interface PrivateLinkResource extends Resource {
+  /**
+   * The private link resource group id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requiredMembers?: string[];
+  /** The private link resource Private link DNS zone name. */
+  requiredZoneNames?: string[];
+}
+
 /** Attestation service response message. */
 export interface AttestationProvider extends TrackedResource {
   /**
@@ -263,11 +321,15 @@ export interface AttestationProvider extends TrackedResource {
   status?: AttestationServiceStatus;
   /** Gets the uri of attestation service */
   attestUri?: string;
+  /** Controls whether traffic from the public network is allowed to access the Attestation Provider APIs. */
+  publicNetworkAccess?: PublicNetworkAccessType;
   /**
    * List of private endpoint connections associated with the attestation provider.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** The setting that controls whether authentication is enabled or disabled for TPM Attestation REST APIs. */
+  tpmAttestationAuthentication?: TpmAttestationAuthenticationType;
 }
 
 /** Known values of {@link CreatedByType} that the service accepts. */
@@ -279,7 +341,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -301,7 +363,7 @@ export enum KnownAttestationServiceStatus {
   /** NotReady */
   NotReady = "NotReady",
   /** Error */
-  Error = "Error"
+  Error = "Error",
 }
 
 /**
@@ -315,6 +377,24 @@ export enum KnownAttestationServiceStatus {
  */
 export type AttestationServiceStatus = string;
 
+/** Known values of {@link PublicNetworkAccessType} that the service accepts. */
+export enum KnownPublicNetworkAccessType {
+  /** Enables public network connectivity to the Attestation Provider REST APIs. */
+  Enabled = "Enabled",
+  /** Disables public network connectivity to the Attestation Provider REST APIs. */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for PublicNetworkAccessType. \
+ * {@link KnownPublicNetworkAccessType} can be used interchangeably with PublicNetworkAccessType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Enables public network connectivity to the Attestation Provider REST APIs. \
+ * **Disabled**: Disables public network connectivity to the Attestation Provider REST APIs.
+ */
+export type PublicNetworkAccessType = string;
+
 /** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointServiceConnectionStatus {
   /** Pending */
@@ -322,7 +402,7 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
   /** Approved */
   Approved = "Approved",
   /** Rejected */
-  Rejected = "Rejected"
+  Rejected = "Rejected",
 }
 
 /**
@@ -345,7 +425,7 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -359,6 +439,24 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
  * **Failed**
  */
 export type PrivateEndpointConnectionProvisioningState = string;
+
+/** Known values of {@link TpmAttestationAuthenticationType} that the service accepts. */
+export enum KnownTpmAttestationAuthenticationType {
+  /** Enables the requirement of authentication for TPM Attestation REST APIs. */
+  Enabled = "Enabled",
+  /** Disables the requirement of authentication for TPM Attestation REST APIs. */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for TpmAttestationAuthenticationType. \
+ * {@link KnownTpmAttestationAuthenticationType} can be used interchangeably with TpmAttestationAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Enables the requirement of authentication for TPM Attestation REST APIs. \
+ * **Disabled**: Disables the requirement of authentication for TPM Attestation REST APIs.
+ */
+export type TpmAttestationAuthenticationType = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -404,28 +502,32 @@ export interface AttestationProvidersListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type AttestationProvidersListByResourceGroupResponse = AttestationProviderListResult;
+export type AttestationProvidersListByResourceGroupResponse =
+  AttestationProviderListResult;
 
 /** Optional parameters. */
 export interface AttestationProvidersListDefaultOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDefault operation. */
-export type AttestationProvidersListDefaultResponse = AttestationProviderListResult;
+export type AttestationProvidersListDefaultResponse =
+  AttestationProviderListResult;
 
 /** Optional parameters. */
 export interface AttestationProvidersGetDefaultByLocationOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDefaultByLocation operation. */
-export type AttestationProvidersGetDefaultByLocationResponse = AttestationProvider;
+export type AttestationProvidersGetDefaultByLocationResponse =
+  AttestationProvider;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
@@ -439,11 +541,20 @@ export interface PrivateEndpointConnectionsCreateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
-export type PrivateEndpointConnectionsCreateResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsCreateResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesListByProviderOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByProvider operation. */
+export type PrivateLinkResourcesListByProviderResponse =
+  PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface AttestationManagementClientOptionalParams
