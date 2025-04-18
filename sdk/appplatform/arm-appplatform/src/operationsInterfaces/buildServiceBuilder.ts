@@ -17,7 +17,7 @@ import {
   BuildServiceBuilderCreateOrUpdateResponse,
   BuildServiceBuilderDeleteOptionalParams,
   BuildServiceBuilderListDeploymentsOptionalParams,
-  BuildServiceBuilderListDeploymentsResponse
+  BuildServiceBuilderListDeploymentsResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface BuildServiceBuilder {
     resourceGroupName: string,
     serviceName: string,
     buildServiceName: string,
-    options?: BuildServiceBuilderListOptionalParams
+    options?: BuildServiceBuilderListOptionalParams,
   ): PagedAsyncIterableIterator<BuilderResource>;
   /**
    * Get a KPack builder.
@@ -51,7 +51,7 @@ export interface BuildServiceBuilder {
     serviceName: string,
     buildServiceName: string,
     builderName: string,
-    options?: BuildServiceBuilderGetOptionalParams
+    options?: BuildServiceBuilderGetOptionalParams,
   ): Promise<BuildServiceBuilderGetResponse>;
   /**
    * Create or update a KPack builder.
@@ -69,7 +69,7 @@ export interface BuildServiceBuilder {
     buildServiceName: string,
     builderName: string,
     builderResource: BuilderResource,
-    options?: BuildServiceBuilderCreateOrUpdateOptionalParams
+    options?: BuildServiceBuilderCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BuildServiceBuilderCreateOrUpdateResponse>,
@@ -92,7 +92,7 @@ export interface BuildServiceBuilder {
     buildServiceName: string,
     builderName: string,
     builderResource: BuilderResource,
-    options?: BuildServiceBuilderCreateOrUpdateOptionalParams
+    options?: BuildServiceBuilderCreateOrUpdateOptionalParams,
   ): Promise<BuildServiceBuilderCreateOrUpdateResponse>;
   /**
    * Delete a KPack builder.
@@ -108,7 +108,7 @@ export interface BuildServiceBuilder {
     serviceName: string,
     buildServiceName: string,
     builderName: string,
-    options?: BuildServiceBuilderDeleteOptionalParams
+    options?: BuildServiceBuilderDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a KPack builder.
@@ -124,7 +124,7 @@ export interface BuildServiceBuilder {
     serviceName: string,
     buildServiceName: string,
     builderName: string,
-    options?: BuildServiceBuilderDeleteOptionalParams
+    options?: BuildServiceBuilderDeleteOptionalParams,
   ): Promise<void>;
   /**
    * List deployments that are using the builder.
@@ -140,6 +140,6 @@ export interface BuildServiceBuilder {
     serviceName: string,
     buildServiceName: string,
     builderName: string,
-    options?: BuildServiceBuilderListDeploymentsOptionalParams
+    options?: BuildServiceBuilderListDeploymentsOptionalParams,
   ): Promise<BuildServiceBuilderListDeploymentsResponse>;
 }

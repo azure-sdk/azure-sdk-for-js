@@ -15,7 +15,7 @@ import {
   CertificatesGetResponse,
   CertificatesCreateOrUpdateOptionalParams,
   CertificatesCreateOrUpdateResponse,
-  CertificatesDeleteOptionalParams
+  CertificatesDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface Certificates {
   list(
     resourceGroupName: string,
     serviceName: string,
-    options?: CertificatesListOptionalParams
+    options?: CertificatesListOptionalParams,
   ): PagedAsyncIterableIterator<CertificateResource>;
   /**
    * Get the certificate resource.
@@ -45,7 +45,7 @@ export interface Certificates {
     resourceGroupName: string,
     serviceName: string,
     certificateName: string,
-    options?: CertificatesGetOptionalParams
+    options?: CertificatesGetOptionalParams,
   ): Promise<CertificatesGetResponse>;
   /**
    * Create or update certificate resource.
@@ -61,7 +61,7 @@ export interface Certificates {
     serviceName: string,
     certificateName: string,
     certificateResource: CertificateResource,
-    options?: CertificatesCreateOrUpdateOptionalParams
+    options?: CertificatesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CertificatesCreateOrUpdateResponse>,
@@ -82,7 +82,7 @@ export interface Certificates {
     serviceName: string,
     certificateName: string,
     certificateResource: CertificateResource,
-    options?: CertificatesCreateOrUpdateOptionalParams
+    options?: CertificatesCreateOrUpdateOptionalParams,
   ): Promise<CertificatesCreateOrUpdateResponse>;
   /**
    * Delete the certificate resource.
@@ -96,7 +96,7 @@ export interface Certificates {
     resourceGroupName: string,
     serviceName: string,
     certificateName: string,
-    options?: CertificatesDeleteOptionalParams
+    options?: CertificatesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the certificate resource.
@@ -110,6 +110,6 @@ export interface Certificates {
     resourceGroupName: string,
     serviceName: string,
     certificateName: string,
-    options?: CertificatesDeleteOptionalParams
+    options?: CertificatesDeleteOptionalParams,
   ): Promise<void>;
 }
