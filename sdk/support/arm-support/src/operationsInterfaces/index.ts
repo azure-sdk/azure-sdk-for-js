@@ -8,6 +8,9 @@
 
 export * from "./operations.js";
 export * from "./services.js";
+export * from "./serviceClassificationsNoSubscription.js";
+export * from "./serviceClassifications.js";
+export * from "./problemClassificationsNoSubscription.js";
 export * from "./problemClassifications.js";
 export * from "./supportTickets.js";
 export * from "./supportTicketsNoSubscription.js";
@@ -19,3 +22,4 @@ export * from "./fileWorkspaces.js";
 export * from "./fileWorkspacesNoSubscription.js";
 export * from "./files.js";
 export * from "./filesNoSubscription.js";
+export * from "./lookUpResourceId.js";

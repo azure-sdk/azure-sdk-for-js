@@ -32,7 +32,8 @@ export interface Services {
   ): PagedAsyncIterableIterator<Service>;
   /**
    * Gets a specific Azure service for support ticket creation.
-   * @param serviceName Name of the Azure service.
+   * @param serviceName Name of the Azure service for which the problem classifications need to be
+   *                    retrieved.
    * @param options The options parameters.
    */
   get(
