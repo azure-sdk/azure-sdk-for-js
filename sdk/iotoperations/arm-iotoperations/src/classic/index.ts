@@ -8,5 +8,6 @@ export { BrokerListenerOperations } from "./brokerListener/index.js";
 export { DataflowOperations } from "./dataflow/index.js";
 export { DataflowEndpointOperations } from "./dataflowEndpoint/index.js";
 export { DataflowProfileOperations } from "./dataflowProfile/index.js";
+export { DiagnosticOperations } from "./diagnostic/index.js";
 export { InstanceOperations } from "./instance/index.js";
 export { OperationsOperations } from "./operations/index.js";

@@ -251,6 +251,7 @@ export interface BrokerProperties {
     diskBackedMessageBuffer?: DiskBackedMessageBuffer;
     generateResourceLimits?: GenerateResourceLimits;
     memoryProfile?: BrokerMemoryProfile;
+    persistence?: Persistence;
     readonly provisioningState?: ProvisioningState;
 }
 
@@ -332,6 +333,24 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 
 // @public
 export type CreatedByType = string;
+
+// @public
+export interface CustomStateStoreRetainmentPolicy extends StateStoreRetainmentPolicy {
+    mode: "Custom";
+    stateStoreSettings?: StateStoreRetainmentSettings;
+}
+
+// @public
+export interface CustomSubscriberQueueRetainmentPolicy extends SubscriberQueueRetainmentPolicy {
+    mode: "Custom";
+    subscriberQueueSettings?: SubscriberQueueRetainmentSettings;
+}
+
+// @public
+export interface CustomTopicRetainmentPolicy extends TopicRetainmentPolicy {
+    mode: "Custom";
+    retainSettings?: TopicRetainmentSettings;
+}
 
 // @public
 export type DataExplorerAuthMethod = string;
@@ -574,6 +593,14 @@ export interface DataflowEndpointOperations {
 }
 
 // @public
+export interface DataflowEndpointOtel {
+    batching?: BatchingConfiguration;
+    host: string;
+    metricIntervalSec?: number;
+    tls?: TlsProperties;
+}
+
+// @public
 export interface DataflowEndpointProperties {
     dataExplorerSettings?: DataflowEndpointDataExplorer;
     dataLakeStorageSettings?: DataflowEndpointDataLakeStorage;
@@ -582,6 +609,7 @@ export interface DataflowEndpointProperties {
     kafkaSettings?: DataflowEndpointKafka;
     localStorageSettings?: DataflowEndpointLocalStorage;
     mqttSettings?: DataflowEndpointMqtt;
+    otelSettings?: DataflowEndpointOtel;
     readonly provisioningState?: ProvisioningState;
 }
 
@@ -684,6 +712,44 @@ export interface DataflowSourceOperationSettings {
 export type DataLakeStorageAuthMethod = string;
 
 // @public
+export interface DiagnosticCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DiagnosticDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DiagnosticGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DiagnosticListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DiagnosticOperations {
+    createOrUpdate: (resourceGroupName: string, instanceName: string, diagnosticName: string, resource: DiagnosticResource, options?: DiagnosticCreateOrUpdateOptionalParams) => PollerLike<OperationState<DiagnosticResource>, DiagnosticResource>;
+    delete: (resourceGroupName: string, instanceName: string, diagnosticName: string, options?: DiagnosticDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, instanceName: string, diagnosticName: string, options?: DiagnosticGetOptionalParams) => Promise<DiagnosticResource>;
+    listByResourceGroup: (resourceGroupName: string, instanceName: string, options?: DiagnosticListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DiagnosticResource>;
+}
+
+// @public
+export interface DiagnosticProperties {
+    readonly provisioningState?: ProvisioningState;
+    remoteSupport?: RemoteSupportProperties;
+}
+
+// @public
+export interface DiagnosticResource extends ProxyResource {
+    extendedLocation: ExtendedLocation;
+    properties?: DiagnosticProperties;
+}
+
+// @public
 export interface DiagnosticsLogs {
     level?: string;
 }
@@ -696,7 +762,38 @@ export interface DiskBackedMessageBuffer {
 }
 
 // @public
+export interface DynamicPersistenceSettings {
+    userPropertyKey?: string;
+    userPropertyValue?: string;
+}
+
+// @public
+export interface DynamicRetainmentSettings {
+    mode?: OperationalMode;
+}
+
+// @public
 export type EndpointType = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
 
 // @public
 export interface ExtendedLocation {
@@ -735,6 +832,15 @@ export interface InstanceDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface InstanceFeature {
+    mode?: InstanceFeatureMode;
+    settings?: Record<string, OperationalMode>;
+}
+
+// @public
+export type InstanceFeatureMode = string;
+
+// @public
 export interface InstanceGetOptionalParams extends OperationOptions {
 }
 
@@ -764,9 +870,12 @@ export interface InstancePatchModel {
 
 // @public
 export interface InstanceProperties {
+    adrNamespace?: string;
     description?: string;
+    features?: Record<string, InstanceFeature>;
     readonly provisioningState?: ProvisioningState;
     schemaRegistryRef: SchemaRegistryRef;
+    readonly secretProviderClassRef?: string;
     readonly version?: string;
 }
 
@@ -791,6 +900,7 @@ export class IoTOperationsClient {
     readonly dataflow: DataflowOperations;
     readonly dataflowEndpoint: DataflowEndpointOperations;
     readonly dataflowProfile: DataflowProfileOperations;
+    readonly diagnostic: DiagnosticOperations;
     readonly instance: InstanceOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
@@ -919,10 +1029,15 @@ export enum KnownDataLakeStorageAuthMethod {
 export enum KnownEndpointType {
     DataExplorer = "DataExplorer",
     DataLakeStorage = "DataLakeStorage",
+    EventGrid = "EventGrid",
+    Eventhub = "Eventhub",
     FabricOneLake = "FabricOneLake",
+    FabricRT = "FabricRT",
     Kafka = "Kafka",
+    LocalMq = "LocalMq",
     LocalStorage = "LocalStorage",
-    Mqtt = "Mqtt"
+    Mqtt = "Mqtt",
+    Otel = "Otel"
 }
 
 // @public
@@ -939,6 +1054,13 @@ export enum KnownFabricOneLakeAuthMethod {
 // @public
 export enum KnownFilterType {
     Filter = "Filter"
+}
+
+// @public
+export enum KnownInstanceFeatureMode {
+    Disabled = "Disabled",
+    Preview = "Preview",
+    Stable = "Stable"
 }
 
 // @public
@@ -1030,6 +1152,26 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownRemoteSupportAccessLevels {
+    Diagnose = "Diagnose",
+    DiagnoseAndRepair = "DiagnoseAndRepair"
+}
+
+// @public
+export enum KnownRemoteSupportActivationState {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    Expired = "Expired"
+}
+
+// @public
+export enum KnownRetainmentPolicyMode {
+    All = "All",
+    Custom = "Custom",
+    None = "None"
+}
+
+// @public
 export enum KnownServiceType {
     ClusterIp = "ClusterIp",
     LoadBalancer = "LoadBalancer",
@@ -1076,7 +1218,9 @@ export enum KnownTransformationSerializationFormat {
 
 // @public
 export enum KnownVersions {
-    "V2024-11-01" = "2024-11-01"
+    "V2024-11-01" = "2024-11-01",
+    _20250701Preview = "2025-07-01-preview",
+    V20250401 = "2025-04-01"
 }
 
 // @public
@@ -1128,8 +1272,8 @@ export type MqttRetainType = string;
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -1177,6 +1321,16 @@ export interface PageSettings {
 }
 
 // @public
+export interface Persistence {
+    dynamicSettings?: DynamicPersistenceSettings;
+    maxSize: string;
+    persistentVolumeClaimSpec?: VolumeClaimSpec;
+    retain?: TopicRetainmentPolicyUnion;
+    stateStore?: StateStoreRetainmentPolicyUnion;
+    subscriberQueue?: SubscriberQueueRetainmentPolicyUnion;
+}
+
+// @public
 export interface PrincipalDefinition {
     attributes?: Record<string, string>[];
     clientIds?: string[];
@@ -1203,6 +1357,19 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
+export type RemoteSupportAccessLevels = string;
+
+// @public
+export type RemoteSupportActivationState = string;
+
+// @public
+export interface RemoteSupportProperties {
+    accessLevel?: RemoteSupportAccessLevels;
+    expirationTimestamp?: string;
+    state?: RemoteSupportActivationState;
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -1219,6 +1386,9 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
     processResponseBody?: (result: TResponse) => Promise<TResult>;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type RetainmentPolicyMode = string;
 
 // @public
 export interface SanForCert {
@@ -1264,12 +1434,49 @@ export interface StateStoreResourceRule {
 }
 
 // @public
+export interface StateStoreRetainmentPolicy {
+    mode: RetainmentPolicyMode;
+    stateStoreSettings?: StateStoreRetainmentSettings;
+}
+
+// @public
+export type StateStoreRetainmentPolicyUnion = CustomStateStoreRetainmentPolicy | StateStoreRetainmentPolicy;
+
+// @public
+export interface StateStoreRetainmentResources {
+    keys: string[];
+    keyType: string;
+}
+
+// @public
+export interface StateStoreRetainmentSettings {
+    dynamic?: DynamicRetainmentSettings;
+    stateStoreResources?: StateStoreRetainmentResources[];
+}
+
+// @public
 export type SubscriberMessageDropStrategy = string;
 
 // @public
 export interface SubscriberQueueLimit {
     length?: number;
     strategy?: SubscriberMessageDropStrategy;
+}
+
+// @public
+export interface SubscriberQueueRetainmentPolicy {
+    mode: RetainmentPolicyMode;
+    subscriberQueueSettings?: SubscriberQueueRetainmentSettings;
+}
+
+// @public
+export type SubscriberQueueRetainmentPolicyUnion = CustomSubscriberQueueRetainmentPolicy | SubscriberQueueRetainmentPolicy;
+
+// @public
+export interface SubscriberQueueRetainmentSettings {
+    dynamic?: DynamicRetainmentSettings;
+    subscriberClientIds?: string[];
+    topics?: string[];
 }
 
 // @public
@@ -1299,6 +1506,20 @@ export interface TlsProperties {
 }
 
 // @public
+export interface TopicRetainmentPolicy {
+    mode: RetainmentPolicyMode;
+}
+
+// @public
+export type TopicRetainmentPolicyUnion = CustomTopicRetainmentPolicy | TopicRetainmentPolicy;
+
+// @public
+export interface TopicRetainmentSettings {
+    dynamic?: DynamicRetainmentSettings;
+    topics?: string[];
+}
+
+// @public
 export interface Traces {
     cacheSizeMegabytes?: number;
     mode?: OperationalMode;
@@ -1323,8 +1544,15 @@ export interface UserAssignedIdentity {
 
 // @public
 export interface VolumeClaimResourceRequirements {
+    claims?: VolumeClaimResourceRequirementsClaims[];
     limits?: Record<string, string>;
     requests?: Record<string, string>;
+}
+
+// @public
+export interface VolumeClaimResourceRequirementsClaims {
+    name: string;
+    resources?: VolumeClaimResourceRequirements;
 }
 
 // @public
