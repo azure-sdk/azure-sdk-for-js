@@ -14,11 +14,13 @@ import {
 import {
   ElasticSan as ElasticSanMapper,
   ElasticSanUpdate as ElasticSanUpdateMapper,
+  PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   VolumeGroup as VolumeGroupMapper,
   VolumeGroupUpdate as VolumeGroupUpdateMapper,
+  VolumeNameList as VolumeNameListMapper,
+  DiskSnapshotList as DiskSnapshotListMapper,
   Volume as VolumeMapper,
   VolumeUpdate as VolumeUpdateMapper,
-  PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   Snapshot as SnapshotMapper,
 } from "../models/mappers.js";
 
@@ -49,7 +51,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-06-01-preview",
+    defaultValue: "2024-07-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -72,16 +74,6 @@ export const subscriptionId: OperationURLParameter = {
   },
 };
 
-export const filter: OperationQueryParameter = {
-  parameterPath: ["options", "filter"],
-  mapper: {
-    serializedName: "$filter",
-    type: {
-      name: "String",
-    },
-  },
-};
-
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
@@ -90,6 +82,22 @@ export const resourceGroupName: OperationURLParameter = {
       MinLength: 1,
     },
     serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const elasticSanName: OperationURLParameter = {
+  parameterPath: "elasticSanName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9]+((-|_)[a-z0-9A-Z]+)*$"),
+      MaxLength: 24,
+      MinLength: 3,
+    },
+    serializedName: "elasticSanName",
     required: true,
     type: {
       name: "String",
@@ -114,22 +122,6 @@ export const parameters: OperationParameter = {
   mapper: ElasticSanMapper,
 };
 
-export const elasticSanName: OperationURLParameter = {
-  parameterPath: "elasticSanName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[A-Za-z0-9]+((-|_)[a-z0-9A-Z]+)*$"),
-      MaxLength: 24,
-      MinLength: 3,
-    },
-    serializedName: "elasticSanName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
   mapper: ElasticSanUpdateMapper,
@@ -147,9 +139,40 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true,
 };
 
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    serializedName: "$filter",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const privateEndpointConnectionName: OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    serializedName: "privateEndpointConnectionName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
-  mapper: VolumeGroupMapper,
+  mapper: PrivateEndpointConnectionMapper,
+};
+
+export const xMsAccessSoftDeletedResources: OperationParameter = {
+  parameterPath: ["options", "xMsAccessSoftDeletedResources"],
+  mapper: {
+    serializedName: "x-ms-access-soft-deleted-resources",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const volumeGroupName: OperationURLParameter = {
@@ -170,12 +193,22 @@ export const volumeGroupName: OperationURLParameter = {
 
 export const parameters3: OperationParameter = {
   parameterPath: "parameters",
-  mapper: VolumeGroupUpdateMapper,
+  mapper: VolumeGroupMapper,
 };
 
 export const parameters4: OperationParameter = {
   parameterPath: "parameters",
-  mapper: VolumeMapper,
+  mapper: VolumeGroupUpdateMapper,
+};
+
+export const parameters5: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: VolumeNameListMapper,
+};
+
+export const parameters6: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DiskSnapshotListMapper,
 };
 
 export const volumeName: OperationURLParameter = {
@@ -194,7 +227,12 @@ export const volumeName: OperationURLParameter = {
   },
 };
 
-export const parameters5: OperationParameter = {
+export const parameters7: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: VolumeMapper,
+};
+
+export const parameters8: OperationParameter = {
   parameterPath: "parameters",
   mapper: VolumeUpdateMapper,
 };
@@ -219,25 +257,14 @@ export const xMsForceDelete: OperationParameter = {
   },
 };
 
-export const parameters6: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: PrivateEndpointConnectionMapper,
-};
-
-export const privateEndpointConnectionName: OperationURLParameter = {
-  parameterPath: "privateEndpointConnectionName",
+export const deleteType: OperationQueryParameter = {
+  parameterPath: ["options", "deleteType"],
   mapper: {
-    serializedName: "privateEndpointConnectionName",
-    required: true,
+    serializedName: "deleteType",
     type: {
       name: "String",
     },
   },
-};
-
-export const parameters7: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: SnapshotMapper,
 };
 
 export const snapshotName: OperationURLParameter = {
@@ -254,4 +281,9 @@ export const snapshotName: OperationURLParameter = {
       name: "String",
     },
   },
+};
+
+export const parameters9: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: SnapshotMapper,
 };

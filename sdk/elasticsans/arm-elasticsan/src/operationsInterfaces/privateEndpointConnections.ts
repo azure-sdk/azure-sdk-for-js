@@ -11,10 +11,10 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionsListOptionalParams,
-  PrivateEndpointConnectionsCreateOptionalParams,
-  PrivateEndpointConnectionsCreateResponse,
   PrivateEndpointConnectionsGetOptionalParams,
   PrivateEndpointConnectionsGetResponse,
+  PrivateEndpointConnectionsCreateOptionalParams,
+  PrivateEndpointConnectionsCreateResponse,
   PrivateEndpointConnectionsDeleteOptionalParams,
 } from "../models/index.js";
 
@@ -32,6 +32,19 @@ export interface PrivateEndpointConnections {
     elasticSanName: string,
     options?: PrivateEndpointConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
+  /**
+   * Gets the specified private endpoint connection associated with the Elastic San
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param elasticSanName The name of the ElasticSan.
+   * @param privateEndpointConnectionName The name of the Private Endpoint connection.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    elasticSanName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsGetOptionalParams,
+  ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
    * Update the state of specified private endpoint connection associated with the Elastic San
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -67,19 +80,6 @@ export interface PrivateEndpointConnections {
     parameters: PrivateEndpointConnection,
     options?: PrivateEndpointConnectionsCreateOptionalParams,
   ): Promise<PrivateEndpointConnectionsCreateResponse>;
-  /**
-   * Gets the specified private endpoint connection associated with the Elastic San
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param elasticSanName The name of the ElasticSan.
-   * @param privateEndpointConnectionName The name of the Private Endpoint connection.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    elasticSanName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams,
-  ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
    * Deletes the specified private endpoint connection associated with the Elastic San
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

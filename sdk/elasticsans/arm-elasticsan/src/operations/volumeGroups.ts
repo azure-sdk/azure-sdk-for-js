@@ -24,14 +24,14 @@ import {
   VolumeGroupsListByElasticSanNextOptionalParams,
   VolumeGroupsListByElasticSanOptionalParams,
   VolumeGroupsListByElasticSanResponse,
+  VolumeGroupsGetOptionalParams,
+  VolumeGroupsGetResponse,
   VolumeGroupsCreateOptionalParams,
   VolumeGroupsCreateResponse,
   VolumeGroupUpdate,
   VolumeGroupsUpdateOptionalParams,
   VolumeGroupsUpdateResponse,
   VolumeGroupsDeleteOptionalParams,
-  VolumeGroupsGetOptionalParams,
-  VolumeGroupsGetResponse,
   VolumeGroupsListByElasticSanNextResponse,
 } from "../models/index.js";
 
@@ -146,6 +146,25 @@ export class VolumeGroupsImpl implements VolumeGroups {
     return this.client.sendOperationRequest(
       { resourceGroupName, elasticSanName, options },
       listByElasticSanOperationSpec,
+    );
+  }
+
+  /**
+   * Get an VolumeGroups.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param elasticSanName The name of the ElasticSan.
+   * @param volumeGroupName The name of the VolumeGroup.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    elasticSanName: string,
+    volumeGroupName: string,
+    options?: VolumeGroupsGetOptionalParams,
+  ): Promise<VolumeGroupsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, elasticSanName, volumeGroupName, options },
+      getOperationSpec,
     );
   }
 
@@ -449,25 +468,6 @@ export class VolumeGroupsImpl implements VolumeGroups {
   }
 
   /**
-   * Get an VolumeGroups.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param elasticSanName The name of the ElasticSan.
-   * @param volumeGroupName The name of the VolumeGroup.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    elasticSanName: string,
-    volumeGroupName: string,
-    options?: VolumeGroupsGetOptionalParams,
-  ): Promise<VolumeGroupsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, elasticSanName, volumeGroupName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
    * ListByElasticSanNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param elasticSanName The name of the ElasticSan.
@@ -507,6 +507,31 @@ const listByElasticSanOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.elasticSanName,
   ],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.xMsAccessSoftDeletedResources,
+  ],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VolumeGroup,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.elasticSanName,
+    Parameters.volumeGroupName,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -530,7 +555,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -563,7 +588,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters3,
+  requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -599,28 +624,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VolumeGroup,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.elasticSanName,
-    Parameters.volumeGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const listByElasticSanNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -639,6 +642,9 @@ const listByElasticSanNextOperationSpec: coreClient.OperationSpec = {
     Parameters.elasticSanName,
     Parameters.nextLink,
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.xMsAccessSoftDeletedResources,
+  ],
   serializer,
 };
