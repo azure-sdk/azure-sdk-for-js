@@ -401,11 +401,6 @@ export enum KnownProvisioningState {
     Updating = "Updating"
 }
 
-// @public
-export enum KnownVersions {
-    V20230720Preview = "2023-07-20-preview"
-}
-
 // @public (undocumented)
 export class LargeInstanceManagementClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -560,9 +555,6 @@ export interface TrackedResource extends Resource {
         [propertyName: string]: string;
     };
 }
-
-// @public
-export type Versions = string;
 
 // (No @packageDocumentation comment for this package)
 
