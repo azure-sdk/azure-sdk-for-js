@@ -317,16 +317,7 @@ export const StorageTaskProperties: coreClient.CompositeMapper = {
         serializedName: "provisioningState",
         readOnly: true,
         type: {
-          name: "Enum",
-          allowedValues: [
-            "ValidateSubscriptionQuotaBegin",
-            "ValidateSubscriptionQuotaEnd",
-            "Creating",
-            "Succeeded",
-            "Deleting",
-            "Canceled",
-            "Failed",
-          ],
+          name: "String",
         },
       },
       creationTimeInUtc: {
@@ -412,16 +403,12 @@ export const StorageTaskOperation: coreClient.CompositeMapper = {
         },
       },
       onSuccess: {
-        defaultValue: "continue",
-        isConstant: true,
         serializedName: "onSuccess",
         type: {
           name: "String",
         },
       },
       onFailure: {
-        defaultValue: "break",
-        isConstant: true,
         serializedName: "onFailure",
         type: {
           name: "String",
@@ -558,7 +545,60 @@ export const StorageTaskUpdateParameters: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "StorageTaskProperties",
+          className: "StorageTaskUpdateProperties",
+        },
+      },
+    },
+  },
+};
+
+export const StorageTaskUpdateProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageTaskUpdateProperties",
+    modelProperties: {
+      taskVersion: {
+        constraints: {
+          InclusiveMaximum: 1,
+          InclusiveMinimum: 1,
+        },
+        serializedName: "taskVersion",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean",
+        },
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String",
+        },
+      },
+      action: {
+        serializedName: "action",
+        type: {
+          name: "Composite",
+          className: "StorageTaskAction",
+        },
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      creationTimeInUtc: {
+        serializedName: "creationTimeInUtc",
+        readOnly: true,
+        type: {
+          name: "DateTime",
         },
       },
     },
