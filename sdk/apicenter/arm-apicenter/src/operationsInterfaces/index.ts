@@ -7,9 +7,11 @@
  */
 
 export * from "./operations.js";
+export * from "./deletedServices.js";
 export * from "./services.js";
 export * from "./metadataSchemas.js";
 export * from "./workspaces.js";
+export * from "./apiSources.js";
 export * from "./apis.js";
 export * from "./deployments.js";
 export * from "./apiVersions.js";
