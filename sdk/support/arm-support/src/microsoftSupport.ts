@@ -17,6 +17,9 @@ import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   ServicesImpl,
+  ServiceClassificationsNoSubscriptionImpl,
+  ServiceClassificationsImpl,
+  ProblemClassificationsNoSubscriptionImpl,
   ProblemClassificationsImpl,
   SupportTicketsImpl,
   SupportTicketsNoSubscriptionImpl,
@@ -28,10 +31,14 @@ import {
   FileWorkspacesNoSubscriptionImpl,
   FilesImpl,
   FilesNoSubscriptionImpl,
+  LookUpResourceIdImpl,
 } from "./operations/index.js";
 import {
   Operations,
   Services,
+  ServiceClassificationsNoSubscription,
+  ServiceClassifications,
+  ProblemClassificationsNoSubscription,
   ProblemClassifications,
   SupportTickets,
   SupportTicketsNoSubscription,
@@ -43,6 +50,7 @@ import {
   FileWorkspacesNoSubscription,
   Files,
   FilesNoSubscription,
+  LookUpResourceId,
 } from "./operationsInterfaces/index.js";
 import { MicrosoftSupportOptionalParams } from "./models/index.js";
 
@@ -92,7 +100,7 @@ export class MicrosoftSupport extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-support/3.0.1`;
+    const packageDetails = `azsdk-js-arm-support/4.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -146,9 +154,14 @@ export class MicrosoftSupport extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-04-01";
+    this.apiVersion = options.apiVersion || "2023-06-01-preview";
     this.operations = new OperationsImpl(this);
     this.services = new ServicesImpl(this);
+    this.serviceClassificationsNoSubscription =
+      new ServiceClassificationsNoSubscriptionImpl(this);
+    this.serviceClassifications = new ServiceClassificationsImpl(this);
+    this.problemClassificationsNoSubscription =
+      new ProblemClassificationsNoSubscriptionImpl(this);
     this.problemClassifications = new ProblemClassificationsImpl(this);
     this.supportTickets = new SupportTicketsImpl(this);
     this.supportTicketsNoSubscription = new SupportTicketsNoSubscriptionImpl(
@@ -168,6 +181,7 @@ export class MicrosoftSupport extends coreClient.ServiceClient {
     );
     this.files = new FilesImpl(this);
     this.filesNoSubscription = new FilesNoSubscriptionImpl(this);
+    this.lookUpResourceId = new LookUpResourceIdImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -201,6 +215,9 @@ export class MicrosoftSupport extends coreClient.ServiceClient {
 
   operations: Operations;
   services: Services;
+  serviceClassificationsNoSubscription: ServiceClassificationsNoSubscription;
+  serviceClassifications: ServiceClassifications;
+  problemClassificationsNoSubscription: ProblemClassificationsNoSubscription;
   problemClassifications: ProblemClassifications;
   supportTickets: SupportTickets;
   supportTicketsNoSubscription: SupportTicketsNoSubscription;
@@ -212,4 +229,5 @@ export class MicrosoftSupport extends coreClient.ServiceClient {
   fileWorkspacesNoSubscription: FileWorkspacesNoSubscription;
   files: Files;
   filesNoSubscription: FilesNoSubscription;
+  lookUpResourceId: LookUpResourceId;
 }
