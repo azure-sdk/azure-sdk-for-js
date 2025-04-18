@@ -16,7 +16,7 @@ import { AppPlatformManagementClient } from "../appPlatformManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
@@ -33,7 +33,7 @@ import {
   ContainerRegistryProperties,
   ContainerRegistriesValidateOptionalParams,
   ContainerRegistriesValidateResponse,
-  ContainerRegistriesListNextResponse
+  ContainerRegistriesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,7 +59,7 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
   public list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ContainerRegistriesListOptionalParams
+    options?: ContainerRegistriesListOptionalParams,
   ): PagedAsyncIterableIterator<ContainerRegistryResource> {
     const iter = this.listPagingAll(resourceGroupName, serviceName, options);
     return {
@@ -77,9 +77,9 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
           resourceGroupName,
           serviceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -87,7 +87,7 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
     resourceGroupName: string,
     serviceName: string,
     options?: ContainerRegistriesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ContainerRegistryResource[]> {
     let result: ContainerRegistriesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +103,7 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,12 +115,12 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
   private async *listPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: ContainerRegistriesListOptionalParams
+    options?: ContainerRegistriesListOptionalParams,
   ): AsyncIterableIterator<ContainerRegistryResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -136,11 +136,11 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
   private _list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ContainerRegistriesListOptionalParams
+    options?: ContainerRegistriesListOptionalParams,
   ): Promise<ContainerRegistriesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -156,11 +156,11 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
     resourceGroupName: string,
     serviceName: string,
     containerRegistryName: string,
-    options?: ContainerRegistriesGetOptionalParams
+    options?: ContainerRegistriesGetOptionalParams,
   ): Promise<ContainerRegistriesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, containerRegistryName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -178,7 +178,7 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
     serviceName: string,
     containerRegistryName: string,
     containerRegistryResource: ContainerRegistryResource,
-    options?: ContainerRegistriesCreateOrUpdateOptionalParams
+    options?: ContainerRegistriesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ContainerRegistriesCreateOrUpdateResponse>,
@@ -187,21 +187,20 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ContainerRegistriesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -210,8 +209,8 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -219,8 +218,8 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -231,9 +230,9 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
         serviceName,
         containerRegistryName,
         containerRegistryResource,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ContainerRegistriesCreateOrUpdateResponse,
@@ -241,7 +240,7 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -261,14 +260,14 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
     serviceName: string,
     containerRegistryName: string,
     containerRegistryResource: ContainerRegistryResource,
-    options?: ContainerRegistriesCreateOrUpdateOptionalParams
+    options?: ContainerRegistriesCreateOrUpdateOptionalParams,
   ): Promise<ContainerRegistriesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
       containerRegistryName,
       containerRegistryResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -285,7 +284,7 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
     resourceGroupName: string,
     serviceName: string,
     containerRegistryName: string,
-    options?: ContainerRegistriesDeleteOptionalParams
+    options?: ContainerRegistriesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ContainerRegistriesDeleteResponse>,
@@ -294,21 +293,20 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ContainerRegistriesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -317,8 +315,8 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -326,15 +324,15 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, containerRegistryName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       ContainerRegistriesDeleteResponse,
@@ -342,7 +340,7 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -360,13 +358,13 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
     resourceGroupName: string,
     serviceName: string,
     containerRegistryName: string,
-    options?: ContainerRegistriesDeleteOptionalParams
+    options?: ContainerRegistriesDeleteOptionalParams,
   ): Promise<ContainerRegistriesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
       containerRegistryName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -385,7 +383,7 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
     serviceName: string,
     containerRegistryName: string,
     containerRegistryProperties: ContainerRegistryProperties,
-    options?: ContainerRegistriesValidateOptionalParams
+    options?: ContainerRegistriesValidateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ContainerRegistriesValidateResponse>,
@@ -394,21 +392,20 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ContainerRegistriesValidateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -417,8 +414,8 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -426,8 +423,8 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -438,9 +435,9 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
         serviceName,
         containerRegistryName,
         containerRegistryProperties,
-        options
+        options,
       },
-      spec: validateOperationSpec
+      spec: validateOperationSpec,
     });
     const poller = await createHttpPoller<
       ContainerRegistriesValidateResponse,
@@ -448,7 +445,7 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -468,14 +465,14 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
     serviceName: string,
     containerRegistryName: string,
     containerRegistryProperties: ContainerRegistryProperties,
-    options?: ContainerRegistriesValidateOptionalParams
+    options?: ContainerRegistriesValidateOptionalParams,
   ): Promise<ContainerRegistriesValidateResponse> {
     const poller = await this.beginValidate(
       resourceGroupName,
       serviceName,
       containerRegistryName,
       containerRegistryProperties,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -492,11 +489,11 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: ContainerRegistriesListNextOptionalParams
+    options?: ContainerRegistriesListNextOptionalParams,
   ): Promise<ContainerRegistriesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -504,38 +501,15 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/containerRegistries",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/containerRegistries",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerRegistryResourceCollection
+      bodyMapper: Mappers.ContainerRegistryResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/containerRegistries/{containerRegistryName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ContainerRegistryResource
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -543,31 +517,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.containerRegistryName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/containerRegistries/{containerRegistryName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ContainerRegistryResource,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.containerRegistryName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/containerRegistries/{containerRegistryName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/containerRegistries/{containerRegistryName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerRegistryResource
+      bodyMapper: Mappers.ContainerRegistryResource,
     },
     201: {
-      bodyMapper: Mappers.ContainerRegistryResource
+      bodyMapper: Mappers.ContainerRegistryResource,
     },
     202: {
-      bodyMapper: Mappers.ContainerRegistryResource
+      bodyMapper: Mappers.ContainerRegistryResource,
     },
     204: {
-      bodyMapper: Mappers.ContainerRegistryResource
+      bodyMapper: Mappers.ContainerRegistryResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.containerRegistryResource,
   queryParameters: [Parameters.apiVersion],
@@ -576,32 +570,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.containerRegistryName
+    Parameters.containerRegistryName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/containerRegistries/{containerRegistryName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/containerRegistries/{containerRegistryName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.ContainerRegistriesDeleteHeaders
+      headersMapper: Mappers.ContainerRegistriesDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.ContainerRegistriesDeleteHeaders
+      headersMapper: Mappers.ContainerRegistriesDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.ContainerRegistriesDeleteHeaders
+      headersMapper: Mappers.ContainerRegistriesDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.ContainerRegistriesDeleteHeaders
+      headersMapper: Mappers.ContainerRegistriesDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -609,31 +602,30 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.containerRegistryName
+    Parameters.containerRegistryName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const validateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/containerRegistries/{containerRegistryName}/validate",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/containerRegistries/{containerRegistryName}/validate",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerRegistryValidateResult
+      bodyMapper: Mappers.ContainerRegistryValidateResult,
     },
     201: {
-      bodyMapper: Mappers.ContainerRegistryValidateResult
+      bodyMapper: Mappers.ContainerRegistryValidateResult,
     },
     202: {
-      bodyMapper: Mappers.ContainerRegistryValidateResult
+      bodyMapper: Mappers.ContainerRegistryValidateResult,
     },
     204: {
-      bodyMapper: Mappers.ContainerRegistryValidateResult
+      bodyMapper: Mappers.ContainerRegistryValidateResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.containerRegistryProperties,
   queryParameters: [Parameters.apiVersion],
@@ -642,30 +634,30 @@ const validateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.containerRegistryName
+    Parameters.containerRegistryName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerRegistryResourceCollection
+      bodyMapper: Mappers.ContainerRegistryResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

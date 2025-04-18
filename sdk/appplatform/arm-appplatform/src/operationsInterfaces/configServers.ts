@@ -6,22 +6,39 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
+  ConfigServerResource,
+  ConfigServersListOptionalParams,
   ConfigServersGetOptionalParams,
   ConfigServersGetResponse,
-  ConfigServerResource,
   ConfigServersUpdatePutOptionalParams,
   ConfigServersUpdatePutResponse,
   ConfigServersUpdatePatchOptionalParams,
   ConfigServersUpdatePatchResponse,
+  ConfigServersDeleteOptionalParams,
+  ConfigServersDeleteResponse,
   ConfigServerSettings,
   ConfigServersValidateOptionalParams,
-  ConfigServersValidateResponse
+  ConfigServersValidateResponse,
 } from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a ConfigServers. */
 export interface ConfigServers {
+  /**
+   * Handles requests to list all config server resources in a Service.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param options The options parameters.
+   */
+  list(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: ConfigServersListOptionalParams,
+  ): PagedAsyncIterableIterator<ConfigServerResource>;
   /**
    * Get the config server and its properties.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -32,7 +49,7 @@ export interface ConfigServers {
   get(
     resourceGroupName: string,
     serviceName: string,
-    options?: ConfigServersGetOptionalParams
+    options?: ConfigServersGetOptionalParams,
   ): Promise<ConfigServersGetResponse>;
   /**
    * Update the config server.
@@ -46,7 +63,7 @@ export interface ConfigServers {
     resourceGroupName: string,
     serviceName: string,
     configServerResource: ConfigServerResource,
-    options?: ConfigServersUpdatePutOptionalParams
+    options?: ConfigServersUpdatePutOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigServersUpdatePutResponse>,
@@ -65,7 +82,7 @@ export interface ConfigServers {
     resourceGroupName: string,
     serviceName: string,
     configServerResource: ConfigServerResource,
-    options?: ConfigServersUpdatePutOptionalParams
+    options?: ConfigServersUpdatePutOptionalParams,
   ): Promise<ConfigServersUpdatePutResponse>;
   /**
    * Update the config server.
@@ -79,7 +96,7 @@ export interface ConfigServers {
     resourceGroupName: string,
     serviceName: string,
     configServerResource: ConfigServerResource,
-    options?: ConfigServersUpdatePatchOptionalParams
+    options?: ConfigServersUpdatePatchOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigServersUpdatePatchResponse>,
@@ -98,8 +115,37 @@ export interface ConfigServers {
     resourceGroupName: string,
     serviceName: string,
     configServerResource: ConfigServerResource,
-    options?: ConfigServersUpdatePatchOptionalParams
+    options?: ConfigServersUpdatePatchOptionalParams,
   ): Promise<ConfigServersUpdatePatchResponse>;
+  /**
+   * Disable the default Config Server, only available in Enterprise Plan.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: ConfigServersDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ConfigServersDeleteResponse>,
+      ConfigServersDeleteResponse
+    >
+  >;
+  /**
+   * Disable the default Config Server, only available in Enterprise Plan.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: ConfigServersDeleteOptionalParams,
+  ): Promise<ConfigServersDeleteResponse>;
   /**
    * Check if the config server settings are valid.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -112,7 +158,7 @@ export interface ConfigServers {
     resourceGroupName: string,
     serviceName: string,
     configServerSettings: ConfigServerSettings,
-    options?: ConfigServersValidateOptionalParams
+    options?: ConfigServersValidateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigServersValidateResponse>,
@@ -131,6 +177,6 @@ export interface ConfigServers {
     resourceGroupName: string,
     serviceName: string,
     configServerSettings: ConfigServerSettings,
-    options?: ConfigServersValidateOptionalParams
+    options?: ConfigServersValidateOptionalParams,
   ): Promise<ConfigServersValidateResponse>;
 }

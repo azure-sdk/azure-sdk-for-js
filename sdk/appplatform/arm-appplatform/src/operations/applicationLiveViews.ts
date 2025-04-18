@@ -16,7 +16,7 @@ import { AppPlatformManagementClient } from "../appPlatformManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
@@ -30,7 +30,7 @@ import {
   ApplicationLiveViewsCreateOrUpdateResponse,
   ApplicationLiveViewsDeleteOptionalParams,
   ApplicationLiveViewsDeleteResponse,
-  ApplicationLiveViewsListNextResponse
+  ApplicationLiveViewsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,7 +56,7 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
   public list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApplicationLiveViewsListOptionalParams
+    options?: ApplicationLiveViewsListOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationLiveViewResource> {
     const iter = this.listPagingAll(resourceGroupName, serviceName, options);
     return {
@@ -74,9 +74,9 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
           resourceGroupName,
           serviceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -84,7 +84,7 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
     resourceGroupName: string,
     serviceName: string,
     options?: ApplicationLiveViewsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ApplicationLiveViewResource[]> {
     let result: ApplicationLiveViewsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +100,7 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -112,12 +112,12 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
   private async *listPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApplicationLiveViewsListOptionalParams
+    options?: ApplicationLiveViewsListOptionalParams,
   ): AsyncIterableIterator<ApplicationLiveViewResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -133,11 +133,11 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
   private _list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApplicationLiveViewsListOptionalParams
+    options?: ApplicationLiveViewsListOptionalParams,
   ): Promise<ApplicationLiveViewsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -153,11 +153,11 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
     resourceGroupName: string,
     serviceName: string,
     applicationLiveViewName: string,
-    options?: ApplicationLiveViewsGetOptionalParams
+    options?: ApplicationLiveViewsGetOptionalParams,
   ): Promise<ApplicationLiveViewsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, applicationLiveViewName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -175,7 +175,7 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
     serviceName: string,
     applicationLiveViewName: string,
     applicationLiveViewResource: ApplicationLiveViewResource,
-    options?: ApplicationLiveViewsCreateOrUpdateOptionalParams
+    options?: ApplicationLiveViewsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApplicationLiveViewsCreateOrUpdateResponse>,
@@ -184,21 +184,20 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ApplicationLiveViewsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -207,8 +206,8 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -216,8 +215,8 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -228,16 +227,16 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
         serviceName,
         applicationLiveViewName,
         applicationLiveViewResource,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ApplicationLiveViewsCreateOrUpdateResponse,
       OperationState<ApplicationLiveViewsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -257,14 +256,14 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
     serviceName: string,
     applicationLiveViewName: string,
     applicationLiveViewResource: ApplicationLiveViewResource,
-    options?: ApplicationLiveViewsCreateOrUpdateOptionalParams
+    options?: ApplicationLiveViewsCreateOrUpdateOptionalParams,
   ): Promise<ApplicationLiveViewsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
       applicationLiveViewName,
       applicationLiveViewResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -281,7 +280,7 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
     resourceGroupName: string,
     serviceName: string,
     applicationLiveViewName: string,
-    options?: ApplicationLiveViewsDeleteOptionalParams
+    options?: ApplicationLiveViewsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApplicationLiveViewsDeleteResponse>,
@@ -290,21 +289,20 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ApplicationLiveViewsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -313,8 +311,8 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -322,8 +320,8 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -333,16 +331,16 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
         resourceGroupName,
         serviceName,
         applicationLiveViewName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       ApplicationLiveViewsDeleteResponse,
       OperationState<ApplicationLiveViewsDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -360,13 +358,13 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
     resourceGroupName: string,
     serviceName: string,
     applicationLiveViewName: string,
-    options?: ApplicationLiveViewsDeleteOptionalParams
+    options?: ApplicationLiveViewsDeleteOptionalParams,
   ): Promise<ApplicationLiveViewsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
       applicationLiveViewName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -383,11 +381,11 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: ApplicationLiveViewsListNextOptionalParams
+    options?: ApplicationLiveViewsListNextOptionalParams,
   ): Promise<ApplicationLiveViewsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -395,38 +393,15 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationLiveViews",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationLiveViews",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationLiveViewResourceCollection
+      bodyMapper: Mappers.ApplicationLiveViewResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationLiveViews/{applicationLiveViewName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApplicationLiveViewResource
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -434,31 +409,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.applicationLiveViewName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationLiveViews/{applicationLiveViewName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplicationLiveViewResource,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.applicationLiveViewName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationLiveViews/{applicationLiveViewName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationLiveViews/{applicationLiveViewName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationLiveViewResource
+      bodyMapper: Mappers.ApplicationLiveViewResource,
     },
     201: {
-      bodyMapper: Mappers.ApplicationLiveViewResource
+      bodyMapper: Mappers.ApplicationLiveViewResource,
     },
     202: {
-      bodyMapper: Mappers.ApplicationLiveViewResource
+      bodyMapper: Mappers.ApplicationLiveViewResource,
     },
     204: {
-      bodyMapper: Mappers.ApplicationLiveViewResource
+      bodyMapper: Mappers.ApplicationLiveViewResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.applicationLiveViewResource,
   queryParameters: [Parameters.apiVersion],
@@ -467,32 +462,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.applicationLiveViewName
+    Parameters.applicationLiveViewName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationLiveViews/{applicationLiveViewName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationLiveViews/{applicationLiveViewName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.ApplicationLiveViewsDeleteHeaders
+      headersMapper: Mappers.ApplicationLiveViewsDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.ApplicationLiveViewsDeleteHeaders
+      headersMapper: Mappers.ApplicationLiveViewsDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.ApplicationLiveViewsDeleteHeaders
+      headersMapper: Mappers.ApplicationLiveViewsDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.ApplicationLiveViewsDeleteHeaders
+      headersMapper: Mappers.ApplicationLiveViewsDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -500,29 +494,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.applicationLiveViewName
+    Parameters.applicationLiveViewName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationLiveViewResourceCollection
+      bodyMapper: Mappers.ApplicationLiveViewResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
