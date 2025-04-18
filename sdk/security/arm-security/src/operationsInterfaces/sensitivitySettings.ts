@@ -7,12 +7,33 @@
  */
 
 import {
+  UpdateSensitivitySettingsRequest,
+  SensitivitySettingsCreateOrUpdateOptionalParams,
+  SensitivitySettingsCreateOrUpdateResponse,
+  SensitivitySettingsGetOptionalParams,
+  SensitivitySettingsGetResponse,
   SensitivitySettingsListOptionalParams,
   SensitivitySettingsListResponse,
 } from "../models/index.js";
 
 /** Interface representing a SensitivitySettings. */
 export interface SensitivitySettings {
+  /**
+   * Create or update data sensitivity settings for sensitive data discovery
+   * @param sensitivitySettings The data sensitivity settings to update
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    sensitivitySettings: UpdateSensitivitySettingsRequest,
+    options?: SensitivitySettingsCreateOrUpdateOptionalParams,
+  ): Promise<SensitivitySettingsCreateOrUpdateResponse>;
+  /**
+   * Gets data sensitivity settings for sensitive data discovery
+   * @param options The options parameters.
+   */
+  get(
+    options?: SensitivitySettingsGetOptionalParams,
+  ): Promise<SensitivitySettingsGetResponse>;
   /**
    * Gets a list with a single sensitivity settings resource
    * @param options The options parameters.
