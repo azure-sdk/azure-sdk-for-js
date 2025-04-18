@@ -10,7 +10,7 @@ import {
   CloudManifestFileListOptionalParams,
   CloudManifestFileListResponse,
   CloudManifestFileGetOptionalParams,
-  CloudManifestFileGetResponse
+  CloudManifestFileGetResponse,
 } from "../models/index.js";
 
 /** Interface representing a CloudManifestFile. */
@@ -20,7 +20,7 @@ export interface CloudManifestFile {
    * @param options The options parameters.
    */
   list(
-    options?: CloudManifestFileListOptionalParams
+    options?: CloudManifestFileListOptionalParams,
   ): Promise<CloudManifestFileListResponse>;
   /**
    * Returns a cloud specific manifest JSON file.
@@ -29,6 +29,6 @@ export interface CloudManifestFile {
    */
   get(
     verificationVersion: string,
-    options?: CloudManifestFileGetOptionalParams
+    options?: CloudManifestFileGetOptionalParams,
   ): Promise<CloudManifestFileGetResponse>;
 }

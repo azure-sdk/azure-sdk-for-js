@@ -104,28 +104,26 @@ export interface Resource {
   etag?: string;
 }
 
+/** Request details for generating a deployment license. */
+export interface DeploymentLicenseRequest {
+  /** Signing verification public key version. */
+  verificationVersion?: string;
+}
+
+/** A license that can be used to deploy an Azure Stack device. */
+export interface DeploymentLicenseResponse {
+  /** A license chain that can be used to temporarily activate an Azure Stack device. */
+  temporaryLicenseChain?: string[];
+  /** Signature of the license chain. */
+  signature?: string;
+}
+
 /** Pageable list of customer subscriptions. */
 export interface CustomerSubscriptionList {
   /** URI to the next page. */
   nextLink?: string;
   /** List of customer subscriptions. */
   value?: CustomerSubscription[];
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
 }
 
 /** Pageable list of products. */
@@ -448,16 +446,6 @@ export interface TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-  /**
-   * The kind of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly kind?: string;
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** Location of the resource. */
   location: Location;
   /** Custom tags for the resource. */
@@ -480,24 +468,6 @@ export interface ActivationKeyResult {
   activationKey?: string;
 }
 
-/** List of linked subscriptions with paging support. */
-export interface LinkedSubscriptionsList {
-  /** URI to the next page. */
-  nextLink?: string;
-  /** List of Linked Subscriptions */
-  value?: LinkedSubscription[];
-}
-
-/** Linked Subscription resource */
-export interface LinkedSubscriptionParameter {
-  /** Location of the resource. */
-  location: Location;
-  /** The identifier associated with the device subscription. */
-  linkedSubscriptionId: string;
-  /** The identifier associated with the device registration. */
-  registrationResourceId: string;
-}
-
 /** Cloud specific manifest GET response. */
 export interface CloudManifestFileResponse extends Resource {
   /** Cloud specific manifest data. */
@@ -506,22 +476,12 @@ export interface CloudManifestFileResponse extends Resource {
 
 /** Customer subscription. */
 export interface CustomerSubscription extends Resource {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** Tenant Id. */
   tenantId?: string;
 }
 
 /** Product information. */
 export interface Product extends Resource {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** The display name of the product. */
   displayName?: string;
   /** The description of the product. */
@@ -575,63 +535,6 @@ export interface Registration extends TrackedResource {
   billingModel?: string;
 }
 
-/** Linked Subscription information. */
-export interface LinkedSubscription extends TrackedResource {
-  /** The identifier associated with the device subscription. */
-  linkedSubscriptionId?: string;
-  /** The identifier associated with the device registration. */
-  registrationResourceId?: string;
-  /**
-   * The identifier of the Azure Stack device for remote management.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly deviceId?: string;
-  /**
-   * The object identifier associated with the Azure Stack device connecting to Azure.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly deviceObjectId?: string;
-  /**
-   * The connection state of the Azure Stack device.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly deviceLinkState?: string;
-  /**
-   * The last remote management connection time for the Azure Stack device connected to the linked subscription resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastConnectedTime?: string;
-  /**
-   * The status of the remote management connection of the Azure Stack device.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly deviceConnectionStatus?: string;
-}
-
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key"
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
-
 /** Known values of {@link CompatibilityIssue} that the service accepts. */
 export enum KnownCompatibilityIssue {
   /** HigherDeviceVersionRequired */
@@ -653,7 +556,7 @@ export enum KnownCompatibilityIssue {
   /** ConnectionToAzureRequired */
   ConnectionToAzureRequired = "ConnectionToAzureRequired",
   /** DisconnectedEnvironmentRequired */
-  DisconnectedEnvironmentRequired = "DisconnectedEnvironmentRequired"
+  DisconnectedEnvironmentRequired = "DisconnectedEnvironmentRequired",
 }
 
 /**
@@ -681,7 +584,7 @@ export enum KnownComputeRole {
   /** IaaS */
   IaaS = "IaaS",
   /** PaaS */
-  PaaS = "PaaS"
+  PaaS = "PaaS",
 }
 
 /**
@@ -702,7 +605,7 @@ export enum KnownOperatingSystem {
   /** Windows */
   Windows = "Windows",
   /** Linux */
-  Linux = "Linux"
+  Linux = "Linux",
 }
 
 /**
@@ -721,7 +624,7 @@ export enum KnownCategory {
   /** AzureAD */
   AzureAD = "AzureAD",
   /** Adfs */
-  Adfs = "ADFS"
+  Adfs = "ADFS",
 }
 
 /**
@@ -737,7 +640,7 @@ export type Category = string;
 /** Known values of {@link Location} that the service accepts. */
 export enum KnownLocation {
   /** Global */
-  Global = "global"
+  Global = "global",
 }
 
 /**
@@ -785,6 +688,13 @@ export interface CloudManifestFileGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type CloudManifestFileGetResponse = CloudManifestFileResponse;
+
+/** Optional parameters. */
+export interface DeploymentLicenseCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type DeploymentLicenseCreateResponse = DeploymentLicenseResponse;
 
 /** Optional parameters. */
 export interface CustomerSubscriptionsListOptionalParams
@@ -838,6 +748,16 @@ export interface ProductsListDetailsOptionalParams
 
 /** Contains response data for the listDetails operation. */
 export type ProductsListDetailsResponse = ExtendedProduct;
+
+/** Optional parameters. */
+export interface ProductsListProductsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Device configuration. */
+  deviceConfiguration?: DeviceConfiguration;
+}
+
+/** Contains response data for the listProducts operation. */
+export type ProductsListProductsResponse = ProductList;
 
 /** Optional parameters. */
 export interface ProductsGetProductsOptionalParams
@@ -939,59 +859,6 @@ export interface RegistrationsListBySubscriptionNextOptionalParams
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type RegistrationsListBySubscriptionNextResponse = RegistrationList;
-
-/** Optional parameters. */
-export interface LinkedSubscriptionsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type LinkedSubscriptionsListByResourceGroupResponse = LinkedSubscriptionsList;
-
-/** Optional parameters. */
-export interface LinkedSubscriptionsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscription operation. */
-export type LinkedSubscriptionsListBySubscriptionResponse = LinkedSubscriptionsList;
-
-/** Optional parameters. */
-export interface LinkedSubscriptionsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type LinkedSubscriptionsGetResponse = LinkedSubscription;
-
-/** Optional parameters. */
-export interface LinkedSubscriptionsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface LinkedSubscriptionsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type LinkedSubscriptionsCreateOrUpdateResponse = LinkedSubscription;
-
-/** Optional parameters. */
-export interface LinkedSubscriptionsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type LinkedSubscriptionsUpdateResponse = LinkedSubscription;
-
-/** Optional parameters. */
-export interface LinkedSubscriptionsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type LinkedSubscriptionsListByResourceGroupNextResponse = LinkedSubscriptionsList;
-
-/** Optional parameters. */
-export interface LinkedSubscriptionsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type LinkedSubscriptionsListBySubscriptionNextResponse = LinkedSubscriptionsList;
 
 /** Optional parameters. */
 export interface AzureStackManagementClientOptionalParams

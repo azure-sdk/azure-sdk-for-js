@@ -15,7 +15,7 @@ import {
   CloudManifestFileListOptionalParams,
   CloudManifestFileListResponse,
   CloudManifestFileGetOptionalParams,
-  CloudManifestFileGetResponse
+  CloudManifestFileGetResponse,
 } from "../models/index.js";
 
 /** Class containing CloudManifestFile operations. */
@@ -35,7 +35,7 @@ export class CloudManifestFileImpl implements CloudManifestFile {
    * @param options The options parameters.
    */
   list(
-    options?: CloudManifestFileListOptionalParams
+    options?: CloudManifestFileListOptionalParams,
   ): Promise<CloudManifestFileListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -47,11 +47,11 @@ export class CloudManifestFileImpl implements CloudManifestFile {
    */
   get(
     verificationVersion: string,
-    options?: CloudManifestFileGetOptionalParams
+    options?: CloudManifestFileGetOptionalParams,
   ): Promise<CloudManifestFileGetResponse> {
     return this.client.sendOperationRequest(
       { verificationVersion, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -63,31 +63,30 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CloudManifestFileResponse
+      bodyMapper: Mappers.CloudManifestFileResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.AzureStack/cloudManifestFiles/{verificationVersion}",
+  path: "/providers/Microsoft.AzureStack/cloudManifestFiles/{verificationVersion}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CloudManifestFileResponse
+      bodyMapper: Mappers.CloudManifestFileResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.versionCreationDate],
   urlParameters: [Parameters.$host, Parameters.verificationVersion],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

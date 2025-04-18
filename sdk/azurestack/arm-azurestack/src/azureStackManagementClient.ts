@@ -11,31 +11,31 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   CloudManifestFileImpl,
+  DeploymentLicenseImpl,
   CustomerSubscriptionsImpl,
   ProductsImpl,
   RegistrationsImpl,
-  LinkedSubscriptionsImpl
 } from "./operations/index.js";
 import {
   Operations,
   CloudManifestFile,
+  DeploymentLicense,
   CustomerSubscriptions,
   Products,
   Registrations,
-  LinkedSubscriptions
 } from "./operationsInterfaces/index.js";
 import { AzureStackManagementClientOptionalParams } from "./models/index.js";
 
 export class AzureStackManagementClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the AzureStackManagementClient class.
@@ -47,13 +47,27 @@ export class AzureStackManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: AzureStackManagementClientOptionalParams
+    options?: AzureStackManagementClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: AzureStackManagementClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: AzureStackManagementClientOptionalParams | string,
+    options?: AzureStackManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -62,10 +76,10 @@ export class AzureStackManagementClient extends coreClient.ServiceClient {
     }
     const defaults: AzureStackManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-azurestack/3.0.0-beta.6`;
+    const packageDetails = `azsdk-js-arm-azurestack/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -75,20 +89,21 @@ export class AzureStackManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -98,7 +113,7 @@ export class AzureStackManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -108,9 +123,9 @@ export class AzureStackManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -118,13 +133,13 @@ export class AzureStackManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2020-06-01-preview";
+    this.apiVersion = options.apiVersion || "2022-06-01";
     this.operations = new OperationsImpl(this);
     this.cloudManifestFile = new CloudManifestFileImpl(this);
+    this.deploymentLicense = new DeploymentLicenseImpl(this);
     this.customerSubscriptions = new CustomerSubscriptionsImpl(this);
     this.products = new ProductsImpl(this);
     this.registrations = new RegistrationsImpl(this);
-    this.linkedSubscriptions = new LinkedSubscriptionsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -137,7 +152,7 @@ export class AzureStackManagementClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -151,15 +166,15 @@ export class AzureStackManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   operations: Operations;
   cloudManifestFile: CloudManifestFile;
+  deploymentLicense: DeploymentLicense;
   customerSubscriptions: CustomerSubscriptions;
   products: Products;
   registrations: Registrations;
-  linkedSubscriptions: LinkedSubscriptions;
 }

@@ -8,7 +8,7 @@
 
 export * from "./operations.js";
 export * from "./cloudManifestFile.js";
+export * from "./deploymentLicense.js";
 export * from "./customerSubscriptions.js";
 export * from "./products.js";
 export * from "./registrations.js";
-export * from "./linkedSubscriptions.js";

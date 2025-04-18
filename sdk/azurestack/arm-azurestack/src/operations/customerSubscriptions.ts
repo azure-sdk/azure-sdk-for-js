@@ -23,7 +23,7 @@ import {
   CustomerSubscriptionsDeleteOptionalParams,
   CustomerSubscriptionsCreateOptionalParams,
   CustomerSubscriptionsCreateResponse,
-  CustomerSubscriptionsListNextResponse
+  CustomerSubscriptionsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,7 +48,7 @@ export class CustomerSubscriptionsImpl implements CustomerSubscriptions {
   public list(
     resourceGroup: string,
     registrationName: string,
-    options?: CustomerSubscriptionsListOptionalParams
+    options?: CustomerSubscriptionsListOptionalParams,
   ): PagedAsyncIterableIterator<CustomerSubscription> {
     const iter = this.listPagingAll(resourceGroup, registrationName, options);
     return {
@@ -66,9 +66,9 @@ export class CustomerSubscriptionsImpl implements CustomerSubscriptions {
           resourceGroup,
           registrationName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -76,7 +76,7 @@ export class CustomerSubscriptionsImpl implements CustomerSubscriptions {
     resourceGroup: string,
     registrationName: string,
     options?: CustomerSubscriptionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CustomerSubscription[]> {
     let result: CustomerSubscriptionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +92,7 @@ export class CustomerSubscriptionsImpl implements CustomerSubscriptions {
         resourceGroup,
         registrationName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -104,12 +104,12 @@ export class CustomerSubscriptionsImpl implements CustomerSubscriptions {
   private async *listPagingAll(
     resourceGroup: string,
     registrationName: string,
-    options?: CustomerSubscriptionsListOptionalParams
+    options?: CustomerSubscriptionsListOptionalParams,
   ): AsyncIterableIterator<CustomerSubscription> {
     for await (const page of this.listPagingPage(
       resourceGroup,
       registrationName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -124,11 +124,11 @@ export class CustomerSubscriptionsImpl implements CustomerSubscriptions {
   private _list(
     resourceGroup: string,
     registrationName: string,
-    options?: CustomerSubscriptionsListOptionalParams
+    options?: CustomerSubscriptionsListOptionalParams,
   ): Promise<CustomerSubscriptionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroup, registrationName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -143,11 +143,11 @@ export class CustomerSubscriptionsImpl implements CustomerSubscriptions {
     resourceGroup: string,
     registrationName: string,
     customerSubscriptionName: string,
-    options?: CustomerSubscriptionsGetOptionalParams
+    options?: CustomerSubscriptionsGetOptionalParams,
   ): Promise<CustomerSubscriptionsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroup, registrationName, customerSubscriptionName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -162,11 +162,11 @@ export class CustomerSubscriptionsImpl implements CustomerSubscriptions {
     resourceGroup: string,
     registrationName: string,
     customerSubscriptionName: string,
-    options?: CustomerSubscriptionsDeleteOptionalParams
+    options?: CustomerSubscriptionsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroup, registrationName, customerSubscriptionName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -183,7 +183,7 @@ export class CustomerSubscriptionsImpl implements CustomerSubscriptions {
     registrationName: string,
     customerSubscriptionName: string,
     customerCreationParameters: CustomerSubscription,
-    options?: CustomerSubscriptionsCreateOptionalParams
+    options?: CustomerSubscriptionsCreateOptionalParams,
   ): Promise<CustomerSubscriptionsCreateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -191,9 +191,9 @@ export class CustomerSubscriptionsImpl implements CustomerSubscriptions {
         registrationName,
         customerSubscriptionName,
         customerCreationParameters,
-        options
+        options,
       },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -208,11 +208,11 @@ export class CustomerSubscriptionsImpl implements CustomerSubscriptions {
     resourceGroup: string,
     registrationName: string,
     nextLink: string,
-    options?: CustomerSubscriptionsListNextOptionalParams
+    options?: CustomerSubscriptionsListNextOptionalParams,
   ): Promise<CustomerSubscriptionsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroup, registrationName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -220,38 +220,15 @@ export class CustomerSubscriptionsImpl implements CustomerSubscriptions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/customerSubscriptions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/customerSubscriptions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomerSubscriptionList
+      bodyMapper: Mappers.CustomerSubscriptionList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroup,
-    Parameters.registrationName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/customerSubscriptions/{customerSubscriptionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CustomerSubscription
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -259,21 +236,41 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroup,
     Parameters.registrationName,
-    Parameters.customerSubscriptionName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/customerSubscriptions/{customerSubscriptionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CustomerSubscription,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroup,
+    Parameters.registrationName,
+    Parameters.customerSubscriptionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/customerSubscriptions/{customerSubscriptionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/customerSubscriptions/{customerSubscriptionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -281,22 +278,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroup,
     Parameters.registrationName,
-    Parameters.customerSubscriptionName
+    Parameters.customerSubscriptionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/customerSubscriptions/{customerSubscriptionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/customerSubscriptions/{customerSubscriptionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomerSubscription
+      bodyMapper: Mappers.CustomerSubscription,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.customerCreationParameters,
   queryParameters: [Parameters.apiVersion],
@@ -305,31 +301,30 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroup,
     Parameters.registrationName,
-    Parameters.customerSubscriptionName
+    Parameters.customerSubscriptionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomerSubscriptionList
+      bodyMapper: Mappers.CustomerSubscriptionList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroup,
-    Parameters.registrationName
+    Parameters.registrationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -14,7 +14,7 @@ import {
   CustomerSubscriptionsGetResponse,
   CustomerSubscriptionsDeleteOptionalParams,
   CustomerSubscriptionsCreateOptionalParams,
-  CustomerSubscriptionsCreateResponse
+  CustomerSubscriptionsCreateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface CustomerSubscriptions {
   list(
     resourceGroup: string,
     registrationName: string,
-    options?: CustomerSubscriptionsListOptionalParams
+    options?: CustomerSubscriptionsListOptionalParams,
   ): PagedAsyncIterableIterator<CustomerSubscription>;
   /**
    * Returns the specified product.
@@ -42,7 +42,7 @@ export interface CustomerSubscriptions {
     resourceGroup: string,
     registrationName: string,
     customerSubscriptionName: string,
-    options?: CustomerSubscriptionsGetOptionalParams
+    options?: CustomerSubscriptionsGetOptionalParams,
   ): Promise<CustomerSubscriptionsGetResponse>;
   /**
    * Deletes a customer subscription under a registration.
@@ -55,7 +55,7 @@ export interface CustomerSubscriptions {
     resourceGroup: string,
     registrationName: string,
     customerSubscriptionName: string,
-    options?: CustomerSubscriptionsDeleteOptionalParams
+    options?: CustomerSubscriptionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Creates a new customer subscription under a registration.
@@ -70,6 +70,6 @@ export interface CustomerSubscriptions {
     registrationName: string,
     customerSubscriptionName: string,
     customerCreationParameters: CustomerSubscription,
-    options?: CustomerSubscriptionsCreateOptionalParams
+    options?: CustomerSubscriptionsCreateOptionalParams,
   ): Promise<CustomerSubscriptionsCreateResponse>;
 }
