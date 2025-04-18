@@ -35,6 +35,9 @@ import {
   ClustersUpdateOptionalParams,
   ClustersUpdateResponse,
   ClustersDeleteOptionalParams,
+  SecretsLocationsChangeRequest,
+  ClustersUpdateSecretsLocationsOptionalParams,
+  ClustersUpdateSecretsLocationsResponse,
   UploadCertificateRequest,
   ClustersUploadCertificateOptionalParams,
   ClustersCreateIdentityOptionalParams,
@@ -347,6 +350,101 @@ export class ClustersImpl implements Clusters {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Update cluster secrets locations.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  async beginUpdateSecretsLocations(
+    resourceGroupName: string,
+    clusterName: string,
+    body: SecretsLocationsChangeRequest,
+    options?: ClustersUpdateSecretsLocationsOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ClustersUpdateSecretsLocationsResponse>,
+      ClustersUpdateSecretsLocationsResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ClustersUpdateSecretsLocationsResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, body, options },
+      spec: updateSecretsLocationsOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ClustersUpdateSecretsLocationsResponse,
+      OperationState<ClustersUpdateSecretsLocationsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Update cluster secrets locations.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  async beginUpdateSecretsLocationsAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    body: SecretsLocationsChangeRequest,
+    options?: ClustersUpdateSecretsLocationsOptionalParams,
+  ): Promise<ClustersUpdateSecretsLocationsResponse> {
+    const poller = await this.beginUpdateSecretsLocations(
+      resourceGroupName,
+      clusterName,
+      body,
       options,
     );
     return poller.pollUntilDone();
@@ -982,6 +1080,38 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
+  serializer,
+};
+const updateSecretsLocationsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/updateSecretsLocations",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Cluster,
+    },
+    201: {
+      bodyMapper: Mappers.Cluster,
+    },
+    202: {
+      bodyMapper: Mappers.Cluster,
+    },
+    204: {
+      bodyMapper: Mappers.Cluster,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };
 const uploadCertificateOperationSpec: coreClient.OperationSpec = {
