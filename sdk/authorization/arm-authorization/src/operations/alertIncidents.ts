@@ -21,7 +21,7 @@ import {
   AlertIncidentsGetOptionalParams,
   AlertIncidentsGetResponse,
   AlertIncidentsRemediateOptionalParams,
-  AlertIncidentsListForScopeNextResponse
+  AlertIncidentsListForScopeNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,7 +46,7 @@ export class AlertIncidentsImpl implements AlertIncidents {
   public listForScope(
     scope: string,
     alertId: string,
-    options?: AlertIncidentsListForScopeOptionalParams
+    options?: AlertIncidentsListForScopeOptionalParams,
   ): PagedAsyncIterableIterator<AlertIncident> {
     const iter = this.listForScopePagingAll(scope, alertId, options);
     return {
@@ -61,7 +61,7 @@ export class AlertIncidentsImpl implements AlertIncidents {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listForScopePagingPage(scope, alertId, options, settings);
-      }
+      },
     };
   }
 
@@ -69,7 +69,7 @@ export class AlertIncidentsImpl implements AlertIncidents {
     scope: string,
     alertId: string,
     options?: AlertIncidentsListForScopeOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AlertIncident[]> {
     let result: AlertIncidentsListForScopeResponse;
     let continuationToken = settings?.continuationToken;
@@ -85,7 +85,7 @@ export class AlertIncidentsImpl implements AlertIncidents {
         scope,
         alertId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -97,12 +97,12 @@ export class AlertIncidentsImpl implements AlertIncidents {
   private async *listForScopePagingAll(
     scope: string,
     alertId: string,
-    options?: AlertIncidentsListForScopeOptionalParams
+    options?: AlertIncidentsListForScopeOptionalParams,
   ): AsyncIterableIterator<AlertIncident> {
     for await (const page of this.listForScopePagingPage(
       scope,
       alertId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -125,11 +125,11 @@ export class AlertIncidentsImpl implements AlertIncidents {
     scope: string,
     alertId: string,
     alertIncidentId: string,
-    options?: AlertIncidentsGetOptionalParams
+    options?: AlertIncidentsGetOptionalParams,
   ): Promise<AlertIncidentsGetResponse> {
     return this.client.sendOperationRequest(
       { scope, alertId, alertIncidentId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -142,11 +142,11 @@ export class AlertIncidentsImpl implements AlertIncidents {
   private _listForScope(
     scope: string,
     alertId: string,
-    options?: AlertIncidentsListForScopeOptionalParams
+    options?: AlertIncidentsListForScopeOptionalParams,
   ): Promise<AlertIncidentsListForScopeResponse> {
     return this.client.sendOperationRequest(
       { scope, alertId, options },
-      listForScopeOperationSpec
+      listForScopeOperationSpec,
     );
   }
 
@@ -161,11 +161,11 @@ export class AlertIncidentsImpl implements AlertIncidents {
     scope: string,
     alertId: string,
     alertIncidentId: string,
-    options?: AlertIncidentsRemediateOptionalParams
+    options?: AlertIncidentsRemediateOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { scope, alertId, alertIncidentId, options },
-      remediateOperationSpec
+      remediateOperationSpec,
     );
   }
 
@@ -180,11 +180,11 @@ export class AlertIncidentsImpl implements AlertIncidents {
     scope: string,
     alertId: string,
     nextLink: string,
-    options?: AlertIncidentsListForScopeNextOptionalParams
+    options?: AlertIncidentsListForScopeNextOptionalParams,
   ): Promise<AlertIncidentsListForScopeNextResponse> {
     return this.client.sendOperationRequest(
       { scope, alertId, nextLink, options },
-      listForScopeNextOperationSpec
+      listForScopeNextOperationSpec,
     );
   }
 }
@@ -192,81 +192,78 @@ export class AlertIncidentsImpl implements AlertIncidents {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleManagementAlerts/{alertId}/alertIncidents/{alertIncidentId}",
+  path: "/{scope}/providers/Microsoft.Authorization/roleManagementAlerts/{alertId}/alertIncidents/{alertIncidentId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertIncident
+      bodyMapper: Mappers.AlertIncident,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
     Parameters.alertId,
-    Parameters.alertIncidentId
+    Parameters.alertIncidentId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForScopeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleManagementAlerts/{alertId}/alertIncidents",
+  path: "/{scope}/providers/Microsoft.Authorization/roleManagementAlerts/{alertId}/alertIncidents",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertIncidentListResult
+      bodyMapper: Mappers.AlertIncidentListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.$host, Parameters.scope, Parameters.alertId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const remediateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleManagementAlerts/{alertId}/alertIncidents/{alertIncidentId}/remediate",
+  path: "/{scope}/providers/Microsoft.Authorization/roleManagementAlerts/{alertId}/alertIncidents/{alertIncidentId}/remediate",
   httpMethod: "POST",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
     Parameters.alertId,
-    Parameters.alertIncidentId
+    Parameters.alertIncidentId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForScopeNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertIncidentListResult
+      bodyMapper: Mappers.AlertIncidentListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.scope,
-    Parameters.alertId
+    Parameters.alertId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
