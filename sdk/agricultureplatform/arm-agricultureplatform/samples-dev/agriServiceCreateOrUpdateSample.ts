@@ -17,9 +17,7 @@ async function agriServiceCreateOrUpdate(): Promise<void> {
   const result = await client.agriService.createOrUpdate("rgopenapi", "abc123", {
     properties: {
       config: {},
-      managedOnBehalfOfConfiguration: {
-        moboBrokerResources: [],
-      },
+      managedOnBehalfOfConfiguration: {},
       dataConnectorCredentials: [
         {
           key: "BackendAADApplicationCredentials",
