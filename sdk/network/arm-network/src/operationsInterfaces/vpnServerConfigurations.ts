@@ -20,6 +20,8 @@ import {
   VpnServerConfigurationsUpdateTagsOptionalParams,
   VpnServerConfigurationsUpdateTagsResponse,
   VpnServerConfigurationsDeleteOptionalParams,
+  VpnServerConfigurationsListRadiusSecretsOptionalParams,
+  VpnServerConfigurationsListRadiusSecretsResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -122,4 +124,15 @@ export interface VpnServerConfigurations {
     vpnServerConfigurationName: string,
     options?: VpnServerConfigurationsDeleteOptionalParams,
   ): Promise<void>;
+  /**
+   * List all Radius servers with respective radius secrets from VpnServerConfiguration.
+   * @param resourceGroupName The name of the resource group.
+   * @param vpnServerConfigurationName The name of the VpnServerConfiguration.
+   * @param options The options parameters.
+   */
+  listRadiusSecrets(
+    resourceGroupName: string,
+    vpnServerConfigurationName: string,
+    options?: VpnServerConfigurationsListRadiusSecretsOptionalParams,
+  ): Promise<VpnServerConfigurationsListRadiusSecretsResponse>;
 }

@@ -35,6 +35,8 @@ import {
   VirtualNetworkGatewaysGetBgpPeerStatusResponse,
   VirtualNetworkGatewaysSupportedVpnDevicesOptionalParams,
   VirtualNetworkGatewaysSupportedVpnDevicesResponse,
+  VirtualNetworkGatewaysListRadiusSecretsOptionalParams,
+  VirtualNetworkGatewaysListRadiusSecretsResponse,
   VirtualNetworkGatewaysGetLearnedRoutesOptionalParams,
   VirtualNetworkGatewaysGetLearnedRoutesResponse,
   VirtualNetworkGatewaysGetAdvertisedRoutesOptionalParams,
@@ -371,6 +373,18 @@ export interface VirtualNetworkGateways {
     virtualNetworkGatewayName: string,
     options?: VirtualNetworkGatewaysSupportedVpnDevicesOptionalParams,
   ): Promise<VirtualNetworkGatewaysSupportedVpnDevicesResponse>;
+  /**
+   * List all Radius servers with respective radius secrets from virtual network gateway
+   * VpnClientConfiguration.
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param options The options parameters.
+   */
+  listRadiusSecrets(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    options?: VirtualNetworkGatewaysListRadiusSecretsOptionalParams,
+  ): Promise<VirtualNetworkGatewaysListRadiusSecretsResponse>;
   /**
    * This operation retrieves a list of routes the virtual network gateway has learned, including routes
    * learned from BGP peers.

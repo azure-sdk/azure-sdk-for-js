@@ -50,6 +50,8 @@ import {
   VirtualNetworkGatewaysGetBgpPeerStatusResponse,
   VirtualNetworkGatewaysSupportedVpnDevicesOptionalParams,
   VirtualNetworkGatewaysSupportedVpnDevicesResponse,
+  VirtualNetworkGatewaysListRadiusSecretsOptionalParams,
+  VirtualNetworkGatewaysListRadiusSecretsResponse,
   VirtualNetworkGatewaysGetLearnedRoutesOptionalParams,
   VirtualNetworkGatewaysGetLearnedRoutesResponse,
   VirtualNetworkGatewaysGetAdvertisedRoutesOptionalParams,
@@ -1150,6 +1152,24 @@ export class VirtualNetworkGatewaysImpl implements VirtualNetworkGateways {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualNetworkGatewayName, options },
       supportedVpnDevicesOperationSpec,
+    );
+  }
+
+  /**
+   * List all Radius servers with respective radius secrets from virtual network gateway
+   * VpnClientConfiguration.
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param options The options parameters.
+   */
+  listRadiusSecrets(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    options?: VirtualNetworkGatewaysListRadiusSecretsOptionalParams,
+  ): Promise<VirtualNetworkGatewaysListRadiusSecretsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, virtualNetworkGatewayName, options },
+      listRadiusSecretsOperationSpec,
     );
   }
 
@@ -2724,6 +2744,34 @@ const supportedVpnDevicesOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: { type: { name: "String" } },
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.virtualNetworkGatewayName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listRadiusSecretsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/listRadiusSecrets",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: {
+            type: { name: "Composite", className: "RadiusAuthServer" },
+          },
+        },
+      },
     },
     default: {
       bodyMapper: Mappers.CloudError,
