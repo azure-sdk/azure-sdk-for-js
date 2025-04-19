@@ -16,6 +16,8 @@ import {
 import * as coreAuth from "@azure/core-auth";
 import {
   DevCentersImpl,
+  EncryptionSetsImpl,
+  ProjectPoliciesImpl,
   ProjectsImpl,
   AttachedNetworksImpl,
   ProjectCatalogsImpl,
@@ -24,6 +26,7 @@ import {
   GalleriesImpl,
   ImagesImpl,
   ImageVersionsImpl,
+  SkusImpl,
   CatalogsImpl,
   EnvironmentTypesImpl,
   ProjectAllowedEnvironmentTypesImpl,
@@ -34,13 +37,21 @@ import {
   UsagesImpl,
   CheckNameAvailabilityImpl,
   CheckScopedNameAvailabilityImpl,
-  SkusImpl,
+  CustomizationTasksImpl,
+  DevCenterCatalogImageDefinitionsImpl,
+  DevCenterCatalogImageDefinitionBuildsImpl,
+  DevCenterCatalogImageDefinitionBuildImpl,
+  ProjectCatalogImageDefinitionsImpl,
+  ProjectCatalogImageDefinitionBuildsImpl,
+  ProjectCatalogImageDefinitionBuildImpl,
   PoolsImpl,
   SchedulesImpl,
   NetworkConnectionsImpl,
 } from "./operations/index.js";
 import {
   DevCenters,
+  EncryptionSets,
+  ProjectPolicies,
   Projects,
   AttachedNetworks,
   ProjectCatalogs,
@@ -49,6 +60,7 @@ import {
   Galleries,
   Images,
   ImageVersions,
+  Skus,
   Catalogs,
   EnvironmentTypes,
   ProjectAllowedEnvironmentTypes,
@@ -59,7 +71,13 @@ import {
   Usages,
   CheckNameAvailability,
   CheckScopedNameAvailability,
-  Skus,
+  CustomizationTasks,
+  DevCenterCatalogImageDefinitions,
+  DevCenterCatalogImageDefinitionBuilds,
+  DevCenterCatalogImageDefinitionBuild,
+  ProjectCatalogImageDefinitions,
+  ProjectCatalogImageDefinitionBuilds,
+  ProjectCatalogImageDefinitionBuild,
   Pools,
   Schedules,
   NetworkConnections,
@@ -98,7 +116,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-devcenter/1.1.1`;
+    const packageDetails = `azsdk-js-arm-devcenter/1.2.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -152,8 +170,10 @@ export class DevCenterClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-02-01";
+    this.apiVersion = options.apiVersion || "2025-04-01-preview";
     this.devCenters = new DevCentersImpl(this);
+    this.encryptionSets = new EncryptionSetsImpl(this);
+    this.projectPolicies = new ProjectPoliciesImpl(this);
     this.projects = new ProjectsImpl(this);
     this.attachedNetworks = new AttachedNetworksImpl(this);
     this.projectCatalogs = new ProjectCatalogsImpl(this);
@@ -163,6 +183,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
     this.galleries = new GalleriesImpl(this);
     this.images = new ImagesImpl(this);
     this.imageVersions = new ImageVersionsImpl(this);
+    this.skus = new SkusImpl(this);
     this.catalogs = new CatalogsImpl(this);
     this.environmentTypes = new EnvironmentTypesImpl(this);
     this.projectAllowedEnvironmentTypes =
@@ -176,7 +197,19 @@ export class DevCenterClient extends coreClient.ServiceClient {
     this.checkScopedNameAvailability = new CheckScopedNameAvailabilityImpl(
       this,
     );
-    this.skus = new SkusImpl(this);
+    this.customizationTasks = new CustomizationTasksImpl(this);
+    this.devCenterCatalogImageDefinitions =
+      new DevCenterCatalogImageDefinitionsImpl(this);
+    this.devCenterCatalogImageDefinitionBuilds =
+      new DevCenterCatalogImageDefinitionBuildsImpl(this);
+    this.devCenterCatalogImageDefinitionBuild =
+      new DevCenterCatalogImageDefinitionBuildImpl(this);
+    this.projectCatalogImageDefinitions =
+      new ProjectCatalogImageDefinitionsImpl(this);
+    this.projectCatalogImageDefinitionBuilds =
+      new ProjectCatalogImageDefinitionBuildsImpl(this);
+    this.projectCatalogImageDefinitionBuild =
+      new ProjectCatalogImageDefinitionBuildImpl(this);
     this.pools = new PoolsImpl(this);
     this.schedules = new SchedulesImpl(this);
     this.networkConnections = new NetworkConnectionsImpl(this);
@@ -212,6 +245,8 @@ export class DevCenterClient extends coreClient.ServiceClient {
   }
 
   devCenters: DevCenters;
+  encryptionSets: EncryptionSets;
+  projectPolicies: ProjectPolicies;
   projects: Projects;
   attachedNetworks: AttachedNetworks;
   projectCatalogs: ProjectCatalogs;
@@ -220,6 +255,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
   galleries: Galleries;
   images: Images;
   imageVersions: ImageVersions;
+  skus: Skus;
   catalogs: Catalogs;
   environmentTypes: EnvironmentTypes;
   projectAllowedEnvironmentTypes: ProjectAllowedEnvironmentTypes;
@@ -230,7 +266,13 @@ export class DevCenterClient extends coreClient.ServiceClient {
   usages: Usages;
   checkNameAvailability: CheckNameAvailability;
   checkScopedNameAvailability: CheckScopedNameAvailability;
-  skus: Skus;
+  customizationTasks: CustomizationTasks;
+  devCenterCatalogImageDefinitions: DevCenterCatalogImageDefinitions;
+  devCenterCatalogImageDefinitionBuilds: DevCenterCatalogImageDefinitionBuilds;
+  devCenterCatalogImageDefinitionBuild: DevCenterCatalogImageDefinitionBuild;
+  projectCatalogImageDefinitions: ProjectCatalogImageDefinitions;
+  projectCatalogImageDefinitionBuilds: ProjectCatalogImageDefinitionBuilds;
+  projectCatalogImageDefinitionBuild: ProjectCatalogImageDefinitionBuild;
   pools: Pools;
   schedules: Schedules;
   networkConnections: NetworkConnections;

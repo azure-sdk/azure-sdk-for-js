@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { DevBoxDefinitions } from "../operationsInterfaces/index.js";
+import { ProjectPolicies } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -20,35 +20,29 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  DevBoxDefinition,
-  DevBoxDefinitionsListByDevCenterNextOptionalParams,
-  DevBoxDefinitionsListByDevCenterOptionalParams,
-  DevBoxDefinitionsListByDevCenterResponse,
-  DevBoxDefinitionsListByProjectNextOptionalParams,
-  DevBoxDefinitionsListByProjectOptionalParams,
-  DevBoxDefinitionsListByProjectResponse,
-  DevBoxDefinitionsGetOptionalParams,
-  DevBoxDefinitionsGetResponse,
-  DevBoxDefinitionsCreateOrUpdateOptionalParams,
-  DevBoxDefinitionsCreateOrUpdateResponse,
-  DevBoxDefinitionUpdate,
-  DevBoxDefinitionsUpdateOptionalParams,
-  DevBoxDefinitionsUpdateResponse,
-  DevBoxDefinitionsDeleteOptionalParams,
-  DevBoxDefinitionsDeleteResponse,
-  DevBoxDefinitionsGetByProjectOptionalParams,
-  DevBoxDefinitionsGetByProjectResponse,
-  DevBoxDefinitionsListByDevCenterNextResponse,
-  DevBoxDefinitionsListByProjectNextResponse,
+  ProjectPolicy,
+  ProjectPoliciesListByDevCenterNextOptionalParams,
+  ProjectPoliciesListByDevCenterOptionalParams,
+  ProjectPoliciesListByDevCenterResponse,
+  ProjectPoliciesGetOptionalParams,
+  ProjectPoliciesGetResponse,
+  ProjectPoliciesCreateOrUpdateOptionalParams,
+  ProjectPoliciesCreateOrUpdateResponse,
+  ProjectPolicyUpdate,
+  ProjectPoliciesUpdateOptionalParams,
+  ProjectPoliciesUpdateResponse,
+  ProjectPoliciesDeleteOptionalParams,
+  ProjectPoliciesDeleteResponse,
+  ProjectPoliciesListByDevCenterNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing DevBoxDefinitions operations. */
-export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
+/** Class containing ProjectPolicies operations. */
+export class ProjectPoliciesImpl implements ProjectPolicies {
   private readonly client: DevCenterClient;
 
   /**
-   * Initialize a new instance of the class DevBoxDefinitions class.
+   * Initialize a new instance of the class ProjectPolicies class.
    * @param client Reference to the service client
    */
   constructor(client: DevCenterClient) {
@@ -56,7 +50,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   }
 
   /**
-   * List Dev Box definitions for a devcenter.
+   * Lists all project policies in the dev center
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
@@ -64,8 +58,8 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   public listByDevCenter(
     resourceGroupName: string,
     devCenterName: string,
-    options?: DevBoxDefinitionsListByDevCenterOptionalParams,
-  ): PagedAsyncIterableIterator<DevBoxDefinition> {
+    options?: ProjectPoliciesListByDevCenterOptionalParams,
+  ): PagedAsyncIterableIterator<ProjectPolicy> {
     const iter = this.listByDevCenterPagingAll(
       resourceGroupName,
       devCenterName,
@@ -95,10 +89,10 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   private async *listByDevCenterPagingPage(
     resourceGroupName: string,
     devCenterName: string,
-    options?: DevBoxDefinitionsListByDevCenterOptionalParams,
+    options?: ProjectPoliciesListByDevCenterOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<DevBoxDefinition[]> {
-    let result: DevBoxDefinitionsListByDevCenterResponse;
+  ): AsyncIterableIterator<ProjectPolicy[]> {
+    let result: ProjectPoliciesListByDevCenterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByDevCenter(
@@ -128,8 +122,8 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   private async *listByDevCenterPagingAll(
     resourceGroupName: string,
     devCenterName: string,
-    options?: DevBoxDefinitionsListByDevCenterOptionalParams,
-  ): AsyncIterableIterator<DevBoxDefinition> {
+    options?: ProjectPoliciesListByDevCenterOptionalParams,
+  ): AsyncIterableIterator<ProjectPolicy> {
     for await (const page of this.listByDevCenterPagingPage(
       resourceGroupName,
       devCenterName,
@@ -140,91 +134,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   }
 
   /**
-   * List Dev Box definitions configured for a project.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param options The options parameters.
-   */
-  public listByProject(
-    resourceGroupName: string,
-    projectName: string,
-    options?: DevBoxDefinitionsListByProjectOptionalParams,
-  ): PagedAsyncIterableIterator<DevBoxDefinition> {
-    const iter = this.listByProjectPagingAll(
-      resourceGroupName,
-      projectName,
-      options,
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByProjectPagingPage(
-          resourceGroupName,
-          projectName,
-          options,
-          settings,
-        );
-      },
-    };
-  }
-
-  private async *listByProjectPagingPage(
-    resourceGroupName: string,
-    projectName: string,
-    options?: DevBoxDefinitionsListByProjectOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<DevBoxDefinition[]> {
-    let result: DevBoxDefinitionsListByProjectResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByProject(
-        resourceGroupName,
-        projectName,
-        options,
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listByProjectNext(
-        resourceGroupName,
-        projectName,
-        continuationToken,
-        options,
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listByProjectPagingAll(
-    resourceGroupName: string,
-    projectName: string,
-    options?: DevBoxDefinitionsListByProjectOptionalParams,
-  ): AsyncIterableIterator<DevBoxDefinition> {
-    for await (const page of this.listByProjectPagingPage(
-      resourceGroupName,
-      projectName,
-      options,
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * List Dev Box definitions for a devcenter.
+   * Lists all project policies in the dev center
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
@@ -232,8 +142,8 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   private _listByDevCenter(
     resourceGroupName: string,
     devCenterName: string,
-    options?: DevBoxDefinitionsListByDevCenterOptionalParams,
-  ): Promise<DevBoxDefinitionsListByDevCenterResponse> {
+    options?: ProjectPoliciesListByDevCenterOptionalParams,
+  ): Promise<ProjectPoliciesListByDevCenterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, options },
       listByDevCenterOperationSpec,
@@ -241,48 +151,48 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   }
 
   /**
-   * Gets a Dev Box definition
+   * Gets a specific project policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
-   * @param devBoxDefinitionName The name of the Dev Box definition.
+   * @param projectPolicyName The name of the project policy.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     devCenterName: string,
-    devBoxDefinitionName: string,
-    options?: DevBoxDefinitionsGetOptionalParams,
-  ): Promise<DevBoxDefinitionsGetResponse> {
+    projectPolicyName: string,
+    options?: ProjectPoliciesGetOptionalParams,
+  ): Promise<ProjectPoliciesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, devCenterName, devBoxDefinitionName, options },
+      { resourceGroupName, devCenterName, projectPolicyName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates or updates a Dev Box definition.
+   * Creates or updates an project policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
-   * @param devBoxDefinitionName The name of the Dev Box definition.
-   * @param body Represents a Dev Box definition.
+   * @param projectPolicyName The name of the project policy.
+   * @param body Represents an project policy.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     devCenterName: string,
-    devBoxDefinitionName: string,
-    body: DevBoxDefinition,
-    options?: DevBoxDefinitionsCreateOrUpdateOptionalParams,
+    projectPolicyName: string,
+    body: ProjectPolicy,
+    options?: ProjectPoliciesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<DevBoxDefinitionsCreateOrUpdateResponse>,
-      DevBoxDefinitionsCreateOrUpdateResponse
+      OperationState<ProjectPoliciesCreateOrUpdateResponse>,
+      ProjectPoliciesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<DevBoxDefinitionsCreateOrUpdateResponse> => {
+    ): Promise<ProjectPoliciesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -322,15 +232,15 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
       args: {
         resourceGroupName,
         devCenterName,
-        devBoxDefinitionName,
+        projectPolicyName,
         body,
         options,
       },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      DevBoxDefinitionsCreateOrUpdateResponse,
-      OperationState<DevBoxDefinitionsCreateOrUpdateResponse>
+      ProjectPoliciesCreateOrUpdateResponse,
+      OperationState<ProjectPoliciesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -341,24 +251,24 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   }
 
   /**
-   * Creates or updates a Dev Box definition.
+   * Creates or updates an project policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
-   * @param devBoxDefinitionName The name of the Dev Box definition.
-   * @param body Represents a Dev Box definition.
+   * @param projectPolicyName The name of the project policy.
+   * @param body Represents an project policy.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     devCenterName: string,
-    devBoxDefinitionName: string,
-    body: DevBoxDefinition,
-    options?: DevBoxDefinitionsCreateOrUpdateOptionalParams,
-  ): Promise<DevBoxDefinitionsCreateOrUpdateResponse> {
+    projectPolicyName: string,
+    body: ProjectPolicy,
+    options?: ProjectPoliciesCreateOrUpdateOptionalParams,
+  ): Promise<ProjectPoliciesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       devCenterName,
-      devBoxDefinitionName,
+      projectPolicyName,
       body,
       options,
     );
@@ -366,29 +276,29 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   }
 
   /**
-   * Partially updates a Dev Box definition.
+   * Partially updates an project policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
-   * @param devBoxDefinitionName The name of the Dev Box definition.
-   * @param body Represents a Dev Box definition.
+   * @param projectPolicyName The name of the project policy.
+   * @param body Updatable project policy properties.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
     devCenterName: string,
-    devBoxDefinitionName: string,
-    body: DevBoxDefinitionUpdate,
-    options?: DevBoxDefinitionsUpdateOptionalParams,
+    projectPolicyName: string,
+    body: ProjectPolicyUpdate,
+    options?: ProjectPoliciesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<DevBoxDefinitionsUpdateResponse>,
-      DevBoxDefinitionsUpdateResponse
+      OperationState<ProjectPoliciesUpdateResponse>,
+      ProjectPoliciesUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<DevBoxDefinitionsUpdateResponse> => {
+    ): Promise<ProjectPoliciesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -428,15 +338,15 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
       args: {
         resourceGroupName,
         devCenterName,
-        devBoxDefinitionName,
+        projectPolicyName,
         body,
         options,
       },
       spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
-      DevBoxDefinitionsUpdateResponse,
-      OperationState<DevBoxDefinitionsUpdateResponse>
+      ProjectPoliciesUpdateResponse,
+      OperationState<ProjectPoliciesUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -447,24 +357,24 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   }
 
   /**
-   * Partially updates a Dev Box definition.
+   * Partially updates an project policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
-   * @param devBoxDefinitionName The name of the Dev Box definition.
-   * @param body Represents a Dev Box definition.
+   * @param projectPolicyName The name of the project policy.
+   * @param body Updatable project policy properties.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
     devCenterName: string,
-    devBoxDefinitionName: string,
-    body: DevBoxDefinitionUpdate,
-    options?: DevBoxDefinitionsUpdateOptionalParams,
-  ): Promise<DevBoxDefinitionsUpdateResponse> {
+    projectPolicyName: string,
+    body: ProjectPolicyUpdate,
+    options?: ProjectPoliciesUpdateOptionalParams,
+  ): Promise<ProjectPoliciesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       devCenterName,
-      devBoxDefinitionName,
+      projectPolicyName,
       body,
       options,
     );
@@ -472,27 +382,27 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   }
 
   /**
-   * Deletes a Dev Box definition
+   * Deletes an project policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
-   * @param devBoxDefinitionName The name of the Dev Box definition.
+   * @param projectPolicyName The name of the project policy.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     devCenterName: string,
-    devBoxDefinitionName: string,
-    options?: DevBoxDefinitionsDeleteOptionalParams,
+    projectPolicyName: string,
+    options?: ProjectPoliciesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<DevBoxDefinitionsDeleteResponse>,
-      DevBoxDefinitionsDeleteResponse
+      OperationState<ProjectPoliciesDeleteResponse>,
+      ProjectPoliciesDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<DevBoxDefinitionsDeleteResponse> => {
+    ): Promise<ProjectPoliciesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -529,12 +439,12 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, devCenterName, devBoxDefinitionName, options },
+      args: { resourceGroupName, devCenterName, projectPolicyName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      DevBoxDefinitionsDeleteResponse,
-      OperationState<DevBoxDefinitionsDeleteResponse>
+      ProjectPoliciesDeleteResponse,
+      OperationState<ProjectPoliciesDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -545,61 +455,25 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   }
 
   /**
-   * Deletes a Dev Box definition
+   * Deletes an project policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
-   * @param devBoxDefinitionName The name of the Dev Box definition.
+   * @param projectPolicyName The name of the project policy.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     devCenterName: string,
-    devBoxDefinitionName: string,
-    options?: DevBoxDefinitionsDeleteOptionalParams,
-  ): Promise<DevBoxDefinitionsDeleteResponse> {
+    projectPolicyName: string,
+    options?: ProjectPoliciesDeleteOptionalParams,
+  ): Promise<ProjectPoliciesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       devCenterName,
-      devBoxDefinitionName,
+      projectPolicyName,
       options,
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * List Dev Box definitions configured for a project.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param options The options parameters.
-   */
-  private _listByProject(
-    resourceGroupName: string,
-    projectName: string,
-    options?: DevBoxDefinitionsListByProjectOptionalParams,
-  ): Promise<DevBoxDefinitionsListByProjectResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, options },
-      listByProjectOperationSpec,
-    );
-  }
-
-  /**
-   * Gets a Dev Box definition configured for a project
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param devBoxDefinitionName The name of the Dev Box definition.
-   * @param options The options parameters.
-   */
-  getByProject(
-    resourceGroupName: string,
-    projectName: string,
-    devBoxDefinitionName: string,
-    options?: DevBoxDefinitionsGetByProjectOptionalParams,
-  ): Promise<DevBoxDefinitionsGetByProjectResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, devBoxDefinitionName, options },
-      getByProjectOperationSpec,
-    );
   }
 
   /**
@@ -613,30 +487,11 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
     resourceGroupName: string,
     devCenterName: string,
     nextLink: string,
-    options?: DevBoxDefinitionsListByDevCenterNextOptionalParams,
-  ): Promise<DevBoxDefinitionsListByDevCenterNextResponse> {
+    options?: ProjectPoliciesListByDevCenterNextOptionalParams,
+  ): Promise<ProjectPoliciesListByDevCenterNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, nextLink, options },
       listByDevCenterNextOperationSpec,
-    );
-  }
-
-  /**
-   * ListByProjectNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param nextLink The nextLink from the previous successful call to the ListByProject method.
-   * @param options The options parameters.
-   */
-  private _listByProjectNext(
-    resourceGroupName: string,
-    projectName: string,
-    nextLink: string,
-    options?: DevBoxDefinitionsListByProjectNextOptionalParams,
-  ): Promise<DevBoxDefinitionsListByProjectNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, nextLink, options },
-      listByProjectNextOperationSpec,
     );
   }
 }
@@ -644,11 +499,11 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByDevCenterOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/devboxdefinitions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/projectPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DevBoxDefinitionListResult,
+      bodyMapper: Mappers.ProjectPolicyListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -665,11 +520,11 @@ const listByDevCenterOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/devboxdefinitions/{devBoxDefinitionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/projectPolicies/{projectPolicyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DevBoxDefinition,
+      bodyMapper: Mappers.ProjectPolicy,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -681,92 +536,92 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.devBoxDefinitionName,
+    Parameters.projectPolicyName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/devboxdefinitions/{devBoxDefinitionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/projectPolicies/{projectPolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DevBoxDefinition,
+      bodyMapper: Mappers.ProjectPolicy,
     },
     201: {
-      bodyMapper: Mappers.DevBoxDefinition,
+      bodyMapper: Mappers.ProjectPolicy,
     },
     202: {
-      bodyMapper: Mappers.DevBoxDefinition,
+      bodyMapper: Mappers.ProjectPolicy,
     },
     204: {
-      bodyMapper: Mappers.DevBoxDefinition,
+      bodyMapper: Mappers.ProjectPolicy,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body16,
+  requestBody: Parameters.body4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.devBoxDefinitionName,
+    Parameters.projectPolicyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/devboxdefinitions/{devBoxDefinitionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/projectPolicies/{projectPolicyName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.DevBoxDefinition,
+      bodyMapper: Mappers.ProjectPolicy,
     },
     201: {
-      bodyMapper: Mappers.DevBoxDefinition,
+      bodyMapper: Mappers.ProjectPolicy,
     },
     202: {
-      bodyMapper: Mappers.DevBoxDefinition,
+      bodyMapper: Mappers.ProjectPolicy,
     },
     204: {
-      bodyMapper: Mappers.DevBoxDefinition,
+      bodyMapper: Mappers.ProjectPolicy,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body17,
+  requestBody: Parameters.body5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.devBoxDefinitionName,
+    Parameters.projectPolicyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/devboxdefinitions/{devBoxDefinitionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/projectPolicies/{projectPolicyName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.DevBoxDefinitionsDeleteHeaders,
+      headersMapper: Mappers.ProjectPoliciesDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.DevBoxDefinitionsDeleteHeaders,
+      headersMapper: Mappers.ProjectPoliciesDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.DevBoxDefinitionsDeleteHeaders,
+      headersMapper: Mappers.ProjectPoliciesDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.DevBoxDefinitionsDeleteHeaders,
+      headersMapper: Mappers.ProjectPoliciesDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -778,50 +633,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.devBoxDefinitionName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByProjectOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/devboxdefinitions",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DevBoxDefinitionListResult,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.projectName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getByProjectOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/devboxdefinitions/{devBoxDefinitionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DevBoxDefinition,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.projectName,
-    Parameters.devBoxDefinitionName,
+    Parameters.projectPolicyName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -831,7 +643,7 @@ const listByDevCenterNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DevBoxDefinitionListResult,
+      bodyMapper: Mappers.ProjectPolicyListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -843,27 +655,6 @@ const listByDevCenterNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.devCenterName,
     Parameters.nextLink,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByProjectNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DevBoxDefinitionListResult,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.nextLink,
-    Parameters.projectName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

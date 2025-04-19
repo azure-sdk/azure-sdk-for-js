@@ -21,10 +21,16 @@ import {
   ImagesListByGalleryNextOptionalParams,
   ImagesListByGalleryOptionalParams,
   ImagesListByGalleryResponse,
+  ImagesListByProjectNextOptionalParams,
+  ImagesListByProjectOptionalParams,
+  ImagesListByProjectResponse,
   ImagesGetOptionalParams,
   ImagesGetResponse,
+  ImagesGetByProjectOptionalParams,
+  ImagesGetByProjectResponse,
   ImagesListByDevCenterNextResponse,
   ImagesListByGalleryNextResponse,
+  ImagesListByProjectNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -218,6 +224,90 @@ export class ImagesImpl implements Images {
   }
 
   /**
+   * Lists images for a project.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param options The options parameters.
+   */
+  public listByProject(
+    resourceGroupName: string,
+    projectName: string,
+    options?: ImagesListByProjectOptionalParams,
+  ): PagedAsyncIterableIterator<Image> {
+    const iter = this.listByProjectPagingAll(
+      resourceGroupName,
+      projectName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByProjectPagingPage(
+          resourceGroupName,
+          projectName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listByProjectPagingPage(
+    resourceGroupName: string,
+    projectName: string,
+    options?: ImagesListByProjectOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<Image[]> {
+    let result: ImagesListByProjectResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByProject(
+        resourceGroupName,
+        projectName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByProjectNext(
+        resourceGroupName,
+        projectName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByProjectPagingAll(
+    resourceGroupName: string,
+    projectName: string,
+    options?: ImagesListByProjectOptionalParams,
+  ): AsyncIterableIterator<Image> {
+    for await (const page of this.listByProjectPagingPage(
+      resourceGroupName,
+      projectName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
    * Lists images for a devcenter.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
@@ -275,6 +365,42 @@ export class ImagesImpl implements Images {
   }
 
   /**
+   * Lists images for a project.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param options The options parameters.
+   */
+  private _listByProject(
+    resourceGroupName: string,
+    projectName: string,
+    options?: ImagesListByProjectOptionalParams,
+  ): Promise<ImagesListByProjectResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, projectName, options },
+      listByProjectOperationSpec,
+    );
+  }
+
+  /**
+   * Gets an image.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param imageName The name of the image.
+   * @param options The options parameters.
+   */
+  getByProject(
+    resourceGroupName: string,
+    projectName: string,
+    imageName: string,
+    options?: ImagesGetByProjectOptionalParams,
+  ): Promise<ImagesGetByProjectResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, projectName, imageName, options },
+      getByProjectOperationSpec,
+    );
+  }
+
+  /**
    * ListByDevCenterNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
@@ -311,6 +437,25 @@ export class ImagesImpl implements Images {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, galleryName, nextLink, options },
       listByGalleryNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListByProjectNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param nextLink The nextLink from the previous successful call to the ListByProject method.
+   * @param options The options parameters.
+   */
+  private _listByProjectNext(
+    resourceGroupName: string,
+    projectName: string,
+    nextLink: string,
+    options?: ImagesListByProjectNextOptionalParams,
+  ): Promise<ImagesListByProjectNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, projectName, nextLink, options },
+      listByProjectNextOperationSpec,
     );
   }
 }
@@ -383,6 +528,49 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
+const listByProjectOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/images",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ImageListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.projectName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getByProjectOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/images/{imageName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Image,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.projectName,
+    Parameters.imageName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listByDevCenterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -422,6 +610,27 @@ const listByGalleryNextOperationSpec: coreClient.OperationSpec = {
     Parameters.devCenterName,
     Parameters.nextLink,
     Parameters.galleryName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByProjectNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ImageListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
+    Parameters.projectName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
