@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a StandbyContainerGroupPoolResource
  *
  * @summary create a StandbyContainerGroupPoolResource
- * x-ms-original-file: 2024-03-01/StandbyContainerGroupPools_CreateOrUpdate.json
+ * x-ms-original-file: 2025-03-01/StandbyContainerGroupPools_CreateOrUpdate.json
  */
 async function standbyContainerGroupPoolsCreateOrUpdate() {
   const credential = new DefaultAzureCredential();
@@ -28,6 +28,7 @@ async function standbyContainerGroupPoolsCreateOrUpdate() {
           },
         ],
       },
+      zones: ["1", "2", "3"],
     },
     tags: {},
     location: "West US",
@@ -36,7 +37,7 @@ async function standbyContainerGroupPoolsCreateOrUpdate() {
 }
 
 async function main() {
-  standbyContainerGroupPoolsCreateOrUpdate();
+  await standbyContainerGroupPoolsCreateOrUpdate();
 }
 
 main().catch(console.error);
