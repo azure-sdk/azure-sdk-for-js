@@ -15322,6 +15322,27 @@ export const BgpPeerStatus: coreClient.CompositeMapper = {
   },
 };
 
+export const RadiusAuthServer: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RadiusAuthServer",
+    modelProperties: {
+      radiusServerAddress: {
+        serializedName: "radiusServerAddress",
+        type: {
+          name: "String",
+        },
+      },
+      radiusServerSecret: {
+        serializedName: "RadiusServerSecret",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const GatewayRouteListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",

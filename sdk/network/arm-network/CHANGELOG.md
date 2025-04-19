@@ -1,5 +1,18 @@
 # Release History
     
+## 33.6.0 (2025-04-19)
+    
+### Features Added
+
+  - Added operation VirtualNetworkGateways.listRadiusSecrets
+  - Added operation VpnServerConfigurations.listRadiusSecrets
+  - Added Interface RadiusAuthServer
+  - Added Interface VirtualNetworkGatewaysListRadiusSecretsOptionalParams
+  - Added Interface VpnServerConfigurationsListRadiusSecretsOptionalParams
+  - Added Type Alias VirtualNetworkGatewaysListRadiusSecretsResponse
+  - Added Type Alias VpnServerConfigurationsListRadiusSecretsResponse
+    
+    
 ## 33.5.0 (2024-12-10)
     
 ### Features Added

@@ -5379,6 +5379,14 @@ export interface BgpPeerStatus {
   readonly messagesReceived?: number;
 }
 
+/** Gateway or VpnServerConfiguration Radius server with radius secret details */
+export interface RadiusAuthServer {
+  /** Radius server name */
+  radiusServerAddress?: string;
+  /** Radius server secret */
+  radiusServerSecret?: string;
+}
+
 /** List of virtual network gateway routes. */
 export interface GatewayRouteListResult {
   /** List of gateway routes. */
@@ -24169,6 +24177,14 @@ export type VirtualNetworkGatewaysSupportedVpnDevicesResponse = {
 };
 
 /** Optional parameters. */
+export interface VirtualNetworkGatewaysListRadiusSecretsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listRadiusSecrets operation. */
+export type VirtualNetworkGatewaysListRadiusSecretsResponse =
+  RadiusAuthServer[];
+
+/** Optional parameters. */
 export interface VirtualNetworkGatewaysGetLearnedRoutesOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -24978,6 +24994,14 @@ export interface VpnServerConfigurationsListOptionalParams
 /** Contains response data for the list operation. */
 export type VpnServerConfigurationsListResponse =
   ListVpnServerConfigurationsResult;
+
+/** Optional parameters. */
+export interface VpnServerConfigurationsListRadiusSecretsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listRadiusSecrets operation. */
+export type VpnServerConfigurationsListRadiusSecretsResponse =
+  RadiusAuthServer[];
 
 /** Optional parameters. */
 export interface VpnServerConfigurationsListByResourceGroupNextOptionalParams

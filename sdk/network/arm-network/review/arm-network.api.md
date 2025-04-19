@@ -12441,6 +12441,12 @@ export interface QueryTroubleshootingParameters {
 }
 
 // @public
+export interface RadiusAuthServer {
+    radiusServerAddress?: string;
+    radiusServerSecret?: string;
+}
+
+// @public
 export interface RadiusServer {
     radiusServerAddress: string;
     radiusServerScore?: number;
@@ -15732,6 +15738,7 @@ export interface VirtualNetworkGateways {
     get(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetOptionalParams): Promise<VirtualNetworkGatewaysGetResponse>;
     list(resourceGroupName: string, options?: VirtualNetworkGatewaysListOptionalParams): PagedAsyncIterableIterator<VirtualNetworkGateway>;
     listConnections(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysListConnectionsOptionalParams): PagedAsyncIterableIterator<VirtualNetworkGatewayConnectionListEntity>;
+    listRadiusSecrets(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysListRadiusSecretsOptionalParams): Promise<VirtualNetworkGatewaysListRadiusSecretsResponse>;
     supportedVpnDevices(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysSupportedVpnDevicesOptionalParams): Promise<VirtualNetworkGatewaysSupportedVpnDevicesResponse>;
     vpnDeviceConfigurationScript(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: VpnDeviceScriptParameters, options?: VirtualNetworkGatewaysVpnDeviceConfigurationScriptOptionalParams): Promise<VirtualNetworkGatewaysVpnDeviceConfigurationScriptResponse>;
 }
@@ -15910,6 +15917,13 @@ export type VirtualNetworkGatewaysListNextResponse = VirtualNetworkGatewayListRe
 // @public
 export interface VirtualNetworkGatewaysListOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export interface VirtualNetworkGatewaysListRadiusSecretsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualNetworkGatewaysListRadiusSecretsResponse = RadiusAuthServer[];
 
 // @public
 export type VirtualNetworkGatewaysListResponse = VirtualNetworkGatewayListResult;
@@ -17176,6 +17190,7 @@ export interface VpnServerConfigurations {
     get(resourceGroupName: string, vpnServerConfigurationName: string, options?: VpnServerConfigurationsGetOptionalParams): Promise<VpnServerConfigurationsGetResponse>;
     list(options?: VpnServerConfigurationsListOptionalParams): PagedAsyncIterableIterator<VpnServerConfiguration>;
     listByResourceGroup(resourceGroupName: string, options?: VpnServerConfigurationsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<VpnServerConfiguration>;
+    listRadiusSecrets(resourceGroupName: string, vpnServerConfigurationName: string, options?: VpnServerConfigurationsListRadiusSecretsOptionalParams): Promise<VpnServerConfigurationsListRadiusSecretsResponse>;
     updateTags(resourceGroupName: string, vpnServerConfigurationName: string, vpnServerConfigurationParameters: TagsObject, options?: VpnServerConfigurationsUpdateTagsOptionalParams): Promise<VpnServerConfigurationsUpdateTagsResponse>;
 }
 
@@ -17240,6 +17255,13 @@ export type VpnServerConfigurationsListNextResponse = ListVpnServerConfiguration
 // @public
 export interface VpnServerConfigurationsListOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export interface VpnServerConfigurationsListRadiusSecretsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VpnServerConfigurationsListRadiusSecretsResponse = RadiusAuthServer[];
 
 // @public
 export type VpnServerConfigurationsListResponse = ListVpnServerConfigurationsResult;

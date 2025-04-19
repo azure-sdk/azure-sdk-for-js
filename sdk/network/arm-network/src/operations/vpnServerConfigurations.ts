@@ -35,6 +35,8 @@ import {
   VpnServerConfigurationsUpdateTagsOptionalParams,
   VpnServerConfigurationsUpdateTagsResponse,
   VpnServerConfigurationsDeleteOptionalParams,
+  VpnServerConfigurationsListRadiusSecretsOptionalParams,
+  VpnServerConfigurationsListRadiusSecretsResponse,
   VpnServerConfigurationsListByResourceGroupNextResponse,
   VpnServerConfigurationsListNextResponse,
 } from "../models/index.js";
@@ -428,6 +430,23 @@ export class VpnServerConfigurationsImpl implements VpnServerConfigurations {
   }
 
   /**
+   * List all Radius servers with respective radius secrets from VpnServerConfiguration.
+   * @param resourceGroupName The name of the resource group.
+   * @param vpnServerConfigurationName The name of the VpnServerConfiguration.
+   * @param options The options parameters.
+   */
+  listRadiusSecrets(
+    resourceGroupName: string,
+    vpnServerConfigurationName: string,
+    options?: VpnServerConfigurationsListRadiusSecretsOptionalParams,
+  ): Promise<VpnServerConfigurationsListRadiusSecretsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, vpnServerConfigurationName, options },
+      listRadiusSecretsOperationSpec,
+    );
+  }
+
+  /**
    * ListByResourceGroupNext
    * @param resourceGroupName The resource group name of the VpnServerConfiguration.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
@@ -593,6 +612,34 @@ const listOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listRadiusSecretsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}/listRadiusSecrets",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: {
+            type: { name: "Composite", className: "RadiusAuthServer" },
+          },
+        },
+      },
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.vpnServerConfigurationName,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };
