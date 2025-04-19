@@ -36,6 +36,8 @@ import {
   ProjectsUpdateResponse,
   ProjectsDeleteOptionalParams,
   ProjectsDeleteResponse,
+  ProjectsGetInheritedSettingsOptionalParams,
+  ProjectsGetInheritedSettingsResponse,
   ProjectsListBySubscriptionNextResponse,
   ProjectsListByResourceGroupNextResponse,
 } from "../models/index.js";
@@ -502,6 +504,23 @@ export class ProjectsImpl implements Projects {
   }
 
   /**
+   * Gets applicable inherited settings for this project.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param options The options parameters.
+   */
+  getInheritedSettings(
+    resourceGroupName: string,
+    projectName: string,
+    options?: ProjectsGetInheritedSettingsOptionalParams,
+  ): Promise<ProjectsGetInheritedSettingsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, projectName, options },
+      getInheritedSettingsOperationSpec,
+    );
+  }
+
+  /**
    * ListBySubscriptionNext
    * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
@@ -613,7 +632,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body2,
+  requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -645,7 +664,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body3,
+  requestBody: Parameters.body7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -672,6 +691,27 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     },
     204: {
       headersMapper: Mappers.ProjectsDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.projectName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getInheritedSettingsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/getInheritedSettings",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.InheritedSettingsForProject,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

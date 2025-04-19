@@ -8,30 +8,26 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  DevCenterSku,
-  SkusListByProjectOptionalParams,
-  SkusListBySubscriptionOptionalParams,
+  ImageDefinitionBuild,
+  ProjectCatalogImageDefinitionBuildsListByImageDefinitionOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a Skus. */
-export interface Skus {
+/** Interface representing a ProjectCatalogImageDefinitionBuilds. */
+export interface ProjectCatalogImageDefinitionBuilds {
   /**
-   * Lists SKUs available to the project
+   * Lists builds for a specified image definition.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
+   * @param catalogName The name of the Catalog.
+   * @param imageDefinitionName The name of the Image Definition.
    * @param options The options parameters.
    */
-  listByProject(
+  listByImageDefinition(
     resourceGroupName: string,
     projectName: string,
-    options?: SkusListByProjectOptionalParams,
-  ): PagedAsyncIterableIterator<DevCenterSku>;
-  /**
-   * Lists the Microsoft.DevCenter SKUs available in a subscription
-   * @param options The options parameters.
-   */
-  listBySubscription(
-    options?: SkusListBySubscriptionOptionalParams,
-  ): PagedAsyncIterableIterator<DevCenterSku>;
+    catalogName: string,
+    imageDefinitionName: string,
+    options?: ProjectCatalogImageDefinitionBuildsListByImageDefinitionOptionalParams,
+  ): PagedAsyncIterableIterator<ImageDefinitionBuild>;
 }

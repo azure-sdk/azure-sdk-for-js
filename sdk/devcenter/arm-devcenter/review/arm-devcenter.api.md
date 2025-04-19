@@ -14,6 +14,15 @@ import { SimplePollerLike } from '@azure/core-lro';
 export type ActionType = string;
 
 // @public
+export interface ActiveHoursConfiguration {
+    autoStartEnableStatus?: AutoStartEnableStatus;
+    defaultEndTimeHour?: number;
+    defaultStartTimeHour?: number;
+    defaultTimeZone?: string;
+    keepAwakeEnableStatus?: KeepAwakeEnableStatus;
+}
+
+// @public
 export interface AllowedEnvironmentType extends Resource {
     readonly displayName?: string;
     readonly provisioningState?: ProvisioningState;
@@ -119,6 +128,20 @@ export interface AttachedNetworksListByProjectOptionalParams extends coreClient.
 
 // @public
 export type AttachedNetworksListByProjectResponse = AttachedNetworkListResult;
+
+// @public
+export type AutoImageBuildStatus = string;
+
+// @public
+export type AutoStartEnableStatus = string;
+
+// @public
+export type AzureAiServicesEnableStatus = string;
+
+// @public
+export interface AzureAiServicesSettings {
+    azureAiServicesEnableStatus?: AzureAiServicesEnableStatus;
+}
 
 // @public
 export interface Capability {
@@ -398,6 +421,94 @@ export interface CustomerManagedKeyEncryptionKeyIdentity {
 }
 
 // @public
+export interface CustomizationTask extends ProxyResource {
+    readonly inputs?: {
+        [propertyName: string]: CustomizationTaskInput;
+    };
+    readonly timeout?: number;
+    readonly validationStatus?: CatalogResourceValidationStatus;
+}
+
+// @public
+export interface CustomizationTaskInput {
+    readonly description?: string;
+    readonly required?: boolean;
+    readonly type?: CustomizationTaskInputType;
+}
+
+// @public
+export type CustomizationTaskInputType = string;
+
+// @public
+export interface CustomizationTaskInstance {
+    condition?: string;
+    displayName?: string;
+    name: string;
+    parameters?: DefinitionParametersItem[];
+    timeoutInSeconds?: number;
+}
+
+// @public
+export interface CustomizationTaskListResult {
+    readonly nextLink?: string;
+    readonly value?: CustomizationTask[];
+}
+
+// @public
+export interface CustomizationTasks {
+    get(resourceGroupName: string, devCenterName: string, catalogName: string, taskName: string, options?: CustomizationTasksGetOptionalParams): Promise<CustomizationTasksGetResponse>;
+    getErrorDetails(resourceGroupName: string, devCenterName: string, catalogName: string, taskName: string, options?: CustomizationTasksGetErrorDetailsOptionalParams): Promise<CustomizationTasksGetErrorDetailsResponse>;
+    listByCatalog(resourceGroupName: string, devCenterName: string, catalogName: string, options?: CustomizationTasksListByCatalogOptionalParams): PagedAsyncIterableIterator<CustomizationTask>;
+}
+
+// @public
+export interface CustomizationTasksGetErrorDetailsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CustomizationTasksGetErrorDetailsResponse = CatalogResourceValidationErrorDetails;
+
+// @public
+export interface CustomizationTasksGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CustomizationTasksGetResponse = CustomizationTask;
+
+// @public
+export interface CustomizationTasksListByCatalogNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CustomizationTasksListByCatalogNextResponse = CustomizationTaskListResult;
+
+// @public
+export interface CustomizationTasksListByCatalogOptionalParams extends coreClient.OperationOptions {
+    top?: number;
+}
+
+// @public
+export type CustomizationTasksListByCatalogResponse = CustomizationTaskListResult;
+
+// @public (undocumented)
+export interface DefinitionParametersItem {
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    value: string;
+}
+
+// @public
+export type DevBoxAutoDeleteEnableStatus = string;
+
+// @public
+export interface DevBoxAutoDeleteSettings {
+    enableStatus?: DevBoxAutoDeleteEnableStatus;
+    gracePeriod?: string;
+    inactiveThreshold?: string;
+}
+
+// @public
 export interface DevBoxDefinition extends TrackedResource {
     readonly activeImageReference?: ImageReference;
     hibernateSupport?: HibernateSupport;
@@ -539,14 +650,140 @@ export interface DevBoxDefinitionUpdateProperties {
 }
 
 // @public
+export type DevboxDisksEncryptionEnableStatus = string;
+
+// @public
+export interface DevBoxProvisioningSettings {
+    installAzureMonitorAgentEnableStatus?: InstallAzureMonitorAgentEnableStatus;
+}
+
+// @public
+export type DevBoxTunnelEnableStatus = string;
+
+// @public
 export interface DevCenter extends TrackedResource {
+    devBoxProvisioningSettings?: DevBoxProvisioningSettings;
     readonly devCenterUri?: string;
     displayName?: string;
     encryption?: Encryption;
     identity?: ManagedServiceIdentity;
+    networkSettings?: DevCenterNetworkSettings;
     projectCatalogSettings?: DevCenterProjectCatalogSettings;
     readonly provisioningState?: ProvisioningState;
 }
+
+// @public
+export interface DevCenterCatalogImageDefinitionBuild {
+    beginCancel(resourceGroupName: string, devCenterName: string, catalogName: string, imageDefinitionName: string, buildName: string, options?: DevCenterCatalogImageDefinitionBuildCancelOptionalParams): Promise<SimplePollerLike<OperationState<DevCenterCatalogImageDefinitionBuildCancelResponse>, DevCenterCatalogImageDefinitionBuildCancelResponse>>;
+    beginCancelAndWait(resourceGroupName: string, devCenterName: string, catalogName: string, imageDefinitionName: string, buildName: string, options?: DevCenterCatalogImageDefinitionBuildCancelOptionalParams): Promise<DevCenterCatalogImageDefinitionBuildCancelResponse>;
+    get(resourceGroupName: string, devCenterName: string, catalogName: string, imageDefinitionName: string, buildName: string, options?: DevCenterCatalogImageDefinitionBuildGetOptionalParams): Promise<DevCenterCatalogImageDefinitionBuildGetResponse>;
+    getBuildDetails(resourceGroupName: string, devCenterName: string, catalogName: string, imageDefinitionName: string, buildName: string, options?: DevCenterCatalogImageDefinitionBuildGetBuildDetailsOptionalParams): Promise<DevCenterCatalogImageDefinitionBuildGetBuildDetailsResponse>;
+}
+
+// @public
+export interface DevCenterCatalogImageDefinitionBuildCancelHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface DevCenterCatalogImageDefinitionBuildCancelOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DevCenterCatalogImageDefinitionBuildCancelResponse = DevCenterCatalogImageDefinitionBuildCancelHeaders;
+
+// @public
+export interface DevCenterCatalogImageDefinitionBuildGetBuildDetailsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DevCenterCatalogImageDefinitionBuildGetBuildDetailsResponse = ImageDefinitionBuildDetails;
+
+// @public
+export interface DevCenterCatalogImageDefinitionBuildGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DevCenterCatalogImageDefinitionBuildGetResponse = ImageDefinitionBuild;
+
+// @public
+export interface DevCenterCatalogImageDefinitionBuilds {
+    listByImageDefinition(resourceGroupName: string, devCenterName: string, catalogName: string, imageDefinitionName: string, options?: DevCenterCatalogImageDefinitionBuildsListByImageDefinitionOptionalParams): PagedAsyncIterableIterator<ImageDefinitionBuild>;
+}
+
+// @public
+export interface DevCenterCatalogImageDefinitionBuildsListByImageDefinitionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DevCenterCatalogImageDefinitionBuildsListByImageDefinitionNextResponse = ImageDefinitionBuildListResult;
+
+// @public
+export interface DevCenterCatalogImageDefinitionBuildsListByImageDefinitionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DevCenterCatalogImageDefinitionBuildsListByImageDefinitionResponse = ImageDefinitionBuildListResult;
+
+// @public
+export interface DevCenterCatalogImageDefinitions {
+    beginBuildImage(resourceGroupName: string, devCenterName: string, catalogName: string, imageDefinitionName: string, options?: DevCenterCatalogImageDefinitionsBuildImageOptionalParams): Promise<SimplePollerLike<OperationState<DevCenterCatalogImageDefinitionsBuildImageResponse>, DevCenterCatalogImageDefinitionsBuildImageResponse>>;
+    beginBuildImageAndWait(resourceGroupName: string, devCenterName: string, catalogName: string, imageDefinitionName: string, options?: DevCenterCatalogImageDefinitionsBuildImageOptionalParams): Promise<DevCenterCatalogImageDefinitionsBuildImageResponse>;
+    getByDevCenterCatalog(resourceGroupName: string, devCenterName: string, catalogName: string, imageDefinitionName: string, options?: DevCenterCatalogImageDefinitionsGetByDevCenterCatalogOptionalParams): Promise<DevCenterCatalogImageDefinitionsGetByDevCenterCatalogResponse>;
+    getErrorDetails(resourceGroupName: string, devCenterName: string, catalogName: string, imageDefinitionName: string, options?: DevCenterCatalogImageDefinitionsGetErrorDetailsOptionalParams): Promise<DevCenterCatalogImageDefinitionsGetErrorDetailsResponse>;
+    listByDevCenterCatalog(resourceGroupName: string, devCenterName: string, catalogName: string, options?: DevCenterCatalogImageDefinitionsListByDevCenterCatalogOptionalParams): PagedAsyncIterableIterator<ImageDefinition>;
+}
+
+// @public
+export interface DevCenterCatalogImageDefinitionsBuildImageHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface DevCenterCatalogImageDefinitionsBuildImageOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DevCenterCatalogImageDefinitionsBuildImageResponse = DevCenterCatalogImageDefinitionsBuildImageHeaders;
+
+// @public
+export interface DevCenterCatalogImageDefinitionsGetByDevCenterCatalogOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DevCenterCatalogImageDefinitionsGetByDevCenterCatalogResponse = ImageDefinition;
+
+// @public
+export interface DevCenterCatalogImageDefinitionsGetErrorDetailsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DevCenterCatalogImageDefinitionsGetErrorDetailsResponse = CatalogResourceValidationErrorDetails;
+
+// @public
+export interface DevCenterCatalogImageDefinitionsListByDevCenterCatalogNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DevCenterCatalogImageDefinitionsListByDevCenterCatalogNextResponse = ImageDefinitionListResult;
+
+// @public
+export interface DevCenterCatalogImageDefinitionsListByDevCenterCatalogOptionalParams extends coreClient.OperationOptions {
+    top?: number;
+}
+
+// @public
+export type DevCenterCatalogImageDefinitionsListByDevCenterCatalogResponse = ImageDefinitionListResult;
 
 // @public (undocumented)
 export class DevCenterClient extends coreClient.ServiceClient {
@@ -564,9 +801,19 @@ export class DevCenterClient extends coreClient.ServiceClient {
     // (undocumented)
     checkScopedNameAvailability: CheckScopedNameAvailability;
     // (undocumented)
+    customizationTasks: CustomizationTasks;
+    // (undocumented)
     devBoxDefinitions: DevBoxDefinitions;
     // (undocumented)
+    devCenterCatalogImageDefinitionBuild: DevCenterCatalogImageDefinitionBuild;
+    // (undocumented)
+    devCenterCatalogImageDefinitionBuilds: DevCenterCatalogImageDefinitionBuilds;
+    // (undocumented)
+    devCenterCatalogImageDefinitions: DevCenterCatalogImageDefinitions;
+    // (undocumented)
     devCenters: DevCenters;
+    // (undocumented)
+    encryptionSets: EncryptionSets;
     // (undocumented)
     environmentDefinitions: EnvironmentDefinitions;
     // (undocumented)
@@ -590,9 +837,17 @@ export class DevCenterClient extends coreClient.ServiceClient {
     // (undocumented)
     projectCatalogEnvironmentDefinitions: ProjectCatalogEnvironmentDefinitions;
     // (undocumented)
+    projectCatalogImageDefinitionBuild: ProjectCatalogImageDefinitionBuild;
+    // (undocumented)
+    projectCatalogImageDefinitionBuilds: ProjectCatalogImageDefinitionBuilds;
+    // (undocumented)
+    projectCatalogImageDefinitions: ProjectCatalogImageDefinitions;
+    // (undocumented)
     projectCatalogs: ProjectCatalogs;
     // (undocumented)
     projectEnvironmentTypes: ProjectEnvironmentTypes;
+    // (undocumented)
+    projectPolicies: ProjectPolicies;
     // (undocumented)
     projects: Projects;
     // (undocumented)
@@ -613,9 +868,33 @@ export interface DevCenterClientOptionalParams extends coreClient.ServiceClientO
 }
 
 // @public
+export interface DevCenterEncryptionSet extends TrackedResource {
+    devboxDisksEncryptionEnableStatus?: DevboxDisksEncryptionEnableStatus;
+    identity?: ManagedServiceIdentity;
+    keyEncryptionKeyUrl?: string;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface DevCenterEncryptionSetProperties extends DevCenterEncryptionSetUpdateProperties {
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface DevCenterEncryptionSetUpdateProperties {
+    devboxDisksEncryptionEnableStatus?: DevboxDisksEncryptionEnableStatus;
+    keyEncryptionKeyUrl?: string;
+}
+
+// @public
 export interface DevCenterListResult {
     readonly nextLink?: string;
     readonly value?: DevCenter[];
+}
+
+// @public
+export interface DevCenterNetworkSettings {
+    microsoftHostedNetworkEnableStatus?: MicrosoftHostedNetworkEnableStatus;
 }
 
 // @public
@@ -628,6 +907,9 @@ export interface DevCenterProperties extends DevCenterUpdateProperties {
     readonly devCenterUri?: string;
     readonly provisioningState?: ProvisioningState;
 }
+
+// @public
+export type DevCenterResourceType = string;
 
 // @public
 export interface DevCenters {
@@ -727,16 +1009,20 @@ export type DevCentersUpdateResponse = DevCenter;
 
 // @public
 export interface DevCenterUpdate extends TrackedResourceUpdate {
+    devBoxProvisioningSettings?: DevBoxProvisioningSettings;
     displayName?: string;
     encryption?: Encryption;
     identity?: ManagedServiceIdentity;
+    networkSettings?: DevCenterNetworkSettings;
     projectCatalogSettings?: DevCenterProjectCatalogSettings;
 }
 
 // @public
 export interface DevCenterUpdateProperties {
+    devBoxProvisioningSettings?: DevBoxProvisioningSettings;
     displayName?: string;
     encryption?: Encryption;
+    networkSettings?: DevCenterNetworkSettings;
     projectCatalogSettings?: DevCenterProjectCatalogSettings;
 }
 
@@ -746,6 +1032,92 @@ export type DomainJoinType = string;
 // @public (undocumented)
 export interface Encryption {
     customerManagedKeyEncryption?: CustomerManagedKeyEncryption;
+}
+
+// @public
+export interface EncryptionSetListResult {
+    readonly nextLink?: string;
+    readonly value?: DevCenterEncryptionSet[];
+}
+
+// @public
+export interface EncryptionSets {
+    beginCreateOrUpdate(resourceGroupName: string, devCenterName: string, encryptionSetName: string, body: DevCenterEncryptionSet, options?: EncryptionSetsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<EncryptionSetsCreateOrUpdateResponse>, EncryptionSetsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, devCenterName: string, encryptionSetName: string, body: DevCenterEncryptionSet, options?: EncryptionSetsCreateOrUpdateOptionalParams): Promise<EncryptionSetsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, devCenterName: string, encryptionSetName: string, options?: EncryptionSetsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<EncryptionSetsDeleteResponse>, EncryptionSetsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, devCenterName: string, encryptionSetName: string, options?: EncryptionSetsDeleteOptionalParams): Promise<EncryptionSetsDeleteResponse>;
+    beginUpdate(resourceGroupName: string, devCenterName: string, encryptionSetName: string, body: EncryptionSetUpdate, options?: EncryptionSetsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<EncryptionSetsUpdateResponse>, EncryptionSetsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, devCenterName: string, encryptionSetName: string, body: EncryptionSetUpdate, options?: EncryptionSetsUpdateOptionalParams): Promise<EncryptionSetsUpdateResponse>;
+    get(resourceGroupName: string, devCenterName: string, encryptionSetName: string, options?: EncryptionSetsGetOptionalParams): Promise<EncryptionSetsGetResponse>;
+    list(resourceGroupName: string, devCenterName: string, options?: EncryptionSetsListOptionalParams): PagedAsyncIterableIterator<DevCenterEncryptionSet>;
+}
+
+// @public
+export interface EncryptionSetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type EncryptionSetsCreateOrUpdateResponse = DevCenterEncryptionSet;
+
+// @public
+export interface EncryptionSetsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface EncryptionSetsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type EncryptionSetsDeleteResponse = EncryptionSetsDeleteHeaders;
+
+// @public
+export interface EncryptionSetsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EncryptionSetsGetResponse = DevCenterEncryptionSet;
+
+// @public
+export interface EncryptionSetsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EncryptionSetsListNextResponse = EncryptionSetListResult;
+
+// @public
+export interface EncryptionSetsListOptionalParams extends coreClient.OperationOptions {
+    top?: number;
+}
+
+// @public
+export type EncryptionSetsListResponse = EncryptionSetListResult;
+
+// @public
+export interface EncryptionSetsUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface EncryptionSetsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type EncryptionSetsUpdateResponse = DevCenterEncryptionSet;
+
+// @public
+export interface EncryptionSetUpdate extends TrackedResourceUpdate {
+    devboxDisksEncryptionEnableStatus?: DevboxDisksEncryptionEnableStatus;
+    identity?: ManagedServiceIdentity;
+    keyEncryptionKeyUrl?: string;
 }
 
 // @public
@@ -1088,6 +1460,96 @@ interface Image_2 extends ProxyResource {
 export { Image_2 as Image }
 
 // @public
+export interface ImageCreationErrorDetails {
+    code?: string;
+    message?: string;
+}
+
+// @public
+export interface ImageDefinition extends ProxyResource {
+    readonly activeImageReference?: ImageReference;
+    readonly autoImageBuild?: AutoImageBuildStatus;
+    extends?: ImageDefinitionReference;
+    readonly fileUrl?: string;
+    imageReference?: ImageReference;
+    readonly imageValidationErrorDetails?: ImageValidationErrorDetails;
+    readonly imageValidationStatus?: ImageValidationStatus;
+    latestBuild?: LatestImageBuild;
+    tasks?: CustomizationTaskInstance[];
+    userTasks?: CustomizationTaskInstance[];
+    readonly validationStatus?: CatalogResourceValidationStatus;
+}
+
+// @public
+export interface ImageDefinitionBuild extends ProxyResource {
+    readonly endTime?: Date;
+    readonly errorDetails?: ImageCreationErrorDetails;
+    readonly imageReference?: ImageReference;
+    readonly startTime?: Date;
+    readonly status?: ImageDefinitionBuildStatus;
+}
+
+// @public
+export interface ImageDefinitionBuildDetails extends ProxyResource {
+    readonly endTime?: Date;
+    readonly errorDetails?: ImageCreationErrorDetails;
+    readonly imageReference?: ImageReference;
+    readonly startTime?: Date;
+    readonly status?: ImageDefinitionBuildStatus;
+    readonly taskGroups?: ImageDefinitionBuildTaskGroup[];
+}
+
+// @public
+export interface ImageDefinitionBuildListResult {
+    readonly nextLink?: string;
+    readonly value?: ImageDefinitionBuild[];
+}
+
+// @public
+export type ImageDefinitionBuildStatus = string;
+
+// @public
+export interface ImageDefinitionBuildTask {
+    displayName?: string;
+    readonly endTime?: Date;
+    readonly id?: string;
+    readonly logUri?: string;
+    name?: string;
+    parameters?: ImageDefinitionBuildTaskParametersItem[];
+    readonly startTime?: Date;
+    readonly status?: ImageDefinitionBuildStatus;
+}
+
+// @public
+export interface ImageDefinitionBuildTaskGroup {
+    readonly endTime?: Date;
+    readonly name?: string;
+    readonly startTime?: Date;
+    readonly status?: ImageDefinitionBuildStatus;
+    readonly tasks?: ImageDefinitionBuildTask[];
+}
+
+// @public (undocumented)
+export interface ImageDefinitionBuildTaskParametersItem {
+    // (undocumented)
+    key: string;
+    // (undocumented)
+    value: string;
+}
+
+// @public
+export interface ImageDefinitionListResult {
+    readonly nextLink?: string;
+    readonly value?: ImageDefinition[];
+}
+
+// @public
+export interface ImageDefinitionReference {
+    imageDefinition: string;
+    parameters?: DefinitionParametersItem[];
+}
+
+// @public
 export interface ImageListResult {
     readonly nextLink?: string;
     readonly value?: Image_2[];
@@ -1102,9 +1564,18 @@ export interface ImageReference {
 // @public
 export interface Images {
     get(resourceGroupName: string, devCenterName: string, galleryName: string, imageName: string, options?: ImagesGetOptionalParams): Promise<ImagesGetResponse>;
+    getByProject(resourceGroupName: string, projectName: string, imageName: string, options?: ImagesGetByProjectOptionalParams): Promise<ImagesGetByProjectResponse>;
     listByDevCenter(resourceGroupName: string, devCenterName: string, options?: ImagesListByDevCenterOptionalParams): PagedAsyncIterableIterator<Image_2>;
     listByGallery(resourceGroupName: string, devCenterName: string, galleryName: string, options?: ImagesListByGalleryOptionalParams): PagedAsyncIterableIterator<Image_2>;
+    listByProject(resourceGroupName: string, projectName: string, options?: ImagesListByProjectOptionalParams): PagedAsyncIterableIterator<Image_2>;
 }
+
+// @public
+export interface ImagesGetByProjectOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImagesGetByProjectResponse = Image_2;
 
 // @public
 export interface ImagesGetOptionalParams extends coreClient.OperationOptions {
@@ -1144,6 +1615,20 @@ export interface ImagesListByGalleryOptionalParams extends coreClient.OperationO
 export type ImagesListByGalleryResponse = ImageListResult;
 
 // @public
+export interface ImagesListByProjectNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImagesListByProjectNextResponse = ImageListResult;
+
+// @public
+export interface ImagesListByProjectOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImagesListByProjectResponse = ImageListResult;
+
+// @public
 export interface ImageValidationErrorDetails {
     code?: string;
     message?: string;
@@ -1170,8 +1655,17 @@ export interface ImageVersionListResult {
 // @public
 export interface ImageVersions {
     get(resourceGroupName: string, devCenterName: string, galleryName: string, imageName: string, versionName: string, options?: ImageVersionsGetOptionalParams): Promise<ImageVersionsGetResponse>;
+    getByProject(resourceGroupName: string, projectName: string, imageName: string, versionName: string, options?: ImageVersionsGetByProjectOptionalParams): Promise<ImageVersionsGetByProjectResponse>;
     listByImage(resourceGroupName: string, devCenterName: string, galleryName: string, imageName: string, options?: ImageVersionsListByImageOptionalParams): PagedAsyncIterableIterator<ImageVersion>;
+    listByProject(resourceGroupName: string, projectName: string, imageName: string, options?: ImageVersionsListByProjectOptionalParams): PagedAsyncIterableIterator<ImageVersion>;
 }
+
+// @public
+export interface ImageVersionsGetByProjectOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImageVersionsGetByProjectResponse = ImageVersion;
 
 // @public
 export interface ImageVersionsGetOptionalParams extends coreClient.OperationOptions {
@@ -1195,8 +1689,52 @@ export interface ImageVersionsListByImageOptionalParams extends coreClient.Opera
 export type ImageVersionsListByImageResponse = ImageVersionListResult;
 
 // @public
+export interface ImageVersionsListByProjectNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImageVersionsListByProjectNextResponse = ImageVersionListResult;
+
+// @public
+export interface ImageVersionsListByProjectOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImageVersionsListByProjectResponse = ImageVersionListResult;
+
+// @public
+export interface InheritedSettingsForProject {
+    readonly networkSettings?: ProjectNetworkSettings;
+    readonly projectCatalogSettings?: DevCenterProjectCatalogSettings;
+}
+
+// @public
+export type InstallAzureMonitorAgentEnableStatus = string;
+
+// @public
+export type KeepAwakeEnableStatus = string;
+
+// @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownAutoImageBuildStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownAutoStartEnableStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownAzureAiServicesEnableStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -1213,7 +1751,8 @@ export enum KnownCatalogItemSyncEnableStatus {
 
 // @public
 export enum KnownCatalogItemType {
-    EnvironmentDefinition = "EnvironmentDefinition"
+    EnvironmentDefinition = "EnvironmentDefinition",
+    ImageDefinition = "ImageDefinition"
 }
 
 // @public
@@ -1253,9 +1792,42 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownCustomizationTaskInputType {
+    Boolean = "boolean",
+    Number = "number",
+    String = "string"
+}
+
+// @public
+export enum KnownDevBoxAutoDeleteEnableStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownDevboxDisksEncryptionEnableStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownDevBoxTunnelEnableStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownDevCenterResourceType {
+    AttachedNetworks = "AttachedNetworks",
+    Images = "Images",
+    Skus = "Skus"
+}
+
+// @public
 export enum KnownDomainJoinType {
     AzureADJoin = "AzureADJoin",
-    HybridAzureADJoin = "HybridAzureADJoin"
+    HybridAzureADJoin = "HybridAzureADJoin",
+    None = "None"
 }
 
 // @public
@@ -1267,6 +1839,7 @@ export enum KnownEnvironmentTypeEnableStatus {
 // @public
 export enum KnownHealthCheckStatus {
     Failed = "Failed",
+    Informational = "Informational",
     Passed = "Passed",
     Pending = "Pending",
     Running = "Running",
@@ -1297,12 +1870,34 @@ export enum KnownIdentityType {
 }
 
 // @public
+export enum KnownImageDefinitionBuildStatus {
+    Cancelled = "Cancelled",
+    Failed = "Failed",
+    Running = "Running",
+    Succeeded = "Succeeded",
+    TimedOut = "TimedOut",
+    ValidationFailed = "ValidationFailed"
+}
+
+// @public
 export enum KnownImageValidationStatus {
     Failed = "Failed",
     Pending = "Pending",
     Succeeded = "Succeeded",
     TimedOut = "TimedOut",
     Unknown = "Unknown"
+}
+
+// @public
+export enum KnownInstallAzureMonitorAgentEnableStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownKeepAwakeEnableStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -1325,6 +1920,12 @@ export enum KnownManagedServiceIdentityType {
 }
 
 // @public
+export enum KnownMicrosoftHostedNetworkEnableStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
@@ -1339,6 +1940,24 @@ export enum KnownParameterType {
     Number = "number",
     Object = "object",
     String = "string"
+}
+
+// @public
+export enum KnownPolicyAction {
+    Allow = "Allow",
+    Deny = "Deny"
+}
+
+// @public
+export enum KnownPoolDevBoxDefinitionType {
+    Reference = "Reference",
+    Value = "Value"
+}
+
+// @public
+export enum KnownProjectCustomizationIdentityType {
+    SystemAssignedIdentity = "systemAssignedIdentity",
+    UserAssignedIdentity = "userAssignedIdentity"
 }
 
 // @public
@@ -1378,6 +1997,12 @@ export enum KnownScheduleEnableStatus {
 }
 
 // @public
+export enum KnownServerlessGpuSessionsEnableStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownSingleSignOnStatus {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -1390,14 +2015,40 @@ export enum KnownStopOnDisconnectEnableStatus {
 }
 
 // @public
+export enum KnownStopOnNoConnectEnableStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownUsageUnit {
     Count = "Count"
+}
+
+// @public
+export enum KnownUserCustomizationsEnableStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
 export enum KnownVirtualNetworkType {
     Managed = "Managed",
     Unmanaged = "Unmanaged"
+}
+
+// @public
+export enum KnownWorkspaceStorageEnableStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export interface LatestImageBuild {
+    readonly endTime?: Date;
+    readonly name?: string;
+    readonly startTime?: Date;
+    readonly status?: ImageDefinitionBuildStatus;
 }
 
 // @public
@@ -1424,6 +2075,9 @@ export interface ManagedServiceIdentity {
 
 // @public
 export type ManagedServiceIdentityType = string;
+
+// @public
+export type MicrosoftHostedNetworkEnableStatus = string;
 
 // @public
 export interface NetworkConnection extends TrackedResource {
@@ -1706,9 +2360,16 @@ export interface OutboundEnvironmentEndpointCollection {
 export type ParameterType = string;
 
 // @public
+export type PolicyAction = string;
+
+// @public
 export interface Pool extends TrackedResource {
+    activeHoursConfiguration?: ActiveHoursConfiguration;
     readonly devBoxCount?: number;
+    devBoxDefinition?: PoolDevBoxDefinition;
     devBoxDefinitionName?: string;
+    devBoxDefinitionType?: PoolDevBoxDefinitionType;
+    devBoxTunnelEnableStatus?: DevBoxTunnelEnableStatus;
     displayName?: string;
     readonly healthStatus?: HealthStatus;
     readonly healthStatusDetails?: HealthStatusDetail[];
@@ -1719,8 +2380,19 @@ export interface Pool extends TrackedResource {
     readonly provisioningState?: ProvisioningState;
     singleSignOnStatus?: SingleSignOnStatus;
     stopOnDisconnect?: StopOnDisconnectConfiguration;
+    stopOnNoConnect?: StopOnNoConnectConfiguration;
     virtualNetworkType?: VirtualNetworkType;
 }
+
+// @public
+export interface PoolDevBoxDefinition {
+    readonly activeImageReference?: ImageReference;
+    imageReference?: ImageReference;
+    sku?: Sku;
+}
+
+// @public
+export type PoolDevBoxDefinitionType = string;
 
 // @public
 export interface PoolListResult {
@@ -1828,7 +2500,11 @@ export type PoolsUpdateResponse = Pool;
 
 // @public
 export interface PoolUpdate extends TrackedResourceUpdate {
+    activeHoursConfiguration?: ActiveHoursConfiguration;
+    devBoxDefinition?: PoolDevBoxDefinition;
     devBoxDefinitionName?: string;
+    devBoxDefinitionType?: PoolDevBoxDefinitionType;
+    devBoxTunnelEnableStatus?: DevBoxTunnelEnableStatus;
     displayName?: string;
     licenseType?: LicenseType;
     localAdministrator?: LocalAdminStatus;
@@ -1836,12 +2512,17 @@ export interface PoolUpdate extends TrackedResourceUpdate {
     networkConnectionName?: string;
     singleSignOnStatus?: SingleSignOnStatus;
     stopOnDisconnect?: StopOnDisconnectConfiguration;
+    stopOnNoConnect?: StopOnNoConnectConfiguration;
     virtualNetworkType?: VirtualNetworkType;
 }
 
 // @public
 export interface PoolUpdateProperties {
+    activeHoursConfiguration?: ActiveHoursConfiguration;
+    devBoxDefinition?: PoolDevBoxDefinition;
     devBoxDefinitionName?: string;
+    devBoxDefinitionType?: PoolDevBoxDefinitionType;
+    devBoxTunnelEnableStatus?: DevBoxTunnelEnableStatus;
     displayName?: string;
     licenseType?: LicenseType;
     localAdministrator?: LocalAdminStatus;
@@ -1849,19 +2530,25 @@ export interface PoolUpdateProperties {
     networkConnectionName?: string;
     singleSignOnStatus?: SingleSignOnStatus;
     stopOnDisconnect?: StopOnDisconnectConfiguration;
+    stopOnNoConnect?: StopOnNoConnectConfiguration;
     virtualNetworkType?: VirtualNetworkType;
 }
 
 // @public
 export interface Project extends TrackedResource {
+    azureAiServicesSettings?: AzureAiServicesSettings;
     catalogSettings?: ProjectCatalogSettings;
+    customizationSettings?: ProjectCustomizationSettings;
     description?: string;
+    devBoxAutoDeleteSettings?: DevBoxAutoDeleteSettings;
     devCenterId?: string;
     readonly devCenterUri?: string;
     displayName?: string;
     identity?: ManagedServiceIdentity;
     maxDevBoxesPerUser?: number;
     readonly provisioningState?: ProvisioningState;
+    serverlessGpuSessionsSettings?: ServerlessGpuSessionsSettings;
+    workspaceStorageSettings?: WorkspaceStorageSettings;
 }
 
 // @public
@@ -1903,6 +2590,119 @@ export interface ProjectCatalogEnvironmentDefinitionsGetErrorDetailsOptionalPara
 
 // @public
 export type ProjectCatalogEnvironmentDefinitionsGetErrorDetailsResponse = CatalogResourceValidationErrorDetails;
+
+// @public
+export interface ProjectCatalogImageDefinitionBuild {
+    beginCancel(resourceGroupName: string, projectName: string, catalogName: string, imageDefinitionName: string, buildName: string, options?: ProjectCatalogImageDefinitionBuildCancelOptionalParams): Promise<SimplePollerLike<OperationState<ProjectCatalogImageDefinitionBuildCancelResponse>, ProjectCatalogImageDefinitionBuildCancelResponse>>;
+    beginCancelAndWait(resourceGroupName: string, projectName: string, catalogName: string, imageDefinitionName: string, buildName: string, options?: ProjectCatalogImageDefinitionBuildCancelOptionalParams): Promise<ProjectCatalogImageDefinitionBuildCancelResponse>;
+    get(resourceGroupName: string, projectName: string, catalogName: string, imageDefinitionName: string, buildName: string, options?: ProjectCatalogImageDefinitionBuildGetOptionalParams): Promise<ProjectCatalogImageDefinitionBuildGetResponse>;
+    getBuildDetails(resourceGroupName: string, projectName: string, catalogName: string, imageDefinitionName: string, buildName: string, options?: ProjectCatalogImageDefinitionBuildGetBuildDetailsOptionalParams): Promise<ProjectCatalogImageDefinitionBuildGetBuildDetailsResponse>;
+}
+
+// @public
+export interface ProjectCatalogImageDefinitionBuildCancelHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ProjectCatalogImageDefinitionBuildCancelOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ProjectCatalogImageDefinitionBuildCancelResponse = ProjectCatalogImageDefinitionBuildCancelHeaders;
+
+// @public
+export interface ProjectCatalogImageDefinitionBuildGetBuildDetailsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProjectCatalogImageDefinitionBuildGetBuildDetailsResponse = ImageDefinitionBuildDetails;
+
+// @public
+export interface ProjectCatalogImageDefinitionBuildGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProjectCatalogImageDefinitionBuildGetResponse = ImageDefinitionBuild;
+
+// @public
+export interface ProjectCatalogImageDefinitionBuilds {
+    listByImageDefinition(resourceGroupName: string, projectName: string, catalogName: string, imageDefinitionName: string, options?: ProjectCatalogImageDefinitionBuildsListByImageDefinitionOptionalParams): PagedAsyncIterableIterator<ImageDefinitionBuild>;
+}
+
+// @public
+export interface ProjectCatalogImageDefinitionBuildsListByImageDefinitionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProjectCatalogImageDefinitionBuildsListByImageDefinitionNextResponse = ImageDefinitionBuildListResult;
+
+// @public
+export interface ProjectCatalogImageDefinitionBuildsListByImageDefinitionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProjectCatalogImageDefinitionBuildsListByImageDefinitionResponse = ImageDefinitionBuildListResult;
+
+// @public
+export interface ProjectCatalogImageDefinitions {
+    beginBuildImage(resourceGroupName: string, projectName: string, catalogName: string, imageDefinitionName: string, options?: ProjectCatalogImageDefinitionsBuildImageOptionalParams): Promise<SimplePollerLike<OperationState<ProjectCatalogImageDefinitionsBuildImageResponse>, ProjectCatalogImageDefinitionsBuildImageResponse>>;
+    beginBuildImageAndWait(resourceGroupName: string, projectName: string, catalogName: string, imageDefinitionName: string, options?: ProjectCatalogImageDefinitionsBuildImageOptionalParams): Promise<ProjectCatalogImageDefinitionsBuildImageResponse>;
+    getByProjectCatalog(resourceGroupName: string, projectName: string, catalogName: string, imageDefinitionName: string, options?: ProjectCatalogImageDefinitionsGetByProjectCatalogOptionalParams): Promise<ProjectCatalogImageDefinitionsGetByProjectCatalogResponse>;
+    getErrorDetails(resourceGroupName: string, projectName: string, catalogName: string, imageDefinitionName: string, options?: ProjectCatalogImageDefinitionsGetErrorDetailsOptionalParams): Promise<ProjectCatalogImageDefinitionsGetErrorDetailsResponse>;
+    listByProjectCatalog(resourceGroupName: string, projectName: string, catalogName: string, options?: ProjectCatalogImageDefinitionsListByProjectCatalogOptionalParams): PagedAsyncIterableIterator<ImageDefinition>;
+}
+
+// @public
+export interface ProjectCatalogImageDefinitionsBuildImageHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ProjectCatalogImageDefinitionsBuildImageOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ProjectCatalogImageDefinitionsBuildImageResponse = ProjectCatalogImageDefinitionsBuildImageHeaders;
+
+// @public
+export interface ProjectCatalogImageDefinitionsGetByProjectCatalogOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProjectCatalogImageDefinitionsGetByProjectCatalogResponse = ImageDefinition;
+
+// @public
+export interface ProjectCatalogImageDefinitionsGetErrorDetailsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProjectCatalogImageDefinitionsGetErrorDetailsResponse = CatalogResourceValidationErrorDetails;
+
+// @public
+export interface ProjectCatalogImageDefinitionsListByProjectCatalogNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProjectCatalogImageDefinitionsListByProjectCatalogNextResponse = ImageDefinitionListResult;
+
+// @public
+export interface ProjectCatalogImageDefinitionsListByProjectCatalogOptionalParams extends coreClient.OperationOptions {
+    top?: number;
+}
+
+// @public
+export type ProjectCatalogImageDefinitionsListByProjectCatalogResponse = ImageDefinitionListResult;
 
 // @public
 export interface ProjectCatalogs {
@@ -2025,6 +2825,21 @@ export interface ProjectCatalogsSyncOptionalParams extends coreClient.OperationO
 export type ProjectCatalogsSyncResponse = ProjectCatalogsSyncHeaders;
 
 // @public
+export type ProjectCustomizationIdentityType = string;
+
+// @public
+export interface ProjectCustomizationManagedIdentity {
+    identityResourceId?: string;
+    identityType?: ProjectCustomizationIdentityType;
+}
+
+// @public
+export interface ProjectCustomizationSettings {
+    identities?: ProjectCustomizationManagedIdentity[];
+    userCustomizationsEnableStatus?: UserCustomizationsEnableStatus;
+}
+
+// @public
 export interface ProjectEnvironmentType extends Resource {
     creatorRoleAssignment?: ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment;
     deploymentTargetId?: string;
@@ -2143,6 +2958,114 @@ export interface ProjectListResult {
 }
 
 // @public
+export interface ProjectNetworkSettings {
+    readonly microsoftHostedNetworkEnableStatus?: MicrosoftHostedNetworkEnableStatus;
+}
+
+// @public
+export interface ProjectPolicies {
+    beginCreateOrUpdate(resourceGroupName: string, devCenterName: string, projectPolicyName: string, body: ProjectPolicy, options?: ProjectPoliciesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ProjectPoliciesCreateOrUpdateResponse>, ProjectPoliciesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, devCenterName: string, projectPolicyName: string, body: ProjectPolicy, options?: ProjectPoliciesCreateOrUpdateOptionalParams): Promise<ProjectPoliciesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, devCenterName: string, projectPolicyName: string, options?: ProjectPoliciesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ProjectPoliciesDeleteResponse>, ProjectPoliciesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, devCenterName: string, projectPolicyName: string, options?: ProjectPoliciesDeleteOptionalParams): Promise<ProjectPoliciesDeleteResponse>;
+    beginUpdate(resourceGroupName: string, devCenterName: string, projectPolicyName: string, body: ProjectPolicyUpdate, options?: ProjectPoliciesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ProjectPoliciesUpdateResponse>, ProjectPoliciesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, devCenterName: string, projectPolicyName: string, body: ProjectPolicyUpdate, options?: ProjectPoliciesUpdateOptionalParams): Promise<ProjectPoliciesUpdateResponse>;
+    get(resourceGroupName: string, devCenterName: string, projectPolicyName: string, options?: ProjectPoliciesGetOptionalParams): Promise<ProjectPoliciesGetResponse>;
+    listByDevCenter(resourceGroupName: string, devCenterName: string, options?: ProjectPoliciesListByDevCenterOptionalParams): PagedAsyncIterableIterator<ProjectPolicy>;
+}
+
+// @public
+export interface ProjectPoliciesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ProjectPoliciesCreateOrUpdateResponse = ProjectPolicy;
+
+// @public
+export interface ProjectPoliciesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ProjectPoliciesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ProjectPoliciesDeleteResponse = ProjectPoliciesDeleteHeaders;
+
+// @public
+export interface ProjectPoliciesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProjectPoliciesGetResponse = ProjectPolicy;
+
+// @public
+export interface ProjectPoliciesListByDevCenterNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProjectPoliciesListByDevCenterNextResponse = ProjectPolicyListResult;
+
+// @public
+export interface ProjectPoliciesListByDevCenterOptionalParams extends coreClient.OperationOptions {
+    top?: number;
+}
+
+// @public
+export type ProjectPoliciesListByDevCenterResponse = ProjectPolicyListResult;
+
+// @public
+export interface ProjectPoliciesUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ProjectPoliciesUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ProjectPoliciesUpdateResponse = ProjectPolicy;
+
+// @public
+export interface ProjectPolicy extends Resource {
+    readonly provisioningState?: ProvisioningState;
+    resourcePolicies?: ResourcePolicy[];
+    scopes?: string[];
+}
+
+// @public
+export interface ProjectPolicyListResult {
+    readonly nextLink?: string;
+    readonly value?: ProjectPolicy[];
+}
+
+// @public
+export interface ProjectPolicyProperties extends ProjectPolicyUpdateProperties {
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface ProjectPolicyUpdate {
+    resourcePolicies?: ResourcePolicy[];
+    scopes?: string[];
+}
+
+// @public
+export interface ProjectPolicyUpdateProperties {
+    resourcePolicies?: ResourcePolicy[];
+    scopes?: string[];
+}
+
+// @public
 export interface ProjectProperties extends ProjectUpdateProperties {
     readonly devCenterUri?: string;
     readonly provisioningState?: ProvisioningState;
@@ -2157,6 +3080,7 @@ export interface Projects {
     beginUpdate(resourceGroupName: string, projectName: string, body: ProjectUpdate, options?: ProjectsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ProjectsUpdateResponse>, ProjectsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, projectName: string, body: ProjectUpdate, options?: ProjectsUpdateOptionalParams): Promise<ProjectsUpdateResponse>;
     get(resourceGroupName: string, projectName: string, options?: ProjectsGetOptionalParams): Promise<ProjectsGetResponse>;
+    getInheritedSettings(resourceGroupName: string, projectName: string, options?: ProjectsGetInheritedSettingsOptionalParams): Promise<ProjectsGetInheritedSettingsResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ProjectsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Project>;
     listBySubscription(options?: ProjectsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Project>;
 }
@@ -2184,6 +3108,13 @@ export interface ProjectsDeleteOptionalParams extends coreClient.OperationOption
 
 // @public
 export type ProjectsDeleteResponse = ProjectsDeleteHeaders;
+
+// @public
+export interface ProjectsGetInheritedSettingsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProjectsGetInheritedSettingsResponse = InheritedSettingsForProject;
 
 // @public
 export interface ProjectsGetOptionalParams extends coreClient.OperationOptions {
@@ -2239,21 +3170,31 @@ export type ProjectsUpdateResponse = Project;
 
 // @public
 export interface ProjectUpdate extends TrackedResourceUpdate {
+    azureAiServicesSettings?: AzureAiServicesSettings;
     catalogSettings?: ProjectCatalogSettings;
+    customizationSettings?: ProjectCustomizationSettings;
     description?: string;
+    devBoxAutoDeleteSettings?: DevBoxAutoDeleteSettings;
     devCenterId?: string;
     displayName?: string;
     identity?: ManagedServiceIdentity;
     maxDevBoxesPerUser?: number;
+    serverlessGpuSessionsSettings?: ServerlessGpuSessionsSettings;
+    workspaceStorageSettings?: WorkspaceStorageSettings;
 }
 
 // @public
 export interface ProjectUpdateProperties {
+    azureAiServicesSettings?: AzureAiServicesSettings;
     catalogSettings?: ProjectCatalogSettings;
+    customizationSettings?: ProjectCustomizationSettings;
     description?: string;
+    devBoxAutoDeleteSettings?: DevBoxAutoDeleteSettings;
     devCenterId?: string;
     displayName?: string;
     maxDevBoxesPerUser?: number;
+    serverlessGpuSessionsSettings?: ServerlessGpuSessionsSettings;
+    workspaceStorageSettings?: WorkspaceStorageSettings;
 }
 
 // @public
@@ -2275,6 +3216,14 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export interface ResourcePolicy {
+    action?: PolicyAction;
+    filter?: string;
+    resources?: string;
+    resourceType?: DevCenterResourceType;
 }
 
 // @public
@@ -2417,6 +3366,15 @@ export interface ScheduleUpdateProperties extends TrackedResourceUpdate {
 }
 
 // @public
+export type ServerlessGpuSessionsEnableStatus = string;
+
+// @public
+export interface ServerlessGpuSessionsSettings {
+    maxConcurrentSessionsPerProject?: number;
+    serverlessGpuSessionsEnableStatus?: ServerlessGpuSessionsEnableStatus;
+}
+
+// @public
 export type SingleSignOnStatus = string;
 
 // @public
@@ -2436,8 +3394,23 @@ export interface SkuListResult {
 
 // @public
 export interface Skus {
+    listByProject(resourceGroupName: string, projectName: string, options?: SkusListByProjectOptionalParams): PagedAsyncIterableIterator<DevCenterSku>;
     listBySubscription(options?: SkusListBySubscriptionOptionalParams): PagedAsyncIterableIterator<DevCenterSku>;
 }
+
+// @public
+export interface SkusListByProjectNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SkusListByProjectNextResponse = SkuListResult;
+
+// @public
+export interface SkusListByProjectOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SkusListByProjectResponse = SkuListResult;
 
 // @public
 export interface SkusListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
@@ -2465,6 +3438,15 @@ export interface StopOnDisconnectConfiguration {
 
 // @public
 export type StopOnDisconnectEnableStatus = string;
+
+// @public
+export interface StopOnNoConnectConfiguration {
+    gracePeriodMinutes?: number;
+    status?: StopOnNoConnectEnableStatus;
+}
+
+// @public
+export type StopOnNoConnectEnableStatus = string;
 
 // @public
 export interface SyncErrorDetails {
@@ -2554,6 +3536,9 @@ export interface UserAssignedIdentity {
 }
 
 // @public
+export type UserCustomizationsEnableStatus = string;
+
+// @public
 export interface UserRoleAssignmentValue {
     roles?: {
         [propertyName: string]: EnvironmentRole;
@@ -2562,6 +3547,14 @@ export interface UserRoleAssignmentValue {
 
 // @public
 export type VirtualNetworkType = string;
+
+// @public
+export type WorkspaceStorageEnableStatus = string;
+
+// @public
+export interface WorkspaceStorageSettings {
+    workspaceStorageEnableStatus?: WorkspaceStorageEnableStatus;
+}
 
 // (No @packageDocumentation comment for this package)
 
