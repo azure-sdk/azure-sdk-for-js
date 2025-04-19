@@ -38,6 +38,3 @@ export interface ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams
 /** Optional parameters. */
 export interface ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams
   extends OperationOptions {}
-
-/** Optional parameters. */
-export interface OperationsListOptionalParams extends OperationOptions {}
