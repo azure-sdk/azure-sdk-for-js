@@ -34,7 +34,7 @@ import {
   DenyAssignmentsListForResourceNextResponse,
   DenyAssignmentsListForResourceGroupNextResponse,
   DenyAssignmentsListNextResponse,
-  DenyAssignmentsListForScopeNextResponse
+  DenyAssignmentsListForScopeNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -65,7 +65,7 @@ export class DenyAssignmentsImpl implements DenyAssignments {
     parentResourcePath: string,
     resourceType: string,
     resourceName: string,
-    options?: DenyAssignmentsListForResourceOptionalParams
+    options?: DenyAssignmentsListForResourceOptionalParams,
   ): PagedAsyncIterableIterator<DenyAssignment> {
     const iter = this.listForResourcePagingAll(
       resourceGroupName,
@@ -73,7 +73,7 @@ export class DenyAssignmentsImpl implements DenyAssignments {
       parentResourcePath,
       resourceType,
       resourceName,
-      options
+      options,
     );
     return {
       next() {
@@ -93,9 +93,9 @@ export class DenyAssignmentsImpl implements DenyAssignments {
           resourceType,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -106,7 +106,7 @@ export class DenyAssignmentsImpl implements DenyAssignments {
     resourceType: string,
     resourceName: string,
     options?: DenyAssignmentsListForResourceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DenyAssignment[]> {
     let result: DenyAssignmentsListForResourceResponse;
     let continuationToken = settings?.continuationToken;
@@ -117,7 +117,7 @@ export class DenyAssignmentsImpl implements DenyAssignments {
         parentResourcePath,
         resourceType,
         resourceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -132,7 +132,7 @@ export class DenyAssignmentsImpl implements DenyAssignments {
         resourceType,
         resourceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -147,7 +147,7 @@ export class DenyAssignmentsImpl implements DenyAssignments {
     parentResourcePath: string,
     resourceType: string,
     resourceName: string,
-    options?: DenyAssignmentsListForResourceOptionalParams
+    options?: DenyAssignmentsListForResourceOptionalParams,
   ): AsyncIterableIterator<DenyAssignment> {
     for await (const page of this.listForResourcePagingPage(
       resourceGroupName,
@@ -155,7 +155,7 @@ export class DenyAssignmentsImpl implements DenyAssignments {
       parentResourcePath,
       resourceType,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -168,7 +168,7 @@ export class DenyAssignmentsImpl implements DenyAssignments {
    */
   public listForResourceGroup(
     resourceGroupName: string,
-    options?: DenyAssignmentsListForResourceGroupOptionalParams
+    options?: DenyAssignmentsListForResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DenyAssignment> {
     const iter = this.listForResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -185,16 +185,16 @@ export class DenyAssignmentsImpl implements DenyAssignments {
         return this.listForResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listForResourceGroupPagingPage(
     resourceGroupName: string,
     options?: DenyAssignmentsListForResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DenyAssignment[]> {
     let result: DenyAssignmentsListForResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -209,7 +209,7 @@ export class DenyAssignmentsImpl implements DenyAssignments {
       result = await this._listForResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -220,11 +220,11 @@ export class DenyAssignmentsImpl implements DenyAssignments {
 
   private async *listForResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: DenyAssignmentsListForResourceGroupOptionalParams
+    options?: DenyAssignmentsListForResourceGroupOptionalParams,
   ): AsyncIterableIterator<DenyAssignment> {
     for await (const page of this.listForResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -235,7 +235,7 @@ export class DenyAssignmentsImpl implements DenyAssignments {
    * @param options The options parameters.
    */
   public list(
-    options?: DenyAssignmentsListOptionalParams
+    options?: DenyAssignmentsListOptionalParams,
   ): PagedAsyncIterableIterator<DenyAssignment> {
     const iter = this.listPagingAll(options);
     return {
@@ -250,13 +250,13 @@ export class DenyAssignmentsImpl implements DenyAssignments {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: DenyAssignmentsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DenyAssignment[]> {
     let result: DenyAssignmentsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -277,7 +277,7 @@ export class DenyAssignmentsImpl implements DenyAssignments {
   }
 
   private async *listPagingAll(
-    options?: DenyAssignmentsListOptionalParams
+    options?: DenyAssignmentsListOptionalParams,
   ): AsyncIterableIterator<DenyAssignment> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -291,7 +291,7 @@ export class DenyAssignmentsImpl implements DenyAssignments {
    */
   public listForScope(
     scope: string,
-    options?: DenyAssignmentsListForScopeOptionalParams
+    options?: DenyAssignmentsListForScopeOptionalParams,
   ): PagedAsyncIterableIterator<DenyAssignment> {
     const iter = this.listForScopePagingAll(scope, options);
     return {
@@ -306,14 +306,14 @@ export class DenyAssignmentsImpl implements DenyAssignments {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listForScopePagingPage(scope, options, settings);
-      }
+      },
     };
   }
 
   private async *listForScopePagingPage(
     scope: string,
     options?: DenyAssignmentsListForScopeOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DenyAssignment[]> {
     let result: DenyAssignmentsListForScopeResponse;
     let continuationToken = settings?.continuationToken;
@@ -335,7 +335,7 @@ export class DenyAssignmentsImpl implements DenyAssignments {
 
   private async *listForScopePagingAll(
     scope: string,
-    options?: DenyAssignmentsListForScopeOptionalParams
+    options?: DenyAssignmentsListForScopeOptionalParams,
   ): AsyncIterableIterator<DenyAssignment> {
     for await (const page of this.listForScopePagingPage(scope, options)) {
       yield* page;
@@ -357,7 +357,7 @@ export class DenyAssignmentsImpl implements DenyAssignments {
     parentResourcePath: string,
     resourceType: string,
     resourceName: string,
-    options?: DenyAssignmentsListForResourceOptionalParams
+    options?: DenyAssignmentsListForResourceOptionalParams,
   ): Promise<DenyAssignmentsListForResourceResponse> {
     return this.client.sendOperationRequest(
       {
@@ -366,9 +366,9 @@ export class DenyAssignmentsImpl implements DenyAssignments {
         parentResourcePath,
         resourceType,
         resourceName,
-        options
+        options,
       },
-      listForResourceOperationSpec
+      listForResourceOperationSpec,
     );
   }
 
@@ -379,11 +379,11 @@ export class DenyAssignmentsImpl implements DenyAssignments {
    */
   private _listForResourceGroup(
     resourceGroupName: string,
-    options?: DenyAssignmentsListForResourceGroupOptionalParams
+    options?: DenyAssignmentsListForResourceGroupOptionalParams,
   ): Promise<DenyAssignmentsListForResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listForResourceGroupOperationSpec
+      listForResourceGroupOperationSpec,
     );
   }
 
@@ -392,7 +392,7 @@ export class DenyAssignmentsImpl implements DenyAssignments {
    * @param options The options parameters.
    */
   private _list(
-    options?: DenyAssignmentsListOptionalParams
+    options?: DenyAssignmentsListOptionalParams,
   ): Promise<DenyAssignmentsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -406,11 +406,11 @@ export class DenyAssignmentsImpl implements DenyAssignments {
   get(
     scope: string,
     denyAssignmentId: string,
-    options?: DenyAssignmentsGetOptionalParams
+    options?: DenyAssignmentsGetOptionalParams,
   ): Promise<DenyAssignmentsGetResponse> {
     return this.client.sendOperationRequest(
       { scope, denyAssignmentId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -425,11 +425,11 @@ export class DenyAssignmentsImpl implements DenyAssignments {
    */
   getById(
     denyAssignmentId: string,
-    options?: DenyAssignmentsGetByIdOptionalParams
+    options?: DenyAssignmentsGetByIdOptionalParams,
   ): Promise<DenyAssignmentsGetByIdResponse> {
     return this.client.sendOperationRequest(
       { denyAssignmentId, options },
-      getByIdOperationSpec
+      getByIdOperationSpec,
     );
   }
 
@@ -440,11 +440,11 @@ export class DenyAssignmentsImpl implements DenyAssignments {
    */
   private _listForScope(
     scope: string,
-    options?: DenyAssignmentsListForScopeOptionalParams
+    options?: DenyAssignmentsListForScopeOptionalParams,
   ): Promise<DenyAssignmentsListForScopeResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
-      listForScopeOperationSpec
+      listForScopeOperationSpec,
     );
   }
 
@@ -465,7 +465,7 @@ export class DenyAssignmentsImpl implements DenyAssignments {
     resourceType: string,
     resourceName: string,
     nextLink: string,
-    options?: DenyAssignmentsListForResourceNextOptionalParams
+    options?: DenyAssignmentsListForResourceNextOptionalParams,
   ): Promise<DenyAssignmentsListForResourceNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -475,9 +475,9 @@ export class DenyAssignmentsImpl implements DenyAssignments {
         resourceType,
         resourceName,
         nextLink,
-        options
+        options,
       },
-      listForResourceNextOperationSpec
+      listForResourceNextOperationSpec,
     );
   }
 
@@ -490,11 +490,11 @@ export class DenyAssignmentsImpl implements DenyAssignments {
   private _listForResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: DenyAssignmentsListForResourceGroupNextOptionalParams
+    options?: DenyAssignmentsListForResourceGroupNextOptionalParams,
   ): Promise<DenyAssignmentsListForResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listForResourceGroupNextOperationSpec
+      listForResourceGroupNextOperationSpec,
     );
   }
 
@@ -505,11 +505,11 @@ export class DenyAssignmentsImpl implements DenyAssignments {
    */
   private _listNext(
     nextLink: string,
-    options?: DenyAssignmentsListNextOptionalParams
+    options?: DenyAssignmentsListNextOptionalParams,
   ): Promise<DenyAssignmentsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -522,11 +522,11 @@ export class DenyAssignmentsImpl implements DenyAssignments {
   private _listForScopeNext(
     scope: string,
     nextLink: string,
-    options?: DenyAssignmentsListForScopeNextOptionalParams
+    options?: DenyAssignmentsListForScopeNextOptionalParams,
   ): Promise<DenyAssignmentsListForScopeNextResponse> {
     return this.client.sendOperationRequest(
       { scope, nextLink, options },
-      listForScopeNextOperationSpec
+      listForScopeNextOperationSpec,
     );
   }
 }
@@ -534,16 +534,15 @@ export class DenyAssignmentsImpl implements DenyAssignments {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listForResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/denyAssignments",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/denyAssignments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DenyAssignmentListResult
+      bodyMapper: Mappers.DenyAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1, Parameters.filter],
   urlParameters: [
@@ -553,112 +552,109 @@ const listForResourceOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceProviderNamespace,
     Parameters.parentResourcePath,
     Parameters.resourceType,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/denyAssignments",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/denyAssignments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DenyAssignmentListResult
+      bodyMapper: Mappers.DenyAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/denyAssignments",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/denyAssignments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DenyAssignmentListResult
+      bodyMapper: Mappers.DenyAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1, Parameters.filter],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/denyAssignments/{denyAssignmentId}",
+  path: "/{scope}/providers/Microsoft.Authorization/denyAssignments/{denyAssignmentId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DenyAssignment
+      bodyMapper: Mappers.DenyAssignment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.denyAssignmentId
+    Parameters.denyAssignmentId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getByIdOperationSpec: coreClient.OperationSpec = {
   path: "/{denyAssignmentId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DenyAssignment
+      bodyMapper: Mappers.DenyAssignment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.denyAssignmentId1],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForScopeOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Authorization/denyAssignments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DenyAssignmentListResult
+      bodyMapper: Mappers.DenyAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1, Parameters.filter],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForResourceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DenyAssignmentListResult
+      bodyMapper: Mappers.DenyAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -668,62 +664,62 @@ const listForResourceNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceProviderNamespace,
     Parameters.parentResourcePath,
     Parameters.resourceType,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DenyAssignmentListResult
+      bodyMapper: Mappers.DenyAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DenyAssignmentListResult
+      bodyMapper: Mappers.DenyAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForScopeNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DenyAssignmentListResult
+      bodyMapper: Mappers.DenyAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

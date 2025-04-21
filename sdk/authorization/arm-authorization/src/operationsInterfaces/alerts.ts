@@ -17,7 +17,7 @@ import {
   AlertsRefreshOptionalParams,
   AlertsRefreshResponse,
   AlertsRefreshAllOptionalParams,
-  AlertsRefreshAllResponse
+  AlertsRefreshAllResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface Alerts {
    */
   listForScope(
     scope: string,
-    options?: AlertsListForScopeOptionalParams
+    options?: AlertsListForScopeOptionalParams,
   ): PagedAsyncIterableIterator<Alert>;
   /**
    * Get the specified alert.
@@ -46,7 +46,7 @@ export interface Alerts {
   get(
     scope: string,
     alertId: string,
-    options?: AlertsGetOptionalParams
+    options?: AlertsGetOptionalParams,
   ): Promise<AlertsGetResponse>;
   /**
    * Update an alert.
@@ -59,7 +59,7 @@ export interface Alerts {
     scope: string,
     alertId: string,
     parameters: Alert,
-    options?: AlertsUpdateOptionalParams
+    options?: AlertsUpdateOptionalParams,
   ): Promise<void>;
   /**
    * Refresh an alert.
@@ -70,7 +70,7 @@ export interface Alerts {
   beginRefresh(
     scope: string,
     alertId: string,
-    options?: AlertsRefreshOptionalParams
+    options?: AlertsRefreshOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AlertsRefreshResponse>,
@@ -86,7 +86,7 @@ export interface Alerts {
   beginRefreshAndWait(
     scope: string,
     alertId: string,
-    options?: AlertsRefreshOptionalParams
+    options?: AlertsRefreshOptionalParams,
   ): Promise<AlertsRefreshResponse>;
   /**
    * Refresh all alerts for a resource scope.
@@ -95,7 +95,7 @@ export interface Alerts {
    */
   beginRefreshAll(
     scope: string,
-    options?: AlertsRefreshAllOptionalParams
+    options?: AlertsRefreshAllOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AlertsRefreshAllResponse>,
@@ -109,6 +109,6 @@ export interface Alerts {
    */
   beginRefreshAllAndWait(
     scope: string,
-    options?: AlertsRefreshAllOptionalParams
+    options?: AlertsRefreshAllOptionalParams,
   ): Promise<AlertsRefreshAllResponse>;
 }
