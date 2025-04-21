@@ -9,14 +9,14 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
+  DeploymentLicenseRequest as DeploymentLicenseRequestMapper,
   CustomerSubscription as CustomerSubscriptionMapper,
   DeviceConfiguration as DeviceConfigurationMapper,
   MarketplaceProductLogUpdate as MarketplaceProductLogUpdateMapper,
   RegistrationParameter as RegistrationParameterMapper,
-  LinkedSubscriptionParameter as LinkedSubscriptionParameterMapper
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -26,9 +26,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -37,22 +37,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-06-01-preview",
+    defaultValue: "2022-06-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -61,10 +61,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const verificationVersion: OperationURLParameter = {
@@ -73,9 +73,9 @@ export const verificationVersion: OperationURLParameter = {
     serializedName: "verificationVersion",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const versionCreationDate: OperationQueryParameter = {
@@ -83,53 +83,9 @@ export const versionCreationDate: OperationQueryParameter = {
   mapper: {
     serializedName: "versionCreationDate",
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceGroup: OperationURLParameter = {
-  parameterPath: "resourceGroup",
-  mapper: {
-    serializedName: "resourceGroup",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const registrationName: OperationURLParameter = {
-  parameterPath: "registrationName",
-  mapper: {
-    serializedName: "registrationName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const customerSubscriptionName: OperationURLParameter = {
-  parameterPath: "customerSubscriptionName",
-  mapper: {
-    serializedName: "customerSubscriptionName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -139,14 +95,63 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const deploymentLicenseRequest: OperationParameter = {
+  parameterPath: "deploymentLicenseRequest",
+  mapper: DeploymentLicenseRequestMapper,
+};
+
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resourceGroup: OperationURLParameter = {
+  parameterPath: "resourceGroup",
+  mapper: {
+    serializedName: "resourceGroup",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const registrationName: OperationURLParameter = {
+  parameterPath: "registrationName",
+  mapper: {
+    serializedName: "registrationName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const customerSubscriptionName: OperationURLParameter = {
+  parameterPath: "customerSubscriptionName",
+  mapper: {
+    serializedName: "customerSubscriptionName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const customerCreationParameters: OperationParameter = {
   parameterPath: "customerCreationParameters",
-  mapper: CustomerSubscriptionMapper
+  mapper: CustomerSubscriptionMapper,
 };
 
 export const productName: OperationURLParameter = {
@@ -155,38 +160,22 @@ export const productName: OperationURLParameter = {
     serializedName: "productName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const deviceConfiguration: OperationParameter = {
   parameterPath: ["options", "deviceConfiguration"],
-  mapper: DeviceConfigurationMapper
+  mapper: DeviceConfigurationMapper,
 };
 
 export const marketplaceProductLogUpdate: OperationParameter = {
   parameterPath: ["options", "marketplaceProductLogUpdate"],
-  mapper: MarketplaceProductLogUpdateMapper
+  mapper: MarketplaceProductLogUpdateMapper,
 };
 
 export const token: OperationParameter = {
   parameterPath: "token",
-  mapper: RegistrationParameterMapper
-};
-
-export const linkedSubscriptionName: OperationURLParameter = {
-  parameterPath: "linkedSubscriptionName",
-  mapper: {
-    serializedName: "linkedSubscriptionName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resource: OperationParameter = {
-  parameterPath: "resource",
-  mapper: LinkedSubscriptionParameterMapper
+  mapper: RegistrationParameterMapper,
 };
