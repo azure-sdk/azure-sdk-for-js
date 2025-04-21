@@ -16,8 +16,8 @@ export const ChangeResourceListResult: coreClient.CompositeMapper = {
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       value: {
         serializedName: "value",
@@ -26,13 +26,13 @@ export const ChangeResourceListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ChangeResourceResult"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ChangeResourceResult",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ChangeProperties: coreClient.CompositeMapper = {
@@ -44,40 +44,40 @@ export const ChangeProperties: coreClient.CompositeMapper = {
         serializedName: "targetResourceId",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       targetResourceType: {
         serializedName: "targetResourceType",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       changeType: {
         serializedName: "changeType",
         readOnly: true,
         type: {
           name: "Enum",
-          allowedValues: ["Update", "Delete", "Create"]
-        }
+          allowedValues: ["Update", "Delete", "Create"],
+        },
       },
       changeAttributes: {
         serializedName: "changeAttributes",
         type: {
           name: "Composite",
-          className: "ChangeAttributes"
-        }
+          className: "ChangeAttributes",
+        },
       },
       changes: {
         serializedName: "changes",
         type: {
           name: "Dictionary",
-          value: { type: { name: "Composite", className: "ChangeBase" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "Composite", className: "ChangeBase" } },
+        },
+      },
+    },
+  },
 };
 
 export const ChangeAttributes: coreClient.CompositeMapper = {
@@ -89,39 +89,39 @@ export const ChangeAttributes: coreClient.CompositeMapper = {
         serializedName: "correlationId",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       timestamp: {
         serializedName: "timestamp",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       changesCount: {
         serializedName: "changesCount",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       previousResourceSnapshotId: {
         serializedName: "previousResourceSnapshotId",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       newResourceSnapshotId: {
         serializedName: "newResourceSnapshotId",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ChangeBase: coreClient.CompositeMapper = {
@@ -134,33 +134,33 @@ export const ChangeBase: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Enum",
-          allowedValues: ["Update", "Insert", "Remove"]
-        }
+          allowedValues: ["Update", "Insert", "Remove"],
+        },
       },
       changeCategory: {
         serializedName: "changeCategory",
         readOnly: true,
         type: {
           name: "Enum",
-          allowedValues: ["User", "System"]
-        }
+          allowedValues: ["User", "System"],
+        },
       },
       previousValue: {
         serializedName: "previousValue",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       newValue: {
         serializedName: "newValue",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Resource: coreClient.CompositeMapper = {
@@ -172,25 +172,25 @@ export const Resource: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorResponse: coreClient.CompositeMapper = {
@@ -202,11 +202,11 @@ export const ErrorResponse: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorDetail"
-        }
-      }
-    }
-  }
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorDetail: coreClient.CompositeMapper = {
@@ -218,22 +218,22 @@ export const ErrorDetail: coreClient.CompositeMapper = {
         serializedName: "code",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       target: {
         serializedName: "target",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       details: {
         serializedName: "details",
@@ -243,10 +243,10 @@ export const ErrorDetail: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorDetail"
-            }
-          }
-        }
+              className: "ErrorDetail",
+            },
+          },
+        },
       },
       additionalInfo: {
         serializedName: "additionalInfo",
@@ -256,13 +256,13 @@ export const ErrorDetail: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorAdditionalInfo"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ErrorAdditionalInfo",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
@@ -274,19 +274,19 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       info: {
         serializedName: "info",
         readOnly: true,
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
 };
 
 export const ChangeResourceResult: coreClient.CompositeMapper = {
@@ -299,9 +299,9 @@ export const ChangeResourceResult: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "ChangeProperties"
-        }
-      }
-    }
-  }
+          className: "ChangeProperties",
+        },
+      },
+    },
+  },
 };
