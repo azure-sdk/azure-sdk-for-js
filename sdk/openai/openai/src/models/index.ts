@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FileContents } from "./static-helpers/multipartHelpers.js";
-
-export { OpenAIClient } from "./openAIClient.js";
 export {
   AudioTranscriptionOptions,
   AudioTranscriptionFormat,
@@ -177,30 +174,4 @@ export {
   CompleteUploadRequest,
   PredictionContentType,
   KnownServiceApiVersions,
-} from "./models/index.js";
-export {
-  OpenAIClientOptionalParams,
-  CancelUploadOptionalParams,
-  CompleteUploadOptionalParams,
-  AddUploadPartOptionalParams,
-  CreateUploadOptionalParams,
-  CancelBatchOptionalParams,
-  GetBatchOptionalParams,
-  CreateBatchOptionalParams,
-  ListBatchesOptionalParams,
-  GetFileContentOptionalParams,
-  GetFileOptionalParams,
-  DeleteFileOptionalParams,
-  UploadFileOptionalParams,
-  ListFilesOptionalParams,
-  GetEmbeddingsOptionalParams,
-  GenerateSpeechFromTextOptionalParams,
-  GetImageGenerationsOptionalParams,
-  GetChatCompletionsOptionalParams,
-  GetCompletionsOptionalParams,
-  GetAudioTranslationAsResponseObjectOptionalParams,
-  GetAudioTranslationAsPlainTextOptionalParams,
-  GetAudioTranscriptionAsResponseObjectOptionalParams,
-  GetAudioTranscriptionAsPlainTextOptionalParams,
-} from "./api/index.js";
-export { FileContents };
+} from "./models.js";
