@@ -4,17 +4,16 @@
 
 ```ts
 
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
+import * as coreAuth from '@azure/core-auth';
+import * as coreClient from '@azure/core-client';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public
 export type ActionType = string;
 
 // @public
 export interface CancelOperationsRequest {
-    correlationId: string;
+    correlationid: string;
     operationIds: string[];
 }
 
@@ -22,24 +21,6 @@ export interface CancelOperationsRequest {
 export interface CancelOperationsResponse {
     results: ResourceOperation[];
 }
-
-// @public (undocumented)
-export class ComputeScheduleClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: ComputeScheduleClientOptionalParams);
-    readonly operations: OperationsOperations;
-    readonly pipeline: Pipeline;
-    readonly scheduledActions: ScheduledActionsOperations;
-}
-
-// @public
-export interface ComputeScheduleClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-}
-
-// @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
 
 // @public
 export type DeadlineType = string;
@@ -53,22 +34,42 @@ export interface DeallocateResourceOperationResponse {
 }
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface ExecuteDeallocateRequest {
-    correlationId: string;
+    correlationid: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
 }
 
 // @public
 export interface ExecuteHibernateRequest {
-    correlationId: string;
+    correlationid: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
 }
 
 // @public
 export interface ExecuteStartRequest {
-    correlationId: string;
+    correlationid: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
 }
@@ -78,6 +79,9 @@ export interface ExecutionParameters {
     optimizationPreference?: OptimizationPreference;
     retryPolicy?: RetryPolicy;
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface GetOperationErrorsRequest {
@@ -91,7 +95,7 @@ export interface GetOperationErrorsResponse {
 
 // @public
 export interface GetOperationStatusRequest {
-    correlationId: string;
+    correlationid: string;
     operationIds: string[];
 }
 
@@ -155,9 +159,26 @@ export enum KnownResourceOperationType {
     Unknown = "Unknown"
 }
 
+// @public (undocumented)
+export class MicrosoftComputeSchedule extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: MicrosoftComputeScheduleOptionalParams);
+    // (undocumented)
+    apiVersion: string;
+    // (undocumented)
+    operations: Operations;
+    // (undocumented)
+    scheduledActions: ScheduledActions;
+    // (undocumented)
+    subscriptionId: string;
+}
+
 // @public
-export enum KnownVersions {
-    "V2024-10-01" = "2024-10-01"
+export interface MicrosoftComputeScheduleOptionalParams extends coreClient.ServiceClientOptions {
+    $host?: string;
+    apiVersion?: string;
+    endpoint?: string;
 }
 
 // @public
@@ -183,15 +204,15 @@ export interface OperationErrorDetails {
     crpOperationId?: string;
     errorCode: string;
     errorDetails: string;
-    errorDetailsTimestamp?: string;
-    timestamp?: string;
+    timeStamp?: Date;
+    timestamp?: Date;
 }
 
 // @public
 export interface OperationErrorsResult {
-    activationTime?: string;
-    completedAt?: string;
-    creationTime?: string;
+    activationTime?: Date;
+    completedAt?: Date;
+    creationTime?: Date;
     operationErrors?: OperationErrorDetails[];
     operationId?: string;
     requestErrorCode?: string;
@@ -199,13 +220,29 @@ export interface OperationErrorsResult {
 }
 
 // @public
-export interface OperationsListOptionalParams extends OperationOptions {
+export interface OperationListResult {
+    readonly nextLink?: string;
+    readonly value?: Operation[];
 }
 
 // @public
-export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
+export interface Operations {
+    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
+
+// @public
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListNextResponse = OperationListResult;
+
+// @public
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListResponse = OperationListResult;
 
 // @public
 export type OperationState = string;
@@ -217,18 +254,6 @@ export type OptimizationPreference = string;
 export type Origin = string;
 
 // @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
-
-// @public
 export interface ResourceOperation {
     errorCode?: string;
     errorDetails?: string;
@@ -238,17 +263,17 @@ export interface ResourceOperation {
 
 // @public
 export interface ResourceOperationDetails {
-    completedAt?: string;
-    deadline?: string;
+    completedAt?: Date;
+    deadline?: Date;
     deadlineType?: DeadlineType;
     operationId: string;
-    operationTimezone?: string;
     opType?: ResourceOperationType;
     resourceId?: string;
     resourceOperationError?: ResourceOperationError;
     retryPolicy?: RetryPolicy;
     state?: OperationState;
     subscriptionId?: string;
+    timeZone?: string;
     timezone?: string;
 }
 
@@ -274,61 +299,88 @@ export interface RetryPolicy {
 
 // @public
 export interface Schedule {
-    deadline?: string;
+    deadLine?: Date;
+    deadline?: Date;
     deadlineType: DeadlineType;
+    timeZone?: string;
     timezone?: string;
-    userRequestDeadline?: string;
-    userRequestTimezone?: string;
 }
 
 // @public
-export interface ScheduledActionsOperations {
-    virtualMachinesCancelOperations: (locationparameter: string, requestBody: CancelOperationsRequest, options?: ScheduledActionsVirtualMachinesCancelOperationsOptionalParams) => Promise<CancelOperationsResponse>;
-    virtualMachinesExecuteDeallocate: (locationparameter: string, requestBody: ExecuteDeallocateRequest, options?: ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams) => Promise<DeallocateResourceOperationResponse>;
-    virtualMachinesExecuteHibernate: (locationparameter: string, requestBody: ExecuteHibernateRequest, options?: ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams) => Promise<HibernateResourceOperationResponse>;
-    virtualMachinesExecuteStart: (locationparameter: string, requestBody: ExecuteStartRequest, options?: ScheduledActionsVirtualMachinesExecuteStartOptionalParams) => Promise<StartResourceOperationResponse>;
-    virtualMachinesGetOperationErrors: (locationparameter: string, requestBody: GetOperationErrorsRequest, options?: ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams) => Promise<GetOperationErrorsResponse>;
-    virtualMachinesGetOperationStatus: (locationparameter: string, requestBody: GetOperationStatusRequest, options?: ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams) => Promise<GetOperationStatusResponse>;
-    virtualMachinesSubmitDeallocate: (locationparameter: string, requestBody: SubmitDeallocateRequest, options?: ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams) => Promise<DeallocateResourceOperationResponse>;
-    virtualMachinesSubmitHibernate: (locationparameter: string, requestBody: SubmitHibernateRequest, options?: ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams) => Promise<HibernateResourceOperationResponse>;
-    virtualMachinesSubmitStart: (locationparameter: string, requestBody: SubmitStartRequest, options?: ScheduledActionsVirtualMachinesSubmitStartOptionalParams) => Promise<StartResourceOperationResponse>;
+export interface ScheduledActions {
+    virtualMachinesCancelOperations(locationparameter: string, requestBody: CancelOperationsRequest, options?: ScheduledActionsVirtualMachinesCancelOperationsOptionalParams): Promise<ScheduledActionsVirtualMachinesCancelOperationsResponse>;
+    virtualMachinesExecuteDeallocate(locationparameter: string, requestBody: ExecuteDeallocateRequest, options?: ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams): Promise<ScheduledActionsVirtualMachinesExecuteDeallocateResponse>;
+    virtualMachinesExecuteHibernate(locationparameter: string, requestBody: ExecuteHibernateRequest, options?: ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams): Promise<ScheduledActionsVirtualMachinesExecuteHibernateResponse>;
+    virtualMachinesExecuteStart(locationparameter: string, requestBody: ExecuteStartRequest, options?: ScheduledActionsVirtualMachinesExecuteStartOptionalParams): Promise<ScheduledActionsVirtualMachinesExecuteStartResponse>;
+    virtualMachinesGetOperationErrors(locationparameter: string, requestBody: GetOperationErrorsRequest, options?: ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams): Promise<ScheduledActionsVirtualMachinesGetOperationErrorsResponse>;
+    virtualMachinesGetOperationStatus(locationparameter: string, requestBody: GetOperationStatusRequest, options?: ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams): Promise<ScheduledActionsVirtualMachinesGetOperationStatusResponse>;
+    virtualMachinesSubmitDeallocate(locationparameter: string, requestBody: SubmitDeallocateRequest, options?: ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams): Promise<ScheduledActionsVirtualMachinesSubmitDeallocateResponse>;
+    virtualMachinesSubmitHibernate(locationparameter: string, requestBody: SubmitHibernateRequest, options?: ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams): Promise<ScheduledActionsVirtualMachinesSubmitHibernateResponse>;
+    virtualMachinesSubmitStart(locationparameter: string, requestBody: SubmitStartRequest, options?: ScheduledActionsVirtualMachinesSubmitStartOptionalParams): Promise<ScheduledActionsVirtualMachinesSubmitStartResponse>;
 }
 
 // @public
-export interface ScheduledActionsVirtualMachinesCancelOperationsOptionalParams extends OperationOptions {
+export interface ScheduledActionsVirtualMachinesCancelOperationsOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams extends OperationOptions {
+export type ScheduledActionsVirtualMachinesCancelOperationsResponse = CancelOperationsResponse;
+
+// @public
+export interface ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams extends OperationOptions {
+export type ScheduledActionsVirtualMachinesExecuteDeallocateResponse = DeallocateResourceOperationResponse;
+
+// @public
+export interface ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface ScheduledActionsVirtualMachinesExecuteStartOptionalParams extends OperationOptions {
+export type ScheduledActionsVirtualMachinesExecuteHibernateResponse = HibernateResourceOperationResponse;
+
+// @public
+export interface ScheduledActionsVirtualMachinesExecuteStartOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams extends OperationOptions {
+export type ScheduledActionsVirtualMachinesExecuteStartResponse = StartResourceOperationResponse;
+
+// @public
+export interface ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams extends OperationOptions {
+export type ScheduledActionsVirtualMachinesGetOperationErrorsResponse = GetOperationErrorsResponse;
+
+// @public
+export interface ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams extends OperationOptions {
+export type ScheduledActionsVirtualMachinesGetOperationStatusResponse = GetOperationStatusResponse;
+
+// @public
+export interface ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams extends OperationOptions {
+export type ScheduledActionsVirtualMachinesSubmitDeallocateResponse = DeallocateResourceOperationResponse;
+
+// @public
+export interface ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface ScheduledActionsVirtualMachinesSubmitStartOptionalParams extends OperationOptions {
+export type ScheduledActionsVirtualMachinesSubmitHibernateResponse = HibernateResourceOperationResponse;
+
+// @public
+export interface ScheduledActionsVirtualMachinesSubmitStartOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export type ScheduledActionsVirtualMachinesSubmitStartResponse = StartResourceOperationResponse;
 
 // @public
 export interface StartResourceOperationResponse {
@@ -340,7 +392,7 @@ export interface StartResourceOperationResponse {
 
 // @public
 export interface SubmitDeallocateRequest {
-    correlationId: string;
+    correlationid: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
     schedule: Schedule;
@@ -348,7 +400,7 @@ export interface SubmitDeallocateRequest {
 
 // @public
 export interface SubmitHibernateRequest {
-    correlationId: string;
+    correlationid: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
     schedule: Schedule;
@@ -356,7 +408,7 @@ export interface SubmitHibernateRequest {
 
 // @public
 export interface SubmitStartRequest {
-    correlationId: string;
+    correlationid: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
     schedule: Schedule;
