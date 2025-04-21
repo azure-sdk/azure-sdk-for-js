@@ -10,7 +10,7 @@ import {
   SoftwareUpdateConfigurationMachineRunsGetByIdOptionalParams,
   SoftwareUpdateConfigurationMachineRunsGetByIdResponse,
   SoftwareUpdateConfigurationMachineRunsListOptionalParams,
-  SoftwareUpdateConfigurationMachineRunsListResponse
+  SoftwareUpdateConfigurationMachineRunsListResponse,
 } from "../models/index.js";
 
 /** Interface representing a SoftwareUpdateConfigurationMachineRuns. */
@@ -27,7 +27,7 @@ export interface SoftwareUpdateConfigurationMachineRuns {
     resourceGroupName: string,
     automationAccountName: string,
     softwareUpdateConfigurationMachineRunId: string,
-    options?: SoftwareUpdateConfigurationMachineRunsGetByIdOptionalParams
+    options?: SoftwareUpdateConfigurationMachineRunsGetByIdOptionalParams,
   ): Promise<SoftwareUpdateConfigurationMachineRunsGetByIdResponse>;
   /**
    * Return list of software update configuration machine runs
@@ -38,6 +38,6 @@ export interface SoftwareUpdateConfigurationMachineRuns {
   list(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: SoftwareUpdateConfigurationMachineRunsListOptionalParams
+    options?: SoftwareUpdateConfigurationMachineRunsListOptionalParams,
   ): Promise<SoftwareUpdateConfigurationMachineRunsListResponse>;
 }

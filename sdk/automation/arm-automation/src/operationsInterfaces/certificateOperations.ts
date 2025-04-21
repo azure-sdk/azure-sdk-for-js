@@ -18,7 +18,7 @@ import {
   CertificateCreateOrUpdateResponse,
   CertificateUpdateParameters,
   CertificateUpdateOptionalParams,
-  CertificateUpdateResponse
+  CertificateUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface CertificateOperations {
   listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: CertificateListByAutomationAccountOptionalParams
+    options?: CertificateListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<Certificate>;
   /**
    * Delete the certificate.
@@ -46,7 +46,7 @@ export interface CertificateOperations {
     resourceGroupName: string,
     automationAccountName: string,
     certificateName: string,
-    options?: CertificateDeleteOptionalParams
+    options?: CertificateDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieve the certificate identified by certificate name.
@@ -59,7 +59,7 @@ export interface CertificateOperations {
     resourceGroupName: string,
     automationAccountName: string,
     certificateName: string,
-    options?: CertificateGetOptionalParams
+    options?: CertificateGetOptionalParams,
   ): Promise<CertificateGetResponse>;
   /**
    * Create a certificate.
@@ -74,7 +74,7 @@ export interface CertificateOperations {
     automationAccountName: string,
     certificateName: string,
     parameters: CertificateCreateOrUpdateParameters,
-    options?: CertificateCreateOrUpdateOptionalParams
+    options?: CertificateCreateOrUpdateOptionalParams,
   ): Promise<CertificateCreateOrUpdateResponse>;
   /**
    * Update a certificate.
@@ -89,6 +89,6 @@ export interface CertificateOperations {
     automationAccountName: string,
     certificateName: string,
     parameters: CertificateUpdateParameters,
-    options?: CertificateUpdateOptionalParams
+    options?: CertificateUpdateOptionalParams,
   ): Promise<CertificateUpdateResponse>;
 }
