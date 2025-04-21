@@ -1,15 +1,242 @@
 # Release History
-
-## 1.1.1 (Unreleased)
-
+    
+## 1.2.0-beta.1 (2025-04-21)
+Compared with version 1.1.0
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group CustomizationTasks
+  - Added operation group DevCenterCatalogImageDefinitionBuild
+  - Added operation group DevCenterCatalogImageDefinitionBuilds
+  - Added operation group DevCenterCatalogImageDefinitions
+  - Added operation group EncryptionSets
+  - Added operation group ProjectCatalogImageDefinitionBuild
+  - Added operation group ProjectCatalogImageDefinitionBuilds
+  - Added operation group ProjectCatalogImageDefinitions
+  - Added operation group ProjectPolicies
+  - Added operation Images.getByProject
+  - Added operation Images.listByProject
+  - Added operation ImageVersions.getByProject
+  - Added operation ImageVersions.listByProject
+  - Added operation Projects.getInheritedSettings
+  - Added operation Skus.listByProject
+  - Added Interface ActiveHoursConfiguration
+  - Added Interface AzureAiServicesSettings
+  - Added Interface CustomizationTask
+  - Added Interface CustomizationTaskInput
+  - Added Interface CustomizationTaskInstance
+  - Added Interface CustomizationTaskListResult
+  - Added Interface CustomizationTasksGetErrorDetailsOptionalParams
+  - Added Interface CustomizationTasksGetOptionalParams
+  - Added Interface CustomizationTasksListByCatalogNextOptionalParams
+  - Added Interface CustomizationTasksListByCatalogOptionalParams
+  - Added Interface DefinitionParametersItem
+  - Added Interface DevBoxAutoDeleteSettings
+  - Added Interface DevBoxProvisioningSettings
+  - Added Interface DevCenterCatalogImageDefinitionBuildCancelHeaders
+  - Added Interface DevCenterCatalogImageDefinitionBuildCancelOptionalParams
+  - Added Interface DevCenterCatalogImageDefinitionBuildGetBuildDetailsOptionalParams
+  - Added Interface DevCenterCatalogImageDefinitionBuildGetOptionalParams
+  - Added Interface DevCenterCatalogImageDefinitionBuildsListByImageDefinitionNextOptionalParams
+  - Added Interface DevCenterCatalogImageDefinitionBuildsListByImageDefinitionOptionalParams
+  - Added Interface DevCenterCatalogImageDefinitionsBuildImageHeaders
+  - Added Interface DevCenterCatalogImageDefinitionsBuildImageOptionalParams
+  - Added Interface DevCenterCatalogImageDefinitionsGetByDevCenterCatalogOptionalParams
+  - Added Interface DevCenterCatalogImageDefinitionsGetErrorDetailsOptionalParams
+  - Added Interface DevCenterCatalogImageDefinitionsListByDevCenterCatalogNextOptionalParams
+  - Added Interface DevCenterCatalogImageDefinitionsListByDevCenterCatalogOptionalParams
+  - Added Interface DevCenterEncryptionSet
+  - Added Interface DevCenterEncryptionSetProperties
+  - Added Interface DevCenterEncryptionSetUpdateProperties
+  - Added Interface DevCenterNetworkSettings
+  - Added Interface EncryptionSetListResult
+  - Added Interface EncryptionSetsCreateOrUpdateOptionalParams
+  - Added Interface EncryptionSetsDeleteHeaders
+  - Added Interface EncryptionSetsDeleteOptionalParams
+  - Added Interface EncryptionSetsGetOptionalParams
+  - Added Interface EncryptionSetsListNextOptionalParams
+  - Added Interface EncryptionSetsListOptionalParams
+  - Added Interface EncryptionSetsUpdateHeaders
+  - Added Interface EncryptionSetsUpdateOptionalParams
+  - Added Interface EncryptionSetUpdate
+  - Added Interface ImageCreationErrorDetails
+  - Added Interface ImageDefinition
+  - Added Interface ImageDefinitionBuild
+  - Added Interface ImageDefinitionBuildDetails
+  - Added Interface ImageDefinitionBuildListResult
+  - Added Interface ImageDefinitionBuildTask
+  - Added Interface ImageDefinitionBuildTaskGroup
+  - Added Interface ImageDefinitionBuildTaskParametersItem
+  - Added Interface ImageDefinitionListResult
+  - Added Interface ImageDefinitionReference
+  - Added Interface ImagesGetByProjectOptionalParams
+  - Added Interface ImagesListByProjectNextOptionalParams
+  - Added Interface ImagesListByProjectOptionalParams
+  - Added Interface ImageVersionsGetByProjectOptionalParams
+  - Added Interface ImageVersionsListByProjectNextOptionalParams
+  - Added Interface ImageVersionsListByProjectOptionalParams
+  - Added Interface InheritedSettingsForProject
+  - Added Interface LatestImageBuild
+  - Added Interface PoolDevBoxDefinition
+  - Added Interface ProjectCatalogImageDefinitionBuildCancelHeaders
+  - Added Interface ProjectCatalogImageDefinitionBuildCancelOptionalParams
+  - Added Interface ProjectCatalogImageDefinitionBuildGetBuildDetailsOptionalParams
+  - Added Interface ProjectCatalogImageDefinitionBuildGetOptionalParams
+  - Added Interface ProjectCatalogImageDefinitionBuildsListByImageDefinitionNextOptionalParams
+  - Added Interface ProjectCatalogImageDefinitionBuildsListByImageDefinitionOptionalParams
+  - Added Interface ProjectCatalogImageDefinitionsBuildImageHeaders
+  - Added Interface ProjectCatalogImageDefinitionsBuildImageOptionalParams
+  - Added Interface ProjectCatalogImageDefinitionsGetByProjectCatalogOptionalParams
+  - Added Interface ProjectCatalogImageDefinitionsGetErrorDetailsOptionalParams
+  - Added Interface ProjectCatalogImageDefinitionsListByProjectCatalogNextOptionalParams
+  - Added Interface ProjectCatalogImageDefinitionsListByProjectCatalogOptionalParams
+  - Added Interface ProjectCustomizationManagedIdentity
+  - Added Interface ProjectCustomizationSettings
+  - Added Interface ProjectNetworkSettings
+  - Added Interface ProjectPoliciesCreateOrUpdateOptionalParams
+  - Added Interface ProjectPoliciesDeleteHeaders
+  - Added Interface ProjectPoliciesDeleteOptionalParams
+  - Added Interface ProjectPoliciesGetOptionalParams
+  - Added Interface ProjectPoliciesListByDevCenterNextOptionalParams
+  - Added Interface ProjectPoliciesListByDevCenterOptionalParams
+  - Added Interface ProjectPoliciesUpdateHeaders
+  - Added Interface ProjectPoliciesUpdateOptionalParams
+  - Added Interface ProjectPolicy
+  - Added Interface ProjectPolicyListResult
+  - Added Interface ProjectPolicyProperties
+  - Added Interface ProjectPolicyUpdate
+  - Added Interface ProjectPolicyUpdateProperties
+  - Added Interface ProjectsGetInheritedSettingsOptionalParams
+  - Added Interface ResourcePolicy
+  - Added Interface ServerlessGpuSessionsSettings
+  - Added Interface SkusListByProjectNextOptionalParams
+  - Added Interface SkusListByProjectOptionalParams
+  - Added Interface StopOnNoConnectConfiguration
+  - Added Interface WorkspaceStorageSettings
+  - Added Type Alias AutoImageBuildStatus
+  - Added Type Alias AutoStartEnableStatus
+  - Added Type Alias AzureAiServicesMode
+  - Added Type Alias CustomizationTaskInputType
+  - Added Type Alias CustomizationTasksGetErrorDetailsResponse
+  - Added Type Alias CustomizationTasksGetResponse
+  - Added Type Alias CustomizationTasksListByCatalogNextResponse
+  - Added Type Alias CustomizationTasksListByCatalogResponse
+  - Added Type Alias DevBoxDeleteMode
+  - Added Type Alias DevboxDisksEncryptionEnableStatus
+  - Added Type Alias DevBoxTunnelEnableStatus
+  - Added Type Alias DevCenterCatalogImageDefinitionBuildCancelResponse
+  - Added Type Alias DevCenterCatalogImageDefinitionBuildGetBuildDetailsResponse
+  - Added Type Alias DevCenterCatalogImageDefinitionBuildGetResponse
+  - Added Type Alias DevCenterCatalogImageDefinitionBuildsListByImageDefinitionNextResponse
+  - Added Type Alias DevCenterCatalogImageDefinitionBuildsListByImageDefinitionResponse
+  - Added Type Alias DevCenterCatalogImageDefinitionsBuildImageResponse
+  - Added Type Alias DevCenterCatalogImageDefinitionsGetByDevCenterCatalogResponse
+  - Added Type Alias DevCenterCatalogImageDefinitionsGetErrorDetailsResponse
+  - Added Type Alias DevCenterCatalogImageDefinitionsListByDevCenterCatalogNextResponse
+  - Added Type Alias DevCenterCatalogImageDefinitionsListByDevCenterCatalogResponse
+  - Added Type Alias DevCenterResourceType
+  - Added Type Alias EncryptionSetsCreateOrUpdateResponse
+  - Added Type Alias EncryptionSetsDeleteResponse
+  - Added Type Alias EncryptionSetsGetResponse
+  - Added Type Alias EncryptionSetsListNextResponse
+  - Added Type Alias EncryptionSetsListResponse
+  - Added Type Alias EncryptionSetsUpdateResponse
+  - Added Type Alias ImageDefinitionBuildStatus
+  - Added Type Alias ImagesGetByProjectResponse
+  - Added Type Alias ImagesListByProjectNextResponse
+  - Added Type Alias ImagesListByProjectResponse
+  - Added Type Alias ImageVersionsGetByProjectResponse
+  - Added Type Alias ImageVersionsListByProjectNextResponse
+  - Added Type Alias ImageVersionsListByProjectResponse
+  - Added Type Alias InstallAzureMonitorAgentEnableStatus
+  - Added Type Alias KeepAwakeEnableStatus
+  - Added Type Alias MicrosoftHostedNetworkEnableStatus
+  - Added Type Alias PolicyAction
+  - Added Type Alias PoolDevBoxDefinitionType
+  - Added Type Alias ProjectCatalogImageDefinitionBuildCancelResponse
+  - Added Type Alias ProjectCatalogImageDefinitionBuildGetBuildDetailsResponse
+  - Added Type Alias ProjectCatalogImageDefinitionBuildGetResponse
+  - Added Type Alias ProjectCatalogImageDefinitionBuildsListByImageDefinitionNextResponse
+  - Added Type Alias ProjectCatalogImageDefinitionBuildsListByImageDefinitionResponse
+  - Added Type Alias ProjectCatalogImageDefinitionsBuildImageResponse
+  - Added Type Alias ProjectCatalogImageDefinitionsGetByProjectCatalogResponse
+  - Added Type Alias ProjectCatalogImageDefinitionsGetErrorDetailsResponse
+  - Added Type Alias ProjectCatalogImageDefinitionsListByProjectCatalogNextResponse
+  - Added Type Alias ProjectCatalogImageDefinitionsListByProjectCatalogResponse
+  - Added Type Alias ProjectCustomizationIdentityType
+  - Added Type Alias ProjectPoliciesCreateOrUpdateResponse
+  - Added Type Alias ProjectPoliciesDeleteResponse
+  - Added Type Alias ProjectPoliciesGetResponse
+  - Added Type Alias ProjectPoliciesListByDevCenterNextResponse
+  - Added Type Alias ProjectPoliciesListByDevCenterResponse
+  - Added Type Alias ProjectPoliciesUpdateResponse
+  - Added Type Alias ProjectsGetInheritedSettingsResponse
+  - Added Type Alias ServerlessGpuSessionsMode
+  - Added Type Alias SkusListByProjectNextResponse
+  - Added Type Alias SkusListByProjectResponse
+  - Added Type Alias StopOnNoConnectEnableStatus
+  - Added Type Alias UserCustomizationsEnableStatus
+  - Added Type Alias WorkspaceStorageMode
+  - Interface DevCenter has a new optional parameter devBoxProvisioningSettings
+  - Interface DevCenter has a new optional parameter networkSettings
+  - Interface DevCenterUpdate has a new optional parameter devBoxProvisioningSettings
+  - Interface DevCenterUpdate has a new optional parameter networkSettings
+  - Interface DevCenterUpdateProperties has a new optional parameter devBoxProvisioningSettings
+  - Interface DevCenterUpdateProperties has a new optional parameter networkSettings
+  - Interface Pool has a new optional parameter activeHoursConfiguration
+  - Interface Pool has a new optional parameter devBoxDefinition
+  - Interface Pool has a new optional parameter devBoxDefinitionType
+  - Interface Pool has a new optional parameter devBoxTunnelEnableStatus
+  - Interface Pool has a new optional parameter stopOnNoConnect
+  - Interface PoolUpdate has a new optional parameter activeHoursConfiguration
+  - Interface PoolUpdate has a new optional parameter devBoxDefinition
+  - Interface PoolUpdate has a new optional parameter devBoxDefinitionType
+  - Interface PoolUpdate has a new optional parameter devBoxTunnelEnableStatus
+  - Interface PoolUpdate has a new optional parameter stopOnNoConnect
+  - Interface PoolUpdateProperties has a new optional parameter activeHoursConfiguration
+  - Interface PoolUpdateProperties has a new optional parameter devBoxDefinition
+  - Interface PoolUpdateProperties has a new optional parameter devBoxDefinitionType
+  - Interface PoolUpdateProperties has a new optional parameter devBoxTunnelEnableStatus
+  - Interface PoolUpdateProperties has a new optional parameter stopOnNoConnect
+  - Interface Project has a new optional parameter azureAiServicesSettings
+  - Interface Project has a new optional parameter customizationSettings
+  - Interface Project has a new optional parameter devBoxAutoDeleteSettings
+  - Interface Project has a new optional parameter serverlessGpuSessionsSettings
+  - Interface Project has a new optional parameter workspaceStorageSettings
+  - Interface ProjectUpdate has a new optional parameter azureAiServicesSettings
+  - Interface ProjectUpdate has a new optional parameter customizationSettings
+  - Interface ProjectUpdate has a new optional parameter devBoxAutoDeleteSettings
+  - Interface ProjectUpdate has a new optional parameter serverlessGpuSessionsSettings
+  - Interface ProjectUpdate has a new optional parameter workspaceStorageSettings
+  - Interface ProjectUpdateProperties has a new optional parameter azureAiServicesSettings
+  - Interface ProjectUpdateProperties has a new optional parameter customizationSettings
+  - Interface ProjectUpdateProperties has a new optional parameter devBoxAutoDeleteSettings
+  - Interface ProjectUpdateProperties has a new optional parameter serverlessGpuSessionsSettings
+  - Interface ProjectUpdateProperties has a new optional parameter workspaceStorageSettings
+  - Added Enum KnownAutoImageBuildStatus
+  - Added Enum KnownAutoStartEnableStatus
+  - Added Enum KnownAzureAiServicesMode
+  - Added Enum KnownCustomizationTaskInputType
+  - Added Enum KnownDevBoxDeleteMode
+  - Added Enum KnownDevboxDisksEncryptionEnableStatus
+  - Added Enum KnownDevBoxTunnelEnableStatus
+  - Added Enum KnownDevCenterResourceType
+  - Added Enum KnownImageDefinitionBuildStatus
+  - Added Enum KnownInstallAzureMonitorAgentEnableStatus
+  - Added Enum KnownKeepAwakeEnableStatus
+  - Added Enum KnownMicrosoftHostedNetworkEnableStatus
+  - Added Enum KnownPolicyAction
+  - Added Enum KnownPoolDevBoxDefinitionType
+  - Added Enum KnownProjectCustomizationIdentityType
+  - Added Enum KnownServerlessGpuSessionsMode
+  - Added Enum KnownStopOnNoConnectEnableStatus
+  - Added Enum KnownUserCustomizationsEnableStatus
+  - Added Enum KnownWorkspaceStorageMode
+  - Enum KnownCatalogItemType has a new value ImageDefinition
+  - Enum KnownDomainJoinType has a new value None
+  - Enum KnownHealthCheckStatus has a new value Informational
+    
+    
 ## 1.1.0 (2024-04-22)
     
 ### Features Added

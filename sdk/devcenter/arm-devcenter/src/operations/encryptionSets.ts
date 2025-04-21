@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { Schedules } from "../operationsInterfaces/index.js";
+import { EncryptionSets } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -20,29 +20,29 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  Schedule,
-  SchedulesListByPoolNextOptionalParams,
-  SchedulesListByPoolOptionalParams,
-  SchedulesListByPoolResponse,
-  SchedulesGetOptionalParams,
-  SchedulesGetResponse,
-  SchedulesCreateOrUpdateOptionalParams,
-  SchedulesCreateOrUpdateResponse,
-  ScheduleUpdate,
-  SchedulesUpdateOptionalParams,
-  SchedulesUpdateResponse,
-  SchedulesDeleteOptionalParams,
-  SchedulesDeleteResponse,
-  SchedulesListByPoolNextResponse,
+  DevCenterEncryptionSet,
+  EncryptionSetsListNextOptionalParams,
+  EncryptionSetsListOptionalParams,
+  EncryptionSetsListResponse,
+  EncryptionSetsGetOptionalParams,
+  EncryptionSetsGetResponse,
+  EncryptionSetsCreateOrUpdateOptionalParams,
+  EncryptionSetsCreateOrUpdateResponse,
+  EncryptionSetUpdate,
+  EncryptionSetsUpdateOptionalParams,
+  EncryptionSetsUpdateResponse,
+  EncryptionSetsDeleteOptionalParams,
+  EncryptionSetsDeleteResponse,
+  EncryptionSetsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Schedules operations. */
-export class SchedulesImpl implements Schedules {
+/** Class containing EncryptionSets operations. */
+export class EncryptionSetsImpl implements EncryptionSets {
   private readonly client: DevCenterClient;
 
   /**
-   * Initialize a new instance of the class Schedules class.
+   * Initialize a new instance of the class EncryptionSets class.
    * @param client Reference to the service client
    */
   constructor(client: DevCenterClient) {
@@ -50,24 +50,17 @@ export class SchedulesImpl implements Schedules {
   }
 
   /**
-   * Lists schedules for a pool
+   * Lists all encryption sets in the devcenter.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
+   * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
-  public listByPool(
+  public list(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    options?: SchedulesListByPoolOptionalParams,
-  ): PagedAsyncIterableIterator<Schedule> {
-    const iter = this.listByPoolPagingAll(
-      resourceGroupName,
-      projectName,
-      poolName,
-      options,
-    );
+    devCenterName: string,
+    options?: EncryptionSetsListOptionalParams,
+  ): PagedAsyncIterableIterator<DevCenterEncryptionSet> {
+    const iter = this.listPagingAll(resourceGroupName, devCenterName, options);
     return {
       next() {
         return iter.next();
@@ -79,10 +72,9 @@ export class SchedulesImpl implements Schedules {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByPoolPagingPage(
+        return this.listPagingPage(
           resourceGroupName,
-          projectName,
-          poolName,
+          devCenterName,
           options,
           settings,
         );
@@ -90,32 +82,25 @@ export class SchedulesImpl implements Schedules {
     };
   }
 
-  private async *listByPoolPagingPage(
+  private async *listPagingPage(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    options?: SchedulesListByPoolOptionalParams,
+    devCenterName: string,
+    options?: EncryptionSetsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Schedule[]> {
-    let result: SchedulesListByPoolResponse;
+  ): AsyncIterableIterator<DevCenterEncryptionSet[]> {
+    let result: EncryptionSetsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByPool(
-        resourceGroupName,
-        projectName,
-        poolName,
-        options,
-      );
+      result = await this._list(resourceGroupName, devCenterName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByPoolNext(
+      result = await this._listNext(
         resourceGroupName,
-        projectName,
-        poolName,
+        devCenterName,
         continuationToken,
         options,
       );
@@ -126,16 +111,14 @@ export class SchedulesImpl implements Schedules {
     }
   }
 
-  private async *listByPoolPagingAll(
+  private async *listPagingAll(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    options?: SchedulesListByPoolOptionalParams,
-  ): AsyncIterableIterator<Schedule> {
-    for await (const page of this.listByPoolPagingPage(
+    devCenterName: string,
+    options?: EncryptionSetsListOptionalParams,
+  ): AsyncIterableIterator<DevCenterEncryptionSet> {
+    for await (const page of this.listPagingPage(
       resourceGroupName,
-      projectName,
-      poolName,
+      devCenterName,
       options,
     )) {
       yield* page;
@@ -143,71 +126,65 @@ export class SchedulesImpl implements Schedules {
   }
 
   /**
-   * Lists schedules for a pool
+   * Lists all encryption sets in the devcenter.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
+   * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
-  private _listByPool(
+  private _list(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    options?: SchedulesListByPoolOptionalParams,
-  ): Promise<SchedulesListByPoolResponse> {
+    devCenterName: string,
+    options?: EncryptionSetsListOptionalParams,
+  ): Promise<EncryptionSetsListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, poolName, options },
-      listByPoolOperationSpec,
+      { resourceGroupName, devCenterName, options },
+      listOperationSpec,
     );
   }
 
   /**
-   * Gets a schedule resource.
+   * Gets a devcenter encryption set.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param scheduleName The name of the schedule that uniquely identifies it.
+   * @param devCenterName The name of the devcenter.
+   * @param encryptionSetName The name of the devcenter encryption set.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    scheduleName: string,
-    options?: SchedulesGetOptionalParams,
-  ): Promise<SchedulesGetResponse> {
+    devCenterName: string,
+    encryptionSetName: string,
+    options?: EncryptionSetsGetOptionalParams,
+  ): Promise<EncryptionSetsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, poolName, scheduleName, options },
+      { resourceGroupName, devCenterName, encryptionSetName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates or updates a Schedule.
+   * Creates or updates a devcenter encryption set resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param scheduleName The name of the schedule that uniquely identifies it.
-   * @param body Represents a scheduled task
+   * @param devCenterName The name of the devcenter.
+   * @param encryptionSetName The name of the devcenter encryption set.
+   * @param body Represents a devcenter encryption set.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    scheduleName: string,
-    body: Schedule,
-    options?: SchedulesCreateOrUpdateOptionalParams,
+    devCenterName: string,
+    encryptionSetName: string,
+    body: DevCenterEncryptionSet,
+    options?: EncryptionSetsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SchedulesCreateOrUpdateResponse>,
-      SchedulesCreateOrUpdateResponse
+      OperationState<EncryptionSetsCreateOrUpdateResponse>,
+      EncryptionSetsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<SchedulesCreateOrUpdateResponse> => {
+    ): Promise<EncryptionSetsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -246,17 +223,16 @@ export class SchedulesImpl implements Schedules {
       sendOperationFn,
       args: {
         resourceGroupName,
-        projectName,
-        poolName,
-        scheduleName,
+        devCenterName,
+        encryptionSetName,
         body,
         options,
       },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      SchedulesCreateOrUpdateResponse,
-      OperationState<SchedulesCreateOrUpdateResponse>
+      EncryptionSetsCreateOrUpdateResponse,
+      OperationState<EncryptionSetsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -267,27 +243,24 @@ export class SchedulesImpl implements Schedules {
   }
 
   /**
-   * Creates or updates a Schedule.
+   * Creates or updates a devcenter encryption set resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param scheduleName The name of the schedule that uniquely identifies it.
-   * @param body Represents a scheduled task
+   * @param devCenterName The name of the devcenter.
+   * @param encryptionSetName The name of the devcenter encryption set.
+   * @param body Represents a devcenter encryption set.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    scheduleName: string,
-    body: Schedule,
-    options?: SchedulesCreateOrUpdateOptionalParams,
-  ): Promise<SchedulesCreateOrUpdateResponse> {
+    devCenterName: string,
+    encryptionSetName: string,
+    body: DevCenterEncryptionSet,
+    options?: EncryptionSetsCreateOrUpdateOptionalParams,
+  ): Promise<EncryptionSetsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      projectName,
-      poolName,
-      scheduleName,
+      devCenterName,
+      encryptionSetName,
       body,
       options,
     );
@@ -295,31 +268,29 @@ export class SchedulesImpl implements Schedules {
   }
 
   /**
-   * Partially updates a Scheduled.
+   * Partially updates a devcenter encryption set.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param scheduleName The name of the schedule that uniquely identifies it.
-   * @param body Represents a scheduled task.
+   * @param devCenterName The name of the devcenter.
+   * @param encryptionSetName The name of the devcenter encryption set.
+   * @param body Updatable devcenter encryption set properties.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    scheduleName: string,
-    body: ScheduleUpdate,
-    options?: SchedulesUpdateOptionalParams,
+    devCenterName: string,
+    encryptionSetName: string,
+    body: EncryptionSetUpdate,
+    options?: EncryptionSetsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SchedulesUpdateResponse>,
-      SchedulesUpdateResponse
+      OperationState<EncryptionSetsUpdateResponse>,
+      EncryptionSetsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<SchedulesUpdateResponse> => {
+    ): Promise<EncryptionSetsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -358,17 +329,16 @@ export class SchedulesImpl implements Schedules {
       sendOperationFn,
       args: {
         resourceGroupName,
-        projectName,
-        poolName,
-        scheduleName,
+        devCenterName,
+        encryptionSetName,
         body,
         options,
       },
       spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
-      SchedulesUpdateResponse,
-      OperationState<SchedulesUpdateResponse>
+      EncryptionSetsUpdateResponse,
+      OperationState<EncryptionSetsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -379,27 +349,24 @@ export class SchedulesImpl implements Schedules {
   }
 
   /**
-   * Partially updates a Scheduled.
+   * Partially updates a devcenter encryption set.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param scheduleName The name of the schedule that uniquely identifies it.
-   * @param body Represents a scheduled task.
+   * @param devCenterName The name of the devcenter.
+   * @param encryptionSetName The name of the devcenter encryption set.
+   * @param body Updatable devcenter encryption set properties.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    scheduleName: string,
-    body: ScheduleUpdate,
-    options?: SchedulesUpdateOptionalParams,
-  ): Promise<SchedulesUpdateResponse> {
+    devCenterName: string,
+    encryptionSetName: string,
+    body: EncryptionSetUpdate,
+    options?: EncryptionSetsUpdateOptionalParams,
+  ): Promise<EncryptionSetsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      projectName,
-      poolName,
-      scheduleName,
+      devCenterName,
+      encryptionSetName,
       body,
       options,
     );
@@ -407,29 +374,27 @@ export class SchedulesImpl implements Schedules {
   }
 
   /**
-   * Deletes a Scheduled.
+   * Deletes a devcenter encryption set
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param scheduleName The name of the schedule that uniquely identifies it.
+   * @param devCenterName The name of the devcenter.
+   * @param encryptionSetName The name of the devcenter encryption set.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    scheduleName: string,
-    options?: SchedulesDeleteOptionalParams,
+    devCenterName: string,
+    encryptionSetName: string,
+    options?: EncryptionSetsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SchedulesDeleteResponse>,
-      SchedulesDeleteResponse
+      OperationState<EncryptionSetsDeleteResponse>,
+      EncryptionSetsDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<SchedulesDeleteResponse> => {
+    ): Promise<EncryptionSetsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -466,12 +431,12 @@ export class SchedulesImpl implements Schedules {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, projectName, poolName, scheduleName, options },
+      args: { resourceGroupName, devCenterName, encryptionSetName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      SchedulesDeleteResponse,
-      OperationState<SchedulesDeleteResponse>
+      EncryptionSetsDeleteResponse,
+      OperationState<EncryptionSetsDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -482,60 +447,55 @@ export class SchedulesImpl implements Schedules {
   }
 
   /**
-   * Deletes a Scheduled.
+   * Deletes a devcenter encryption set
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param scheduleName The name of the schedule that uniquely identifies it.
+   * @param devCenterName The name of the devcenter.
+   * @param encryptionSetName The name of the devcenter encryption set.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    scheduleName: string,
-    options?: SchedulesDeleteOptionalParams,
-  ): Promise<SchedulesDeleteResponse> {
+    devCenterName: string,
+    encryptionSetName: string,
+    options?: EncryptionSetsDeleteOptionalParams,
+  ): Promise<EncryptionSetsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      projectName,
-      poolName,
-      scheduleName,
+      devCenterName,
+      encryptionSetName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * ListByPoolNext
+   * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param nextLink The nextLink from the previous successful call to the ListByPool method.
+   * @param devCenterName The name of the devcenter.
+   * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  private _listByPoolNext(
+  private _listNext(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
+    devCenterName: string,
     nextLink: string,
-    options?: SchedulesListByPoolNextOptionalParams,
-  ): Promise<SchedulesListByPoolNextResponse> {
+    options?: EncryptionSetsListNextOptionalParams,
+  ): Promise<EncryptionSetsListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, poolName, nextLink, options },
-      listByPoolNextOperationSpec,
+      { resourceGroupName, devCenterName, nextLink, options },
+      listNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByPoolOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}/schedules",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/encryptionSets",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScheduleListResult,
+      bodyMapper: Mappers.EncryptionSetListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -546,141 +506,136 @@ const listByPoolOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName,
-    Parameters.poolName,
+    Parameters.devCenterName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}/schedules/{scheduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/encryptionSets/{encryptionSetName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Schedule,
+      bodyMapper: Mappers.DevCenterEncryptionSet,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName,
-    Parameters.poolName,
-    Parameters.scheduleName,
+    Parameters.devCenterName,
+    Parameters.encryptionSetName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}/schedules/{scheduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/encryptionSets/{encryptionSetName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Schedule,
+      bodyMapper: Mappers.DevCenterEncryptionSet,
     },
     201: {
-      bodyMapper: Mappers.Schedule,
+      bodyMapper: Mappers.DevCenterEncryptionSet,
     },
     202: {
-      bodyMapper: Mappers.Schedule,
+      bodyMapper: Mappers.DevCenterEncryptionSet,
     },
     204: {
-      bodyMapper: Mappers.Schedule,
+      bodyMapper: Mappers.DevCenterEncryptionSet,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body20,
-  queryParameters: [Parameters.apiVersion, Parameters.top],
+  requestBody: Parameters.body2,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName,
-    Parameters.poolName,
-    Parameters.scheduleName,
+    Parameters.devCenterName,
+    Parameters.encryptionSetName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}/schedules/{scheduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/encryptionSets/{encryptionSetName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Schedule,
+      bodyMapper: Mappers.DevCenterEncryptionSet,
     },
     201: {
-      bodyMapper: Mappers.Schedule,
+      bodyMapper: Mappers.DevCenterEncryptionSet,
     },
     202: {
-      bodyMapper: Mappers.Schedule,
+      bodyMapper: Mappers.DevCenterEncryptionSet,
     },
     204: {
-      bodyMapper: Mappers.Schedule,
+      bodyMapper: Mappers.DevCenterEncryptionSet,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body21,
-  queryParameters: [Parameters.apiVersion, Parameters.top],
+  requestBody: Parameters.body3,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName,
-    Parameters.poolName,
-    Parameters.scheduleName,
+    Parameters.devCenterName,
+    Parameters.encryptionSetName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}/schedules/{scheduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/encryptionSets/{encryptionSetName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.SchedulesDeleteHeaders,
+      headersMapper: Mappers.EncryptionSetsDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.SchedulesDeleteHeaders,
+      headersMapper: Mappers.EncryptionSetsDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.SchedulesDeleteHeaders,
+      headersMapper: Mappers.EncryptionSetsDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.SchedulesDeleteHeaders,
+      headersMapper: Mappers.EncryptionSetsDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName,
-    Parameters.poolName,
-    Parameters.scheduleName,
+    Parameters.devCenterName,
+    Parameters.encryptionSetName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByPoolNextOperationSpec: coreClient.OperationSpec = {
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScheduleListResult,
+      bodyMapper: Mappers.EncryptionSetListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -690,9 +645,8 @@ const listByPoolNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.devCenterName,
     Parameters.nextLink,
-    Parameters.projectName,
-    Parameters.poolName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
