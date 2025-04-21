@@ -11,19 +11,20 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
-export type AccessLevel = string;
+export type ActionType = string;
 
 // @public
-export type ActionType = string;
+export interface AdapterPropertyOverrides {
+    jumboPacket?: string;
+    networkDirect?: string;
+    networkDirectTechnology?: string;
+}
 
 // @public
 export interface ArcConnectivityProperties {
     enabled?: boolean;
     serviceConfigurations?: ServiceConfiguration[];
 }
-
-// @public
-export type ArcExtensionState = string;
 
 // @public
 export interface ArcIdentityResponse {
@@ -176,6 +177,20 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
     // (undocumented)
     extensions: Extensions;
     // (undocumented)
+    galleryImagesOperations: GalleryImagesOperations;
+    // (undocumented)
+    guestAgentOperations: GuestAgentOperations;
+    // (undocumented)
+    guestAgents: GuestAgents;
+    // (undocumented)
+    hybridIdentityMetadataOperations: HybridIdentityMetadataOperations;
+    // (undocumented)
+    logicalNetworksOperations: LogicalNetworksOperations;
+    // (undocumented)
+    marketplaceGalleryImagesOperations: MarketplaceGalleryImagesOperations;
+    // (undocumented)
+    networkInterfacesOperations: NetworkInterfacesOperations;
+    // (undocumented)
     offers: Offers;
     // (undocumented)
     operations: Operations;
@@ -186,6 +201,8 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
     // (undocumented)
     skus: Skus;
     // (undocumented)
+    storageContainersOperations: StorageContainersOperations;
+    // (undocumented)
     subscriptionId?: string;
     // (undocumented)
     updateRuns: UpdateRuns;
@@ -193,6 +210,10 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
     updates: Updates;
     // (undocumented)
     updateSummariesOperations: UpdateSummariesOperations;
+    // (undocumented)
+    virtualHardDisksOperations: VirtualHardDisksOperations;
+    // (undocumented)
+    virtualMachineInstances: VirtualMachineInstances;
 }
 
 // @public
@@ -201,6 +222,9 @@ export interface AzureStackHCIClientOptionalParams extends coreClient.ServiceCli
     apiVersion?: string;
     endpoint?: string;
 }
+
+// @public
+export type CloudInitDataSource = string;
 
 // @public
 export interface Cluster extends TrackedResource {
@@ -216,11 +240,9 @@ export interface Cluster extends TrackedResource {
     readonly isolatedVmAttestationConfiguration?: IsolatedVmAttestationConfiguration;
     readonly lastBillingTimestamp?: Date;
     readonly lastSyncTimestamp?: Date;
-    logCollectionProperties?: LogCollectionProperties;
     readonly principalId?: string;
     readonly provisioningState?: ProvisioningState;
     readonly registrationTimestamp?: Date;
-    remoteSupportProperties?: RemoteSupportProperties;
     readonly reportedProperties?: ClusterReportedProperties;
     readonly resourceProviderObjectId?: string;
     readonly serviceEndpoint?: string;
@@ -314,16 +336,12 @@ export interface ClusterReportedProperties {
 
 // @public
 export interface Clusters {
-    beginConfigureRemoteSupport(resourceGroupName: string, clusterName: string, remoteSupportRequest: RemoteSupportRequest, options?: ClustersConfigureRemoteSupportOptionalParams): Promise<SimplePollerLike<OperationState<ClustersConfigureRemoteSupportResponse>, ClustersConfigureRemoteSupportResponse>>;
-    beginConfigureRemoteSupportAndWait(resourceGroupName: string, clusterName: string, remoteSupportRequest: RemoteSupportRequest, options?: ClustersConfigureRemoteSupportOptionalParams): Promise<ClustersConfigureRemoteSupportResponse>;
     beginCreateIdentity(resourceGroupName: string, clusterName: string, options?: ClustersCreateIdentityOptionalParams): Promise<SimplePollerLike<OperationState<ClustersCreateIdentityResponse>, ClustersCreateIdentityResponse>>;
     beginCreateIdentityAndWait(resourceGroupName: string, clusterName: string, options?: ClustersCreateIdentityOptionalParams): Promise<ClustersCreateIdentityResponse>;
     beginDelete(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<void>;
     beginExtendSoftwareAssuranceBenefit(resourceGroupName: string, clusterName: string, softwareAssuranceChangeRequest: SoftwareAssuranceChangeRequest, options?: ClustersExtendSoftwareAssuranceBenefitOptionalParams): Promise<SimplePollerLike<OperationState<ClustersExtendSoftwareAssuranceBenefitResponse>, ClustersExtendSoftwareAssuranceBenefitResponse>>;
     beginExtendSoftwareAssuranceBenefitAndWait(resourceGroupName: string, clusterName: string, softwareAssuranceChangeRequest: SoftwareAssuranceChangeRequest, options?: ClustersExtendSoftwareAssuranceBenefitOptionalParams): Promise<ClustersExtendSoftwareAssuranceBenefitResponse>;
-    beginTriggerLogCollection(resourceGroupName: string, clusterName: string, logCollectionRequest: LogCollectionRequest, options?: ClustersTriggerLogCollectionOptionalParams): Promise<SimplePollerLike<OperationState<ClustersTriggerLogCollectionResponse>, ClustersTriggerLogCollectionResponse>>;
-    beginTriggerLogCollectionAndWait(resourceGroupName: string, clusterName: string, logCollectionRequest: LogCollectionRequest, options?: ClustersTriggerLogCollectionOptionalParams): Promise<ClustersTriggerLogCollectionResponse>;
     beginUploadCertificate(resourceGroupName: string, clusterName: string, uploadCertificateRequest: UploadCertificateRequest, options?: ClustersUploadCertificateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginUploadCertificateAndWait(resourceGroupName: string, clusterName: string, uploadCertificateRequest: UploadCertificateRequest, options?: ClustersUploadCertificateOptionalParams): Promise<void>;
     create(resourceGroupName: string, clusterName: string, cluster: Cluster, options?: ClustersCreateOptionalParams): Promise<ClustersCreateResponse>;
@@ -332,21 +350,6 @@ export interface Clusters {
     listBySubscription(options?: ClustersListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Cluster>;
     update(resourceGroupName: string, clusterName: string, cluster: ClusterPatch, options?: ClustersUpdateOptionalParams): Promise<ClustersUpdateResponse>;
 }
-
-// @public
-export interface ClustersConfigureRemoteSupportHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface ClustersConfigureRemoteSupportOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ClustersConfigureRemoteSupportResponse = Cluster;
 
 // @public
 export interface ClustersCreateIdentityOptionalParams extends coreClient.OperationOptions {
@@ -415,21 +418,6 @@ export interface ClustersListBySubscriptionOptionalParams extends coreClient.Ope
 export type ClustersListBySubscriptionResponse = ClusterList;
 
 // @public
-export interface ClustersTriggerLogCollectionHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface ClustersTriggerLogCollectionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ClustersTriggerLogCollectionResponse = Cluster;
-
-// @public
 export interface ClustersUpdateOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -480,14 +468,12 @@ export interface DeploymentData {
     adouPath?: string;
     cluster?: DeploymentCluster;
     domainFqdn?: string;
-    hostNetwork?: DeploymentSettingHostNetwork;
+    hostNetwork?: HostNetwork;
     infrastructureNetwork?: InfrastructureNetwork[];
     namingPrefix?: string;
     observability?: Observability;
     optionalServices?: OptionalServices;
     physicalNodes?: PhysicalNodes[];
-    sdnIntegration?: SdnIntegration;
-    secrets?: EceDeploymentSecrets[];
     secretsLocation?: string;
     securitySettings?: DeploymentSecuritySettings;
     storage?: Storage_2;
@@ -515,37 +501,8 @@ export interface DeploymentSetting extends ProxyResource {
     arcNodeResourceIds?: string[];
     deploymentConfiguration?: DeploymentConfiguration;
     deploymentMode?: DeploymentMode;
-    operationType?: OperationType;
-    readonly provisioningState?: ProvisioningState;
-    readonly reportedProperties?: EceReportedProperties;
-}
-
-// @public
-export interface DeploymentSettingAdapterPropertyOverrides {
-    jumboPacket?: string;
-    networkDirect?: string;
-    networkDirectTechnology?: string;
-}
-
-// @public
-export interface DeploymentSettingHostNetwork {
-    enableStorageAutoIp?: boolean;
-    intents?: DeploymentSettingIntents[];
-    storageConnectivitySwitchless?: boolean;
-    storageNetworks?: DeploymentSettingStorageNetworks[];
-}
-
-// @public
-export interface DeploymentSettingIntents {
-    adapter?: string[];
-    adapterPropertyOverrides?: DeploymentSettingAdapterPropertyOverrides;
-    name?: string;
-    overrideAdapterProperty?: boolean;
-    overrideQosPolicy?: boolean;
-    overrideVirtualSwitchConfiguration?: boolean;
-    qosPolicyOverrides?: QosPolicyOverrides;
-    trafficType?: string[];
-    virtualSwitchConfigurationOverrides?: DeploymentSettingVirtualSwitchConfigurationOverrides;
+    provisioningState?: ProvisioningState;
+    readonly reportedProperties?: ReportedProperties;
 }
 
 // @public
@@ -615,24 +572,9 @@ export interface DeploymentSettingsListByClustersOptionalParams extends coreClie
 export type DeploymentSettingsListByClustersResponse = DeploymentSettingListResult;
 
 // @public
-export interface DeploymentSettingStorageAdapterIPInfo {
-    ipv4Address?: string;
-    physicalNode?: string;
-    subnetMask?: string;
-}
-
-// @public
-export interface DeploymentSettingStorageNetworks {
-    name?: string;
-    networkAdapterName?: string;
-    storageAdapterIPInfo?: DeploymentSettingStorageAdapterIPInfo[];
-    vlanId?: string;
-}
-
-// @public
-export interface DeploymentSettingVirtualSwitchConfigurationOverrides {
-    enableIov?: string;
-    loadBalancingAlgorithm?: string;
+export interface DeploymentStatus {
+    readonly status?: string;
+    readonly steps?: DeploymentStep[];
 }
 
 // @public
@@ -654,63 +596,33 @@ export interface DeviceConfiguration {
 }
 
 // @public
-export type DeviceKind = string;
-
-// @public
-export type DeviceState = string;
-
-// @public
 export type DiagnosticLevel = string;
 
 // @public
-export interface EceActionStatus {
-    readonly status?: string;
-    readonly steps?: DeploymentStep[];
-}
-
-// @public
-export interface EceDeploymentSecrets {
-    eceSecretName?: EceSecrets;
-    secretLocation?: string;
-    secretName?: string;
-}
-
-// @public
-export interface EceReportedProperties {
-    readonly deploymentStatus?: EceActionStatus;
-    readonly validationStatus?: EceActionStatus;
-}
-
-// @public
-export type EceSecrets = string;
+export type DiskFileFormat = string;
 
 // @public
 export interface EdgeDevice extends ProxyResource {
-    kind: DeviceKind;
+    deviceConfiguration?: DeviceConfiguration;
+    provisioningState?: ProvisioningState;
 }
 
 // @public
 export interface EdgeDeviceListResult {
     nextLink?: string;
-    value: EdgeDeviceUnion[];
-}
-
-// @public
-export interface EdgeDeviceProperties {
-    deviceConfiguration?: DeviceConfiguration;
-    readonly provisioningState?: ProvisioningState;
+    value: EdgeDevice[];
 }
 
 // @public
 export interface EdgeDevices {
-    beginCreateOrUpdate(resourceUri: string, edgeDeviceName: string, resource: EdgeDeviceUnion, options?: EdgeDevicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<EdgeDevicesCreateOrUpdateResponse>, EdgeDevicesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceUri: string, edgeDeviceName: string, resource: EdgeDeviceUnion, options?: EdgeDevicesCreateOrUpdateOptionalParams): Promise<EdgeDevicesCreateOrUpdateResponse>;
+    beginCreateOrUpdate(resourceUri: string, edgeDeviceName: string, resource: EdgeDevice, options?: EdgeDevicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<EdgeDevicesCreateOrUpdateResponse>, EdgeDevicesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceUri: string, edgeDeviceName: string, resource: EdgeDevice, options?: EdgeDevicesCreateOrUpdateOptionalParams): Promise<EdgeDevicesCreateOrUpdateResponse>;
     beginDelete(resourceUri: string, edgeDeviceName: string, options?: EdgeDevicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<EdgeDevicesDeleteResponse>, EdgeDevicesDeleteResponse>>;
     beginDeleteAndWait(resourceUri: string, edgeDeviceName: string, options?: EdgeDevicesDeleteOptionalParams): Promise<EdgeDevicesDeleteResponse>;
     beginValidate(resourceUri: string, edgeDeviceName: string, validateRequest: ValidateRequest, options?: EdgeDevicesValidateOptionalParams): Promise<SimplePollerLike<OperationState<EdgeDevicesValidateResponse>, EdgeDevicesValidateResponse>>;
     beginValidateAndWait(resourceUri: string, edgeDeviceName: string, validateRequest: ValidateRequest, options?: EdgeDevicesValidateOptionalParams): Promise<EdgeDevicesValidateResponse>;
     get(resourceUri: string, edgeDeviceName: string, options?: EdgeDevicesGetOptionalParams): Promise<EdgeDevicesGetResponse>;
-    list(resourceUri: string, options?: EdgeDevicesListOptionalParams): PagedAsyncIterableIterator<EdgeDeviceUnion>;
+    list(resourceUri: string, options?: EdgeDevicesListOptionalParams): PagedAsyncIterableIterator<EdgeDevice>;
 }
 
 // @public
@@ -725,7 +637,7 @@ export interface EdgeDevicesCreateOrUpdateOptionalParams extends coreClient.Oper
 }
 
 // @public
-export type EdgeDevicesCreateOrUpdateResponse = EdgeDeviceUnion;
+export type EdgeDevicesCreateOrUpdateResponse = EdgeDevice;
 
 // @public
 export interface EdgeDevicesDeleteHeaders {
@@ -747,7 +659,7 @@ export interface EdgeDevicesGetOptionalParams extends coreClient.OperationOption
 }
 
 // @public
-export type EdgeDevicesGetResponse = EdgeDeviceUnion;
+export type EdgeDevicesGetResponse = EdgeDevice;
 
 // @public
 export interface EdgeDevicesListNextOptionalParams extends coreClient.OperationOptions {
@@ -778,9 +690,6 @@ export interface EdgeDevicesValidateOptionalParams extends coreClient.OperationO
 // @public
 export type EdgeDevicesValidateResponse = ValidateResponse;
 
-// @public (undocumented)
-export type EdgeDeviceUnion = EdgeDevice | HciEdgeDevice;
-
 // @public
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, unknown>;
@@ -800,6 +709,15 @@ export interface ErrorDetail {
 export interface ErrorResponse {
     error?: ErrorDetail;
 }
+
+// @public
+export interface ExtendedLocation {
+    name?: string;
+    type?: ExtendedLocationTypes;
+}
+
+// @public
+export type ExtendedLocationTypes = string;
 
 // @public
 export interface Extension extends ProxyResource {
@@ -857,11 +775,6 @@ export interface ExtensionPatchParameters {
     protectedSettings?: Record<string, unknown>;
     settings?: Record<string, unknown>;
     typeHandlerVersion?: string;
-}
-
-// @public
-export interface ExtensionProfile {
-    readonly extensions?: HciEdgeDeviceArcExtension[];
 }
 
 // @public
@@ -935,132 +848,337 @@ export interface ExtensionUpgradeParameters {
 }
 
 // @public
+export interface GalleryDiskImage {
+    readonly sizeInMB?: number;
+}
+
+// @public
+export interface GalleryImageIdentifier {
+    offer: string;
+    publisher: string;
+    sku: string;
+}
+
+// @public
+export interface GalleryImages extends TrackedResource {
+    cloudInitDataSource?: CloudInitDataSource;
+    containerId?: string;
+    extendedLocation?: ExtendedLocation;
+    hyperVGeneration?: HyperVGeneration;
+    identifier?: GalleryImageIdentifier;
+    imagePath?: string;
+    osType?: OperatingSystemTypes;
+    readonly provisioningState?: ProvisioningStateEnum;
+    readonly status?: GalleryImageStatus;
+    version?: GalleryImageVersion;
+}
+
+// @public
+export interface GalleryImagesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GalleryImagesCreateOrUpdateResponse = GalleryImages;
+
+// @public
+export interface GalleryImagesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface GalleryImagesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GalleryImagesDeleteResponse = GalleryImagesDeleteHeaders;
+
+// @public
+export interface GalleryImagesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GalleryImagesGetResponse = GalleryImages;
+
+// @public
+export interface GalleryImagesListAllNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GalleryImagesListAllNextResponse = GalleryImagesListResult;
+
+// @public
+export interface GalleryImagesListAllOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GalleryImagesListAllResponse = GalleryImagesListResult;
+
+// @public
+export interface GalleryImagesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GalleryImagesListNextResponse = GalleryImagesListResult;
+
+// @public
+export interface GalleryImagesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GalleryImagesListResponse = GalleryImagesListResult;
+
+// @public
+export interface GalleryImagesListResult {
+    readonly nextLink?: string;
+    // (undocumented)
+    value?: GalleryImages[];
+}
+
+// @public
+export interface GalleryImagesOperations {
+    beginCreateOrUpdate(resourceGroupName: string, galleryImageName: string, galleryImages: GalleryImages, options?: GalleryImagesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryImagesCreateOrUpdateResponse>, GalleryImagesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryImageName: string, galleryImages: GalleryImages, options?: GalleryImagesCreateOrUpdateOptionalParams): Promise<GalleryImagesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, galleryImageName: string, options?: GalleryImagesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<GalleryImagesDeleteResponse>, GalleryImagesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, galleryImageName: string, options?: GalleryImagesDeleteOptionalParams): Promise<GalleryImagesDeleteResponse>;
+    beginUpdate(resourceGroupName: string, galleryImageName: string, galleryImages: GalleryImagesUpdateRequest, options?: GalleryImagesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryImagesUpdateResponse>, GalleryImagesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, galleryImageName: string, galleryImages: GalleryImagesUpdateRequest, options?: GalleryImagesUpdateOptionalParams): Promise<GalleryImagesUpdateResponse>;
+    get(resourceGroupName: string, galleryImageName: string, options?: GalleryImagesGetOptionalParams): Promise<GalleryImagesGetResponse>;
+    list(resourceGroupName: string, options?: GalleryImagesListOptionalParams): PagedAsyncIterableIterator<GalleryImages>;
+    listAll(options?: GalleryImagesListAllOptionalParams): PagedAsyncIterableIterator<GalleryImages>;
+}
+
+// @public
+export interface GalleryImageStatus {
+    downloadStatus?: GalleryImageStatusDownloadStatus;
+    errorCode?: string;
+    errorMessage?: string;
+    progressPercentage?: number;
+    // (undocumented)
+    provisioningStatus?: GalleryImageStatusProvisioningStatus;
+}
+
+// @public
+export interface GalleryImageStatusDownloadStatus {
+    downloadSizeInMB?: number;
+}
+
+// @public (undocumented)
+export interface GalleryImageStatusProvisioningStatus {
+    operationId?: string;
+    status?: Status;
+}
+
+// @public
+export interface GalleryImagesUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface GalleryImagesUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface GalleryImagesUpdateRequest {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export type GalleryImagesUpdateResponse = GalleryImages;
+
+// @public
+export interface GalleryImageVersion {
+    name?: string;
+    storageProfile?: GalleryImageVersionStorageProfile;
+}
+
+// @public
+export interface GalleryImageVersionStorageProfile {
+    osDiskImage?: GalleryOSDiskImage;
+}
+
+// @public
+export interface GalleryOSDiskImage extends GalleryDiskImage {
+}
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
-export interface HciEdgeDevice extends EdgeDevice {
-    kind: "HCI";
-    properties?: HciEdgeDeviceProperties;
+export interface GuestAgent extends ProxyResource {
+    credentials?: GuestCredential;
+    provisioningAction?: ProvisioningAction;
+    readonly provisioningState?: string;
+    readonly status?: string;
 }
 
 // @public
-export interface HciEdgeDeviceAdapterPropertyOverrides {
-    readonly jumboPacket?: string;
-    readonly networkDirect?: string;
-    readonly networkDirectTechnology?: string;
+export interface GuestAgentCreateOptionalParams extends coreClient.OperationOptions {
+    body?: GuestAgent;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export interface HciEdgeDeviceArcExtension {
-    readonly errorDetails?: HciValidationFailureDetail[];
-    readonly extensionName?: string;
-    readonly extensionResourceId?: string;
-    readonly managedBy?: ExtensionManagedBy;
-    readonly state?: ArcExtensionState;
-    readonly typeHandlerVersion?: string;
+export type GuestAgentCreateResponse = GuestAgent;
+
+// @public
+export interface GuestAgentDeleteHeaders {
+    // (undocumented)
+    location?: string;
 }
 
 // @public
-export interface HciEdgeDeviceHostNetwork {
-    readonly enableStorageAutoIp?: boolean;
-    readonly intents?: HciEdgeDeviceIntents[];
-    readonly storageConnectivitySwitchless?: boolean;
-    readonly storageNetworks?: HciEdgeDeviceStorageNetworks[];
+export interface GuestAgentDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export interface HciEdgeDeviceIntents {
-    readonly adapterPropertyOverrides?: HciEdgeDeviceAdapterPropertyOverrides;
-    readonly intentAdapters?: string[];
-    readonly intentName?: string;
-    readonly intentType?: number;
-    readonly isComputeIntentSet?: boolean;
-    readonly isManagementIntentSet?: boolean;
-    readonly isNetworkIntentType?: boolean;
-    readonly isOnlyStorage?: boolean;
-    readonly isOnlyStretch?: boolean;
-    readonly isStorageIntentSet?: boolean;
-    readonly isStretchIntentSet?: boolean;
-    readonly overrideAdapterProperty?: boolean;
-    readonly overrideQosPolicy?: boolean;
-    readonly overrideVirtualSwitchConfiguration?: boolean;
-    readonly qosPolicyOverrides?: QosPolicyOverrides;
-    readonly scope?: number;
-    readonly virtualSwitchConfigurationOverrides?: HciEdgeDeviceVirtualSwitchConfigurationOverrides;
+export type GuestAgentDeleteResponse = GuestAgentDeleteHeaders;
+
+// @public
+export interface GuestAgentGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface HciEdgeDeviceProperties extends EdgeDeviceProperties {
-    readonly reportedProperties?: HciReportedProperties;
+export type GuestAgentGetResponse = GuestAgent;
+
+// @public
+export interface GuestAgentInstallStatus {
+    readonly agentVersion?: string;
+    readonly errorDetails?: ErrorDetail[];
+    readonly lastStatusChange?: Date;
+    readonly status?: StatusTypes;
+    readonly vmUuid?: string;
 }
 
 // @public
-export interface HciEdgeDeviceStorageAdapterIPInfo {
-    readonly ipv4Address?: string;
-    readonly physicalNode?: string;
-    readonly subnetMask?: string;
+export interface GuestAgentList {
+    nextLink?: string;
+    value: GuestAgent[];
 }
 
 // @public
-export interface HciEdgeDeviceStorageNetworks {
-    readonly name?: string;
-    readonly networkAdapterName?: string;
-    readonly storageAdapterIPInfo?: HciEdgeDeviceStorageAdapterIPInfo[];
-    readonly storageVlanId?: string;
+export interface GuestAgentOperations {
+    beginCreate(resourceUri: string, options?: GuestAgentCreateOptionalParams): Promise<SimplePollerLike<OperationState<GuestAgentCreateResponse>, GuestAgentCreateResponse>>;
+    beginCreateAndWait(resourceUri: string, options?: GuestAgentCreateOptionalParams): Promise<GuestAgentCreateResponse>;
+    beginDelete(resourceUri: string, options?: GuestAgentDeleteOptionalParams): Promise<SimplePollerLike<OperationState<GuestAgentDeleteResponse>, GuestAgentDeleteResponse>>;
+    beginDeleteAndWait(resourceUri: string, options?: GuestAgentDeleteOptionalParams): Promise<GuestAgentDeleteResponse>;
+    get(resourceUri: string, options?: GuestAgentGetOptionalParams): Promise<GuestAgentGetResponse>;
 }
 
 // @public
-export interface HciEdgeDeviceVirtualSwitchConfigurationOverrides {
-    readonly enableIov?: string;
-    readonly loadBalancingAlgorithm?: string;
+export interface GuestAgents {
+    list(resourceUri: string, options?: GuestAgentsListOptionalParams): PagedAsyncIterableIterator<GuestAgent>;
 }
 
 // @public
-export interface HciNetworkProfile {
-    readonly hostNetwork?: HciEdgeDeviceHostNetwork;
-    readonly nicDetails?: HciNicDetail[];
-    readonly switchDetails?: SwitchDetail[];
+export interface GuestAgentsListNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface HciNicDetail {
-    readonly adapterName?: string;
-    readonly componentId?: string;
-    readonly defaultGateway?: string;
-    readonly defaultIsolationId?: string;
-    readonly dnsServers?: string[];
-    readonly driverVersion?: string;
-    readonly interfaceDescription?: string;
-    readonly ip4Address?: string;
-    readonly macAddress?: string;
-    readonly nicStatus?: string;
-    readonly nicType?: string;
-    readonly slot?: string;
-    readonly subnetMask?: string;
-    readonly switchName?: string;
-    readonly vlanId?: string;
+export type GuestAgentsListNextResponse = GuestAgentList;
+
+// @public
+export interface GuestAgentsListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface HciOsProfile {
-    readonly assemblyVersion?: string;
-    readonly bootType?: string;
+export type GuestAgentsListResponse = GuestAgentList;
+
+// @public
+export interface GuestCredential {
+    password?: string;
+    username?: string;
 }
 
 // @public
-export interface HciReportedProperties extends ReportedProperties {
-    readonly networkProfile?: HciNetworkProfile;
-    readonly osProfile?: HciOsProfile;
-    readonly sbeDeploymentPackageInfo?: SbeDeploymentPackageInfo;
-}
-
-// @public
-export interface HciValidationFailureDetail {
-    readonly exception?: string;
+export interface HardwareProfileUpdate {
+    memoryMB?: number;
+    processors?: number;
+    // (undocumented)
+    vmSize?: VmSizeEnum;
 }
 
 // @public
 export type HealthState = string;
+
+// @public
+export interface HostNetwork {
+    enableStorageAutoIp?: boolean;
+    intents?: Intents[];
+    storageConnectivitySwitchless?: boolean;
+    storageNetworks?: StorageNetworks[];
+}
+
+// @public
+export interface HttpProxyConfiguration {
+    httpProxy?: string;
+    httpsProxy?: string;
+    noProxy?: string[];
+    trustedCa?: string;
+}
+
+// @public
+export interface HybridIdentityMetadata extends ProxyResource {
+    readonly identity?: Identity;
+    readonly provisioningState?: string;
+    publicKey?: string;
+    resourceUid?: string;
+}
+
+// @public
+export interface HybridIdentityMetadataGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HybridIdentityMetadataGetResponse = HybridIdentityMetadata;
+
+// @public
+export interface HybridIdentityMetadataList {
+    nextLink?: string;
+    value: HybridIdentityMetadata[];
+}
+
+// @public
+export interface HybridIdentityMetadataListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HybridIdentityMetadataListNextResponse = HybridIdentityMetadataList;
+
+// @public
+export interface HybridIdentityMetadataListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HybridIdentityMetadataListResponse = HybridIdentityMetadataList;
+
+// @public
+export interface HybridIdentityMetadataOperations {
+    get(resourceUri: string, options?: HybridIdentityMetadataGetOptionalParams): Promise<HybridIdentityMetadataGetResponse>;
+    list(resourceUri: string, options?: HybridIdentityMetadataListOptionalParams): PagedAsyncIterableIterator<HybridIdentityMetadata>;
+}
+
+// @public
+export type HyperVGeneration = string;
+
+// @public
+export interface Identity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type?: "SystemAssigned";
+}
 
 // @public
 export type ImdsAttestation = string;
@@ -1075,10 +1193,78 @@ export interface InfrastructureNetwork {
 }
 
 // @public
+export interface InstanceViewStatus {
+    code?: string;
+    displayStatus?: string;
+    level?: StatusLevelTypes;
+    message?: string;
+    time?: Date;
+}
+
+// @public
+export interface Intents {
+    adapter?: string[];
+    adapterPropertyOverrides?: AdapterPropertyOverrides;
+    name?: string;
+    overrideAdapterProperty?: boolean;
+    overrideQosPolicy?: boolean;
+    overrideVirtualSwitchConfiguration?: boolean;
+    qosPolicyOverrides?: QosPolicyOverrides;
+    trafficType?: string[];
+    virtualSwitchConfigurationOverrides?: VirtualSwitchConfigurationOverrides;
+}
+
+// @public (undocumented)
+export interface InterfaceDNSSettings {
+    dnsServers?: string[];
+}
+
+// @public
+export type IpAllocationMethodEnum = string;
+
+// @public
+export interface IPConfiguration {
+    name?: string;
+    properties?: IPConfigurationProperties;
+}
+
+// @public
+export interface IPConfigurationProperties {
+    readonly gateway?: string;
+    readonly prefixLength?: string;
+    privateIPAddress?: string;
+    subnet?: IPConfigurationPropertiesSubnet;
+}
+
+// @public
+export interface IPConfigurationPropertiesSubnet {
+    id?: string;
+}
+
+// @public (undocumented)
+export interface IPPool {
+    end?: string;
+    // (undocumented)
+    info?: IPPoolInfo;
+    ipPoolType?: IPPoolTypeEnum;
+    name?: string;
+    start?: string;
+}
+
+// @public (undocumented)
+export interface IPPoolInfo {
+    readonly available?: string;
+    readonly used?: string;
+}
+
+// @public
 export interface IpPools {
     endingAddress?: string;
     startingAddress?: string;
 }
+
+// @public
+export type IPPoolTypeEnum = "vm" | "vippool";
 
 // @public
 export interface IsolatedVmAttestationConfiguration {
@@ -1088,28 +1274,8 @@ export interface IsolatedVmAttestationConfiguration {
 }
 
 // @public
-export enum KnownAccessLevel {
-    Diagnostics = "Diagnostics",
-    DiagnosticsAndRepair = "DiagnosticsAndRepair"
-}
-
-// @public
 export enum KnownActionType {
     Internal = "Internal"
-}
-
-// @public
-export enum KnownArcExtensionState {
-    Accepted = "Accepted",
-    Canceled = "Canceled",
-    Creating = "Creating",
-    Deleted = "Deleted",
-    Deleting = "Deleting",
-    Failed = "Failed",
-    Moving = "Moving",
-    NotSpecified = "NotSpecified",
-    Succeeded = "Succeeded",
-    Updating = "Updating"
 }
 
 // @public
@@ -1139,6 +1305,12 @@ export enum KnownAvailabilityType {
     Local = "Local",
     Notify = "Notify",
     Online = "Online"
+}
+
+// @public
+export enum KnownCloudInitDataSource {
+    Azure = "Azure",
+    NoCloud = "NoCloud"
 }
 
 // @public
@@ -1185,23 +1357,6 @@ export enum KnownDeploymentMode {
 }
 
 // @public
-export enum KnownDeviceKind {
-    HCI = "HCI"
-}
-
-// @public
-export enum KnownDeviceState {
-    Connected = "Connected",
-    Disconnected = "Disconnected",
-    Draining = "Draining",
-    InMaintenance = "InMaintenance",
-    NotSpecified = "NotSpecified",
-    Processing = "Processing",
-    Repairing = "Repairing",
-    Resuming = "Resuming"
-}
-
-// @public
 export enum KnownDiagnosticLevel {
     Basic = "Basic",
     Enhanced = "Enhanced",
@@ -1209,11 +1364,14 @@ export enum KnownDiagnosticLevel {
 }
 
 // @public
-export enum KnownEceSecrets {
-    AzureStackLCMUserCredential = "AzureStackLCMUserCredential",
-    DefaultARBApplication = "DefaultARBApplication",
-    LocalAdminCredential = "LocalAdminCredential",
-    WitnessStorageKey = "WitnessStorageKey"
+export enum KnownDiskFileFormat {
+    Vhd = "vhd",
+    Vhdx = "vhdx"
+}
+
+// @public
+export enum KnownExtendedLocationTypes {
+    CustomLocation = "CustomLocation"
 }
 
 // @public
@@ -1255,23 +1413,21 @@ export enum KnownHealthState {
 }
 
 // @public
+export enum KnownHyperVGeneration {
+    V1 = "V1",
+    V2 = "V2"
+}
+
+// @public
 export enum KnownImdsAttestation {
     Disabled = "Disabled",
     Enabled = "Enabled"
 }
 
 // @public
-export enum KnownLogCollectionJobType {
-    OnDemand = "OnDemand",
-    Scheduled = "Scheduled"
-}
-
-// @public
-export enum KnownLogCollectionStatus {
-    Failed = "Failed",
-    InProgress = "InProgress",
-    None = "None",
-    Succeeded = "Succeeded"
+export enum KnownIpAllocationMethodEnum {
+    Dynamic = "Dynamic",
+    Static = "Static"
 }
 
 // @public
@@ -1332,16 +1488,28 @@ export enum KnownOemActivation {
 }
 
 // @public
-export enum KnownOperationType {
-    ClusterProvisioning = "ClusterProvisioning",
-    ClusterUpgrade = "ClusterUpgrade"
-}
-
-// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
+}
+
+// @public
+export enum KnownPowerStateEnum {
+    Deallocated = "Deallocated",
+    Deallocating = "Deallocating",
+    Running = "Running",
+    Starting = "Starting",
+    Stopped = "Stopped",
+    Stopping = "Stopping",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownProvisioningAction {
+    Install = "install",
+    Repair = "repair",
+    Uninstall = "uninstall"
 }
 
 // @public
@@ -1367,6 +1535,16 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownProvisioningStateEnum {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownRebootRequirement {
     False = "False",
     True = "True",
@@ -1374,9 +1552,9 @@ export enum KnownRebootRequirement {
 }
 
 // @public
-export enum KnownRemoteSupportType {
-    Enable = "Enable",
-    Revoke = "Revoke"
+export enum KnownSecurityTypes {
+    ConfidentialVM = "ConfidentialVM",
+    TrustedLaunch = "TrustedLaunch"
 }
 
 // @public
@@ -1454,6 +1632,13 @@ export enum KnownStatusLevelTypes {
 }
 
 // @public
+export enum KnownStatusTypes {
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownUpdateRunPropertiesState {
     Failed = "Failed",
     InProgress = "InProgress",
@@ -1474,68 +1659,448 @@ export enum KnownUpdateSummariesPropertiesState {
 }
 
 // @public
+export enum KnownVmSizeEnum {
+    Custom = "Custom",
+    Default = "Default",
+    StandardA2V2 = "Standard_A2_v2",
+    StandardA4V2 = "Standard_A4_v2",
+    StandardD16SV3 = "Standard_D16s_v3",
+    StandardD2SV3 = "Standard_D2s_v3",
+    StandardD32SV3 = "Standard_D32s_v3",
+    StandardD4SV3 = "Standard_D4s_v3",
+    StandardD8SV3 = "Standard_D8s_v3",
+    StandardDS13V2 = "Standard_DS13_v2",
+    StandardDS2V2 = "Standard_DS2_v2",
+    StandardDS3V2 = "Standard_DS3_v2",
+    StandardDS4V2 = "Standard_DS4_v2",
+    StandardDS5V2 = "Standard_DS5_v2",
+    StandardK8S2V1 = "Standard_K8S2_v1",
+    StandardK8S3V1 = "Standard_K8S3_v1",
+    StandardK8S4V1 = "Standard_K8S4_v1",
+    StandardK8S5V1 = "Standard_K8S5_v1",
+    StandardK8SV1 = "Standard_K8S_v1",
+    StandardNK12 = "Standard_NK12",
+    StandardNK6 = "Standard_NK6",
+    StandardNV12 = "Standard_NV12",
+    StandardNV6 = "Standard_NV6"
+}
+
+// @public
 export enum KnownWindowsServerSubscription {
     Disabled = "Disabled",
     Enabled = "Enabled"
 }
 
 // @public
-export interface LogCollectionError {
-    readonly errorCode?: string;
-    readonly errorMessage?: string;
+export interface LogicalNetworkPropertiesDhcpOptions {
+    dnsServers?: string[];
 }
 
 // @public
-export type LogCollectionJobType = string;
-
-// @public
-export interface LogCollectionProperties {
-    readonly fromDate?: Date;
-    readonly lastLogGenerated?: Date;
-    readonly logCollectionSessionDetails?: LogCollectionSession[];
-    readonly toDate?: Date;
+export interface LogicalNetworks extends TrackedResource {
+    dhcpOptions?: LogicalNetworkPropertiesDhcpOptions;
+    extendedLocation?: ExtendedLocation;
+    readonly provisioningState?: ProvisioningStateEnum;
+    readonly status?: LogicalNetworkStatus;
+    subnets?: Subnet[];
+    vmSwitchName?: string;
 }
 
 // @public
-export interface LogCollectionRequest {
-    properties?: LogCollectionRequestProperties;
+export interface LogicalNetworksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export interface LogCollectionRequestProperties {
-    fromDate: Date;
-    toDate: Date;
+export type LogicalNetworksCreateOrUpdateResponse = LogicalNetworks;
+
+// @public
+export interface LogicalNetworksDeleteHeaders {
+    // (undocumented)
+    location?: string;
 }
 
 // @public
-export interface LogCollectionSession {
-    readonly correlationId?: string;
-    readonly endTimeCollected?: Date;
-    readonly logCollectionError?: LogCollectionError;
-    readonly logCollectionJobType?: LogCollectionJobType;
-    readonly logCollectionStatus?: LogCollectionStatus;
-    readonly logEndTime?: Date;
-    readonly logSize?: number;
-    readonly logStartTime?: Date;
-    readonly timeCollected?: Date;
+export interface LogicalNetworksDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export type LogCollectionStatus = string;
+export type LogicalNetworksDeleteResponse = LogicalNetworksDeleteHeaders;
+
+// @public
+export interface LogicalNetworksGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LogicalNetworksGetResponse = LogicalNetworks;
+
+// @public
+export interface LogicalNetworksListAllNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LogicalNetworksListAllNextResponse = LogicalNetworksListResult;
+
+// @public
+export interface LogicalNetworksListAllOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LogicalNetworksListAllResponse = LogicalNetworksListResult;
+
+// @public
+export interface LogicalNetworksListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LogicalNetworksListNextResponse = LogicalNetworksListResult;
+
+// @public
+export interface LogicalNetworksListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LogicalNetworksListResponse = LogicalNetworksListResult;
+
+// @public (undocumented)
+export interface LogicalNetworksListResult {
+    // (undocumented)
+    nextLink?: string;
+    // (undocumented)
+    value?: LogicalNetworks[];
+}
+
+// @public
+export interface LogicalNetworksOperations {
+    beginCreateOrUpdate(resourceGroupName: string, logicalNetworkName: string, logicalNetworks: LogicalNetworks, options?: LogicalNetworksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LogicalNetworksCreateOrUpdateResponse>, LogicalNetworksCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, logicalNetworkName: string, logicalNetworks: LogicalNetworks, options?: LogicalNetworksCreateOrUpdateOptionalParams): Promise<LogicalNetworksCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, logicalNetworkName: string, options?: LogicalNetworksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<LogicalNetworksDeleteResponse>, LogicalNetworksDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, logicalNetworkName: string, options?: LogicalNetworksDeleteOptionalParams): Promise<LogicalNetworksDeleteResponse>;
+    beginUpdate(resourceGroupName: string, logicalNetworkName: string, logicalNetworks: LogicalNetworksUpdateRequest, options?: LogicalNetworksUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LogicalNetworksUpdateResponse>, LogicalNetworksUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, logicalNetworkName: string, logicalNetworks: LogicalNetworksUpdateRequest, options?: LogicalNetworksUpdateOptionalParams): Promise<LogicalNetworksUpdateResponse>;
+    // (undocumented)
+    get(resourceGroupName: string, logicalNetworkName: string, options?: LogicalNetworksGetOptionalParams): Promise<LogicalNetworksGetResponse>;
+    list(resourceGroupName: string, options?: LogicalNetworksListOptionalParams): PagedAsyncIterableIterator<LogicalNetworks>;
+    listAll(options?: LogicalNetworksListAllOptionalParams): PagedAsyncIterableIterator<LogicalNetworks>;
+}
+
+// @public
+export interface LogicalNetworkStatus {
+    errorCode?: string;
+    errorMessage?: string;
+    // (undocumented)
+    provisioningStatus?: LogicalNetworkStatusProvisioningStatus;
+}
+
+// @public (undocumented)
+export interface LogicalNetworkStatusProvisioningStatus {
+    operationId?: string;
+    status?: Status;
+}
+
+// @public
+export interface LogicalNetworksUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface LogicalNetworksUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface LogicalNetworksUpdateRequest {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export type LogicalNetworksUpdateResponse = LogicalNetworks;
 
 // @public
 export type ManagedServiceIdentityType = string;
 
 // @public
-export interface NetworkController {
-    macAddressPoolStart?: string;
-    macAddressPoolStop?: string;
-    networkVirtualizationEnabled?: boolean;
+export interface MarketplaceGalleryImages extends TrackedResource {
+    cloudInitDataSource?: CloudInitDataSource;
+    containerId?: string;
+    extendedLocation?: ExtendedLocation;
+    hyperVGeneration?: HyperVGeneration;
+    identifier?: GalleryImageIdentifier;
+    osType?: OperatingSystemTypes;
+    readonly provisioningState?: ProvisioningStateEnum;
+    readonly status?: MarketplaceGalleryImageStatus;
+    version?: GalleryImageVersion;
+}
+
+// @public
+export interface MarketplaceGalleryImagesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MarketplaceGalleryImagesCreateOrUpdateResponse = MarketplaceGalleryImages;
+
+// @public
+export interface MarketplaceGalleryImagesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface MarketplaceGalleryImagesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MarketplaceGalleryImagesDeleteResponse = MarketplaceGalleryImagesDeleteHeaders;
+
+// @public
+export interface MarketplaceGalleryImagesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MarketplaceGalleryImagesGetResponse = MarketplaceGalleryImages;
+
+// @public
+export interface MarketplaceGalleryImagesListAllNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MarketplaceGalleryImagesListAllNextResponse = MarketplaceGalleryImagesListResult;
+
+// @public
+export interface MarketplaceGalleryImagesListAllOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MarketplaceGalleryImagesListAllResponse = MarketplaceGalleryImagesListResult;
+
+// @public
+export interface MarketplaceGalleryImagesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MarketplaceGalleryImagesListNextResponse = MarketplaceGalleryImagesListResult;
+
+// @public
+export interface MarketplaceGalleryImagesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MarketplaceGalleryImagesListResponse = MarketplaceGalleryImagesListResult;
+
+// @public (undocumented)
+export interface MarketplaceGalleryImagesListResult {
+    // (undocumented)
+    nextLink?: string;
+    // (undocumented)
+    value?: MarketplaceGalleryImages[];
+}
+
+// @public
+export interface MarketplaceGalleryImagesOperations {
+    beginCreateOrUpdate(resourceGroupName: string, marketplaceGalleryImageName: string, marketplaceGalleryImages: MarketplaceGalleryImages, options?: MarketplaceGalleryImagesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MarketplaceGalleryImagesCreateOrUpdateResponse>, MarketplaceGalleryImagesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, marketplaceGalleryImageName: string, marketplaceGalleryImages: MarketplaceGalleryImages, options?: MarketplaceGalleryImagesCreateOrUpdateOptionalParams): Promise<MarketplaceGalleryImagesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, marketplaceGalleryImageName: string, options?: MarketplaceGalleryImagesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<MarketplaceGalleryImagesDeleteResponse>, MarketplaceGalleryImagesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, marketplaceGalleryImageName: string, options?: MarketplaceGalleryImagesDeleteOptionalParams): Promise<MarketplaceGalleryImagesDeleteResponse>;
+    beginUpdate(resourceGroupName: string, marketplaceGalleryImageName: string, marketplaceGalleryImages: MarketplaceGalleryImagesUpdateRequest, options?: MarketplaceGalleryImagesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MarketplaceGalleryImagesUpdateResponse>, MarketplaceGalleryImagesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, marketplaceGalleryImageName: string, marketplaceGalleryImages: MarketplaceGalleryImagesUpdateRequest, options?: MarketplaceGalleryImagesUpdateOptionalParams): Promise<MarketplaceGalleryImagesUpdateResponse>;
+    get(resourceGroupName: string, marketplaceGalleryImageName: string, options?: MarketplaceGalleryImagesGetOptionalParams): Promise<MarketplaceGalleryImagesGetResponse>;
+    list(resourceGroupName: string, options?: MarketplaceGalleryImagesListOptionalParams): PagedAsyncIterableIterator<MarketplaceGalleryImages>;
+    listAll(options?: MarketplaceGalleryImagesListAllOptionalParams): PagedAsyncIterableIterator<MarketplaceGalleryImages>;
+}
+
+// @public
+export interface MarketplaceGalleryImageStatus {
+    downloadStatus?: MarketplaceGalleryImageStatusDownloadStatus;
+    errorCode?: string;
+    errorMessage?: string;
+    progressPercentage?: number;
+    // (undocumented)
+    provisioningStatus?: MarketplaceGalleryImageStatusProvisioningStatus;
+}
+
+// @public
+export interface MarketplaceGalleryImageStatusDownloadStatus {
+    downloadSizeInMB?: number;
+}
+
+// @public (undocumented)
+export interface MarketplaceGalleryImageStatusProvisioningStatus {
+    operationId?: string;
+    status?: Status;
+}
+
+// @public
+export interface MarketplaceGalleryImagesUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface MarketplaceGalleryImagesUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MarketplaceGalleryImagesUpdateRequest {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export type MarketplaceGalleryImagesUpdateResponse = MarketplaceGalleryImages;
+
+// @public
+export interface NetworkInterfaces extends TrackedResource {
+    dnsSettings?: InterfaceDNSSettings;
+    extendedLocation?: ExtendedLocation;
+    ipConfigurations?: IPConfiguration[];
+    macAddress?: string;
+    readonly provisioningState?: ProvisioningStateEnum;
+    readonly status?: NetworkInterfaceStatus;
+}
+
+// @public
+export interface NetworkInterfacesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NetworkInterfacesCreateOrUpdateResponse = NetworkInterfaces;
+
+// @public
+export interface NetworkInterfacesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface NetworkInterfacesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NetworkInterfacesDeleteResponse = NetworkInterfacesDeleteHeaders;
+
+// @public
+export interface NetworkInterfacesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkInterfacesGetResponse = NetworkInterfaces;
+
+// @public
+export interface NetworkInterfacesListAllNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkInterfacesListAllNextResponse = NetworkInterfacesListResult;
+
+// @public
+export interface NetworkInterfacesListAllOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkInterfacesListAllResponse = NetworkInterfacesListResult;
+
+// @public
+export interface NetworkInterfacesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkInterfacesListNextResponse = NetworkInterfacesListResult;
+
+// @public
+export interface NetworkInterfacesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkInterfacesListResponse = NetworkInterfacesListResult;
+
+// @public (undocumented)
+export interface NetworkInterfacesListResult {
+    // (undocumented)
+    nextLink?: string;
+    // (undocumented)
+    value?: NetworkInterfaces[];
+}
+
+// @public
+export interface NetworkInterfacesOperations {
+    beginCreateOrUpdate(resourceGroupName: string, networkInterfaceName: string, networkInterfaces: NetworkInterfaces, options?: NetworkInterfacesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NetworkInterfacesCreateOrUpdateResponse>, NetworkInterfacesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, networkInterfaceName: string, networkInterfaces: NetworkInterfaces, options?: NetworkInterfacesCreateOrUpdateOptionalParams): Promise<NetworkInterfacesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, networkInterfaceName: string, options?: NetworkInterfacesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<NetworkInterfacesDeleteResponse>, NetworkInterfacesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, networkInterfaceName: string, options?: NetworkInterfacesDeleteOptionalParams): Promise<NetworkInterfacesDeleteResponse>;
+    beginUpdate(resourceGroupName: string, networkInterfaceName: string, networkInterfaces: NetworkInterfacesUpdateRequest, options?: NetworkInterfacesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NetworkInterfacesUpdateResponse>, NetworkInterfacesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, networkInterfaceName: string, networkInterfaces: NetworkInterfacesUpdateRequest, options?: NetworkInterfacesUpdateOptionalParams): Promise<NetworkInterfacesUpdateResponse>;
+    get(resourceGroupName: string, networkInterfaceName: string, options?: NetworkInterfacesGetOptionalParams): Promise<NetworkInterfacesGetResponse>;
+    list(resourceGroupName: string, options?: NetworkInterfacesListOptionalParams): PagedAsyncIterableIterator<NetworkInterfaces>;
+    listAll(options?: NetworkInterfacesListAllOptionalParams): PagedAsyncIterableIterator<NetworkInterfaces>;
+}
+
+// @public
+export interface NetworkInterfaceStatus {
+    errorCode?: string;
+    errorMessage?: string;
+    // (undocumented)
+    provisioningStatus?: NetworkInterfaceStatusProvisioningStatus;
+}
+
+// @public (undocumented)
+export interface NetworkInterfaceStatusProvisioningStatus {
+    operationId?: string;
+    status?: Status;
+}
+
+// @public
+export interface NetworkInterfacesUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface NetworkInterfacesUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NetworkInterfacesUpdateRequest {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export type NetworkInterfacesUpdateResponse = NetworkInterfaces;
+
+// @public
+export interface NetworkProfileUpdate {
+    networkInterfaces?: NetworkProfileUpdateNetworkInterfacesItem[];
+}
+
+// @public (undocumented)
+export interface NetworkProfileUpdateNetworkInterfacesItem {
+    id?: string;
 }
 
 // @public
 export interface NicDetail {
-    adapterName?: string;
+    adapterName: string;
     componentId?: string;
     defaultGateway?: string;
     defaultIsolationId?: string;
@@ -1623,6 +2188,9 @@ export interface OffersListByPublisherOptionalParams extends coreClient.Operatio
 export type OffersListByPublisherResponse = OfferList;
 
 // @public
+export type OperatingSystemTypes = "Windows" | "Linux";
+
+// @public
 export interface Operation {
     readonly actionType?: ActionType;
     display?: OperationDisplay;
@@ -1658,15 +2226,33 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
-export type OperationType = string;
-
-// @public
 export interface OptionalServices {
     customLocation?: string;
 }
 
 // @public
 export type Origin = string;
+
+// @public
+export interface OsProfileUpdate {
+    computerName?: string;
+    // (undocumented)
+    linuxConfiguration?: OsProfileUpdateLinuxConfiguration;
+    // (undocumented)
+    windowsConfiguration?: OsProfileUpdateWindowsConfiguration;
+}
+
+// @public (undocumented)
+export interface OsProfileUpdateLinuxConfiguration {
+    provisionVMAgent?: boolean;
+    provisionVMConfigAgent?: boolean;
+}
+
+// @public (undocumented)
+export interface OsProfileUpdateWindowsConfiguration {
+    provisionVMAgent?: boolean;
+    provisionVMConfigAgent?: boolean;
+}
 
 // @public
 export interface PackageVersionInfo {
@@ -1697,15 +2283,6 @@ export interface PerNodeExtensionState {
 }
 
 // @public
-export interface PerNodeRemoteSupportSession {
-    readonly accessLevel?: AccessLevel;
-    readonly duration?: number;
-    readonly nodeName?: string;
-    readonly sessionEndTime?: Date;
-    readonly sessionStartTime?: Date;
-}
-
-// @public
 export interface PerNodeState {
     readonly arcInstance?: string;
     readonly arcNodeServicePrincipalObjectId?: string;
@@ -1719,13 +2296,15 @@ export interface PhysicalNodes {
     name?: string;
 }
 
+// @public
+export type PowerStateEnum = string;
+
 // @public (undocumented)
 export interface PrecheckResult {
     additionalData?: string;
     description?: string;
     displayName?: string;
     healthCheckSource?: string;
-    healthCheckTags?: Record<string, unknown>;
     name?: string;
     remediation?: string;
     severity?: Severity;
@@ -1733,7 +2312,6 @@ export interface PrecheckResult {
     tags?: PrecheckResultTags;
     targetResourceID?: string;
     targetResourceName?: string;
-    targetResourceType?: string;
     timestamp?: Date;
     title?: string;
 }
@@ -1745,7 +2323,13 @@ export interface PrecheckResultTags {
 }
 
 // @public
+export type ProvisioningAction = string;
+
+// @public
 export type ProvisioningState = string;
+
+// @public
+export type ProvisioningStateEnum = string;
 
 // @public
 export interface ProxyResource extends Resource {
@@ -1806,44 +2390,9 @@ export interface RawCertificateData {
 export type RebootRequirement = string;
 
 // @public
-export interface RemoteSupportNodeSettings {
-    readonly arcResourceId?: string;
-    readonly connectionErrorMessage?: string;
-    readonly connectionStatus?: string;
-    readonly createdAt?: Date;
-    readonly state?: string;
-    readonly transcriptLocation?: string;
-    readonly updatedAt?: Date;
-}
-
-// @public
-export interface RemoteSupportProperties {
-    readonly accessLevel?: AccessLevel;
-    readonly expirationTimeStamp?: Date;
-    readonly remoteSupportNodeSettings?: RemoteSupportNodeSettings[];
-    readonly remoteSupportSessionDetails?: PerNodeRemoteSupportSession[];
-    readonly remoteSupportType?: RemoteSupportType;
-}
-
-// @public
-export interface RemoteSupportRequest {
-    properties?: RemoteSupportRequestProperties;
-}
-
-// @public
-export interface RemoteSupportRequestProperties {
-    readonly accessLevel?: AccessLevel;
-    expirationTimeStamp?: Date;
-    remoteSupportType?: RemoteSupportType;
-}
-
-// @public
-export type RemoteSupportType = string;
-
-// @public
 export interface ReportedProperties {
-    readonly deviceState?: DeviceState;
-    readonly extensionProfile?: ExtensionProfile;
+    readonly deploymentStatus?: DeploymentStatus;
+    readonly validationStatus?: ValidationStatus;
 }
 
 // @public
@@ -1855,50 +2404,23 @@ export interface Resource {
 }
 
 // @public
-export interface SbeCredentials {
-    eceSecretName?: string;
-    secretLocation?: string;
-    secretName?: string;
-}
-
-// @public
-export interface SbeDeploymentInfo {
-    family?: string;
-    publisher?: string;
-    sbeManifestCreationDate?: Date;
-    sbeManifestSource?: string;
-    version?: string;
-}
-
-// @public
-export interface SbeDeploymentPackageInfo {
-    readonly code?: string;
-    readonly message?: string;
-    readonly sbeManifest?: string;
-}
-
-// @public
-export interface SbePartnerInfo {
-    credentialList?: SbeCredentials[];
-    partnerProperties?: SbePartnerProperties[];
-    sbeDeploymentInfo?: SbeDeploymentInfo;
-}
-
-// @public
-export interface SbePartnerProperties {
+export interface Route {
+    addressPrefix?: string;
     name?: string;
-    value?: string;
+    nextHopIpAddress?: string;
+}
+
+// @public
+export interface RouteTable {
+    readonly etag?: string;
+    readonly name?: string;
+    routes?: Route[];
+    readonly type?: string;
 }
 
 // @public
 export interface ScaleUnits {
     deploymentData: DeploymentData;
-    sbePartnerInfo?: SbePartnerInfo;
-}
-
-// @public
-export interface SdnIntegration {
-    networkController?: NetworkController;
 }
 
 // @public
@@ -1915,8 +2437,6 @@ export interface SecuritySetting extends ProxyResource {
     provisioningState?: ProvisioningState;
     securedCoreComplianceAssignment?: ComplianceAssignmentType;
     readonly securityComplianceStatus?: SecurityComplianceStatus;
-    smbEncryptionForIntraClusterTrafficComplianceAssignment?: ComplianceAssignmentType;
-    wdacComplianceAssignment?: ComplianceAssignmentType;
 }
 
 // @public
@@ -1984,6 +2504,9 @@ export interface SecuritySettingsListByClustersOptionalParams extends coreClient
 
 // @public
 export type SecuritySettingsListByClustersResponse = SecuritySettingListResult;
+
+// @public
+export type SecurityTypes = string;
 
 // @public
 export interface ServiceConfiguration {
@@ -2074,6 +2597,17 @@ export interface SoftwareAssuranceProperties {
 export type SoftwareAssuranceStatus = string;
 
 // @public
+export interface SshConfiguration {
+    publicKeys?: SshPublicKey[];
+}
+
+// @public
+export interface SshPublicKey {
+    keyData?: string;
+    path?: string;
+}
+
+// @public
 export type State = string;
 
 // @public
@@ -2083,11 +2617,13 @@ export type Status = string;
 export type StatusLevelTypes = string;
 
 // @public
+export type StatusTypes = string;
+
+// @public
 export interface Step {
     description?: string;
     endTimeUtc?: Date;
     errorMessage?: string;
-    expectedExecutionTime?: string;
     lastUpdatedTimeUtc?: Date;
     name?: string;
     startTimeUtc?: Date;
@@ -2102,17 +2638,164 @@ interface Storage_2 {
 export { Storage_2 as Storage }
 
 // @public
-export interface SwitchDetail {
-    readonly extensions?: SwitchExtension[];
-    readonly switchName?: string;
-    readonly switchType?: string;
+export interface StorageContainers extends TrackedResource {
+    extendedLocation?: ExtendedLocation;
+    path?: string;
+    readonly provisioningState?: ProvisioningStateEnum;
+    readonly status?: StorageContainerStatus;
 }
 
 // @public
-export interface SwitchExtension {
-    readonly extensionEnabled?: boolean;
-    readonly extensionName?: string;
-    readonly switchId?: string;
+export interface StorageContainersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type StorageContainersCreateOrUpdateResponse = StorageContainers;
+
+// @public
+export interface StorageContainersDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface StorageContainersDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type StorageContainersDeleteResponse = StorageContainersDeleteHeaders;
+
+// @public
+export interface StorageContainersGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StorageContainersGetResponse = StorageContainers;
+
+// @public
+export interface StorageContainersListAllNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StorageContainersListAllNextResponse = StorageContainersListResult;
+
+// @public
+export interface StorageContainersListAllOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StorageContainersListAllResponse = StorageContainersListResult;
+
+// @public
+export interface StorageContainersListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StorageContainersListNextResponse = StorageContainersListResult;
+
+// @public
+export interface StorageContainersListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StorageContainersListResponse = StorageContainersListResult;
+
+// @public (undocumented)
+export interface StorageContainersListResult {
+    // (undocumented)
+    nextLink?: string;
+    // (undocumented)
+    value?: StorageContainers[];
+}
+
+// @public
+export interface StorageContainersOperations {
+    beginCreateOrUpdate(resourceGroupName: string, storageContainerName: string, storageContainers: StorageContainers, options?: StorageContainersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<StorageContainersCreateOrUpdateResponse>, StorageContainersCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, storageContainerName: string, storageContainers: StorageContainers, options?: StorageContainersCreateOrUpdateOptionalParams): Promise<StorageContainersCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, storageContainerName: string, options?: StorageContainersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<StorageContainersDeleteResponse>, StorageContainersDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, storageContainerName: string, options?: StorageContainersDeleteOptionalParams): Promise<StorageContainersDeleteResponse>;
+    beginUpdate(resourceGroupName: string, storageContainerName: string, storageContainers: StorageContainersUpdateRequest, options?: StorageContainersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<StorageContainersUpdateResponse>, StorageContainersUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, storageContainerName: string, storageContainers: StorageContainersUpdateRequest, options?: StorageContainersUpdateOptionalParams): Promise<StorageContainersUpdateResponse>;
+    get(resourceGroupName: string, storageContainerName: string, options?: StorageContainersGetOptionalParams): Promise<StorageContainersGetResponse>;
+    list(resourceGroupName: string, options?: StorageContainersListOptionalParams): PagedAsyncIterableIterator<StorageContainers>;
+    listAll(options?: StorageContainersListAllOptionalParams): PagedAsyncIterableIterator<StorageContainers>;
+}
+
+// @public
+export interface StorageContainerStatus {
+    availableSizeMB?: number;
+    containerSizeMB?: number;
+    errorCode?: string;
+    errorMessage?: string;
+    // (undocumented)
+    provisioningStatus?: StorageContainerStatusProvisioningStatus;
+}
+
+// @public (undocumented)
+export interface StorageContainerStatusProvisioningStatus {
+    operationId?: string;
+    status?: Status;
+}
+
+// @public
+export interface StorageContainersUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface StorageContainersUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface StorageContainersUpdateRequest {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export type StorageContainersUpdateResponse = StorageContainers;
+
+// @public
+export interface StorageNetworks {
+    name?: string;
+    networkAdapterName?: string;
+    vlanId?: string;
+}
+
+// @public (undocumented)
+export interface StorageProfileUpdate {
+    dataDisks?: StorageProfileUpdateDataDisksItem[];
+}
+
+// @public (undocumented)
+export interface StorageProfileUpdateDataDisksItem {
+    // (undocumented)
+    id?: string;
+}
+
+// @public (undocumented)
+export interface Subnet {
+    addressPrefix?: string;
+    addressPrefixes?: string[];
+    ipAllocationMethod?: IpAllocationMethodEnum;
+    ipConfigurationReferences?: SubnetPropertiesFormatIpConfigurationReferencesItem[];
+    ipPools?: IPPool[];
+    name?: string;
+    routeTable?: RouteTable;
+    vlan?: number;
+}
+
+// @public
+export interface SubnetPropertiesFormatIpConfigurationReferencesItem {
+    id?: string;
 }
 
 // @public
@@ -2145,7 +2828,6 @@ export interface Update extends ProxyResource {
     healthState?: HealthState;
     installedDate?: Date;
     location?: string;
-    minSbeVersionRequired?: string;
     notifyMessage?: string;
     packagePath?: string;
     packageSizeInMb?: number;
@@ -2180,7 +2862,6 @@ export interface UpdateRun extends ProxyResource {
     duration?: string;
     endTimeUtc?: Date;
     errorMessage?: string;
-    expectedExecutionTime?: string;
     lastUpdatedTime?: Date;
     lastUpdatedTimeUtc?: Date;
     location?: string;
@@ -2313,8 +2994,6 @@ export type UpdatesPutResponse = Update;
 
 // @public
 export interface UpdateSummaries extends ProxyResource {
-    currentOemVersion?: string;
-    currentSbeVersion?: string;
     currentVersion?: string;
     hardwareModel?: string;
     healthCheckDate?: Date;
@@ -2408,6 +3087,438 @@ export interface ValidateRequest {
 export interface ValidateResponse {
     readonly status?: string;
 }
+
+// @public
+export interface ValidationStatus {
+    readonly status?: string;
+    readonly steps?: DeploymentStep[];
+}
+
+// @public
+export interface VirtualHardDisks extends TrackedResource {
+    // (undocumented)
+    blockSizeBytes?: number;
+    containerId?: string;
+    diskFileFormat?: DiskFileFormat;
+    diskSizeGB?: number;
+    dynamic?: boolean;
+    extendedLocation?: ExtendedLocation;
+    hyperVGeneration?: HyperVGeneration;
+    // (undocumented)
+    logicalSectorBytes?: number;
+    // (undocumented)
+    physicalSectorBytes?: number;
+    readonly provisioningState?: ProvisioningStateEnum;
+    readonly status?: VirtualHardDiskStatus;
+}
+
+// @public
+export interface VirtualHardDisksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VirtualHardDisksCreateOrUpdateResponse = VirtualHardDisks;
+
+// @public
+export interface VirtualHardDisksDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VirtualHardDisksDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VirtualHardDisksDeleteResponse = VirtualHardDisksDeleteHeaders;
+
+// @public
+export interface VirtualHardDisksGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualHardDisksGetResponse = VirtualHardDisks;
+
+// @public
+export interface VirtualHardDisksListAllNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualHardDisksListAllNextResponse = VirtualHardDisksListResult;
+
+// @public
+export interface VirtualHardDisksListAllOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualHardDisksListAllResponse = VirtualHardDisksListResult;
+
+// @public
+export interface VirtualHardDisksListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualHardDisksListNextResponse = VirtualHardDisksListResult;
+
+// @public
+export interface VirtualHardDisksListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualHardDisksListResponse = VirtualHardDisksListResult;
+
+// @public (undocumented)
+export interface VirtualHardDisksListResult {
+    // (undocumented)
+    nextLink?: string;
+    // (undocumented)
+    value?: VirtualHardDisks[];
+}
+
+// @public
+export interface VirtualHardDisksOperations {
+    beginCreateOrUpdate(resourceGroupName: string, virtualHardDiskName: string, virtualHardDisks: VirtualHardDisks, options?: VirtualHardDisksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualHardDisksCreateOrUpdateResponse>, VirtualHardDisksCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, virtualHardDiskName: string, virtualHardDisks: VirtualHardDisks, options?: VirtualHardDisksCreateOrUpdateOptionalParams): Promise<VirtualHardDisksCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, virtualHardDiskName: string, options?: VirtualHardDisksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<VirtualHardDisksDeleteResponse>, VirtualHardDisksDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, virtualHardDiskName: string, options?: VirtualHardDisksDeleteOptionalParams): Promise<VirtualHardDisksDeleteResponse>;
+    beginUpdate(resourceGroupName: string, virtualHardDiskName: string, virtualHardDisks: VirtualHardDisksUpdateRequest, options?: VirtualHardDisksUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualHardDisksUpdateResponse>, VirtualHardDisksUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, virtualHardDiskName: string, virtualHardDisks: VirtualHardDisksUpdateRequest, options?: VirtualHardDisksUpdateOptionalParams): Promise<VirtualHardDisksUpdateResponse>;
+    get(resourceGroupName: string, virtualHardDiskName: string, options?: VirtualHardDisksGetOptionalParams): Promise<VirtualHardDisksGetResponse>;
+    list(resourceGroupName: string, options?: VirtualHardDisksListOptionalParams): PagedAsyncIterableIterator<VirtualHardDisks>;
+    listAll(options?: VirtualHardDisksListAllOptionalParams): PagedAsyncIterableIterator<VirtualHardDisks>;
+}
+
+// @public
+export interface VirtualHardDiskStatus {
+    errorCode?: string;
+    errorMessage?: string;
+    // (undocumented)
+    provisioningStatus?: VirtualHardDiskStatusProvisioningStatus;
+}
+
+// @public (undocumented)
+export interface VirtualHardDiskStatusProvisioningStatus {
+    operationId?: string;
+    status?: Status;
+}
+
+// @public
+export interface VirtualHardDisksUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VirtualHardDisksUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualHardDisksUpdateRequest {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export type VirtualHardDisksUpdateResponse = VirtualHardDisks;
+
+// @public
+export interface VirtualMachineConfigAgentInstanceView {
+    statuses?: InstanceViewStatus[];
+    vmConfigAgentVersion?: string;
+}
+
+// @public
+export interface VirtualMachineInstance extends ProxyResource {
+    extendedLocation?: ExtendedLocation;
+    guestAgentInstallStatus?: GuestAgentInstallStatus;
+    hardwareProfile?: VirtualMachineInstancePropertiesHardwareProfile;
+    httpProxyConfig?: HttpProxyConfiguration;
+    identity?: Identity;
+    readonly instanceView?: VirtualMachineInstanceView;
+    networkProfile?: VirtualMachineInstancePropertiesNetworkProfile;
+    osProfile?: VirtualMachineInstancePropertiesOsProfile;
+    readonly provisioningState?: ProvisioningStateEnum;
+    resourceUid?: string;
+    securityProfile?: VirtualMachineInstancePropertiesSecurityProfile;
+    readonly status?: VirtualMachineInstanceStatus;
+    storageProfile?: VirtualMachineInstancePropertiesStorageProfile;
+    readonly vmId?: string;
+}
+
+// @public (undocumented)
+export interface VirtualMachineInstanceListResult {
+    // (undocumented)
+    nextLink?: string;
+    // (undocumented)
+    value?: VirtualMachineInstance[];
+}
+
+// @public
+export interface VirtualMachineInstancePropertiesHardwareProfile {
+    // (undocumented)
+    dynamicMemoryConfig?: VirtualMachineInstancePropertiesHardwareProfileDynamicMemoryConfig;
+    memoryMB?: number;
+    processors?: number;
+    // (undocumented)
+    vmSize?: VmSizeEnum;
+}
+
+// @public (undocumented)
+export interface VirtualMachineInstancePropertiesHardwareProfileDynamicMemoryConfig {
+    // (undocumented)
+    maximumMemoryMB?: number;
+    // (undocumented)
+    minimumMemoryMB?: number;
+    targetMemoryBuffer?: number;
+}
+
+// @public
+export interface VirtualMachineInstancePropertiesNetworkProfile {
+    networkInterfaces?: VirtualMachineInstancePropertiesNetworkProfileNetworkInterfacesItem[];
+}
+
+// @public (undocumented)
+export interface VirtualMachineInstancePropertiesNetworkProfileNetworkInterfacesItem {
+    id?: string;
+}
+
+// @public
+export interface VirtualMachineInstancePropertiesOsProfile {
+    adminPassword?: string;
+    adminUsername?: string;
+    computerName?: string;
+    linuxConfiguration?: VirtualMachineInstancePropertiesOsProfileLinuxConfiguration;
+    windowsConfiguration?: VirtualMachineInstancePropertiesOsProfileWindowsConfiguration;
+}
+
+// @public
+export interface VirtualMachineInstancePropertiesOsProfileLinuxConfiguration {
+    disablePasswordAuthentication?: boolean;
+    provisionVMAgent?: boolean;
+    provisionVMConfigAgent?: boolean;
+    ssh?: SshConfiguration;
+}
+
+// @public
+export interface VirtualMachineInstancePropertiesOsProfileWindowsConfiguration {
+    enableAutomaticUpdates?: boolean;
+    provisionVMAgent?: boolean;
+    provisionVMConfigAgent?: boolean;
+    ssh?: SshConfiguration;
+    timeZone?: string;
+}
+
+// @public
+export interface VirtualMachineInstancePropertiesSecurityProfile {
+    // (undocumented)
+    enableTPM?: boolean;
+    securityType?: SecurityTypes;
+    // (undocumented)
+    uefiSettings?: VirtualMachineInstancePropertiesSecurityProfileUefiSettings;
+}
+
+// @public (undocumented)
+export interface VirtualMachineInstancePropertiesSecurityProfileUefiSettings {
+    secureBootEnabled?: boolean;
+}
+
+// @public
+export interface VirtualMachineInstancePropertiesStorageProfile {
+    dataDisks?: VirtualMachineInstancePropertiesStorageProfileDataDisksItem[];
+    imageReference?: VirtualMachineInstancePropertiesStorageProfileImageReference;
+    osDisk?: VirtualMachineInstancePropertiesStorageProfileOsDisk;
+    vmConfigStoragePathId?: string;
+}
+
+// @public (undocumented)
+export interface VirtualMachineInstancePropertiesStorageProfileDataDisksItem {
+    id?: string;
+}
+
+// @public
+export interface VirtualMachineInstancePropertiesStorageProfileImageReference {
+    id?: string;
+}
+
+// @public
+export interface VirtualMachineInstancePropertiesStorageProfileOsDisk {
+    id?: string;
+    osType?: OperatingSystemTypes;
+}
+
+// @public
+export interface VirtualMachineInstances {
+    beginCreateOrUpdate(resourceUri: string, virtualMachineInstance: VirtualMachineInstance, options?: VirtualMachineInstancesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineInstancesCreateOrUpdateResponse>, VirtualMachineInstancesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceUri: string, virtualMachineInstance: VirtualMachineInstance, options?: VirtualMachineInstancesCreateOrUpdateOptionalParams): Promise<VirtualMachineInstancesCreateOrUpdateResponse>;
+    beginDelete(resourceUri: string, options?: VirtualMachineInstancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineInstancesDeleteResponse>, VirtualMachineInstancesDeleteResponse>>;
+    beginDeleteAndWait(resourceUri: string, options?: VirtualMachineInstancesDeleteOptionalParams): Promise<VirtualMachineInstancesDeleteResponse>;
+    beginRestart(resourceUri: string, options?: VirtualMachineInstancesRestartOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineInstancesRestartResponse>, VirtualMachineInstancesRestartResponse>>;
+    beginRestartAndWait(resourceUri: string, options?: VirtualMachineInstancesRestartOptionalParams): Promise<VirtualMachineInstancesRestartResponse>;
+    beginStart(resourceUri: string, options?: VirtualMachineInstancesStartOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineInstancesStartResponse>, VirtualMachineInstancesStartResponse>>;
+    beginStartAndWait(resourceUri: string, options?: VirtualMachineInstancesStartOptionalParams): Promise<VirtualMachineInstancesStartResponse>;
+    beginStop(resourceUri: string, options?: VirtualMachineInstancesStopOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineInstancesStopResponse>, VirtualMachineInstancesStopResponse>>;
+    beginStopAndWait(resourceUri: string, options?: VirtualMachineInstancesStopOptionalParams): Promise<VirtualMachineInstancesStopResponse>;
+    beginUpdate(resourceUri: string, virtualMachineInstance: VirtualMachineInstanceUpdateRequest, options?: VirtualMachineInstancesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineInstancesUpdateResponse>, VirtualMachineInstancesUpdateResponse>>;
+    beginUpdateAndWait(resourceUri: string, virtualMachineInstance: VirtualMachineInstanceUpdateRequest, options?: VirtualMachineInstancesUpdateOptionalParams): Promise<VirtualMachineInstancesUpdateResponse>;
+    get(resourceUri: string, options?: VirtualMachineInstancesGetOptionalParams): Promise<VirtualMachineInstancesGetResponse>;
+    list(resourceUri: string, options?: VirtualMachineInstancesListOptionalParams): PagedAsyncIterableIterator<VirtualMachineInstance>;
+}
+
+// @public
+export interface VirtualMachineInstancesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VirtualMachineInstancesCreateOrUpdateResponse = VirtualMachineInstance;
+
+// @public
+export interface VirtualMachineInstancesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VirtualMachineInstancesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VirtualMachineInstancesDeleteResponse = VirtualMachineInstancesDeleteHeaders;
+
+// @public
+export interface VirtualMachineInstancesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualMachineInstancesGetResponse = VirtualMachineInstance;
+
+// @public
+export interface VirtualMachineInstancesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualMachineInstancesListNextResponse = VirtualMachineInstanceListResult;
+
+// @public
+export interface VirtualMachineInstancesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualMachineInstancesListResponse = VirtualMachineInstanceListResult;
+
+// @public
+export interface VirtualMachineInstancesRestartHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VirtualMachineInstancesRestartOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VirtualMachineInstancesRestartResponse = VirtualMachineInstance;
+
+// @public
+export interface VirtualMachineInstancesStartHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VirtualMachineInstancesStartOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VirtualMachineInstancesStartResponse = VirtualMachineInstance;
+
+// @public
+export interface VirtualMachineInstancesStopHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VirtualMachineInstancesStopOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VirtualMachineInstancesStopResponse = VirtualMachineInstance;
+
+// @public
+export interface VirtualMachineInstanceStatus {
+    errorCode?: string;
+    errorMessage?: string;
+    powerState?: PowerStateEnum;
+    // (undocumented)
+    provisioningStatus?: VirtualMachineInstanceStatusProvisioningStatus;
+}
+
+// @public (undocumented)
+export interface VirtualMachineInstanceStatusProvisioningStatus {
+    operationId?: string;
+    status?: Status;
+}
+
+// @public
+export interface VirtualMachineInstancesUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VirtualMachineInstancesUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VirtualMachineInstancesUpdateResponse = VirtualMachineInstance;
+
+// @public
+export interface VirtualMachineInstanceUpdateProperties {
+    hardwareProfile?: HardwareProfileUpdate;
+    networkProfile?: NetworkProfileUpdate;
+    osProfile?: OsProfileUpdate;
+    // (undocumented)
+    storageProfile?: StorageProfileUpdate;
+}
+
+// @public
+export interface VirtualMachineInstanceUpdateRequest {
+    identity?: Identity;
+    properties?: VirtualMachineInstanceUpdateProperties;
+}
+
+// @public
+export interface VirtualMachineInstanceView {
+    vmAgent?: VirtualMachineConfigAgentInstanceView;
+}
+
+// @public
+export interface VirtualSwitchConfigurationOverrides {
+    enableIov?: string;
+    loadBalancingAlgorithm?: string;
+}
+
+// @public
+export type VmSizeEnum = string;
 
 // @public
 export type WindowsServerSubscription = string;
