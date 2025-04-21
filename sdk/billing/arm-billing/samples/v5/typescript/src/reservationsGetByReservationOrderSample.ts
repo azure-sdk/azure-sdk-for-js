@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Get specific Reservation details in the billing account.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/reservationGetByBillingAccount.json
  */
-async function reservationGetByBillingAccount() {
+async function reservationGetByBillingAccount(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const reservationOrderId = "20000000-0000-0000-0000-000000000000";
@@ -36,7 +36,7 @@ async function reservationGetByBillingAccount() {
  * @summary Get specific Reservation details in the billing account.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/reservationGetByBillingAccountManagementGroup.json
  */
-async function reservationGetByBillingAccountManagementGroup() {
+async function reservationGetByBillingAccountManagementGroup(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const reservationOrderId = "20000000-0000-0000-0000-000000000000";
@@ -57,7 +57,7 @@ async function reservationGetByBillingAccountManagementGroup() {
  * @summary Get specific Reservation details in the billing account.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/reservationGetByBillingAccountSingleResourceGroup.json
  */
-async function reservationGetByBillingAccountSingleResourceGroup() {
+async function reservationGetByBillingAccountSingleResourceGroup(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const reservationOrderId = "20000000-0000-0000-0000-000000000000";
@@ -78,7 +78,7 @@ async function reservationGetByBillingAccountSingleResourceGroup() {
  * @summary Get specific Reservation details in the billing account.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/reservationGetByBillingAccountSingleScope.json
  */
-async function reservationGetByBillingAccountSingleScope() {
+async function reservationGetByBillingAccountSingleScope(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const reservationOrderId = "20000000-0000-0000-0000-000000000000";
@@ -93,7 +93,7 @@ async function reservationGetByBillingAccountSingleScope() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   reservationGetByBillingAccount();
   reservationGetByBillingAccountManagementGroup();
   reservationGetByBillingAccountSingleResourceGroup();

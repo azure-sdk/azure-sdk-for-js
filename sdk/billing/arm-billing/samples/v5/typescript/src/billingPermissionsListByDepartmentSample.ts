@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists the billing permissions the caller has for a department.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingPermissionsListByDepartment.json
  */
-async function billingPermissionsListByDepartment() {
+async function billingPermissionsListByDepartment(): Promise<void> {
   const billingAccountName = "6100092";
   const departmentName = "123456";
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function billingPermissionsListByDepartment() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingPermissionsListByDepartment();
 }
 
