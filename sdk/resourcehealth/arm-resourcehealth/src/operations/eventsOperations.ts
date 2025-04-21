@@ -26,7 +26,7 @@ import {
   EventsListBySingleResourceResponse,
   EventsListBySubscriptionIdNextResponse,
   EventsListByTenantIdNextResponse,
-  EventsListBySingleResourceNextResponse
+  EventsListBySingleResourceNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,7 +47,7 @@ export class EventsOperationsImpl implements EventsOperations {
    * @param options The options parameters.
    */
   public listBySubscriptionId(
-    options?: EventsListBySubscriptionIdOptionalParams
+    options?: EventsListBySubscriptionIdOptionalParams,
   ): PagedAsyncIterableIterator<Event> {
     const iter = this.listBySubscriptionIdPagingAll(options);
     return {
@@ -62,13 +62,13 @@ export class EventsOperationsImpl implements EventsOperations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionIdPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionIdPagingPage(
     options?: EventsListBySubscriptionIdOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Event[]> {
     let result: EventsListBySubscriptionIdResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class EventsOperationsImpl implements EventsOperations {
   }
 
   private async *listBySubscriptionIdPagingAll(
-    options?: EventsListBySubscriptionIdOptionalParams
+    options?: EventsListBySubscriptionIdOptionalParams,
   ): AsyncIterableIterator<Event> {
     for await (const page of this.listBySubscriptionIdPagingPage(options)) {
       yield* page;
@@ -101,7 +101,7 @@ export class EventsOperationsImpl implements EventsOperations {
    * @param options The options parameters.
    */
   public listByTenantId(
-    options?: EventsListByTenantIdOptionalParams
+    options?: EventsListByTenantIdOptionalParams,
   ): PagedAsyncIterableIterator<Event> {
     const iter = this.listByTenantIdPagingAll(options);
     return {
@@ -116,13 +116,13 @@ export class EventsOperationsImpl implements EventsOperations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listByTenantIdPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listByTenantIdPagingPage(
     options?: EventsListByTenantIdOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Event[]> {
     let result: EventsListByTenantIdResponse;
     let continuationToken = settings?.continuationToken;
@@ -143,7 +143,7 @@ export class EventsOperationsImpl implements EventsOperations {
   }
 
   private async *listByTenantIdPagingAll(
-    options?: EventsListByTenantIdOptionalParams
+    options?: EventsListByTenantIdOptionalParams,
   ): AsyncIterableIterator<Event> {
     for await (const page of this.listByTenantIdPagingPage(options)) {
       yield* page;
@@ -161,7 +161,7 @@ export class EventsOperationsImpl implements EventsOperations {
    */
   public listBySingleResource(
     resourceUri: string,
-    options?: EventsListBySingleResourceOptionalParams
+    options?: EventsListBySingleResourceOptionalParams,
   ): PagedAsyncIterableIterator<Event> {
     const iter = this.listBySingleResourcePagingAll(resourceUri, options);
     return {
@@ -178,16 +178,16 @@ export class EventsOperationsImpl implements EventsOperations {
         return this.listBySingleResourcePagingPage(
           resourceUri,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listBySingleResourcePagingPage(
     resourceUri: string,
     options?: EventsListBySingleResourceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Event[]> {
     let result: EventsListBySingleResourceResponse;
     let continuationToken = settings?.continuationToken;
@@ -202,7 +202,7 @@ export class EventsOperationsImpl implements EventsOperations {
       result = await this._listBySingleResourceNext(
         resourceUri,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -213,11 +213,11 @@ export class EventsOperationsImpl implements EventsOperations {
 
   private async *listBySingleResourcePagingAll(
     resourceUri: string,
-    options?: EventsListBySingleResourceOptionalParams
+    options?: EventsListBySingleResourceOptionalParams,
   ): AsyncIterableIterator<Event> {
     for await (const page of this.listBySingleResourcePagingPage(
       resourceUri,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -228,11 +228,11 @@ export class EventsOperationsImpl implements EventsOperations {
    * @param options The options parameters.
    */
   private _listBySubscriptionId(
-    options?: EventsListBySubscriptionIdOptionalParams
+    options?: EventsListBySubscriptionIdOptionalParams,
   ): Promise<EventsListBySubscriptionIdResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionIdOperationSpec
+      listBySubscriptionIdOperationSpec,
     );
   }
 
@@ -241,11 +241,11 @@ export class EventsOperationsImpl implements EventsOperations {
    * @param options The options parameters.
    */
   private _listByTenantId(
-    options?: EventsListByTenantIdOptionalParams
+    options?: EventsListByTenantIdOptionalParams,
   ): Promise<EventsListByTenantIdResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listByTenantIdOperationSpec
+      listByTenantIdOperationSpec,
     );
   }
 
@@ -260,11 +260,11 @@ export class EventsOperationsImpl implements EventsOperations {
    */
   private _listBySingleResource(
     resourceUri: string,
-    options?: EventsListBySingleResourceOptionalParams
+    options?: EventsListBySingleResourceOptionalParams,
   ): Promise<EventsListBySingleResourceResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, options },
-      listBySingleResourceOperationSpec
+      listBySingleResourceOperationSpec,
     );
   }
 
@@ -275,11 +275,11 @@ export class EventsOperationsImpl implements EventsOperations {
    */
   private _listBySubscriptionIdNext(
     nextLink: string,
-    options?: EventsListBySubscriptionIdNextOptionalParams
+    options?: EventsListBySubscriptionIdNextOptionalParams,
   ): Promise<EventsListBySubscriptionIdNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionIdNextOperationSpec
+      listBySubscriptionIdNextOperationSpec,
     );
   }
 
@@ -290,11 +290,11 @@ export class EventsOperationsImpl implements EventsOperations {
    */
   private _listByTenantIdNext(
     nextLink: string,
-    options?: EventsListByTenantIdNextOptionalParams
+    options?: EventsListByTenantIdNextOptionalParams,
   ): Promise<EventsListByTenantIdNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listByTenantIdNextOperationSpec
+      listByTenantIdNextOperationSpec,
     );
   }
 
@@ -311,11 +311,11 @@ export class EventsOperationsImpl implements EventsOperations {
   private _listBySingleResourceNext(
     resourceUri: string,
     nextLink: string,
-    options?: EventsListBySingleResourceNextOptionalParams
+    options?: EventsListBySingleResourceNextOptionalParams,
   ): Promise<EventsListBySingleResourceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, nextLink, options },
-      listBySingleResourceNextOperationSpec
+      listBySingleResourceNextOperationSpec,
     );
   }
 }
@@ -323,112 +323,111 @@ export class EventsOperationsImpl implements EventsOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionIdOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/events",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/events",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Events
+      bodyMapper: Mappers.Events,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
-    Parameters.queryStartTime
+    Parameters.queryStartTime,
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByTenantIdOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.ResourceHealth/events",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Events
+      bodyMapper: Mappers.Events,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
-    Parameters.queryStartTime
+    Parameters.queryStartTime,
   ],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySingleResourceOperationSpec: coreClient.OperationSpec = {
   path: "/{resourceUri}/providers/Microsoft.ResourceHealth/events",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Events
+      bodyMapper: Mappers.Events,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionIdNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Events
+      bodyMapper: Mappers.Events,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByTenantIdNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Events
+      bodyMapper: Mappers.Events,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySingleResourceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Events
+      bodyMapper: Mappers.Events,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

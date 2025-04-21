@@ -3174,7 +3174,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-resourcehealth@file:projects/arm-resourcehealth.tgz':
-    resolution: {integrity: sha512-G+Y0nqP9JrGzoRTTzmxWnx4vm1rPxGDCK+btlRzR9harJk7skfegIt4nGWU1vltqFKkXWKie7hDBm9bOOJCWlA==, tarball: file:projects/arm-resourcehealth.tgz}
+    resolution: {integrity: sha512-mbPDY99A94rIa5J2mgmOdVAAtrQw3e6zD4/RkPzRRsTLr7YhnLFjIxOXTb9Weu1Q12aqfoQ0SZQCAij7PrNj5Q==, tarball: file:projects/arm-resourcehealth.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-resourcemover@file:projects/arm-resourcemover.tgz':
