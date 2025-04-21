@@ -1,15 +1,18 @@
 # Release History
-
-## 6.2.0-beta.2 (Unreleased)
-
+    
+## 6.2.0 (2025-04-21)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Type Alias PublicNetworkAccess
+  - Added Type Alias TlsVersion
+  - Interface SBNamespace has a new optional parameter minimumTlsVersion
+  - Interface SBNamespace has a new optional parameter premiumMessagingPartitions
+  - Interface SBNamespace has a new optional parameter publicNetworkAccess
+  - Added Enum KnownPublicNetworkAccess
+  - Added Enum KnownTlsVersion
+    
+    
 ## 6.2.0-beta.1 (2023-02-08)
     
 ### Features Added
@@ -94,4 +97,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

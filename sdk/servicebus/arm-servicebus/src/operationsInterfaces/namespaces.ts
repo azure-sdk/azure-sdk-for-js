@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SBNamespace,
   NamespacesListOptionalParams,
@@ -40,7 +40,7 @@ import {
   NamespacesRegenerateKeysResponse,
   CheckNameAvailability,
   NamespacesCheckNameAvailabilityOptionalParams,
-  NamespacesCheckNameAvailabilityResponse
+  NamespacesCheckNameAvailabilityResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,43 +51,43 @@ export interface Namespaces {
    * @param options The options parameters.
    */
   list(
-    options?: NamespacesListOptionalParams
+    options?: NamespacesListOptionalParams,
   ): PagedAsyncIterableIterator<SBNamespace>;
   /**
    * Gets the available namespaces within a resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: NamespacesListByResourceGroupOptionalParams
+    options?: NamespacesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SBNamespace>;
   /**
    * Gets list of NetworkRuleSet for a Namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param options The options parameters.
    */
   listNetworkRuleSets(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NamespacesListNetworkRuleSetsOptionalParams
+    options?: NamespacesListNetworkRuleSetsOptionalParams,
   ): PagedAsyncIterableIterator<NetworkRuleSet>;
   /**
    * Gets the authorization rules for a namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param options The options parameters.
    */
   listAuthorizationRules(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NamespacesListAuthorizationRulesOptionalParams
+    options?: NamespacesListAuthorizationRulesOptionalParams,
   ): PagedAsyncIterableIterator<SBAuthorizationRule>;
   /**
    * Creates or updates a service namespace. Once created, this namespace's resource manifest is
    * immutable. This operation is idempotent.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name.
    * @param parameters Parameters supplied to create a namespace resource.
    * @param options The options parameters.
@@ -96,17 +96,17 @@ export interface Namespaces {
     resourceGroupName: string,
     namespaceName: string,
     parameters: SBNamespace,
-    options?: NamespacesCreateOrUpdateOptionalParams
+    options?: NamespacesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<NamespacesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<NamespacesCreateOrUpdateResponse>,
       NamespacesCreateOrUpdateResponse
     >
   >;
   /**
    * Creates or updates a service namespace. Once created, this namespace's resource manifest is
    * immutable. This operation is idempotent.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name.
    * @param parameters Parameters supplied to create a namespace resource.
    * @param options The options parameters.
@@ -115,47 +115,47 @@ export interface Namespaces {
     resourceGroupName: string,
     namespaceName: string,
     parameters: SBNamespace,
-    options?: NamespacesCreateOrUpdateOptionalParams
+    options?: NamespacesCreateOrUpdateOptionalParams,
   ): Promise<NamespacesCreateOrUpdateResponse>;
   /**
    * Deletes an existing namespace. This operation also removes all associated resources under the
    * namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NamespacesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: NamespacesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing namespace. This operation also removes all associated resources under the
    * namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NamespacesDeleteOptionalParams
+    options?: NamespacesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets a description for the specified namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NamespacesGetOptionalParams
+    options?: NamespacesGetOptionalParams,
   ): Promise<NamespacesGetResponse>;
   /**
    * Updates a service namespace. Once created, this namespace's resource manifest is immutable. This
    * operation is idempotent.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param parameters Parameters supplied to update a namespace resource.
    * @param options The options parameters.
@@ -164,11 +164,11 @@ export interface Namespaces {
     resourceGroupName: string,
     namespaceName: string,
     parameters: SBNamespaceUpdateParameters,
-    options?: NamespacesUpdateOptionalParams
+    options?: NamespacesUpdateOptionalParams,
   ): Promise<NamespacesUpdateResponse>;
   /**
    * Create or update NetworkRuleSet for a Namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param parameters The Namespace IpFilterRule.
    * @param options The options parameters.
@@ -177,22 +177,22 @@ export interface Namespaces {
     resourceGroupName: string,
     namespaceName: string,
     parameters: NetworkRuleSet,
-    options?: NamespacesCreateOrUpdateNetworkRuleSetOptionalParams
+    options?: NamespacesCreateOrUpdateNetworkRuleSetOptionalParams,
   ): Promise<NamespacesCreateOrUpdateNetworkRuleSetResponse>;
   /**
    * Gets NetworkRuleSet for a Namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param options The options parameters.
    */
   getNetworkRuleSet(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NamespacesGetNetworkRuleSetOptionalParams
+    options?: NamespacesGetNetworkRuleSetOptionalParams,
   ): Promise<NamespacesGetNetworkRuleSetResponse>;
   /**
    * Creates or updates an authorization rule for a namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param authorizationRuleName The authorization rule name.
    * @param parameters The shared access authorization rule.
@@ -203,11 +203,11 @@ export interface Namespaces {
     namespaceName: string,
     authorizationRuleName: string,
     parameters: SBAuthorizationRule,
-    options?: NamespacesCreateOrUpdateAuthorizationRuleOptionalParams
+    options?: NamespacesCreateOrUpdateAuthorizationRuleOptionalParams,
   ): Promise<NamespacesCreateOrUpdateAuthorizationRuleResponse>;
   /**
    * Deletes a namespace authorization rule.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param authorizationRuleName The authorization rule name.
    * @param options The options parameters.
@@ -216,11 +216,11 @@ export interface Namespaces {
     resourceGroupName: string,
     namespaceName: string,
     authorizationRuleName: string,
-    options?: NamespacesDeleteAuthorizationRuleOptionalParams
+    options?: NamespacesDeleteAuthorizationRuleOptionalParams,
   ): Promise<void>;
   /**
    * Gets an authorization rule for a namespace by rule name.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param authorizationRuleName The authorization rule name.
    * @param options The options parameters.
@@ -229,11 +229,11 @@ export interface Namespaces {
     resourceGroupName: string,
     namespaceName: string,
     authorizationRuleName: string,
-    options?: NamespacesGetAuthorizationRuleOptionalParams
+    options?: NamespacesGetAuthorizationRuleOptionalParams,
   ): Promise<NamespacesGetAuthorizationRuleResponse>;
   /**
    * Gets the primary and secondary connection strings for the namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param authorizationRuleName The authorization rule name.
    * @param options The options parameters.
@@ -242,11 +242,11 @@ export interface Namespaces {
     resourceGroupName: string,
     namespaceName: string,
     authorizationRuleName: string,
-    options?: NamespacesListKeysOptionalParams
+    options?: NamespacesListKeysOptionalParams,
   ): Promise<NamespacesListKeysResponse>;
   /**
    * Regenerates the primary or secondary connection strings for the namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param authorizationRuleName The authorization rule name.
    * @param parameters Parameters supplied to regenerate the authorization rule.
@@ -257,7 +257,7 @@ export interface Namespaces {
     namespaceName: string,
     authorizationRuleName: string,
     parameters: RegenerateAccessKeyParameters,
-    options?: NamespacesRegenerateKeysOptionalParams
+    options?: NamespacesRegenerateKeysOptionalParams,
   ): Promise<NamespacesRegenerateKeysResponse>;
   /**
    * Check the give namespace name availability.
@@ -266,6 +266,6 @@ export interface Namespaces {
    */
   checkNameAvailability(
     parameters: CheckNameAvailability,
-    options?: NamespacesCheckNameAvailabilityOptionalParams
+    options?: NamespacesCheckNameAvailabilityOptionalParams,
   ): Promise<NamespacesCheckNameAvailabilityResponse>;
 }
