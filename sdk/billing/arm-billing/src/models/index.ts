@@ -1719,7 +1719,7 @@ export interface BillingSubscriptionProperties {
    */
   readonly nextBillingCycleDetails?: NextBillingCycleDetails;
   /**
-   * The offer ID for the subscription. This field is only available for the Microsoft Online Services Program billing accounts.
+   * The offer ID for the subscription. This field is only available for the Microsoft Online Services Program billing accounts or billing accounts with agreement type Enterprise Agreement.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly offerId?: string;
@@ -4104,7 +4104,7 @@ export interface BillingSubscription extends ProxyResourceWithTags {
    */
   readonly nextBillingCycleDetails?: NextBillingCycleDetails;
   /**
-   * The offer ID for the subscription. This field is only available for the Microsoft Online Services Program billing accounts.
+   * The offer ID for the subscription. This field is only available for the Microsoft Online Services Program billing accounts or billing accounts with agreement type Enterprise Agreement.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly offerId?: string;
@@ -4288,7 +4288,7 @@ export interface BillingSubscriptionAlias extends ProxyResourceWithTags {
    */
   readonly nextBillingCycleDetails?: NextBillingCycleDetails;
   /**
-   * The offer ID for the subscription. This field is only available for the Microsoft Online Services Program billing accounts.
+   * The offer ID for the subscription. This field is only available for the Microsoft Online Services Program billing accounts or billing accounts with agreement type Enterprise Agreement.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly offerId?: string;
@@ -4477,7 +4477,7 @@ export interface BillingSubscriptionPatch extends ProxyResourceWithTags {
    */
   readonly nextBillingCycleDetails?: NextBillingCycleDetails;
   /**
-   * The offer ID for the subscription. This field is only available for the Microsoft Online Services Program billing accounts.
+   * The offer ID for the subscription. This field is only available for the Microsoft Online Services Program billing accounts or billing accounts with agreement type Enterprise Agreement.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly offerId?: string;
