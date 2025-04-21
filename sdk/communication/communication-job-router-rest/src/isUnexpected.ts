@@ -395,6 +395,7 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
       matchedValue = value;
     }
   }
+
   return matchedValue;
 }
 
