@@ -16,7 +16,7 @@ import { BareMetalInfrastructureClient } from "../bareMetalInfrastructureClient.
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
@@ -35,11 +35,14 @@ import {
   AzureBareMetalInstancesShutdownResponse,
   AzureBareMetalInstancesGetOptionalParams,
   AzureBareMetalInstancesGetResponse,
+  AzureBareMetalInstancesCreateOptionalParams,
+  AzureBareMetalInstancesCreateResponse,
   Tags,
   AzureBareMetalInstancesUpdateOptionalParams,
   AzureBareMetalInstancesUpdateResponse,
+  AzureBareMetalInstancesDeleteOptionalParams,
   AzureBareMetalInstancesListBySubscriptionNextResponse,
-  AzureBareMetalInstancesListByResourceGroupNextResponse
+  AzureBareMetalInstancesListByResourceGroupNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -61,7 +64,7 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: AzureBareMetalInstancesListBySubscriptionOptionalParams
+    options?: AzureBareMetalInstancesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<AzureBareMetalInstance> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -76,13 +79,13 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: AzureBareMetalInstancesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AzureBareMetalInstance[]> {
     let result: AzureBareMetalInstancesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +106,7 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: AzureBareMetalInstancesListBySubscriptionOptionalParams
+    options?: AzureBareMetalInstancesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<AzureBareMetalInstance> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -118,7 +121,7 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: AzureBareMetalInstancesListByResourceGroupOptionalParams
+    options?: AzureBareMetalInstancesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AzureBareMetalInstance> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -135,16 +138,16 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: AzureBareMetalInstancesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AzureBareMetalInstance[]> {
     let result: AzureBareMetalInstancesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -159,7 +162,7 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -170,11 +173,11 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: AzureBareMetalInstancesListByResourceGroupOptionalParams
+    options?: AzureBareMetalInstancesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<AzureBareMetalInstance> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -190,7 +193,7 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
   async beginStart(
     resourceGroupName: string,
     azureBareMetalInstanceName: string,
-    options?: AzureBareMetalInstancesStartOptionalParams
+    options?: AzureBareMetalInstancesStartOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AzureBareMetalInstancesStartResponse>,
@@ -199,21 +202,20 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AzureBareMetalInstancesStartResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -222,8 +224,8 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -231,15 +233,15 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, azureBareMetalInstanceName, options },
-      spec: startOperationSpec
+      spec: startOperationSpec,
     });
     const poller = await createHttpPoller<
       AzureBareMetalInstancesStartResponse,
@@ -247,7 +249,7 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -263,12 +265,12 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
   async beginStartAndWait(
     resourceGroupName: string,
     azureBareMetalInstanceName: string,
-    options?: AzureBareMetalInstancesStartOptionalParams
+    options?: AzureBareMetalInstancesStartOptionalParams,
   ): Promise<AzureBareMetalInstancesStartResponse> {
     const poller = await this.beginStart(
       resourceGroupName,
       azureBareMetalInstanceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -283,7 +285,7 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
   async beginRestart(
     resourceGroupName: string,
     azureBareMetalInstanceName: string,
-    options?: AzureBareMetalInstancesRestartOptionalParams
+    options?: AzureBareMetalInstancesRestartOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AzureBareMetalInstancesRestartResponse>,
@@ -292,21 +294,20 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AzureBareMetalInstancesRestartResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -315,8 +316,8 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -324,15 +325,15 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, azureBareMetalInstanceName, options },
-      spec: restartOperationSpec
+      spec: restartOperationSpec,
     });
     const poller = await createHttpPoller<
       AzureBareMetalInstancesRestartResponse,
@@ -340,7 +341,7 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -356,12 +357,12 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
   async beginRestartAndWait(
     resourceGroupName: string,
     azureBareMetalInstanceName: string,
-    options?: AzureBareMetalInstancesRestartOptionalParams
+    options?: AzureBareMetalInstancesRestartOptionalParams,
   ): Promise<AzureBareMetalInstancesRestartResponse> {
     const poller = await this.beginRestart(
       resourceGroupName,
       azureBareMetalInstanceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -376,7 +377,7 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
   async beginShutdown(
     resourceGroupName: string,
     azureBareMetalInstanceName: string,
-    options?: AzureBareMetalInstancesShutdownOptionalParams
+    options?: AzureBareMetalInstancesShutdownOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AzureBareMetalInstancesShutdownResponse>,
@@ -385,21 +386,20 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AzureBareMetalInstancesShutdownResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -408,8 +408,8 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -417,15 +417,15 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, azureBareMetalInstanceName, options },
-      spec: shutdownOperationSpec
+      spec: shutdownOperationSpec,
     });
     const poller = await createHttpPoller<
       AzureBareMetalInstancesShutdownResponse,
@@ -433,7 +433,7 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -449,12 +449,12 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
   async beginShutdownAndWait(
     resourceGroupName: string,
     azureBareMetalInstanceName: string,
-    options?: AzureBareMetalInstancesShutdownOptionalParams
+    options?: AzureBareMetalInstancesShutdownOptionalParams,
   ): Promise<AzureBareMetalInstancesShutdownResponse> {
     const poller = await this.beginShutdown(
       resourceGroupName,
       azureBareMetalInstanceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -465,11 +465,11 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: AzureBareMetalInstancesListBySubscriptionOptionalParams
+    options?: AzureBareMetalInstancesListBySubscriptionOptionalParams,
   ): Promise<AzureBareMetalInstancesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -481,11 +481,11 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: AzureBareMetalInstancesListByResourceGroupOptionalParams
+    options?: AzureBareMetalInstancesListByResourceGroupOptionalParams,
   ): Promise<AzureBareMetalInstancesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -499,11 +499,37 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
   get(
     resourceGroupName: string,
     azureBareMetalInstanceName: string,
-    options?: AzureBareMetalInstancesGetOptionalParams
+    options?: AzureBareMetalInstancesGetOptionalParams,
   ): Promise<AzureBareMetalInstancesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, azureBareMetalInstanceName, options },
-      getOperationSpec
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * Creates an Azure Bare Metal Instance for the specified subscription, resource group, and instance
+   * name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param azureBareMetalInstanceName Name of the Azure Bare Metal Instance, also known as the
+   *                                   ResourceName.
+   * @param requestBodyParameters Resource create parameters.
+   * @param options The options parameters.
+   */
+  create(
+    resourceGroupName: string,
+    azureBareMetalInstanceName: string,
+    requestBodyParameters: AzureBareMetalInstance,
+    options?: AzureBareMetalInstancesCreateOptionalParams,
+  ): Promise<AzureBareMetalInstancesCreateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        azureBareMetalInstanceName,
+        requestBodyParameters,
+        options,
+      },
+      createOperationSpec,
     );
   }
 
@@ -520,11 +546,30 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
     resourceGroupName: string,
     azureBareMetalInstanceName: string,
     tagsParameter: Tags,
-    options?: AzureBareMetalInstancesUpdateOptionalParams
+    options?: AzureBareMetalInstancesUpdateOptionalParams,
   ): Promise<AzureBareMetalInstancesUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, azureBareMetalInstanceName, tagsParameter, options },
-      updateOperationSpec
+      updateOperationSpec,
+    );
+  }
+
+  /**
+   * Deletes an Azure Bare Metal Instance for the specified subscription, resource group, and instance
+   * name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param azureBareMetalInstanceName Name of the Azure Bare Metal Instance, also known as the
+   *                                   ResourceName.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    azureBareMetalInstanceName: string,
+    options?: AzureBareMetalInstancesDeleteOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, azureBareMetalInstanceName, options },
+      deleteOperationSpec,
     );
   }
 
@@ -535,11 +580,11 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: AzureBareMetalInstancesListBySubscriptionNextOptionalParams
+    options?: AzureBareMetalInstancesListBySubscriptionNextOptionalParams,
   ): Promise<AzureBareMetalInstancesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -552,11 +597,11 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: AzureBareMetalInstancesListByResourceGroupNextOptionalParams
+    options?: AzureBareMetalInstancesListByResourceGroupNextOptionalParams,
   ): Promise<AzureBareMetalInstancesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -564,56 +609,54 @@ export class AzureBareMetalInstancesImpl implements AzureBareMetalInstances {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const startOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalInstances/{azureBareMetalInstanceName}/start",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalInstances/{azureBareMetalInstanceName}/start",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     201: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     202: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     204: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.azureBareMetalInstanceName
+    Parameters.azureBareMetalInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const restartOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalInstances/{azureBareMetalInstanceName}/restart",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalInstances/{azureBareMetalInstanceName}/restart",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     201: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     202: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     204: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.forceParameter,
   queryParameters: [Parameters.apiVersion],
@@ -621,114 +664,135 @@ const restartOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.azureBareMetalInstanceName
+    Parameters.azureBareMetalInstanceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const shutdownOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalInstances/{azureBareMetalInstanceName}/shutdown",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalInstances/{azureBareMetalInstanceName}/shutdown",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     201: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     202: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     204: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.azureBareMetalInstanceName
+    Parameters.azureBareMetalInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.BareMetalInfrastructure/bareMetalInstances",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.BareMetalInfrastructure/bareMetalInstances",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureBareMetalInstancesListResult
+      bodyMapper: Mappers.AzureBareMetalInstancesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalInstances",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalInstances",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureBareMetalInstancesListResult
+      bodyMapper: Mappers.AzureBareMetalInstancesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalInstances/{azureBareMetalInstanceName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AzureBareMetalInstance
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.azureBareMetalInstanceName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalInstances/{azureBareMetalInstanceName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AzureBareMetalInstance,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.azureBareMetalInstanceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalInstances/{azureBareMetalInstanceName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AzureBareMetalInstance,
+    },
+    201: {
+      bodyMapper: Mappers.AzureBareMetalInstance,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.requestBodyParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.azureBareMetalInstanceName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalInstances/{azureBareMetalInstanceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalInstances/{azureBareMetalInstanceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureBareMetalInstance
+      bodyMapper: Mappers.AzureBareMetalInstance,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.tagsParameter,
   queryParameters: [Parameters.apiVersion],
@@ -736,48 +800,68 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.azureBareMetalInstanceName
+    Parameters.azureBareMetalInstanceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalInstances/{azureBareMetalInstanceName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.azureBareMetalInstanceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureBareMetalInstancesListResult
+      bodyMapper: Mappers.AzureBareMetalInstancesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureBareMetalInstancesListResult
+      bodyMapper: Mappers.AzureBareMetalInstancesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

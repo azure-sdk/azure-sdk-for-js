@@ -1,15 +1,26 @@
 # Release History
-
-## 1.0.0-beta.3 (Unreleased)
-
+    
+## 1.0.0-beta.3 (2025-04-21)
+Compared with version 1.0.0-beta.2
+    
 ### Features Added
+
+  - Added operation AzureBareMetalInstances.create
+  - Added operation AzureBareMetalInstances.delete
+  - Added Interface AzureBareMetalInstancesCreateOptionalParams
+  - Added Interface AzureBareMetalInstancesDeleteOptionalParams
+  - Added Interface AzureBareMetalStorageInstanceBody
+  - Added Interface AzureBareMetalStorageInstanceIdentity
+  - Added Type Alias AzureBareMetalInstancesCreateResponse
+  - Added Type Alias ResourceIdentityType
+  - Interface AzureBareMetalStorageInstance has a new optional parameter identity
+  - Added Enum KnownResourceIdentityType
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Operation AzureBareMetalStorageInstances.update has a new signature
+    
+    
 ## 1.0.0-beta.2 (2023-11-07)
     
 ### Features Added
