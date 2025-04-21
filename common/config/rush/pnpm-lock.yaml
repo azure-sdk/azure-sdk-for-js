@@ -61,6 +61,9 @@ importers:
       '@rush-temp/ai-vision-image-analysis':
         specifier: file:./projects/ai-vision-image-analysis.tgz
         version: file:projects/ai-vision-image-analysis.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
+      '@rush-temp/analytics-onlineexperimentation':
+        specifier: file:./projects/analytics-onlineexperimentation.tgz
+        version: file:projects/analytics-onlineexperimentation.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
       '@rush-temp/api-management-custom-widgets-scaffolder':
         specifier: file:./projects/api-management-custom-widgets-scaffolder.tgz
         version: file:projects/api-management-custom-widgets-scaffolder.tgz(@types/debug@4.1.12)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
@@ -2359,6 +2362,10 @@ packages:
 
   '@rush-temp/ai-vision-image-analysis@file:projects/ai-vision-image-analysis.tgz':
     resolution: {integrity: sha512-VYiN77BzAHEkljp4r1Y9y6j3gxGNxC4tx4+ti1/VYrROS4KT6TYI1/e4NhbsalKLA0toCMHTrEI/WI3ygTAxjQ==, tarball: file:projects/ai-vision-image-analysis.tgz}
+    version: 0.0.0
+
+  '@rush-temp/analytics-onlineexperimentation@file:projects/analytics-onlineexperimentation.tgz':
+    resolution: {integrity: sha512-a2jDQbh+0vQkxMLbKBYpDU87IVbCZKTIOhFv88KUpse21RGx5UpRYNWpaqx/XTV32/7a8VHKHeRvsZWh2PLicQ==, tarball: file:projects/analytics-onlineexperimentation.tgz}
     version: 0.0.0
 
   '@rush-temp/api-management-custom-widgets-scaffolder@file:projects/api-management-custom-widgets-scaffolder.tgz':
@@ -9090,6 +9097,41 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       autorest: 3.7.1
+      dotenv: 16.5.0
+      eslint: 9.25.0
+      playwright: 1.52.0
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.1.2(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/analytics-onlineexperimentation@file:projects/analytics-onlineexperimentation.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
+    dependencies:
+      '@types/node': 18.19.86
+      '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
+      '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
       eslint: 9.25.0
       playwright: 1.52.0
@@ -22646,11 +22688,11 @@ snapshots:
   '@types/body-parser@1.19.5':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/bunyan@1.8.11':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/chai-as-promised@8.0.2':
     dependencies:
@@ -22662,7 +22704,7 @@ snapshots:
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/debug@4.1.12':
     dependencies:
@@ -22681,14 +22723,14 @@ snapshots:
 
   '@types/express-serve-static-core@4.19.6':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
       '@types/qs': 6.9.18
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
 
   '@types/express-serve-static-core@5.0.6':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
       '@types/qs': 6.9.18
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -22709,16 +22751,16 @@ snapshots:
   '@types/fs-extra@11.0.4':
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/fs-extra@8.1.5':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/http-errors@2.0.4': {}
 
@@ -22729,18 +22771,18 @@ snapshots:
 
   '@types/is-buffer@2.0.2':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/json-schema@7.0.15': {}
 
   '@types/jsonfile@6.1.4':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/jsonwebtoken@9.0.9':
     dependencies:
       '@types/ms': 2.1.0
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/linkify-it@5.0.0': {}
 
@@ -22767,11 +22809,11 @@ snapshots:
 
   '@types/mysql@2.15.26':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/node-fetch@2.6.12':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
       form-data: 4.0.2
 
   '@types/node@18.19.86':
@@ -22796,7 +22838,7 @@ snapshots:
 
   '@types/pg@8.6.1':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
       pg-protocol: 1.8.0
       pg-types: 2.2.0
 
@@ -22804,7 +22846,7 @@ snapshots:
 
   '@types/prompts@2.4.9':
     dependencies:
-      '@types/node': 20.17.30
+      '@types/node': 22.7.9
       kleur: 3.0.3
 
   '@types/qs@6.9.18': {}
@@ -22813,7 +22855,7 @@ snapshots:
 
   '@types/readdir-glob@1.1.5':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/resolve@1.20.2': {}
 
@@ -22824,19 +22866,19 @@ snapshots:
   '@types/send@0.17.4':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/serve-static@1.15.7':
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
       '@types/send': 0.17.4
 
   '@types/shimmer@1.2.0': {}
 
   '@types/through@0.0.33':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/triple-beam@1.3.5': {}
 
@@ -22846,15 +22888,15 @@ snapshots:
 
   '@types/unzipper@0.10.11':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/ws@7.4.7':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/ws@8.18.1':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/yargs-parser@21.0.3': {}
 
@@ -23069,7 +23111,7 @@ snapshots:
 
   ajv-formats@3.0.1:
     dependencies:
-      ajv: 8.13.0
+      ajv: 8.17.1
 
   ajv@6.12.6:
     dependencies:
@@ -25060,7 +25102,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
       long: 5.3.2
 
   proxy-addr@2.0.7:
