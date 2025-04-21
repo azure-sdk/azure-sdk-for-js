@@ -6,7 +6,7 @@ To manage and control access to your resources, you can define customized polici
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/policy/arm-policy) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-policy) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-policy?view=azure-node-preview) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-policy) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -63,11 +63,10 @@ For browser environments, use the `InteractiveBrowserCredential` from the `@azur
 import { InteractiveBrowserCredential } from "@azure/identity";
 import { PolicyClient } from "@azure/arm-policy";
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
-  clientId: "<YOUR_CLIENT_ID>",
-});
+  clientId: "<YOUR_CLIENT_ID>"
+ });
 const client = new PolicyClient(credential, subscriptionId);
 ```
 
