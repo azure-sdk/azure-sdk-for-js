@@ -17,7 +17,7 @@ import {
   BestPracticesVersionsListByTenantOptionalParams,
   BestPracticesVersionsListByTenantResponse,
   BestPracticesVersionsGetOptionalParams,
-  BestPracticesVersionsGetResponse
+  BestPracticesVersionsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,7 +40,7 @@ export class BestPracticesVersionsImpl implements BestPracticesVersions {
    */
   public listByTenant(
     bestPracticeName: string,
-    options?: BestPracticesVersionsListByTenantOptionalParams
+    options?: BestPracticesVersionsListByTenantOptionalParams,
   ): PagedAsyncIterableIterator<BestPractice> {
     const iter = this.listByTenantPagingAll(bestPracticeName, options);
     return {
@@ -55,14 +55,14 @@ export class BestPracticesVersionsImpl implements BestPracticesVersions {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listByTenantPagingPage(bestPracticeName, options, settings);
-      }
+      },
     };
   }
 
   private async *listByTenantPagingPage(
     bestPracticeName: string,
     options?: BestPracticesVersionsListByTenantOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<BestPractice[]> {
     let result: BestPracticesVersionsListByTenantResponse;
     result = await this._listByTenant(bestPracticeName, options);
@@ -71,11 +71,11 @@ export class BestPracticesVersionsImpl implements BestPracticesVersions {
 
   private async *listByTenantPagingAll(
     bestPracticeName: string,
-    options?: BestPracticesVersionsListByTenantOptionalParams
+    options?: BestPracticesVersionsListByTenantOptionalParams,
   ): AsyncIterableIterator<BestPractice> {
     for await (const page of this.listByTenantPagingPage(
       bestPracticeName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -90,11 +90,11 @@ export class BestPracticesVersionsImpl implements BestPracticesVersions {
   get(
     bestPracticeName: string,
     versionName: string,
-    options?: BestPracticesVersionsGetOptionalParams
+    options?: BestPracticesVersionsGetOptionalParams,
   ): Promise<BestPracticesVersionsGetResponse> {
     return this.client.sendOperationRequest(
       { bestPracticeName, versionName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -105,11 +105,11 @@ export class BestPracticesVersionsImpl implements BestPracticesVersions {
    */
   private _listByTenant(
     bestPracticeName: string,
-    options?: BestPracticesVersionsListByTenantOptionalParams
+    options?: BestPracticesVersionsListByTenantOptionalParams,
   ): Promise<BestPracticesVersionsListByTenantResponse> {
     return this.client.sendOperationRequest(
       { bestPracticeName, options },
-      listByTenantOperationSpec
+      listByTenantOperationSpec,
     );
   }
 }
@@ -117,40 +117,38 @@ export class BestPracticesVersionsImpl implements BestPracticesVersions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Automanage/bestPractices/{bestPracticeName}/versions/{versionName}",
+  path: "/providers/Microsoft.Automanage/bestPractices/{bestPracticeName}/versions/{versionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BestPractice
+      bodyMapper: Mappers.BestPractice,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.bestPracticeName,
-    Parameters.versionName
+    Parameters.versionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByTenantOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Automanage/bestPractices/{bestPracticeName}/versions",
+  path: "/providers/Microsoft.Automanage/bestPractices/{bestPracticeName}/versions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BestPracticeList
+      bodyMapper: Mappers.BestPracticeList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.bestPracticeName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

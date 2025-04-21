@@ -17,12 +17,13 @@ import {
   ConfigurationProfileHcrpAssignmentsCreateOrUpdateResponse,
   ConfigurationProfileHcrpAssignmentsGetOptionalParams,
   ConfigurationProfileHcrpAssignmentsGetResponse,
-  ConfigurationProfileHcrpAssignmentsDeleteOptionalParams
+  ConfigurationProfileHcrpAssignmentsDeleteOptionalParams,
 } from "../models/index.js";
 
 /** Class containing ConfigurationProfileHcrpAssignments operations. */
 export class ConfigurationProfileHcrpAssignmentsImpl
-  implements ConfigurationProfileHcrpAssignments {
+  implements ConfigurationProfileHcrpAssignments
+{
   private readonly client: AutomanageClient;
 
   /**
@@ -47,7 +48,7 @@ export class ConfigurationProfileHcrpAssignmentsImpl
     machineName: string,
     configurationProfileAssignmentName: string,
     parameters: ConfigurationProfileAssignment,
-    options?: ConfigurationProfileHcrpAssignmentsCreateOrUpdateOptionalParams
+    options?: ConfigurationProfileHcrpAssignmentsCreateOrUpdateOptionalParams,
   ): Promise<ConfigurationProfileHcrpAssignmentsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -55,9 +56,9 @@ export class ConfigurationProfileHcrpAssignmentsImpl
         machineName,
         configurationProfileAssignmentName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -72,16 +73,16 @@ export class ConfigurationProfileHcrpAssignmentsImpl
     resourceGroupName: string,
     machineName: string,
     configurationProfileAssignmentName: string,
-    options?: ConfigurationProfileHcrpAssignmentsGetOptionalParams
+    options?: ConfigurationProfileHcrpAssignmentsGetOptionalParams,
   ): Promise<ConfigurationProfileHcrpAssignmentsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         machineName,
         configurationProfileAssignmentName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -96,16 +97,16 @@ export class ConfigurationProfileHcrpAssignmentsImpl
     resourceGroupName: string,
     machineName: string,
     configurationProfileAssignmentName: string,
-    options?: ConfigurationProfileHcrpAssignmentsDeleteOptionalParams
+    options?: ConfigurationProfileHcrpAssignmentsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         machineName,
         configurationProfileAssignmentName,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 }
@@ -113,19 +114,18 @@ export class ConfigurationProfileHcrpAssignmentsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/providers/Microsoft.Automanage/configurationProfileAssignments/{configurationProfileAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/providers/Microsoft.Automanage/configurationProfileAssignments/{configurationProfileAssignmentName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationProfileAssignment
+      bodyMapper: Mappers.ConfigurationProfileAssignment,
     },
     201: {
-      bodyMapper: Mappers.ConfigurationProfileAssignment
+      bodyMapper: Mappers.ConfigurationProfileAssignment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
@@ -134,23 +134,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configurationProfileAssignmentName,
-    Parameters.machineName
+    Parameters.machineName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/providers/Microsoft.Automanage/configurationProfileAssignments/{configurationProfileAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/providers/Microsoft.Automanage/configurationProfileAssignments/{configurationProfileAssignmentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationProfileAssignment
+      bodyMapper: Mappers.ConfigurationProfileAssignment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -158,21 +157,20 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configurationProfileAssignmentName,
-    Parameters.machineName
+    Parameters.machineName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/providers/Microsoft.Automanage/configurationProfileAssignments/{configurationProfileAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/providers/Microsoft.Automanage/configurationProfileAssignments/{configurationProfileAssignmentName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -180,8 +178,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configurationProfileAssignmentName,
-    Parameters.machineName
+    Parameters.machineName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
