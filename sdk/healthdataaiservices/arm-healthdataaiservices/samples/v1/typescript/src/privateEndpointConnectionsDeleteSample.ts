@@ -22,7 +22,7 @@ async function privateEndpointConnectionsDeleteGeneratedByMaximumSetRuleStable()
 }
 
 async function main(): Promise<void> {
-  privateEndpointConnectionsDeleteGeneratedByMaximumSetRuleStable();
+  await privateEndpointConnectionsDeleteGeneratedByMaximumSetRuleStable();
 }
 
 main().catch(console.error);
