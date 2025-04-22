@@ -34,11 +34,11 @@ export function _listBySolutionConfigurationSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/inventory{?api-version}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/inventory{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       solutionConfiguration: solutionConfiguration,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -92,12 +92,12 @@ export function _getSend(
   options: InventoryGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/inventory/{inventoryId}{?api-version}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/inventory/{inventoryId}{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       solutionConfiguration: solutionConfiguration,
       inventoryId: inventoryId,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
