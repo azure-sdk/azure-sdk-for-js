@@ -1,5 +1,40 @@
 # Release History
     
+## 7.0.0 (2025-04-22)
+    
+### Features Added
+
+  - Added operation group PolicyTokens
+  - Added Interface ErrorDetail
+  - Added Interface ExternalEvaluationEndpointInvocationResult
+  - Added Interface ExternalEvaluationEndpointSettings
+  - Added Interface ExternalEvaluationEnforcementSettings
+  - Added Interface PolicyLogInfo
+  - Added Interface PolicyTokenOperation
+  - Added Interface PolicyTokenRequest
+  - Added Interface PolicyTokenResponse
+  - Added Interface PolicyTokensAcquireOptionalParams
+  - Added Type Alias ExternalEndpointResult
+  - Added Type Alias PolicyTokenResult
+  - Added Type Alias PolicyTokensAcquireResponse
+  - Interface ErrorResponse has a new optional parameter error
+  - Interface PolicyAssignment has a new optional parameter instanceId
+  - Interface PolicyDefinition has a new optional parameter externalEvaluationEnforcementSettings
+  - Interface PolicyDefinitionVersion has a new optional parameter externalEvaluationEnforcementSettings
+  - Added Enum KnownExternalEndpointResult
+  - Added Enum KnownPolicyTokenResult
+  - Enum KnownEnforcementMode has a new value Enroll
+
+### Breaking Changes
+
+  - Interface ErrorResponse no longer has parameter additionalInfo
+  - Interface ErrorResponse no longer has parameter code
+  - Interface ErrorResponse no longer has parameter details
+  - Interface ErrorResponse no longer has parameter message
+  - Interface ErrorResponse no longer has parameter target
+  - Interface PolicyAssignmentsGetByIdOptionalParams no longer has parameter expand
+    
+    
 ## 6.0.0 (2025-03-28)
     
 ### Features Added
