@@ -292,6 +292,9 @@ importers:
       '@rush-temp/arm-deploymentmanager':
         specifier: file:./projects/arm-deploymentmanager.tgz
         version: file:projects/arm-deploymentmanager.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
+      '@rush-temp/arm-deployments-bicep':
+        specifier: file:./projects/arm-deployments-bicep.tgz
+        version: file:projects/arm-deployments-bicep.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
       '@rush-temp/arm-desktopvirtualization':
         specifier: file:./projects/arm-desktopvirtualization.tgz
         version: file:projects/arm-desktopvirtualization.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
@@ -2667,6 +2670,10 @@ packages:
 
   '@rush-temp/arm-deploymentmanager@file:projects/arm-deploymentmanager.tgz':
     resolution: {integrity: sha512-NxzoRpThHB2MJxY9i+rctFrp8tOyEeOpKbuXEh/DH/ePSM0JwJcUsmB37d7eiuQ2NUQM7uayOeh37O3arlrY8Q==, tarball: file:projects/arm-deploymentmanager.tgz}
+    version: 0.0.0
+
+  '@rush-temp/arm-deployments-bicep@file:projects/arm-deployments-bicep.tgz':
+    resolution: {integrity: sha512-5ZxYnnsR4RlHpXCJe22ecfrPIOUQDeYU/p3oQZ59I/CHvfld3zULdSApp97Y0OnYr6owh7UYcMWiy1x5MIVgDQ==, tarball: file:projects/arm-deployments-bicep.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-desktopvirtualization@file:projects/arm-desktopvirtualization.tgz':
@@ -11753,6 +11760,40 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
+      playwright: 1.52.0
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.1.2(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/arm-deployments-bicep@file:projects/arm-deployments-bicep.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
+    dependencies:
+      '@types/node': 18.19.86
+      '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
+      '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
+      dotenv: 16.5.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -22646,11 +22687,11 @@ snapshots:
   '@types/body-parser@1.19.5':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/bunyan@1.8.11':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/chai-as-promised@8.0.2':
     dependencies:
@@ -22662,7 +22703,7 @@ snapshots:
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/debug@4.1.12':
     dependencies:
@@ -22688,7 +22729,7 @@ snapshots:
 
   '@types/express-serve-static-core@5.0.6':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
       '@types/qs': 6.9.18
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -22709,16 +22750,16 @@ snapshots:
   '@types/fs-extra@11.0.4':
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/fs-extra@8.1.5':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/http-errors@2.0.4': {}
 
@@ -22729,13 +22770,13 @@ snapshots:
 
   '@types/is-buffer@2.0.2':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/json-schema@7.0.15': {}
 
   '@types/jsonfile@6.1.4':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/jsonwebtoken@9.0.9':
     dependencies:
@@ -22767,11 +22808,11 @@ snapshots:
 
   '@types/mysql@2.15.26':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/node-fetch@2.6.12':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
       form-data: 4.0.2
 
   '@types/node@18.19.86':
@@ -22796,7 +22837,7 @@ snapshots:
 
   '@types/pg@8.6.1':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
       pg-protocol: 1.8.0
       pg-types: 2.2.0
 
@@ -22813,7 +22854,7 @@ snapshots:
 
   '@types/readdir-glob@1.1.5':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/resolve@1.20.2': {}
 
@@ -22824,19 +22865,19 @@ snapshots:
   '@types/send@0.17.4':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/serve-static@1.15.7':
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
       '@types/send': 0.17.4
 
   '@types/shimmer@1.2.0': {}
 
   '@types/through@0.0.33':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/triple-beam@1.3.5': {}
 
