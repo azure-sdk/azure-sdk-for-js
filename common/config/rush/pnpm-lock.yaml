@@ -2494,7 +2494,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-cdn@file:projects/arm-cdn.tgz':
-    resolution: {integrity: sha512-zSK/wOe8oOwc2BsPNlOdPTK1PT0iLOe6fsxr+pTqOTk3SRr9J+sHk9JgBM0MpAvuLE4oVdr/CBw1GUC6ER2lWQ==, tarball: file:projects/arm-cdn.tgz}
+    resolution: {integrity: sha512-Av0/jKmdK4X3wrQvxPtUXB2CJOWreY7ZLRVzLs8sLRW6Etq6R1ymL8/5mDQFeqAFcq2/vDIrG3PyVNpHIJ4cgA==, tarball: file:projects/arm-cdn.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-changeanalysis@file:projects/arm-changeanalysis.tgz':
