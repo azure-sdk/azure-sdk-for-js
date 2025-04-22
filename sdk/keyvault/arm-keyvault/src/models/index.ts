@@ -749,6 +749,8 @@ export interface MhsmNetworkRuleSet {
   defaultAction?: NetworkRuleAction;
   /** The list of IP address rules. */
   ipRules?: MhsmipRule[];
+  /** The list of service tags. */
+  serviceTags?: MhsmServiceTagRule[];
   /** The list of virtual network rules. */
   virtualNetworkRules?: MhsmVirtualNetworkRule[];
 }
@@ -757,6 +759,12 @@ export interface MhsmNetworkRuleSet {
 export interface MhsmipRule {
   /** An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or '124.56.78.0/24' (all addresses that start with 124.56.78). */
   value: string;
+}
+
+/** A rule governing the accessibility of a managed hsm pool from a specific service tags. */
+export interface MhsmServiceTagRule {
+  /** Name of the service tag. */
+  tag: string;
 }
 
 /** A rule governing the accessibility of a managed hsm pool from a specific virtual network. */

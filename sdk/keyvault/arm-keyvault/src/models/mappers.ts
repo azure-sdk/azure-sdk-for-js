@@ -1925,6 +1925,18 @@ export const MhsmNetworkRuleSet: coreClient.CompositeMapper = {
           },
         },
       },
+      serviceTags: {
+        serializedName: "serviceTags",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MhsmServiceTagRule",
+            },
+          },
+        },
+      },
       virtualNetworkRules: {
         serializedName: "virtualNetworkRules",
         type: {
@@ -1948,6 +1960,22 @@ export const MhsmipRule: coreClient.CompositeMapper = {
     modelProperties: {
       value: {
         serializedName: "value",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const MhsmServiceTagRule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MhsmServiceTagRule",
+    modelProperties: {
+      tag: {
+        serializedName: "tag",
         required: true,
         type: {
           name: "String",
