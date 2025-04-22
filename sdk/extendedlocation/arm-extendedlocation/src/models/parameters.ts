@@ -9,14 +9,14 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   CustomLocation as CustomLocationMapper,
   PatchableCustomLocations as PatchableCustomLocationsMapper,
   CustomLocationFindTargetResourceGroupProperties as CustomLocationFindTargetResourceGroupPropertiesMapper,
   ResourceSyncRule as ResourceSyncRuleMapper,
-  PatchableResourceSyncRule as PatchableResourceSyncRuleMapper
+  PatchableResourceSyncRule as PatchableResourceSyncRuleMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -26,9 +26,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -37,10 +37,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -50,23 +50,35 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -74,14 +86,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceName: OperationURLParameter = {
@@ -89,17 +101,17 @@ export const resourceName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp(
-        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"
+        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$",
       ),
       MaxLength: 63,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -109,76 +121,64 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: CustomLocationMapper
+  mapper: CustomLocationMapper,
 };
 
 export const identity: OperationParameter = {
   parameterPath: ["options", "identity"],
-  mapper: PatchableCustomLocationsMapper
+  mapper: PatchableCustomLocationsMapper,
 };
 
 export const tags: OperationParameter = {
   parameterPath: ["options", "tags"],
-  mapper: PatchableCustomLocationsMapper
+  mapper: PatchableCustomLocationsMapper,
 };
 
 export const authentication: OperationParameter = {
   parameterPath: ["options", "authentication"],
-  mapper: PatchableCustomLocationsMapper
+  mapper: PatchableCustomLocationsMapper,
 };
 
 export const clusterExtensionIds: OperationParameter = {
   parameterPath: ["options", "clusterExtensionIds"],
-  mapper: PatchableCustomLocationsMapper
+  mapper: PatchableCustomLocationsMapper,
 };
 
 export const displayName: OperationParameter = {
   parameterPath: ["options", "displayName"],
-  mapper: PatchableCustomLocationsMapper
+  mapper: PatchableCustomLocationsMapper,
 };
 
 export const hostResourceId: OperationParameter = {
   parameterPath: ["options", "hostResourceId"],
-  mapper: PatchableCustomLocationsMapper
+  mapper: PatchableCustomLocationsMapper,
 };
 
 export const hostType: OperationParameter = {
   parameterPath: ["options", "hostType"],
-  mapper: PatchableCustomLocationsMapper
+  mapper: PatchableCustomLocationsMapper,
 };
 
 export const namespace: OperationParameter = {
   parameterPath: ["options", "namespace"],
-  mapper: PatchableCustomLocationsMapper
+  mapper: PatchableCustomLocationsMapper,
 };
 
 export const provisioningState: OperationParameter = {
   parameterPath: ["options", "provisioningState"],
-  mapper: PatchableCustomLocationsMapper
+  mapper: PatchableCustomLocationsMapper,
 };
 
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
-  mapper: CustomLocationFindTargetResourceGroupPropertiesMapper
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
+  mapper: CustomLocationFindTargetResourceGroupPropertiesMapper,
 };
 
 export const childResourceName: OperationURLParameter = {
@@ -186,40 +186,40 @@ export const childResourceName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp(
-        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"
+        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$",
       ),
       MaxLength: 63,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "childResourceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters3: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ResourceSyncRuleMapper
+  mapper: ResourceSyncRuleMapper,
 };
 
 export const tags1: OperationParameter = {
   parameterPath: ["options", "tags"],
-  mapper: PatchableResourceSyncRuleMapper
+  mapper: PatchableResourceSyncRuleMapper,
 };
 
 export const priority: OperationParameter = {
   parameterPath: ["options", "priority"],
-  mapper: PatchableResourceSyncRuleMapper
+  mapper: PatchableResourceSyncRuleMapper,
 };
 
 export const selector: OperationParameter = {
   parameterPath: ["options", "selector"],
-  mapper: PatchableResourceSyncRuleMapper
+  mapper: PatchableResourceSyncRuleMapper,
 };
 
 export const targetResourceGroup: OperationParameter = {
   parameterPath: ["options", "targetResourceGroup"],
-  mapper: PatchableResourceSyncRuleMapper
+  mapper: PatchableResourceSyncRuleMapper,
 };

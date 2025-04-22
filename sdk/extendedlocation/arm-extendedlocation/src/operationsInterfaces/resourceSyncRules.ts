@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ResourceSyncRule,
   ResourceSyncRulesListByCustomLocationIDOptionalParams,
@@ -15,9 +15,9 @@ import {
   ResourceSyncRulesGetResponse,
   ResourceSyncRulesCreateOrUpdateOptionalParams,
   ResourceSyncRulesCreateOrUpdateResponse,
-  ResourceSyncRulesDeleteOptionalParams,
   ResourceSyncRulesUpdateOptionalParams,
-  ResourceSyncRulesUpdateResponse
+  ResourceSyncRulesUpdateResponse,
+  ResourceSyncRulesDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface ResourceSyncRules {
   listByCustomLocationID(
     resourceGroupName: string,
     resourceName: string,
-    options?: ResourceSyncRulesListByCustomLocationIDOptionalParams
+    options?: ResourceSyncRulesListByCustomLocationIDOptionalParams,
   ): PagedAsyncIterableIterator<ResourceSyncRule>;
   /**
    * Gets the details of the resourceSyncRule with a specified resource group, subscription id Custom
@@ -47,7 +47,7 @@ export interface ResourceSyncRules {
     resourceGroupName: string,
     resourceName: string,
     childResourceName: string,
-    options?: ResourceSyncRulesGetOptionalParams
+    options?: ResourceSyncRulesGetOptionalParams,
   ): Promise<ResourceSyncRulesGetResponse>;
   /**
    * Creates or updates a Resource Sync Rule in the parent Custom Location, Subscription Id and Resource
@@ -63,10 +63,10 @@ export interface ResourceSyncRules {
     resourceName: string,
     childResourceName: string,
     parameters: ResourceSyncRule,
-    options?: ResourceSyncRulesCreateOrUpdateOptionalParams
+    options?: ResourceSyncRulesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ResourceSyncRulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ResourceSyncRulesCreateOrUpdateResponse>,
       ResourceSyncRulesCreateOrUpdateResponse
     >
   >;
@@ -84,8 +84,22 @@ export interface ResourceSyncRules {
     resourceName: string,
     childResourceName: string,
     parameters: ResourceSyncRule,
-    options?: ResourceSyncRulesCreateOrUpdateOptionalParams
+    options?: ResourceSyncRulesCreateOrUpdateOptionalParams,
   ): Promise<ResourceSyncRulesCreateOrUpdateResponse>;
+  /**
+   * Updates a Resource Sync Rule with the specified Resource Sync Rule name in the specified Resource
+   * Group, Subscription and Custom Location name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName Custom Locations name.
+   * @param childResourceName Resource Sync Rule name.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    resourceName: string,
+    childResourceName: string,
+    options?: ResourceSyncRulesUpdateOptionalParams,
+  ): Promise<ResourceSyncRulesUpdateResponse>;
   /**
    * Deletes the Resource Sync Rule with the specified Resource Sync Rule Name, Custom Location Resource
    * Name, Resource Group, and Subscription Id.
@@ -98,39 +112,6 @@ export interface ResourceSyncRules {
     resourceGroupName: string,
     resourceName: string,
     childResourceName: string,
-    options?: ResourceSyncRulesDeleteOptionalParams
+    options?: ResourceSyncRulesDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * Updates a Resource Sync Rule with the specified Resource Sync Rule name in the specified Resource
-   * Group, Subscription and Custom Location name.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName Custom Locations name.
-   * @param childResourceName Resource Sync Rule name.
-   * @param options The options parameters.
-   */
-  beginUpdate(
-    resourceGroupName: string,
-    resourceName: string,
-    childResourceName: string,
-    options?: ResourceSyncRulesUpdateOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<ResourceSyncRulesUpdateResponse>,
-      ResourceSyncRulesUpdateResponse
-    >
-  >;
-  /**
-   * Updates a Resource Sync Rule with the specified Resource Sync Rule name in the specified Resource
-   * Group, Subscription and Custom Location name.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName Custom Locations name.
-   * @param childResourceName Resource Sync Rule name.
-   * @param options The options parameters.
-   */
-  beginUpdateAndWait(
-    resourceGroupName: string,
-    resourceName: string,
-    childResourceName: string,
-    options?: ResourceSyncRulesUpdateOptionalParams
-  ): Promise<ResourceSyncRulesUpdateResponse>;
 }
