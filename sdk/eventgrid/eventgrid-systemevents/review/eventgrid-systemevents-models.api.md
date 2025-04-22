@@ -4,9 +4,6 @@
 
 ```ts
 
-import { ClientOptions } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-
 // @public
 export type AcsCallEndedByKind = string;
 
@@ -2436,16 +2433,6 @@ export interface SubscriptionValidationEventData {
 // @public
 export interface SubscriptionValidationResponse {
     validationResponse: string;
-}
-
-// @public (undocumented)
-export class SystemEventsClient {
-    constructor(endpointParam: string, options?: SystemEventsClientOptionalParams);
-    readonly pipeline: Pipeline;
-}
-
-// @public
-export interface SystemEventsClientOptionalParams extends ClientOptions {
 }
 
 // @public
