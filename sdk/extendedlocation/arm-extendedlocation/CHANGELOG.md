@@ -1,15 +1,43 @@
 # Release History
-
-## 1.0.0-beta.4 (Unreleased)
-
+    
+## 1.0.0-beta.4 (2025-04-22)
+Compared with version 1.0.0-beta.3
+    
 ### Features Added
+
+  - Added operation group Operations
+  - Added operation ResourceSyncRules.update
+  - Added Interface CustomLocationsCreateOrUpdateHeaders
+  - Added Interface CustomLocationsDeleteHeaders
+  - Added Interface EnabledResourceTypeListResult
+  - Added Interface Operation
+  - Added Interface OperationDisplay
+  - Added Interface OperationListResult
+  - Added Interface OperationsListNextOptionalParams
+  - Added Interface OperationsListOptionalParams
+  - Added Interface ResourceSyncRulesCreateOrUpdateHeaders
+  - Added Type Alias ActionType
+  - Added Type Alias CustomLocationsDeleteResponse
+  - Added Type Alias OperationsListNextResponse
+  - Added Type Alias OperationsListResponse
+  - Added Type Alias Origin
+  - Interface Resource has a new optional parameter systemData
+  - Added Enum KnownActionType
+  - Added Enum KnownOrigin
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation CustomLocations.listOperations
+  - Removed operation ResourceSyncRules.beginUpdate
+  - Removed operation ResourceSyncRules.beginUpdateAndWait
+  - Interface CustomLocation no longer has parameter systemData
+  - Interface EnabledResourceType no longer has parameter systemData
+  - Interface ResourceSyncRule no longer has parameter systemData
+  - Interface ResourceSyncRulesUpdateOptionalParams no longer has parameter resumeFrom
+  - Interface ResourceSyncRulesUpdateOptionalParams no longer has parameter updateIntervalInMs
+  - Parameter value of interface CustomLocationListResult is now required
+  - Parameter value of interface ResourceSyncRuleListResult is now required
+    
 ## 1.0.0-beta.3 (2023-01-10)
 
 ### Features Added

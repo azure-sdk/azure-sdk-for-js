@@ -8,51 +8,68 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** Lists of Custom Locations operations. */
-export interface CustomLocationOperationsList {
-  /** Next page of operations. */
-  nextLink?: string;
-  /** Array of customLocationOperation */
-  value: CustomLocationOperation[];
-}
-
-/** Custom Locations operation. */
-export interface CustomLocationOperation {
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface OperationListResult {
   /**
-   * Is this Operation a data plane operation
+   * List of operations supported by the resource provider
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly isDataAction?: boolean;
+  readonly value?: Operation[];
   /**
-   * The name of the compute operation.
+   * URL to get the next set of operation list results (if there are any).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
+  /**
+   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * The origin of the compute operation.
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly origin?: string;
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
   /**
-   * The description of the operation.
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly description?: string;
+  readonly origin?: Origin;
   /**
-   * The display name of the compute operation.
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly operation?: string;
+  readonly actionType?: ActionType;
+}
+
+/** Localized display information for this particular operation. */
+export interface OperationDisplay {
   /**
-   * The resource provider for the operation.
+   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provider?: string;
   /**
-   * The display name of the resource the operation applies to.
+   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resource?: string;
+  /**
+   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
@@ -104,18 +121,20 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** The List Custom Locations operation response. */
+/** The response of a CustomLocation list operation. */
 export interface CustomLocationListResult {
-  /**
-   * The URL to use for getting the next set of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-  /**
-   * The list of Custom Locations.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: CustomLocation[];
+  /** The CustomLocation items on this page */
+  value: CustomLocation[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** This is optional input that contains the authentication that should be used to generate the namespace. */
+export interface CustomLocationPropertiesAuthentication {
+  /** The type of the Custom Locations authentication */
+  type?: string;
+  /** The kubeconfig value. */
+  value?: string;
 }
 
 /** Identity for the resource. */
@@ -132,30 +151,6 @@ export interface Identity {
   readonly tenantId?: string;
   /** The identity type. */
   type?: ResourceIdentityType;
-}
-
-/** This is optional input that contains the authentication that should be used to generate the namespace. */
-export interface CustomLocationPropertiesAuthentication {
-  /** The type of the Custom Locations authentication */
-  type?: string;
-  /** The kubeconfig value. */
-  value?: string;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -175,6 +170,27 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** The Custom Locations patchable resource definition. */
@@ -199,18 +215,12 @@ export interface PatchableCustomLocations {
   provisioningState?: string;
 }
 
-/** List of EnabledResourceTypes definition. */
-export interface EnabledResourceTypesListResult {
-  /**
-   * The URL to use for getting the next set of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-  /**
-   * The list of EnabledResourceTypes available for a customLocation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: EnabledResourceType[];
+/** The response of a EnabledResourceType list operation. */
+export interface EnabledResourceTypeListResult {
+  /** The EnabledResourceType items on this page */
+  value: EnabledResourceType[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** Metadata of the Resource Type. */
@@ -243,18 +253,12 @@ export interface CustomLocationFindTargetResourceGroupResult {
   readonly targetResourceGroup?: string;
 }
 
-/** The List Resource Sync Rules operation response. */
+/** The response of a ResourceSyncRule list operation. */
 export interface ResourceSyncRuleListResult {
-  /**
-   * The URL to use for getting the next set of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-  /**
-   * The list of Resource Sync Rules.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: ResourceSyncRule[];
+  /** The ResourceSyncRule items on this page */
+  value: ResourceSyncRule[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** A label selector is composed of two parts, matchLabels and matchExpressions. The first part, matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is 'key', the operator is 'In', and the values array contains only 'value'. The second part, matchExpressions is a list of resource selector requirements. Valid operators include In, NotIn, Exists, and DoesNotExist. The values set must be non-empty in the case of In and NotIn. The values set must be empty in the case of Exists and DoesNotExist. All of the requirements, from both matchLabels and matchExpressions must all be satisfied in order to match. */
@@ -307,11 +311,6 @@ export interface ProxyResource extends Resource {}
 export interface CustomLocation extends TrackedResource {
   /** Identity for the resource. */
   identity?: Identity;
-  /**
-   * Metadata pertaining to creation and last modification of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** This is optional input that contains the authentication that should be used to generate the namespace. */
   authentication?: CustomLocationPropertiesAuthentication;
   /** Contains the reference to the add-on that contains charts to deploy CRDs and operators. */
@@ -330,11 +329,6 @@ export interface CustomLocation extends TrackedResource {
 
 /** Resource Sync Rules definition. */
 export interface ResourceSyncRule extends TrackedResource {
-  /**
-   * Metadata pertaining to creation and last modification of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** Priority represents a priority of the Resource Sync Rule */
   priority?: number;
   /**
@@ -350,11 +344,6 @@ export interface ResourceSyncRule extends TrackedResource {
 
 /** EnabledResourceType definition. */
 export interface EnabledResourceType extends ProxyResource {
-  /**
-   * Metadata pertaining to creation and last modification of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** Cluster Extension ID */
   clusterExtensionId?: string;
   /** Cluster Extension Type */
@@ -363,12 +352,87 @@ export interface EnabledResourceType extends ProxyResource {
   typesMetadata?: EnabledResourceTypePropertiesTypesMetadataItem[];
 }
 
+/** Defines headers for CustomLocations_createOrUpdate operation. */
+export interface CustomLocationsCreateOrUpdateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for CustomLocations_delete operation. */
+export interface CustomLocationsDeleteHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for ResourceSyncRules_createOrUpdate operation. */
+export interface ResourceSyncRulesCreateOrUpdateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Known values of {@link Origin} that the service accepts. */
+export enum KnownOrigin {
+  /** User */
+  User = "user",
+  /** System */
+  System = "system",
+  /** UserSystem */
+  UserSystem = "user,system",
+}
+
+/**
+ * Defines values for Origin. \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user** \
+ * **system** \
+ * **user,system**
+ */
+export type Origin = string;
+
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  /** Internal */
+  Internal = "Internal",
+}
+
+/**
+ * Defines values for ActionType. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**
+ */
+export type ActionType = string;
+
+/** Known values of {@link HostType} that the service accepts. */
+export enum KnownHostType {
+  /** Kubernetes */
+  Kubernetes = "Kubernetes",
+}
+
+/**
+ * Defines values for HostType. \
+ * {@link KnownHostType} can be used interchangeably with HostType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Kubernetes**
+ */
+export type HostType = string;
+
 /** Known values of {@link ResourceIdentityType} that the service accepts. */
 export enum KnownResourceIdentityType {
   /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -381,21 +445,6 @@ export enum KnownResourceIdentityType {
  */
 export type ResourceIdentityType = string;
 
-/** Known values of {@link HostType} that the service accepts. */
-export enum KnownHostType {
-  /** Kubernetes */
-  Kubernetes = "Kubernetes"
-}
-
-/**
- * Defines values for HostType. \
- * {@link KnownHostType} can be used interchangeably with HostType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Kubernetes**
- */
-export type HostType = string;
-
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
   /** User */
@@ -405,7 +454,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -421,25 +470,34 @@ export enum KnownCreatedByType {
 export type CreatedByType = string;
 
 /** Optional parameters. */
-export interface CustomLocationsListOperationsOptionalParams
+export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listOperations operation. */
-export type CustomLocationsListOperationsResponse = CustomLocationOperationsList;
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface CustomLocationsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type CustomLocationsListBySubscriptionResponse = CustomLocationListResult;
+export type CustomLocationsListBySubscriptionResponse =
+  CustomLocationListResult;
 
 /** Optional parameters. */
 export interface CustomLocationsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type CustomLocationsListByResourceGroupResponse = CustomLocationListResult;
+export type CustomLocationsListByResourceGroupResponse =
+  CustomLocationListResult;
 
 /** Optional parameters. */
 export interface CustomLocationsGetOptionalParams
@@ -459,15 +517,6 @@ export interface CustomLocationsCreateOrUpdateOptionalParams
 
 /** Contains response data for the createOrUpdate operation. */
 export type CustomLocationsCreateOrUpdateResponse = CustomLocation;
-
-/** Optional parameters. */
-export interface CustomLocationsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
 
 /** Optional parameters. */
 export interface CustomLocationsUpdateOptionalParams
@@ -496,53 +545,64 @@ export interface CustomLocationsUpdateOptionalParams
 export type CustomLocationsUpdateResponse = CustomLocation;
 
 /** Optional parameters. */
+export interface CustomLocationsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type CustomLocationsDeleteResponse = CustomLocationsDeleteHeaders;
+
+/** Optional parameters. */
 export interface CustomLocationsListEnabledResourceTypesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listEnabledResourceTypes operation. */
-export type CustomLocationsListEnabledResourceTypesResponse = EnabledResourceTypesListResult;
+export type CustomLocationsListEnabledResourceTypesResponse =
+  EnabledResourceTypeListResult;
 
 /** Optional parameters. */
 export interface CustomLocationsFindTargetResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the findTargetResourceGroup operation. */
-export type CustomLocationsFindTargetResourceGroupResponse = CustomLocationFindTargetResourceGroupResult;
-
-/** Optional parameters. */
-export interface CustomLocationsListOperationsNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listOperationsNext operation. */
-export type CustomLocationsListOperationsNextResponse = CustomLocationOperationsList;
+export type CustomLocationsFindTargetResourceGroupResponse =
+  CustomLocationFindTargetResourceGroupResult;
 
 /** Optional parameters. */
 export interface CustomLocationsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type CustomLocationsListBySubscriptionNextResponse = CustomLocationListResult;
+export type CustomLocationsListBySubscriptionNextResponse =
+  CustomLocationListResult;
 
 /** Optional parameters. */
 export interface CustomLocationsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type CustomLocationsListByResourceGroupNextResponse = CustomLocationListResult;
+export type CustomLocationsListByResourceGroupNextResponse =
+  CustomLocationListResult;
 
 /** Optional parameters. */
 export interface CustomLocationsListEnabledResourceTypesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listEnabledResourceTypesNext operation. */
-export type CustomLocationsListEnabledResourceTypesNextResponse = EnabledResourceTypesListResult;
+export type CustomLocationsListEnabledResourceTypesNextResponse =
+  EnabledResourceTypeListResult;
 
 /** Optional parameters. */
 export interface ResourceSyncRulesListByCustomLocationIDOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCustomLocationID operation. */
-export type ResourceSyncRulesListByCustomLocationIDResponse = ResourceSyncRuleListResult;
+export type ResourceSyncRulesListByCustomLocationIDResponse =
+  ResourceSyncRuleListResult;
 
 /** Optional parameters. */
 export interface ResourceSyncRulesGetOptionalParams
@@ -564,10 +624,6 @@ export interface ResourceSyncRulesCreateOrUpdateOptionalParams
 export type ResourceSyncRulesCreateOrUpdateResponse = ResourceSyncRule;
 
 /** Optional parameters. */
-export interface ResourceSyncRulesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
 export interface ResourceSyncRulesUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Resource tags */
@@ -578,21 +634,22 @@ export interface ResourceSyncRulesUpdateOptionalParams
   selector?: ResourceSyncRulePropertiesSelector;
   /** For an unmapped custom resource, its labels will be used to find matching resource sync rules. If this resource sync rule is one of the matching rules with highest priority, then the unmapped custom resource will be projected to the target resource group associated with this resource sync rule. The user creating this resource sync rule should have write permissions on the target resource group and this write permission will be validated when creating the resource sync rule. */
   targetResourceGroup?: string;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
 }
 
 /** Contains response data for the update operation. */
 export type ResourceSyncRulesUpdateResponse = ResourceSyncRule;
 
 /** Optional parameters. */
+export interface ResourceSyncRulesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
 export interface ResourceSyncRulesListByCustomLocationIDNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCustomLocationIDNext operation. */
-export type ResourceSyncRulesListByCustomLocationIDNextResponse = ResourceSyncRuleListResult;
+export type ResourceSyncRulesListByCustomLocationIDNextResponse =
+  ResourceSyncRuleListResult;
 
 /** Optional parameters. */
 export interface CustomLocationsManagementClientOptionalParams
