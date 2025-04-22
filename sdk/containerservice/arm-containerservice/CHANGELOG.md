@@ -1,5 +1,15 @@
 # Release History
     
+## 21.6.0 (2025-04-22)
+    
+### Features Added
+
+  - Added Interface ManagedClusterIngressProfileNginx
+  - Added Type Alias NginxIngressControllerType
+  - Interface ManagedClusterIngressProfileWebAppRouting has a new optional parameter nginx
+  - Added Enum KnownNginxIngressControllerType
+    
+    
 ## 21.5.0 (2025-03-24)
     
 ### Features Added
