@@ -2674,7 +2674,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-devcenter@file:projects/arm-devcenter.tgz':
-    resolution: {integrity: sha512-1rUJyYA/f5+Gi6ugTKbDYnzScCQj/VQ/FDh73X3dnzTnToefcANp1ZhH9UFfCJuED1J8jvYrUPic0PQ8kQ8MxQ==, tarball: file:projects/arm-devcenter.tgz}
+    resolution: {integrity: sha512-ZnE+wIl3JCK7yToexRDY9YMK5wxt6/wTswZHjxfE+AAUGpQyLyezeSyuoInbTZrOQzkjeZ+HaJFeFGwHR72hHw==, tarball: file:projects/arm-devcenter.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-devhub@file:projects/arm-devhub.tgz':
