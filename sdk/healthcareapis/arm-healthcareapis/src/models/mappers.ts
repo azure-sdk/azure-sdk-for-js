@@ -1052,6 +1052,28 @@ export const StorageConfiguration: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      storageIndexingConfiguration: {
+        serializedName: "storageIndexingConfiguration",
+        type: {
+          name: "Composite",
+          className: "StorageIndexingConfiguration",
+        },
+      },
+    },
+  },
+};
+
+export const StorageIndexingConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageIndexingConfiguration",
+    modelProperties: {
+      storageEventQueueName: {
+        serializedName: "storageEventQueueName",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };

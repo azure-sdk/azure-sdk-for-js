@@ -1110,7 +1110,13 @@ export interface SmartIdentityProviderConfiguration {
 // @public
 export interface StorageConfiguration {
     fileSystemName?: string;
+    storageIndexingConfiguration?: StorageIndexingConfiguration;
     storageResourceId?: string;
+}
+
+// @public
+export interface StorageIndexingConfiguration {
+    storageEventQueueName?: string;
 }
 
 // @public

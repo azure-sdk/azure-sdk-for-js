@@ -396,6 +396,14 @@ export interface StorageConfiguration {
   storageResourceId?: string;
   /** The filesystem name of connected storage account. */
   fileSystemName?: string;
+  /** The configuration for indexing the connected storage. */
+  storageIndexingConfiguration?: StorageIndexingConfiguration;
+}
+
+/** The configuration for indexing the connected storage. */
+export interface StorageIndexingConfiguration {
+  /** The name of the queue that contains storage cloud events. */
+  storageEventQueueName?: string;
 }
 
 /** Managed service identity (system assigned and/or user assigned identities) */
