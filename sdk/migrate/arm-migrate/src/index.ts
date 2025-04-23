@@ -9,5 +9,5 @@
 /// <reference lib="esnext.asynciterable" />
 export { getContinuationToken } from "./pagingHelper.js";
 export * from "./models/index.js";
-export { AzureMigrateV2 } from "./azureMigrateV2.js";
+export { AzureMigrateDiscoveryService } from "./azureMigrateDiscoveryService.js";
 export * from "./operationsInterfaces/index.js";

@@ -9,18 +9,53 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  Project as ProjectMapper,
-  Group as GroupMapper,
-  UpdateGroupBody as UpdateGroupBodyMapper,
-  Assessment as AssessmentMapper,
-  HyperVCollector as HyperVCollectorMapper,
-  ServerCollector as ServerCollectorMapper,
-  VMwareCollector as VMwareCollectorMapper,
-  ImportCollector as ImportCollectorMapper,
-  PrivateEndpointConnection as PrivateEndpointConnectionMapper
+  ImportSite as ImportSiteMapper,
+  ImportSiteUpdate as ImportSiteUpdateMapper,
+  SasUriResponse as SasUriResponseMapper,
+  MasterSite as MasterSiteMapper,
+  MasterSiteUpdate as MasterSiteUpdateMapper,
+  ErrorSummaryRequest as ErrorSummaryRequestMapper,
+  ServerSiteResource as ServerSiteResourceMapper,
+  ServerSiteResourceUpdate as ServerSiteResourceUpdateMapper,
+  ExportMachineErrorsRequest as ExportMachineErrorsRequestMapper,
+  UpdateMachineDepMapStatus as UpdateMachineDepMapStatusMapper,
+  MachineMetadataCollection as MachineMetadataCollectionMapper,
+  VmwareSite as VmwareSiteMapper,
+  VmwareSiteUpdate as VmwareSiteUpdateMapper,
+  ExportMachinesRequest as ExportMachinesRequestMapper,
+  HypervSite as HypervSiteMapper,
+  HypervSiteUpdate as HypervSiteUpdateMapper,
+  DependencyMapServiceMapextensionsClientGroupMembersRequest as DependencyMapServiceMapextensionsClientGroupMembersRequestMapper,
+  DependencyMapServiceMapextensionsExportDependenciesRequest as DependencyMapServiceMapextensionsExportDependenciesRequestMapper,
+  DependencyMapServiceMapextensionsScopeMapRequest as DependencyMapServiceMapextensionsScopeMapRequestMapper,
+  DependencyMapServiceMapextensionsSingleMachineDetailedMapRequest as DependencyMapServiceMapextensionsSingleMachineDetailedMapRequestMapper,
+  DependencyMapServiceMapextensionsServerGroupMembersRequest as DependencyMapServiceMapextensionsServerGroupMembersRequestMapper,
+  HypervCluster as HypervClusterMapper,
+  HypervHost as HypervHostMapper,
+  HypervMachineUpdate as HypervMachineUpdateMapper,
+  PrivateEndpointConnection as PrivateEndpointConnectionMapper,
+  SqlSite as SqlSiteMapper,
+  SqlSiteUpdate as SqlSiteUpdateMapper,
+  SQLInventoryImportBody as SQLInventoryImportBodyMapper,
+  ExportSqlServersRequest as ExportSqlServersRequestMapper,
+  SqlSiteRefreshBody as SqlSiteRefreshBodyMapper,
+  SqlDiscoverySiteDataSource as SqlDiscoverySiteDataSourceMapper,
+  SqlServerV2Update as SqlServerV2UpdateMapper,
+  WebAppSite as WebAppSiteMapper,
+  WebAppSiteUpdate as WebAppSiteUpdateMapper,
+  ExportWebAppsRequest as ExportWebAppsRequestMapper,
+  ProxySiteRefreshBody as ProxySiteRefreshBodyMapper,
+  DiscoverySiteDataSource as DiscoverySiteDataSourceMapper,
+  IisWebApplicationsUpdate as IisWebApplicationsUpdateMapper,
+  WebAppPropertiesCollection as WebAppPropertiesCollectionMapper,
+  ServerUpdate as ServerUpdateMapper,
+  MachineResourceUpdate as MachineResourceUpdateMapper,
+  UpdateMachineRunAsAccount as UpdateMachineRunAsAccountMapper,
+  UpdateMachineTags as UpdateMachineTagsMapper,
+  Vcenter as VcenterMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -30,9 +65,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -41,55 +76,77 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
-};
-
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2019-10-01",
+    defaultValue: "2024-12-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    constraints: {
+      MinLength: 1,
+    },
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+    },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const projectName: OperationURLParameter = {
-  parameterPath: "projectName",
+export const siteName: OperationURLParameter = {
+  parameterPath: "siteName",
   mapper: {
-    serializedName: "projectName",
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,24}$"),
+    },
+    serializedName: "siteName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -99,185 +156,558 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const project: OperationParameter = {
-  parameterPath: ["options", "project"],
-  mapper: ProjectMapper
-};
-
-export const assessmentOptionsName: OperationURLParameter = {
-  parameterPath: "assessmentOptionsName",
-  mapper: {
-    serializedName: "assessmentOptionsName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+};
+
+export const body: OperationParameter = {
+  parameterPath: "body",
+  mapper: ImportSiteMapper,
+};
+
+export const body1: OperationParameter = {
+  parameterPath: "body",
+  mapper: ImportSiteUpdateMapper,
+};
+
+export const body2: OperationParameter = {
+  parameterPath: "body",
+  mapper: {
+    serializedName: "body",
+    required: true,
+    type: {
+      name: "Dictionary",
+      value: { type: { name: "any" } },
+    },
+  },
+};
+
+export const body3: OperationParameter = {
+  parameterPath: "body",
+  mapper: SasUriResponseMapper,
+};
+
+export const body4: OperationParameter = {
+  parameterPath: "body",
+  mapper: MasterSiteMapper,
+};
+
+export const properties: OperationParameter = {
+  parameterPath: "properties",
+  mapper: MasterSiteUpdateMapper,
+};
+
+export const body5: OperationParameter = {
+  parameterPath: "body",
+  mapper: ErrorSummaryRequestMapper,
+};
+
+export const body6: OperationParameter = {
+  parameterPath: "body",
+  mapper: ServerSiteResourceMapper,
+};
+
+export const body7: OperationParameter = {
+  parameterPath: "body",
+  mapper: ServerSiteResourceUpdateMapper,
+};
+
+export const body8: OperationParameter = {
+  parameterPath: "body",
+  mapper: ExportMachineErrorsRequestMapper,
+};
+
+export const mapRequest: OperationParameter = {
+  parameterPath: "mapRequest",
+  mapper: UpdateMachineDepMapStatusMapper,
+};
+
+export const metaData: OperationParameter = {
+  parameterPath: "metaData",
+  mapper: MachineMetadataCollectionMapper,
+};
+
+export const body9: OperationParameter = {
+  parameterPath: "body",
+  mapper: VmwareSiteMapper,
+};
+
+export const body10: OperationParameter = {
+  parameterPath: "body",
+  mapper: VmwareSiteUpdateMapper,
+};
+
+export const body11: OperationParameter = {
+  parameterPath: "body",
+  mapper: ExportMachinesRequestMapper,
+};
+
+export const body12: OperationParameter = {
+  parameterPath: "body",
+  mapper: HypervSiteMapper,
+};
+
+export const body13: OperationParameter = {
+  parameterPath: "body",
+  mapper: HypervSiteUpdateMapper,
+};
+
+export const mapRequest1: OperationParameter = {
+  parameterPath: "mapRequest",
+  mapper: DependencyMapServiceMapextensionsClientGroupMembersRequestMapper,
+};
+
+export const requestBody: OperationParameter = {
+  parameterPath: "requestBody",
+  mapper: DependencyMapServiceMapextensionsExportDependenciesRequestMapper,
+};
+
+export const mapRequest2: OperationParameter = {
+  parameterPath: "mapRequest",
+  mapper: DependencyMapServiceMapextensionsScopeMapRequestMapper,
+};
+
+export const mapRequest3: OperationParameter = {
+  parameterPath: "mapRequest",
+  mapper:
+    DependencyMapServiceMapextensionsSingleMachineDetailedMapRequestMapper,
+};
+
+export const mapRequest4: OperationParameter = {
+  parameterPath: "mapRequest",
+  mapper: DependencyMapServiceMapextensionsServerGroupMembersRequestMapper,
+};
+
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    serializedName: "filter",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const clusterName: OperationURLParameter = {
+  parameterPath: "clusterName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,24}$"),
+    },
+    serializedName: "clusterName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body14: OperationParameter = {
+  parameterPath: "body",
+  mapper: HypervClusterMapper,
+};
+
+export const hostName: OperationURLParameter = {
+  parameterPath: "hostName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,24}$"),
+    },
+    serializedName: "hostName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body15: OperationParameter = {
+  parameterPath: "body",
+  mapper: HypervHostMapper,
+};
+
+export const jobName: OperationURLParameter = {
+  parameterPath: "jobName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,24}$"),
+    },
+    serializedName: "jobName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const top: OperationQueryParameter = {
+  parameterPath: ["options", "top"],
+  mapper: {
+    serializedName: "top",
+    type: {
+      name: "Number",
+    },
+  },
+};
+
+export const continuationToken: OperationQueryParameter = {
+  parameterPath: ["options", "continuationToken"],
+  mapper: {
+    serializedName: "continuationToken",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const totalRecordCount: OperationQueryParameter = {
+  parameterPath: ["options", "totalRecordCount"],
+  mapper: {
+    serializedName: "totalRecordCount",
+    type: {
+      name: "Number",
+    },
+  },
 };
 
 export const machineName: OperationURLParameter = {
   parameterPath: "machineName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,24}$"),
+    },
     serializedName: "machineName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const groupName: OperationURLParameter = {
-  parameterPath: "groupName",
+export const body16: OperationParameter = {
+  parameterPath: "body",
+  mapper: HypervMachineUpdateMapper,
+};
+
+export const defaultParam: OperationURLParameter = {
+  parameterPath: "defaultParam",
   mapper: {
-    serializedName: "groupName",
+    serializedName: "default",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const group: OperationParameter = {
-  parameterPath: ["options", "group"],
-  mapper: GroupMapper
-};
-
-export const groupUpdateProperties: OperationParameter = {
-  parameterPath: ["options", "groupUpdateProperties"],
-  mapper: UpdateGroupBodyMapper
-};
-
-export const assessmentName: OperationURLParameter = {
-  parameterPath: "assessmentName",
+export const operationStatusName: OperationURLParameter = {
+  parameterPath: "operationStatusName",
   mapper: {
-    serializedName: "assessmentName",
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,24}$"),
+    },
+    serializedName: "operationStatusName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const assessment: OperationParameter = {
-  parameterPath: ["options", "assessment"],
-  mapper: AssessmentMapper
-};
-
-export const assessedMachineName: OperationURLParameter = {
-  parameterPath: "assessedMachineName",
+export const accountName: OperationURLParameter = {
+  parameterPath: "accountName",
   mapper: {
-    serializedName: "assessedMachineName",
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,24}$"),
+    },
+    serializedName: "accountName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const hyperVCollectorName: OperationURLParameter = {
-  parameterPath: "hyperVCollectorName",
+export const top1: OperationQueryParameter = {
+  parameterPath: ["options", "top"],
   mapper: {
-    serializedName: "hyperVCollectorName",
+    serializedName: "top",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const peConnectionName: OperationURLParameter = {
+  parameterPath: "peConnectionName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,24}$"),
+    },
+    serializedName: "peConnectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const collectorBody: OperationParameter = {
-  parameterPath: ["options", "collectorBody"],
-  mapper: HyperVCollectorMapper
-};
-
-export const serverCollectorName: OperationURLParameter = {
-  parameterPath: "serverCollectorName",
-  mapper: {
-    serializedName: "serverCollectorName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const collectorBody1: OperationParameter = {
-  parameterPath: ["options", "collectorBody"],
-  mapper: ServerCollectorMapper
-};
-
-export const vmWareCollectorName: OperationURLParameter = {
-  parameterPath: "vmWareCollectorName",
-  mapper: {
-    serializedName: "vmWareCollectorName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const collectorBody2: OperationParameter = {
-  parameterPath: ["options", "collectorBody"],
-  mapper: VMwareCollectorMapper
-};
-
-export const importCollectorName: OperationURLParameter = {
-  parameterPath: "importCollectorName",
-  mapper: {
-    serializedName: "importCollectorName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const collectorBody3: OperationParameter = {
-  parameterPath: ["options", "collectorBody"],
-  mapper: ImportCollectorMapper
-};
-
-export const privateEndpointConnectionName: OperationURLParameter = {
-  parameterPath: "privateEndpointConnectionName",
-  mapper: {
-    serializedName: "privateEndpointConnectionName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const privateEndpointConnectionBody: OperationParameter = {
-  parameterPath: ["options", "privateEndpointConnectionBody"],
-  mapper: PrivateEndpointConnectionMapper
+export const body17: OperationParameter = {
+  parameterPath: "body",
+  mapper: PrivateEndpointConnectionMapper,
 };
 
 export const privateLinkResourceName: OperationURLParameter = {
   parameterPath: "privateLinkResourceName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,24}$"),
+    },
     serializedName: "privateLinkResourceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const sqlSiteName: OperationURLParameter = {
+  parameterPath: "sqlSiteName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,24}$"),
+    },
+    serializedName: "sqlSiteName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body18: OperationParameter = {
+  parameterPath: "body",
+  mapper: SqlSiteMapper,
+};
+
+export const properties1: OperationParameter = {
+  parameterPath: "properties",
+  mapper: SqlSiteUpdateMapper,
+};
+
+export const body19: OperationParameter = {
+  parameterPath: "body",
+  mapper: SQLInventoryImportBodyMapper,
+};
+
+export const body20: OperationParameter = {
+  parameterPath: "body",
+  mapper: ExportSqlServersRequestMapper,
+};
+
+export const body21: OperationParameter = {
+  parameterPath: "body",
+  mapper: SqlSiteRefreshBodyMapper,
+};
+
+export const discoverySiteDataSourceName: OperationURLParameter = {
+  parameterPath: "discoverySiteDataSourceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,24}$"),
+    },
+    serializedName: "discoverySiteDataSourceName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body22: OperationParameter = {
+  parameterPath: "body",
+  mapper: SqlDiscoverySiteDataSourceMapper,
+};
+
+export const sqlAvailabilityGroupName: OperationURLParameter = {
+  parameterPath: "sqlAvailabilityGroupName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,24}$"),
+    },
+    serializedName: "sqlAvailabilityGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const sqlDatabaseName: OperationURLParameter = {
+  parameterPath: "sqlDatabaseName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,24}$"),
+    },
+    serializedName: "sqlDatabaseName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const sqlServerName: OperationURLParameter = {
+  parameterPath: "sqlServerName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,24}$"),
+    },
+    serializedName: "sqlServerName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body23: OperationParameter = {
+  parameterPath: "body",
+  mapper: SqlServerV2UpdateMapper,
+};
+
+export const webAppSiteName: OperationURLParameter = {
+  parameterPath: "webAppSiteName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,24}$"),
+    },
+    serializedName: "webAppSiteName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body24: OperationParameter = {
+  parameterPath: "body",
+  mapper: WebAppSiteMapper,
+};
+
+export const properties2: OperationParameter = {
+  parameterPath: "properties",
+  mapper: WebAppSiteUpdateMapper,
+};
+
+export const body25: OperationParameter = {
+  parameterPath: "body",
+  mapper: ExportWebAppsRequestMapper,
+};
+
+export const body26: OperationParameter = {
+  parameterPath: "body",
+  mapper: ProxySiteRefreshBodyMapper,
+};
+
+export const body27: OperationParameter = {
+  parameterPath: "body",
+  mapper: DiscoverySiteDataSourceMapper,
+};
+
+export const extendedMachineName: OperationURLParameter = {
+  parameterPath: "extendedMachineName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,24}$"),
+    },
+    serializedName: "extendedMachineName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const webApplicationName: OperationURLParameter = {
+  parameterPath: "webApplicationName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,24}$"),
+    },
+    serializedName: "webApplicationName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body28: OperationParameter = {
+  parameterPath: "body",
+  mapper: IisWebApplicationsUpdateMapper,
+};
+
+export const webServerName: OperationURLParameter = {
+  parameterPath: "webServerName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,24}$"),
+    },
+    serializedName: "webServerName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body29: OperationParameter = {
+  parameterPath: "body",
+  mapper: WebAppPropertiesCollectionMapper,
+};
+
+export const body30: OperationParameter = {
+  parameterPath: "body",
+  mapper: ServerUpdateMapper,
+};
+
+export const body31: OperationParameter = {
+  parameterPath: "body",
+  mapper: MachineResourceUpdateMapper,
+};
+
+export const updateMachineDepMapStatus: OperationParameter = {
+  parameterPath: "updateMachineDepMapStatus",
+  mapper: UpdateMachineDepMapStatusMapper,
+};
+
+export const updateMachineRunAsAccount: OperationParameter = {
+  parameterPath: "updateMachineRunAsAccount",
+  mapper: UpdateMachineRunAsAccountMapper,
+};
+
+export const updateMachineTags: OperationParameter = {
+  parameterPath: "updateMachineTags",
+  mapper: UpdateMachineTagsMapper,
+};
+
+export const vcenterName: OperationURLParameter = {
+  parameterPath: "vcenterName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,24}$"),
+    },
+    serializedName: "vcenterName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body32: OperationParameter = {
+  parameterPath: "body",
+  mapper: VcenterMapper,
 };
