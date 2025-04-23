@@ -6692,34 +6692,6 @@ export const VmImagesInEdgeZoneListResult: coreClient.CompositeMapper = {
   },
 };
 
-export const VirtualMachineImagesWithPropertiesListResult: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "VirtualMachineImagesWithPropertiesListResult",
-      modelProperties: {
-        value: {
-          serializedName: "value",
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "VirtualMachineImage",
-              },
-            },
-          },
-        },
-        nextLink: {
-          serializedName: "nextLink",
-          type: {
-            name: "String",
-          },
-        },
-      },
-    },
-  };
-
 export const VirtualMachineScaleSetMigrationInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",

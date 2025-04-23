@@ -2332,9 +2332,6 @@ export interface ExecutedValidation {
 export type ExecutionState = string;
 
 // @public
-export type Expand = string;
-
-// @public
 export type ExpandTypeForListVMs = string;
 
 // @public
@@ -3758,11 +3755,6 @@ export enum KnownExecutionState {
     Succeeded = "Succeeded",
     TimedOut = "TimedOut",
     Unknown = "Unknown"
-}
-
-// @public
-export enum KnownExpand {
-    Properties = "Properties"
 }
 
 // @public
@@ -6871,7 +6863,7 @@ export interface VirtualMachineImages {
     listPublishers(location: string, options?: VirtualMachineImagesListPublishersOptionalParams): Promise<VirtualMachineImagesListPublishersResponse>;
     listSkus(location: string, publisherName: string, offer: string, options?: VirtualMachineImagesListSkusOptionalParams): Promise<VirtualMachineImagesListSkusResponse>;
     // (undocumented)
-    listWithProperties(location: string, publisherName: string, offer: string, skus: string, expand: Expand, options?: VirtualMachineImagesListWithPropertiesOptionalParams): PagedAsyncIterableIterator<VirtualMachineImage>;
+    listWithProperties(location: string, publisherName: string, offer: string, skus: string, expand: string, options?: VirtualMachineImagesListWithPropertiesOptionalParams): Promise<VirtualMachineImagesListWithPropertiesResponse>;
 }
 
 // @public
@@ -6969,13 +6961,6 @@ export interface VirtualMachineImagesListSkusOptionalParams extends coreClient.O
 export type VirtualMachineImagesListSkusResponse = VirtualMachineImageResource[];
 
 // @public
-export interface VirtualMachineImagesListWithPropertiesNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachineImagesListWithPropertiesNextResponse = VirtualMachineImagesWithPropertiesListResult;
-
-// @public
 export interface VirtualMachineImagesListWithPropertiesOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
     orderby?: string;
@@ -6984,13 +6969,7 @@ export interface VirtualMachineImagesListWithPropertiesOptionalParams extends co
 }
 
 // @public
-export type VirtualMachineImagesListWithPropertiesResponse = VirtualMachineImagesWithPropertiesListResult;
-
-// @public
-export interface VirtualMachineImagesWithPropertiesListResult {
-    nextLink?: string;
-    value?: VirtualMachineImage[];
-}
+export type VirtualMachineImagesListWithPropertiesResponse = VirtualMachineImage[];
 
 // @public
 export interface VirtualMachineInstallPatchesParameters {
