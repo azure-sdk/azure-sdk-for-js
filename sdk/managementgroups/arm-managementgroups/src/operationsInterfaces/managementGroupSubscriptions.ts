@@ -14,7 +14,7 @@ import {
   ManagementGroupSubscriptionsCreateResponse,
   ManagementGroupSubscriptionsDeleteOptionalParams,
   ManagementGroupSubscriptionsGetSubscriptionOptionalParams,
-  ManagementGroupSubscriptionsGetSubscriptionResponse
+  ManagementGroupSubscriptionsGetSubscriptionResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface ManagementGroupSubscriptions {
    */
   listSubscriptionsUnderManagementGroup(
     groupId: string,
-    options?: ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupOptionalParams
+    options?: ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupOptionalParams,
   ): PagedAsyncIterableIterator<SubscriptionUnderManagementGroup>;
   /**
    * Associates existing subscription with the management group.
@@ -40,7 +40,7 @@ export interface ManagementGroupSubscriptions {
   create(
     groupId: string,
     subscriptionId: string,
-    options?: ManagementGroupSubscriptionsCreateOptionalParams
+    options?: ManagementGroupSubscriptionsCreateOptionalParams,
   ): Promise<ManagementGroupSubscriptionsCreateResponse>;
   /**
    * De-associates subscription from the management group.
@@ -52,7 +52,7 @@ export interface ManagementGroupSubscriptions {
   delete(
     groupId: string,
     subscriptionId: string,
-    options?: ManagementGroupSubscriptionsDeleteOptionalParams
+    options?: ManagementGroupSubscriptionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieves details about given subscription which is associated with the management group.
@@ -64,6 +64,6 @@ export interface ManagementGroupSubscriptions {
   getSubscription(
     groupId: string,
     subscriptionId: string,
-    options?: ManagementGroupSubscriptionsGetSubscriptionOptionalParams
+    options?: ManagementGroupSubscriptionsGetSubscriptionOptionalParams,
   ): Promise<ManagementGroupSubscriptionsGetSubscriptionResponse>;
 }

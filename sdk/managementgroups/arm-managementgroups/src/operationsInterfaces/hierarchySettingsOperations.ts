@@ -16,7 +16,7 @@ import {
   HierarchySettingsCreateOrUpdateResponse,
   HierarchySettingsUpdateOptionalParams,
   HierarchySettingsUpdateResponse,
-  HierarchySettingsDeleteOptionalParams
+  HierarchySettingsDeleteOptionalParams,
 } from "../models/index.js";
 
 /** Interface representing a HierarchySettingsOperations. */
@@ -30,7 +30,7 @@ export interface HierarchySettingsOperations {
    */
   list(
     groupId: string,
-    options?: HierarchySettingsListOptionalParams
+    options?: HierarchySettingsListOptionalParams,
   ): Promise<HierarchySettingsListResponse>;
   /**
    * Gets the hierarchy settings defined at the Management Group level. Settings can only be set on the
@@ -41,7 +41,7 @@ export interface HierarchySettingsOperations {
    */
   get(
     groupId: string,
-    options?: HierarchySettingsGetOptionalParams
+    options?: HierarchySettingsGetOptionalParams,
   ): Promise<HierarchySettingsGetResponse>;
   /**
    * Creates or updates the hierarchy settings defined at the Management Group level.
@@ -53,7 +53,7 @@ export interface HierarchySettingsOperations {
   createOrUpdate(
     groupId: string,
     createTenantSettingsRequest: CreateOrUpdateSettingsRequest,
-    options?: HierarchySettingsCreateOrUpdateOptionalParams
+    options?: HierarchySettingsCreateOrUpdateOptionalParams,
   ): Promise<HierarchySettingsCreateOrUpdateResponse>;
   /**
    * Updates the hierarchy settings defined at the Management Group level.
@@ -65,7 +65,7 @@ export interface HierarchySettingsOperations {
   update(
     groupId: string,
     createTenantSettingsRequest: CreateOrUpdateSettingsRequest,
-    options?: HierarchySettingsUpdateOptionalParams
+    options?: HierarchySettingsUpdateOptionalParams,
   ): Promise<HierarchySettingsUpdateResponse>;
   /**
    * Deletes the hierarchy settings defined at the Management Group level.
@@ -75,6 +75,6 @@ export interface HierarchySettingsOperations {
    */
   delete(
     groupId: string,
-    options?: HierarchySettingsDeleteOptionalParams
+    options?: HierarchySettingsDeleteOptionalParams,
   ): Promise<void>;
 }

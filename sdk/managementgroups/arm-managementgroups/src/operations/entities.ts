@@ -18,7 +18,7 @@ import {
   EntitiesListNextOptionalParams,
   EntitiesListOptionalParams,
   EntitiesListResponse,
-  EntitiesListNextResponse
+  EntitiesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,7 +40,7 @@ export class EntitiesImpl implements Entities {
    * @param options The options parameters.
    */
   public list(
-    options?: EntitiesListOptionalParams
+    options?: EntitiesListOptionalParams,
   ): PagedAsyncIterableIterator<EntityInfo> {
     const iter = this.listPagingAll(options);
     return {
@@ -55,13 +55,13 @@ export class EntitiesImpl implements Entities {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: EntitiesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<EntityInfo[]> {
     let result: EntitiesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -82,7 +82,7 @@ export class EntitiesImpl implements Entities {
   }
 
   private async *listPagingAll(
-    options?: EntitiesListOptionalParams
+    options?: EntitiesListOptionalParams,
   ): AsyncIterableIterator<EntityInfo> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -95,7 +95,7 @@ export class EntitiesImpl implements Entities {
    * @param options The options parameters.
    */
   private _list(
-    options?: EntitiesListOptionalParams
+    options?: EntitiesListOptionalParams,
   ): Promise<EntitiesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -107,11 +107,11 @@ export class EntitiesImpl implements Entities {
    */
   private _listNext(
     nextLink: string,
-    options?: EntitiesListNextOptionalParams
+    options?: EntitiesListNextOptionalParams,
   ): Promise<EntitiesListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -123,11 +123,11 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.EntityListResult
+      bodyMapper: Mappers.EntityListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
@@ -138,35 +138,24 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.select,
     Parameters.search,
     Parameters.view,
-    Parameters.groupName
+    Parameters.groupName,
   ],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept, Parameters.cacheControl],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EntityListResult
+      bodyMapper: Mappers.EntityListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skiptoken,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-    Parameters.select,
-    Parameters.search,
-    Parameters.view,
-    Parameters.groupName
-  ],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept, Parameters.cacheControl],
-  serializer
+  serializer,
 };
