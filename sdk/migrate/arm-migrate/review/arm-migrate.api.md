@@ -6,1212 +6,2117 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
-export interface AssessedDisk {
-    readonly displayName?: string;
-    readonly gigabytesForRecommendedDiskSize?: number;
-    readonly gigabytesProvisioned?: number;
-    readonly megabytesPerSecondOfRead?: number;
-    readonly megabytesPerSecondOfWrite?: number;
-    readonly monthlyStorageCost?: number;
+export type ActionType = string;
+
+// @public
+export interface Application {
     readonly name?: string;
-    readonly numberOfReadOperationsPerSecond?: number;
-    readonly numberOfWriteOperationsPerSecond?: number;
-    readonly recommendedDiskSize?: AzureDiskSize;
-    readonly recommendedDiskType?: AzureDiskType;
-    readonly suitability?: CloudSuitability;
-    readonly suitabilityDetail?: AzureDiskSuitabilityDetail;
-    readonly suitabilityExplanation?: AzureDiskSuitabilityExplanation;
+    readonly provider?: string;
+    readonly version?: string;
 }
 
 // @public
-export interface AssessedMachine {
-    eTag?: string;
-    readonly id?: string;
-    readonly name?: string;
-    properties?: AssessedMachineProperties;
-    readonly type?: string;
+export interface ApplicationDiscovery {
+    readonly discoveryScopeStatus?: ApplicationDiscoveryScopeStatus;
+    readonly errors?: HealthErrorDetails[];
+    readonly hydratedRunAsAccountId?: string;
 }
 
 // @public
-export interface AssessedMachineProperties {
-    readonly bootType?: MachineBootType;
-    readonly confidenceRatingInPercentage?: number;
-    readonly createdTimestamp?: Date;
-    readonly datacenterMachineArmId?: string;
-    readonly datacenterManagementServerArmId?: string;
-    readonly datacenterManagementServerName?: string;
-    readonly description?: string;
-    readonly disks?: {
-        [propertyName: string]: AssessedDisk;
-    };
-    readonly displayName?: string;
-    readonly megabytesOfMemory?: number;
-    readonly megabytesOfMemoryForRecommendedSize?: number;
-    readonly monthlyBandwidthCost?: number;
-    readonly monthlyComputeCostForRecommendedSize?: number;
-    readonly monthlyPremiumStorageCost?: number;
-    readonly monthlyStandardSSDStorageCost?: number;
-    readonly monthlyStorageCost?: number;
-    readonly networkAdapters?: {
-        [propertyName: string]: AssessedNetworkAdapter;
-    };
-    readonly numberOfCores?: number;
-    readonly numberOfCoresForRecommendedSize?: number;
-    readonly operatingSystemName?: string;
-    readonly operatingSystemType?: string;
-    readonly operatingSystemVersion?: string;
-    readonly percentageCoresUtilization?: number;
-    readonly percentageMemoryUtilization?: number;
-    readonly recommendedSize?: AzureVmSize;
-    readonly suitability?: CloudSuitability;
-    readonly suitabilityDetail?: AzureVmSuitabilityDetail;
-    readonly suitabilityExplanation?: AzureVmSuitabilityExplanation;
-    readonly updatedTimestamp?: Date;
+export type ApplicationDiscoveryScopeStatus = string;
+
+// @public
+export interface AppsAndRoles {
+    readonly applications?: Application[];
+    readonly bizTalkServers?: BizTalkServer[];
+    readonly exchangeServers?: ExchangeServer[];
+    readonly features?: Feature[];
+    readonly otherDatabases?: OtherDatabase[];
+    readonly sharePointServers?: SharePointServer[];
+    readonly sqlServers?: SqlServerApplication[];
+    readonly systemCenters?: SystemCenter[];
+    readonly webApplications?: WebApplicationAppsAndRolesModel[];
 }
 
 // @public
-export interface AssessedMachineResultList {
-    // (undocumented)
-    nextLink?: string;
-    value?: AssessedMachine[];
+export interface ArcDiscovery {
+    readonly machineResourceId: string;
+    readonly status: AzureArcStatus;
 }
 
 // @public
-export interface AssessedMachines {
-    get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, assessedMachineName: string, options?: AssessedMachinesGetOptionalParams): Promise<AssessedMachinesGetResponse>;
-    listByAssessment(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: AssessedMachinesListByAssessmentOptionalParams): PagedAsyncIterableIterator<AssessedMachine>;
+export interface ArcScopeProperties {
+    locations?: string[];
+    scopeType: ArcScopeType;
+    subscriptionOrResourceGroupIds?: string[];
 }
 
 // @public
-export interface AssessedMachinesGetHeaders {
-    xMsRequestId?: string;
+export interface ArcScopePropertiesUpdate {
+    locations?: string[];
+    scopeType?: ArcScopeType;
+    subscriptionOrResourceGroupIds?: string[];
 }
 
 // @public
-export interface AssessedMachinesGetOptionalParams extends coreClient.OperationOptions {
-}
+export type ArcScopeType = string;
 
 // @public
-export type AssessedMachinesGetResponse = AssessedMachinesGetHeaders & AssessedMachine;
-
-// @public
-export interface AssessedMachinesListByAssessmentHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface AssessedMachinesListByAssessmentNextHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface AssessedMachinesListByAssessmentNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AssessedMachinesListByAssessmentNextResponse = AssessedMachinesListByAssessmentNextHeaders & AssessedMachineResultList;
-
-// @public
-export interface AssessedMachinesListByAssessmentOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AssessedMachinesListByAssessmentResponse = AssessedMachinesListByAssessmentHeaders & AssessedMachineResultList;
-
-// @public
-export interface AssessedNetworkAdapter {
-    readonly displayName?: string;
-    readonly ipAddresses?: string[];
-    readonly macAddress?: string;
-    readonly megabytesPerSecondReceived?: number;
-    readonly megabytesPerSecondTransmitted?: number;
-    readonly monthlyBandwidthCosts?: number;
-    netGigabytesTransmittedPerMonth?: number;
-    readonly suitability?: CloudSuitability;
-    readonly suitabilityDetail?: AzureNetworkAdapterSuitabilityDetail;
-    readonly suitabilityExplanation?: AzureNetworkAdapterSuitabilityExplanation;
-}
-
-// @public
-export interface Assessment {
-    eTag?: string;
-    readonly id?: string;
-    readonly name?: string;
-    properties: AssessmentProperties;
-    readonly type?: string;
-}
-
-// @public
-export interface AssessmentOptions {
-    readonly id?: string;
-    readonly name?: string;
-    properties: AssessmentOptionsProperties;
-}
-
-// @public
-export interface AssessmentOptionsProperties {
-    readonly reservedInstanceSupportedCurrencies?: string[];
-    readonly reservedInstanceSupportedLocations?: string[];
-    readonly reservedInstanceSupportedOffers?: string[];
-    readonly reservedInstanceVmFamilies?: string[];
-    readonly vmFamilies?: VmFamily[];
-}
-
-// @public
-export interface AssessmentOptionsResultList {
-    value?: AssessmentOptions[];
-}
-
-// @public
-export interface AssessmentProperties {
-    azureDiskType: AzureDiskType;
-    azureHybridUseBenefit: AzureHybridUseBenefit;
-    azureLocation: AzureLocation;
-    azureOfferCode: AzureOfferCode;
-    azurePricingTier: AzurePricingTier;
-    azureStorageRedundancy: AzureStorageRedundancy;
-    azureVmFamilies: AzureVmFamily[];
-    readonly confidenceRatingInPercentage?: number;
-    readonly createdTimestamp?: Date;
-    currency: Currency;
-    discountPercentage: number;
-    readonly eaSubscriptionId?: string;
-    readonly monthlyBandwidthCost?: number;
-    readonly monthlyComputeCost?: number;
-    readonly monthlyPremiumStorageCost?: number;
-    readonly monthlyStandardSSDStorageCost?: number;
-    readonly monthlyStorageCost?: number;
-    readonly numberOfMachines?: number;
-    percentile: Percentile;
-    readonly perfDataEndTime?: Date;
-    readonly perfDataStartTime?: Date;
-    readonly pricesTimestamp?: Date;
-    reservedInstance: ReservedInstance;
-    scalingFactor: number;
-    sizingCriterion: AssessmentSizingCriterion;
-    stage: AssessmentStage;
-    readonly status?: AssessmentStatus;
-    timeRange: TimeRange;
-    readonly updatedTimestamp?: Date;
-    vmUptime: VmUptime;
-}
-
-// @public
-export interface AssessmentResultList {
-    value?: Assessment[];
-}
-
-// @public
-export interface Assessments {
-    create(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: AssessmentsCreateOptionalParams): Promise<AssessmentsCreateResponse>;
-    delete(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: AssessmentsDeleteOptionalParams): Promise<AssessmentsDeleteResponse>;
-    get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: AssessmentsGetOptionalParams): Promise<AssessmentsGetResponse>;
-    getReportDownloadUrl(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: AssessmentsGetReportDownloadUrlOptionalParams): Promise<AssessmentsGetReportDownloadUrlResponse>;
-    listByGroup(resourceGroupName: string, projectName: string, groupName: string, options?: AssessmentsListByGroupOptionalParams): PagedAsyncIterableIterator<Assessment>;
-    listByProject(resourceGroupName: string, projectName: string, options?: AssessmentsListByProjectOptionalParams): PagedAsyncIterableIterator<Assessment>;
-}
-
-// @public
-export interface AssessmentsCreateHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface AssessmentsCreateOptionalParams extends coreClient.OperationOptions {
-    assessment?: Assessment;
-}
-
-// @public
-export type AssessmentsCreateResponse = AssessmentsCreateHeaders & Assessment;
-
-// @public
-export interface AssessmentsDeleteHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface AssessmentsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AssessmentsDeleteResponse = AssessmentsDeleteHeaders;
-
-// @public
-export interface AssessmentsGetHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface AssessmentsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface AssessmentsGetReportDownloadUrlHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface AssessmentsGetReportDownloadUrlOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AssessmentsGetReportDownloadUrlResponse = AssessmentsGetReportDownloadUrlHeaders & DownloadUrl;
-
-// @public
-export type AssessmentsGetResponse = AssessmentsGetHeaders & Assessment;
-
-// @public
-export type AssessmentSizingCriterion = string;
-
-// @public
-export interface AssessmentsListByGroupHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface AssessmentsListByGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AssessmentsListByGroupResponse = AssessmentsListByGroupHeaders & AssessmentResultList;
-
-// @public
-export interface AssessmentsListByProjectHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface AssessmentsListByProjectOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AssessmentsListByProjectResponse = AssessmentsListByProjectHeaders & AssessmentResultList;
-
-// @public
-export type AssessmentStage = string;
-
-// @public
-export type AssessmentStatus = string;
-
-// @public
-export type AzureDiskSize = string;
-
-// @public
-export type AzureDiskSuitabilityDetail = string;
-
-// @public
-export type AzureDiskSuitabilityExplanation = string;
-
-// @public
-export type AzureDiskType = string;
-
-// @public
-export type AzureHybridUseBenefit = string;
-
-// @public
-export type AzureLocation = string;
+export type AzureArcStatus = string;
 
 // @public (undocumented)
-export class AzureMigrateV2 extends coreClient.ServiceClient {
+export class AzureMigrateDiscoveryService extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureMigrateV2OptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureMigrateDiscoveryServiceOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
-    assessedMachines: AssessedMachines;
+    dependencyMapController: DependencyMapController;
     // (undocumented)
-    assessments: Assessments;
+    hypervClusterController: HypervClusterController;
     // (undocumented)
-    groups: Groups;
+    hypervDependencyMapController: HypervDependencyMapController;
     // (undocumented)
-    hyperVCollectors: HyperVCollectors;
+    hypervHostController: HypervHostController;
     // (undocumented)
-    importCollectors: ImportCollectors;
+    hypervJobs: HypervJobs;
     // (undocumented)
-    machines: Machines;
+    hypervJobsController: HypervJobsController;
+    // (undocumented)
+    hypervMachinesController: HypervMachinesController;
+    // (undocumented)
+    hypervOperationsStatusController: HypervOperationsStatusController;
+    // (undocumented)
+    hypervRunAsAccountsController: HypervRunAsAccountsController;
+    // (undocumented)
+    hypervSites: HypervSites;
+    // (undocumented)
+    hypervSitesController: HypervSitesController;
+    // (undocumented)
+    hypervSoftwareInventoriesController: HypervSoftwareInventoriesController;
+    // (undocumented)
+    iisWebApplicationsController: IisWebApplicationsController;
+    // (undocumented)
+    iisWebServersController: IisWebServersController;
+    // (undocumented)
+    importJobsController: ImportJobsController;
+    // (undocumented)
+    importMachinesController: ImportMachinesController;
+    // (undocumented)
+    importSitesController: ImportSitesController;
+    // (undocumented)
+    machinesController: MachinesController;
+    // (undocumented)
+    masterSitesController: MasterSitesController;
+    // (undocumented)
+    masterSitesOperationsStatusController: MasterSitesOperationsStatusController;
     // (undocumented)
     operations: Operations;
     // (undocumented)
-    privateEndpointConnectionOperations: PrivateEndpointConnectionOperations;
+    privateEndpointConnectionController: PrivateEndpointConnectionController;
     // (undocumented)
-    privateLinkResourceOperations: PrivateLinkResourceOperations;
+    privateLinkResourcesController: PrivateLinkResourcesController;
     // (undocumented)
-    projects: Projects;
+    runAsAccountsController: RunAsAccountsController;
     // (undocumented)
-    serverCollectors: ServerCollectors;
+    serverDependencyMapController: ServerDependencyMapController;
+    // (undocumented)
+    serverJobsController: ServerJobsController;
+    // (undocumented)
+    serverOperationsStatusController: ServerOperationsStatusController;
+    // (undocumented)
+    serverRunAsAccountsController: ServerRunAsAccountsController;
+    // (undocumented)
+    serversController: ServersController;
+    // (undocumented)
+    serverSitesController: ServerSitesController;
+    // (undocumented)
+    serverSoftwareInventoriesController: ServerSoftwareInventoriesController;
+    // (undocumented)
+    sitesController: SitesController;
+    // (undocumented)
+    sqlAvailabilityGroupsController: SqlAvailabilityGroupsController;
+    // (undocumented)
+    sqlDatabasesController: SqlDatabasesController;
+    // (undocumented)
+    sqlDiscoverySiteDataSourceController: SqlDiscoverySiteDataSourceController;
+    // (undocumented)
+    sqlImportJobsController: SqlImportJobsController;
+    // (undocumented)
+    sqlJobsController: SqlJobsController;
+    // (undocumented)
+    sqlOperationsStatusController: SqlOperationsStatusController;
+    // (undocumented)
+    sqlRunAsAccountsController: SqlRunAsAccountsController;
+    // (undocumented)
+    sqlServersController: SqlServersController;
+    // (undocumented)
+    sqlSitesController: SqlSitesController;
     // (undocumented)
     subscriptionId: string;
     // (undocumented)
-    vMwareCollectors: VMwareCollectors;
+    tomcatWebApplicationsController: TomcatWebApplicationsController;
+    // (undocumented)
+    tomcatWebServersController: TomcatWebServersController;
+    // (undocumented)
+    vcenterController: VcenterController;
+    // (undocumented)
+    vmwareHostController: VmwareHostController;
+    // (undocumented)
+    vmwareOperationsStatus: VmwareOperationsStatus;
+    // (undocumented)
+    vmwarePropertiesController: VmwarePropertiesController;
+    // (undocumented)
+    vmwareSoftwareInventoriesController: VmwareSoftwareInventoriesController;
+    // (undocumented)
+    webAppDiscoverySiteDataSourcesController: WebAppDiscoverySiteDataSourcesController;
+    // (undocumented)
+    webAppExtendedMachinesController: WebAppExtendedMachinesController;
+    // (undocumented)
+    webApplicationsController: WebApplicationsController;
+    // (undocumented)
+    webAppPropertiesController: WebAppPropertiesController;
+    // (undocumented)
+    webAppRunAsAccountsController: WebAppRunAsAccountsController;
+    // (undocumented)
+    webAppSitesController: WebAppSitesController;
+    // (undocumented)
+    webServersController: WebServersController;
 }
 
 // @public
-export interface AzureMigrateV2OptionalParams extends coreClient.ServiceClientOptions {
+export interface AzureMigrateDiscoveryServiceOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
 }
 
 // @public
-export type AzureNetworkAdapterSuitabilityDetail = string;
-
-// @public
-export type AzureNetworkAdapterSuitabilityExplanation = string;
-
-// @public
-export type AzureOfferCode = string;
-
-// @public
-export type AzurePricingTier = string;
-
-// @public
-export type AzureStorageRedundancy = string;
-
-// @public
-export type AzureVmFamily = string;
-
-// @public
-export type AzureVmSize = string;
-
-// @public
-export type AzureVmSuitabilityDetail = string;
-
-// @public
-export type AzureVmSuitabilityExplanation = string;
-
-// @public
-export interface CloudError {
-    error?: CloudErrorBody;
+export interface BizTalkServer {
+    readonly productName?: string;
+    readonly status?: string;
 }
 
 // @public
-export interface CloudErrorBody {
-    code?: string;
-    details?: CloudErrorBody[];
-    message?: string;
-    target?: string;
+export interface ConnectorUnit {
+    bindings?: FrontEndBinding[];
 }
 
 // @public
-export type CloudSuitability = string;
+export type CreatedByType = string;
 
-// @public (undocumented)
-export interface CollectorAgentProperties {
-    readonly id?: string;
-    readonly lastHeartbeatUtc?: Date;
-    // (undocumented)
-    spnDetails?: CollectorBodyAgentSpnProperties;
+// @public
+export type Default = string;
+
+// @public
+export type DefaultAutoGenerated = string;
+
+// @public
+export type DefaultValues = string;
+
+// @public
+export type DeleteImportedMachinesJobPropertiesJobState = string;
+
+// @public
+export interface DeleteImportMachinesJob extends ProxyResource {
+    blobName?: string;
+    deletionConfirmation?: boolean;
+    displayName?: string;
+    endTime?: string;
+    readonly errors?: string[];
+    errorSasUri?: string;
+    jobState?: DeleteImportedMachinesJobPropertiesJobState;
+    numberOfMachinesDeleted?: number;
+    provisioningState?: ProvisioningState;
+    startTime?: string;
+    status?: string;
+}
+
+// @public
+export interface DeleteImportMachinesJobCollection {
+    readonly nextLink?: string;
+    value: DeleteImportMachinesJob[];
+}
+
+// @public
+export interface DependencyMapController {
+    beginClientGroupMembers(resourceGroupName: string, siteName: string, mapRequest: DependencyMapServiceMapextensionsClientGroupMembersRequest, options?: DependencyMapControllerClientGroupMembersOptionalParams): Promise<SimplePollerLike<OperationState<DependencyMapControllerClientGroupMembersResponse>, DependencyMapControllerClientGroupMembersResponse>>;
+    beginClientGroupMembersAndWait(resourceGroupName: string, siteName: string, mapRequest: DependencyMapServiceMapextensionsClientGroupMembersRequest, options?: DependencyMapControllerClientGroupMembersOptionalParams): Promise<DependencyMapControllerClientGroupMembersResponse>;
+    beginExportDependencies(resourceGroupName: string, siteName: string, requestBody: DependencyMapServiceMapextensionsExportDependenciesRequest, options?: DependencyMapControllerExportDependenciesOptionalParams): Promise<SimplePollerLike<OperationState<DependencyMapControllerExportDependenciesResponse>, DependencyMapControllerExportDependenciesResponse>>;
+    beginExportDependenciesAndWait(resourceGroupName: string, siteName: string, requestBody: DependencyMapServiceMapextensionsExportDependenciesRequest, options?: DependencyMapControllerExportDependenciesOptionalParams): Promise<DependencyMapControllerExportDependenciesResponse>;
+    beginGenerateCoarseMap(resourceGroupName: string, siteName: string, mapRequest: DependencyMapServiceMapextensionsScopeMapRequest, options?: DependencyMapControllerGenerateCoarseMapOptionalParams): Promise<SimplePollerLike<OperationState<DependencyMapControllerGenerateCoarseMapResponse>, DependencyMapControllerGenerateCoarseMapResponse>>;
+    beginGenerateCoarseMapAndWait(resourceGroupName: string, siteName: string, mapRequest: DependencyMapServiceMapextensionsScopeMapRequest, options?: DependencyMapControllerGenerateCoarseMapOptionalParams): Promise<DependencyMapControllerGenerateCoarseMapResponse>;
+    beginGenerateDetailedMap(resourceGroupName: string, siteName: string, mapRequest: DependencyMapServiceMapextensionsSingleMachineDetailedMapRequest, options?: DependencyMapControllerGenerateDetailedMapOptionalParams): Promise<SimplePollerLike<OperationState<DependencyMapControllerGenerateDetailedMapResponse>, DependencyMapControllerGenerateDetailedMapResponse>>;
+    beginGenerateDetailedMapAndWait(resourceGroupName: string, siteName: string, mapRequest: DependencyMapServiceMapextensionsSingleMachineDetailedMapRequest, options?: DependencyMapControllerGenerateDetailedMapOptionalParams): Promise<DependencyMapControllerGenerateDetailedMapResponse>;
+    beginServerGroupMembers(resourceGroupName: string, siteName: string, mapRequest: DependencyMapServiceMapextensionsServerGroupMembersRequest, options?: DependencyMapControllerServerGroupMembersOptionalParams): Promise<SimplePollerLike<OperationState<DependencyMapControllerServerGroupMembersResponse>, DependencyMapControllerServerGroupMembersResponse>>;
+    beginServerGroupMembersAndWait(resourceGroupName: string, siteName: string, mapRequest: DependencyMapServiceMapextensionsServerGroupMembersRequest, options?: DependencyMapControllerServerGroupMembersOptionalParams): Promise<DependencyMapControllerServerGroupMembersResponse>;
+}
+
+// @public
+export interface DependencyMapControllerClientGroupMembersHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface DependencyMapControllerClientGroupMembersOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DependencyMapControllerClientGroupMembersResponse = Record<string, unknown>;
+
+// @public
+export interface DependencyMapControllerExportDependenciesHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface DependencyMapControllerExportDependenciesOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DependencyMapControllerExportDependenciesResponse = Record<string, unknown>;
+
+// @public
+export interface DependencyMapControllerGenerateCoarseMapHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface DependencyMapControllerGenerateCoarseMapOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DependencyMapControllerGenerateCoarseMapResponse = Record<string, unknown>;
+
+// @public
+export interface DependencyMapControllerGenerateDetailedMapHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface DependencyMapControllerGenerateDetailedMapOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DependencyMapControllerGenerateDetailedMapResponse = Record<string, unknown>;
+
+// @public
+export interface DependencyMapControllerServerGroupMembersHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface DependencyMapControllerServerGroupMembersOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DependencyMapControllerServerGroupMembersResponse = Record<string, unknown>;
+
+// @public
+export interface DependencyMapDiscovery {
+    readonly discoveryScopeStatus?: DependencyMapDiscoveryScopeStatus;
+    readonly errors?: HealthErrorDetails[];
+    readonly hydratedRunAsAccountId?: string;
+}
+
+// @public
+export type DependencyMapDiscoveryScopeStatus = string;
+
+// @public
+export interface DependencyMapMachineInput {
+    isDependencyMapToBeEnabled?: boolean;
+    machineId?: string;
+}
+
+// @public
+export interface DependencyMapServiceMapextensionsClientGroupMembersRequest {
+    endTime?: Date;
+    filters?: DependencyMapServiceMapextensionsDependencyMapRequestFilters;
+    machineId?: string;
+    processGroupName?: string;
+    processName?: string;
+    startTime?: Date;
+}
+
+// @public
+export interface DependencyMapServiceMapextensionsDependencyMapRequestFilters {
+    machineIds?: string[];
+    processIds?: string[];
+}
+
+// @public
+export interface DependencyMapServiceMapextensionsExportDependenciesRequest {
+    endTime?: Date;
+    startTime?: Date;
+}
+
+// @public
+export interface DependencyMapServiceMapextensionsScopeMapRequest {
+    endTime?: Date;
+    filters?: DependencyMapServiceMapextensionsDependencyMapRequestFilters;
+    startTime?: Date;
+}
+
+// @public
+export interface DependencyMapServiceMapextensionsServerGroupMembersRequest {
+    endTime?: Date;
+    filters?: DependencyMapServiceMapextensionsDependencyMapRequestFilters;
+    serverPort?: number;
+    startTime?: Date;
+}
+
+// @public
+export interface DependencyMapServiceMapextensionsSingleMachineDetailedMapRequest {
+    endTime?: Date;
+    filters?: DependencyMapServiceMapextensionsDependencyMapRequestFilters;
+    machineId?: string;
+    startTime?: Date;
+}
+
+// @public
+export interface DirectoryPath {
+    physical?: string;
+    virtual?: string;
+}
+
+// @public
+export interface DiscoveryScopeErrorSummary {
+    affectedObjectsCount: number;
+    affectedResourceType: string;
+    discoveryScope: DiscoveryScopes;
+}
+
+// @public
+export type DiscoveryScopes = string;
+
+// @public
+export type DiscoveryScopeStatus = string;
+
+// @public
+export interface DiscoverySiteDataSource extends ProxyResource {
+    discoverySiteId?: string;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface DiscoverySiteDataSourceListResult {
+    nextLink?: string;
+    value: DiscoverySiteDataSource[];
+}
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorDetails {
+    readonly agentErrorCode?: string;
+    readonly agentErrorMessage?: string;
+    readonly agentErrorPossibleCauses?: string;
+    readonly agentErrorRecommendedAction?: string;
+    readonly code?: string;
+    readonly isAgentReportedError?: boolean;
+    readonly message?: string;
+    readonly possibleCauses?: string;
+    readonly recommendedAction?: string;
+    readonly severity?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
+export interface Errors {
+    readonly applianceName?: string;
+    readonly code?: string;
+    readonly discoveryScope?: HealthErrorDetailsDiscoveryScope;
+    readonly id?: number;
+    readonly message?: string;
+    readonly messageParameters?: {
+        [propertyName: string]: string;
+    };
+    readonly possibleCauses?: string;
+    readonly recommendedAction?: string;
+    readonly runAsAccountId?: string;
+    readonly severity?: string;
+    readonly source?: MicrosoftAzureFDSWebRoleHealthErrorDetailsSource;
+    readonly summaryMessage?: string;
+    readonly updatedTimeStamp?: Date;
+}
+
+// @public
+export interface ErrorSummaryRequest {
+    applianceName?: string;
+}
+
+// @public
+export type EsuStatus = string;
+
+// @public
+export type EsuYear = string;
+
+// @public
+export interface ExchangeServer {
+    readonly edition?: string;
+    readonly productName?: string;
+    readonly roles?: string;
+    readonly servicePack?: string;
     readonly version?: string;
 }
 
-// @public (undocumented)
-export interface CollectorBodyAgentSpnProperties {
-    applicationId?: string;
-    audience?: string;
-    authority?: string;
-    objectId?: string;
-    tenantId?: string;
-}
-
-// @public (undocumented)
-export interface CollectorProperties {
-    // (undocumented)
-    agentProperties?: CollectorAgentProperties;
-    readonly createdTimestamp?: string;
-    discoverySiteId?: string;
-    readonly updatedTimestamp?: string;
+// @public
+export interface ExportImportedMachinesJob {
+    displayName?: string;
+    endTime?: string;
+    id?: string;
+    name?: string;
+    properties?: ExportImportedMachinesJobEntityProperties;
+    startTime?: string;
+    status?: string;
+    readonly type?: string;
 }
 
 // @public
-export type Currency = string;
-
-// @public
-export interface Disk {
-    readonly displayName?: string;
-    readonly gigabytesAllocated?: number;
+export interface ExportImportedMachinesJobEntityProperties {
+    blobName?: string;
+    sasUri?: string;
 }
 
 // @public
-export interface DownloadUrl {
-    readonly assessmentReportUrl?: string;
-    readonly expirationTime?: Date;
+export type ExportMachineErrorsProperties = string;
+
+// @public
+export interface ExportMachineErrorsRequest {
+    properties?: RequestExportMachineErrorsProperties;
+}
+
+// @public
+export interface ExportMachinesRequest {
+    filter?: string;
+}
+
+// @public
+export interface ExportSqlServersRequest {
+    applianceName?: string;
+    filter?: string;
+}
+
+// @public
+export interface ExportWebAppsRequest {
+    filter?: string;
+}
+
+// @public
+export type FCIInstanceState = string;
+
+// @public
+export interface Feature {
+    readonly featureType?: string;
+    readonly name?: string;
+    readonly parent?: string;
+    readonly status?: string;
+}
+
+// @public
+export interface FileMetaData {
+    fileType?: FileType;
+    isMemoryOptimizedDataOptionEnabled?: boolean;
+    logicalName?: string;
+    physicalFullName?: string;
+    sizeInMb?: number;
+}
+
+// @public
+export type FileType = string;
+
+// @public
+export interface FrontEndBinding {
+    hostName?: string;
+    ipAddress?: string;
+    port?: string;
+    protocol?: string;
 }
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
-export interface Group {
-    eTag?: string;
-    readonly id?: string;
-    readonly name?: string;
-    properties: GroupProperties;
-    readonly type?: string;
+export interface GuestOsDetails {
+    osArchitecture?: string;
+    osName?: string;
+    osType?: string;
+    osVersion?: string;
 }
 
 // @public
-export interface GroupBodyProperties {
-    machines?: string[];
-    operationType?: GroupUpdateOperation;
+export interface HealthErrorDetails {
+    readonly applianceName?: string;
+    readonly code?: string;
+    readonly discoveryScope?: HealthErrorDetailsDiscoveryScope;
+    readonly id?: number;
+    readonly message?: string;
+    readonly messageParameters?: {
+        [propertyName: string]: string;
+    };
+    readonly possibleCauses?: string;
+    readonly recommendedAction?: string;
+    readonly runAsAccountId?: string;
+    readonly severity?: string;
+    readonly source?: HealthErrorDetailsSource;
+    readonly summaryMessage?: string;
+    readonly updatedTimeStamp?: Date;
 }
 
 // @public
-export interface GroupProperties {
-    readonly areAssessmentsRunning?: boolean;
-    readonly assessments?: string[];
-    readonly createdTimestamp?: Date;
-    readonly groupStatus?: GroupStatus;
-    groupType?: string;
-    readonly machineCount?: number;
-    readonly updatedTimestamp?: Date;
-}
+export type HealthErrorDetailsDiscoveryScope = string;
 
 // @public
-export interface GroupResultList {
-    value?: Group[];
-}
+export type HealthErrorDetailsSource = string;
 
 // @public
-export interface Groups {
-    create(resourceGroupName: string, projectName: string, groupName: string, options?: GroupsCreateOptionalParams): Promise<GroupsCreateResponse>;
-    delete(resourceGroupName: string, projectName: string, groupName: string, options?: GroupsDeleteOptionalParams): Promise<GroupsDeleteResponse>;
-    get(resourceGroupName: string, projectName: string, groupName: string, options?: GroupsGetOptionalParams): Promise<GroupsGetResponse>;
-    listByProject(resourceGroupName: string, projectName: string, options?: GroupsListByProjectOptionalParams): PagedAsyncIterableIterator<Group>;
-    updateMachines(resourceGroupName: string, projectName: string, groupName: string, options?: GroupsUpdateMachinesOptionalParams): Promise<GroupsUpdateMachinesResponse>;
-}
+export type HighAvailability = string;
 
 // @public
-export interface GroupsCreateHeaders {
-    xMsRequestId?: string;
-}
+export type HighAvailabilityValues = string;
 
 // @public
-export interface GroupsCreateOptionalParams extends coreClient.OperationOptions {
-    group?: Group;
-}
-
-// @public
-export type GroupsCreateResponse = GroupsCreateHeaders & Group;
-
-// @public
-export interface GroupsDeleteHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface GroupsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GroupsDeleteResponse = GroupsDeleteHeaders;
-
-// @public
-export interface GroupsGetHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface GroupsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GroupsGetResponse = GroupsGetHeaders & Group;
-
-// @public
-export interface GroupsListByProjectHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface GroupsListByProjectOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GroupsListByProjectResponse = GroupsListByProjectHeaders & GroupResultList;
-
-// @public
-export type GroupStatus = string;
-
-// @public
-export interface GroupsUpdateMachinesHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface GroupsUpdateMachinesOptionalParams extends coreClient.OperationOptions {
-    groupUpdateProperties?: UpdateGroupBody;
-}
-
-// @public
-export type GroupsUpdateMachinesResponse = GroupsUpdateMachinesHeaders & Group;
-
-// @public
-export type GroupUpdateOperation = string;
-
-// @public (undocumented)
-export interface HyperVCollector {
-    // (undocumented)
-    eTag?: string;
-    readonly id?: string;
-    readonly name?: string;
-    // (undocumented)
-    properties?: CollectorProperties;
-    readonly type?: string;
-}
-
-// @public
-export interface HyperVCollectorList {
-    value?: HyperVCollector[];
-}
-
-// @public
-export interface HyperVCollectors {
-    create(resourceGroupName: string, projectName: string, hyperVCollectorName: string, options?: HyperVCollectorsCreateOptionalParams): Promise<HyperVCollectorsCreateResponse>;
-    delete(resourceGroupName: string, projectName: string, hyperVCollectorName: string, options?: HyperVCollectorsDeleteOptionalParams): Promise<HyperVCollectorsDeleteResponse>;
-    get(resourceGroupName: string, projectName: string, hyperVCollectorName: string, options?: HyperVCollectorsGetOptionalParams): Promise<HyperVCollectorsGetResponse>;
-    listByProject(resourceGroupName: string, projectName: string, options?: HyperVCollectorsListByProjectOptionalParams): PagedAsyncIterableIterator<HyperVCollector>;
-}
-
-// @public
-export interface HyperVCollectorsCreateHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface HyperVCollectorsCreateOptionalParams extends coreClient.OperationOptions {
-    collectorBody?: HyperVCollector;
-}
-
-// @public
-export type HyperVCollectorsCreateResponse = HyperVCollectorsCreateHeaders & HyperVCollector;
-
-// @public
-export interface HyperVCollectorsDeleteHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface HyperVCollectorsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type HyperVCollectorsDeleteResponse = HyperVCollectorsDeleteHeaders;
-
-// @public
-export interface HyperVCollectorsGetHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface HyperVCollectorsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type HyperVCollectorsGetResponse = HyperVCollectorsGetHeaders & HyperVCollector;
-
-// @public
-export interface HyperVCollectorsListByProjectHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface HyperVCollectorsListByProjectOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type HyperVCollectorsListByProjectResponse = HyperVCollectorsListByProjectHeaders & HyperVCollectorList;
-
-// @public (undocumented)
-export interface ImportCollector {
-    // (undocumented)
-    eTag?: string;
-    readonly id?: string;
-    readonly name?: string;
-    // (undocumented)
-    properties?: ImportCollectorProperties;
-    readonly type?: string;
-}
-
-// @public
-export interface ImportCollectorList {
-    value?: ImportCollector[];
-}
-
-// @public (undocumented)
-export interface ImportCollectorProperties {
+export interface HypervCluster extends ProxyResource {
     readonly createdTimestamp?: string;
-    // (undocumented)
-    discoverySiteId?: string;
+    readonly errors?: HealthErrorDetails[];
+    fqdn?: string;
+    readonly functionalLevel?: number;
+    hostFqdnList?: string[];
+    provisioningState?: ProvisioningState;
+    runAsAccountId?: string;
+    readonly status?: string;
     readonly updatedTimestamp?: string;
 }
 
 // @public
-export interface ImportCollectors {
-    create(resourceGroupName: string, projectName: string, importCollectorName: string, options?: ImportCollectorsCreateOptionalParams): Promise<ImportCollectorsCreateResponse>;
-    delete(resourceGroupName: string, projectName: string, importCollectorName: string, options?: ImportCollectorsDeleteOptionalParams): Promise<ImportCollectorsDeleteResponse>;
-    get(resourceGroupName: string, projectName: string, importCollectorName: string, options?: ImportCollectorsGetOptionalParams): Promise<ImportCollectorsGetResponse>;
-    listByProject(resourceGroupName: string, projectName: string, options?: ImportCollectorsListByProjectOptionalParams): PagedAsyncIterableIterator<ImportCollector>;
+export interface HypervClusterController {
+    beginCreateCluster(resourceGroupName: string, siteName: string, clusterName: string, body: HypervCluster, options?: HypervClusterControllerCreateClusterOptionalParams): Promise<SimplePollerLike<OperationState<HypervClusterControllerCreateClusterResponse>, HypervClusterControllerCreateClusterResponse>>;
+    beginCreateClusterAndWait(resourceGroupName: string, siteName: string, clusterName: string, body: HypervCluster, options?: HypervClusterControllerCreateClusterOptionalParams): Promise<HypervClusterControllerCreateClusterResponse>;
+    delete(resourceGroupName: string, siteName: string, clusterName: string, options?: HypervClusterControllerDeleteOptionalParams): Promise<void>;
+    getCluster(resourceGroupName: string, siteName: string, clusterName: string, options?: HypervClusterControllerGetClusterOptionalParams): Promise<HypervClusterControllerGetClusterResponse>;
+    listByHypervSite(resourceGroupName: string, siteName: string, options?: HypervClusterControllerListByHypervSiteOptionalParams): PagedAsyncIterableIterator<HypervCluster>;
 }
 
 // @public
-export interface ImportCollectorsCreateHeaders {
-    xMsRequestId?: string;
+export interface HypervClusterControllerCreateClusterHeaders {
+    retryAfter?: number;
 }
 
 // @public
-export interface ImportCollectorsCreateOptionalParams extends coreClient.OperationOptions {
-    collectorBody?: ImportCollector;
+export interface HypervClusterControllerCreateClusterOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export type ImportCollectorsCreateResponse = ImportCollectorsCreateHeaders & ImportCollector;
+export type HypervClusterControllerCreateClusterResponse = HypervCluster;
 
 // @public
-export interface ImportCollectorsDeleteHeaders {
-    xMsRequestId?: string;
+export interface HypervClusterControllerDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface ImportCollectorsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface HypervClusterControllerGetClusterOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ImportCollectorsDeleteResponse = ImportCollectorsDeleteHeaders;
+export type HypervClusterControllerGetClusterResponse = HypervCluster;
 
 // @public
-export interface ImportCollectorsGetHeaders {
-    xMsRequestId?: string;
+export interface HypervClusterControllerListByHypervSiteNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface ImportCollectorsGetOptionalParams extends coreClient.OperationOptions {
+export type HypervClusterControllerListByHypervSiteNextResponse = HypervClusterListResult;
+
+// @public
+export interface HypervClusterControllerListByHypervSiteOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
 }
 
 // @public
-export type ImportCollectorsGetResponse = ImportCollectorsGetHeaders & ImportCollector;
+export type HypervClusterControllerListByHypervSiteResponse = HypervClusterListResult;
 
 // @public
-export interface ImportCollectorsListByProjectHeaders {
-    xMsRequestId?: string;
+export interface HypervClusterListResult {
+    nextLink?: string;
+    value: HypervCluster[];
 }
 
 // @public
-export interface ImportCollectorsListByProjectOptionalParams extends coreClient.OperationOptions {
+export interface HypervDependencyMapController {
+    beginClientGroupMembers(resourceGroupName: string, siteName: string, mapRequest: DependencyMapServiceMapextensionsClientGroupMembersRequest, options?: HypervDependencyMapControllerClientGroupMembersOptionalParams): Promise<SimplePollerLike<OperationState<HypervDependencyMapControllerClientGroupMembersResponse>, HypervDependencyMapControllerClientGroupMembersResponse>>;
+    beginClientGroupMembersAndWait(resourceGroupName: string, siteName: string, mapRequest: DependencyMapServiceMapextensionsClientGroupMembersRequest, options?: HypervDependencyMapControllerClientGroupMembersOptionalParams): Promise<HypervDependencyMapControllerClientGroupMembersResponse>;
+    beginExportDependencies(resourceGroupName: string, siteName: string, requestBody: DependencyMapServiceMapextensionsExportDependenciesRequest, options?: HypervDependencyMapControllerExportDependenciesOptionalParams): Promise<SimplePollerLike<OperationState<HypervDependencyMapControllerExportDependenciesResponse>, HypervDependencyMapControllerExportDependenciesResponse>>;
+    beginExportDependenciesAndWait(resourceGroupName: string, siteName: string, requestBody: DependencyMapServiceMapextensionsExportDependenciesRequest, options?: HypervDependencyMapControllerExportDependenciesOptionalParams): Promise<HypervDependencyMapControllerExportDependenciesResponse>;
+    beginGenerateCoarseMap(resourceGroupName: string, siteName: string, mapRequest: DependencyMapServiceMapextensionsScopeMapRequest, options?: HypervDependencyMapControllerGenerateCoarseMapOptionalParams): Promise<SimplePollerLike<OperationState<HypervDependencyMapControllerGenerateCoarseMapResponse>, HypervDependencyMapControllerGenerateCoarseMapResponse>>;
+    beginGenerateCoarseMapAndWait(resourceGroupName: string, siteName: string, mapRequest: DependencyMapServiceMapextensionsScopeMapRequest, options?: HypervDependencyMapControllerGenerateCoarseMapOptionalParams): Promise<HypervDependencyMapControllerGenerateCoarseMapResponse>;
+    beginGenerateDetailedMap(resourceGroupName: string, siteName: string, mapRequest: DependencyMapServiceMapextensionsSingleMachineDetailedMapRequest, options?: HypervDependencyMapControllerGenerateDetailedMapOptionalParams): Promise<SimplePollerLike<OperationState<HypervDependencyMapControllerGenerateDetailedMapResponse>, HypervDependencyMapControllerGenerateDetailedMapResponse>>;
+    beginGenerateDetailedMapAndWait(resourceGroupName: string, siteName: string, mapRequest: DependencyMapServiceMapextensionsSingleMachineDetailedMapRequest, options?: HypervDependencyMapControllerGenerateDetailedMapOptionalParams): Promise<HypervDependencyMapControllerGenerateDetailedMapResponse>;
+    beginServerGroupMembers(resourceGroupName: string, siteName: string, mapRequest: DependencyMapServiceMapextensionsServerGroupMembersRequest, options?: HypervDependencyMapControllerServerGroupMembersOptionalParams): Promise<SimplePollerLike<OperationState<HypervDependencyMapControllerServerGroupMembersResponse>, HypervDependencyMapControllerServerGroupMembersResponse>>;
+    beginServerGroupMembersAndWait(resourceGroupName: string, siteName: string, mapRequest: DependencyMapServiceMapextensionsServerGroupMembersRequest, options?: HypervDependencyMapControllerServerGroupMembersOptionalParams): Promise<HypervDependencyMapControllerServerGroupMembersResponse>;
+    beginUpdateDependencyMapStatus(resourceGroupName: string, siteName: string, mapRequest: UpdateMachineDepMapStatus, options?: HypervDependencyMapControllerUpdateDependencyMapStatusOptionalParams): Promise<SimplePollerLike<OperationState<HypervDependencyMapControllerUpdateDependencyMapStatusResponse>, HypervDependencyMapControllerUpdateDependencyMapStatusResponse>>;
+    beginUpdateDependencyMapStatusAndWait(resourceGroupName: string, siteName: string, mapRequest: UpdateMachineDepMapStatus, options?: HypervDependencyMapControllerUpdateDependencyMapStatusOptionalParams): Promise<HypervDependencyMapControllerUpdateDependencyMapStatusResponse>;
 }
 
 // @public
-export type ImportCollectorsListByProjectResponse = ImportCollectorsListByProjectHeaders & ImportCollectorList;
-
-// @public
-export enum KnownAssessmentSizingCriterion {
-    AsOnPremises = "AsOnPremises",
-    PerformanceBased = "PerformanceBased"
+export interface HypervDependencyMapControllerClientGroupMembersHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
-export enum KnownAssessmentStage {
-    Approved = "Approved",
-    InProgress = "InProgress",
-    UnderReview = "UnderReview"
+export interface HypervDependencyMapControllerClientGroupMembersOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export enum KnownAssessmentStatus {
+export type HypervDependencyMapControllerClientGroupMembersResponse = Record<string, unknown>;
+
+// @public
+export interface HypervDependencyMapControllerExportDependenciesHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface HypervDependencyMapControllerExportDependenciesOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type HypervDependencyMapControllerExportDependenciesResponse = Record<string, unknown>;
+
+// @public
+export interface HypervDependencyMapControllerGenerateCoarseMapHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface HypervDependencyMapControllerGenerateCoarseMapOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type HypervDependencyMapControllerGenerateCoarseMapResponse = Record<string, unknown>;
+
+// @public
+export interface HypervDependencyMapControllerGenerateDetailedMapHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface HypervDependencyMapControllerGenerateDetailedMapOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type HypervDependencyMapControllerGenerateDetailedMapResponse = Record<string, unknown>;
+
+// @public
+export interface HypervDependencyMapControllerServerGroupMembersHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface HypervDependencyMapControllerServerGroupMembersOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type HypervDependencyMapControllerServerGroupMembersResponse = Record<string, unknown>;
+
+// @public
+export interface HypervDependencyMapControllerUpdateDependencyMapStatusHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface HypervDependencyMapControllerUpdateDependencyMapStatusOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type HypervDependencyMapControllerUpdateDependencyMapStatusResponse = Record<string, unknown>;
+
+// @public
+export interface HypervDisk {
+    diskType?: string;
+    readonly instanceId?: string;
+    lun?: number;
+    maxSizeInBytes?: number;
+    name?: string;
+    path?: string;
+    readonly vhdId?: string;
+}
+
+// @public
+export interface HypervHost extends ProxyResource {
+    readonly createdTimestamp?: string;
+    readonly errors?: HealthErrorDetails[];
+    fqdn?: string;
+    provisioningState?: ProvisioningState;
+    runAsAccountId?: string;
+    readonly updatedTimestamp?: string;
+    readonly version?: string;
+}
+
+// @public
+export interface HypervHostController {
+    beginCreate(resourceGroupName: string, siteName: string, hostName: string, body: HypervHost, options?: HypervHostControllerCreateOptionalParams): Promise<SimplePollerLike<OperationState<HypervHostControllerCreateResponse>, HypervHostControllerCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, siteName: string, hostName: string, body: HypervHost, options?: HypervHostControllerCreateOptionalParams): Promise<HypervHostControllerCreateResponse>;
+    beginDelete(resourceGroupName: string, siteName: string, hostName: string, options?: HypervHostControllerDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, siteName: string, hostName: string, options?: HypervHostControllerDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, siteName: string, hostName: string, options?: HypervHostControllerGetOptionalParams): Promise<HypervHostControllerGetResponse>;
+    listByHypervSite(resourceGroupName: string, siteName: string, options?: HypervHostControllerListByHypervSiteOptionalParams): PagedAsyncIterableIterator<HypervHost>;
+}
+
+// @public
+export interface HypervHostControllerCreateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface HypervHostControllerCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type HypervHostControllerCreateResponse = HypervHost;
+
+// @public
+export interface HypervHostControllerDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface HypervHostControllerDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface HypervHostControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HypervHostControllerGetResponse = HypervHost;
+
+// @public
+export interface HypervHostControllerListByHypervSiteNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HypervHostControllerListByHypervSiteNextResponse = HypervHostListResult;
+
+// @public
+export interface HypervHostControllerListByHypervSiteOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type HypervHostControllerListByHypervSiteResponse = HypervHostListResult;
+
+// @public
+export interface HypervHostListResult {
+    nextLink?: string;
+    value: HypervHost[];
+}
+
+// @public
+export interface HypervJob extends ProxyResource {
+    readonly activityId?: string;
+    readonly clientRequestId?: string;
+    readonly displayName?: string;
+    readonly endTime?: string;
+    readonly errors?: ErrorDetails[];
+    readonly provisioningState?: ProvisioningState;
+    readonly startTime?: string;
+    readonly status?: string;
+}
+
+// @public
+export interface HypervJobListResult {
+    nextLink?: string;
+    value: HypervJob[];
+}
+
+// @public
+export interface HypervJobs {
+    get(resourceGroupName: string, siteName: string, jobName: string, options?: HypervJobsGetOptionalParams): Promise<HypervJobsGetResponse>;
+    listByHypervSite(resourceGroupName: string, siteName: string, options?: HypervJobsListByHypervSiteOptionalParams): PagedAsyncIterableIterator<HypervJob>;
+}
+
+// @public
+export interface HypervJobsController {
+    get(resourceGroupName: string, siteName: string, jobName: string, options?: HypervJobsControllerGetOptionalParams): Promise<HypervJobsControllerGetResponse>;
+    listByVmwareSite(resourceGroupName: string, siteName: string, options?: HypervJobsControllerListByVmwareSiteOptionalParams): PagedAsyncIterableIterator<VmwareJob>;
+}
+
+// @public
+export interface HypervJobsControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HypervJobsControllerGetResponse = VmwareJob;
+
+// @public
+export interface HypervJobsControllerListByVmwareSiteNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HypervJobsControllerListByVmwareSiteNextResponse = VmwareJobListResult;
+
+// @public
+export interface HypervJobsControllerListByVmwareSiteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HypervJobsControllerListByVmwareSiteResponse = VmwareJobListResult;
+
+// @public
+export interface HypervJobsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HypervJobsGetResponse = HypervJob;
+
+// @public
+export interface HypervJobsListByHypervSiteNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HypervJobsListByHypervSiteNextResponse = HypervJobListResult;
+
+// @public
+export interface HypervJobsListByHypervSiteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HypervJobsListByHypervSiteResponse = HypervJobListResult;
+
+// @public
+export interface HypervMachine extends ProxyResource {
+    allocatedMemoryInMb?: number;
+    readonly applianceNames?: string[];
+    readonly applicationDiscovery?: ApplicationDiscovery;
+    readonly appsAndRoles?: AppsAndRoles;
+    readonly arcDiscovery?: ArcDiscovery;
+    biosGuid?: string;
+    biosSerialNumber?: string;
+    readonly clusterFqdn?: string;
+    readonly clusterId?: string;
+    readonly createdTimestamp?: string;
+    readonly dataProtectionRequested?: boolean;
+    readonly dependencyMapDiscovery?: DependencyMapDiscovery;
+    readonly dependencyMapping?: string;
+    readonly dependencyMappingEndTime?: string;
+    readonly dependencyMappingStartTime?: Date;
+    readonly disks?: HypervDisk[];
+    readonly displayName?: string;
+    readonly encryptStateAndVmMigrationTraffic?: boolean;
+    readonly errors?: HealthErrorDetails[];
+    firmware?: string;
+    readonly generation?: number;
+    readonly guestDetailsDiscoveryTimestamp?: Date;
+    readonly guestOsDetails?: GuestOsDetails;
+    readonly highAvailability?: HighAvailability;
+    readonly hostFqdn?: string;
+    readonly hostId?: string;
+    readonly iisDiscovery?: WebAppDiscovery;
+    readonly instanceUuid?: string;
+    readonly isDeleted?: boolean;
+    readonly isDynamicMemoryEnabled?: boolean;
+    readonly isGuestDetailsDiscoveryInProgress?: boolean;
+    readonly ksdEnabled?: boolean;
+    readonly managementServerType?: string;
+    readonly maxMemoryMb?: number;
+    readonly networkAdapters?: HypervNetworkAdapter[];
+    readonly numberOfApplications?: number;
+    numberOfProcessorCore?: number;
+    operatingSystemDetails?: OperatingSystem;
+    readonly oracleDiscovery?: OracleDiscovery;
+    readonly powerStatus?: string;
+    productSupportStatus?: ProductSupportStatus;
+    readonly provisioningState?: ProvisioningState;
+    runAsAccountId?: string;
+    readonly secureBootEnabled?: boolean;
+    readonly secureBootTemplate?: string;
+    readonly secureBootTemplateId?: string;
+    readonly shieldingRequested?: boolean;
+    readonly springBootDiscovery?: SpringBootDiscovery;
+    readonly sqlDiscovery?: SqlDiscovery;
+    readonly staticDiscovery?: StaticDiscovery;
+    tags?: {
+        [propertyName: string]: string;
+    };
+    readonly tomcatDiscovery?: WebAppDiscovery;
+    readonly tpmEnabled?: boolean;
+    readonly updatedTimestamp?: string;
+    readonly version?: string;
+    readonly virtualizationBasedSecurityOptOut?: boolean;
+    readonly vmConfigurationFileLocation?: string;
+    readonly vmFqdn?: string;
+    readonly webAppDiscovery?: WebAppDiscovery;
+}
+
+// @public
+export interface HypervMachineListResult {
+    nextLink?: string;
+    value: HypervMachine[];
+}
+
+// @public
+export interface HypervMachinesController {
+    beginUpdateProperties(resourceGroupName: string, siteName: string, metaData: MachineMetadataCollection, options?: HypervMachinesControllerUpdatePropertiesOptionalParams): Promise<SimplePollerLike<OperationState<HypervMachinesControllerUpdatePropertiesResponse>, HypervMachinesControllerUpdatePropertiesResponse>>;
+    beginUpdatePropertiesAndWait(resourceGroupName: string, siteName: string, metaData: MachineMetadataCollection, options?: HypervMachinesControllerUpdatePropertiesOptionalParams): Promise<HypervMachinesControllerUpdatePropertiesResponse>;
+    get(resourceGroupName: string, siteName: string, machineName: string, options?: HypervMachinesControllerGetOptionalParams): Promise<HypervMachinesControllerGetResponse>;
+    listByHypervSite(resourceGroupName: string, siteName: string, options?: HypervMachinesControllerListByHypervSiteOptionalParams): PagedAsyncIterableIterator<HypervMachine>;
+    update(resourceGroupName: string, siteName: string, machineName: string, body: HypervMachineUpdate, options?: HypervMachinesControllerUpdateOptionalParams): Promise<HypervMachinesControllerUpdateResponse>;
+}
+
+// @public
+export interface HypervMachinesControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HypervMachinesControllerGetResponse = HypervMachine;
+
+// @public
+export interface HypervMachinesControllerListByHypervSiteNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HypervMachinesControllerListByHypervSiteNextResponse = HypervMachineListResult;
+
+// @public
+export interface HypervMachinesControllerListByHypervSiteOptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+    filter?: string;
+    top?: number;
+    totalRecordCount?: number;
+}
+
+// @public
+export type HypervMachinesControllerListByHypervSiteResponse = HypervMachineListResult;
+
+// @public
+export interface HypervMachinesControllerUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface HypervMachinesControllerUpdatePropertiesHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface HypervMachinesControllerUpdatePropertiesOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type HypervMachinesControllerUpdatePropertiesResponse = Record<string, unknown>;
+
+// @public
+export type HypervMachinesControllerUpdateResponse = HypervMachine;
+
+// @public
+export interface HypervMachineUpdate {
+    allocatedMemoryInMb?: number;
+    biosGuid?: string;
+    biosSerialNumber?: string;
+    firmware?: string;
+    numberOfProcessorCore?: number;
+    operatingSystemDetails?: OperatingSystem;
+    productSupportStatus?: ProductSupportStatus;
+    runAsAccountId?: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface HypervNetworkAdapter {
+    readonly ipAddressList?: string[];
+    ipAddressType?: string;
+    macAddress?: string;
+    readonly networkId?: string;
+    networkName?: string;
+    nicId?: string;
+    readonly nicType?: string;
+    readonly staticIpAddress?: string;
+    readonly subnetName?: string;
+}
+
+// @public
+export interface HypervOperationsStatusController {
+    getHypervOperationsStatus(resourceGroupName: string, siteName: string, operationStatusName: string, options?: HypervOperationsStatusControllerGetHypervOperationsStatusOptionalParams): Promise<HypervOperationsStatusControllerGetHypervOperationsStatusResponse>;
+}
+
+// @public
+export interface HypervOperationsStatusControllerGetHypervOperationsStatusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HypervOperationsStatusControllerGetHypervOperationsStatusResponse = OperationStatus;
+
+// @public
+export interface HypervOperationsStatusResource extends ProxyResource {
+    readonly createdTimestamp?: string;
+    readonly errors?: HealthErrorDetails[];
+    fqdn?: string;
+    readonly functionalLevel?: number;
+    hostFqdnList?: string[];
+    provisioningState?: ProvisioningState;
+    runAsAccountId?: string;
+    readonly status?: string;
+    readonly updatedTimestamp?: string;
+}
+
+// @public
+export interface HypervRunAsAccountResource extends ProxyResource {
+    readonly applianceName?: string;
+    readonly createdTimestamp?: string;
+    readonly credentialType?: string;
+    readonly displayName?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly updatedTimestamp?: string;
+}
+
+// @public
+export interface HypervRunAsAccountResourceListResult {
+    nextLink?: string;
+    value: HypervRunAsAccountResource[];
+}
+
+// @public
+export interface HypervRunAsAccountsController {
+    get(resourceGroupName: string, siteName: string, accountName: string, options?: HypervRunAsAccountsControllerGetOptionalParams): Promise<HypervRunAsAccountsControllerGetResponse>;
+    listByHypervSite(resourceGroupName: string, siteName: string, options?: HypervRunAsAccountsControllerListByHypervSiteOptionalParams): PagedAsyncIterableIterator<HypervRunAsAccountResource>;
+}
+
+// @public
+export interface HypervRunAsAccountsControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HypervRunAsAccountsControllerGetResponse = HypervRunAsAccountResource;
+
+// @public
+export interface HypervRunAsAccountsControllerListByHypervSiteNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HypervRunAsAccountsControllerListByHypervSiteNextResponse = HypervRunAsAccountResourceListResult;
+
+// @public
+export interface HypervRunAsAccountsControllerListByHypervSiteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HypervRunAsAccountsControllerListByHypervSiteResponse = HypervRunAsAccountResourceListResult;
+
+// @public
+export interface HypervSite extends TrackedResource {
+    agentDetails?: SiteAgentProperties;
+    applianceName?: string;
+    discoverySolutionId?: string;
+    readonly masterSiteId?: string;
+    provisioningState?: ProvisioningState;
+    readonly serviceEndpoint?: string;
+    servicePrincipalIdentityDetails?: SiteSpnProperties;
+}
+
+// @public
+export interface HypervSiteListResult {
+    nextLink?: string;
+    value: HypervSite[];
+}
+
+// @public
+export interface HypervSites {
+    listByResourceGroup(resourceGroupName: string, options?: HypervSitesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<HypervSite>;
+    listBySubscription(options?: HypervSitesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<HypervSite>;
+}
+
+// @public
+export interface HypervSitesController {
+    beginExportApplications(resourceGroupName: string, siteName: string, body: Record<string, unknown>, options?: HypervSitesControllerExportApplicationsOptionalParams): Promise<SimplePollerLike<OperationState<HypervSitesControllerExportApplicationsResponse>, HypervSitesControllerExportApplicationsResponse>>;
+    beginExportApplicationsAndWait(resourceGroupName: string, siteName: string, body: Record<string, unknown>, options?: HypervSitesControllerExportApplicationsOptionalParams): Promise<HypervSitesControllerExportApplicationsResponse>;
+    beginExportMachineErrors(resourceGroupName: string, siteName: string, body: ExportMachineErrorsRequest, options?: HypervSitesControllerExportMachineErrorsOptionalParams): Promise<SimplePollerLike<OperationState<HypervSitesControllerExportMachineErrorsResponse>, HypervSitesControllerExportMachineErrorsResponse>>;
+    beginExportMachineErrorsAndWait(resourceGroupName: string, siteName: string, body: ExportMachineErrorsRequest, options?: HypervSitesControllerExportMachineErrorsOptionalParams): Promise<HypervSitesControllerExportMachineErrorsResponse>;
+    computeErrorSummary(resourceGroupName: string, siteName: string, body: Record<string, unknown>, options?: HypervSitesControllerComputeErrorSummaryOptionalParams): Promise<HypervSitesControllerComputeErrorSummaryResponse>;
+    computeusage(resourceGroupName: string, siteName: string, body: Record<string, unknown>, options?: HypervSitesControllerComputeusageOptionalParams): Promise<HypervSitesControllerComputeusageResponse>;
+    create(resourceGroupName: string, siteName: string, body: HypervSite, options?: HypervSitesControllerCreateOptionalParams): Promise<HypervSitesControllerCreateResponse>;
+    delete(resourceGroupName: string, siteName: string, options?: HypervSitesControllerDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, siteName: string, options?: HypervSitesControllerGetOptionalParams): Promise<HypervSitesControllerGetResponse>;
+    listHealthSummary(resourceGroupName: string, siteName: string, options?: HypervSitesControllerListHealthSummaryOptionalParams): Promise<HypervSitesControllerListHealthSummaryResponse>;
+    summary(resourceGroupName: string, siteName: string, options?: HypervSitesControllerSummaryOptionalParams): Promise<HypervSitesControllerSummaryResponse>;
+    update(resourceGroupName: string, siteName: string, body: HypervSiteUpdate, options?: HypervSitesControllerUpdateOptionalParams): Promise<HypervSitesControllerUpdateResponse>;
+}
+
+// @public
+export interface HypervSitesControllerComputeErrorSummaryOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HypervSitesControllerComputeErrorSummaryResponse = SiteErrorSummary;
+
+// @public
+export interface HypervSitesControllerComputeusageOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HypervSitesControllerComputeusageResponse = HypervSiteUsage;
+
+// @public
+export interface HypervSitesControllerCreateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface HypervSitesControllerCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HypervSitesControllerCreateResponse = HypervSite;
+
+// @public
+export interface HypervSitesControllerDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface HypervSitesControllerExportApplicationsHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface HypervSitesControllerExportApplicationsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type HypervSitesControllerExportApplicationsResponse = Record<string, unknown>;
+
+// @public
+export interface HypervSitesControllerExportMachineErrorsHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface HypervSitesControllerExportMachineErrorsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type HypervSitesControllerExportMachineErrorsResponse = Record<string, unknown>;
+
+// @public
+export interface HypervSitesControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HypervSitesControllerGetResponse = HypervSite;
+
+// @public
+export interface HypervSitesControllerListHealthSummaryOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HypervSitesControllerListHealthSummaryResponse = SiteHealthSummaryCollection;
+
+// @public
+export interface HypervSitesControllerSummaryOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HypervSitesControllerSummaryResponse = HypervSiteUsage;
+
+// @public
+export interface HypervSitesControllerUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HypervSitesControllerUpdateResponse = HypervSite;
+
+// @public
+export interface HypervSitesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HypervSitesListByResourceGroupNextResponse = HypervSiteListResult;
+
+// @public
+export interface HypervSitesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HypervSitesListByResourceGroupResponse = HypervSiteListResult;
+
+// @public
+export interface HypervSitesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HypervSitesListBySubscriptionNextResponse = HypervSiteListResult;
+
+// @public
+export interface HypervSitesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HypervSitesListBySubscriptionResponse = HypervSiteListResult;
+
+// @public
+export interface HypervSiteUpdate {
+    agentDetails?: SiteAgentProperties;
+    applianceName?: string;
+    discoverySolutionId?: string;
+    provisioningState?: ProvisioningState;
+    servicePrincipalIdentityDetails?: SiteSpnProperties;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface HypervSiteUsage {
+    clusterCount?: number;
+    hostCount?: number;
+    machineCount?: number;
+    runAsAccountCount?: number;
+}
+
+// @public
+export interface HypervSoftwareInventoriesController {
+    getMachineSoftwareInventory(resourceGroupName: string, siteName: string, machineName: string, defaultParam: Default, options?: HypervSoftwareInventoriesControllerGetMachineSoftwareInventoryOptionalParams): Promise<HypervSoftwareInventoriesControllerGetMachineSoftwareInventoryResponse>;
+    listByHypervMachine(resourceGroupName: string, siteName: string, machineName: string, options?: HypervSoftwareInventoriesControllerListByHypervMachineOptionalParams): PagedAsyncIterableIterator<HypervVmSoftwareInventory>;
+}
+
+// @public
+export interface HypervSoftwareInventoriesControllerGetMachineSoftwareInventoryOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HypervSoftwareInventoriesControllerGetMachineSoftwareInventoryResponse = HypervVmSoftwareInventory;
+
+// @public
+export interface HypervSoftwareInventoriesControllerListByHypervMachineNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HypervSoftwareInventoriesControllerListByHypervMachineNextResponse = HypervVmSoftwareInventoryListResult;
+
+// @public
+export interface HypervSoftwareInventoriesControllerListByHypervMachineOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HypervSoftwareInventoriesControllerListByHypervMachineResponse = HypervVmSoftwareInventoryListResult;
+
+// @public
+export interface HypervVmSoftwareInventory extends ProxyResource {
+    readonly appsAndRoles?: AppsAndRoles;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface HypervVmSoftwareInventoryListResult {
+    nextLink?: string;
+    value: HypervVmSoftwareInventory[];
+}
+
+// @public
+export interface IisApplicationUnit {
+    applicationPoolName?: string;
+    directories?: DirectoryPath[];
+    enable32BitApiOnWin64?: boolean;
+    managedPipelineMode?: string;
+    path?: DirectoryPath;
+    runtimeVersion?: string;
+}
+
+// @public
+export interface IisVirtualApplicationUnit {
+    directories?: DirectoryPath[];
+    readonly isVirtualDirectory?: boolean;
+    path?: DirectoryPath;
+}
+
+// @public
+export interface IisWebApplications extends ProxyResource {
+    readonly applianceNames?: string[];
+    readonly applications?: IisApplicationUnit[];
+    readonly bindings?: FrontEndBinding[];
+    readonly configurations?: WebApplicationConfigurationUnit[];
+    readonly createdTimestamp?: string;
+    readonly directories?: WebApplicationDirectoryUnit[];
+    readonly displayName?: string;
+    readonly errors?: HealthErrorDetails[];
+    readonly frameworks?: WebApplicationFramework[];
+    readonly hasErrors?: boolean;
+    readonly isDeleted?: boolean;
+    readonly machineArmIds?: string[];
+    readonly machineDisplayName?: string;
+    readonly physicalPath?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly serverType?: string;
+    readonly staticFolders?: string[];
+    tags?: {
+        [propertyName: string]: string;
+    };
+    readonly updatedTimestamp?: string;
+    readonly virtualApplications?: IisVirtualApplicationUnit[];
+    readonly virtualPath?: string;
+    readonly webServerId?: string;
+    readonly webServerName?: string;
+}
+
+// @public
+export interface IisWebApplicationsController {
+    get(resourceGroupName: string, siteName: string, webAppSiteName: string, webApplicationName: string, options?: IisWebApplicationsControllerGetOptionalParams): Promise<IisWebApplicationsControllerGetResponse>;
+    listByWebAppSite(resourceGroupName: string, siteName: string, webAppSiteName: string, options?: IisWebApplicationsControllerListByWebAppSiteOptionalParams): PagedAsyncIterableIterator<IisWebApplications>;
+    update(resourceGroupName: string, siteName: string, webAppSiteName: string, webApplicationName: string, body: IisWebApplicationsUpdate, options?: IisWebApplicationsControllerUpdateOptionalParams): Promise<IisWebApplicationsControllerUpdateResponse>;
+}
+
+// @public
+export interface IisWebApplicationsControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IisWebApplicationsControllerGetResponse = IisWebApplications;
+
+// @public
+export interface IisWebApplicationsControllerListByWebAppSiteNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IisWebApplicationsControllerListByWebAppSiteNextResponse = IisWebApplicationsListResult;
+
+// @public
+export interface IisWebApplicationsControllerListByWebAppSiteOptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+    filter?: string;
+    top?: string;
+    totalRecordCount?: number;
+}
+
+// @public
+export type IisWebApplicationsControllerListByWebAppSiteResponse = IisWebApplicationsListResult;
+
+// @public
+export interface IisWebApplicationsControllerUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IisWebApplicationsControllerUpdateResponse = IisWebApplications;
+
+// @public
+export interface IisWebApplicationsListResult {
+    nextLink?: string;
+    value: IisWebApplications[];
+}
+
+// @public
+export interface IisWebApplicationsUpdate {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface IisWebServers extends ProxyResource {
+    readonly applianceNames?: string[];
+    readonly configurationLocation?: string;
+    readonly createdTimestamp?: string;
+    readonly displayName?: string;
+    readonly errors?: HealthErrorDetails[];
+    readonly hasErrors?: boolean;
+    readonly isDeleted?: boolean;
+    readonly machineIds?: string[];
+    readonly provisioningState?: ProvisioningState;
+    readonly runAsAccountId?: string;
+    readonly serverFqdn?: string;
+    readonly serverType?: string;
+    readonly updatedTimestamp?: string;
+    readonly version?: string;
+    readonly webApplications?: string[];
+}
+
+// @public
+export interface IisWebServersController {
+    get(resourceGroupName: string, siteName: string, webAppSiteName: string, webServerName: string, options?: IisWebServersControllerGetOptionalParams): Promise<IisWebServersControllerGetResponse>;
+    listByWebAppSite(resourceGroupName: string, siteName: string, webAppSiteName: string, options?: IisWebServersControllerListByWebAppSiteOptionalParams): PagedAsyncIterableIterator<IisWebServers>;
+}
+
+// @public
+export interface IisWebServersControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IisWebServersControllerGetResponse = IisWebServers;
+
+// @public
+export interface IisWebServersControllerListByWebAppSiteNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IisWebServersControllerListByWebAppSiteNextResponse = IisWebServersListResult;
+
+// @public
+export interface IisWebServersControllerListByWebAppSiteOptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+    filter?: string;
+    top?: string;
+    totalRecordCount?: number;
+}
+
+// @public
+export type IisWebServersControllerListByWebAppSiteResponse = IisWebServersListResult;
+
+// @public
+export interface IisWebServersListResult {
+    nextLink?: string;
+    value: IisWebServers[];
+}
+
+// @public
+export interface ImportJob extends ProxyResource {
+    readonly activityId?: string;
+    readonly clientRequestId?: string;
+    readonly displayName?: string;
+    readonly endTime?: string;
+    readonly errors?: ErrorDetails[];
+    readonly provisioningState?: ProvisioningState;
+    readonly startTime?: string;
+    readonly status?: string;
+}
+
+// @public
+export interface ImportJobListResult {
+    nextLink?: string;
+    value: ImportJob[];
+}
+
+// @public
+export interface ImportJobsController {
+    get(resourceGroupName: string, siteName: string, jobName: string, options?: ImportJobsControllerGetOptionalParams): Promise<ImportJobsControllerGetResponse>;
+    getDeletejob(resourceGroupName: string, siteName: string, jobName: string, options?: ImportJobsControllerGetDeletejobOptionalParams): Promise<ImportJobsControllerGetDeletejobResponse>;
+    getExportjob(resourceGroupName: string, siteName: string, jobName: string, options?: ImportJobsControllerGetExportjobOptionalParams): Promise<ImportJobsControllerGetExportjobResponse>;
+    getImportjob(resourceGroupName: string, siteName: string, jobName: string, options?: ImportJobsControllerGetImportjobOptionalParams): Promise<ImportJobsControllerGetImportjobResponse>;
+    listByImportSite(resourceGroupName: string, siteName: string, options?: ImportJobsControllerListByImportSiteOptionalParams): PagedAsyncIterableIterator<ImportJob>;
+    listDeletejobs(resourceGroupName: string, siteName: string, options?: ImportJobsControllerListDeletejobsOptionalParams): PagedAsyncIterableIterator<DeleteImportMachinesJob>;
+    listExportjobs(resourceGroupName: string, siteName: string, options?: ImportJobsControllerListExportjobsOptionalParams): PagedAsyncIterableIterator<ExportImportedMachinesJob>;
+    listImportjobs(resourceGroupName: string, siteName: string, options?: ImportJobsControllerListImportjobsOptionalParams): PagedAsyncIterableIterator<ImportMachinesJob>;
+}
+
+// @public
+export interface ImportJobsControllerGetDeletejobOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportJobsControllerGetDeletejobResponse = DeleteImportMachinesJob;
+
+// @public
+export interface ImportJobsControllerGetExportjobOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportJobsControllerGetExportjobResponse = ExportImportedMachinesJob;
+
+// @public
+export interface ImportJobsControllerGetImportjobOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportJobsControllerGetImportjobResponse = ImportMachinesJob;
+
+// @public
+export interface ImportJobsControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportJobsControllerGetResponse = ImportJob;
+
+// @public
+export interface ImportJobsControllerListByImportSiteNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportJobsControllerListByImportSiteNextResponse = ImportJobListResult;
+
+// @public
+export interface ImportJobsControllerListByImportSiteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportJobsControllerListByImportSiteResponse = ImportJobListResult;
+
+// @public
+export interface ImportJobsControllerListDeletejobsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportJobsControllerListDeletejobsNextResponse = PagedDeleteImportMachinesJob;
+
+// @public
+export interface ImportJobsControllerListDeletejobsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportJobsControllerListDeletejobsResponse = PagedDeleteImportMachinesJob;
+
+// @public
+export interface ImportJobsControllerListExportjobsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportJobsControllerListExportjobsNextResponse = PagedExportImportedMachinesJob;
+
+// @public
+export interface ImportJobsControllerListExportjobsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportJobsControllerListExportjobsResponse = PagedExportImportedMachinesJob;
+
+// @public
+export interface ImportJobsControllerListImportjobsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportJobsControllerListImportjobsNextResponse = PagedImportMachinesJob;
+
+// @public
+export interface ImportJobsControllerListImportjobsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportJobsControllerListImportjobsResponse = PagedImportMachinesJob;
+
+// @public
+export interface ImportMachine extends ProxyResource {
+    allocatedMemoryInMb?: number;
+    biosGuid?: string;
+    biosSerialNumber?: string;
+    readonly createdTimestamp?: string;
+    readonly disks?: WebRoleImportDisk[];
+    readonly displayName?: string;
+    readonly firmware?: string;
+    readonly hypervisor?: string;
+    readonly hypervisorVersionNumber?: string;
+    readonly ipAddresses?: string[];
+    readonly isDeleted?: boolean;
+    readonly macAddress?: string;
+    readonly machineId?: string;
+    readonly machineManagerId?: string;
+    readonly networkInThroughput?: number;
+    readonly networkOutThroughput?: number;
+    readonly numberOfDisks?: number;
+    readonly numberOfNetworkAdapters?: number;
+    numberOfProcessorCore?: number;
+    operatingSystemDetails?: WebRoleOperatingSystem;
+    readonly percentageCpuUtilization?: number;
+    readonly percentageMemoryUtilization?: number;
+    provisioningState?: ProvisioningState;
+    readonly serverType?: string;
+    readonly storageInUseGb?: number;
+    tags?: {
+        [propertyName: string]: string;
+    };
+    readonly totalDiskReadOperationsPerSecond?: number;
+    readonly totalDiskReadThroughput?: number;
+    readonly totalDiskWriteOperationsPerSecond?: number;
+    readonly totalDiskWriteThroughput?: number;
+    readonly updatedTimestamp?: string;
+    readonly vmFqdn?: string;
+}
+
+// @public
+export interface ImportMachineListResult {
+    nextLink?: string;
+    value: ImportMachine[];
+}
+
+// @public
+export interface ImportMachinesController {
+    delete(resourceGroupName: string, siteName: string, machineName: string, options?: ImportMachinesControllerDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, siteName: string, machineName: string, options?: ImportMachinesControllerGetOptionalParams): Promise<ImportMachinesControllerGetResponse>;
+    listByImportSite(resourceGroupName: string, siteName: string, options?: ImportMachinesControllerListByImportSiteOptionalParams): PagedAsyncIterableIterator<ImportMachine>;
+}
+
+// @public
+export interface ImportMachinesControllerDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ImportMachinesControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportMachinesControllerGetResponse = ImportMachine;
+
+// @public
+export interface ImportMachinesControllerListByImportSiteNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportMachinesControllerListByImportSiteNextResponse = ImportMachineListResult;
+
+// @public
+export interface ImportMachinesControllerListByImportSiteOptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+    filter?: string;
+    top?: string;
+    totalRecordCount?: number;
+}
+
+// @public
+export type ImportMachinesControllerListByImportSiteResponse = ImportMachineListResult;
+
+// @public
+export interface ImportMachinesJob {
+    displayName?: string;
+    endTime?: string;
+    id?: string;
+    name?: string;
+    properties?: ImportMachinesJobProperties;
+    startTime?: string;
+    status?: string;
+    readonly type?: string;
+}
+
+// @public
+export interface ImportMachinesJobProperties {
+    blobCreationTimeStamp?: Date;
+    blobName?: string;
+    blobSasUri?: string;
+    errorSummary?: JobErrorSummary;
+    jobResult?: JobResult;
+    numberOfMachinesImported?: number;
+}
+
+// @public
+export interface ImportSite extends TrackedResource {
+    discoverySolutionId?: string;
+    readonly masterSiteId?: string;
+    provisioningState?: ProvisioningState;
+    readonly serviceEndpoint?: string;
+}
+
+// @public
+export interface ImportSiteListResult {
+    nextLink?: string;
+    value: ImportSite[];
+}
+
+// @public
+export interface ImportSitesController {
+    create(resourceGroupName: string, siteName: string, body: ImportSite, options?: ImportSitesControllerCreateOptionalParams): Promise<ImportSitesControllerCreateResponse>;
+    delete(resourceGroupName: string, siteName: string, options?: ImportSitesControllerDeleteOptionalParams): Promise<void>;
+    deleteImportedMachines(resourceGroupName: string, siteName: string, body: Record<string, unknown>, options?: ImportSitesControllerDeleteImportedMachinesOptionalParams): Promise<ImportSitesControllerDeleteImportedMachinesResponse>;
+    exportUri(resourceGroupName: string, siteName: string, body: SasUriResponse, options?: ImportSitesControllerExportUriOptionalParams): Promise<ImportSitesControllerExportUriResponse>;
+    get(resourceGroupName: string, siteName: string, options?: ImportSitesControllerGetOptionalParams): Promise<ImportSitesControllerGetResponse>;
+    importUri(resourceGroupName: string, siteName: string, body: SasUriResponse, options?: ImportSitesControllerImportUriOptionalParams): Promise<ImportSitesControllerImportUriResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: ImportSitesControllerListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ImportSite>;
+    listBySubscription(options?: ImportSitesControllerListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ImportSite>;
+    update(resourceGroupName: string, siteName: string, body: ImportSiteUpdate, options?: ImportSitesControllerUpdateOptionalParams): Promise<ImportSitesControllerUpdateResponse>;
+}
+
+// @public
+export interface ImportSitesControllerCreateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface ImportSitesControllerCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportSitesControllerCreateResponse = ImportSite;
+
+// @public
+export interface ImportSitesControllerDeleteImportedMachinesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportSitesControllerDeleteImportedMachinesResponse = SasUriResponse;
+
+// @public
+export interface ImportSitesControllerDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ImportSitesControllerExportUriOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportSitesControllerExportUriResponse = SasUriResponse;
+
+// @public
+export interface ImportSitesControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportSitesControllerGetResponse = ImportSite;
+
+// @public
+export interface ImportSitesControllerImportUriOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportSitesControllerImportUriResponse = SasUriResponse;
+
+// @public
+export interface ImportSitesControllerListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportSitesControllerListByResourceGroupNextResponse = ImportSiteListResult;
+
+// @public
+export interface ImportSitesControllerListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportSitesControllerListByResourceGroupResponse = ImportSiteListResult;
+
+// @public
+export interface ImportSitesControllerListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportSitesControllerListBySubscriptionNextResponse = ImportSiteListResult;
+
+// @public
+export interface ImportSitesControllerListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportSitesControllerListBySubscriptionResponse = ImportSiteListResult;
+
+// @public
+export interface ImportSitesControllerUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportSitesControllerUpdateResponse = ImportSite;
+
+// @public
+export interface ImportSiteUpdate {
+    discoverySolutionId?: string;
+    provisioningState?: ProvisioningState;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface ImportSqlInventoryJob {
+    properties?: ImportSqlInventoryJobProperties;
+    readonly type?: string;
+}
+
+// @public
+export interface ImportSqlInventoryJobProperties {
+    blobCreationTimeStamp?: Date;
+    blobName?: string;
+    blobSasUri?: string;
+    errorSummary?: SqlImportJobErrorSummary;
+    jobResult?: ImportSqlInventoryJobResult;
+    numberOfAvailabilityGroupsImported?: number;
+    numberOfDatabasesImported?: number;
+    numberOfServersImported?: number;
+}
+
+// @public
+export type ImportSqlInventoryJobResult = string;
+
+// @public
+export type ImportTypeValues = string;
+
+// @public
+export interface JobErrorSummary {
+    errorCount?: number;
+    errors?: string[];
+    warningCount?: number;
+}
+
+// @public
+export type JobResult = string;
+
+// @public
+export enum KnownActionType {
+    Internal = "Internal"
+}
+
+// @public
+export enum KnownApplicationDiscoveryScopeStatus {
+    Disabled = "Disabled",
+    DiscoveryFailed = "DiscoveryFailed",
+    DiscoveryInProgress = "DiscoveryInProgress",
+    DiscoveryNotStarted = "DiscoveryNotStarted",
+    DiscoveryPartiallySucceded = "DiscoveryPartiallySucceded",
+    DiscoverySucceeded = "DiscoverySucceeded",
+    DiscoverySucceededAtleastOnce = "DiscoverySucceededAtleastOnce",
+    RunAsAccountNotAssociated = "RunAsAccountNotAssociated"
+}
+
+// @public
+export enum KnownArcScopeType {
+    SubscriptionOrResourceGroupIds = "SubscriptionOrResourceGroupIds"
+}
+
+// @public
+export enum KnownAzureArcStatus {
+    Enabled = "Enabled",
+    NotEnabled = "NotEnabled",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
+export enum KnownDefault {
+    Default = "default"
+}
+
+// @public
+export enum KnownDefaultAutoGenerated {
+    Default = "default"
+}
+
+// @public
+export enum KnownDefaultValues {
+    Default = "default"
+}
+
+// @public
+export enum KnownDeleteImportedMachinesJobPropertiesJobState {
     Completed = "Completed",
-    Created = "Created",
-    Invalid = "Invalid",
-    OutDated = "OutDated",
-    OutOfSync = "OutOfSync",
-    Running = "Running",
-    Updated = "Updated"
+    Failed = "Failed",
+    Unknown = "Unknown",
+    Verified = "Verified",
+    VerifiedWithErrors = "VerifiedWithErrors"
 }
 
 // @public
-export enum KnownAzureDiskSize {
-    PremiumP10 = "Premium_P10",
-    PremiumP15 = "Premium_P15",
-    PremiumP20 = "Premium_P20",
-    PremiumP30 = "Premium_P30",
-    PremiumP4 = "Premium_P4",
-    PremiumP40 = "Premium_P40",
-    PremiumP50 = "Premium_P50",
-    PremiumP6 = "Premium_P6",
-    PremiumP60 = "Premium_P60",
-    PremiumP70 = "Premium_P70",
-    PremiumP80 = "Premium_P80",
-    StandardS10 = "Standard_S10",
-    StandardS15 = "Standard_S15",
-    StandardS20 = "Standard_S20",
-    StandardS30 = "Standard_S30",
-    StandardS4 = "Standard_S4",
-    StandardS40 = "Standard_S40",
-    StandardS50 = "Standard_S50",
-    StandardS6 = "Standard_S6",
-    StandardS60 = "Standard_S60",
-    StandardS70 = "Standard_S70",
-    StandardS80 = "Standard_S80",
-    StandardSSDE10 = "StandardSSD_E10",
-    StandardSSDE15 = "StandardSSD_E15",
-    StandardSSDE20 = "StandardSSD_E20",
-    StandardSSDE30 = "StandardSSD_E30",
-    StandardSSDE4 = "StandardSSD_E4",
-    StandardSSDE40 = "StandardSSD_E40",
-    StandardSSDE50 = "StandardSSD_E50",
-    StandardSSDE6 = "StandardSSD_E6",
-    StandardSSDE60 = "StandardSSD_E60",
-    StandardSSDE70 = "StandardSSD_E70",
-    StandardSSDE80 = "StandardSSD_E80",
+export enum KnownDependencyMapDiscoveryScopeStatus {
+    Disabled = "Disabled",
+    DiscoveryFailed = "DiscoveryFailed",
+    DiscoveryInProgress = "DiscoveryInProgress",
+    DiscoveryNotStarted = "DiscoveryNotStarted",
+    DiscoveryPartiallySucceded = "DiscoveryPartiallySucceded",
+    DiscoverySucceeded = "DiscoverySucceeded",
+    DiscoverySucceededAtleastOnce = "DiscoverySucceededAtleastOnce",
+    RunAsAccountNotAssociated = "RunAsAccountNotAssociated"
+}
+
+// @public
+export enum KnownDiscoveryScopes {
+    AppsAndRoles = "AppsAndRoles",
+    DependencyMap = "DependencyMap",
+    SQLServerConnectionInfo = "SQLServerConnectionInfo",
+    StaticData = "StaticData"
+}
+
+// @public
+export enum KnownDiscoveryScopeStatus {
+    Disabled = "Disabled",
+    DiscoveryFailed = "DiscoveryFailed",
+    DiscoveryInProgress = "DiscoveryInProgress",
+    DiscoveryNotStarted = "DiscoveryNotStarted",
+    DiscoveryPartiallySucceded = "DiscoveryPartiallySucceded",
+    DiscoverySucceeded = "DiscoverySucceeded",
+    DiscoverySucceededAtleastOnce = "DiscoverySucceededAtleastOnce",
+    RunAsAccountNotAssociated = "RunAsAccountNotAssociated"
+}
+
+// @public
+export enum KnownEsuStatus {
+    Active = "Active",
+    InActive = "InActive",
     Unknown = "Unknown"
 }
 
 // @public
-export enum KnownAzureDiskSuitabilityDetail {
-    DiskGigabytesConsumedMissing = "DiskGigabytesConsumedMissing",
-    DiskGigabytesConsumedOutOfRange = "DiskGigabytesConsumedOutOfRange",
-    DiskGigabytesProvisionedMissing = "DiskGigabytesProvisionedMissing",
-    DiskGigabytesProvisionedOutOfRange = "DiskGigabytesProvisionedOutOfRange",
-    MegabytesPerSecondOfReadMissing = "MegabytesPerSecondOfReadMissing",
-    MegabytesPerSecondOfReadOutOfRange = "MegabytesPerSecondOfReadOutOfRange",
-    MegabytesPerSecondOfWriteMissing = "MegabytesPerSecondOfWriteMissing",
-    MegabytesPerSecondOfWriteOutOfRange = "MegabytesPerSecondOfWriteOutOfRange",
-    None = "None",
-    NumberOfReadOperationsPerSecondMissing = "NumberOfReadOperationsPerSecondMissing",
-    NumberOfReadOperationsPerSecondOutOfRange = "NumberOfReadOperationsPerSecondOutOfRange",
-    NumberOfWriteOperationsPerSecondMissing = "NumberOfWriteOperationsPerSecondMissing",
-    NumberOfWriteOperationsPerSecondOutOfRange = "NumberOfWriteOperationsPerSecondOutOfRange"
+export enum KnownEsuYear {
+    FirstYear = "FirstYear",
+    SecondYear = "SecondYear",
+    ThirdYear = "ThirdYear",
+    Unknown = "Unknown",
+    UpgradeYear = "UpgradeYear"
 }
 
 // @public
-export enum KnownAzureDiskSuitabilityExplanation {
-    DiskSizeGreaterThanSupported = "DiskSizeGreaterThanSupported",
-    InternalErrorOccurredForDiskEvaluation = "InternalErrorOccurredForDiskEvaluation",
-    NoDiskSizeFoundForSelectedRedundancy = "NoDiskSizeFoundForSelectedRedundancy",
-    NoDiskSizeFoundInSelectedLocation = "NoDiskSizeFoundInSelectedLocation",
-    NoEaPriceFoundForDiskSize = "NoEaPriceFoundForDiskSize",
-    NoSuitableDiskSizeForIops = "NoSuitableDiskSizeForIops",
-    NoSuitableDiskSizeForThroughput = "NoSuitableDiskSizeForThroughput",
-    NotApplicable = "NotApplicable",
+export enum KnownExportMachineErrorsProperties {
+    AppsAndRoles = "AppsAndRoles",
+    DependencyMap = "DependencyMap",
+    SQLServerConnectionInfo = "SQLServerConnectionInfo",
+    StaticData = "StaticData"
+}
+
+// @public
+export enum KnownFCIInstanceState {
+    Failed = "Failed",
+    Inherited = "Inherited",
+    Initializing = "Initializing",
+    Offline = "Offline",
+    OfflinePending = "OfflinePending",
+    Online = "Online",
+    OnlinePending = "OnlinePending",
+    Pending = "Pending",
     Unknown = "Unknown"
 }
 
 // @public
-export enum KnownAzureDiskType {
-    Premium = "Premium",
-    Standard = "Standard",
-    StandardOrPremium = "StandardOrPremium",
-    StandardSSD = "StandardSSD",
-    Unknown = "Unknown"
+export enum KnownFileType {
+    Filestream = "Filestream",
+    Fulltext = "Fulltext",
+    Log = "Log",
+    NotSupported = "NotSupported",
+    Rows = "Rows"
 }
 
 // @public
-export enum KnownAzureHybridUseBenefit {
+export enum KnownHealthErrorDetailsDiscoveryScope {
+    AppsAndRoles = "AppsAndRoles",
+    DependencyMap = "DependencyMap",
+    DiscoveryTargets = "DiscoveryTargets",
+    SQLServerConnectionInfo = "SQLServerConnectionInfo",
+    StaticData = "StaticData"
+}
+
+// @public
+export enum KnownHealthErrorDetailsSource {
+    RefreshFabricLayout = "RefreshFabricLayout",
+    RefreshFabricLayoutDependencyMap = "RefreshFabricLayoutDependencyMap",
+    RefreshFabricLayoutGuest = "RefreshFabricLayoutGuest"
+}
+
+// @public
+export enum KnownHighAvailability {
     No = "No",
     Unknown = "Unknown",
     Yes = "Yes"
 }
 
 // @public
-export enum KnownAzureLocation {
-    AustraliaEast = "AustraliaEast",
-    AustraliaSoutheast = "AustraliaSoutheast",
-    BrazilSouth = "BrazilSouth",
-    CanadaCentral = "CanadaCentral",
-    CanadaEast = "CanadaEast",
-    CentralIndia = "CentralIndia",
-    CentralUs = "CentralUs",
-    ChinaEast = "ChinaEast",
-    ChinaNorth = "ChinaNorth",
-    EastAsia = "EastAsia",
-    EastUs = "EastUs",
-    EastUs2 = "EastUs2",
-    GermanyCentral = "GermanyCentral",
-    GermanyNortheast = "GermanyNortheast",
-    JapanEast = "JapanEast",
-    JapanWest = "JapanWest",
-    KoreaCentral = "KoreaCentral",
-    KoreaSouth = "KoreaSouth",
-    NorthCentralUs = "NorthCentralUs",
-    NorthEurope = "NorthEurope",
-    SouthCentralUs = "SouthCentralUs",
-    SoutheastAsia = "SoutheastAsia",
-    SouthIndia = "SouthIndia",
-    UkSouth = "UkSouth",
-    UkWest = "UkWest",
+export enum KnownHighAvailabilityValues {
+    No = "No",
     Unknown = "Unknown",
-    USDoDCentral = "USDoDCentral",
-    USDoDEast = "USDoDEast",
-    USGovArizona = "USGovArizona",
-    USGovIowa = "USGovIowa",
-    USGovTexas = "USGovTexas",
-    USGovVirginia = "USGovVirginia",
-    WestCentralUs = "WestCentralUs",
-    WestEurope = "WestEurope",
-    WestIndia = "WestIndia",
-    WestUs = "WestUs",
-    WestUs2 = "WestUs2"
+    Yes = "Yes"
 }
 
 // @public
-export enum KnownAzureNetworkAdapterSuitabilityDetail {
-    MegabytesOfDataTransmittedMissing = "MegabytesOfDataTransmittedMissing",
-    MegabytesOfDataTransmittedOutOfRange = "MegabytesOfDataTransmittedOutOfRange",
-    None = "None"
-}
-
-// @public
-export enum KnownAzureNetworkAdapterSuitabilityExplanation {
-    InternalErrorOccurred = "InternalErrorOccurred",
-    NotApplicable = "NotApplicable",
-    Unknown = "Unknown"
-}
-
-// @public
-export enum KnownAzureOfferCode {
-    EA = "EA",
-    Msazr0003P = "MSAZR0003P",
-    Msazr0022P = "MSAZR0022P",
-    Msazr0023P = "MSAZR0023P",
-    Msazr0025P = "MSAZR0025P",
-    Msazr0029P = "MSAZR0029P",
-    Msazr0036P = "MSAZR0036P",
-    Msazr0044P = "MSAZR0044P",
-    Msazr0059P = "MSAZR0059P",
-    Msazr0060P = "MSAZR0060P",
-    Msazr0062P = "MSAZR0062P",
-    Msazr0063P = "MSAZR0063P",
-    Msazr0064P = "MSAZR0064P",
-    Msazr0111P = "MSAZR0111P",
-    Msazr0120P = "MSAZR0120P",
-    Msazr0121P = "MSAZR0121P",
-    Msazr0122P = "MSAZR0122P",
-    Msazr0123P = "MSAZR0123P",
-    Msazr0124P = "MSAZR0124P",
-    Msazr0125P = "MSAZR0125P",
-    Msazr0126P = "MSAZR0126P",
-    Msazr0127P = "MSAZR0127P",
-    Msazr0128P = "MSAZR0128P",
-    Msazr0129P = "MSAZR0129P",
-    Msazr0130P = "MSAZR0130P",
-    Msazr0144P = "MSAZR0144P",
-    Msazr0148P = "MSAZR0148P",
-    Msazr0149P = "MSAZR0149P",
-    Msazrde0003P = "MSAZRDE0003P",
-    Msazrde0044P = "MSAZRDE0044P",
-    Msazrusgov0003P = "MSAZRUSGOV0003P",
-    Msmcazr0044P = "MSMCAZR0044P",
-    Msmcazr0059P = "MSMCAZR0059P",
-    Msmcazr0060P = "MSMCAZR0060P",
-    Msmcazr0063P = "MSMCAZR0063P",
-    Msmcazr0120P = "MSMCAZR0120P",
-    Msmcazr0121P = "MSMCAZR0121P",
-    Msmcazr0125P = "MSMCAZR0125P",
-    Msmcazr0128P = "MSMCAZR0128P",
-    Unknown = "Unknown"
-}
-
-// @public
-export enum KnownAzurePricingTier {
-    Basic = "Basic",
-    Standard = "Standard"
-}
-
-// @public
-export enum KnownAzureStorageRedundancy {
-    GeoRedundant = "GeoRedundant",
-    LocallyRedundant = "LocallyRedundant",
-    ReadAccessGeoRedundant = "ReadAccessGeoRedundant",
-    Unknown = "Unknown",
-    ZoneRedundant = "ZoneRedundant"
-}
-
-// @public
-export enum KnownAzureVmFamily {
-    Av2Series = "Av2_series",
-    BasicA0A4 = "Basic_A0_A4",
-    DCSeries = "DC_Series",
-    DSeries = "D_series",
-    DSSeries = "DS_series",
-    DSv2Series = "DSv2_series",
-    Dsv3Series = "Dsv3_series",
-    Dv2Series = "Dv2_series",
-    Dv3Series = "Dv3_series",
-    Esv3Series = "Esv3_series",
-    Ev3Series = "Ev3_series",
-    FSeries = "F_series",
-    FsSeries = "Fs_series",
-    Fsv2Series = "Fsv2_series",
-    GSeries = "G_series",
-    GSSeries = "GS_series",
-    HSeries = "H_series",
-    LsSeries = "Ls_series",
-    MSeries = "M_series",
-    StandardA0A7 = "Standard_A0_A7",
-    StandardA8A11 = "Standard_A8_A11",
-    Unknown = "Unknown"
-}
-
-// @public
-export enum KnownAzureVmSize {
-    BasicA0 = "Basic_A0",
-    BasicA1 = "Basic_A1",
-    BasicA2 = "Basic_A2",
-    BasicA3 = "Basic_A3",
-    BasicA4 = "Basic_A4",
-    StandardA0 = "Standard_A0",
-    StandardA1 = "Standard_A1",
-    StandardA10 = "Standard_A10",
-    StandardA11 = "Standard_A11",
-    StandardA1V2 = "Standard_A1_v2",
-    StandardA2 = "Standard_A2",
-    StandardA2MV2 = "Standard_A2m_v2",
-    StandardA2V2 = "Standard_A2_v2",
-    StandardA3 = "Standard_A3",
-    StandardA4 = "Standard_A4",
-    StandardA4MV2 = "Standard_A4m_v2",
-    StandardA4V2 = "Standard_A4_v2",
-    StandardA5 = "Standard_A5",
-    StandardA6 = "Standard_A6",
-    StandardA7 = "Standard_A7",
-    StandardA8 = "Standard_A8",
-    StandardA8MV2 = "Standard_A8m_v2",
-    StandardA8V2 = "Standard_A8_v2",
-    StandardA9 = "Standard_A9",
-    StandardD1 = "Standard_D1",
-    StandardD11 = "Standard_D11",
-    StandardD11V2 = "Standard_D11_v2",
-    StandardD12 = "Standard_D12",
-    StandardD12V2 = "Standard_D12_v2",
-    StandardD13 = "Standard_D13",
-    StandardD13V2 = "Standard_D13_v2",
-    StandardD14 = "Standard_D14",
-    StandardD14V2 = "Standard_D14_v2",
-    StandardD15V2 = "Standard_D15_v2",
-    StandardD16SV3 = "Standard_D16s_v3",
-    StandardD16V3 = "Standard_D16_v3",
-    StandardD1V2 = "Standard_D1_v2",
-    StandardD2 = "Standard_D2",
-    StandardD2SV3 = "Standard_D2s_v3",
-    StandardD2V2 = "Standard_D2_v2",
-    StandardD2V3 = "Standard_D2_v3",
-    StandardD3 = "Standard_D3",
-    StandardD32SV3 = "Standard_D32s_v3",
-    StandardD32V3 = "Standard_D32_v3",
-    StandardD3V2 = "Standard_D3_v2",
-    StandardD4 = "Standard_D4",
-    StandardD4SV3 = "Standard_D4s_v3",
-    StandardD4V2 = "Standard_D4_v2",
-    StandardD4V3 = "Standard_D4_v3",
-    StandardD5V2 = "Standard_D5_v2",
-    StandardD64SV3 = "Standard_D64s_v3",
-    StandardD64V3 = "Standard_D64_v3",
-    StandardD8SV3 = "Standard_D8s_v3",
-    StandardD8V3 = "Standard_D8_v3",
-    StandardDS1 = "Standard_DS1",
-    StandardDS11 = "Standard_DS11",
-    StandardDS11V2 = "Standard_DS11_v2",
-    StandardDS12 = "Standard_DS12",
-    StandardDS12V2 = "Standard_DS12_v2",
-    StandardDS13 = "Standard_DS13",
-    StandardDS13V2 = "Standard_DS13_v2",
-    StandardDS14 = "Standard_DS14",
-    StandardDS14V2 = "Standard_DS14_v2",
-    StandardDS15V2 = "Standard_DS15_v2",
-    StandardDS1V2 = "Standard_DS1_v2",
-    StandardDS2 = "Standard_DS2",
-    StandardDS2V2 = "Standard_DS2_v2",
-    StandardDS3 = "Standard_DS3",
-    StandardDS3V2 = "Standard_DS3_v2",
-    StandardDS4 = "Standard_DS4",
-    StandardDS4V2 = "Standard_DS4_v2",
-    StandardDS5V2 = "Standard_DS5_v2",
-    StandardE16SV3 = "Standard_E16s_v3",
-    StandardE16V3 = "Standard_E16_v3",
-    StandardE2SV3 = "Standard_E2s_v3",
-    StandardE2V3 = "Standard_E2_v3",
-    StandardE32SV3 = "Standard_E32s_v3",
-    StandardE32V3 = "Standard_E32_v3",
-    StandardE4SV3 = "Standard_E4s_v3",
-    StandardE4V3 = "Standard_E4_v3",
-    StandardE64SV3 = "Standard_E64s_v3",
-    StandardE64V3 = "Standard_E64_v3",
-    StandardE8SV3 = "Standard_E8s_v3",
-    StandardE8V3 = "Standard_E8_v3",
-    StandardF1 = "Standard_F1",
-    StandardF16 = "Standard_F16",
-    StandardF16S = "Standard_F16s",
-    StandardF16SV2 = "Standard_F16s_v2",
-    StandardF1S = "Standard_F1s",
-    StandardF2 = "Standard_F2",
-    StandardF2S = "Standard_F2s",
-    StandardF2SV2 = "Standard_F2s_v2",
-    StandardF32SV2 = "Standard_F32s_v2",
-    StandardF4 = "Standard_F4",
-    StandardF4S = "Standard_F4s",
-    StandardF4SV2 = "Standard_F4s_v2",
-    StandardF64SV2 = "Standard_F64s_v2",
-    StandardF72SV2 = "Standard_F72s_v2",
-    StandardF8 = "Standard_F8",
-    StandardF8S = "Standard_F8s",
-    StandardF8SV2 = "Standard_F8s_v2",
-    StandardG1 = "Standard_G1",
-    StandardG2 = "Standard_G2",
-    StandardG3 = "Standard_G3",
-    StandardG4 = "Standard_G4",
-    StandardG5 = "Standard_G5",
-    StandardGS1 = "Standard_GS1",
-    StandardGS2 = "Standard_GS2",
-    StandardGS3 = "Standard_GS3",
-    StandardGS4 = "Standard_GS4",
-    StandardGS5 = "Standard_GS5",
-    StandardH16 = "Standard_H16",
-    StandardH16M = "Standard_H16m",
-    StandardH16Mr = "Standard_H16mr",
-    StandardH16R = "Standard_H16r",
-    StandardH8 = "Standard_H8",
-    StandardH8M = "Standard_H8m",
-    StandardL16S = "Standard_L16s",
-    StandardL32S = "Standard_L32s",
-    StandardL4S = "Standard_L4s",
-    StandardL8S = "Standard_L8s",
-    StandardM128Ms = "Standard_M128ms",
-    StandardM128S = "Standard_M128s",
-    StandardM64Ms = "Standard_M64ms",
-    StandardM64S = "Standard_M64s",
-    Unknown = "Unknown"
-}
-
-// @public
-export enum KnownAzureVmSuitabilityDetail {
-    CannotReportBandwidthCosts = "CannotReportBandwidthCosts",
-    CannotReportComputeCost = "CannotReportComputeCost",
-    CannotReportStorageCost = "CannotReportStorageCost",
-    None = "None",
-    PercentageOfCoresUtilizedMissing = "PercentageOfCoresUtilizedMissing",
-    PercentageOfCoresUtilizedOutOfRange = "PercentageOfCoresUtilizedOutOfRange",
-    PercentageOfMemoryUtilizedMissing = "PercentageOfMemoryUtilizedMissing",
-    PercentageOfMemoryUtilizedOutOfRange = "PercentageOfMemoryUtilizedOutOfRange",
-    RecommendedSizeHasLessNetworkAdapters = "RecommendedSizeHasLessNetworkAdapters"
-}
-
-// @public
-export enum KnownAzureVmSuitabilityExplanation {
-    BootTypeNotSupported = "BootTypeNotSupported",
-    BootTypeUnknown = "BootTypeUnknown",
-    CheckCentOsVersion = "CheckCentOsVersion",
-    CheckCoreOsLinuxVersion = "CheckCoreOsLinuxVersion",
-    CheckDebianLinuxVersion = "CheckDebianLinuxVersion",
-    CheckOpenSuseLinuxVersion = "CheckOpenSuseLinuxVersion",
-    CheckOracleLinuxVersion = "CheckOracleLinuxVersion",
-    CheckRedHatLinuxVersion = "CheckRedHatLinuxVersion",
-    CheckSuseLinuxVersion = "CheckSuseLinuxVersion",
-    CheckUbuntuLinuxVersion = "CheckUbuntuLinuxVersion",
-    CheckWindowsServer2008R2Version = "CheckWindowsServer2008R2Version",
-    EndorsedWithConditionsLinuxDistributions = "EndorsedWithConditionsLinuxDistributions",
-    GuestOperatingSystemArchitectureNotSupported = "GuestOperatingSystemArchitectureNotSupported",
-    GuestOperatingSystemNotSupported = "GuestOperatingSystemNotSupported",
-    GuestOperatingSystemUnknown = "GuestOperatingSystemUnknown",
-    InternalErrorOccurredDuringComputeEvaluation = "InternalErrorOccurredDuringComputeEvaluation",
-    InternalErrorOccurredDuringNetworkEvaluation = "InternalErrorOccurredDuringNetworkEvaluation",
-    InternalErrorOccurredDuringStorageEvaluation = "InternalErrorOccurredDuringStorageEvaluation",
-    MoreDisksThanSupported = "MoreDisksThanSupported",
-    NoGuestOperatingSystemConditionallySupported = "NoGuestOperatingSystemConditionallySupported",
-    NoSuitableVmSizeFound = "NoSuitableVmSizeFound",
-    NotApplicable = "NotApplicable",
-    NoVmSizeForBasicPricingTier = "NoVmSizeForBasicPricingTier",
-    NoVmSizeForSelectedAzureLocation = "NoVmSizeForSelectedAzureLocation",
-    NoVmSizeForSelectedPricingTier = "NoVmSizeForSelectedPricingTier",
-    NoVmSizeForStandardPricingTier = "NoVmSizeForStandardPricingTier",
-    NoVmSizeSupportsNetworkPerformance = "NoVmSizeSupportsNetworkPerformance",
-    NoVmSizeSupportsStoragePerformance = "NoVmSizeSupportsStoragePerformance",
-    OneOrMoreAdaptersNotSuitable = "OneOrMoreAdaptersNotSuitable",
-    OneOrMoreDisksNotSuitable = "OneOrMoreDisksNotSuitable",
-    UnendorsedLinuxDistributions = "UnendorsedLinuxDistributions",
-    Unknown = "Unknown",
-    WindowsClientVersionsConditionallySupported = "WindowsClientVersionsConditionallySupported",
-    WindowsOSNoLongerUnderMSSupport = "WindowsOSNoLongerUnderMSSupport",
-    WindowsServerVersionConditionallySupported = "WindowsServerVersionConditionallySupported",
-    WindowsServerVersionsSupportedWithCaveat = "WindowsServerVersionsSupportedWithCaveat"
-}
-
-// @public
-export enum KnownCloudSuitability {
-    ConditionallySuitable = "ConditionallySuitable",
-    NotSuitable = "NotSuitable",
-    ReadinessUnknown = "ReadinessUnknown",
-    Suitable = "Suitable",
-    Unknown = "Unknown"
-}
-
-// @public
-export enum KnownCurrency {
-    ARS = "ARS",
-    AUD = "AUD",
-    BRL = "BRL",
-    CAD = "CAD",
-    CHF = "CHF",
-    CNY = "CNY",
-    DKK = "DKK",
-    EUR = "EUR",
-    GBP = "GBP",
-    HKD = "HKD",
-    IDR = "IDR",
-    INR = "INR",
-    JPY = "JPY",
-    KRW = "KRW",
-    MXN = "MXN",
-    MYR = "MYR",
-    NOK = "NOK",
-    NZD = "NZD",
-    RUB = "RUB",
-    SAR = "SAR",
-    SEK = "SEK",
-    TRY = "TRY",
-    TWD = "TWD",
-    Unknown = "Unknown",
-    USD = "USD",
-    ZAR = "ZAR"
-}
-
-// @public
-export enum KnownGroupStatus {
+export enum KnownImportSqlInventoryJobResult {
     Completed = "Completed",
-    Created = "Created",
-    Invalid = "Invalid",
-    Running = "Running",
-    Updated = "Updated"
-}
-
-// @public
-export enum KnownGroupUpdateOperation {
-    Add = "Add",
-    Remove = "Remove"
-}
-
-// @public
-export enum KnownMachineBootType {
-    Bios = "BIOS",
-    EFI = "EFI",
-    Unknown = "Unknown"
-}
-
-// @public
-export enum KnownPercentile {
-    Percentile50 = "Percentile50",
-    Percentile90 = "Percentile90",
-    Percentile95 = "Percentile95",
-    Percentile99 = "Percentile99"
-}
-
-// @public
-export enum KnownPrivateEndpointConnectionPropertiesProvisioningState {
-    Accepted = "Accepted",
+    CompletedWithErrors = "CompletedWithErrors",
+    CompletedWithWarnings = "CompletedWithWarnings",
     Failed = "Failed",
     InProgress = "InProgress",
-    Succeeded = "Succeeded"
+    Unknown = "Unknown",
+    WaitingForBlobUpload = "WaitingForBlobUpload"
+}
+
+// @public
+export enum KnownImportTypeValues {
+    AzureMigrateCSV = "AzureMigrateCSV",
+    RVToolsXlsx = "RVToolsXlsx"
+}
+
+// @public
+export enum KnownJobResult {
+    Completed = "Completed",
+    CompletedWithErrors = "CompletedWithErrors",
+    CompletedWithWarnings = "CompletedWithWarnings",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Unknown = "Unknown",
+    WaitingForBlobUpload = "WaitingForBlobUpload"
+}
+
+// @public
+export enum KnownMasterSitePropertiesPublicNetworkAccess {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    NotSpecified = "NotSpecified"
+}
+
+// @public
+export enum KnownMicrosoftAzureFDSWebRoleHealthErrorDetailsSource {
+    RefreshFabricLayout = "RefreshFabricLayout",
+    RefreshFabricLayoutDependencyMap = "RefreshFabricLayoutDependencyMap",
+    RefreshFabricLayoutGuest = "RefreshFabricLayoutGuest"
+}
+
+// @public
+export enum KnownOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
 }
 
 // @public
@@ -1223,133 +2128,539 @@ export enum KnownPrivateLinkServiceConnectionStateStatus {
 }
 
 // @public
-export enum KnownProjectStatus {
-    Active = "Active",
-    Inactive = "Inactive"
-}
-
-// @public
 export enum KnownProvisioningState {
-    Accepted = "Accepted",
-    Creating = "Creating",
-    Deleting = "Deleting",
+    Canceled = "Canceled",
+    Completed = "Completed",
+    Created = "Created",
     Failed = "Failed",
-    Moving = "Moving",
-    Succeeded = "Succeeded"
+    Running = "Running",
+    Succeeded = "Succeeded",
+    Updated = "Updated"
 }
 
 // @public
-export enum KnownReservedInstance {
+export enum KnownShallowDiscoveryStatus {
+    Disabled = "Disabled",
+    DiscoveryFailed = "DiscoveryFailed",
+    DiscoveryInProgress = "DiscoveryInProgress",
+    DiscoveryNotStarted = "DiscoveryNotStarted",
+    DiscoveryPartiallySucceded = "DiscoveryPartiallySucceded",
+    DiscoverySucceeded = "DiscoverySucceeded",
+    DiscoverySucceededAtleastOnce = "DiscoverySucceededAtleastOnce",
+    RunAsAccountNotAssociated = "RunAsAccountNotAssociated"
+}
+
+// @public
+export enum KnownSiteHealthSummaryFabricLayoutUpdateSourcesItem {
+    RefreshFabricLayout = "RefreshFabricLayout",
+    RefreshFabricLayoutDependencyMap = "RefreshFabricLayoutDependencyMap",
+    RefreshFabricLayoutGuest = "RefreshFabricLayoutGuest"
+}
+
+// @public
+export enum KnownSqlAvailabilityGroupPropertiesAvailabilityGroupType {
+    Distributed = "Distributed",
+    Traditional = "Traditional",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownSqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaCommitMode {
+    Asynchronous = "Asynchronous",
+    Synchronous = "Synchronous",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownSqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaReadMode {
     None = "None",
-    RI1Year = "RI1Year",
-    RI3Year = "RI3Year"
+    ReadOnly = "ReadOnly",
+    ReadWrite = "ReadWrite",
+    Unknown = "Unknown"
 }
 
 // @public
-export enum KnownTimeRange {
-    Custom = "Custom",
-    Day = "Day",
-    Month = "Month",
-    Week = "Week"
+export enum KnownSqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaSeedMode {
+    Automatic = "Automatic",
+    Manual = "Manual",
+    Unknown = "Unknown"
 }
 
 // @public
-export interface Machine {
-    eTag?: string;
-    readonly id?: string;
-    readonly name?: string;
-    properties?: MachineProperties;
-    readonly type?: string;
+export enum KnownSqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaState {
+    Primary = "Primary",
+    Secondary = "Secondary",
+    Unknown = "Unknown"
 }
 
 // @public
-export type MachineBootType = string;
+export enum KnownSqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaSyncStatus {
+    Synchronized = "Synchronized",
+    Unknown = "Unknown",
+    Unsynchronized = "Unsynchronized"
+}
 
 // @public
-export interface MachineProperties {
-    readonly bootType?: MachineBootType;
-    readonly createdTimestamp?: Date;
-    readonly datacenterManagementServerArmId?: string;
-    readonly datacenterManagementServerName?: string;
+export enum KnownSqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaType {
+    AvailabilityGroupReplica = "AvailabilityGroupReplica",
+    DatabaseReplica = "DatabaseReplica",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownSqlAvailabilityReplicaOverviewReplicaState {
+    Primary = "Primary",
+    Secondary = "Secondary",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownSQLDiscoveryScopeStatus {
+    Disabled = "Disabled",
+    DiscoveryFailed = "DiscoveryFailed",
+    DiscoveryInProgress = "DiscoveryInProgress",
+    DiscoveryNotStarted = "DiscoveryNotStarted",
+    DiscoveryPartiallySucceded = "DiscoveryPartiallySucceded",
+    DiscoverySucceeded = "DiscoverySucceeded",
+    DiscoverySucceededAtleastOnce = "DiscoverySucceededAtleastOnce",
+    RunAsAccountNotAssociated = "RunAsAccountNotAssociated"
+}
+
+// @public
+export enum KnownSqlImportType {
+    AzureMigrateCsv = "AzureMigrateCsv",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownSqlMachineOverviewFciRole {
+    ActiveNode = "ActiveNode",
+    NotApplicable = "NotApplicable",
+    PossibleOwnerNode = "PossibleOwnerNode",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownSqlMetadataDiscoveryPipe {
+    CIM = "CIM",
+    Other = "Other",
+    PowerShell = "PowerShell",
+    SSH = "SSH",
+    Unknown = "Unknown",
+    VMware = "VMware"
+}
+
+// @public
+export enum KnownSqlServerStatus {
+    ContinuePending = "ContinuePending",
+    Paused = "Paused",
+    PausePending = "PausePending",
+    Running = "Running",
+    StartPending = "StartPending",
+    Stopped = "Stopped",
+    StopPending = "StopPending",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownSqlSitePropertiesDiscoveryScenario {
+    DR = "DR",
+    Migrate = "Migrate"
+}
+
+// @public
+export enum KnownStaticDiscoveryScopeStatus {
+    Disabled = "Disabled",
+    DiscoveryFailed = "DiscoveryFailed",
+    DiscoveryInProgress = "DiscoveryInProgress",
+    DiscoveryNotStarted = "DiscoveryNotStarted",
+    DiscoveryPartiallySucceded = "DiscoveryPartiallySucceded",
+    DiscoverySucceeded = "DiscoverySucceeded",
+    DiscoverySucceededAtleastOnce = "DiscoverySucceededAtleastOnce",
+    RunAsAccountNotAssociated = "RunAsAccountNotAssociated"
+}
+
+// @public
+export enum KnownSupportStatus {
+    Extended = "Extended",
+    Mainstream = "Mainstream",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownVersions {
+    V20180501Preview = "2018-05-01-preview",
+    V20190501Preview = "2019-05-01-preview",
+    V20200101 = "2020-01-01",
+    V20200101Preview = "2020-01-01-preview",
+    V20200201 = "2020-02-01",
+    V20200707 = "2020-07-07",
+    V20200710 = "2020-07-10",
+    V20200801Preview = "2020-08-01-preview",
+    V20201111Preview = "2020-11-11-preview",
+    V20221027 = "2022-10-27",
+    V20230606 = "2023-06-06",
+    V20231001Preview = "2023-10-01-preview",
+    V20240501Preview = "2024-05-01-preview",
+    V20241201Preview = "2024-12-01-preview"
+}
+
+// @public
+export enum KnownVMwareDatastoreType {
+    Cifs = "CIFS",
+    NFS = "NFS",
+    NFS41 = "NFS41",
+    Pmem = "PMEM",
+    Unknown = "Unknown",
+    Vffs = "VFFS",
+    Vmfs = "VMFS",
+    Vsan = "VSAN",
+    Vvol = "VVOL"
+}
+
+// @public
+export enum KnownWebAppSitePropertiesDiscoveryScenario {
+    DR = "DR",
+    Migrate = "Migrate"
+}
+
+// @public
+export interface MachineMetadata {
+    dependencyMapping: string;
+    machineArmId: string;
+    tags: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface MachineMetadataCollection {
+    value: MachineMetadata[];
+}
+
+// @public
+export interface MachineResource extends ProxyResource {
+    allocatedMemoryInMb?: number;
+    readonly altGuestName?: string;
+    readonly applianceNames?: string[];
+    readonly applicationDiscovery?: ApplicationDiscovery;
+    readonly appsAndRoles?: AppsAndRoles;
+    readonly arcDiscovery?: ArcDiscovery;
+    biosGuid?: string;
+    biosSerialNumber?: string;
+    readonly changeTrackingEnabled?: boolean;
+    readonly changeTrackingSupported?: boolean;
+    readonly createdTimestamp?: string;
+    readonly dataCenterScope?: string;
+    readonly dependencyMapDiscovery?: DependencyMapDiscovery;
+    readonly dependencyMapping?: string;
+    readonly dependencyMappingEndTime?: string;
+    readonly dependencyMappingStartTime?: Date;
     readonly description?: string;
-    readonly discoveryMachineArmId?: string;
-    readonly disks?: {
-        [propertyName: string]: Disk;
-    };
+    readonly diskEnabledUuid?: string;
+    readonly disks?: VmwareDisk[];
     readonly displayName?: string;
-    readonly groups?: string[];
-    readonly megabytesOfMemory?: number;
-    readonly networkAdapters?: {
-        [propertyName: string]: NetworkAdapter;
+    readonly errors?: HealthErrorDetails[];
+    firmware?: string;
+    readonly guestDetailsDiscoveryTimestamp?: Date;
+    readonly guestOsDetails?: GuestOsDetails;
+    readonly hostInMaintenanceMode?: boolean;
+    readonly hostName?: string;
+    readonly hostPowerState?: string;
+    readonly hostVersion?: string;
+    readonly iisDiscovery?: WebAppDiscovery;
+    readonly instanceUuid?: string;
+    readonly isDeleted?: boolean;
+    readonly isGuestDetailsDiscoveryInProgress?: boolean;
+    readonly maxSnapshots?: number;
+    readonly networkAdapters?: VmwareNetworkAdapter[];
+    readonly numberOfApplications?: number;
+    numberOfProcessorCore?: number;
+    readonly numberOfSnapshots?: number;
+    operatingSystemDetails?: OperatingSystem;
+    readonly oracleDiscovery?: OracleDiscovery;
+    readonly powerStatus?: string;
+    productSupportStatus?: ProductSupportStatus;
+    readonly provisioningState?: ProvisioningState;
+    runAsAccountId?: string;
+    readonly springBootDiscovery?: SpringBootDiscovery;
+    readonly sqlDiscovery?: SqlDiscovery;
+    readonly staticDiscovery?: StaticDiscovery;
+    tags?: {
+        [propertyName: string]: string;
     };
-    readonly numberOfCores?: number;
-    readonly operatingSystemName?: string;
-    readonly operatingSystemType?: string;
-    readonly operatingSystemVersion?: string;
-    readonly updatedTimestamp?: Date;
+    readonly tomcatDiscovery?: WebAppDiscovery;
+    readonly updatedTimestamp?: string;
+    readonly vCenterFqdn?: string;
+    readonly vCenterId?: string;
+    readonly vmConfigurationFileLocation?: string;
+    readonly vmFqdn?: string;
+    readonly vMwareToolsStatus?: string;
+    readonly vMwareToolsVersion?: string;
+    readonly webAppDiscovery?: WebAppDiscovery;
 }
 
 // @public
-export interface MachineResultList {
-    // (undocumented)
+export interface MachineResourceListResult {
     nextLink?: string;
-    value?: Machine[];
+    value: MachineResource[];
 }
 
 // @public
-export interface Machines {
-    get(resourceGroupName: string, projectName: string, machineName: string, options?: MachinesGetOptionalParams): Promise<MachinesGetResponse>;
-    listByProject(resourceGroupName: string, projectName: string, options?: MachinesListByProjectOptionalParams): PagedAsyncIterableIterator<Machine>;
+export interface MachineResourceUpdate {
+    allocatedMemoryInMb?: number;
+    biosGuid?: string;
+    biosSerialNumber?: string;
+    firmware?: string;
+    numberOfProcessorCore?: number;
+    operatingSystemDetails?: OperatingSystem;
+    productSupportStatus?: ProductSupportStatus;
+    runAsAccountId?: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
-export interface MachinesGetHeaders {
-    xMsRequestId?: string;
+export interface MachinesController {
+    beginStart(resourceGroupName: string, siteName: string, machineName: string, options?: MachinesControllerStartOptionalParams): Promise<SimplePollerLike<OperationState<MachinesControllerStartResponse>, MachinesControllerStartResponse>>;
+    beginStartAndWait(resourceGroupName: string, siteName: string, machineName: string, options?: MachinesControllerStartOptionalParams): Promise<MachinesControllerStartResponse>;
+    beginStop(resourceGroupName: string, siteName: string, machineName: string, options?: MachinesControllerStopOptionalParams): Promise<SimplePollerLike<OperationState<MachinesControllerStopResponse>, MachinesControllerStopResponse>>;
+    beginStopAndWait(resourceGroupName: string, siteName: string, machineName: string, options?: MachinesControllerStopOptionalParams): Promise<MachinesControllerStopResponse>;
+    get(resourceGroupName: string, siteName: string, machineName: string, options?: MachinesControllerGetOptionalParams): Promise<MachinesControllerGetResponse>;
+    listByVmwareSite(resourceGroupName: string, siteName: string, options?: MachinesControllerListByVmwareSiteOptionalParams): PagedAsyncIterableIterator<MachineResource>;
+    update(resourceGroupName: string, siteName: string, machineName: string, body: MachineResourceUpdate, options?: MachinesControllerUpdateOptionalParams): Promise<MachinesControllerUpdateResponse>;
 }
 
 // @public
-export interface MachinesGetOptionalParams extends coreClient.OperationOptions {
+export interface MachinesControllerGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type MachinesGetResponse = MachinesGetHeaders & Machine;
+export type MachinesControllerGetResponse = MachineResource;
 
 // @public
-export interface MachinesListByProjectHeaders {
-    xMsRequestId?: string;
+export interface MachinesControllerListByVmwareSiteNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface MachinesListByProjectNextHeaders {
-    xMsRequestId?: string;
+export type MachinesControllerListByVmwareSiteNextResponse = MachineResourceListResult;
+
+// @public
+export interface MachinesControllerListByVmwareSiteOptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+    filter?: string;
+    top?: number;
+    totalRecordCount?: number;
 }
 
 // @public
-export interface MachinesListByProjectNextOptionalParams extends coreClient.OperationOptions {
+export type MachinesControllerListByVmwareSiteResponse = MachineResourceListResult;
+
+// @public
+export interface MachinesControllerStartHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
-export type MachinesListByProjectNextResponse = MachinesListByProjectNextHeaders & MachineResultList;
-
-// @public
-export interface MachinesListByProjectOptionalParams extends coreClient.OperationOptions {
+export interface MachinesControllerStartOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export type MachinesListByProjectResponse = MachinesListByProjectHeaders & MachineResultList;
+export type MachinesControllerStartResponse = Record<string, unknown>;
 
 // @public
-export interface NetworkAdapter {
-    readonly displayName?: string;
-    readonly ipAddresses?: string[];
-    readonly macAddress?: string;
+export interface MachinesControllerStopHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface MachinesControllerStopOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MachinesControllerStopResponse = Record<string, unknown>;
+
+// @public
+export interface MachinesControllerUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MachinesControllerUpdateResponse = MachineResource;
+
+// @public
+export interface MasterSite extends TrackedResource {
+    allowMultipleSites?: boolean;
+    customerStorageAccountArmId?: string;
+    readonly lastRefreshArcStatusTime?: Date;
+    readonly nestedSites?: string[];
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: MasterSitePropertiesPublicNetworkAccess;
+    sites?: string[];
+}
+
+// @public
+export interface MasterSiteListResult {
+    nextLink?: string;
+    value: MasterSite[];
+}
+
+// @public
+export type MasterSitePropertiesPublicNetworkAccess = string;
+
+// @public
+export interface MasterSitesController {
+    beginCreate(resourceGroupName: string, siteName: string, body: MasterSite, options?: MasterSitesControllerCreateOptionalParams): Promise<SimplePollerLike<OperationState<MasterSitesControllerCreateResponse>, MasterSitesControllerCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, siteName: string, body: MasterSite, options?: MasterSitesControllerCreateOptionalParams): Promise<MasterSitesControllerCreateResponse>;
+    beginRefreshArcStatus(resourceGroupName: string, siteName: string, options?: MasterSitesControllerRefreshArcStatusOptionalParams): Promise<SimplePollerLike<OperationState<MasterSitesControllerRefreshArcStatusResponse>, MasterSitesControllerRefreshArcStatusResponse>>;
+    beginRefreshArcStatusAndWait(resourceGroupName: string, siteName: string, options?: MasterSitesControllerRefreshArcStatusOptionalParams): Promise<MasterSitesControllerRefreshArcStatusResponse>;
+    beginUpdate(resourceGroupName: string, siteName: string, properties: MasterSiteUpdate, options?: MasterSitesControllerUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MasterSitesControllerUpdateResponse>, MasterSitesControllerUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, siteName: string, properties: MasterSiteUpdate, options?: MasterSitesControllerUpdateOptionalParams): Promise<MasterSitesControllerUpdateResponse>;
+    delete(resourceGroupName: string, siteName: string, options?: MasterSitesControllerDeleteOptionalParams): Promise<void>;
+    errorSummary(resourceGroupName: string, siteName: string, body: ErrorSummaryRequest, options?: MasterSitesControllerErrorSummaryOptionalParams): Promise<MasterSitesControllerErrorSummaryResponse>;
+    get(resourceGroupName: string, siteName: string, options?: MasterSitesControllerGetOptionalParams): Promise<MasterSitesControllerGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: MasterSitesControllerListByResourceGroupOptionalParams): PagedAsyncIterableIterator<MasterSite>;
+    listBySubscription(options?: MasterSitesControllerListBySubscriptionOptionalParams): PagedAsyncIterableIterator<MasterSite>;
+}
+
+// @public
+export interface MasterSitesControllerCreateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface MasterSitesControllerCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MasterSitesControllerCreateResponse = MasterSite;
+
+// @public
+export interface MasterSitesControllerDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface MasterSitesControllerErrorSummaryOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MasterSitesControllerErrorSummaryResponse = SiteErrorSummary;
+
+// @public
+export interface MasterSitesControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MasterSitesControllerGetResponse = MasterSite;
+
+// @public
+export interface MasterSitesControllerListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MasterSitesControllerListByResourceGroupNextResponse = MasterSiteListResult;
+
+// @public
+export interface MasterSitesControllerListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MasterSitesControllerListByResourceGroupResponse = MasterSiteListResult;
+
+// @public
+export interface MasterSitesControllerListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MasterSitesControllerListBySubscriptionNextResponse = MasterSiteListResult;
+
+// @public
+export interface MasterSitesControllerListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MasterSitesControllerListBySubscriptionResponse = MasterSiteListResult;
+
+// @public
+export interface MasterSitesControllerRefreshArcStatusHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface MasterSitesControllerRefreshArcStatusOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MasterSitesControllerRefreshArcStatusResponse = Record<string, unknown>;
+
+// @public
+export interface MasterSitesControllerUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface MasterSitesControllerUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MasterSitesControllerUpdateResponse = MasterSite;
+
+// @public
+export interface MasterSitesOperationsStatusController {
+    getVmwareOperationStatus(resourceGroupName: string, siteName: string, operationStatusName: string, options?: MasterSitesOperationsStatusControllerGetVmwareOperationStatusOptionalParams): Promise<MasterSitesOperationsStatusControllerGetVmwareOperationStatusResponse>;
+}
+
+// @public
+export interface MasterSitesOperationsStatusControllerGetVmwareOperationStatusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MasterSitesOperationsStatusControllerGetVmwareOperationStatusResponse = OperationStatus;
+
+// @public
+export interface MasterSiteUpdate {
+    allowMultipleSites?: boolean;
+    customerStorageAccountArmId?: string;
+    publicNetworkAccess?: MasterSitePropertiesPublicNetworkAccess;
+    sites?: string[];
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export type MicrosoftAzureFDSWebRoleHealthErrorDetailsSource = string;
+
+// @public
+export interface OperatingSystem {
+    osArchitecture?: string;
+    osName?: string;
+    osType?: string;
+    osVersion?: string;
 }
 
 // @public
 export interface Operation {
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
+    readonly isDataAction?: boolean;
     readonly name?: string;
-    readonly origin?: string;
+    readonly origin?: Origin;
 }
 
 // @public
@@ -1361,8 +2672,9 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationResultList {
-    value?: Operation[];
+export interface OperationListResult {
+    readonly nextLink?: string;
+    readonly value?: Operation[];
 }
 
 // @public
@@ -1371,147 +2683,182 @@ export interface Operations {
 }
 
 // @public
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListNextResponse = OperationListResult;
+
+// @public
 export interface OperationsListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type OperationsListResponse = OperationResultList;
+export type OperationsListResponse = OperationListResult;
 
 // @public
-export type Percentile = string;
-
-// @public
-export interface PrivateEndpointConnection {
-    eTag?: string;
+export interface OperationStatus {
+    readonly endTime?: string;
+    readonly error?: OperationStatusError;
     readonly id?: string;
     readonly name?: string;
-    properties: PrivateEndpointConnectionProperties;
-    readonly type?: string;
+    readonly properties?: OperationStatusProperties;
+    readonly startTime?: string;
+    readonly status?: string;
 }
 
 // @public
-export interface PrivateEndpointConnectionCollection {
+export interface OperationStatusError {
+    readonly code?: string;
+    readonly message?: string;
+}
+
+// @public
+export interface OperationStatusProperties {
+    result?: string;
+}
+
+// @public
+export interface OracleDiscovery {
+    discoveryScopeStatus?: DiscoveryScopeStatus;
+    shallowDiscoveryStatus?: ShallowDiscoveryStatus;
+    totalDatabaseCount?: number;
+    totalInstanceCount?: number;
+}
+
+// @public
+export type Origin = string;
+
+// @public
+export interface OtherDatabase {
+    readonly databaseType?: string;
+    readonly instance?: string;
+    readonly version?: string;
+}
+
+// @public
+export interface PagedDeleteImportMachinesJob {
     readonly nextLink?: string;
-    readonly value?: PrivateEndpointConnection[];
+    readonly value?: DeleteImportMachinesJob[];
 }
 
 // @public
-export interface PrivateEndpointConnectionDeleteHeaders {
-    xMsRequestId?: string;
+export interface PagedExportImportedMachinesJob {
+    readonly nextLink?: string;
+    readonly value?: ExportImportedMachinesJob[];
 }
 
 // @public
-export interface PrivateEndpointConnectionDeleteOptionalParams extends coreClient.OperationOptions {
+export interface PagedImportMachinesJob {
+    readonly nextLink?: string;
+    readonly value?: ImportMachinesJob[];
 }
 
 // @public
-export type PrivateEndpointConnectionDeleteResponse = PrivateEndpointConnectionDeleteHeaders;
-
-// @public
-export interface PrivateEndpointConnectionGetHeaders {
-    xMsRequestId?: string;
+export interface PagedImportSqlInventoryJob {
+    readonly nextLink?: string;
+    readonly value?: ImportSqlInventoryJob[];
 }
 
 // @public
-export interface PrivateEndpointConnectionGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateEndpointConnectionGetResponse = PrivateEndpointConnectionGetHeaders & PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionListByProjectHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface PrivateEndpointConnectionListByProjectOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateEndpointConnectionListByProjectResponse = PrivateEndpointConnectionListByProjectHeaders & PrivateEndpointConnectionCollection;
-
-// @public
-export interface PrivateEndpointConnectionOperations {
-    delete(resourceGroupName: string, projectName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams): Promise<PrivateEndpointConnectionDeleteResponse>;
-    get(resourceGroupName: string, projectName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionGetOptionalParams): Promise<PrivateEndpointConnectionGetResponse>;
-    listByProject(resourceGroupName: string, projectName: string, options?: PrivateEndpointConnectionListByProjectOptionalParams): Promise<PrivateEndpointConnectionListByProjectResponse>;
-    update(resourceGroupName: string, projectName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionUpdateOptionalParams): Promise<PrivateEndpointConnectionUpdateResponse>;
-}
-
-// @public
-export interface PrivateEndpointConnectionProperties {
+export interface PrivateEndpointConnection extends ProxyResource {
+    readonly groupIds?: string[];
     readonly privateEndpoint?: ResourceId;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-    readonly provisioningState?: PrivateEndpointConnectionPropertiesProvisioningState;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
-export type PrivateEndpointConnectionPropertiesProvisioningState = string;
-
-// @public
-export interface PrivateEndpointConnectionUpdateHeaders {
-    xMsRequestId?: string;
+export interface PrivateEndpointConnectionController {
+    create(resourceGroupName: string, siteName: string, peConnectionName: string, body: PrivateEndpointConnection, options?: PrivateEndpointConnectionControllerCreateOptionalParams): Promise<PrivateEndpointConnectionControllerCreateResponse>;
+    delete(resourceGroupName: string, siteName: string, peConnectionName: string, options?: PrivateEndpointConnectionControllerDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, siteName: string, peConnectionName: string, options?: PrivateEndpointConnectionControllerGetOptionalParams): Promise<PrivateEndpointConnectionControllerGetResponse>;
+    listByMasterSite(resourceGroupName: string, siteName: string, options?: PrivateEndpointConnectionControllerListByMasterSiteOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
 }
 
 // @public
-export interface PrivateEndpointConnectionUpdateOptionalParams extends coreClient.OperationOptions {
-    privateEndpointConnectionBody?: PrivateEndpointConnection;
+export interface PrivateEndpointConnectionControllerCreateHeaders {
+    retryAfter?: number;
 }
 
 // @public
-export type PrivateEndpointConnectionUpdateResponse = PrivateEndpointConnectionUpdateHeaders & PrivateEndpointConnection;
-
-// @public
-export interface PrivateLinkResource {
-    readonly id?: string;
-    readonly name?: string;
-    readonly properties?: PrivateLinkResourceProperties;
-    readonly type?: string;
+export interface PrivateEndpointConnectionControllerCreateOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface PrivateLinkResourceCollection {
-    readonly nextLink?: string;
-    readonly value?: PrivateLinkResource[];
+export type PrivateEndpointConnectionControllerCreateResponse = PrivateEndpointConnection;
+
+// @public
+export interface PrivateEndpointConnectionControllerDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface PrivateLinkResourceGetHeaders {
-    xMsRequestId?: string;
+export interface PrivateEndpointConnectionControllerGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface PrivateLinkResourceGetOptionalParams extends coreClient.OperationOptions {
+export type PrivateEndpointConnectionControllerGetResponse = PrivateEndpointConnection;
+
+// @public
+export interface PrivateEndpointConnectionControllerListByMasterSiteNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type PrivateLinkResourceGetResponse = PrivateLinkResourceGetHeaders & PrivateLinkResource;
+export type PrivateEndpointConnectionControllerListByMasterSiteNextResponse = PrivateEndpointConnectionListResult;
 
 // @public
-export interface PrivateLinkResourceListByProjectHeaders {
-    xMsRequestId?: string;
+export interface PrivateEndpointConnectionControllerListByMasterSiteOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface PrivateLinkResourceListByProjectOptionalParams extends coreClient.OperationOptions {
+export type PrivateEndpointConnectionControllerListByMasterSiteResponse = PrivateEndpointConnectionListResult;
+
+// @public
+export interface PrivateEndpointConnectionListResult {
+    nextLink?: string;
+    value: PrivateEndpointConnection[];
 }
 
 // @public
-export type PrivateLinkResourceListByProjectResponse = PrivateLinkResourceListByProjectHeaders & PrivateLinkResourceCollection;
-
-// @public
-export interface PrivateLinkResourceOperations {
-    get(resourceGroupName: string, projectName: string, privateLinkResourceName: string, options?: PrivateLinkResourceGetOptionalParams): Promise<PrivateLinkResourceGetResponse>;
-    listByProject(resourceGroupName: string, projectName: string, options?: PrivateLinkResourceListByProjectOptionalParams): Promise<PrivateLinkResourceListByProjectResponse>;
+export interface PrivateLinkResource extends ProxyResource {
+    groupId?: string;
+    readonly provisioningState?: ProvisioningState;
+    requiredMembers?: string[];
+    requiredZoneNames?: string[];
 }
 
 // @public
-export interface PrivateLinkResourceProperties {
-    readonly groupId?: string;
-    readonly requiredMembers?: string[];
-    readonly requiredZoneNames?: string[];
+export interface PrivateLinkResourceListResult {
+    nextLink?: string;
+    value: PrivateLinkResource[];
 }
+
+// @public
+export interface PrivateLinkResourcesController {
+    get(resourceGroupName: string, siteName: string, privateLinkResourceName: string, options?: PrivateLinkResourcesControllerGetOptionalParams): Promise<PrivateLinkResourcesControllerGetResponse>;
+    listByMasterSite(resourceGroupName: string, siteName: string, options?: PrivateLinkResourcesControllerListByMasterSiteOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
+}
+
+// @public
+export interface PrivateLinkResourcesControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkResourcesControllerGetResponse = PrivateLinkResource;
+
+// @public
+export interface PrivateLinkResourcesControllerListByMasterSiteNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkResourcesControllerListByMasterSiteNextResponse = PrivateLinkResourceListResult;
+
+// @public
+export interface PrivateLinkResourcesControllerListByMasterSiteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkResourcesControllerListByMasterSiteResponse = PrivateLinkResourceListResult;
 
 // @public
 export interface PrivateLinkServiceConnectionState {
@@ -1524,357 +2871,2756 @@ export interface PrivateLinkServiceConnectionState {
 export type PrivateLinkServiceConnectionStateStatus = string;
 
 // @public
-export interface Project {
-    eTag?: string;
-    readonly id?: string;
-    location?: string;
-    readonly name?: string;
-    properties?: ProjectProperties;
-    tags?: Record<string, unknown>;
-    readonly type?: string;
+export interface ProcessorInfo {
+    name?: string;
+    numberOfCoresPerSocket?: number;
+    numberOfSockets?: number;
 }
 
 // @public
-export interface ProjectProperties {
-    assessmentSolutionId?: string;
-    readonly createdTimestamp?: Date;
-    customerStorageAccountArmId?: string;
-    customerWorkspaceId?: string;
-    customerWorkspaceLocation?: string;
-    readonly lastAssessmentTimestamp?: Date;
-    readonly numberOfAssessments?: number;
-    readonly numberOfGroups?: number;
-    readonly numberOfMachines?: number;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    projectStatus?: ProjectStatus;
-    readonly provisioningState?: ProvisioningState;
-    publicNetworkAccess?: string;
-    readonly serviceEndpoint?: string;
-    readonly updatedTimestamp?: Date;
+export interface ProductSupportStatus {
+    currentVersion?: string;
+    esuStatus?: EsuStatus;
+    esuYear?: EsuYear;
+    supportEndDate?: Date;
+    supportStatus?: SupportStatus;
 }
-
-// @public
-export interface ProjectResultList {
-    // (undocumented)
-    nextLink?: string;
-    value?: Project[];
-}
-
-// @public
-export interface Projects {
-    assessmentOptions(resourceGroupName: string, projectName: string, assessmentOptionsName: string, options?: ProjectsAssessmentOptionsOptionalParams): Promise<ProjectsAssessmentOptionsResponse>;
-    create(resourceGroupName: string, projectName: string, options?: ProjectsCreateOptionalParams): Promise<ProjectsCreateResponse>;
-    delete(resourceGroupName: string, projectName: string, options?: ProjectsDeleteOptionalParams): Promise<ProjectsDeleteResponse>;
-    get(resourceGroupName: string, projectName: string, options?: ProjectsGetOptionalParams): Promise<ProjectsGetResponse>;
-    list(resourceGroupName: string, options?: ProjectsListOptionalParams): PagedAsyncIterableIterator<Project>;
-    listAssessmentOptionsList(resourceGroupName: string, projectName: string, options?: ProjectsAssessmentOptionsListOptionalParams): PagedAsyncIterableIterator<AssessmentOptions>;
-    listBySubscription(options?: ProjectsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Project>;
-    update(resourceGroupName: string, projectName: string, options?: ProjectsUpdateOptionalParams): Promise<ProjectsUpdateResponse>;
-}
-
-// @public
-export interface ProjectsAssessmentOptionsHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsAssessmentOptionsListHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsAssessmentOptionsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProjectsAssessmentOptionsListResponse = ProjectsAssessmentOptionsListHeaders & AssessmentOptionsResultList;
-
-// @public
-export interface ProjectsAssessmentOptionsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProjectsAssessmentOptionsResponse = ProjectsAssessmentOptionsHeaders & AssessmentOptions;
-
-// @public
-export interface ProjectsCreateHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsCreateOptionalParams extends coreClient.OperationOptions {
-    project?: Project;
-}
-
-// @public
-export type ProjectsCreateResponse = ProjectsCreateHeaders & Project;
-
-// @public
-export interface ProjectsDeleteHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProjectsDeleteResponse = ProjectsDeleteHeaders;
-
-// @public
-export interface ProjectsGetHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProjectsGetResponse = ProjectsGetHeaders & Project;
-
-// @public
-export interface ProjectsListBySubscriptionHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsListBySubscriptionNextHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProjectsListBySubscriptionNextResponse = ProjectsListBySubscriptionNextHeaders & ProjectResultList;
-
-// @public
-export interface ProjectsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProjectsListBySubscriptionResponse = ProjectsListBySubscriptionHeaders & ProjectResultList;
-
-// @public
-export interface ProjectsListHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsListNextHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProjectsListNextResponse = ProjectsListNextHeaders & ProjectResultList;
-
-// @public
-export interface ProjectsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProjectsListResponse = ProjectsListHeaders & ProjectResultList;
-
-// @public
-export type ProjectStatus = string;
-
-// @public
-export interface ProjectsUpdateHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsUpdateOptionalParams extends coreClient.OperationOptions {
-    project?: Project;
-}
-
-// @public
-export type ProjectsUpdateResponse = ProjectsUpdateHeaders & Project;
 
 // @public
 export type ProvisioningState = string;
 
 // @public
-export type ReservedInstance = string;
+export interface ProxyResource extends Resource {
+}
+
+// @public
+export interface ProxySiteRefreshBody {
+    applianceName?: string;
+}
+
+// @public
+export interface RequestExportMachineErrorsProperties {
+    discoveryScope?: ExportMachineErrorsProperties;
+}
+
+// @public
+export interface Resource {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
+    readonly type?: string;
+}
 
 // @public
 export interface ResourceId {
     readonly id?: string;
 }
 
-// @public (undocumented)
-export interface ServerCollector {
-    // (undocumented)
-    eTag?: string;
+// @public
+export interface RunAsAccountMachineInput {
+    machineId?: string;
+    runAsAccountId?: string;
+}
+
+// @public
+export interface RunAsAccountProperties {
+    readonly applianceName?: string;
+    readonly createdTimestamp?: string;
+    readonly credentialType?: string;
+    readonly displayName?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly updatedTimestamp?: string;
+}
+
+// @public
+export interface RunAsAccountsController {
+    get(resourceGroupName: string, siteName: string, accountName: string, options?: RunAsAccountsControllerGetOptionalParams): Promise<RunAsAccountsControllerGetResponse>;
+    listByVmwareSite(resourceGroupName: string, siteName: string, options?: RunAsAccountsControllerListByVmwareSiteOptionalParams): PagedAsyncIterableIterator<VmwareRunAsAccountResource>;
+}
+
+// @public
+export interface RunAsAccountsControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RunAsAccountsControllerGetResponse = VmwareRunAsAccountResource;
+
+// @public
+export interface RunAsAccountsControllerListByVmwareSiteNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RunAsAccountsControllerListByVmwareSiteNextResponse = VmwareRunAsAccountResourceListResult;
+
+// @public
+export interface RunAsAccountsControllerListByVmwareSiteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RunAsAccountsControllerListByVmwareSiteResponse = VmwareRunAsAccountResourceListResult;
+
+// @public
+export interface SasUriResponse {
+    importType?: ImportTypeValues;
+    jobArmId?: string;
+    uri?: string;
+}
+
+// @public
+export interface Server extends ProxyResource {
+    allocatedMemoryInMb?: number;
+    readonly applianceNames?: string[];
+    readonly applicationDiscovery?: ApplicationDiscovery;
+    readonly appsAndRoles?: AppsAndRoles;
+    readonly arcDiscovery?: ArcDiscovery;
+    biosGuid?: string;
+    biosSerialNumber?: string;
+    readonly createdTimestamp?: string;
+    readonly dependencyMapDiscovery?: DependencyMapDiscovery;
+    readonly dependencyMapping?: string;
+    readonly dependencyMappingEndTime?: string;
+    readonly dependencyMappingStartTime?: Date;
+    readonly discoverySource?: "Arc";
+    disks?: ServerDisk[];
+    readonly displayName?: string;
+    readonly errors?: HealthErrorDetails[];
+    firmware?: string;
+    fqdn?: string;
+    readonly guestDetailsDiscoveryTimestamp?: Date;
+    readonly guestOsDetails?: GuestOsDetails;
+    hydratedFqdn?: string;
+    readonly hypervisor?: string;
+    readonly iisDiscovery?: WebAppDiscovery;
+    readonly isDeleted?: boolean;
+    readonly isGuestDetailsDiscoveryInProgress?: boolean;
+    networkAdapters?: ServerNetworkAdapter[];
+    readonly numberOfApplications?: number;
+    numberOfProcessorCore?: number;
+    operatingSystemDetails?: OperatingSystem;
+    readonly oracleDiscovery?: OracleDiscovery;
+    readonly processorInfo?: ProcessorInfo;
+    productSupportStatus?: ProductSupportStatus;
+    provisioningState?: ProvisioningState;
+    runAsAccountId?: string;
+    readonly springBootDiscovery?: SpringBootDiscovery;
+    readonly sqlDiscovery?: SqlDiscovery;
+    readonly staticDiscovery?: StaticDiscovery;
+    tags?: {
+        [propertyName: string]: Record<string, unknown>;
+    };
+    readonly tomcatDiscovery?: WebAppDiscovery;
+    readonly updatedTimestamp?: string;
+    validationRequired?: string;
+    readonly webAppDiscovery?: WebAppDiscovery;
+}
+
+// @public
+export interface ServerDependencyMapController {
+    beginClientGroupMembers(resourceGroupName: string, siteName: string, mapRequest: DependencyMapServiceMapextensionsClientGroupMembersRequest, options?: ServerDependencyMapControllerClientGroupMembersOptionalParams): Promise<SimplePollerLike<OperationState<ServerDependencyMapControllerClientGroupMembersResponse>, ServerDependencyMapControllerClientGroupMembersResponse>>;
+    beginClientGroupMembersAndWait(resourceGroupName: string, siteName: string, mapRequest: DependencyMapServiceMapextensionsClientGroupMembersRequest, options?: ServerDependencyMapControllerClientGroupMembersOptionalParams): Promise<ServerDependencyMapControllerClientGroupMembersResponse>;
+    beginExportDependencies(resourceGroupName: string, siteName: string, requestBody: DependencyMapServiceMapextensionsExportDependenciesRequest, options?: ServerDependencyMapControllerExportDependenciesOptionalParams): Promise<SimplePollerLike<OperationState<ServerDependencyMapControllerExportDependenciesResponse>, ServerDependencyMapControllerExportDependenciesResponse>>;
+    beginExportDependenciesAndWait(resourceGroupName: string, siteName: string, requestBody: DependencyMapServiceMapextensionsExportDependenciesRequest, options?: ServerDependencyMapControllerExportDependenciesOptionalParams): Promise<ServerDependencyMapControllerExportDependenciesResponse>;
+    beginGenerateCoarseMap(resourceGroupName: string, siteName: string, mapRequest: DependencyMapServiceMapextensionsScopeMapRequest, options?: ServerDependencyMapControllerGenerateCoarseMapOptionalParams): Promise<SimplePollerLike<OperationState<ServerDependencyMapControllerGenerateCoarseMapResponse>, ServerDependencyMapControllerGenerateCoarseMapResponse>>;
+    beginGenerateCoarseMapAndWait(resourceGroupName: string, siteName: string, mapRequest: DependencyMapServiceMapextensionsScopeMapRequest, options?: ServerDependencyMapControllerGenerateCoarseMapOptionalParams): Promise<ServerDependencyMapControllerGenerateCoarseMapResponse>;
+    beginGenerateDetailedMap(resourceGroupName: string, siteName: string, mapRequest: DependencyMapServiceMapextensionsSingleMachineDetailedMapRequest, options?: ServerDependencyMapControllerGenerateDetailedMapOptionalParams): Promise<SimplePollerLike<OperationState<ServerDependencyMapControllerGenerateDetailedMapResponse>, ServerDependencyMapControllerGenerateDetailedMapResponse>>;
+    beginGenerateDetailedMapAndWait(resourceGroupName: string, siteName: string, mapRequest: DependencyMapServiceMapextensionsSingleMachineDetailedMapRequest, options?: ServerDependencyMapControllerGenerateDetailedMapOptionalParams): Promise<ServerDependencyMapControllerGenerateDetailedMapResponse>;
+    beginServerGroupMembers(resourceGroupName: string, siteName: string, mapRequest: DependencyMapServiceMapextensionsServerGroupMembersRequest, options?: ServerDependencyMapControllerServerGroupMembersOptionalParams): Promise<SimplePollerLike<OperationState<ServerDependencyMapControllerServerGroupMembersResponse>, ServerDependencyMapControllerServerGroupMembersResponse>>;
+    beginServerGroupMembersAndWait(resourceGroupName: string, siteName: string, mapRequest: DependencyMapServiceMapextensionsServerGroupMembersRequest, options?: ServerDependencyMapControllerServerGroupMembersOptionalParams): Promise<ServerDependencyMapControllerServerGroupMembersResponse>;
+}
+
+// @public
+export interface ServerDependencyMapControllerClientGroupMembersHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ServerDependencyMapControllerClientGroupMembersOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ServerDependencyMapControllerClientGroupMembersResponse = Record<string, unknown>;
+
+// @public
+export interface ServerDependencyMapControllerExportDependenciesHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ServerDependencyMapControllerExportDependenciesOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ServerDependencyMapControllerExportDependenciesResponse = Record<string, unknown>;
+
+// @public
+export interface ServerDependencyMapControllerGenerateCoarseMapHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ServerDependencyMapControllerGenerateCoarseMapOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ServerDependencyMapControllerGenerateCoarseMapResponse = Record<string, unknown>;
+
+// @public
+export interface ServerDependencyMapControllerGenerateDetailedMapHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ServerDependencyMapControllerGenerateDetailedMapOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ServerDependencyMapControllerGenerateDetailedMapResponse = Record<string, unknown>;
+
+// @public
+export interface ServerDependencyMapControllerServerGroupMembersHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ServerDependencyMapControllerServerGroupMembersOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ServerDependencyMapControllerServerGroupMembersResponse = Record<string, unknown>;
+
+// @public
+export interface ServerDisk {
+    diskType?: string;
+    generatedId?: string;
+    id?: string;
+    lun?: number;
+    maxSizeInBytes?: number;
+    name?: string;
+    path?: string;
+}
+
+// @public
+export interface ServerJob extends ProxyResource {
+    readonly activityId?: string;
+    readonly clientRequestId?: string;
+    readonly displayName?: string;
+    readonly endTime?: string;
+    readonly errors?: ErrorDetails[];
+    readonly provisioningState?: ProvisioningState;
+    readonly startTime?: string;
+    readonly status?: string;
+}
+
+// @public
+export interface ServerJobListResult {
+    nextLink?: string;
+    value: ServerJob[];
+}
+
+// @public
+export interface ServerJobsController {
+    get(resourceGroupName: string, siteName: string, jobName: string, options?: ServerJobsControllerGetOptionalParams): Promise<ServerJobsControllerGetResponse>;
+    listByServerSiteResource(resourceGroupName: string, siteName: string, options?: ServerJobsControllerListByServerSiteResourceOptionalParams): PagedAsyncIterableIterator<ServerJob>;
+}
+
+// @public
+export interface ServerJobsControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerJobsControllerGetResponse = ServerJob;
+
+// @public
+export interface ServerJobsControllerListByServerSiteResourceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerJobsControllerListByServerSiteResourceNextResponse = ServerJobListResult;
+
+// @public
+export interface ServerJobsControllerListByServerSiteResourceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerJobsControllerListByServerSiteResourceResponse = ServerJobListResult;
+
+// @public
+export interface ServerListResult {
+    nextLink?: string;
+    value: Server[];
+}
+
+// @public
+export interface ServerNetworkAdapter {
+    readonly ipAddressList?: string[];
+    ipAddressType?: string;
+    macAddress?: string;
+    networkName?: string;
+    nicId?: string;
+}
+
+// @public
+export interface ServerOperationsStatusController {
+    getServerSiteOperationsStatus(resourceGroupName: string, siteName: string, operationStatusName: string, options?: ServerOperationsStatusControllerGetServerSiteOperationsStatusOptionalParams): Promise<ServerOperationsStatusControllerGetServerSiteOperationsStatusResponse>;
+}
+
+// @public
+export interface ServerOperationsStatusControllerGetServerSiteOperationsStatusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerOperationsStatusControllerGetServerSiteOperationsStatusResponse = OperationStatus;
+
+// @public
+export interface ServerRunAsAccount extends ProxyResource {
+    readonly applianceName?: string;
+    readonly createdTimestamp?: string;
+    readonly credentialType?: string;
+    readonly displayName?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly updatedTimestamp?: string;
+}
+
+// @public
+export interface ServerRunAsAccountListResult {
+    nextLink?: string;
+    value: ServerRunAsAccount[];
+}
+
+// @public
+export interface ServerRunAsAccountsController {
+    get(resourceGroupName: string, siteName: string, accountName: string, options?: ServerRunAsAccountsControllerGetOptionalParams): Promise<ServerRunAsAccountsControllerGetResponse>;
+    listByServerSiteResource(resourceGroupName: string, siteName: string, options?: ServerRunAsAccountsControllerListByServerSiteResourceOptionalParams): PagedAsyncIterableIterator<ServerRunAsAccount>;
+}
+
+// @public
+export interface ServerRunAsAccountsControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerRunAsAccountsControllerGetResponse = ServerRunAsAccount;
+
+// @public
+export interface ServerRunAsAccountsControllerListByServerSiteResourceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerRunAsAccountsControllerListByServerSiteResourceNextResponse = ServerRunAsAccountListResult;
+
+// @public
+export interface ServerRunAsAccountsControllerListByServerSiteResourceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerRunAsAccountsControllerListByServerSiteResourceResponse = ServerRunAsAccountListResult;
+
+// @public
+export interface ServersController {
+    deleteMachine(resourceGroupName: string, siteName: string, machineName: string, options?: ServersControllerDeleteMachineOptionalParams): Promise<void>;
+    getMachine(resourceGroupName: string, siteName: string, machineName: string, options?: ServersControllerGetMachineOptionalParams): Promise<ServersControllerGetMachineResponse>;
+    listByServerSiteResource(resourceGroupName: string, siteName: string, options?: ServersControllerListByServerSiteResourceOptionalParams): PagedAsyncIterableIterator<Server>;
+    updateMachine(resourceGroupName: string, siteName: string, machineName: string, body: ServerUpdate, options?: ServersControllerUpdateMachineOptionalParams): Promise<ServersControllerUpdateMachineResponse>;
+}
+
+// @public
+export interface ServersControllerDeleteMachineOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ServersControllerGetMachineOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServersControllerGetMachineResponse = Server;
+
+// @public
+export interface ServersControllerListByServerSiteResourceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServersControllerListByServerSiteResourceNextResponse = ServerListResult;
+
+// @public
+export interface ServersControllerListByServerSiteResourceOptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+    filter?: string;
+    top?: string;
+    totalRecordCount?: number;
+}
+
+// @public
+export type ServersControllerListByServerSiteResourceResponse = ServerListResult;
+
+// @public
+export interface ServersControllerUpdateMachineOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServersControllerUpdateMachineResponse = Server;
+
+// @public
+export interface ServerSiteResource extends TrackedResource {
+    agentDetails?: SiteAgentProperties;
+    applianceName?: string;
+    arcScope?: ArcScopeProperties;
+    discoverySolutionId?: string;
+    readonly masterSiteId?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly serviceEndpoint?: string;
+    servicePrincipalIdentityDetails?: SiteSpnProperties;
+}
+
+// @public
+export interface ServerSiteResourceListResult {
+    nextLink?: string;
+    value: ServerSiteResource[];
+}
+
+// @public
+export interface ServerSiteResourceUpdate {
+    agentDetails?: SiteAgentProperties;
+    applianceName?: string;
+    arcScope?: ArcScopePropertiesUpdate;
+    discoverySolutionId?: string;
+    servicePrincipalIdentityDetails?: SiteSpnProperties;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface ServerSitesController {
+    beginCreate(resourceGroupName: string, siteName: string, body: ServerSiteResource, options?: ServerSitesControllerCreateOptionalParams): Promise<SimplePollerLike<OperationState<ServerSitesControllerCreateResponse>, ServerSitesControllerCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, siteName: string, body: ServerSiteResource, options?: ServerSitesControllerCreateOptionalParams): Promise<ServerSitesControllerCreateResponse>;
+    beginExportApplications(resourceGroupName: string, siteName: string, body: Record<string, unknown>, options?: ServerSitesControllerExportApplicationsOptionalParams): Promise<SimplePollerLike<OperationState<ServerSitesControllerExportApplicationsResponse>, ServerSitesControllerExportApplicationsResponse>>;
+    beginExportApplicationsAndWait(resourceGroupName: string, siteName: string, body: Record<string, unknown>, options?: ServerSitesControllerExportApplicationsOptionalParams): Promise<ServerSitesControllerExportApplicationsResponse>;
+    beginExportMachineErrors(resourceGroupName: string, siteName: string, body: ExportMachineErrorsRequest, options?: ServerSitesControllerExportMachineErrorsOptionalParams): Promise<SimplePollerLike<OperationState<ServerSitesControllerExportMachineErrorsResponse>, ServerSitesControllerExportMachineErrorsResponse>>;
+    beginExportMachineErrorsAndWait(resourceGroupName: string, siteName: string, body: ExportMachineErrorsRequest, options?: ServerSitesControllerExportMachineErrorsOptionalParams): Promise<ServerSitesControllerExportMachineErrorsResponse>;
+    beginRefreshSite(resourceGroupName: string, siteName: string, options?: ServerSitesControllerRefreshSiteOptionalParams): Promise<SimplePollerLike<OperationState<ServerSitesControllerRefreshSiteResponse>, ServerSitesControllerRefreshSiteResponse>>;
+    beginRefreshSiteAndWait(resourceGroupName: string, siteName: string, options?: ServerSitesControllerRefreshSiteOptionalParams): Promise<ServerSitesControllerRefreshSiteResponse>;
+    beginUpdateDependencyMapStatus(resourceGroupName: string, siteName: string, mapRequest: UpdateMachineDepMapStatus, options?: ServerSitesControllerUpdateDependencyMapStatusOptionalParams): Promise<SimplePollerLike<OperationState<ServerSitesControllerUpdateDependencyMapStatusResponse>, ServerSitesControllerUpdateDependencyMapStatusResponse>>;
+    beginUpdateDependencyMapStatusAndWait(resourceGroupName: string, siteName: string, mapRequest: UpdateMachineDepMapStatus, options?: ServerSitesControllerUpdateDependencyMapStatusOptionalParams): Promise<ServerSitesControllerUpdateDependencyMapStatusResponse>;
+    beginUpdateProperties(resourceGroupName: string, siteName: string, metaData: MachineMetadataCollection, options?: ServerSitesControllerUpdatePropertiesOptionalParams): Promise<SimplePollerLike<OperationState<ServerSitesControllerUpdatePropertiesResponse>, ServerSitesControllerUpdatePropertiesResponse>>;
+    beginUpdatePropertiesAndWait(resourceGroupName: string, siteName: string, metaData: MachineMetadataCollection, options?: ServerSitesControllerUpdatePropertiesOptionalParams): Promise<ServerSitesControllerUpdatePropertiesResponse>;
+    computeErrorSummary(resourceGroupName: string, siteName: string, body: Record<string, unknown>, options?: ServerSitesControllerComputeErrorSummaryOptionalParams): Promise<ServerSitesControllerComputeErrorSummaryResponse>;
+    computeusage(resourceGroupName: string, siteName: string, body: Record<string, unknown>, options?: ServerSitesControllerComputeusageOptionalParams): Promise<ServerSitesControllerComputeusageResponse>;
+    delete(resourceGroupName: string, siteName: string, options?: ServerSitesControllerDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, siteName: string, options?: ServerSitesControllerGetOptionalParams): Promise<ServerSitesControllerGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: ServerSitesControllerListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ServerSiteResource>;
+    listBySubscription(options?: ServerSitesControllerListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ServerSiteResource>;
+    listHealthSummary(resourceGroupName: string, siteName: string, options?: ServerSitesControllerListHealthSummaryOptionalParams): Promise<ServerSitesControllerListHealthSummaryResponse>;
+    summary(resourceGroupName: string, siteName: string, options?: ServerSitesControllerSummaryOptionalParams): Promise<ServerSitesControllerSummaryResponse>;
+    update(resourceGroupName: string, siteName: string, body: ServerSiteResourceUpdate, options?: ServerSitesControllerUpdateOptionalParams): Promise<ServerSitesControllerUpdateResponse>;
+}
+
+// @public
+export interface ServerSitesControllerComputeErrorSummaryOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerSitesControllerComputeErrorSummaryResponse = SiteErrorSummary;
+
+// @public
+export interface ServerSitesControllerComputeusageOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerSitesControllerComputeusageResponse = ServerSiteUsageResponse;
+
+// @public
+export interface ServerSitesControllerCreateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface ServerSitesControllerCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ServerSitesControllerCreateResponse = ServerSiteResource;
+
+// @public
+export interface ServerSitesControllerDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ServerSitesControllerExportApplicationsHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ServerSitesControllerExportApplicationsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ServerSitesControllerExportApplicationsResponse = Record<string, unknown>;
+
+// @public
+export interface ServerSitesControllerExportMachineErrorsHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ServerSitesControllerExportMachineErrorsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ServerSitesControllerExportMachineErrorsResponse = Record<string, unknown>;
+
+// @public
+export interface ServerSitesControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerSitesControllerGetResponse = ServerSiteResource;
+
+// @public
+export interface ServerSitesControllerListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerSitesControllerListByResourceGroupNextResponse = ServerSiteResourceListResult;
+
+// @public
+export interface ServerSitesControllerListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerSitesControllerListByResourceGroupResponse = ServerSiteResourceListResult;
+
+// @public
+export interface ServerSitesControllerListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerSitesControllerListBySubscriptionNextResponse = ServerSiteResourceListResult;
+
+// @public
+export interface ServerSitesControllerListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerSitesControllerListBySubscriptionResponse = ServerSiteResourceListResult;
+
+// @public
+export interface ServerSitesControllerListHealthSummaryOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerSitesControllerListHealthSummaryResponse = SiteHealthSummaryCollection;
+
+// @public
+export interface ServerSitesControllerRefreshSiteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ServerSitesControllerRefreshSiteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ServerSitesControllerRefreshSiteResponse = Record<string, unknown>;
+
+// @public
+export interface ServerSitesControllerSummaryOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerSitesControllerSummaryResponse = ServerSiteUsage;
+
+// @public
+export interface ServerSitesControllerUpdateDependencyMapStatusHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ServerSitesControllerUpdateDependencyMapStatusOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ServerSitesControllerUpdateDependencyMapStatusResponse = Record<string, unknown>;
+
+// @public
+export interface ServerSitesControllerUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ServerSitesControllerUpdatePropertiesHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ServerSitesControllerUpdatePropertiesOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ServerSitesControllerUpdatePropertiesResponse = Record<string, unknown>;
+
+// @public
+export type ServerSitesControllerUpdateResponse = ServerSiteResource;
+
+// @public
+export interface ServerSiteUsage {
+    runAsAccountCount?: number;
+    serverCount?: number;
+}
+
+// @public
+export interface ServerSiteUsageResponse {
+    runAsAccounts: number;
+    serverCount: number;
+}
+
+// @public
+export interface ServerSoftwareInventoriesController {
+    getMachineSoftwareInventory(resourceGroupName: string, siteName: string, machineName: string, defaultParam: Default, options?: ServerSoftwareInventoriesControllerGetMachineSoftwareInventoryOptionalParams): Promise<ServerSoftwareInventoriesControllerGetMachineSoftwareInventoryResponse>;
+    listByServer(resourceGroupName: string, siteName: string, machineName: string, options?: ServerSoftwareInventoriesControllerListByServerOptionalParams): PagedAsyncIterableIterator<ServerSoftwareInventory>;
+}
+
+// @public
+export interface ServerSoftwareInventoriesControllerGetMachineSoftwareInventoryOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerSoftwareInventoriesControllerGetMachineSoftwareInventoryResponse = ServerSoftwareInventory;
+
+// @public
+export interface ServerSoftwareInventoriesControllerListByServerNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerSoftwareInventoriesControllerListByServerNextResponse = ServerSoftwareInventoryListResult;
+
+// @public
+export interface ServerSoftwareInventoriesControllerListByServerOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerSoftwareInventoriesControllerListByServerResponse = ServerSoftwareInventoryListResult;
+
+// @public
+export interface ServerSoftwareInventory extends ProxyResource {
+    readonly appsAndRoles?: AppsAndRoles;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface ServerSoftwareInventoryListResult {
+    nextLink?: string;
+    value: ServerSoftwareInventory[];
+}
+
+// @public
+export interface ServerUpdate {
+    allocatedMemoryInMb?: number;
+    biosGuid?: string;
+    biosSerialNumber?: string;
+    disks?: ServerDisk[];
+    firmware?: string;
+    fqdn?: string;
+    hydratedFqdn?: string;
+    networkAdapters?: ServerNetworkAdapter[];
+    numberOfProcessorCore?: number;
+    operatingSystemDetails?: OperatingSystem;
+    productSupportStatus?: ProductSupportStatus;
+    provisioningState?: ProvisioningState;
+    runAsAccountId?: string;
+    tags?: {
+        [propertyName: string]: Record<string, unknown>;
+    };
+    validationRequired?: string;
+}
+
+// @public
+export type ShallowDiscoveryStatus = string;
+
+// @public
+export interface SharePointServer {
+    readonly isEnterprise?: boolean;
+    readonly productName?: string;
+    readonly status?: string;
+    readonly version?: string;
+}
+
+// @public
+export interface SiteAgentProperties {
+    readonly id?: string;
+    keyVaultId?: string;
+    keyVaultUri?: string;
+    readonly lastHeartBeatUtc?: Date;
+    readonly version?: string;
+}
+
+// @public
+export interface SiteApplianceProperties {
+    agentDetails?: SiteAgentProperties;
+    applianceName?: string;
+    servicePrincipalIdentityDetails?: SiteSpnProperties;
+}
+
+// @public
+export interface SiteErrorSummary {
+    applianceName: string;
+    discoveryScopeErrorSummaries: DiscoveryScopeErrorSummary;
+    nextLink?: string;
+}
+
+// @public
+export interface SiteHealthSummary {
+    affectedObjectsCount?: number;
+    affectedResources?: string[];
+    readonly affectedResourceType?: string;
+    readonly applianceName?: string;
+    readonly errorCode?: string;
+    readonly errorId?: number;
+    readonly errorMessage?: string;
+    fabricLayoutUpdateSources?: SiteHealthSummaryFabricLayoutUpdateSourcesItem[];
+    hitCount?: number;
+    readonly remediationGuidance?: string;
+    readonly severity?: string;
+    readonly summaryMessage?: string;
+}
+
+// @public
+export interface SiteHealthSummaryCollection {
+    readonly nextLink?: string;
+    value: SiteHealthSummary[];
+}
+
+// @public
+export type SiteHealthSummaryFabricLayoutUpdateSourcesItem = string;
+
+// @public
+export interface SitesController {
+    beginExportApplications(resourceGroupName: string, siteName: string, body: Record<string, unknown>, options?: SitesControllerExportApplicationsOptionalParams): Promise<SimplePollerLike<OperationState<SitesControllerExportApplicationsResponse>, SitesControllerExportApplicationsResponse>>;
+    beginExportApplicationsAndWait(resourceGroupName: string, siteName: string, body: Record<string, unknown>, options?: SitesControllerExportApplicationsOptionalParams): Promise<SitesControllerExportApplicationsResponse>;
+    beginExportMachineErrors(resourceGroupName: string, siteName: string, body: ExportMachineErrorsRequest, options?: SitesControllerExportMachineErrorsOptionalParams): Promise<SimplePollerLike<OperationState<SitesControllerExportMachineErrorsResponse>, SitesControllerExportMachineErrorsResponse>>;
+    beginExportMachineErrorsAndWait(resourceGroupName: string, siteName: string, body: ExportMachineErrorsRequest, options?: SitesControllerExportMachineErrorsOptionalParams): Promise<SitesControllerExportMachineErrorsResponse>;
+    beginExportMachines(resourceGroupName: string, siteName: string, body: ExportMachinesRequest, options?: SitesControllerExportMachinesOptionalParams): Promise<SimplePollerLike<OperationState<SitesControllerExportMachinesResponse>, SitesControllerExportMachinesResponse>>;
+    beginExportMachinesAndWait(resourceGroupName: string, siteName: string, body: ExportMachinesRequest, options?: SitesControllerExportMachinesOptionalParams): Promise<SitesControllerExportMachinesResponse>;
+    computeErrorSummary(resourceGroupName: string, siteName: string, body: Record<string, unknown>, options?: SitesControllerComputeErrorSummaryOptionalParams): Promise<SitesControllerComputeErrorSummaryResponse>;
+    computeusage(resourceGroupName: string, siteName: string, body: Record<string, unknown>, options?: SitesControllerComputeusageOptionalParams): Promise<SitesControllerComputeusageResponse>;
+    create(resourceGroupName: string, siteName: string, body: VmwareSite, options?: SitesControllerCreateOptionalParams): Promise<SitesControllerCreateResponse>;
+    delete(resourceGroupName: string, siteName: string, options?: SitesControllerDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, siteName: string, options?: SitesControllerGetOptionalParams): Promise<SitesControllerGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: SitesControllerListByResourceGroupOptionalParams): PagedAsyncIterableIterator<VmwareSite>;
+    listBySubscription(options?: SitesControllerListBySubscriptionOptionalParams): PagedAsyncIterableIterator<VmwareSite>;
+    listHealthSummary(resourceGroupName: string, siteName: string, options?: SitesControllerListHealthSummaryOptionalParams): Promise<SitesControllerListHealthSummaryResponse>;
+    summary(resourceGroupName: string, siteName: string, options?: SitesControllerSummaryOptionalParams): Promise<SitesControllerSummaryResponse>;
+    update(resourceGroupName: string, siteName: string, body: VmwareSiteUpdate, options?: SitesControllerUpdateOptionalParams): Promise<SitesControllerUpdateResponse>;
+}
+
+// @public
+export interface SitesControllerComputeErrorSummaryOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SitesControllerComputeErrorSummaryResponse = SiteErrorSummary;
+
+// @public
+export interface SitesControllerComputeusageOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SitesControllerComputeusageResponse = VmwareSiteUsage;
+
+// @public
+export interface SitesControllerCreateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface SitesControllerCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SitesControllerCreateResponse = VmwareSite;
+
+// @public
+export interface SitesControllerDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SitesControllerExportApplicationsHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface SitesControllerExportApplicationsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SitesControllerExportApplicationsResponse = Record<string, unknown>;
+
+// @public
+export interface SitesControllerExportMachineErrorsHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface SitesControllerExportMachineErrorsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SitesControllerExportMachineErrorsResponse = Record<string, unknown>;
+
+// @public
+export interface SitesControllerExportMachinesHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface SitesControllerExportMachinesOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SitesControllerExportMachinesResponse = Record<string, unknown>;
+
+// @public
+export interface SitesControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SitesControllerGetResponse = VmwareSite;
+
+// @public
+export interface SitesControllerListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SitesControllerListByResourceGroupNextResponse = VmwareSiteListResult;
+
+// @public
+export interface SitesControllerListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SitesControllerListByResourceGroupResponse = VmwareSiteListResult;
+
+// @public
+export interface SitesControllerListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SitesControllerListBySubscriptionNextResponse = VmwareSiteListResult;
+
+// @public
+export interface SitesControllerListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SitesControllerListBySubscriptionResponse = VmwareSiteListResult;
+
+// @public
+export interface SitesControllerListHealthSummaryOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SitesControllerListHealthSummaryResponse = SiteHealthSummaryCollection;
+
+// @public
+export interface SitesControllerSummaryOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SitesControllerSummaryResponse = VmwareSiteUsage;
+
+// @public
+export interface SitesControllerUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SitesControllerUpdateResponse = VmwareSite;
+
+// @public
+export interface SiteSpnProperties {
+    aadAuthority?: string;
+    applicationId?: string;
+    audience?: string;
+    objectId?: string;
+    rawCertData?: string;
+    tenantId?: string;
+}
+
+// @public
+export interface SpringBootDiscovery {
+    discoveryScopeStatus?: DiscoveryScopeStatus;
+    shallowDiscoveryStatus?: ShallowDiscoveryStatus;
+    totalApplicationCount?: number;
+    totalInstanceCount?: number;
+}
+
+// @public
+export interface SqlAvailabilityGroup extends ProxyResource {
+    availabilityGroupName?: string;
+    availabilityGroupType?: SqlAvailabilityGroupPropertiesAvailabilityGroupType;
+    readonly availabilityReplicas?: SqlAvailabilityReplicaProperties[];
+    clusterName?: string;
+    createdTimestamp?: string;
+    isDeleted?: boolean;
+    isMultiSubNet?: boolean;
+    isPartOfDistributedAvailabilityGroup?: boolean;
+    readonly parentReplicaOverviewList?: SqlAvailabilityReplicaOverview[];
+    readonly provisioningState?: ProvisioningState;
+    updatedTimestamp?: string;
+}
+
+// @public
+export interface SqlAvailabilityGroupListResult {
+    nextLink?: string;
+    value: SqlAvailabilityGroup[];
+}
+
+// @public
+export type SqlAvailabilityGroupPropertiesAvailabilityGroupType = string;
+
+// @public
+export interface SqlAvailabilityGroupReplicaInfo {
+    availabilityGroupArmId?: string;
+    availabilityGroupName?: string;
+    clusterName?: string;
+}
+
+// @public
+export interface SqlAvailabilityGroupsController {
+    get(resourceGroupName: string, siteName: string, sqlSiteName: string, sqlAvailabilityGroupName: string, options?: SqlAvailabilityGroupsControllerGetOptionalParams): Promise<SqlAvailabilityGroupsControllerGetResponse>;
+    listBySqlSite(resourceGroupName: string, siteName: string, sqlSiteName: string, options?: SqlAvailabilityGroupsControllerListBySqlSiteOptionalParams): PagedAsyncIterableIterator<SqlAvailabilityGroup>;
+}
+
+// @public
+export interface SqlAvailabilityGroupsControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlAvailabilityGroupsControllerGetResponse = SqlAvailabilityGroup;
+
+// @public
+export interface SqlAvailabilityGroupsControllerListBySqlSiteNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlAvailabilityGroupsControllerListBySqlSiteNextResponse = SqlAvailabilityGroupListResult;
+
+// @public
+export interface SqlAvailabilityGroupsControllerListBySqlSiteOptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+    filter?: string;
+    top?: string;
+    totalRecordCount?: number;
+}
+
+// @public
+export type SqlAvailabilityGroupsControllerListBySqlSiteResponse = SqlAvailabilityGroupListResult;
+
+// @public
+export type SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaCommitMode = string;
+
+// @public
+export type SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaReadMode = string;
+
+// @public
+export type SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaSeedMode = string;
+
+// @public
+export type SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaState = string;
+
+// @public
+export type SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaSyncStatus = string;
+
+// @public
+export type SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaType = string;
+
+// @public
+export interface SqlAvailabilityReplicaOverview {
+    availabilityGroupArmId?: string;
+    availabilityGroupName?: string;
+    availabilityReplicaId?: string;
+    replicaState?: SqlAvailabilityReplicaOverviewReplicaState;
+}
+
+// @public
+export type SqlAvailabilityReplicaOverviewReplicaState = string;
+
+// @public
+export interface SqlAvailabilityReplicaProperties {
+    availabilityReplicaId?: string;
+    availabilityReplicaName?: string;
+    replicaCommitMode?: SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaCommitMode;
+    replicaReadMode?: SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaReadMode;
+    replicaSeedMode?: SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaSeedMode;
+    replicaState?: SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaState;
+    replicaSyncStatus?: SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaSyncStatus;
+    replicaType?: SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaType;
+    sqlAvailabilityGroupReplicaInfo?: SqlAvailabilityGroupReplicaInfo;
+    sqlDatabaseReplicaInfo?: SqlDatabaseReplicaInfo;
+}
+
+// @public
+export interface SqlDatabaseReplicaInfo {
+    hostName?: string;
+    sqlServerArmId?: string;
+    sqlServerName?: string;
+}
+
+// @public
+export interface SqlDatabasesController {
+    get(resourceGroupName: string, siteName: string, sqlSiteName: string, sqlDatabaseName: string, options?: SqlDatabasesControllerGetOptionalParams): Promise<SqlDatabasesControllerGetResponse>;
+    listBySqlSite(resourceGroupName: string, siteName: string, sqlSiteName: string, options?: SqlDatabasesControllerListBySqlSiteOptionalParams): PagedAsyncIterableIterator<SqlDatabaseV2>;
+}
+
+// @public
+export interface SqlDatabasesControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlDatabasesControllerGetResponse = SqlDatabaseV2;
+
+// @public
+export interface SqlDatabasesControllerListBySqlSiteNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlDatabasesControllerListBySqlSiteNextResponse = SqlDatabaseV2ListResult;
+
+// @public
+export interface SqlDatabasesControllerListBySqlSiteOptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+    filter?: string;
+    top?: string;
+    totalRecordCount?: number;
+}
+
+// @public
+export type SqlDatabasesControllerListBySqlSiteResponse = SqlDatabaseV2ListResult;
+
+// @public
+export interface SqlDatabaseV2 extends ProxyResource {
+    compatibilityLevel?: string;
+    createdTimestamp?: string;
+    databaseName?: string;
+    readonly errors?: Errors[];
+    readonly fileMetadataList?: FileMetaData[];
+    hostname?: string;
+    isDatabaseHighlyAvailable?: boolean;
+    isDeleted?: boolean;
+    parentReplicaOverview?: SqlAvailabilityReplicaOverview;
+    provisioningState?: ProvisioningState;
+    sizeMb?: number;
+    sqlServerArmId?: string;
+    sqlServerName?: string;
+    status?: string;
+    updatedTimestamp?: string;
+}
+
+// @public
+export interface SqlDatabaseV2ListResult {
+    nextLink?: string;
+    value: SqlDatabaseV2[];
+}
+
+// @public
+export interface SqlDiscovery {
+    discoveryScopeStatus?: SQLDiscoveryScopeStatus;
+    sqlMetadataDiscoveryPipe?: SqlMetadataDiscoveryPipe;
+    sqlMetadataHydratedRunAsAccountId?: string;
+    successfullyDiscoveredServerCount?: number;
+    totalServerCount?: number;
+}
+
+// @public
+export type SQLDiscoveryScopeStatus = string;
+
+// @public
+export interface SqlDiscoverySiteDataSource extends ProxyResource {
+    discoverySiteId?: string;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface SqlDiscoverySiteDataSourceController {
+    beginCreate(resourceGroupName: string, siteName: string, sqlSiteName: string, discoverySiteDataSourceName: string, body: SqlDiscoverySiteDataSource, options?: SqlDiscoverySiteDataSourceControllerCreateOptionalParams): Promise<SimplePollerLike<OperationState<SqlDiscoverySiteDataSourceControllerCreateResponse>, SqlDiscoverySiteDataSourceControllerCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, siteName: string, sqlSiteName: string, discoverySiteDataSourceName: string, body: SqlDiscoverySiteDataSource, options?: SqlDiscoverySiteDataSourceControllerCreateOptionalParams): Promise<SqlDiscoverySiteDataSourceControllerCreateResponse>;
+    delete(resourceGroupName: string, siteName: string, sqlSiteName: string, discoverySiteDataSourceName: string, options?: SqlDiscoverySiteDataSourceControllerDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, siteName: string, sqlSiteName: string, discoverySiteDataSourceName: string, options?: SqlDiscoverySiteDataSourceControllerGetOptionalParams): Promise<SqlDiscoverySiteDataSourceControllerGetResponse>;
+    listBySqlSite(resourceGroupName: string, siteName: string, sqlSiteName: string, options?: SqlDiscoverySiteDataSourceControllerListBySqlSiteOptionalParams): PagedAsyncIterableIterator<SqlDiscoverySiteDataSource>;
+}
+
+// @public
+export interface SqlDiscoverySiteDataSourceControllerCreateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface SqlDiscoverySiteDataSourceControllerCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SqlDiscoverySiteDataSourceControllerCreateResponse = SqlDiscoverySiteDataSource;
+
+// @public
+export interface SqlDiscoverySiteDataSourceControllerDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SqlDiscoverySiteDataSourceControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlDiscoverySiteDataSourceControllerGetResponse = SqlDiscoverySiteDataSource;
+
+// @public
+export interface SqlDiscoverySiteDataSourceControllerListBySqlSiteNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlDiscoverySiteDataSourceControllerListBySqlSiteNextResponse = SqlDiscoverySiteDataSourceListResult;
+
+// @public
+export interface SqlDiscoverySiteDataSourceControllerListBySqlSiteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlDiscoverySiteDataSourceControllerListBySqlSiteResponse = SqlDiscoverySiteDataSourceListResult;
+
+// @public
+export interface SqlDiscoverySiteDataSourceListResult {
+    nextLink?: string;
+    value: SqlDiscoverySiteDataSource[];
+}
+
+// @public
+export interface SqlFciProperties {
+    isMultiSubnet?: boolean;
+    networkName?: string;
+    sharedDiskCount?: number;
+    state?: FCIInstanceState;
+}
+
+// @public
+export interface SqlImportJobErrorSummary {
+    errorCount?: number;
+    errors?: ErrorResponse[];
+    warningCount?: number;
+}
+
+// @public
+export interface SqlImportJobsController {
+    getImportjob(resourceGroupName: string, siteName: string, sqlSiteName: string, jobName: string, options?: SqlImportJobsControllerGetImportjobOptionalParams): Promise<SqlImportJobsControllerGetImportjobResponse>;
+    listImportjobs(resourceGroupName: string, siteName: string, sqlSiteName: string, options?: SqlImportJobsControllerListImportjobsOptionalParams): PagedAsyncIterableIterator<ImportSqlInventoryJob>;
+}
+
+// @public
+export interface SqlImportJobsControllerGetImportjobOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlImportJobsControllerGetImportjobResponse = ImportSqlInventoryJob;
+
+// @public
+export interface SqlImportJobsControllerListImportjobsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlImportJobsControllerListImportjobsNextResponse = PagedImportSqlInventoryJob;
+
+// @public
+export interface SqlImportJobsControllerListImportjobsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlImportJobsControllerListImportjobsResponse = PagedImportSqlInventoryJob;
+
+// @public
+export type SqlImportType = string;
+
+// @public
+export interface SQLInventoryImportBody {
+    importType?: SqlImportType;
+    jobArmId?: string;
+    uri?: string;
+}
+
+// @public
+export interface SqlJob extends ProxyResource {
+    readonly activityId?: string;
+    readonly clientRequestId?: string;
+    readonly displayName?: string;
+    readonly endTime?: string;
+    readonly errors?: ErrorDetails[];
+    readonly provisioningState?: ProvisioningState;
+    readonly startTime?: string;
+    readonly status?: string;
+}
+
+// @public
+export interface SqlJobListResult {
+    nextLink?: string;
+    value: SqlJob[];
+}
+
+// @public
+export interface SqlJobsController {
+    get(resourceGroupName: string, siteName: string, sqlSiteName: string, jobName: string, options?: SqlJobsControllerGetOptionalParams): Promise<SqlJobsControllerGetResponse>;
+    listBySqlSite(resourceGroupName: string, siteName: string, sqlSiteName: string, options?: SqlJobsControllerListBySqlSiteOptionalParams): PagedAsyncIterableIterator<SqlJob>;
+}
+
+// @public
+export interface SqlJobsControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlJobsControllerGetResponse = SqlJob;
+
+// @public
+export interface SqlJobsControllerListBySqlSiteNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlJobsControllerListBySqlSiteNextResponse = SqlJobListResult;
+
+// @public
+export interface SqlJobsControllerListBySqlSiteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlJobsControllerListBySqlSiteResponse = SqlJobListResult;
+
+// @public
+export interface SqlMachineOverview {
+    displayName?: string;
+    fciRole?: SqlMachineOverviewFciRole;
+    machineArmId?: string;
+}
+
+// @public
+export type SqlMachineOverviewFciRole = string;
+
+// @public
+export type SqlMetadataDiscoveryPipe = string;
+
+// @public
+export interface SqlOperationsStatusController {
+    getSqlOperationStatus(resourceGroupName: string, siteName: string, sqlSiteName: string, operationStatusName: string, options?: SqlOperationsStatusControllerGetSqlOperationStatusOptionalParams): Promise<SqlOperationsStatusControllerGetSqlOperationStatusResponse>;
+}
+
+// @public
+export interface SqlOperationsStatusControllerGetSqlOperationStatusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlOperationsStatusControllerGetSqlOperationStatusResponse = OperationStatus;
+
+// @public
+export interface SqlRunAsAccount extends ProxyResource {
+    readonly applianceName?: string;
+    readonly createdTimestamp?: string;
+    readonly credentialType?: string;
+    readonly displayName?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly updatedTimestamp?: string;
+}
+
+// @public
+export interface SqlRunAsAccountListResult {
+    nextLink?: string;
+    value: SqlRunAsAccount[];
+}
+
+// @public
+export interface SqlRunAsAccountsController {
+    get(resourceGroupName: string, siteName: string, sqlSiteName: string, accountName: string, options?: SqlRunAsAccountsControllerGetOptionalParams): Promise<SqlRunAsAccountsControllerGetResponse>;
+    listBySqlSite(resourceGroupName: string, siteName: string, sqlSiteName: string, options?: SqlRunAsAccountsControllerListBySqlSiteOptionalParams): PagedAsyncIterableIterator<SqlRunAsAccount>;
+}
+
+// @public
+export interface SqlRunAsAccountsControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlRunAsAccountsControllerGetResponse = SqlRunAsAccount;
+
+// @public
+export interface SqlRunAsAccountsControllerListBySqlSiteNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlRunAsAccountsControllerListBySqlSiteNextResponse = SqlRunAsAccountListResult;
+
+// @public
+export interface SqlRunAsAccountsControllerListBySqlSiteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlRunAsAccountsControllerListBySqlSiteResponse = SqlRunAsAccountListResult;
+
+// @public
+export interface SqlServerApplication {
+    readonly clustered?: string;
+    readonly clusterName?: string;
+    readonly commaSeparatedIps?: string;
+    readonly dnsHostName?: string;
+    readonly edition?: string;
+    readonly isNamedPipeEnabled?: boolean;
+    readonly isTcpIpEnabled?: boolean;
+    readonly name?: string;
+    readonly namedPipeName?: string;
+    readonly port?: string;
+    readonly servicePack?: string;
+    readonly status?: string;
+    readonly version?: string;
+}
+
+// @public
+export interface SqlServersController {
+    get(resourceGroupName: string, siteName: string, sqlSiteName: string, sqlServerName: string, options?: SqlServersControllerGetOptionalParams): Promise<SqlServersControllerGetResponse>;
+    listBySqlSite(resourceGroupName: string, siteName: string, sqlSiteName: string, options?: SqlServersControllerListBySqlSiteOptionalParams): PagedAsyncIterableIterator<SqlServerV2>;
+    update(resourceGroupName: string, siteName: string, sqlSiteName: string, sqlServerName: string, body: SqlServerV2Update, options?: SqlServersControllerUpdateOptionalParams): Promise<SqlServersControllerUpdateResponse>;
+}
+
+// @public
+export interface SqlServersControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlServersControllerGetResponse = SqlServerV2;
+
+// @public
+export interface SqlServersControllerListBySqlSiteNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlServersControllerListBySqlSiteNextResponse = SqlServerV2ListResult;
+
+// @public
+export interface SqlServersControllerListBySqlSiteOptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+    filter?: string;
+    top?: string;
+    totalRecordCount?: number;
+}
+
+// @public
+export type SqlServersControllerListBySqlSiteResponse = SqlServerV2ListResult;
+
+// @public
+export interface SqlServersControllerUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlServersControllerUpdateResponse = SqlServerV2;
+
+// @public
+export type SqlServerStatus = string;
+
+// @public
+export interface SqlServerV2 extends ProxyResource {
+    createdTimestamp?: string;
+    edition?: string;
+    engineEdition?: string;
+    readonly errors?: Errors[];
+    hostName?: string;
+    hydratedRunAsAccountId?: string;
+    hyperthreadRatio?: number;
+    isClustered?: boolean;
+    isDeleted?: boolean;
+    isHighAvailabilityEnabled?: boolean;
+    logicalCpuCount?: number;
+    readonly machineArmIds?: string[];
+    readonly machineOverviewList?: SqlMachineOverview[];
+    maxServerMemoryInUseInMb?: number;
+    numberOfAgDatabases?: number;
+    numberOfUserDatabases?: number;
+    numOfLogins?: number;
+    physicalCpuCount?: number;
+    portNumber?: number;
+    productSupportStatus?: ProductSupportStatus;
+    provisioningState?: ProvisioningState;
+    runAsAccountId?: string;
+    sqlFciProperties?: SqlFciProperties;
+    sqlServerName?: string;
+    sqlStartTime?: Date;
+    status?: SqlServerStatus;
+    sumOfUserDatabasesSizeInMb?: number;
+    tags?: {
+        [propertyName: string]: Record<string, unknown>;
+    };
+    tempDbSizeInMb?: number;
+    updatedTimestamp?: string;
+    version?: string;
+    visibleOnlineCoreCount?: number;
+}
+
+// @public
+export interface SqlServerV2ListResult {
+    nextLink?: string;
+    value: SqlServerV2[];
+}
+
+// @public
+export interface SqlServerV2Update {
+    createdTimestamp?: string;
+    edition?: string;
+    engineEdition?: string;
+    hostName?: string;
+    hydratedRunAsAccountId?: string;
+    hyperthreadRatio?: number;
+    isClustered?: boolean;
+    isDeleted?: boolean;
+    isHighAvailabilityEnabled?: boolean;
+    logicalCpuCount?: number;
+    maxServerMemoryInUseInMb?: number;
+    numberOfAgDatabases?: number;
+    numberOfUserDatabases?: number;
+    numOfLogins?: number;
+    physicalCpuCount?: number;
+    portNumber?: number;
+    productSupportStatus?: ProductSupportStatus;
+    provisioningState?: ProvisioningState;
+    runAsAccountId?: string;
+    sqlFciProperties?: SqlFciProperties;
+    sqlServerName?: string;
+    sqlStartTime?: Date;
+    status?: SqlServerStatus;
+    sumOfUserDatabasesSizeInMb?: number;
+    tags?: {
+        [propertyName: string]: Record<string, unknown>;
+    };
+    tempDbSizeInMb?: number;
+    updatedTimestamp?: string;
+    version?: string;
+    visibleOnlineCoreCount?: number;
+}
+
+// @public
+export interface SqlSite extends ProxyResource {
+    arcScope?: ArcScopeProperties;
+    discoveryScenario?: SqlSitePropertiesDiscoveryScenario;
+    readonly provisioningState?: ProvisioningState;
+    readonly serviceEndpoint?: string;
+    siteAppliancePropertiesCollection?: SiteApplianceProperties[];
+}
+
+// @public
+export interface SqlSiteListResult {
+    nextLink?: string;
+    value: SqlSite[];
+}
+
+// @public
+export type SqlSitePropertiesDiscoveryScenario = string;
+
+// @public
+export interface SqlSiteRefreshBody {
+    applianceName?: string;
+}
+
+// @public
+export interface SqlSitesController {
+    beginExportSqlServerErrors(resourceGroupName: string, siteName: string, sqlSiteName: string, body: Record<string, unknown>, options?: SqlSitesControllerExportSqlServerErrorsOptionalParams): Promise<SimplePollerLike<OperationState<SqlSitesControllerExportSqlServerErrorsResponse>, SqlSitesControllerExportSqlServerErrorsResponse>>;
+    beginExportSqlServerErrorsAndWait(resourceGroupName: string, siteName: string, sqlSiteName: string, body: Record<string, unknown>, options?: SqlSitesControllerExportSqlServerErrorsOptionalParams): Promise<SqlSitesControllerExportSqlServerErrorsResponse>;
+    beginExportSqlServers(resourceGroupName: string, siteName: string, sqlSiteName: string, body: ExportSqlServersRequest, options?: SqlSitesControllerExportSqlServersOptionalParams): Promise<SimplePollerLike<OperationState<SqlSitesControllerExportSqlServersResponse>, SqlSitesControllerExportSqlServersResponse>>;
+    beginExportSqlServersAndWait(resourceGroupName: string, siteName: string, sqlSiteName: string, body: ExportSqlServersRequest, options?: SqlSitesControllerExportSqlServersOptionalParams): Promise<SqlSitesControllerExportSqlServersResponse>;
+    beginImportUri(resourceGroupName: string, siteName: string, sqlSiteName: string, body: SQLInventoryImportBody, options?: SqlSitesControllerImportUriOptionalParams): Promise<SimplePollerLike<OperationState<SqlSitesControllerImportUriResponse>, SqlSitesControllerImportUriResponse>>;
+    beginImportUriAndWait(resourceGroupName: string, siteName: string, sqlSiteName: string, body: SQLInventoryImportBody, options?: SqlSitesControllerImportUriOptionalParams): Promise<SqlSitesControllerImportUriResponse>;
+    beginRefresh(resourceGroupName: string, siteName: string, sqlSiteName: string, body: SqlSiteRefreshBody, options?: SqlSitesControllerRefreshOptionalParams): Promise<SimplePollerLike<OperationState<SqlSitesControllerRefreshResponse>, SqlSitesControllerRefreshResponse>>;
+    beginRefreshAndWait(resourceGroupName: string, siteName: string, sqlSiteName: string, body: SqlSiteRefreshBody, options?: SqlSitesControllerRefreshOptionalParams): Promise<SqlSitesControllerRefreshResponse>;
+    beginUpdate(resourceGroupName: string, siteName: string, sqlSiteName: string, properties: SqlSiteUpdate, options?: SqlSitesControllerUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SqlSitesControllerUpdateResponse>, SqlSitesControllerUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, siteName: string, sqlSiteName: string, properties: SqlSiteUpdate, options?: SqlSitesControllerUpdateOptionalParams): Promise<SqlSitesControllerUpdateResponse>;
+    create(resourceGroupName: string, siteName: string, sqlSiteName: string, body: SqlSite, options?: SqlSitesControllerCreateOptionalParams): Promise<SqlSitesControllerCreateResponse>;
+    delete(resourceGroupName: string, siteName: string, sqlSiteName: string, options?: SqlSitesControllerDeleteOptionalParams): Promise<void>;
+    errorSummary(resourceGroupName: string, siteName: string, sqlSiteName: string, body: ErrorSummaryRequest, options?: SqlSitesControllerErrorSummaryOptionalParams): Promise<SqlSitesControllerErrorSummaryResponse>;
+    exportUri(resourceGroupName: string, siteName: string, sqlSiteName: string, body: SQLInventoryImportBody, options?: SqlSitesControllerExportUriOptionalParams): Promise<SqlSitesControllerExportUriResponse>;
+    get(resourceGroupName: string, siteName: string, sqlSiteName: string, options?: SqlSitesControllerGetOptionalParams): Promise<SqlSitesControllerGetResponse>;
+    listByMasterSite(resourceGroupName: string, siteName: string, options?: SqlSitesControllerListByMasterSiteOptionalParams): PagedAsyncIterableIterator<SqlSite>;
+    summary(resourceGroupName: string, siteName: string, sqlSiteName: string, options?: SqlSitesControllerSummaryOptionalParams): Promise<SqlSitesControllerSummaryResponse>;
+    validateAndImportUri(resourceGroupName: string, siteName: string, sqlSiteName: string, body: SQLInventoryImportBody, options?: SqlSitesControllerValidateAndImportUriOptionalParams): Promise<SqlSitesControllerValidateAndImportUriResponse>;
+}
+
+// @public
+export interface SqlSitesControllerCreateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface SqlSitesControllerCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlSitesControllerCreateResponse = SqlSite;
+
+// @public
+export interface SqlSitesControllerDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SqlSitesControllerErrorSummaryOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlSitesControllerErrorSummaryResponse = SiteErrorSummary;
+
+// @public
+export interface SqlSitesControllerExportSqlServerErrorsHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface SqlSitesControllerExportSqlServerErrorsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SqlSitesControllerExportSqlServerErrorsResponse = Record<string, unknown>;
+
+// @public
+export interface SqlSitesControllerExportSqlServersHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface SqlSitesControllerExportSqlServersOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SqlSitesControllerExportSqlServersResponse = Record<string, unknown>;
+
+// @public
+export interface SqlSitesControllerExportUriOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlSitesControllerExportUriResponse = SQLInventoryImportBody;
+
+// @public
+export interface SqlSitesControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlSitesControllerGetResponse = SqlSite;
+
+// @public
+export interface SqlSitesControllerImportUriHeaders {
+    operationLocation?: string;
+}
+
+// @public
+export interface SqlSitesControllerImportUriOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SqlSitesControllerImportUriResponse = SqlSitesControllerImportUriHeaders;
+
+// @public
+export interface SqlSitesControllerListByMasterSiteNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlSitesControllerListByMasterSiteNextResponse = SqlSiteListResult;
+
+// @public
+export interface SqlSitesControllerListByMasterSiteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlSitesControllerListByMasterSiteResponse = SqlSiteListResult;
+
+// @public
+export interface SqlSitesControllerRefreshHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface SqlSitesControllerRefreshOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SqlSitesControllerRefreshResponse = Record<string, unknown>;
+
+// @public
+export interface SqlSitesControllerSummaryOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlSitesControllerSummaryResponse = SqlSiteUsage;
+
+// @public
+export interface SqlSitesControllerUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface SqlSitesControllerUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SqlSitesControllerUpdateResponse = SqlSite;
+
+// @public
+export interface SqlSitesControllerValidateAndImportUriOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SqlSitesControllerValidateAndImportUriResponse = SQLInventoryImportBody;
+
+// @public
+export interface SqlSiteUpdate {
+    arcScope?: ArcScopePropertiesUpdate;
+    discoveryScenario?: SqlSitePropertiesDiscoveryScenario;
+    siteAppliancePropertiesCollection?: SiteApplianceProperties[];
+}
+
+// @public
+export interface SqlSiteUsage {
+    databaseCount?: number;
+    runAsAccountCount?: number;
+    serverCount?: number;
+}
+
+// @public
+export interface StaticDiscovery {
+    readonly discoveryScopeStatus?: StaticDiscoveryScopeStatus;
+    readonly errors?: HealthErrorDetails[];
+    readonly hydratedRunAsAccountId?: string;
+}
+
+// @public
+export type StaticDiscoveryScopeStatus = string;
+
+// @public
+export type SupportStatus = string;
+
+// @public
+export interface SystemCenter {
+    readonly productName?: string;
+    readonly status?: string;
+    readonly version?: string;
+}
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface TagsMachineInput {
+    machineId?: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface TomcatEngineUnit {
+    hosts?: TomcatHostUnit[];
+    name?: string;
+}
+
+// @public
+export interface TomcatHostUnit {
+    appBase?: string;
+    appBasePath?: string;
+    name?: string;
+}
+
+// @public
+export interface TomcatServiceUnit {
+    connectors?: ConnectorUnit[];
+    engine?: TomcatEngineUnit;
+    name?: string;
+}
+
+// @public
+export interface TomcatWebApplications extends ProxyResource {
+    readonly applianceNames?: string[];
+    readonly bindings?: FrontEndBinding[];
+    readonly configurations?: WebApplicationConfigurationUnit[];
+    readonly createdTimestamp?: string;
+    readonly directories?: WebApplicationDirectoryUnit[];
+    readonly displayName?: string;
+    readonly errors?: HealthErrorDetails[];
+    readonly frameworks?: WebApplicationFramework[];
+    readonly hasDatabaseDependency?: boolean;
+    readonly hasErrors?: boolean;
+    readonly isDeleted?: boolean;
+    readonly isExternalLoggingConfigured?: boolean;
+    readonly machineArmIds?: string[];
+    readonly machineDisplayName?: string;
+    readonly physicalPath?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly serverType?: string;
+    readonly staticFolders?: string[];
+    readonly tags?: {
+        [propertyName: string]: string;
+    };
+    readonly updatedTimestamp?: string;
+    readonly virtualPath?: string;
+    readonly webServerId?: string;
+    readonly webServerName?: string;
+}
+
+// @public
+export interface TomcatWebApplicationsController {
+    get(resourceGroupName: string, siteName: string, webAppSiteName: string, webApplicationName: string, options?: TomcatWebApplicationsControllerGetOptionalParams): Promise<TomcatWebApplicationsControllerGetResponse>;
+    listByWebAppSite(resourceGroupName: string, siteName: string, webAppSiteName: string, options?: TomcatWebApplicationsControllerListByWebAppSiteOptionalParams): PagedAsyncIterableIterator<TomcatWebApplications>;
+    update(resourceGroupName: string, siteName: string, webAppSiteName: string, webApplicationName: string, body: Record<string, unknown>, options?: TomcatWebApplicationsControllerUpdateOptionalParams): Promise<TomcatWebApplicationsControllerUpdateResponse>;
+}
+
+// @public
+export interface TomcatWebApplicationsControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TomcatWebApplicationsControllerGetResponse = TomcatWebApplications;
+
+// @public
+export interface TomcatWebApplicationsControllerListByWebAppSiteNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TomcatWebApplicationsControllerListByWebAppSiteNextResponse = TomcatWebApplicationsListResult;
+
+// @public
+export interface TomcatWebApplicationsControllerListByWebAppSiteOptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+    filter?: string;
+    top?: string;
+    totalRecordCount?: number;
+}
+
+// @public
+export type TomcatWebApplicationsControllerListByWebAppSiteResponse = TomcatWebApplicationsListResult;
+
+// @public
+export interface TomcatWebApplicationsControllerUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TomcatWebApplicationsControllerUpdateResponse = TomcatWebApplications;
+
+// @public
+export interface TomcatWebApplicationsListResult {
+    nextLink?: string;
+    value: TomcatWebApplications[];
+}
+
+// @public
+export interface TomcatWebServers extends ProxyResource {
+    readonly applianceNames?: string[];
+    readonly catalinaHome?: string;
+    readonly configurationLocation?: string;
+    readonly createdTimestamp?: string;
+    readonly displayName?: string;
+    readonly errors?: HealthErrorDetails[];
+    readonly hasErrors?: boolean;
+    readonly isAccessLogValvePresent?: boolean;
+    isClusteringPresent?: boolean;
+    readonly isDeleted?: boolean;
+    readonly isMemoryRealmPresent?: boolean;
+    readonly isSessionTrackingPresent?: boolean;
+    readonly jvmVersion?: string;
+    readonly machineIds?: string[];
+    readonly maxMemoryUsageInMb?: string;
+    operatingSystemDetails?: OperatingSystem;
+    readonly provisioningState?: ProvisioningState;
+    readonly runAsAccountId?: string;
+    readonly serverFqdn?: string;
+    readonly serverType?: string;
+    services?: TomcatServiceUnit[];
+    readonly sessionPersistenceMechanism?: string;
+    readonly updatedTimestamp?: string;
+    readonly version?: string;
+    readonly webApplications?: string[];
+}
+
+// @public
+export interface TomcatWebServersController {
+    get(resourceGroupName: string, siteName: string, webAppSiteName: string, webServerName: string, options?: TomcatWebServersControllerGetOptionalParams): Promise<TomcatWebServersControllerGetResponse>;
+    listByWebAppSite(resourceGroupName: string, siteName: string, webAppSiteName: string, options?: TomcatWebServersControllerListByWebAppSiteOptionalParams): PagedAsyncIterableIterator<TomcatWebServers>;
+}
+
+// @public
+export interface TomcatWebServersControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TomcatWebServersControllerGetResponse = TomcatWebServers;
+
+// @public
+export interface TomcatWebServersControllerListByWebAppSiteNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TomcatWebServersControllerListByWebAppSiteNextResponse = TomcatWebServersListResult;
+
+// @public
+export interface TomcatWebServersControllerListByWebAppSiteOptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+    filter?: string;
+    top?: string;
+    totalRecordCount?: number;
+}
+
+// @public
+export type TomcatWebServersControllerListByWebAppSiteResponse = TomcatWebServersListResult;
+
+// @public
+export interface TomcatWebServersListResult {
+    nextLink?: string;
+    value: TomcatWebServers[];
+}
+
+// @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface UpdateMachineDepMapStatus {
+    machines?: DependencyMapMachineInput[];
+}
+
+// @public
+export interface UpdateMachineRunAsAccount {
+    machines?: RunAsAccountMachineInput[];
+}
+
+// @public
+export interface UpdateMachineTags {
+    machines?: TagsMachineInput[];
+}
+
+// @public
+export interface V20180501PreviewVmwareRunAsAccount {
     readonly id?: string;
     readonly name?: string;
-    // (undocumented)
-    properties?: CollectorProperties;
+    readonly properties?: RunAsAccountProperties;
     readonly type?: string;
 }
 
 // @public
-export interface ServerCollectorList {
-    value?: ServerCollector[];
+export interface V20180501PreviewVmwareRunAsAccountVmwareRunAsAccountCollection {
+    readonly nextLink?: string;
+    value?: V20180501PreviewVmwareRunAsAccount[];
 }
 
 // @public
-export interface ServerCollectors {
-    create(resourceGroupName: string, projectName: string, serverCollectorName: string, options?: ServerCollectorsCreateOptionalParams): Promise<ServerCollectorsCreateResponse>;
-    delete(resourceGroupName: string, projectName: string, serverCollectorName: string, options?: ServerCollectorsDeleteOptionalParams): Promise<ServerCollectorsDeleteResponse>;
-    get(resourceGroupName: string, projectName: string, serverCollectorName: string, options?: ServerCollectorsGetOptionalParams): Promise<ServerCollectorsGetResponse>;
-    listByProject(resourceGroupName: string, projectName: string, options?: ServerCollectorsListByProjectOptionalParams): PagedAsyncIterableIterator<ServerCollector>;
+export interface Vcenter extends ProxyResource {
+    readonly createdTimestamp?: string;
+    readonly errors?: HealthErrorDetails[];
+    fqdn?: string;
+    friendlyName?: string;
+    readonly instanceUuid?: string;
+    readonly perfStatisticsLevel?: string;
+    port?: string;
+    provisioningState?: ProvisioningState;
+    runAsAccountId?: string;
+    readonly updatedTimestamp?: string;
+    readonly version?: string;
 }
 
 // @public
-export interface ServerCollectorsCreateHeaders {
-    xMsRequestId?: string;
+export interface VcenterController {
+    beginCreate(resourceGroupName: string, siteName: string, vcenterName: string, body: Vcenter, options?: VcenterControllerCreateOptionalParams): Promise<SimplePollerLike<OperationState<VcenterControllerCreateResponse>, VcenterControllerCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, siteName: string, vcenterName: string, body: Vcenter, options?: VcenterControllerCreateOptionalParams): Promise<VcenterControllerCreateResponse>;
+    delete(resourceGroupName: string, siteName: string, vcenterName: string, options?: VcenterControllerDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, siteName: string, vcenterName: string, options?: VcenterControllerGetOptionalParams): Promise<VcenterControllerGetResponse>;
+    listByVmwareSite(resourceGroupName: string, siteName: string, options?: VcenterControllerListByVmwareSiteOptionalParams): PagedAsyncIterableIterator<Vcenter>;
 }
 
 // @public
-export interface ServerCollectorsCreateOptionalParams extends coreClient.OperationOptions {
-    collectorBody?: ServerCollector;
+export interface VcenterControllerCreateHeaders {
+    retryAfter?: number;
 }
 
 // @public
-export type ServerCollectorsCreateResponse = ServerCollectorsCreateHeaders & ServerCollector;
-
-// @public
-export interface ServerCollectorsDeleteHeaders {
-    xMsRequestId?: string;
+export interface VcenterControllerCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export interface ServerCollectorsDeleteOptionalParams extends coreClient.OperationOptions {
+export type VcenterControllerCreateResponse = Vcenter;
+
+// @public
+export interface VcenterControllerDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ServerCollectorsDeleteResponse = ServerCollectorsDeleteHeaders;
-
-// @public
-export interface ServerCollectorsGetHeaders {
-    xMsRequestId?: string;
+export interface VcenterControllerGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface ServerCollectorsGetOptionalParams extends coreClient.OperationOptions {
+export type VcenterControllerGetResponse = Vcenter;
+
+// @public
+export interface VcenterControllerListByVmwareSiteNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ServerCollectorsGetResponse = ServerCollectorsGetHeaders & ServerCollector;
+export type VcenterControllerListByVmwareSiteNextResponse = VcenterListResult;
 
 // @public
-export interface ServerCollectorsListByProjectHeaders {
-    xMsRequestId?: string;
+export interface VcenterControllerListByVmwareSiteOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
 }
 
 // @public
-export interface ServerCollectorsListByProjectOptionalParams extends coreClient.OperationOptions {
+export type VcenterControllerListByVmwareSiteResponse = VcenterListResult;
+
+// @public
+export interface VcenterListResult {
+    nextLink?: string;
+    value: Vcenter[];
 }
 
 // @public
-export type ServerCollectorsListByProjectResponse = ServerCollectorsListByProjectHeaders & ServerCollectorList;
+export type Versions = string;
 
 // @public
-export type TimeRange = string;
-
-// @public
-export interface UpdateGroupBody {
-    eTag?: string;
-    properties?: GroupBodyProperties;
+export interface VmwareDatastore {
+    readonly capacityInGb?: number;
+    readonly freeSpaceInGb?: number;
+    readonly symbolicName?: string;
+    readonly type?: VMwareDatastoreType;
+    readonly uuid?: string;
 }
 
 // @public
-export interface VmFamily {
-    readonly category?: string[];
-    readonly familyName?: string;
-    readonly targetLocations?: string[];
+export type VMwareDatastoreType = string;
+
+// @public
+export interface VmwareDisk {
+    readonly controllerType?: string;
+    readonly diskMode?: string;
+    readonly diskProvisioningPolicy?: string;
+    readonly diskScrubbingPolicy?: string;
+    diskType?: string;
+    readonly label?: string;
+    lun?: number;
+    maxSizeInBytes?: number;
+    name?: string;
+    path?: string;
+    readonly uuid?: string;
 }
 
-// @public (undocumented)
-export interface VmUptime {
-    daysPerMonth?: number;
-    hoursPerDay?: number;
+// @public
+export interface VmwareHost extends ProxyResource {
+    readonly applianceNames?: string[];
+    readonly createdTimestamp?: string;
+    readonly datastores?: VmwareDatastore[];
+    readonly provisioningState?: ProvisioningState;
+    readonly updatedTimestamp?: string;
+    readonly uuid?: string;
+    readonly vcenterId?: string;
 }
 
-// @public (undocumented)
-export interface VMwareCollector {
-    // (undocumented)
-    eTag?: string;
-    readonly id?: string;
+// @public
+export interface VmwareHostController {
+    get(resourceGroupName: string, siteName: string, hostName: string, options?: VmwareHostControllerGetOptionalParams): Promise<VmwareHostControllerGetResponse>;
+    listByVmwareSite(resourceGroupName: string, siteName: string, options?: VmwareHostControllerListByVmwareSiteOptionalParams): PagedAsyncIterableIterator<VmwareHost>;
+}
+
+// @public
+export interface VmwareHostControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VmwareHostControllerGetResponse = VmwareHost;
+
+// @public
+export interface VmwareHostControllerListByVmwareSiteNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VmwareHostControllerListByVmwareSiteNextResponse = VmwareHostListResult;
+
+// @public
+export interface VmwareHostControllerListByVmwareSiteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VmwareHostControllerListByVmwareSiteResponse = VmwareHostListResult;
+
+// @public
+export interface VmwareHostListResult {
+    nextLink?: string;
+    value: VmwareHost[];
+}
+
+// @public
+export interface VmwareJob extends ProxyResource {
+    readonly activityId?: string;
+    readonly clientRequestId?: string;
+    readonly displayName?: string;
+    readonly endTime?: string;
+    readonly errors?: ErrorDetails[];
+    readonly provisioningState?: ProvisioningState;
+    readonly startTime?: string;
+    readonly status?: string;
+}
+
+// @public
+export interface VmwareJobListResult {
+    nextLink?: string;
+    value: VmwareJob[];
+}
+
+// @public
+export interface VmwareMachineSoftwareInventory extends ProxyResource {
+    readonly appsAndRoles?: AppsAndRoles;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface VmwareMachineSoftwareInventoryListResult {
+    nextLink?: string;
+    value: VmwareMachineSoftwareInventory[];
+}
+
+// @public
+export interface VmwareNetworkAdapter {
+    readonly adapterType?: string;
+    readonly ipAddressList?: string[];
+    ipAddressType?: string;
+    readonly label?: string;
+    macAddress?: string;
+    networkName?: string;
+    nicId?: string;
+}
+
+// @public
+export interface VmwareOperationsStatus {
+    getVmwareOperationStatus(resourceGroupName: string, siteName: string, operationStatusName: string, options?: VmwareOperationsStatusGetVmwareOperationStatusOptionalParams): Promise<VmwareOperationsStatusGetVmwareOperationStatusResponse>;
+}
+
+// @public
+export interface VmwareOperationsStatusGetVmwareOperationStatusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VmwareOperationsStatusGetVmwareOperationStatusResponse = OperationStatus;
+
+// @public
+export interface VmwarePropertiesController {
+    beginUpdateDependencyMapStatus(resourceGroupName: string, siteName: string, updateMachineDepMapStatus: UpdateMachineDepMapStatus, options?: VmwarePropertiesControllerUpdateDependencyMapStatusOptionalParams): Promise<SimplePollerLike<OperationState<VmwarePropertiesControllerUpdateDependencyMapStatusResponse>, VmwarePropertiesControllerUpdateDependencyMapStatusResponse>>;
+    beginUpdateDependencyMapStatusAndWait(resourceGroupName: string, siteName: string, updateMachineDepMapStatus: UpdateMachineDepMapStatus, options?: VmwarePropertiesControllerUpdateDependencyMapStatusOptionalParams): Promise<VmwarePropertiesControllerUpdateDependencyMapStatusResponse>;
+    beginUpdateProperties(resourceGroupName: string, siteName: string, metaData: MachineMetadataCollection, options?: VmwarePropertiesControllerUpdatePropertiesOptionalParams): Promise<SimplePollerLike<OperationState<VmwarePropertiesControllerUpdatePropertiesResponse>, VmwarePropertiesControllerUpdatePropertiesResponse>>;
+    beginUpdatePropertiesAndWait(resourceGroupName: string, siteName: string, metaData: MachineMetadataCollection, options?: VmwarePropertiesControllerUpdatePropertiesOptionalParams): Promise<VmwarePropertiesControllerUpdatePropertiesResponse>;
+    beginUpdateRunAsAccount(resourceGroupName: string, siteName: string, updateMachineRunAsAccount: UpdateMachineRunAsAccount, options?: VmwarePropertiesControllerUpdateRunAsAccountOptionalParams): Promise<SimplePollerLike<OperationState<VmwarePropertiesControllerUpdateRunAsAccountResponse>, VmwarePropertiesControllerUpdateRunAsAccountResponse>>;
+    beginUpdateRunAsAccountAndWait(resourceGroupName: string, siteName: string, updateMachineRunAsAccount: UpdateMachineRunAsAccount, options?: VmwarePropertiesControllerUpdateRunAsAccountOptionalParams): Promise<VmwarePropertiesControllerUpdateRunAsAccountResponse>;
+    beginUpdateTags(resourceGroupName: string, siteName: string, updateMachineTags: UpdateMachineTags, options?: VmwarePropertiesControllerUpdateTagsOptionalParams): Promise<SimplePollerLike<OperationState<VmwarePropertiesControllerUpdateTagsResponse>, VmwarePropertiesControllerUpdateTagsResponse>>;
+    beginUpdateTagsAndWait(resourceGroupName: string, siteName: string, updateMachineTags: UpdateMachineTags, options?: VmwarePropertiesControllerUpdateTagsOptionalParams): Promise<VmwarePropertiesControllerUpdateTagsResponse>;
+}
+
+// @public
+export interface VmwarePropertiesControllerUpdateDependencyMapStatusHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface VmwarePropertiesControllerUpdateDependencyMapStatusOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VmwarePropertiesControllerUpdateDependencyMapStatusResponse = Record<string, unknown>;
+
+// @public
+export interface VmwarePropertiesControllerUpdatePropertiesHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface VmwarePropertiesControllerUpdatePropertiesOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VmwarePropertiesControllerUpdatePropertiesResponse = Record<string, unknown>;
+
+// @public
+export interface VmwarePropertiesControllerUpdateRunAsAccountHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface VmwarePropertiesControllerUpdateRunAsAccountOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VmwarePropertiesControllerUpdateRunAsAccountResponse = Record<string, unknown>;
+
+// @public
+export interface VmwarePropertiesControllerUpdateTagsHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface VmwarePropertiesControllerUpdateTagsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VmwarePropertiesControllerUpdateTagsResponse = Record<string, unknown>;
+
+// @public
+export interface VmwareRunAsAccountResource extends ProxyResource {
+    readonly applianceName?: string;
+    readonly createdTimestamp?: string;
+    readonly credentialType?: string;
+    readonly displayName?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly updatedTimestamp?: string;
+}
+
+// @public
+export interface VmwareRunAsAccountResourceListResult {
+    nextLink?: string;
+    value: VmwareRunAsAccountResource[];
+}
+
+// @public
+export interface VmwareSite extends TrackedResource {
+    agentDetails?: SiteAgentProperties;
+    applianceName?: string;
+    discoverySolutionId?: string;
+    readonly eTag?: string;
+    readonly masterSiteId?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly serviceEndpoint?: string;
+    servicePrincipalIdentityDetails?: SiteSpnProperties;
+}
+
+// @public
+export interface VmwareSiteListResult {
+    nextLink?: string;
+    value: VmwareSite[];
+}
+
+// @public
+export interface VmwareSiteUpdate {
+    agentDetails?: SiteAgentProperties;
+    applianceName?: string;
+    discoverySolutionId?: string;
+    provisioningState?: ProvisioningState;
+    servicePrincipalIdentityDetails?: SiteSpnProperties;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface VmwareSiteUsage {
+    machineCount?: number;
+    runAsAccountCount?: number;
+    vCenterCount?: number;
+}
+
+// @public
+export interface VmwareSoftwareInventoriesController {
+    getMachineSoftwareInventory(resourceGroupName: string, siteName: string, machineName: string, defaultParam: Default, options?: VmwareSoftwareInventoriesControllerGetMachineSoftwareInventoryOptionalParams): Promise<VmwareSoftwareInventoriesControllerGetMachineSoftwareInventoryResponse>;
+    listByMachineResource(resourceGroupName: string, siteName: string, machineName: string, options?: VmwareSoftwareInventoriesControllerListByMachineResourceOptionalParams): PagedAsyncIterableIterator<VmwareMachineSoftwareInventory>;
+}
+
+// @public
+export interface VmwareSoftwareInventoriesControllerGetMachineSoftwareInventoryOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VmwareSoftwareInventoriesControllerGetMachineSoftwareInventoryResponse = VmwareMachineSoftwareInventory;
+
+// @public
+export interface VmwareSoftwareInventoriesControllerListByMachineResourceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VmwareSoftwareInventoriesControllerListByMachineResourceNextResponse = VmwareMachineSoftwareInventoryListResult;
+
+// @public
+export interface VmwareSoftwareInventoriesControllerListByMachineResourceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VmwareSoftwareInventoriesControllerListByMachineResourceResponse = VmwareMachineSoftwareInventoryListResult;
+
+// @public
+export interface WebAppDiscovery {
+    discoveryScopeStatus?: DiscoveryScopeStatus;
+    totalWebApplicationCount?: number;
+    totalWebServerCount?: number;
+}
+
+// @public
+export interface WebAppDiscoverySiteDataSourcesController {
+    beginCreate(resourceGroupName: string, siteName: string, webAppSiteName: string, discoverySiteDataSourceName: string, body: DiscoverySiteDataSource, options?: WebAppDiscoverySiteDataSourcesControllerCreateOptionalParams): Promise<SimplePollerLike<OperationState<WebAppDiscoverySiteDataSourcesControllerCreateResponse>, WebAppDiscoverySiteDataSourcesControllerCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, siteName: string, webAppSiteName: string, discoverySiteDataSourceName: string, body: DiscoverySiteDataSource, options?: WebAppDiscoverySiteDataSourcesControllerCreateOptionalParams): Promise<WebAppDiscoverySiteDataSourcesControllerCreateResponse>;
+    beginDelete(resourceGroupName: string, siteName: string, webAppSiteName: string, discoverySiteDataSourceName: string, options?: WebAppDiscoverySiteDataSourcesControllerDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, siteName: string, webAppSiteName: string, discoverySiteDataSourceName: string, options?: WebAppDiscoverySiteDataSourcesControllerDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, siteName: string, webAppSiteName: string, discoverySiteDataSourceName: string, options?: WebAppDiscoverySiteDataSourcesControllerGetOptionalParams): Promise<WebAppDiscoverySiteDataSourcesControllerGetResponse>;
+    listByWebAppSite(resourceGroupName: string, siteName: string, webAppSiteName: string, options?: WebAppDiscoverySiteDataSourcesControllerListByWebAppSiteOptionalParams): PagedAsyncIterableIterator<DiscoverySiteDataSource>;
+}
+
+// @public
+export interface WebAppDiscoverySiteDataSourcesControllerCreateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface WebAppDiscoverySiteDataSourcesControllerCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type WebAppDiscoverySiteDataSourcesControllerCreateResponse = DiscoverySiteDataSource;
+
+// @public
+export interface WebAppDiscoverySiteDataSourcesControllerDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface WebAppDiscoverySiteDataSourcesControllerDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface WebAppDiscoverySiteDataSourcesControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppDiscoverySiteDataSourcesControllerGetResponse = DiscoverySiteDataSource;
+
+// @public
+export interface WebAppDiscoverySiteDataSourcesControllerListByWebAppSiteNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppDiscoverySiteDataSourcesControllerListByWebAppSiteNextResponse = DiscoverySiteDataSourceListResult;
+
+// @public
+export interface WebAppDiscoverySiteDataSourcesControllerListByWebAppSiteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppDiscoverySiteDataSourcesControllerListByWebAppSiteResponse = DiscoverySiteDataSourceListResult;
+
+// @public
+export interface WebAppExtendedMachine extends ProxyResource {
+    readonly createdTimestamp?: string;
+    readonly errors?: HealthErrorDetails[];
+    readonly hostName?: string;
+    readonly hydratedRunAsAccountId?: string;
+    readonly isDeleted?: boolean;
+    readonly machineDisplayName?: string;
+    readonly machineId?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly runAsAccountId?: string;
+    readonly updatedTimestamp?: string;
+}
+
+// @public
+export interface WebAppExtendedMachineListResult {
+    nextLink?: string;
+    value: WebAppExtendedMachine[];
+}
+
+// @public
+export interface WebAppExtendedMachinesController {
+    get(resourceGroupName: string, siteName: string, webAppSiteName: string, extendedMachineName: string, options?: WebAppExtendedMachinesControllerGetOptionalParams): Promise<WebAppExtendedMachinesControllerGetResponse>;
+    listByWebAppSite(resourceGroupName: string, siteName: string, webAppSiteName: string, options?: WebAppExtendedMachinesControllerListByWebAppSiteOptionalParams): PagedAsyncIterableIterator<WebAppExtendedMachine>;
+}
+
+// @public
+export interface WebAppExtendedMachinesControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppExtendedMachinesControllerGetResponse = WebAppExtendedMachine;
+
+// @public
+export interface WebAppExtendedMachinesControllerListByWebAppSiteNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppExtendedMachinesControllerListByWebAppSiteNextResponse = WebAppExtendedMachineListResult;
+
+// @public
+export interface WebAppExtendedMachinesControllerListByWebAppSiteOptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+    filter?: string;
+    top?: string;
+    totalRecordCount?: number;
+}
+
+// @public
+export type WebAppExtendedMachinesControllerListByWebAppSiteResponse = WebAppExtendedMachineListResult;
+
+// @public
+export interface WebApplication extends ProxyResource {
+    readonly applianceNames?: string[];
+    readonly bindings?: FrontEndBinding[];
+    readonly configurations?: WebApplicationConfigurationUnit[];
+    readonly createdTimestamp?: string;
+    readonly directories?: WebApplicationDirectoryUnit[];
+    readonly displayName?: string;
+    readonly errors?: HealthErrorDetails[];
+    readonly frameworks?: WebApplicationFramework[];
+    readonly hasErrors?: boolean;
+    readonly isDeleted?: boolean;
+    readonly machineArmIds?: string[];
+    readonly machineDisplayName?: string;
+    readonly physicalPath?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly serverType?: string;
+    readonly staticFolders?: string[];
+    readonly tags?: {
+        [propertyName: string]: string;
+    };
+    readonly updatedTimestamp?: string;
+    readonly virtualPath?: string;
+    readonly webServerId?: string;
+    readonly webServerName?: string;
+}
+
+// @public
+export interface WebApplicationAppsAndRolesModel {
+    readonly applicationPool?: string;
+    readonly groupName?: string;
     readonly name?: string;
-    // (undocumented)
-    properties?: CollectorProperties;
-    readonly type?: string;
+    readonly platform?: string;
+    readonly status?: string;
+    readonly webServer?: string;
 }
 
 // @public
-export interface VMwareCollectorList {
-    value?: VMwareCollector[];
+export interface WebApplicationConfigurationUnit {
+    filePath?: string;
+    identifier?: string;
+    isDeploymentTimeEditable?: boolean;
+    localFilePath?: string;
+    name?: string;
+    section?: string;
+    targetFilePath?: string;
+    type?: string;
 }
 
 // @public
-export interface VMwareCollectors {
-    create(resourceGroupName: string, projectName: string, vmWareCollectorName: string, options?: VMwareCollectorsCreateOptionalParams): Promise<VMwareCollectorsCreateResponse>;
-    delete(resourceGroupName: string, projectName: string, vmWareCollectorName: string, options?: VMwareCollectorsDeleteOptionalParams): Promise<VMwareCollectorsDeleteResponse>;
-    get(resourceGroupName: string, projectName: string, vmWareCollectorName: string, options?: VMwareCollectorsGetOptionalParams): Promise<VMwareCollectorsGetResponse>;
-    listByProject(resourceGroupName: string, projectName: string, options?: VMwareCollectorsListByProjectOptionalParams): PagedAsyncIterableIterator<VMwareCollector>;
+export interface WebApplicationDirectoryUnit {
+    id?: string;
+    isEditable?: boolean;
+    localScratchPath?: string;
+    mountPath?: string;
+    sourcePaths?: string[];
+    sourceSize?: string;
 }
 
 // @public
-export interface VMwareCollectorsCreateHeaders {
-    xMsRequestId?: string;
+export interface WebApplicationFramework {
+    name?: string;
+    version?: string;
 }
 
 // @public
-export interface VMwareCollectorsCreateOptionalParams extends coreClient.OperationOptions {
-    collectorBody?: VMwareCollector;
+export interface WebApplicationListResult {
+    nextLink?: string;
+    value: WebApplication[];
 }
 
 // @public
-export type VMwareCollectorsCreateResponse = VMwareCollectorsCreateHeaders & VMwareCollector;
-
-// @public
-export interface VMwareCollectorsDeleteHeaders {
-    xMsRequestId?: string;
+export interface WebApplicationsController {
+    listByWebAppSite(resourceGroupName: string, siteName: string, webAppSiteName: string, options?: WebApplicationsControllerListByWebAppSiteOptionalParams): PagedAsyncIterableIterator<WebApplication>;
 }
 
 // @public
-export interface VMwareCollectorsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface WebApplicationsControllerListByWebAppSiteNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type VMwareCollectorsDeleteResponse = VMwareCollectorsDeleteHeaders;
+export type WebApplicationsControllerListByWebAppSiteNextResponse = WebApplicationListResult;
 
 // @public
-export interface VMwareCollectorsGetHeaders {
-    xMsRequestId?: string;
+export interface WebApplicationsControllerListByWebAppSiteOptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+    filter?: string;
+    top?: string;
+    totalRecordCount?: number;
 }
 
 // @public
-export interface VMwareCollectorsGetOptionalParams extends coreClient.OperationOptions {
+export type WebApplicationsControllerListByWebAppSiteResponse = WebApplicationListResult;
+
+// @public
+export interface WebAppProperties {
+    tags?: {
+        [propertyName: string]: string;
+    };
+    webAppArmId?: string;
 }
 
 // @public
-export type VMwareCollectorsGetResponse = VMwareCollectorsGetHeaders & VMwareCollector;
-
-// @public
-export interface VMwareCollectorsListByProjectHeaders {
-    xMsRequestId?: string;
+export interface WebAppPropertiesCollection {
+    webApps?: WebAppProperties[];
 }
 
 // @public
-export interface VMwareCollectorsListByProjectOptionalParams extends coreClient.OperationOptions {
+export interface WebAppPropertiesController {
+    beginUpdateProperties(resourceGroupName: string, siteName: string, webAppSiteName: string, body: WebAppPropertiesCollection, options?: WebAppPropertiesControllerUpdatePropertiesOptionalParams): Promise<SimplePollerLike<OperationState<WebAppPropertiesControllerUpdatePropertiesResponse>, WebAppPropertiesControllerUpdatePropertiesResponse>>;
+    beginUpdatePropertiesAndWait(resourceGroupName: string, siteName: string, webAppSiteName: string, body: WebAppPropertiesCollection, options?: WebAppPropertiesControllerUpdatePropertiesOptionalParams): Promise<WebAppPropertiesControllerUpdatePropertiesResponse>;
 }
 
 // @public
-export type VMwareCollectorsListByProjectResponse = VMwareCollectorsListByProjectHeaders & VMwareCollectorList;
+export interface WebAppPropertiesControllerUpdatePropertiesHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface WebAppPropertiesControllerUpdatePropertiesOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type WebAppPropertiesControllerUpdatePropertiesResponse = Record<string, unknown>;
+
+// @public
+export interface WebAppRunAsAccount extends ProxyResource {
+    readonly applianceName?: string;
+    readonly createdTimestamp?: string;
+    readonly credentialType?: string;
+    readonly displayName?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly updatedTimestamp?: string;
+}
+
+// @public
+export interface WebAppRunAsAccountListResult {
+    nextLink?: string;
+    value: WebAppRunAsAccount[];
+}
+
+// @public
+export interface WebAppRunAsAccountsController {
+    get(resourceGroupName: string, siteName: string, webAppSiteName: string, accountName: string, options?: WebAppRunAsAccountsControllerGetOptionalParams): Promise<WebAppRunAsAccountsControllerGetResponse>;
+    listByWebAppSite(resourceGroupName: string, siteName: string, webAppSiteName: string, options?: WebAppRunAsAccountsControllerListByWebAppSiteOptionalParams): PagedAsyncIterableIterator<WebAppRunAsAccount>;
+}
+
+// @public
+export interface WebAppRunAsAccountsControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppRunAsAccountsControllerGetResponse = WebAppRunAsAccount;
+
+// @public
+export interface WebAppRunAsAccountsControllerListByWebAppSiteNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppRunAsAccountsControllerListByWebAppSiteNextResponse = WebAppRunAsAccountListResult;
+
+// @public
+export interface WebAppRunAsAccountsControllerListByWebAppSiteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppRunAsAccountsControllerListByWebAppSiteResponse = WebAppRunAsAccountListResult;
+
+// @public
+export interface WebAppSite extends ProxyResource {
+    discoveryScenario?: WebAppSitePropertiesDiscoveryScenario;
+    readonly provisioningState?: ProvisioningState;
+    readonly serviceEndpoint?: string;
+    siteAppliancePropertiesCollection?: SiteApplianceProperties[];
+}
+
+// @public
+export interface WebAppSiteListResult {
+    nextLink?: string;
+    value: WebAppSite[];
+}
+
+// @public
+export type WebAppSitePropertiesDiscoveryScenario = string;
+
+// @public
+export interface WebAppSitesController {
+    beginDelete(resourceGroupName: string, siteName: string, webAppSiteName: string, options?: WebAppSitesControllerDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, siteName: string, webAppSiteName: string, options?: WebAppSitesControllerDeleteOptionalParams): Promise<void>;
+    beginExportInventory(resourceGroupName: string, siteName: string, webAppSiteName: string, body: ExportWebAppsRequest, options?: WebAppSitesControllerExportInventoryOptionalParams): Promise<SimplePollerLike<OperationState<WebAppSitesControllerExportInventoryResponse>, WebAppSitesControllerExportInventoryResponse>>;
+    beginExportInventoryAndWait(resourceGroupName: string, siteName: string, webAppSiteName: string, body: ExportWebAppsRequest, options?: WebAppSitesControllerExportInventoryOptionalParams): Promise<WebAppSitesControllerExportInventoryResponse>;
+    beginRefresh(resourceGroupName: string, siteName: string, webAppSiteName: string, body: ProxySiteRefreshBody, options?: WebAppSitesControllerRefreshOptionalParams): Promise<SimplePollerLike<OperationState<WebAppSitesControllerRefreshResponse>, WebAppSitesControllerRefreshResponse>>;
+    beginRefreshAndWait(resourceGroupName: string, siteName: string, webAppSiteName: string, body: ProxySiteRefreshBody, options?: WebAppSitesControllerRefreshOptionalParams): Promise<WebAppSitesControllerRefreshResponse>;
+    beginUpdate(resourceGroupName: string, siteName: string, webAppSiteName: string, properties: WebAppSiteUpdate, options?: WebAppSitesControllerUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WebAppSitesControllerUpdateResponse>, WebAppSitesControllerUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, siteName: string, webAppSiteName: string, properties: WebAppSiteUpdate, options?: WebAppSitesControllerUpdateOptionalParams): Promise<WebAppSitesControllerUpdateResponse>;
+    create(resourceGroupName: string, siteName: string, webAppSiteName: string, body: WebAppSite, options?: WebAppSitesControllerCreateOptionalParams): Promise<WebAppSitesControllerCreateResponse>;
+    errorSummary(resourceGroupName: string, siteName: string, webAppSiteName: string, body: ErrorSummaryRequest, options?: WebAppSitesControllerErrorSummaryOptionalParams): Promise<WebAppSitesControllerErrorSummaryResponse>;
+    get(resourceGroupName: string, siteName: string, webAppSiteName: string, options?: WebAppSitesControllerGetOptionalParams): Promise<WebAppSitesControllerGetResponse>;
+    listByMasterSite(resourceGroupName: string, siteName: string, options?: WebAppSitesControllerListByMasterSiteOptionalParams): PagedAsyncIterableIterator<WebAppSite>;
+    summary(resourceGroupName: string, siteName: string, webAppSiteName: string, options?: WebAppSitesControllerSummaryOptionalParams): Promise<WebAppSitesControllerSummaryResponse>;
+}
+
+// @public
+export interface WebAppSitesControllerCreateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface WebAppSitesControllerCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppSitesControllerCreateResponse = WebAppSite;
+
+// @public
+export interface WebAppSitesControllerDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface WebAppSitesControllerDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface WebAppSitesControllerErrorSummaryOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppSitesControllerErrorSummaryResponse = SiteErrorSummary;
+
+// @public
+export interface WebAppSitesControllerExportInventoryHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface WebAppSitesControllerExportInventoryOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type WebAppSitesControllerExportInventoryResponse = Record<string, unknown>;
+
+// @public
+export interface WebAppSitesControllerGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppSitesControllerGetResponse = WebAppSite;
+
+// @public
+export interface WebAppSitesControllerListByMasterSiteNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppSitesControllerListByMasterSiteNextResponse = WebAppSiteListResult;
+
+// @public
+export interface WebAppSitesControllerListByMasterSiteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppSitesControllerListByMasterSiteResponse = WebAppSiteListResult;
+
+// @public
+export interface WebAppSitesControllerRefreshHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface WebAppSitesControllerRefreshOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type WebAppSitesControllerRefreshResponse = Record<string, unknown>;
+
+// @public
+export interface WebAppSitesControllerSummaryOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppSitesControllerSummaryResponse = WebAppSiteUsage;
+
+// @public
+export interface WebAppSitesControllerUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface WebAppSitesControllerUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type WebAppSitesControllerUpdateResponse = WebAppSite;
+
+// @public
+export interface WebAppSiteUpdate {
+    discoveryScenario?: WebAppSitePropertiesDiscoveryScenario;
+    siteAppliancePropertiesCollection?: SiteApplianceProperties[];
+}
+
+// @public
+export interface WebAppSiteUsage {
+    runAsAccountCount?: number;
+    webApplicationCount?: number;
+    webServerCount?: number;
+}
+
+// @public
+export interface WebRoleImportDisk {
+    diskType?: string;
+    lun?: number;
+    maxSizeInBytes?: number;
+    readonly megabytesPerSecondOfRead?: number;
+    readonly megabytesPerSecondOfWrite?: number;
+    name?: string;
+    readonly numberOfReadOperationsPerSecond?: number;
+    readonly numberOfWriteOperationsPerSecond?: number;
+    path?: string;
+}
+
+// @public
+export interface WebRoleOperatingSystem {
+    osArchitecture?: string;
+    osName?: string;
+    osType?: string;
+    osVersion?: string;
+}
+
+// @public
+export interface WebServer extends ProxyResource {
+    readonly applianceNames?: string[];
+    readonly configurationLocation?: string;
+    readonly createdTimestamp?: string;
+    readonly displayName?: string;
+    readonly errors?: HealthErrorDetails[];
+    readonly hasErrors?: boolean;
+    readonly isDeleted?: boolean;
+    readonly machineIds?: string[];
+    readonly provisioningState?: ProvisioningState;
+    readonly runAsAccountId?: string;
+    readonly serverFqdn?: string;
+    readonly serverType?: string;
+    readonly updatedTimestamp?: string;
+    readonly version?: string;
+    readonly webApplications?: string[];
+}
+
+// @public
+export interface WebServerListResult {
+    nextLink?: string;
+    value: WebServer[];
+}
+
+// @public
+export interface WebServersController {
+    listByWebAppSite(resourceGroupName: string, siteName: string, webAppSiteName: string, options?: WebServersControllerListByWebAppSiteOptionalParams): PagedAsyncIterableIterator<WebServer>;
+}
+
+// @public
+export interface WebServersControllerListByWebAppSiteNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebServersControllerListByWebAppSiteNextResponse = WebServerListResult;
+
+// @public
+export interface WebServersControllerListByWebAppSiteOptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+    filter?: string;
+    top?: string;
+    totalRecordCount?: number;
+}
+
+// @public
+export type WebServersControllerListByWebAppSiteResponse = WebServerListResult;
 
 // (No @packageDocumentation comment for this package)
 

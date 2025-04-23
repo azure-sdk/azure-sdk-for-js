@@ -8,1538 +8,5885 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** List of projects. */
-export interface ProjectResultList {
-  /** List of projects. */
-  value?: Project[];
-  nextLink?: string;
-}
-
-/** Azure Migrate Project. */
-export interface Project {
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface OperationListResult {
   /**
-   * Path reference to this project /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}
+   * List of operations supported by the resource provider
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly id?: string;
+  readonly value?: Operation[];
   /**
-   * Name of the project.
+   * URL to get the next set of operation list results (if there are any).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
+  /**
+   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * Type of the object = [Microsoft.Migrate/assessmentProjects].
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+  /**
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: Origin;
+  /**
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionType?: ActionType;
+}
+
+/** Localized display information for this particular operation. */
+export interface OperationDisplay {
+  /**
+   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provider?: string;
+  /**
+   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resource?: string;
+  /**
+   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-  /** For optimistic concurrency control. */
-  eTag?: string;
-  /** Azure location in which project is created. */
-  location?: string;
-  /** Tags provided by Azure Tagging service. */
-  tags?: Record<string, unknown>;
-  /** Properties of the project. */
-  properties?: ProjectProperties;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
 }
 
-/** Properties of a project. */
-export interface ProjectProperties {
+/** The response of a HypervSite list operation. */
+export interface HypervSiteListResult {
+  /** The HypervSite items on this page */
+  value: HypervSite[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Class for site properties. */
+export interface SiteSpnProperties {
   /**
-   * Time when this project was created. Date-Time represented in ISO-8601 format.
+   * Gets or sets the tenant Id for the service principal with which the
+   * on-premise
+   *             management/data plane components would communicate with
+   * our Azure services.
+   */
+  tenantId?: string;
+  /**
+   * Gets or sets the application/client Id for the service principal with which
+   * the
+   *             on-premise management/data plane components would communicate
+   * with our Azure
+   *             services.
+   */
+  applicationId?: string;
+  /**
+   * Gets or sets the object Id of the service principal with which the on-premise
+   *
+   *            management/data plane components would communicate with our Azure
+   * services.
+   */
+  objectId?: string;
+  /** Gets or sets the intended audience for the service principal. */
+  audience?: string;
+  /**
+   * Gets or sets the AAD Authority URL which was used to request the token for
+   * the
+   *             service principal.
+   */
+  aadAuthority?: string;
+  /** Gets or sets the raw certificate data for building certificate expiry flows. */
+  rawCertData?: string;
+}
+
+/** Class for site agent properties. */
+export interface SiteAgentProperties {
+  /**
+   * Gets the ID of the agent.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly createdTimestamp?: Date;
+  readonly id?: string;
   /**
-   * Time when this project was last updated. Date-Time represented in ISO-8601 format.
+   * Gets the version of the agent.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly updatedTimestamp?: Date;
+  readonly version?: string;
   /**
-   * Endpoint at which the collector agent can call agent REST API.
+   * Gets the last heartbeat time of the agent in UTC.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly serviceEndpoint?: string;
-  /** Assessment solution ARM id tracked by Microsoft.Migrate/migrateProjects. */
-  assessmentSolutionId?: string;
-  /** Assessment project status. */
-  projectStatus?: ProjectStatus;
-  /** The ARM id of service map workspace created by customer. */
-  customerWorkspaceId?: string;
-  /** Location of service map workspace created by customer. */
-  customerWorkspaceLocation?: string;
+  readonly lastHeartBeatUtc?: Date;
+  /** Gets or sets the key vault URI. */
+  keyVaultUri?: string;
+  /** Gets or sets the key vault ARM Id. */
+  keyVaultId?: string;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
   /**
-   * Number of groups created in the project.
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly numberOfGroups?: number;
+  readonly id?: string;
   /**
-   * Number of machines in the project.
+   * The name of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly numberOfMachines?: number;
+  readonly name?: string;
   /**
-   * Number of assessments created in the project.
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly numberOfAssessments?: number;
+  readonly type?: string;
   /**
-   * Time when last assessment was created. Date-Time represented in ISO-8601 format. This value will be null until assessment is created.
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly lastAssessmentTimestamp?: Date;
-  /** This value can be set to 'enabled' to avoid breaking changes on existing customer resources and templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method. */
-  publicNetworkAccess?: string;
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** The response of a ImportSite list operation. */
+export interface ImportSiteListResult {
+  /** The ImportSite items on this page */
+  value: ImportSite[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The response of a MasterSite list operation. */
+export interface MasterSiteListResult {
+  /** The MasterSite items on this page */
+  value: MasterSite[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** PrivateEndpointModelsResourceId */
+export interface ResourceId {
   /**
-   * The list of private endpoint connections to the project.
+   * id name
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
-  /** The ARM id of the storage account used for interactions when public access is disabled. */
-  customerStorageAccountArmId?: string;
+  readonly id?: string;
+}
+
+/** Service Connection State */
+export interface PrivateLinkServiceConnectionState {
+  /** state status */
+  status?: PrivateLinkServiceConnectionStateStatus;
+  /** description string */
+  description?: string;
+  /** actions required */
+  actionsRequired?: string;
+}
+
+/** The response of a ServerSiteResource list operation. */
+export interface ServerSiteResourceListResult {
+  /** The ServerSiteResource items on this page */
+  value: ServerSiteResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Properties for defining Arc scope. */
+export interface ArcScopeProperties {
+  /** Locations to discover Arc resources from. */
+  locations?: string[];
+  /** The type of scope, currently supporting SubscriptionOrResourceGroupIds only. */
+  scopeType: ArcScopeType;
+  /** List of subscription or resource group ARM IDs. Allowed only if scopeType is SubscriptionOrResourceGroupIds. */
+  subscriptionOrResourceGroupIds?: string[];
+}
+
+/** The response of a VmwareSite list operation. */
+export interface VmwareSiteListResult {
+  /** The VmwareSite items on this page */
+  value: VmwareSite[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The type used for update operations of the HypervSite. */
+export interface HypervSiteUpdate {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
   /**
-   * Provisioning state of the project.
+   * Gets or sets the service principal identity details used by agent for
+   * communication
+   *             to the service.
+   */
+  servicePrincipalIdentityDetails?: SiteSpnProperties;
+  /** Gets or sets the on-premises agent details. */
+  agentDetails?: SiteAgentProperties;
+  /** Gets or sets the Appliance Name. */
+  applianceName?: string;
+  /** Gets or sets the ARM ID of migration hub solution for SDS. */
+  discoverySolutionId?: string;
+  /** The status of the last operation. */
+  provisioningState?: ProvisioningState;
+}
+
+/** DependencyMap ServiceMap extensions Client GroupMembers Request */
+export interface DependencyMapServiceMapextensionsClientGroupMembersRequest {
+  /** id of machine */
+  machineId?: string;
+  /** process group name */
+  processGroupName?: string;
+  /** name of process */
+  processName?: string;
+  /** start time */
+  startTime?: Date;
+  /** end time */
+  endTime?: Date;
+  /** optional filters */
+  filters?: DependencyMapServiceMapextensionsDependencyMapRequestFilters;
+}
+
+/** DependencyMap Service Map extensions Dependency Map Request Filters */
+export interface DependencyMapServiceMapextensionsDependencyMapRequestFilters {
+  /** array of machine ids */
+  machineIds?: string[];
+  /** array of process Ids */
+  processIds?: string[];
+}
+
+/** The response of a HypervCluster list operation. */
+export interface HypervClusterListResult {
+  /** The HypervCluster items on this page */
+  value: HypervCluster[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Error contract returned when some exception occurs in Rest API. */
+export interface HealthErrorDetails {
+  /**
+   * Gets the error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * Gets the message parameters.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly messageParameters?: { [propertyName: string]: string };
+  /**
+   * Gets the appliance name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applianceName?: string;
+  /**
+   * Gets the error ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: number;
+  /**
+   * Gets the error name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Gets the possible causes of error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly possibleCauses?: string;
+  /**
+   * Gets the recommended action to resolve error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recommendedAction?: string;
+  /**
+   * Gets the error severity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly severity?: string;
+  /**
+   * Gets the error summary message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly summaryMessage?: string;
+  /**
+   * Gets the error source.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly source?: HealthErrorDetailsSource;
+  /**
+   * Gets the time stamp when the error was updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedTimeStamp?: Date;
+  /**
+   * Gets run as account id used while performing discovery             of entity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly runAsAccountId?: string;
+  /**
+   * Gets discovery scope for which             error is encountered.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly discoveryScope?: HealthErrorDetailsDiscoveryScope;
+}
+
+/** Site error summary. */
+export interface SiteErrorSummary {
+  /** Appliance Name. */
+  applianceName: string;
+  /** Gets the error message. */
+  discoveryScopeErrorSummaries: DiscoveryScopeErrorSummary;
+  /** The link to fetch more models. */
+  nextLink?: string;
+}
+
+/** The site error summary model. */
+export interface DiscoveryScopeErrorSummary {
+  /** Gets or sets the affected resource type. */
+  affectedResourceType: string;
+  /** Count of affected objects. */
+  affectedObjectsCount: number;
+  /** Gets or sets the count of affected objects. */
+  discoveryScope: DiscoveryScopes;
+}
+
+/** Hyper-V site usage. */
+export interface HypervSiteUsage {
+  /** Gets or sets the number of machines discovered in the site. */
+  machineCount?: number;
+  /** Gets or sets the number of run as accounts in the site. */
+  runAsAccountCount?: number;
+  /** Gets or sets the number of hosts part of the site. */
+  hostCount?: number;
+  /** Gets or sets the number of clusters part of the site. */
+  clusterCount?: number;
+}
+
+/** DependencyMap ServiceMap extensions ExportDependencies Request */
+export interface DependencyMapServiceMapextensionsExportDependenciesRequest {
+  /** start time */
+  startTime?: Date;
+  /** end time */
+  endTime?: Date;
+}
+
+/** The body of export machine errors request. */
+export interface ExportMachineErrorsRequest {
+  /** Gets or sets the properties. */
+  properties?: RequestExportMachineErrorsProperties;
+}
+
+/** The Properties class for export machine errors request body. */
+export interface RequestExportMachineErrorsProperties {
+  /** Gets or sets the discovery scope. */
+  discoveryScope?: ExportMachineErrorsProperties;
+}
+
+/** DependencyMap ServiceMapextensions Scope MapRequest */
+export interface DependencyMapServiceMapextensionsScopeMapRequest {
+  /** start time */
+  startTime?: Date;
+  /** end time */
+  endTime?: Date;
+  /** optional filters */
+  filters?: DependencyMapServiceMapextensionsDependencyMapRequestFilters;
+}
+
+/** DependencyMap ServiceMap extensions SingleMachine DetailedMap Request */
+export interface DependencyMapServiceMapextensionsSingleMachineDetailedMapRequest {
+  /** id of machine */
+  machineId?: string;
+  /** start time */
+  startTime?: Date;
+  /** end time */
+  endTime?: Date;
+  /** optional filters */
+  filters?: DependencyMapServiceMapextensionsDependencyMapRequestFilters;
+}
+
+/** The response of a HypervHost list operation. */
+export interface HypervHostListResult {
+  /** The HypervHost items on this page */
+  value: HypervHost[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The response of a HypervJob list operation. */
+export interface HypervJobListResult {
+  /** The HypervJob items on this page */
+  value: HypervJob[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Error contract returned when some exception occurs in Rest API. */
+export interface ErrorDetails {
+  /**
+   * Gets the error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Gets the error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * Gets the possible causes of error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly possibleCauses?: string;
+  /**
+   * Gets the recommended action to resolve error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recommendedAction?: string;
+  /**
+   * Gets the error severity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly severity?: string;
+  /**
+   * Gets a value indicating whether the error originated from a agent or not.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isAgentReportedError?: boolean;
+  /**
+   * Gets the agent error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly agentErrorCode?: string;
+  /**
+   * Gets the error message from the agent.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly agentErrorMessage?: string;
+  /**
+   * Gets possible causes for the agent error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly agentErrorPossibleCauses?: string;
+  /**
+   * Gets the recommended action for the agent error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly agentErrorRecommendedAction?: string;
+}
+
+/** Collection of SiteHealthSummary. */
+export interface SiteHealthSummaryCollection {
+  /** Gets the list of SiteHealthSummary. */
+  value: SiteHealthSummary[];
+  /**
+   * Gets the value of next link.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The properties of ServerSiteResource. */
+export interface SiteHealthSummary {
+  /**
+   * Gets the appliance name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applianceName?: string;
+  /**
+   * Gets the error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorMessage?: string;
+  /**
+   * Gets the summary message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly summaryMessage?: string;
+  /**
+   * Gets the error Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorId?: number;
+  /**
+   * Gets the error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorCode?: string;
+  /** Gets or sets the count of affected objects. */
+  affectedObjectsCount?: number;
+  /** Gets or sets the hit count of the error. */
+  hitCount?: number;
+  /**
+   * Gets the severity of error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly severity?: string;
+  /**
+   * Gets the remediation guidance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly remediationGuidance?: string;
+  /**
+   * Gets the affected resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly affectedResourceType?: string;
+  /** Gets or sets the affected resources. */
+  affectedResources?: string[];
+  /** Gets or sets sources of the exception. */
+  fabricLayoutUpdateSources?: SiteHealthSummaryFabricLayoutUpdateSourcesItem[];
+}
+
+/** The response of a HypervMachine list operation. */
+export interface HypervMachineListResult {
+  /** The HypervMachine items on this page */
+  value: HypervMachine[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Second level object returned as part of Machine REST resource. */
+export interface HypervDisk {
+  /**
+   * Id of the disk.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceId?: string;
+  /**
+   * VHD Id of the disk.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vhdId?: string;
+  /** Gets or sets Bytes allocated for the disk. */
+  maxSizeInBytes?: number;
+  /** Gets or sets Name of the disk. */
+  name?: string;
+  /** Gets or sets Type of the disk. */
+  diskType?: string;
+  /** Gets or sets LUN of the disk. */
+  lun?: number;
+  /** Gets or sets Path of the disk. */
+  path?: string;
+}
+
+/** Second level object represented in responses as part of Machine REST resource. */
+export interface HypervNetworkAdapter {
+  /**
+   * Network Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkId?: string;
+  /**
+   * Name of the VM subnet within the virtual network the NIC is attached to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subnetName?: string;
+  /**
+   * Static IP address.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly staticIpAddress?: string;
+  /**
+   * Mac address of the NIC.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nicType?: string;
+  /** Gets or sets the NIC Id. */
+  nicId?: string;
+  /** Gets or sets Mac address of the NIC. */
+  macAddress?: string;
+  /**
+   * Gets IP addresses for the machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ipAddressList?: string[];
+  /** Gets or sets Network Name. */
+  networkName?: string;
+  /** Gets or sets Type of the IP address. */
+  ipAddressType?: string;
+}
+
+/** Second level object.  Data related to a machine's operating system.             Serialized and stored as part of Machine Rest object. */
+export interface GuestOsDetails {
+  /** Gets or sets the type of the operating system. */
+  osType?: string;
+  /** Gets or sets the Name of the operating system. */
+  osName?: string;
+  /** Gets or sets the Version of the operating system. */
+  osVersion?: string;
+  /** Gets or sets the Architecture of the operating system. */
+  osArchitecture?: string;
+}
+
+/** Contains data related application and roles discovery scope. */
+export interface ApplicationDiscovery {
+  /**
+   * Gets discovery scope status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly discoveryScopeStatus?: ApplicationDiscoveryScopeStatus;
+  /**
+   * Gets errors for discovery scope.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: HealthErrorDetails[];
+  /**
+   * Gets the run as account ID with which feature worked successfully.
+   *
+   * It is discovered by the agent from the list of credentials.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hydratedRunAsAccountId?: string;
+}
+
+/** Contains data related dependency map discovery scope. */
+export interface DependencyMapDiscovery {
+  /**
+   * Gets discovery scope status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly discoveryScopeStatus?: DependencyMapDiscoveryScopeStatus;
+  /**
+   * Gets errors for discovery scope.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: HealthErrorDetails[];
+  /**
+   * Gets the run as account ID with which feature worked successfully.
+   *
+   * It is discovered by the agent from the list of credentials.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hydratedRunAsAccountId?: string;
+}
+
+/** Contains data related static data discovery scope. */
+export interface StaticDiscovery {
+  /**
+   * Gets discovery scope status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly discoveryScopeStatus?: StaticDiscoveryScopeStatus;
+  /**
+   * Gets errors for discovery scope.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: HealthErrorDetails[];
+  /**
+   * Gets the run as account ID with which feature worked successfully.
+   *
+   * It is discovered by the agent from the list of credentials.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hydratedRunAsAccountId?: string;
+}
+
+/** Contains data related SQL discovery. */
+export interface SqlDiscovery {
+  /**  successfully Discovered ServerCount */
+  successfullyDiscoveredServerCount?: number;
+  /** total Server Count */
+  totalServerCount?: number;
+  /** sql Metadata Hydrated RunAsAccountId */
+  sqlMetadataHydratedRunAsAccountId?: string;
+  /** sql Metadata DiscoveryPipe */
+  sqlMetadataDiscoveryPipe?: SqlMetadataDiscoveryPipe;
+  /** discovery Scope Status */
+  discoveryScopeStatus?: SQLDiscoveryScopeStatus;
+}
+
+/** Data related to a machine's WebApps discovery. */
+export interface WebAppDiscovery {
+  /** Gets or sets number of successfully discovered web servers.. */
+  totalWebServerCount?: number;
+  /** Gets or sets number of successfully discovered web applications. */
+  totalWebApplicationCount?: number;
+  /** Gets or sets status of partner discovery. */
+  discoveryScopeStatus?: DiscoveryScopeStatus;
+}
+
+/** Data related to a machine's Oracle discovery. */
+export interface OracleDiscovery {
+  /** Gets or sets number of successfully discovered instances. */
+  totalInstanceCount?: number;
+  /** Gets or sets number of successfully discovered databases. */
+  totalDatabaseCount?: number;
+  /** Gets or sets status of partner shallow discovery. */
+  shallowDiscoveryStatus?: ShallowDiscoveryStatus;
+  /** Gets or sets status of partner discovery. */
+  discoveryScopeStatus?: DiscoveryScopeStatus;
+}
+
+/** Data related to a machine's spring boot discovery. */
+export interface SpringBootDiscovery {
+  /** Gets or sets number of successfully discovered instances. */
+  totalInstanceCount?: number;
+  /** Gets or sets number of successfully discovered applications. */
+  totalApplicationCount?: number;
+  /** Gets or sets status of partner shallow discovery. */
+  shallowDiscoveryStatus?: ShallowDiscoveryStatus;
+  /** Gets or sets status of partner discovery. */
+  discoveryScopeStatus?: DiscoveryScopeStatus;
+}
+
+/** AppsAndRoles in the guest virtual machine. */
+export interface AppsAndRoles {
+  /**
+   * Gets or sets Applications of the AppsAndRoles.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applications?: Application[];
+  /**
+   * Gets or sets WebApplications of the AppsAndRoles.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly webApplications?: WebApplicationAppsAndRolesModel[];
+  /**
+   * Gets or sets Features of the AppsAndRoles.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly features?: Feature[];
+  /**
+   * Gets or sets SQLServers of the AppsAndRoles.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sqlServers?: SqlServerApplication[];
+  /**
+   * Gets or sets SharePointServers of the AppsAndRoles.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sharePointServers?: SharePointServer[];
+  /**
+   * Gets or sets SystemCenters of the AppsAndRoles.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemCenters?: SystemCenter[];
+  /**
+   * Gets or sets BizTalkServers of the AppsAndRoles.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly bizTalkServers?: BizTalkServer[];
+  /**
+   * Gets or sets ExchangeServers of the AppsAndRoles.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly exchangeServers?: ExchangeServer[];
+  /**
+   * Gets or sets OtherDatabaseServers of the AppsAndRoles.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly otherDatabases?: OtherDatabase[];
+}
+
+/** Application in the guest virtual machine. */
+export interface Application {
+  /**
+   * Gets or sets Name of the Application.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Gets or sets Version of the Application.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+  /**
+   * Gets or sets Provider of the Application.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provider?: string;
+}
+
+/** WebApplication in the guest virtual machine. */
+export interface WebApplicationAppsAndRolesModel {
+  /**
+   * Gets or sets Name of the WebApplication.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Gets or sets Status of the WebApplication.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * Gets or sets Platform of the WebApplication.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly platform?: string;
+  /**
+   * Gets or sets GroupName of the WebApplication.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupName?: string;
+  /**
+   * Gets or sets WebServer of the WebApplication.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly webServer?: string;
+  /**
+   * Gets or sets ApplicationPool of the WebApplication.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applicationPool?: string;
+}
+
+/** Feature in the guest virtual machine. */
+export interface Feature {
+  /**
+   * Gets or sets Name of the Feature.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Gets or sets FeatureType of the Feature.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly featureType?: string;
+  /**
+   * Gets or sets Parent of the Feature.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly parent?: string;
+  /**
+   * Gets or sets Status of the Feature.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+}
+
+/** SQLServer in the guest virtual machine. */
+export interface SqlServerApplication {
+  /**
+   * Gets or sets Name of the SQLServer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Gets or sets Edition of the SQLServer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly edition?: string;
+  /**
+   * Gets or sets ServicePack of the SQLServer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly servicePack?: string;
+  /**
+   * Gets or sets Version of the SQLServer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+  /**
+   * Gets or sets Clustered of the SQLServer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clustered?: string;
+  /**
+   * Gets or sets ClusterName of the SQLServer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clusterName?: string;
+  /**
+   * Gets or sets the DNS host name of SQLServer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dnsHostName?: string;
+  /**
+   * Gets or sets the port of the SQLServer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly port?: string;
+  /**
+   * Gets or sets the comma separated IPs of the SQLServer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly commaSeparatedIps?: string;
+  /**
+   * Gets the status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * Gets or sets the value which reflects if Named Pipe is enabled or not.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isNamedPipeEnabled?: boolean;
+  /**
+   * Gets or sets the value which reflects if Named Pipe is enabled or not.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isTcpIpEnabled?: boolean;
+  /**
+   * Gets the status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly namedPipeName?: string;
+}
+
+/** SharePointServer in the guest virtual machine. */
+export interface SharePointServer {
+  /**
+   * Gets or sets ProductName of the SharePointServer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly productName?: string;
+  /**
+   * Gets or sets a value indicating whether the SharePointServer is Enterprise.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isEnterprise?: boolean;
+  /**
+   * Gets or sets Status of the SharePointServer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * Gets or sets Version of the SharePointServer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+}
+
+/** SystemCenter in the guest virtual machine. */
+export interface SystemCenter {
+  /**
+   * Gets or sets ProductName of the SystemCenter.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly productName?: string;
+  /**
+   * Gets or sets Status of the SystemCenter.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * Gets or sets Version of the SystemCenter.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+}
+
+/** BizTalkServer in the guest virtual machine. */
+export interface BizTalkServer {
+  /**
+   * Gets or sets ProductName of the BizTalkServer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly productName?: string;
+  /**
+   * Gets or sets Status of the BizTalkServer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+}
+
+/** ExchangeServer in the guest virtual machine. */
+export interface ExchangeServer {
+  /**
+   * Gets or sets ProductName of the ExchangeServer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly productName?: string;
+  /**
+   * Gets or sets Edition of the ExchangeServer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly edition?: string;
+  /**
+   * Gets or sets Roles of the ExchangeServer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly roles?: string;
+  /**
+   * Gets or sets ServicePack of the ExchangeServer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly servicePack?: string;
+  /**
+   * Gets or sets Version of the ExchangeServer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+}
+
+/** OtherDatabase in the guest virtual machine. */
+export interface OtherDatabase {
+  /**
+   * Gets or sets DatabaseType of the OtherDatabase.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databaseType?: string;
+  /**
+   * Gets or sets Instance of the OtherDatabase.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instance?: string;
+  /**
+   * Gets or sets Version of the OtherDatabase.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+}
+
+/** product support status. */
+export interface ProductSupportStatus {
+  /** current version. */
+  currentVersion?: string;
+  /** esu status. */
+  esuStatus?: EsuStatus;
+  /** support status. */
+  supportStatus?: SupportStatus;
+  /** support end date. */
+  supportEndDate?: Date;
+  /** esu year. */
+  esuYear?: EsuYear;
+}
+
+/** Second level object returned as part of Machine REST resource. */
+export interface OperatingSystem {
+  /** Gets or sets the type of the operating system. */
+  osType?: string;
+  /** Gets or sets the Name of the operating system. */
+  osName?: string;
+  /** Gets or sets the Version of the operating system. */
+  osVersion?: string;
+  /** Gets or sets the Architecture of the operating system. */
+  osArchitecture?: string;
+}
+
+/** Contains data related to Azure arc discovery. */
+export interface ArcDiscovery {
+  /**
+   * AzureArc status indicates whether arc discovery has successfully completed or not.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status: AzureArcStatus;
+  /**
+   * Machine Resource Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly machineResourceId: string;
+}
+
+/** The type used for update operations of the HypervMachine. */
+export interface HypervMachineUpdate {
+  /** Gets or sets the firmware. */
+  firmware?: string;
+  /** Gets or sets the run as account ID of the machine. */
+  runAsAccountId?: string;
+  /** product support status. */
+  productSupportStatus?: ProductSupportStatus;
+  /**
+   * Gets or sets the Number of Processor Cores
+   *             allocated for the
+   * machine.
+   */
+  numberOfProcessorCore?: number;
+  /** Gets or sets the allocated Memory in MB. */
+  allocatedMemoryInMb?: number;
+  /** Gets or sets the Operating System Details installed on the machine. */
+  operatingSystemDetails?: OperatingSystem;
+  /** Gets or sets the Machine BIOS serial number. */
+  biosSerialNumber?: string;
+  /** Gets or sets the BIOS GUID. */
+  biosGuid?: string;
+  /** Gets or sets tags on the resource. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** The response of a HypervVmSoftwareInventory list operation. */
+export interface HypervVmSoftwareInventoryListResult {
+  /** The HypervVmSoftwareInventory items on this page */
+  value: HypervVmSoftwareInventory[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Operation status REST resource. */
+export interface OperationStatus {
+  /**
+   * Gets the Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Gets the operation name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Gets the status of the operation. ARM expects the terminal status to be one
+   * of
+   *             Succeeded/ Failed/ Canceled. All other values imply that the
+   * operation is still running.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * Gets the start time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: string;
+  /**
+   * Gets the start time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: string;
+  /**
+   * Gets the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: OperationStatusError;
+  /**
+   * Operation status properties
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly properties?: OperationStatusProperties;
+}
+
+/** Class for operation status errors. */
+export interface OperationStatusError {
+  /**
+   * Gets the error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Gets the error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+}
+
+/** Class for operation result properties. */
+export interface OperationStatusProperties {
+  /** Gets or sets the result or output of the workflow. */
+  result?: string;
+}
+
+/** The response of a HypervRunAsAccountResource list operation. */
+export interface HypervRunAsAccountResourceListResult {
+  /** The HypervRunAsAccountResource items on this page */
+  value: HypervRunAsAccountResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Class for run as account properties. */
+export interface RunAsAccountProperties {
+  /**
+   * Display name of the run as account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * Gets the credential type of the run as account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly credentialType?: string;
+  /**
+   * Timestamp marking run as account creation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTimestamp?: string;
+  /**
+   * Timestamp marking last updated on the run as account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedTimestamp?: string;
+  /**
+   * Gets the appliance name of the run as account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applianceName?: string;
+  /**
+   * provisioning state enum
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
 }
 
-/** A private endpoint connection for a project. */
-export interface PrivateEndpointConnection {
+/** DependencyMap ServiceMap extensions ServerGroup Members Request */
+export interface DependencyMapServiceMapextensionsServerGroupMembersRequest {
+  /** port of server */
+  serverPort?: number;
+  /** start time */
+  startTime?: Date;
+  /** end time */
+  endTime?: Date;
+  /** optional filters */
+  filters?: DependencyMapServiceMapextensionsDependencyMapRequestFilters;
+}
+
+/**
+ * Defines class that represents input to enable or disable DMP on machine
+ *
+ *       for cosmos entity operation.
+ */
+export interface UpdateMachineDepMapStatus {
+  /** Gets or sets the machine collection. */
+  machines?: DependencyMapMachineInput[];
+}
+
+/** Machine class. */
+export interface DependencyMapMachineInput {
+  /** Gets or sets the ARM id of the machine. */
+  machineId?: string;
   /**
-   * Name of the private endpoint endpoint connection.
+   * Gets or sets a value indicating whether
+   *             dependency mapping is to
+   * be enabled or not.
+   */
+  isDependencyMapToBeEnabled?: boolean;
+}
+
+/** The list of Machine MetaData. */
+export interface MachineMetadataCollection {
+  /** The list of Machine MetaData. */
+  value: MachineMetadata[];
+}
+
+/** The properties of Machine MetaData */
+export interface MachineMetadata {
+  /** arm id of the machine. */
+  machineArmId: string;
+  /** value representing state of dependency mapping (enabled/disabled). */
+  dependencyMapping: string;
+  /** machine tags */
+  tags: { [propertyName: string]: string };
+}
+
+/** The type used for update operations of the ImportSite. */
+export interface ImportSiteUpdate {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Gets or sets the ARM ID of migration hub solution for SDS. */
+  discoverySolutionId?: string;
+  /** The status of the last operation. */
+  provisioningState?: ProvisioningState;
+}
+
+/** Import URI response class. */
+export interface SasUriResponse {
+  /** Gets or sets the job ARM ID. */
+  jobArmId?: string;
+  /** Gets or sets the SAS URI. */
+  uri?: string;
+  /** Gets or sets the import type. */
+  importType?: ImportTypeValues;
+}
+
+/** Paged collection of DeleteImportMachinesJob items */
+export interface PagedDeleteImportMachinesJob {
+  /**
+   * The DeleteImportMachinesJob items on this page
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly name?: string;
+  readonly value?: DeleteImportMachinesJob[];
   /**
-   * Type of the object = [Microsoft.Migrate/assessmentProjects/privateEndpointConnections].
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Paged collection of ExportImportedMachinesJob items */
+export interface PagedExportImportedMachinesJob {
+  /**
+   * The ExportImportedMachinesJob items on this page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: ExportImportedMachinesJob[];
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Export machines job REST resource. */
+export interface ExportImportedMachinesJob {
+  /**
+   * Type name for export job.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-  /** For optimistic concurrency control. */
-  eTag?: string;
-  /**
-   * Path reference to this private endpoint endpoint connection. /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/privateEndpointConnections/{privateEndpointConnectionName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /** Properties of the private endpoint endpoint connection. */
-  properties: PrivateEndpointConnectionProperties;
+  /** Gets or sets the export machines job properties. */
+  properties?: ExportImportedMachinesJobEntityProperties;
+  /** Gets or sets the relative ARM name to get job. */
+  id?: string;
+  /** Gets or sets the Job ID. */
+  name?: string;
+  /** Gets or sets the Job status. */
+  status?: string;
+  /** Gets or sets the Job start time. */
+  startTime?: string;
+  /** Gets or sets the Job end time. */
+  endTime?: string;
+  /** Gets or sets the Display name. */
+  displayName?: string;
 }
 
-/** Private endpoint connection properties. */
-export interface PrivateEndpointConnectionProperties {
-  /**
-   * Indicates whether there is an ongoing operation on the private endpoint.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: PrivateEndpointConnectionPropertiesProvisioningState;
-  /**
-   * ARM id for the private endpoint resource corresponding to the connection.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly privateEndpoint?: ResourceId;
-  /** State of the private endpoint connection. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+/**  Export Imported Machines JobEntity Properties */
+export interface ExportImportedMachinesJobEntityProperties {
+  /** blob name */
+  blobName?: string;
+  /** sas uri */
+  sasUri?: string;
 }
 
-/** ARM id for a resource. */
-export interface ResourceId {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly id?: string;
+/** Paged collection of ImportMachinesJob items */
+export interface PagedImportMachinesJob {
+  /**
+   * The ImportMachinesJob items on this page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: ImportMachinesJob[];
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
-/** State of a private endpoint connection. */
-export interface PrivateLinkServiceConnectionState {
-  /** Connection status of the private endpoint connection. */
-  status?: PrivateLinkServiceConnectionStateStatus;
-  /** Description of the private endpoint connection. */
-  description?: string;
-  /** Actions required on the private endpoint connection. */
-  actionsRequired?: string;
+/** Import machines Job REST Resource. */
+export interface ImportMachinesJob {
+  /**
+   * Handled by resource provider. Type =
+   * Microsoft.OffAzure/ImportSites/jobs/importJobs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Gets or sets the import job properties. */
+  properties?: ImportMachinesJobProperties;
+  /** Gets or sets the relative ARM name to get job. */
+  id?: string;
+  /** Gets or sets the Job ID. */
+  name?: string;
+  /** Gets or sets the Job status. */
+  status?: string;
+  /** Gets or sets the Job start time. */
+  startTime?: string;
+  /** Gets or sets the Job end time. */
+  endTime?: string;
+  /** Gets or sets the Display name. */
+  displayName?: string;
 }
 
-/** An error response from the Azure Migrate service. */
-export interface CloudError {
-  /** An error response from the Azure Migrate service. */
-  error?: CloudErrorBody;
+/** ImportMachines JobProperties */
+export interface ImportMachinesJobProperties {
+  /** blob name */
+  blobName?: string;
+  /** blob sasUri */
+  blobSasUri?: string;
+  /** job Result */
+  jobResult?: JobResult;
+  /** number Of Machines Imported */
+  numberOfMachinesImported?: number;
+  /** blob Creation TimeStamp */
+  blobCreationTimeStamp?: Date;
+  /** error summary */
+  errorSummary?: JobErrorSummary;
 }
 
-/** An error response from the Azure Migrate service. */
-export interface CloudErrorBody {
-  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
-  code?: string;
-  /** A message describing the error, intended to be suitable for display in a user interface. */
-  message?: string;
-  /** The target of the particular error. For example, the name of the property in error. */
-  target?: string;
-  /** A list of additional details about the error. */
-  details?: CloudErrorBody[];
+/** Job Error Summary */
+export interface JobErrorSummary {
+  /** errors list */
+  errors?: string[];
+  /** error count */
+  errorCount?: number;
+  /** warning Count */
+  warningCount?: number;
 }
 
-/** Assessment options. */
-export interface AssessmentOptions {
-  /**
-   * Unique name of an assessment options.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Unique identifier of an assessment options.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /** Properties of the assessment options. */
-  properties: AssessmentOptionsProperties;
-}
-
-/** Assessment options properties. */
-export interface AssessmentOptionsProperties {
-  /**
-   * Dictionary of VM families grouped by vm family name describing the targeted azure locations of VM family and the category of the family.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly vmFamilies?: VmFamily[];
-  /**
-   * List of supported VM Families.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reservedInstanceVmFamilies?: string[];
-  /**
-   * List of supported Azure regions for reserved instances.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reservedInstanceSupportedLocations?: string[];
-  /**
-   * List of supported currencies for reserved instances.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reservedInstanceSupportedCurrencies?: string[];
-  /**
-   * List of supported Azure offer codes for reserved instances.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reservedInstanceSupportedOffers?: string[];
-}
-
-/** VM family name, the list of targeted azure locations and the category of the family. */
-export interface VmFamily {
-  /**
-   * Name of the VM family.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly familyName?: string;
-  /**
-   * List of Azure regions.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetLocations?: string[];
-  /**
-   * Category of the VM family.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly category?: string[];
-}
-
-/** List of API operations. */
-export interface AssessmentOptionsResultList {
-  /** List of operations. */
-  value?: AssessmentOptions[];
-}
-
-/** List of machines. */
-export interface MachineResultList {
-  /** List of machines. */
-  value?: Machine[];
+/** The response of a ImportJob list operation. */
+export interface ImportJobListResult {
+  /** The ImportJob items on this page */
+  value: ImportJob[];
+  /** The link to the next page of items */
   nextLink?: string;
 }
 
-/** A machine in a migration project. */
-export interface Machine {
-  /**
-   * Path reference to this machine. /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/machines/{machineName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Name of the machine. It is a GUID which is unique identifier of machine in private data center. For user-readable name, we have a displayName property on this machine.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /** For optimistic concurrency control. */
-  eTag?: string;
-  /**
-   * Type of the object = [Microsoft.Migrate/assessmentProjects/machines].
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Properties of the machine. */
-  properties?: MachineProperties;
-}
-
-/** Properties of a machine. */
-export interface MachineProperties {
-  /**
-   * Boot type of the machine.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly bootType?: MachineBootType;
-  /**
-   * ARM ID of the data center as tracked by the Microsoft.OffAzure.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly datacenterManagementServerArmId?: string;
-  /**
-   * ARM ID of the machine as tracked by the Microsoft.OffAzure.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly discoveryMachineArmId?: string;
-  /**
-   * Name of the server hosting the datacenter management solution.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly datacenterManagementServerName?: string;
-  /**
-   * User readable name of the machine as defined by the user in their private datacenter.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-  /**
-   * Memory in Megabytes.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly megabytesOfMemory?: number;
-  /**
-   * Processor count.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly numberOfCores?: number;
-  /**
-   * Operating System type of the machine.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operatingSystemType?: string;
-  /**
-   * Operating System name of the machine.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operatingSystemName?: string;
-  /**
-   * Operating System version of the machine.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operatingSystemVersion?: string;
-  /**
-   * Description of the machine
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-  /**
-   * List of references to the groups that the machine is member of.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly groups?: string[];
-  /**
-   * Time when this machine was created. Date-Time represented in ISO-8601 format.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdTimestamp?: Date;
-  /**
-   * Time when this machine was last updated. Date-Time represented in ISO-8601 format.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly updatedTimestamp?: Date;
-  /**
-   * Dictionary of disks attached to the machine. Key is ID of disk. Value is a disk object
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly disks?: { [propertyName: string]: Disk };
-  /**
-   * Dictionary of network adapters attached to the machine. Key is ID of network adapter. Value is a network adapter object
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly networkAdapters?: { [propertyName: string]: NetworkAdapter };
-}
-
-/** A disk discovered on a machine. */
-export interface Disk {
-  /**
-   * Gigabytes of storage provisioned for this disk.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly gigabytesAllocated?: number;
-  /**
-   * User friendly name of the disk.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-}
-
-/** A network adapter discovered on a machine. */
-export interface NetworkAdapter {
-  /**
-   * MAC Address of the network adapter.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly macAddress?: string;
-  /**
-   * List of IP Addresses on the network adapter.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ipAddresses?: string[];
-  /**
-   * User friendly name of the network adapter.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-}
-
-/** List of groups. */
-export interface GroupResultList {
-  /** List of groups. */
-  value?: Group[];
-}
-
-/** A group created in a Migration project. */
-export interface Group {
-  /**
-   * Path reference to this group. /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Name of the group.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /** For optimistic concurrency control. */
-  eTag?: string;
-  /**
-   * Type of the object = [Microsoft.Migrate/assessmentProjects/groups].
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Properties of the group. */
-  properties: GroupProperties;
-}
-
-/** Properties of group resource. */
-export interface GroupProperties {
-  /**
-   * Whether the group has been created and is valid.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly groupStatus?: GroupStatus;
-  /**
-   * Number of machines part of this group.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly machineCount?: number;
-  /**
-   * List of References to Assessments created on this group.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly assessments?: string[];
-  /**
-   * If the assessments are in running state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly areAssessmentsRunning?: boolean;
-  /**
-   * Time when this group was created. Date-Time represented in ISO-8601 format.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdTimestamp?: Date;
-  /**
-   * Time when this group was last updated. Date-Time represented in ISO-8601 format.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly updatedTimestamp?: Date;
-  /** The type of group. */
-  groupType?: string;
-}
-
-/** Properties of group update. */
-export interface UpdateGroupBody {
-  /** For optimistic concurrency control. */
-  eTag?: string;
-  /** Properties of the group. */
-  properties?: GroupBodyProperties;
-}
-
-/** Body properties of group update. */
-export interface GroupBodyProperties {
-  /** Whether to add or remove the machines. */
-  operationType?: GroupUpdateOperation;
-  /** List of machine names that are part of this group. */
-  machines?: string[];
-}
-
-/** List of assessments. */
-export interface AssessmentResultList {
-  /** List of assessments. */
-  value?: Assessment[];
-}
-
-/** An assessment created for a group in the Migration project. */
-export interface Assessment {
-  /**
-   * Path reference to this assessment. /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}/assessment/{assessmentName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Unique name of an assessment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /** For optimistic concurrency control. */
-  eTag?: string;
-  /**
-   * Type of the object = [Microsoft.Migrate/assessmentProjects/groups/assessments].
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Properties of the assessment. */
-  properties: AssessmentProperties;
-}
-
-/** Properties of an assessment. */
-export interface AssessmentProperties {
-  /** Target Azure location for which the machines should be assessed. These enums are the same as used by Compute API. */
-  azureLocation: AzureLocation;
-  /** Offer code according to which cost estimation is done. */
-  azureOfferCode: AzureOfferCode;
-  /**
-   * Enterprise agreement subscription arm id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly eaSubscriptionId?: string;
-  /** Pricing tier for Size evaluation. */
-  azurePricingTier: AzurePricingTier;
-  /** Storage Redundancy type offered by Azure. */
-  azureStorageRedundancy: AzureStorageRedundancy;
-  /** Scaling factor used over utilization data to add a performance buffer for new machines to be created in Azure. Min Value = 1.0, Max value = 1.9, Default = 1.3. */
-  scalingFactor: number;
-  /** Percentile of performance data used to recommend Azure size. */
-  percentile: Percentile;
-  /** Time range of performance data used to recommend a size. */
-  timeRange: TimeRange;
-  /**
-   * Start time to consider performance data for assessment
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly perfDataStartTime?: Date;
-  /**
-   * End time to consider performance data for assessment
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly perfDataEndTime?: Date;
-  /** User configurable setting that describes the status of the assessment. */
-  stage: AssessmentStage;
-  /** Currency to report prices in. */
-  currency: Currency;
-  /** AHUB discount on windows virtual machines. */
-  azureHybridUseBenefit: AzureHybridUseBenefit;
-  /** Custom discount percentage to be applied on final costs. Can be in the range [0, 100]. */
-  discountPercentage: number;
-  /**
-   * Confidence rating percentage for assessment. Can be in the range [0, 100].
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly confidenceRatingInPercentage?: number;
-  /** Assessment sizing criterion. */
-  sizingCriterion: AssessmentSizingCriterion;
-  /** Azure reserved instance. */
-  reservedInstance: ReservedInstance;
-  /** List of azure VM families. */
-  azureVmFamilies: AzureVmFamily[];
-  /** Storage type selected for this disk. */
-  azureDiskType: AzureDiskType;
-  /** Specify the duration for which the VMs are up in the on-premises environment. */
-  vmUptime: VmUptime;
-  /**
-   * Time when the Azure Prices were queried. Date-Time represented in ISO-8601 format.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly pricesTimestamp?: Date;
-  /**
-   * Time when this project was created. Date-Time represented in ISO-8601 format.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdTimestamp?: Date;
-  /**
-   * Time when this project was last updated. Date-Time represented in ISO-8601 format.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly updatedTimestamp?: Date;
-  /**
-   * Monthly compute cost estimate for the machines that are part of this assessment as a group, for a 31-day month.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly monthlyComputeCost?: number;
-  /**
-   * Monthly network cost estimate for the machines that are part of this assessment as a group, for a 31-day month.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly monthlyBandwidthCost?: number;
-  /**
-   * Monthly storage cost estimate for the machines that are part of this assessment as a group, for a 31-day month.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly monthlyStorageCost?: number;
-  /**
-   * Monthly premium storage cost estimate for the machines that are part of this assessment as a group, for a 31-day month.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly monthlyPremiumStorageCost?: number;
-  /**
-   * Monthly standard SSD storage cost estimate for the machines that are part of this assessment as a group, for a 31-day month.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly monthlyStandardSSDStorageCost?: number;
-  /**
-   * Whether the assessment has been created and is valid.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: AssessmentStatus;
-  /**
-   * Number of assessed machines part of this assessment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly numberOfMachines?: number;
-}
-
-export interface VmUptime {
-  /** Number of days in a month for VM uptime. */
-  daysPerMonth?: number;
-  /** Number of hours per day for VM uptime. */
-  hoursPerDay?: number;
-}
-
-/** Download URL for assessment report. */
-export interface DownloadUrl {
-  /**
-   * Hyperlink to download report.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly assessmentReportUrl?: string;
-  /**
-   * Expiry date of download url.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly expirationTime?: Date;
-}
-
-/** List of assessed machines. */
-export interface AssessedMachineResultList {
-  /** List of assessed machines. */
-  value?: AssessedMachine[];
+/** The response of a ImportMachine list operation. */
+export interface ImportMachineListResult {
+  /** The ImportMachine items on this page */
+  value: ImportMachine[];
+  /** The link to the next page of items */
   nextLink?: string;
 }
 
-/** A machine evaluated as part of an assessment. */
-export interface AssessedMachine {
+/** Class representing the imported machine web model. */
+export interface WebRoleImportDisk {
   /**
-   * Path reference to this assessed machine. /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}/assessments/{assessmentName}/assessedMachines/{assessedMachineName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Name of the machine.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /** For optimistic concurrency control. */
-  eTag?: string;
-  /**
-   * Type of the object = [Microsoft.Migrate/assessmentProjects/groups/assessments/assessedMachines].
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Properties of an assessed machine. */
-  properties?: AssessedMachineProperties;
-}
-
-/** Properties of an assessed machine. */
-export interface AssessedMachineProperties {
-  /**
-   * Boot type of the machine.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly bootType?: MachineBootType;
-  /**
-   * ARM ID of the discovered machine.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly datacenterMachineArmId?: string;
-  /**
-   * ARM ID of the discovered datacenter.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly datacenterManagementServerArmId?: string;
-  /**
-   * Name of the server hosting the datacenter management solution.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly datacenterManagementServerName?: string;
-  /**
-   * Description of the machine
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-  /**
-   * User readable name of the machine as defined by the user in their private datacenter.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-  /**
-   * Memory in Megabytes.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly megabytesOfMemory?: number;
-  /**
-   * Processor count.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly numberOfCores?: number;
-  /**
-   * Operating System type of the machine.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operatingSystemType?: string;
-  /**
-   * Operating System name of the machine.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operatingSystemName?: string;
-  /**
-   * Operating System version of the machine.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operatingSystemVersion?: string;
-  /**
-   * Monthly network cost estimate for the network adapters that are attached to this machine as a group, for a 31-day month.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly monthlyBandwidthCost?: number;
-  /**
-   * Monthly storage cost estimate for the disks that are attached to this machine as a group, for a 31-day month.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly monthlyStorageCost?: number;
-  /**
-   * Monthly premium storage cost estimate for the disks that are attached to this machine as a group, for a 31-day month.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly monthlyPremiumStorageCost?: number;
-  /**
-   * Monthly standard SSD storage cost estimate for the disks that are attached to this machine as a group, for a 31-day month.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly monthlyStandardSSDStorageCost?: number;
-  /**
-   * Confidence rating of assessed machine.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly confidenceRatingInPercentage?: number;
-  /**
-   * Dictionary of disks attached to the machine. Key is ID of disk. Value is a disk object.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly disks?: { [propertyName: string]: AssessedDisk };
-  /**
-   * Dictionary of network adapters attached to the machine. Key is name of the adapter. Value is a network adapter object.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly networkAdapters?: { [propertyName: string]: AssessedNetworkAdapter };
-  /**
-   * Recommended Azure size for this machine.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly recommendedSize?: AzureVmSize;
-  /**
-   * Number of CPU cores in the Recommended Azure VM Size.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly numberOfCoresForRecommendedSize?: number;
-  /**
-   * Megabytes of memory in the Recommended Azure VM Size.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly megabytesOfMemoryForRecommendedSize?: number;
-  /**
-   * Compute Cost for a 31-day month, if the machine is migrated to Azure with the Recommended Size.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly monthlyComputeCostForRecommendedSize?: number;
-  /**
-   * Utilization percentage of the processor core as observed in the private data center, in the Time Range selected on Assessment, reported as the Percentile value based on the percentile number selected in assessment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly percentageCoresUtilization?: number;
-  /**
-   * Utilization percentage of the memory as observed in the private data center, in the Time Range selected on Assessment, reported as the Percentile value based on the percentile number selected in assessment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly percentageMemoryUtilization?: number;
-  /**
-   * Whether machine is suitable for migration to Azure.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly suitability?: CloudSuitability;
-  /**
-   * If machine is not ready to be migrated, this explains the reasons and mitigation steps.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly suitabilityExplanation?: AzureVmSuitabilityExplanation;
-  /**
-   * If machine is not suitable for cloud, this explains the reasons.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly suitabilityDetail?: AzureVmSuitabilityDetail;
-  /**
-   * Time when this machine was created. Date-Time represented in ISO-8601 format.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdTimestamp?: Date;
-  /**
-   * Time when this machine was last updated. Date-Time represented in ISO-8601 format.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly updatedTimestamp?: Date;
-}
-
-/** A disk assessed for an assessment. */
-export interface AssessedDisk {
-  /**
-   * Name of the assessed disk.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * User friendly name of the assessed disk.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-  /**
-   * Gigabytes of storage provisioned for this disk.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly gigabytesProvisioned?: number;
-  /**
-   * Disk throughput in MegaBytes per second.
+   * Disk read throughput.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly megabytesPerSecondOfRead?: number;
   /**
-   * Disk throughput in MegaBytes per second.
+   * Disk write throughput.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly megabytesPerSecondOfWrite?: number;
   /**
-   * Number of read operations per second for the disk.
+   * Disk read IOPS.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly numberOfReadOperationsPerSecond?: number;
   /**
-   * Number of read and write operations per second for the disk.
+   * Disk write IOPS.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly numberOfWriteOperationsPerSecond?: number;
-  /**
-   * Estimated aggregate storage cost for a 31-day month for this disk.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly monthlyStorageCost?: number;
-  /**
-   * Storage type selected for this disk.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly recommendedDiskType?: AzureDiskType;
-  /**
-   * Recommended Azure size for the disk, given utilization data and preferences set on Assessment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly recommendedDiskSize?: AzureDiskSize;
-  /**
-   * Gigabytes of storage provided by the recommended Azure disk size.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly gigabytesForRecommendedDiskSize?: number;
-  /**
-   * Whether this disk is suitable for Azure.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly suitability?: CloudSuitability;
-  /**
-   * If disk is not suitable to be migrated, this explains the reasons and mitigation steps.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly suitabilityExplanation?: AzureDiskSuitabilityExplanation;
-  /**
-   * If disk is suitable to be migrate but some conditions/checks were not considered while calculating suitability, this explains the details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly suitabilityDetail?: AzureDiskSuitabilityDetail;
+  /** Gets or sets Bytes allocated for the disk. */
+  maxSizeInBytes?: number;
+  /** Gets or sets Name of the disk. */
+  name?: string;
+  /** Gets or sets Type of the disk. */
+  diskType?: string;
+  /** Gets or sets LUN of the disk. */
+  lun?: number;
+  /** Gets or sets Path of the disk. */
+  path?: string;
 }
 
-/** A network adapter assessed for an assessment. */
-export interface AssessedNetworkAdapter {
+/** Second level object returned as part of Machine REST resource. */
+export interface WebRoleOperatingSystem {
+  /** Gets or sets the type of the operating system. */
+  osType?: string;
+  /** Gets or sets the Name of the operating system. */
+  osName?: string;
+  /** Gets or sets the Version of the operating system. */
+  osVersion?: string;
+  /** Gets or sets the Architecture of the operating system. */
+  osArchitecture?: string;
+}
+
+/** The type used for update operations of the MasterSite. */
+export interface MasterSiteUpdate {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Gets or sets the state of public network access. */
+  publicNetworkAccess?: MasterSitePropertiesPublicNetworkAccess;
   /**
-   * MAC Address of the network adapter.
+   * Gets or sets a value indicating whether multiple sites per site type are
+   * allowed.
+   */
+  allowMultipleSites?: boolean;
+  /**
+   * Gets or sets the sites that are a part of Master Site.
+   *             The key
+   * should contain the Site ARM name.
+   */
+  sites?: string[];
+  /** Gets or sets a value for customer storage account ARM id. */
+  customerStorageAccountArmId?: string;
+}
+
+/** ErrorSummaryRequest body */
+export interface ErrorSummaryRequest {
+  /** Gets or sets the Appliance Name. */
+  applianceName?: string;
+}
+
+/** The response of a PrivateEndpointConnection list operation. */
+export interface PrivateEndpointConnectionListResult {
+  /** The PrivateEndpointConnection items on this page */
+  value: PrivateEndpointConnection[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The response of a PrivateLinkResource list operation. */
+export interface PrivateLinkResourceListResult {
+  /** The PrivateLinkResource items on this page */
+  value: PrivateLinkResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The response of a SqlSite list operation. */
+export interface SqlSiteListResult {
+  /** The SqlSite items on this page */
+  value: SqlSite[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Class for site appliance properties. */
+export interface SiteApplianceProperties {
+  /**  Gets or sets the service principal identity details used by agent for  communication              to the service.  */
+  servicePrincipalIdentityDetails?: SiteSpnProperties;
+  /** Gets or sets the on-premises agent details. */
+  agentDetails?: SiteAgentProperties;
+  /** Gets or sets the Appliance Name. */
+  applianceName?: string;
+}
+
+/** The type used for update operations of the SqlSite. */
+export interface SqlSiteUpdate {
+  /**
+   * Gets or sets the appliance details used by service to communicate
+   *
+   * to the appliance.
+   */
+  siteAppliancePropertiesCollection?: SiteApplianceProperties[];
+  /** Gets or sets the discovery scenario. */
+  discoveryScenario?: SqlSitePropertiesDiscoveryScenario;
+  /** Gets or sets the Arc scope properties for the sql site. */
+  arcScope?: ArcScopePropertiesUpdate;
+}
+
+/** Properties for defining Arc scope. */
+export interface ArcScopePropertiesUpdate {
+  /** Locations to discover Arc resources from. */
+  locations?: string[];
+  /** The type of scope, currently supporting SubscriptionOrResourceGroupIds only. */
+  scopeType?: ArcScopeType;
+  /** List of subscription or resource group ARM IDs. Allowed only if scopeType is SubscriptionOrResourceGroupIds. */
+  subscriptionOrResourceGroupIds?: string[];
+}
+
+/** The response of a SqlDiscoverySiteDataSource list operation. */
+export interface SqlDiscoverySiteDataSourceListResult {
+  /** The SqlDiscoverySiteDataSource items on this page */
+  value: SqlDiscoverySiteDataSource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** SQL Inventory Import URI response object model. */
+export interface SQLInventoryImportBody {
+  /** Gets or sets the job ARM ID. */
+  jobArmId?: string;
+  /** Gets or sets the SAS URI. */
+  uri?: string;
+  /** Gets or sets the import type. */
+  importType?: SqlImportType;
+}
+
+/** ExportSqlServerRequest body */
+export interface ExportSqlServersRequest {
+  /** Gets or sets the Appliance Name. */
+  applianceName?: string;
+  /** filter options. */
+  filter?: string;
+}
+
+/** Paged collection of ImportSqlInventoryJob items */
+export interface PagedImportSqlInventoryJob {
+  /**
+   * The ImportSqlInventoryJob items on this page
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly macAddress?: string;
+  readonly value?: ImportSqlInventoryJob[];
   /**
-   * List of IP Addresses on the network adapter.
+   * The link to the next page of items
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly ipAddresses?: string[];
+  readonly nextLink?: string;
+}
+
+/** Import SQL inventory job REST Resource. */
+export interface ImportSqlInventoryJob {
   /**
-   * User friendly name of the assessed network adapter.
+   * Handled by resource provider.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Gets or sets the import job properties. */
+  properties?: ImportSqlInventoryJobProperties;
+}
+
+/** Import SQL inventory job properties web model */
+export interface ImportSqlInventoryJobProperties {
+  /** Gets the Blob name for the blob to fetch Import file from. */
+  blobName?: string;
+  /** Gets the blob SAS Uri of the input import file. */
+  blobSasUri?: string;
+  /** Gets the Job Result status. */
+  jobResult?: ImportSqlInventoryJobResult;
+  /** Gets the Number of servers imported. */
+  numberOfServersImported?: number;
+  /** Gets the Number of databases imported. */
+  numberOfDatabasesImported?: number;
+  /** Gets the Number of availability groups imported. */
+  numberOfAvailabilityGroupsImported?: number;
+  /** Gets the Blob creation time stamp. */
+  blobCreationTimeStamp?: Date;
+  /** Gets the Job Error Summary. */
+  errorSummary?: SqlImportJobErrorSummary;
+}
+
+/** Job Error Summary */
+export interface SqlImportJobErrorSummary {
+  /** Collection of errors encountered during the SQL import operation */
+  errors?: ErrorResponse[];
+  /** Gets or sets the Number of errors while trying to import SQL Inventory from CSV. */
+  errorCount?: number;
+  /** Gets or sets the Number of warnings while trying to import SQL Inventory from CSV. Warnings are included in the 'errors' array. */
+  warningCount?: number;
+}
+
+/** The response of a SqlJob list operation. */
+export interface SqlJobListResult {
+  /** The SqlJob items on this page */
+  value: SqlJob[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** SQL site refresh. */
+export interface SqlSiteRefreshBody {
+  /** Gets or sets the appliance name of the agent in the site. */
+  applianceName?: string;
+}
+
+/** The response of a SqlRunAsAccount list operation. */
+export interface SqlRunAsAccountListResult {
+  /** The SqlRunAsAccount items on this page */
+  value: SqlRunAsAccount[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The response of a SqlAvailabilityGroup list operation. */
+export interface SqlAvailabilityGroupListResult {
+  /** The SqlAvailabilityGroup items on this page */
+  value: SqlAvailabilityGroup[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Class for SQL Server availability replica properties. */
+export interface SqlAvailabilityReplicaProperties {
+  /** Gets or sets the SQL Availability Replica Name. */
+  availabilityReplicaName?: string;
+  /** Gets or sets the SQL Availability Replica Id. */
+  availabilityReplicaId?: string;
+  /** Gets or sets the replica type of the availability group. */
+  replicaType?: SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaType;
+  /** Gets or sets the state of the availability replica. */
+  replicaState?: SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaState;
+  /** Gets or sets the synchronization status of the replica. */
+  replicaSyncStatus?: SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaSyncStatus;
+  /** Gets or sets the commit mode of the replica. */
+  replicaCommitMode?: SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaCommitMode;
+  /** Gets or sets the read mode of the replica. */
+  replicaReadMode?: SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaReadMode;
+  /** Gets or sets the seed mode of the replica. */
+  replicaSeedMode?: SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaSeedMode;
+  /**
+   * Gets or sets the Availability Replica object if Replica is of type database.
+   * This is null in case Replica is
+   *             of type AG. This is to be populated
+   * in case of normal AG.
+   */
+  sqlDatabaseReplicaInfo?: SqlDatabaseReplicaInfo;
+  /**
+   * Gets or sets the Availability Replica object if Replica is of type AG. This is
+   * null in case Replica is
+   *             of type database. This is to be populated
+   * in case AG is of type DAG.
+   */
+  sqlAvailabilityGroupReplicaInfo?: SqlAvailabilityGroupReplicaInfo;
+}
+
+/**
+ * Class which represents the SQL availability replica properties of type
+ * databases.
+ */
+export interface SqlDatabaseReplicaInfo {
+  /** Gets or sets the host name of the availability replica. */
+  hostName?: string;
+  /** Gets or sets the SQL Server name of the availability replica. */
+  sqlServerName?: string;
+  /** Gets or sets the SQL Server name of the availability replica. */
+  sqlServerArmId?: string;
+}
+
+/** Class which represents the SQL availability replica properties of type AG. */
+export interface SqlAvailabilityGroupReplicaInfo {
+  /** Gets or sets the name of the cluster on which this replica is hosted. */
+  clusterName?: string;
+  /** Gets or sets the name of the availability replica. */
+  availabilityGroupName?: string;
+  /** Gets or sets the AG ARM ID which are part of this Replica. */
+  availabilityGroupArmId?: string;
+}
+
+/** Web model for SQL replica overview. */
+export interface SqlAvailabilityReplicaOverview {
+  /** Gets or sets the state of the availability replica. */
+  replicaState?: SqlAvailabilityReplicaOverviewReplicaState;
+  /**
+   * Gets or sets the SQL Availability Replica Id within the Availability Group this
+   * database is a part of.
+   */
+  availabilityReplicaId?: string;
+  /**
+   * Gets or sets the Availability Group Id in which this database participates if
+   * any. It would be set if the database has
+   * {Microsoft.Azure.FDS.CosmosDB.SqlDatabaseEntity.IsDatabaseHighlyAvailable} has
+   * a value "true".
+   */
+  availabilityGroupArmId?: string;
+  /** Gets or sets the SQL Availability group name. */
+  availabilityGroupName?: string;
+}
+
+/** The response of a SqlDatabaseV2 list operation. */
+export interface SqlDatabaseV2ListResult {
+  /** The SqlDatabaseV2 items on this page */
+  value: SqlDatabaseV2[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** File Metadata web model. */
+export interface FileMetaData {
+  /** Gets or sets the logical name of the file. */
+  logicalName?: string;
+  /** Gets or sets the operating-system full path of the file. */
+  physicalFullName?: string;
+  /** Gets or sets the database file type. */
+  fileType?: FileType;
+  /** Gets or sets the size of the file in MB. */
+  sizeInMb?: number;
+  /** Gets or sets a value indicating whether memory optimized data option is enabled. */
+  isMemoryOptimizedDataOptionEnabled?: boolean;
+}
+
+/** The properties of a server machine tracked resource */
+export interface Errors {
+  /**
+   * Gets the error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * Gets the message parameters.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly messageParameters?: { [propertyName: string]: string };
+  /**
+   * Gets the appliance name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applianceName?: string;
+  /**
+   * Gets the error ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: number;
+  /**
+   * Gets the error name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Gets the possible causes of error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly possibleCauses?: string;
+  /**
+   * Gets the recommended action to resolve error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recommendedAction?: string;
+  /**
+   * Gets the error severity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly severity?: string;
+  /**
+   * Gets the error summary message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly summaryMessage?: string;
+  /**
+   * Gets the error source.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly source?: MicrosoftAzureFDSWebRoleHealthErrorDetailsSource;
+  /**
+   * Gets the time stamp when the error was updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedTimeStamp?: Date;
+  /**
+   * Gets run as account id used while performing discovery             of entity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly runAsAccountId?: string;
+  /**
+   * Gets discovery scope for which             error is encountered.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly discoveryScope?: HealthErrorDetailsDiscoveryScope;
+}
+
+/** The response of a SqlServerV2 list operation. */
+export interface SqlServerV2ListResult {
+  /** The SqlServerV2 items on this page */
+  value: SqlServerV2[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Gets or sets SQL machine overview data. */
+export interface SqlMachineOverview {
+  /** Gets or sets SQL machine ARM ID. */
+  machineArmId?: string;
+  /** Gets or sets SQL machine display name. */
+  displayName?: string;
+  /** Gets or sets SQL machine FCI role. */
+  fciRole?: SqlMachineOverviewFciRole;
+}
+
+/** The class representing the properties for an FCI instance. */
+export interface SqlFciProperties {
+  /** Gets or sets the state of the FCI instance. */
+  state?: FCIInstanceState;
+  /** Gets or sets the FCI Network Name used to connect to this FCI instance. */
+  networkName?: string;
+  /**
+   * Gets or sets a value indicating whether the FCI is hosted on possible owners
+   * which are in multiple subnets.
+   */
+  isMultiSubnet?: boolean;
+  /** Gets or sets the count of Shared Disks for SQL FCI. */
+  sharedDiskCount?: number;
+}
+
+/** The type used for update operations of the SqlServerV2. */
+export interface SqlServerV2Update {
+  /** Gets or sets the number of databases part of availability group on this SQL instance. */
+  numberOfAgDatabases?: number;
+  /** Gets or sets the FCI properties if the instance is an FCI instance. This would be populated if IsClustered is true. */
+  sqlFciProperties?: SqlFciProperties;
+  /** product support status. */
+  productSupportStatus?: ProductSupportStatus;
+  /** Gets or sets the SQL server version. */
+  version?: string;
+  /** Gets or sets total number of users databases. */
+  numberOfUserDatabases?: number;
+  /** Gets or sets total size of all user databases. */
+  sumOfUserDatabasesSizeInMb?: number;
+  /** Gets or sets size of temp database. */
+  tempDbSizeInMb?: number;
+  /** Gets or sets maximum server memory in use. */
+  maxServerMemoryInUseInMb?: number;
+  /** Gets or sets the SQL server number of cores that have visible online status. */
+  visibleOnlineCoreCount?: number;
+  /** Gets or sets number of logins. */
+  numOfLogins?: number;
+  /** Gets or sets physical CPU count. */
+  physicalCpuCount?: number;
+  /** Gets or sets logical CPU count. */
+  logicalCpuCount?: number;
+  /** Gets or sets the SQL server engine edition. */
+  engineEdition?: string;
+  /** Gets or sets the SQL server edition. */
+  edition?: string;
+  /** Gets or sets a value indicating whether High Availability is enabled or not. */
+  isHighAvailabilityEnabled?: boolean;
+  /** Gets or sets a value indicating whether failover cluster is configured or not. */
+  isClustered?: boolean;
+  /** Gets or sets the Hyper thread ratio. */
+  hyperthreadRatio?: number;
+  /** Gets or sets the SQL start time. */
+  sqlStartTime?: Date;
+  /** Gets or sets the run as account ID of the SQL server. */
+  runAsAccountId?: string;
+  /** Gets or sets the hydrated run as account ID of the SQL server. */
+  hydratedRunAsAccountId?: string;
+  /** Gets or sets hostname. */
+  hostName?: string;
+  /** Gets or sets the SQL server instance name. */
+  sqlServerName?: string;
+  /** Gets or sets the Preferred Port Number. */
+  portNumber?: number;
+  /** Gets or sets tags on the resource. */
+  tags?: { [propertyName: string]: Record<string, unknown> };
+  /** Gets or sets a value indicating whether the entity is deleted. */
+  isDeleted?: boolean;
+  /** Gets or sets the marking machine creation. */
+  createdTimestamp?: string;
+  /** Gets or sets the timestamp marking last updated on the machine. */
+  updatedTimestamp?: string;
+  /** Gets or sets the powered on status. */
+  status?: SqlServerStatus;
+  /** The status of the last operation. */
+  provisioningState?: ProvisioningState;
+}
+
+/** SQL site usage. */
+export interface SqlSiteUsage {
+  /** Gets or sets the number of servers discovered in the site. */
+  serverCount?: number;
+  /** Gets or sets the number of databases discovered in the site. */
+  databaseCount?: number;
+  /** Gets or sets the number of run as accounts in the site. */
+  runAsAccountCount?: number;
+}
+
+/** The response of a WebAppSite list operation. */
+export interface WebAppSiteListResult {
+  /** The WebAppSite items on this page */
+  value: WebAppSite[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The type used for update operations of the WebAppSite. */
+export interface WebAppSiteUpdate {
+  /**
+   * Gets or sets the appliance details used by service to communicate
+   *
+   * to the appliance.
+   */
+  siteAppliancePropertiesCollection?: SiteApplianceProperties[];
+  /** Gets or sets the discovery scenario. */
+  discoveryScenario?: WebAppSitePropertiesDiscoveryScenario;
+}
+
+/** The response of a DiscoverySiteDataSource list operation. */
+export interface DiscoverySiteDataSourceListResult {
+  /** The DiscoverySiteDataSource items on this page */
+  value: DiscoverySiteDataSource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** ExportWebAppsRequest body */
+export interface ExportWebAppsRequest {
+  /** filter options. */
+  filter?: string;
+}
+
+/** The response of a WebAppExtendedMachine list operation. */
+export interface WebAppExtendedMachineListResult {
+  /** The WebAppExtendedMachine items on this page */
+  value: WebAppExtendedMachine[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The response of a IisWebApplications list operation. */
+export interface IisWebApplicationsListResult {
+  /** The IisWebApplications items on this page */
+  value: IisWebApplications[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/**
+ * Second-level object for identification of application units in a web site
+ * hosted on IIS.
+ */
+export interface IisApplicationUnit {
+  /** Gets or sets the path of the directory. */
+  applicationPoolName?: string;
+  /** Gets or sets the managed pipeline mode. */
+  managedPipelineMode?: string;
+  /** Gets or sets the runtime version. */
+  runtimeVersion?: string;
+  /**
+   * Gets or sets a value indicating whether 32 bit applications are allowed to run
+   * on 64 bit.
+   */
+  enable32BitApiOnWin64?: boolean;
+  /** Gets or sets the path of the directory. */
+  path?: DirectoryPath;
+  /** Gets or sets the list of directories. */
+  directories?: DirectoryPath[];
+}
+
+/** Second level entity for virtual directories. */
+export interface DirectoryPath {
+  /** Gets or sets the virtual path for the directory. */
+  virtual?: string;
+  /** Gets or sets the physical path of the directory on the web server. */
+  physical?: string;
+}
+
+/**
+ * Second-level object for identification of virtual applications in a web site
+ * hosted on IIS.
+ */
+export interface IisVirtualApplicationUnit {
+  /**
+   * Gets a value indicating whether the application corresponds to a directory.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isVirtualDirectory?: boolean;
+  /** Gets or sets the path of the directory. */
+  path?: DirectoryPath;
+  /** Gets or sets the list of directories. */
+  directories?: DirectoryPath[];
+}
+
+/** Frontend bindings for a web application. */
+export interface FrontEndBinding {
+  /** Gets or sets the Binding protocol. */
+  protocol?: string;
+  /** Gets or sets the Host name. */
+  hostName?: string;
+  /** Gets or sets the Port number. */
+  port?: string;
+  /** Gets or sets the IP Address. */
+  ipAddress?: string;
+}
+
+/** Framework specific data for a web application. */
+export interface WebApplicationFramework {
+  /** Gets or sets Name of the framework. */
+  name?: string;
+  /** Gets or sets Version of the framework. */
+  version?: string;
+}
+
+/** Web Application configuration unit. */
+export interface WebApplicationConfigurationUnit {
+  /** Gets or sets the configuration name. */
+  name?: string;
+  /** Gets or sets the configuration file path. */
+  filePath?: string;
+  /** Gets or sets the configuration local file path. */
+  localFilePath?: string;
+  /** Gets or sets the configuration target file path. */
+  targetFilePath?: string;
+  /** Gets or sets the configuration section in the file. */
+  section?: string;
+  /** Gets or sets the configuration type. */
+  type?: string;
+  /**
+   * Gets or sets a value indicating whether the configuration is edited or not by
+   * the user.
+   */
+  isDeploymentTimeEditable?: boolean;
+  /** Gets or sets the identifier for the configuration. */
+  identifier?: string;
+}
+
+/** Web Application directory unit. */
+export interface WebApplicationDirectoryUnit {
+  /** Gets or sets the unique id corresponding to the application directory. */
+  id?: string;
+  /**
+   * Gets or sets a value indicating whether the directory object is editable.
+   *
+   *       True when the directory is added as an optional directory, false when
+   * discovery is done
+   *             manually.
+   */
+  isEditable?: boolean;
+  /** Gets or sets the paths of the directory on the source machine. */
+  sourcePaths?: string[];
+  /** Gets or sets the local scratch path at which the directories has been copied. */
+  localScratchPath?: string;
+  /** Gets or sets the mount path of the application directory. */
+  mountPath?: string;
+  /** Gets or sets the size of the directory on the source machine. */
+  sourceSize?: string;
+}
+
+/** The type used for update operations of the IisWebApplications. */
+export interface IisWebApplicationsUpdate {
+  /** Gets or sets tags on the resource. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** The response of a IisWebServers list operation. */
+export interface IisWebServersListResult {
+  /** The IisWebServers items on this page */
+  value: IisWebServers[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Request body for Proxy site refresh action. */
+export interface ProxySiteRefreshBody {
+  /** Gets or sets the appliance name of the agent in the site. */
+  applianceName?: string;
+}
+
+/** The response of a WebAppRunAsAccount list operation. */
+export interface WebAppRunAsAccountListResult {
+  /** The WebAppRunAsAccount items on this page */
+  value: WebAppRunAsAccount[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Web app site usage. */
+export interface WebAppSiteUsage {
+  /** Gets or sets the number of web servers discovered in the site. */
+  webServerCount?: number;
+  /** Gets or sets the number of web applications discovered in the site. */
+  webApplicationCount?: number;
+  /** Gets or sets the number of run as accounts in the site. */
+  runAsAccountCount?: number;
+}
+
+/** The response of a TomcatWebApplications list operation. */
+export interface TomcatWebApplicationsListResult {
+  /** The TomcatWebApplications items on this page */
+  value: TomcatWebApplications[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The response of a TomcatWebServers list operation. */
+export interface TomcatWebServersListResult {
+  /** The TomcatWebServers items on this page */
+  value: TomcatWebServers[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Tomcat service data. */
+export interface TomcatServiceUnit {
+  /** Gets or sets the name of the service. */
+  name?: string;
+  /** Gets or sets the connectors defined for the service component. */
+  connectors?: ConnectorUnit[];
+  /** Gets or sets the engine defined for the service component. */
+  engine?: TomcatEngineUnit;
+}
+
+/** The connectors of the web server. */
+export interface ConnectorUnit {
+  /** Gets or sets the bindings for the connector. */
+  bindings?: FrontEndBinding[];
+}
+
+/** Tomcat engine data. */
+export interface TomcatEngineUnit {
+  /** Gets or sets the name of the engine. */
+  name?: string;
+  /** Gets or sets the hosts defined for the engine. */
+  hosts?: TomcatHostUnit[];
+}
+
+/** Tomcat host data. */
+export interface TomcatHostUnit {
+  /** Gets or sets the name of the host. */
+  name?: string;
+  /** Gets or sets the app base path for the host. */
+  appBasePath?: string;
+  /** Gets or sets the app base value configured for the host. */
+  appBase?: string;
+}
+
+/** Collection of web app properties. */
+export interface WebAppPropertiesCollection {
+  /** Gets or sets the list of web app properties. */
+  webApps?: WebAppProperties[];
+}
+
+/** Class representing web app properties web model. */
+export interface WebAppProperties {
+  /** Gets or sets the arm id of the web app. */
+  webAppArmId?: string;
+  /** Gets or sets Tags. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** The response of a WebApplication list operation. */
+export interface WebApplicationListResult {
+  /** The WebApplication items on this page */
+  value: WebApplication[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The response of a WebServer list operation. */
+export interface WebServerListResult {
+  /** The WebServer items on this page */
+  value: WebServer[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The type used for update operations of the ServerSiteResource. */
+export interface ServerSiteResourceUpdate {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /**
+   * Gets or sets the service principal identity details used by agent for
+   * communication
+   *             to the service.
+   */
+  servicePrincipalIdentityDetails?: SiteSpnProperties;
+  /** Gets or sets the on-premises agent details. */
+  agentDetails?: SiteAgentProperties;
+  /** Gets or sets the Appliance Name. */
+  applianceName?: string;
+  /** Gets or sets the ARM ID of migration hub solution for SDS. */
+  discoverySolutionId?: string;
+  /** Gets or sets the Arc scope properties for the server site. */
+  arcScope?: ArcScopePropertiesUpdate;
+}
+
+/** The properties of ServerSiteUsageResponse. */
+export interface ServerSiteUsageResponse {
+  /** Gets or sets the number of run as accounts in the site. */
+  runAsAccounts: number;
+  /** Gets or sets the number of servers part of the site. */
+  serverCount: number;
+}
+
+/** The response of a ServerJob list operation. */
+export interface ServerJobListResult {
+  /** The ServerJob items on this page */
+  value: ServerJob[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The response of a Server list operation. */
+export interface ServerListResult {
+  /** The Server items on this page */
+  value: Server[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Second level object represented in responses as part of Machine REST resource. */
+export interface ServerNetworkAdapter {
+  /** Gets or sets the NIC Id. */
+  nicId?: string;
+  /** Gets or sets Mac address of the NIC. */
+  macAddress?: string;
+  /**
+   * Gets IP addresses for the machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ipAddressList?: string[];
+  /** Gets or sets Network Name. */
+  networkName?: string;
+  /** Gets or sets Type of the IP address. */
+  ipAddressType?: string;
+}
+
+/** Server disk details. */
+export interface ServerDisk {
+  /** Gets or sets Id of the disk. */
+  id?: string;
+  /** Gets or sets generated Id of the disk. */
+  generatedId?: string;
+  /** Gets or sets Bytes allocated for the disk. */
+  maxSizeInBytes?: number;
+  /** Gets or sets Name of the disk. */
+  name?: string;
+  /** Gets or sets Type of the disk. */
+  diskType?: string;
+  /** Gets or sets LUN of the disk. */
+  lun?: number;
+  /** Gets or sets Path of the disk. */
+  path?: string;
+}
+
+/** Processor Information. */
+export interface ProcessorInfo {
+  /** Gets or sets the name\model of a processor. */
+  name?: string;
+  /** Gets or sets the number of sockets. */
+  numberOfSockets?: number;
+  /** Gets or sets the total number of cores in a socket. */
+  numberOfCoresPerSocket?: number;
+}
+
+/** The type used for update operations of the Server. */
+export interface ServerUpdate {
+  /** Gets or sets the FQDN/IPAddress of the server. */
+  fqdn?: string;
+  /** Gets or sets the network adapters of the server. */
+  networkAdapters?: ServerNetworkAdapter[];
+  /** Gets or sets the FQDN of machine which can be changed. */
+  hydratedFqdn?: string;
+  /** Gets or sets the disk details of server. */
+  disks?: ServerDisk[];
+  /** Gets or sets the validation required for the machine. */
+  validationRequired?: string;
+  /** Gets or sets the firmware. */
+  firmware?: string;
+  /** Gets or sets the run as account ID of the machine. */
+  runAsAccountId?: string;
+  /** product support status. */
+  productSupportStatus?: ProductSupportStatus;
+  /**
+   * Gets or sets the Number of Processor Cores
+   *             allocated for the
+   * machine.
+   */
+  numberOfProcessorCore?: number;
+  /** Gets or sets the allocated Memory in MB. */
+  allocatedMemoryInMb?: number;
+  /** Gets or sets the Operating System Details installed on the machine. */
+  operatingSystemDetails?: OperatingSystem;
+  /** Gets or sets the Machine BIOS serial number. */
+  biosSerialNumber?: string;
+  /** Gets or sets the BIOS GUID. */
+  biosGuid?: string;
+  /** Gets or sets tags on the Server machine. */
+  tags?: { [propertyName: string]: Record<string, unknown> };
+  /** Provisioning state of the server resource. */
+  provisioningState?: ProvisioningState;
+}
+
+/** The response of a ServerSoftwareInventory list operation. */
+export interface ServerSoftwareInventoryListResult {
+  /** The ServerSoftwareInventory items on this page */
+  value: ServerSoftwareInventory[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The response of a ServerRunAsAccount list operation. */
+export interface ServerRunAsAccountListResult {
+  /** The ServerRunAsAccount items on this page */
+  value: ServerRunAsAccount[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Server site usage. */
+export interface ServerSiteUsage {
+  /** Gets or sets the number of run as accounts in the site. */
+  runAsAccountCount?: number;
+  /** Gets or sets the number of servers part of the site. */
+  serverCount?: number;
+}
+
+/** The type used for update operations of the VmwareSite. */
+export interface VmwareSiteUpdate {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /**
+   * Gets or sets the service principal identity details used by agent for
+   * communication
+   *             to the service.
+   */
+  servicePrincipalIdentityDetails?: SiteSpnProperties;
+  /** Gets or sets the on-premises agent details. */
+  agentDetails?: SiteAgentProperties;
+  /** Gets or sets the Appliance Name. */
+  applianceName?: string;
+  /** Gets or sets the ARM ID of migration hub solution for SDS. */
+  discoverySolutionId?: string;
+  /** The status of the last operation. */
+  provisioningState?: ProvisioningState;
+}
+
+/** VMware site usage. */
+export interface VmwareSiteUsage {
+  /** Gets or sets the number of machines discovered in the site. */
+  machineCount?: number;
+  /** Gets or sets the number of run as accounts in the site. */
+  runAsAccountCount?: number;
+  /** Gets or sets the number of vCenters part of the site. */
+  vCenterCount?: number;
+}
+
+/** ExportMachinesRequest body */
+export interface ExportMachinesRequest {
+  /** filter options. */
+  filter?: string;
+}
+
+/** The response of a VmwareHost list operation. */
+export interface VmwareHostListResult {
+  /** The VmwareHost items on this page */
+  value: VmwareHost[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Second level object returned as part of VMware host REST resource. */
+export interface VmwareDatastore {
+  /**
+   * Data store UUID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uuid?: string;
+  /**
+   * Capacity of the data store.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly capacityInGb?: number;
+  /**
+   * Free space of the data store.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly freeSpaceInGb?: number;
+  /**
+   * Type of the data store.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: VMwareDatastoreType;
+  /**
+   * Symbolic name of the data store.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly symbolicName?: string;
+}
+
+/** The response of a VmwareJob list operation. */
+export interface VmwareJobListResult {
+  /** The VmwareJob items on this page */
+  value: VmwareJob[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The response of a MachineResource list operation. */
+export interface MachineResourceListResult {
+  /** The MachineResource items on this page */
+  value: MachineResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Second level object returned as part of Machine REST resource. */
+export interface VmwareDisk {
+  /**
+   * Disk UUID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uuid?: string;
+  /**
+   * Label of the disk.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly label?: string;
+  /**
+   * The provisioning policy of the disk.
+   *             It is Thin or Thick or
+   * Unknown for the VMWare VMDK.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diskProvisioningPolicy?: string;
+  /**
+   * The scrubbing policy of disks which can be
+   *             eagerly zeroed or
+   * lazily zeroed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diskScrubbingPolicy?: string;
+  /**
+   * Disk mode property used for identifying independent disks.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diskMode?: string;
+  /**
+   * Gets or sets a value indicating the type of the disk controller type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly controllerType?: string;
+  /** Gets or sets Bytes allocated for the disk. */
+  maxSizeInBytes?: number;
+  /** Gets or sets Name of the disk. */
+  name?: string;
+  /** Gets or sets Type of the disk. */
+  diskType?: string;
+  /** Gets or sets LUN of the disk. */
+  lun?: number;
+  /** Gets or sets Path of the disk. */
+  path?: string;
+}
+
+/** Second level object represented in responses as part of Machine REST resource. */
+export interface VmwareNetworkAdapter {
+  /**
+   * Label of the NIC.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly label?: string;
+  /**
+   * Gets or sets the adapter type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly adapterType?: string;
+  /** Gets or sets the NIC Id. */
+  nicId?: string;
+  /** Gets or sets Mac address of the NIC. */
+  macAddress?: string;
+  /**
+   * Gets IP addresses for the machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ipAddressList?: string[];
+  /** Gets or sets Network Name. */
+  networkName?: string;
+  /** Gets or sets Type of the IP address. */
+  ipAddressType?: string;
+}
+
+/** The type used for update operations of the MachineResource. */
+export interface MachineResourceUpdate {
+  /** Gets or sets the firmware. */
+  firmware?: string;
+  /** Gets or sets the run as account ID of the machine. */
+  runAsAccountId?: string;
+  /** product support status. */
+  productSupportStatus?: ProductSupportStatus;
+  /**
+   * Gets or sets the Number of Processor Cores
+   *             allocated for the
+   * machine.
+   */
+  numberOfProcessorCore?: number;
+  /** Gets or sets the allocated Memory in MB. */
+  allocatedMemoryInMb?: number;
+  /** Gets or sets the Operating System Details installed on the machine. */
+  operatingSystemDetails?: OperatingSystem;
+  /** Gets or sets the Machine BIOS serial number. */
+  biosSerialNumber?: string;
+  /** Gets or sets the BIOS GUID. */
+  biosGuid?: string;
+  /** Gets or sets tags on the VMware machine. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** The response of a VmwareMachineSoftwareInventory list operation. */
+export interface VmwareMachineSoftwareInventoryListResult {
+  /** The VmwareMachineSoftwareInventory items on this page */
+  value: VmwareMachineSoftwareInventory[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The response of a VmwareRunAsAccountResource list operation. */
+export interface VmwareRunAsAccountResourceListResult {
+  /** The VmwareRunAsAccountResource items on this page */
+  value: VmwareRunAsAccountResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/**
+ * Defines class that represents input to update RunAsAccount on machine
+ *
+ *       for cosmos entity operation.
+ */
+export interface UpdateMachineRunAsAccount {
+  /** Gets or sets the machine collection. */
+  machines?: RunAsAccountMachineInput[];
+}
+
+/** Machine class. */
+export interface RunAsAccountMachineInput {
+  /** Gets or sets the ARM id of the machine. */
+  machineId?: string;
+  /** run as AccountId */
+  runAsAccountId?: string;
+}
+
+/**
+ * Defines class that represents input to update Tags on machine
+ *
+ *       for cosmos entity operation.
+ */
+export interface UpdateMachineTags {
+  /** Gets or sets the machine collection. */
+  machines?: TagsMachineInput[];
+}
+
+/** Machine class. */
+export interface TagsMachineInput {
+  /** Gets or sets the ARM id of the machine. */
+  machineId?: string;
+  /** run as AccountId */
+  tags?: { [propertyName: string]: string };
+}
+
+/** The response of a Vcenter list operation. */
+export interface VcenterListResult {
+  /** The Vcenter items on this page */
+  value: Vcenter[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Delete import machines job collection. */
+export interface DeleteImportMachinesJobCollection {
+  /** Gets the list of jobs. */
+  value: DeleteImportMachinesJob[];
+  /**
+   * Gets the value of next link.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Run as account REST Resource. */
+export interface V20180501PreviewVmwareRunAsAccount {
+  /**
+   * Relative URL to get this run as account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Gets the Name of the Run as account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Handled by resource provider. Type =
+   * Microsoft.OffAzure/VMWareSites/RunAsAccounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Gets nested properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly properties?: RunAsAccountProperties;
+}
+
+/** Collection of VMware run as accounts. */
+export interface V20180501PreviewVmwareRunAsAccountVmwareRunAsAccountCollection {
+  /** Gets the list of run as accounts. */
+  value?: V20180501PreviewVmwareRunAsAccount[];
+  /**
+   * Gets the value of next link.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+/** A HyperV SiteResource */
+export interface HypervSite extends TrackedResource {
+  /**
+   * Gets the Master Site this site is linked to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly masterSiteId?: string;
+  /**
+   * Gets or sets the service principal identity details used by agent for
+   * communication
+   *             to the service.
+   */
+  servicePrincipalIdentityDetails?: SiteSpnProperties;
+  /** Gets or sets the on-premises agent details. */
+  agentDetails?: SiteAgentProperties;
+  /** Gets or sets the Appliance Name. */
+  applianceName?: string;
+  /** Gets or sets the ARM ID of migration hub solution for SDS. */
+  discoverySolutionId?: string;
+  /**
+   * Gets the service endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceEndpoint?: string;
+  /** The status of the last operation. */
+  provisioningState?: ProvisioningState;
+}
+
+/** A ImportSite */
+export interface ImportSite extends TrackedResource {
+  /** Gets or sets the ARM ID of migration hub solution for SDS. */
+  discoverySolutionId?: string;
+  /**
+   * Gets the Master Site this site is linked to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly masterSiteId?: string;
+  /**
+   * Gets the service endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceEndpoint?: string;
+  /** The status of the last operation. */
+  provisioningState?: ProvisioningState;
+}
+
+/** A MasterSite */
+export interface MasterSite extends TrackedResource {
+  /** Gets or sets the state of public network access. */
+  publicNetworkAccess?: MasterSitePropertiesPublicNetworkAccess;
+  /**
+   * Gets or sets a value indicating whether multiple sites per site type are
+   * allowed.
+   */
+  allowMultipleSites?: boolean;
+  /**
+   * Gets or sets the sites that are a part of Master Site.
+   *             The key
+   * should contain the Site ARM name.
+   */
+  sites?: string[];
+  /** Gets or sets a value for customer storage account ARM id. */
+  customerStorageAccountArmId?: string;
+  /**
+   * Gets the private endpoint connections.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /**
+   * Gets the nested sites under Master Site.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nestedSites?: string[];
+  /**
+   * provisioning state enum
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Gets the last refresh time of arc status in UTC.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastRefreshArcStatusTime?: Date;
+}
+
+/** A ServerSiteResource */
+export interface ServerSiteResource extends TrackedResource {
+  /**
+   * Gets the Master Site this site is linked to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly masterSiteId?: string;
+  /** Gets or sets the service principal identity details used by agent for communication to the service. */
+  servicePrincipalIdentityDetails?: SiteSpnProperties;
+  /** Gets or sets the on-premises agent details. */
+  agentDetails?: SiteAgentProperties;
+  /** Gets or sets the Appliance Name. */
+  applianceName?: string;
+  /** Gets or sets the ARM ID of migration hub solution for SDS. */
+  discoverySolutionId?: string;
+  /**
+   * Gets the service endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceEndpoint?: string;
+  /**
+   * The status of the last operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Gets or sets the Arc scope properties for the server site. */
+  arcScope?: ArcScopeProperties;
+}
+
+/** A VmwareSite */
+export interface VmwareSite extends TrackedResource {
+  /**
+   * If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eTag?: string;
+  /**
+   * Gets the Master Site this site is linked to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly masterSiteId?: string;
+  /**
+   * Gets or sets the service principal identity details used by agent for
+   * communication
+   *             to the service.
+   */
+  servicePrincipalIdentityDetails?: SiteSpnProperties;
+  /** Gets or sets the on-premises agent details. */
+  agentDetails?: SiteAgentProperties;
+  /** Gets or sets the Appliance Name. */
+  applianceName?: string;
+  /** Gets or sets the ARM ID of migration hub solution for SDS. */
+  discoverySolutionId?: string;
+  /**
+   * Gets the service endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceEndpoint?: string;
+  /**
+   * The status of the last operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** REST model used to encapsulate Private Link properties for tracked resources. */
+export interface PrivateEndpointConnection extends ProxyResource {
+  /**
+   * array of group ids
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupIds?: string[];
+  /**
+   * provisioning state enum
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * private endpoints
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpoint?: ResourceId;
+  /** private endpoints connection state */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+}
+
+/** A cluster resource belonging to a site resource. */
+export interface HypervCluster extends ProxyResource {
+  /**
+   * Gets the timestamp marking Hyper-V cluster creation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTimestamp?: string;
+  /**
+   * Gets the timestamp marking last updated on the Hyper-V cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedTimestamp?: string;
+  /** Gets or sets the FQDN/IPAddress of the Hyper-V cluster. */
+  fqdn?: string;
+  /**
+   * Gets the functional level of the Hyper-V cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly functionalLevel?: number;
+  /**
+   * Gets the status of the Hyper-V cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /** Gets or sets Run as account ID of the Hyper-V cluster. */
+  runAsAccountId?: string;
+  /** Gets or sets list of hosts (FQDN) currently being tracked by the cluster. */
+  hostFqdnList?: string[];
+  /**
+   * Gets the errors.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: HealthErrorDetails[];
+  /** The status of the last operation. */
+  provisioningState?: ProvisioningState;
+}
+
+/** A host resource belonging to a site resource. */
+export interface HypervHost extends ProxyResource {
+  /**
+   * Gets the timestamp marking Hyper-V host creation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTimestamp?: string;
+  /**
+   * Gets the timestamp marking last updated on the Hyper-V host.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedTimestamp?: string;
+  /** Gets or sets the FQDN/IPAddress of the Hyper-V host. */
+  fqdn?: string;
+  /** Gets or sets the run as account ID of the Hyper-V host. */
+  runAsAccountId?: string;
+  /**
+   * Gets the version of the Hyper-V host.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+  /**
+   * Gets the errors.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: HealthErrorDetails[];
+  /** The status of the last operation. */
+  provisioningState?: ProvisioningState;
+}
+
+/** A job resource belonging to a site resource. */
+export interface HypervJob extends ProxyResource {
+  /**
+   * Gets operation status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * Gets operation start time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: string;
+  /**
+   * Gets operation end time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: string;
+  /**
+   * Gets or sets the display name of the Job.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly displayName?: string;
   /**
-   * Monthly cost estimate for network bandwidth used by this network adapter.
+   * Gets the client request Id used in the operation execution context.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly monthlyBandwidthCosts?: number;
+  readonly clientRequestId?: string;
   /**
-   * Adapter throughput for incoming traffic in MegaBytes per second.
+   * Gets the activity Id used in the operation execution context.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly megabytesPerSecondReceived?: number;
+  readonly activityId?: string;
   /**
-   * Adapter throughput for outgoing traffic in MegaBytes per second.
+   * Gets the errors.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly megabytesPerSecondTransmitted?: number;
-  /** Gigabytes transmitted through this adapter each month. */
-  netGigabytesTransmittedPerMonth?: number;
+  readonly errors?: ErrorDetails[];
   /**
-   * Whether this adapter is suitable for Azure.
+   * The status of the last operation.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly suitability?: CloudSuitability;
-  /**
-   * If network adapter is suitable, this explains the reasons and mitigation steps.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly suitabilityExplanation?: AzureNetworkAdapterSuitabilityExplanation;
-  /**
-   * If network adapter is not suitable for cloud, this explains the reasons.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly suitabilityDetail?: AzureNetworkAdapterSuitabilityDetail;
+  readonly provisioningState?: ProvisioningState;
 }
 
-/** List of Hyper-V collectors. */
-export interface HyperVCollectorList {
-  /** List of Hyper-V collectors. */
-  value?: HyperVCollector[];
-}
-
-export interface HyperVCollector {
-  eTag?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly id?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly name?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly type?: string;
-  properties?: CollectorProperties;
-}
-
-export interface CollectorProperties {
-  /** The ARM id of the discovery service site. */
-  discoverySiteId?: string;
+/** A machine resource belonging to a site resource. */
+export interface HypervMachine extends ProxyResource {
   /**
-   * Time when this collector was created. Date-Time represented in ISO-8601 format.
+   * On-premise Instance UUID of the machine.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly createdTimestamp?: string;
+  readonly instanceUuid?: string;
   /**
-   * Time when this collector was updated. Date-Time represented in ISO-8601 format.
+   * Host FQDN/IPAddress.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly updatedTimestamp?: string;
-  agentProperties?: CollectorAgentProperties;
-}
-
-export interface CollectorAgentProperties {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly id?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly hostFqdn?: string;
+  /**
+   * Host ARM ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hostId?: string;
+  /**
+   * Generation of the virtual machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly generation?: number;
+  /**
+   * VM version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
   readonly version?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly lastHeartbeatUtc?: Date;
-  spnDetails?: CollectorBodyAgentSpnProperties;
-}
-
-export interface CollectorBodyAgentSpnProperties {
-  /** AAD Authority URL which was used to request the token for the service principal. */
-  authority?: string;
-  /** Application/client Id for the service principal with which the on-premise management/data plane components would communicate with our Azure services. */
-  applicationId?: string;
-  /** Intended audience for the service principal. */
-  audience?: string;
-  /** Object Id of the service principal with which the on-premise management/data plane components would communicate with our Azure services. */
-  objectId?: string;
-  /** Tenant Id for the service principal with which the on-premise management/data plane components would communicate with our Azure services. */
-  tenantId?: string;
-}
-
-/** List of Server collectors. */
-export interface ServerCollectorList {
-  /** List of Server collectors. */
-  value?: ServerCollector[];
-}
-
-export interface ServerCollector {
-  eTag?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly id?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly name?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly type?: string;
-  properties?: CollectorProperties;
-}
-
-/** List of VMware collectors. */
-export interface VMwareCollectorList {
-  /** List of VMware collectors. */
-  value?: VMwareCollector[];
-}
-
-export interface VMwareCollector {
-  eTag?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly id?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly name?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly type?: string;
-  properties?: CollectorProperties;
-}
-
-/** List of Import collectors. */
-export interface ImportCollectorList {
-  /** List of Import collectors. */
-  value?: ImportCollector[];
-}
-
-export interface ImportCollector {
-  eTag?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly id?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly name?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly type?: string;
-  properties?: ImportCollectorProperties;
-}
-
-export interface ImportCollectorProperties {
-  discoverySiteId?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  /**
+   * Value indicating whether the VM is highly available.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly highAvailability?: HighAvailability;
+  /**
+   * Cluster FQDN/IPAddress.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clusterFqdn?: string;
+  /**
+   * Cluster ARM ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clusterId?: string;
+  /**
+   * Max memory of the virtual machine in MB.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxMemoryMb?: number;
+  /**
+   * Value indicating whether dynamic memory is enabled for the VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDynamicMemoryEnabled?: boolean;
+  /**
+   * Disks attached to the machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly disks?: HypervDisk[];
+  /**
+   * Network adapters attached to the machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkAdapters?: HypervNetworkAdapter[];
+  /**
+   * Management server type captured as a string representation of the
+   *
+   * {Microsoft.Azure.FDS.WebRole.HyperVMachineBase.HyperVMachineBaseProperties.ManagementServerType}
+   * enumeration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly managementServerType?: string;
+  /**
+   * Gets or sets the SecureBootTemplateId setting of the VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secureBootTemplateId?: string;
+  /**
+   * Gets or sets a value indicating whether Secure boot is enabled for the VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secureBootEnabled?: boolean;
+  /**
+   * Gets or sets the SecureBootTemplateId setting of the VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secureBootTemplate?: string;
+  /**
+   * Gets or sets a value indicating whether trusted platform module is enabled on
+   * the VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tpmEnabled?: boolean;
+  /**
+   * Gets or sets a value indicating whether key storage device is enabled on the VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ksdEnabled?: boolean;
+  /**
+   * Gets or sets a value indicating whether shielding is enabled for the VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly shieldingRequested?: boolean;
+  /**
+   * Gets or sets a value indicating whether data protection is requested for a VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataProtectionRequested?: boolean;
+  /**
+   * Gets or sets a value indicating whether encryption of state and migration
+   * traffic is enabled for the VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly encryptStateAndVmMigrationTraffic?: boolean;
+  /**
+   * Gets or sets a value indicating whether VM virtualization based security is
+   * enabled for the VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualizationBasedSecurityOptOut?: boolean;
+  /**
+   * Gets the Machine power status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly powerStatus?: string;
+  /**
+   * Gets the VM FQDN.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vmFqdn?: string;
+  /**
+   * Gets the Root location of the VM configuration file.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vmConfigurationFileLocation?: string;
+  /** Gets or sets the firmware. */
+  firmware?: string;
+  /**
+   * Operating System Details extracted from the guest             bu executing script inside the guest VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly guestOsDetails?: GuestOsDetails;
+  /**
+   * Number of applications installed in the guest VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfApplications?: number;
+  /**
+   * The last time at which the Guest Details was discovered
+   *             or the
+   * error while discovering guest details based discovery
+   *             of the
+   * machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly guestDetailsDiscoveryTimestamp?: Date;
+  /**
+   * Whether Refresh Fabric Layout Guest Details has been completed once.
+   *
+   *   Portal will show discovery in progress, if this value is true.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isGuestDetailsDiscoveryInProgress?: boolean;
+  /**
+   * Gets or sets if dependency mapping feature is enabled or not
+   *             for
+   * the VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dependencyMapping?: string;
+  /**
+   * Gets or sets when dependency mapping collection is last started.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dependencyMappingStartTime?: Date;
+  /**
+   * Gets or sets when dependency mapping collection was last disabled.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dependencyMappingEndTime?: string;
+  /** Gets or sets the run as account ID of the machine. */
+  runAsAccountId?: string;
+  /**
+   * Gets the appliance names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applianceNames?: string[];
+  /**
+   * Errors for machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: HealthErrorDetails[];
+  /**
+   * Gets the data related to application discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applicationDiscovery?: ApplicationDiscovery;
+  /**
+   * Gets the data related to dependency map discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dependencyMapDiscovery?: DependencyMapDiscovery;
+  /**
+   * Gets the data related to static discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly staticDiscovery?: StaticDiscovery;
+  /**
+   * Gets the data related to SQL discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sqlDiscovery?: SqlDiscovery;
+  /**
+   * Gets the data related to Web application discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly webAppDiscovery?: WebAppDiscovery;
+  /**
+   * Gets the data related to Oracle discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly oracleDiscovery?: OracleDiscovery;
+  /**
+   * Gets the data related to SpringBoot discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly springBootDiscovery?: SpringBootDiscovery;
+  /**
+   * Gets the data related to iis discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly iisDiscovery?: WebAppDiscovery;
+  /**
+   * Gets the data related to tomcat discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tomcatDiscovery?: WebAppDiscovery;
+  /**
+   * Apps And Roles of the Server.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly appsAndRoles?: AppsAndRoles;
+  /** product support status. */
+  productSupportStatus?: ProductSupportStatus;
+  /**
+   * Gets or sets the Number of Processor Cores
+   *             allocated for the
+   * machine.
+   */
+  numberOfProcessorCore?: number;
+  /** Gets or sets the allocated Memory in MB. */
+  allocatedMemoryInMb?: number;
+  /** Gets or sets the Operating System Details installed on the machine. */
+  operatingSystemDetails?: OperatingSystem;
+  /** Gets or sets the Machine BIOS serial number. */
+  biosSerialNumber?: string;
+  /** Gets or sets the BIOS GUID. */
+  biosGuid?: string;
+  /**
+   * Gets the Display name of the machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * Value indicating whether VM is deleted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDeleted?: boolean;
+  /**
+   * Gets the marking machine creation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
   readonly createdTimestamp?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  /** Gets or sets tags on the resource. */
+  tags?: { [propertyName: string]: string };
+  /**
+   * Gets the timestamp marking last updated on the machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
   readonly updatedTimestamp?: string;
+  /**
+   * The status of the last operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Gets the data related to Azure arc discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly arcDiscovery?: ArcDiscovery;
 }
 
-/** A collection of private endpoint connections for a project. */
-export interface PrivateEndpointConnectionCollection {
+/** HyperV VM software inventory REST resource. */
+export interface HypervVmSoftwareInventory extends ProxyResource {
   /**
-   * A list of private endpoint connections for a project.
+   * Apps And Roles of the machine entity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: PrivateEndpointConnection[];
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly nextLink?: string;
+  readonly appsAndRoles?: AppsAndRoles;
+  /**
+   * provisioning state enum
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
 }
 
-/** A private link resource for a project for which a private endpoint can be created. */
-export interface PrivateLinkResource {
+/** A machine resource belonging to a site resource. */
+export interface HypervRunAsAccountResource extends ProxyResource {
   /**
-   * Name of the private link resource.
+   * Display name of the run as account.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly name?: string;
+  readonly displayName?: string;
   /**
-   * Type of the object = [Microsoft.Migrate/assessmentProjects/privateLinkResources].
+   * Gets the credential type of the run as account.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly type?: string;
+  readonly credentialType?: string;
   /**
-   * Path reference to this private link resource. /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/privateLinkResources/{privateLinkResourceName}
+   * Timestamp marking run as account creation.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly id?: string;
+  readonly createdTimestamp?: string;
   /**
-   * Properties of the private link resource.
+   * Timestamp marking last updated on the run as account.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly properties?: PrivateLinkResourceProperties;
+  readonly updatedTimestamp?: string;
+  /**
+   * Gets the appliance name of the run as account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applianceName?: string;
+  /**
+   * provisioning state enum
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
 }
 
-/** Properties of a private link resource. */
-export interface PrivateLinkResourceProperties {
+/** A host resource belonging to a site resource. */
+export interface DeleteImportMachinesJob extends ProxyResource {
+  /** blob name */
+  blobName?: string;
+  /** error Sas Uri */
+  errorSasUri?: string;
+  /** job State */
+  jobState?: DeleteImportedMachinesJobPropertiesJobState;
+  /** number Of Machines Deleted */
+  numberOfMachinesDeleted?: number;
+  /** deletion Confirmation */
+  deletionConfirmation?: boolean;
   /**
-   * The private link resource required member names.
+   * errors list
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly requiredMembers?: string[];
-  /**
-   * Required DNS zone names of the the private link resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly requiredZoneNames?: string[];
-  /**
-   * The private link resource group id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly groupId?: string;
+  readonly errors?: string[];
+  /** Gets or sets the Job status. */
+  status?: string;
+  /** Gets or sets the Job start time. */
+  startTime?: string;
+  /** Gets or sets the Job end time. */
+  endTime?: string;
+  /** Gets or sets the Display name. */
+  displayName?: string;
+  /** The status of the last operation. */
+  provisioningState?: ProvisioningState;
 }
 
-/** A list of private link resources */
-export interface PrivateLinkResourceCollection {
+/** A host resource belonging to a site resource. */
+export interface ImportJob extends ProxyResource {
   /**
-   * Array of results.
+   * Gets operation status.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: PrivateLinkResource[];
+  readonly status?: string;
   /**
-   * Link to retrieve next page of results.
+   * Gets operation start time.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly nextLink?: string;
+  readonly startTime?: string;
+  /**
+   * Gets operation end time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: string;
+  /**
+   * Gets or sets the display name of the Job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * Gets the client request Id used in the operation execution context.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientRequestId?: string;
+  /**
+   * Gets the activity Id used in the operation execution context.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly activityId?: string;
+  /**
+   * Gets the errors.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: ErrorDetails[];
+  /**
+   * The status of the last operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
 }
 
-/** List of API operations. */
-export interface OperationResultList {
-  /** List of operations. */
-  value?: Operation[];
+/** An machine resource belonging to a site resource. */
+export interface ImportMachine extends ProxyResource {
+  /**
+   * Firmware of the machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly firmware?: string;
+  /**
+   * CPU utilization.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly percentageCpuUtilization?: number;
+  /**
+   * Memory utilization.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly percentageMemoryUtilization?: number;
+  /**
+   * Number of disks.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfDisks?: number;
+  /**
+   * Total disk read operations per second.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalDiskReadOperationsPerSecond?: number;
+  /**
+   * Total disk write operations per second.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalDiskWriteOperationsPerSecond?: number;
+  /**
+   * Total disk write throughput.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalDiskWriteThroughput?: number;
+  /**
+   * Total disk read throughput.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalDiskReadThroughput?: number;
+  /**
+   * MAC Address.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly macAddress?: string;
+  /**
+   * IP Addresses.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ipAddresses?: string[];
+  /**
+   * Machine ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly machineId?: string;
+  /**
+   * Machine manager ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly machineManagerId?: string;
+  /**
+   * Number of network adapters.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfNetworkAdapters?: number;
+  /**
+   * Network in throughput.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkInThroughput?: number;
+  /**
+   * Network out throughput.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkOutThroughput?: number;
+  /**
+   * Server type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverType?: string;
+  /**
+   * Fabric type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hypervisor?: string;
+  /**
+   * Hypervisor version number.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hypervisorVersionNumber?: string;
+  /**
+   * Disks attached to the machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly disks?: WebRoleImportDisk[];
+  /**
+   * Server FQDN.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vmFqdn?: string;
+  /**
+   * Total storage in use.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly storageInUseGb?: number;
+  /**
+   * Gets or sets the Number of Processor Cores
+   *             allocated for the
+   * machine.
+   */
+  numberOfProcessorCore?: number;
+  /** Gets or sets the allocated Memory in MB. */
+  allocatedMemoryInMb?: number;
+  /** Gets or sets the Operating System Details installed on the machine. */
+  operatingSystemDetails?: WebRoleOperatingSystem;
+  /** Gets or sets the Machine BIOS serial number. */
+  biosSerialNumber?: string;
+  /** Gets or sets the BIOS GUID. */
+  biosGuid?: string;
+  /**
+   * Gets the Display name of the machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * Value indicating whether VM is deleted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDeleted?: boolean;
+  /**
+   * Gets the marking machine creation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTimestamp?: string;
+  /**
+   * Gets the timestamp marking last updated on the machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedTimestamp?: string;
+  /** machine tags */
+  tags?: { [propertyName: string]: string };
+  /** The status of the last operation. */
+  provisioningState?: ProvisioningState;
 }
 
-/** A REST API operation supported by the provider. */
-export interface Operation {
+/** REST model used to encapsulate Private Link properties for tracked resources. */
+export interface PrivateLinkResource extends ProxyResource {
+  /** required members */
+  requiredMembers?: string[];
+  /** required zone names */
+  requiredZoneNames?: string[];
+  /** group id */
+  groupId?: string;
   /**
-   * Name of the operation.
+   * provisioning state enum
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly name?: string;
-  /**
-   * Displayable properties of the operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly display?: OperationDisplay;
-  /**
-   * Origin of the operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly origin?: string;
+  readonly provisioningState?: ProvisioningState;
 }
 
-/** Displayable properties of the operation. */
-export interface OperationDisplay {
+/** SQL site web model. */
+export interface SqlSite extends ProxyResource {
   /**
-   * Provider of the operation.
+   * Gets or sets the appliance details used by service to communicate
+   *
+   * to the appliance.
+   */
+  siteAppliancePropertiesCollection?: SiteApplianceProperties[];
+  /** Gets or sets the discovery scenario. */
+  discoveryScenario?: SqlSitePropertiesDiscoveryScenario;
+  /**
+   * Gets the service endpoint.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provider?: string;
+  readonly serviceEndpoint?: string;
   /**
-   * Resource operated on by the operation.
+   * provisioning state enum
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly resource?: string;
+  readonly provisioningState?: ProvisioningState;
+  /** Gets or sets the Arc scope properties for the sql site. */
+  arcScope?: ArcScopeProperties;
+}
+
+/** A SQL discovery site data source resource. */
+export interface SqlDiscoverySiteDataSource extends ProxyResource {
+  /** Gets or sets the discovery site Id. */
+  discoverySiteId?: string;
   /**
-   * Operation Type.
+   * provisioning state enum
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly operation?: string;
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** Class representing the web model of SQL Database. */
+export interface SqlJob extends ProxyResource {
   /**
-   * Description of the operation.
+   * Gets operation status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * Gets operation start time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: string;
+  /**
+   * Gets operation end time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: string;
+  /**
+   * Gets or sets the display name of the Job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * Gets the client request Id used in the operation execution context.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientRequestId?: string;
+  /**
+   * Gets the activity Id used in the operation execution context.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly activityId?: string;
+  /**
+   * Gets the errors.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: ErrorDetails[];
+  /**
+   * The status of the last operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** A runasaccount resource belonging to a site resource. */
+export interface SqlRunAsAccount extends ProxyResource {
+  /**
+   * Display name of the run as account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * Gets the credential type of the run as account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly credentialType?: string;
+  /**
+   * Timestamp marking run as account creation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTimestamp?: string;
+  /**
+   * Timestamp marking last updated on the run as account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedTimestamp?: string;
+  /**
+   * Gets the appliance name of the run as account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applianceName?: string;
+  /**
+   * provisioning state enum
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** Class representing the web model of SQL Availability Group. */
+export interface SqlAvailabilityGroup extends ProxyResource {
+  /** Gets or sets the SQL Availability Group Name. */
+  availabilityGroupName?: string;
+  /** Gets or sets the type of availability group.             Currently there are two types of AGs Traditional and Distributed. */
+  availabilityGroupType?: SqlAvailabilityGroupPropertiesAvailabilityGroupType;
+  /** Gets or sets a value indicating whether AG is multi subnet or not. */
+  isMultiSubNet?: boolean;
+  /** Gets or sets the Cluster name where AG is hosted. */
+  clusterName?: string;
+  /**
+   * Gets the list of availability replica properties which together forms this availability group.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly availabilityReplicas?: SqlAvailabilityReplicaProperties[];
+  /**
+   * Gets the parent availability replica overview if any.
+   *             This would be
+   * set with details of parent AG and AR for cases where this availability group is
+   * a part of a distributed AG.
+   *             Currently, we do not populate this
+   * since discovery and linking of DAG(Distributed Availability Group) is not
+   * implemented.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly parentReplicaOverviewList?: SqlAvailabilityReplicaOverview[];
+  /**
+   * Gets or sets a value indicating whether this Availability group is part of a
+   * distributed AG.
+   */
+  isPartOfDistributedAvailabilityGroup?: boolean;
+  /** Gets or sets a value indicating whether the entity is deleted. */
+  isDeleted?: boolean;
+  /** Gets or sets the marking machine creation. */
+  createdTimestamp?: string;
+  /** Gets or sets the timestamp marking last updated on the machine. */
+  updatedTimestamp?: string;
+  /**
+   * provisioning state enum
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** Class representing the web model of SQL Database. */
+export interface SqlDatabaseV2 extends ProxyResource {
+  /** Gets or sets the Replica overview. */
+  parentReplicaOverview?: SqlAvailabilityReplicaOverview;
+  /** Gets or sets a value indicating whether this database is a part of an HA setup. */
+  isDatabaseHighlyAvailable?: boolean;
+  /**
+   * Gets the file metadata list.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fileMetadataList?: FileMetaData[];
+  /** Gets or sets the hostname. */
+  hostname?: string;
+  /** Gets or sets the SQL Server Id in which the database resides. */
+  sqlServerName?: string;
+  /** Gets or sets the status. */
+  status?: string;
+  /** Gets or sets the size in Mb. */
+  sizeMb?: number;
+  /** Gets or sets the SQL database name. */
+  databaseName?: string;
+  /** Gets or sets the SQL Server ARM Id in which the database resides. */
+  sqlServerArmId?: string;
+  /** Gets or sets the database compatibility level. */
+  compatibilityLevel?: string;
+  /** Gets or sets a value indicating whether the entity is deleted. */
+  isDeleted?: boolean;
+  /**
+   * Gets the errors.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: Errors[];
+  /** Gets or sets the marking machine creation. */
+  createdTimestamp?: string;
+  /** Gets or sets the timestamp marking last updated on the machine. */
+  updatedTimestamp?: string;
+  /** The status of the last operation. */
+  provisioningState?: ProvisioningState;
+}
+
+/** Class representing the web model of SQL Server. */
+export interface SqlServerV2 extends ProxyResource {
+  /**
+   * Gets the Machine Overview properties of all machines on which the SQL server is deployed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly machineOverviewList?: SqlMachineOverview[];
+  /** Gets or sets the number of databases part of availability group on this SQL instance. */
+  numberOfAgDatabases?: number;
+  /** Gets or sets the FCI properties if the instance is an FCI instance. This would be populated if IsClustered is true. */
+  sqlFciProperties?: SqlFciProperties;
+  /** product support status. */
+  productSupportStatus?: ProductSupportStatus;
+  /** Gets or sets the SQL server version. */
+  version?: string;
+  /** Gets or sets total number of users databases. */
+  numberOfUserDatabases?: number;
+  /** Gets or sets total size of all user databases. */
+  sumOfUserDatabasesSizeInMb?: number;
+  /** Gets or sets size of temp database. */
+  tempDbSizeInMb?: number;
+  /** Gets or sets maximum server memory in use. */
+  maxServerMemoryInUseInMb?: number;
+  /** Gets or sets the SQL server number of cores that have visible online status. */
+  visibleOnlineCoreCount?: number;
+  /** Gets or sets number of logins. */
+  numOfLogins?: number;
+  /** Gets or sets physical CPU count. */
+  physicalCpuCount?: number;
+  /** Gets or sets logical CPU count. */
+  logicalCpuCount?: number;
+  /** Gets or sets the SQL server engine edition. */
+  engineEdition?: string;
+  /** Gets or sets the SQL server edition. */
+  edition?: string;
+  /** Gets or sets a value indicating whether High Availability is enabled or not. */
+  isHighAvailabilityEnabled?: boolean;
+  /** Gets or sets a value indicating whether failover cluster is configured or not. */
+  isClustered?: boolean;
+  /** Gets or sets the Hyper thread ratio. */
+  hyperthreadRatio?: number;
+  /** Gets or sets the SQL start time. */
+  sqlStartTime?: Date;
+  /**
+   * Gets the list of machine ARM Ids on which the SQL server is deployed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly machineArmIds?: string[];
+  /** Gets or sets the run as account ID of the SQL server. */
+  runAsAccountId?: string;
+  /** Gets or sets the hydrated run as account ID of the SQL server. */
+  hydratedRunAsAccountId?: string;
+  /** Gets or sets hostname. */
+  hostName?: string;
+  /** Gets or sets the SQL server instance name. */
+  sqlServerName?: string;
+  /** Gets or sets the Preferred Port Number. */
+  portNumber?: number;
+  /**
+   * Gets the errors.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: Errors[];
+  /** Gets or sets tags on the resource. */
+  tags?: { [propertyName: string]: Record<string, unknown> };
+  /** Gets or sets a value indicating whether the entity is deleted. */
+  isDeleted?: boolean;
+  /** Gets or sets the marking machine creation. */
+  createdTimestamp?: string;
+  /** Gets or sets the timestamp marking last updated on the machine. */
+  updatedTimestamp?: string;
+  /** Gets or sets the powered on status. */
+  status?: SqlServerStatus;
+  /** The status of the last operation. */
+  provisioningState?: ProvisioningState;
+}
+
+/** WebApp site web model. */
+export interface WebAppSite extends ProxyResource {
+  /**
+   * Gets or sets the appliance details used by service to communicate
+   *
+   * to the appliance.
+   */
+  siteAppliancePropertiesCollection?: SiteApplianceProperties[];
+  /** Gets or sets the discovery scenario. */
+  discoveryScenario?: WebAppSitePropertiesDiscoveryScenario;
+  /**
+   * Gets the service endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceEndpoint?: string;
+  /**
+   * provisioning state enum
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** Web app data source web model. */
+export interface DiscoverySiteDataSource extends ProxyResource {
+  /** Gets or sets the discovery site Id. */
+  discoverySiteId?: string;
+  /**
+   * provisioning state enum
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** Web app extended machine REST Resource. */
+export interface WebAppExtendedMachine extends ProxyResource {
+  /**
+   * Gets a value indicating whether application is deleted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDeleted?: boolean;
+  /**
+   * Gets the timestamp marking creation of the entity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTimestamp?: string;
+  /**
+   * Gets the timestamp marking last update operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedTimestamp?: string;
+  /**
+   * Gets the Error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: HealthErrorDetails[];
+  /**
+   * Gets the hydrated host name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hostName?: string;
+  /**
+   * Gets the Name of the extended machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly machineDisplayName?: string;
+  /**
+   * Gets the machine ARM id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly machineId?: string;
+  /**
+   * Gets the run as account ID of the machine used for web app discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly runAsAccountId?: string;
+  /**
+   * Gets the agent hydrated run as account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hydratedRunAsAccountId?: string;
+  /**
+   * provisioning state enum
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** Web application REST Resource. */
+export interface IisWebApplications extends ProxyResource {
+  /**
+   * Gets the list of application units for the web site.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applications?: IisApplicationUnit[];
+  /**
+   * Gets the list of application units for the web site.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualApplications?: IisVirtualApplicationUnit[];
+  /**
+   * Gets the web server id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly webServerId?: string;
+  /**
+   * Gets the web server name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly webServerName?: string;
+  /**
+   * Gets the list of machine ARM Ids on which the SQL server is deployed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly machineArmIds?: string[];
+  /**
+   * Gets the virtual path of the application.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualPath?: string;
+  /**
+   * Gets the physical path of the application.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly physicalPath?: string;
+  /**
+   * Gets the front end bindings for the application.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly bindings?: FrontEndBinding[];
+  /**
+   * Gets the Error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly frameworks?: WebApplicationFramework[];
+  /**
+   * Gets the configuration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurations?: WebApplicationConfigurationUnit[];
+  /**
+   * Gets the directories.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly directories?: WebApplicationDirectoryUnit[];
+  /**
+   * Gets the display name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /** Gets or sets tags on the resource. */
+  tags?: { [propertyName: string]: string };
+  /**
+   * Static folders.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly staticFolders?: string[];
+  /**
+   * Machine display name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly machineDisplayName?: string;
+  /**
+   * Gets a value indicating whether application is deleted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDeleted?: boolean;
+  /**
+   * Gets the timestamp marking creation of the entity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTimestamp?: string;
+  /**
+   * Gets the timestamp marking last update operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedTimestamp?: string;
+  /**
+   * Gets the server type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverType?: string;
+  /**
+   * Gets the Error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: HealthErrorDetails[];
+  /**
+   * Gets the appliance names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applianceNames?: string[];
+  /**
+   * Gets a value indicating whether the WebApp has errors or not.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hasErrors?: boolean;
+  /**
+   * provisioning state enum
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** Web server REST Resource. */
+export interface IisWebServers extends ProxyResource {
+  /**
+   * Gets the configuration location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationLocation?: string;
+  /**
+   * Gets the configuration location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+  /**
+   * Gets the list of machines.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly machineIds?: string[];
+  /**
+   * Gets the list of web applications.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly webApplications?: string[];
+  /**
+   * Gets the display name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * Gets the server FQDN.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverFqdn?: string;
+  /**
+   * Gets the run as account id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly runAsAccountId?: string;
+  /**
+   * Gets a value indicating whether application is deleted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDeleted?: boolean;
+  /**
+   * Gets the timestamp marking creation of the entity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTimestamp?: string;
+  /**
+   * Gets the timestamp marking last update operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedTimestamp?: string;
+  /**
+   * Gets the server type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverType?: string;
+  /**
+   * Gets the Error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: HealthErrorDetails[];
+  /**
+   * Gets the appliance names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applianceNames?: string[];
+  /**
+   * Gets a value indicating whether the WebApp has errors or not.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hasErrors?: boolean;
+  /**
+   * provisioning state enum
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** Run as account REST Resource. */
+export interface WebAppRunAsAccount extends ProxyResource {
+  /**
+   * Display name of the run as account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * Gets the credential type of the run as account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly credentialType?: string;
+  /**
+   * Timestamp marking run as account creation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTimestamp?: string;
+  /**
+   * Timestamp marking last updated on the run as account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedTimestamp?: string;
+  /**
+   * Gets the appliance name of the run as account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applianceName?: string;
+  /**
+   * provisioning state enum
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** Web application REST Resource. */
+export interface TomcatWebApplications extends ProxyResource {
+  /**
+   * Boolean value having true if the application has database dependency.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hasDatabaseDependency?: boolean;
+  /**
+   * Boolean value having true if the application has file dependency.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isExternalLoggingConfigured?: boolean;
+  /**
+   * Gets the web server id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly webServerId?: string;
+  /**
+   * Gets the web server name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly webServerName?: string;
+  /**
+   * Gets the list of machine ARM Ids on which the web application is deployed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly machineArmIds?: string[];
+  /**
+   * Gets the virtual path of the application.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualPath?: string;
+  /**
+   * Gets the physical path of the application.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly physicalPath?: string;
+  /**
+   * Gets the front end bindings for the application.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly bindings?: FrontEndBinding[];
+  /**
+   * Gets the Error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly frameworks?: WebApplicationFramework[];
+  /**
+   * Gets the configuration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurations?: WebApplicationConfigurationUnit[];
+  /**
+   * Gets the directories.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly directories?: WebApplicationDirectoryUnit[];
+  /**
+   * Gets the display name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * Gets tags that can be used with ODATA.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tags?: { [propertyName: string]: string };
+  /**
+   * Static folders.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly staticFolders?: string[];
+  /**
+   * Machine display name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly machineDisplayName?: string;
+  /**
+   * Gets a value indicating whether application is deleted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDeleted?: boolean;
+  /**
+   * Gets the timestamp marking creation of the entity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTimestamp?: string;
+  /**
+   * Gets the timestamp marking last update operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedTimestamp?: string;
+  /**
+   * Gets the server type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverType?: string;
+  /**
+   * Gets the Error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: HealthErrorDetails[];
+  /**
+   * Gets the appliance names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applianceNames?: string[];
+  /**
+   * Gets a value indicating whether the WebApp has errors or not.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hasErrors?: boolean;
+  /**
+   * provisioning state enum
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** Web server REST Resource. */
+export interface TomcatWebServers extends ProxyResource {
+  /** Gets or sets the services defined in the server. */
+  services?: TomcatServiceUnit[];
+  /**
+   * Catalina Home
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly catalinaHome?: string;
+  /**
+   * Version  of the JVM
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly jvmVersion?: string;
+  /**
+   * session persistence mechanism
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sessionPersistenceMechanism?: string;
+  /** Gets a value indicating whether application is deleted. */
+  isClusteringPresent?: boolean;
+  /**
+   * Gets a value indicating whether application is deleted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isMemoryRealmPresent?: boolean;
+  /**
+   * is session tracking present
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isSessionTrackingPresent?: boolean;
+  /**
+   * is access log valve present
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isAccessLogValvePresent?: boolean;
+  /**
+   * max memory usage in mb
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxMemoryUsageInMb?: string;
+  /**
+   * Gets the configuration location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationLocation?: string;
+  /**
+   * Gets the configuration location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+  /**
+   * Gets the list of machines.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly machineIds?: string[];
+  /**
+   * Gets the list of web applications.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly webApplications?: string[];
+  /**
+   * Gets the display name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * Gets the server FQDN.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverFqdn?: string;
+  /**
+   * Gets the run as account id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly runAsAccountId?: string;
+  /** Gets or sets the Operating System Details installed on the machine. */
+  operatingSystemDetails?: OperatingSystem;
+  /**
+   * Gets a value indicating whether application is deleted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDeleted?: boolean;
+  /**
+   * Gets the timestamp marking creation of the entity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTimestamp?: string;
+  /**
+   * Gets the timestamp marking last update operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedTimestamp?: string;
+  /**
+   * Gets the server type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverType?: string;
+  /**
+   * Gets the Error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: HealthErrorDetails[];
+  /**
+   * Gets the appliance names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applianceNames?: string[];
+  /**
+   * Gets a value indicating whether the WebApp has errors or not.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hasErrors?: boolean;
+  /**
+   * provisioning state enum
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** Web application REST Resource. */
+export interface WebApplication extends ProxyResource {
+  /**
+   * Gets the web server id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly webServerId?: string;
+  /**
+   * Gets the web server name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly webServerName?: string;
+  /**
+   * Gets the list of machine ARM Ids on which the SQL server is deployed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly machineArmIds?: string[];
+  /**
+   * Gets the virtual path of the application.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualPath?: string;
+  /**
+   * Gets the physical path of the application.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly physicalPath?: string;
+  /**
+   * Gets the front end bindings for the application.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly bindings?: FrontEndBinding[];
+  /**
+   * Gets the Error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly frameworks?: WebApplicationFramework[];
+  /**
+   * Gets the configuration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurations?: WebApplicationConfigurationUnit[];
+  /**
+   * Gets the directories.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly directories?: WebApplicationDirectoryUnit[];
+  /**
+   * Gets the display name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * Gets tags that can be used with ODATA.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tags?: { [propertyName: string]: string };
+  /**
+   * Static folders.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly staticFolders?: string[];
+  /**
+   * Machine display name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly machineDisplayName?: string;
+  /**
+   * Gets a value indicating whether application is deleted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDeleted?: boolean;
+  /**
+   * Gets the timestamp marking creation of the entity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTimestamp?: string;
+  /**
+   * Gets the timestamp marking last update operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedTimestamp?: string;
+  /**
+   * Gets the server type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverType?: string;
+  /**
+   * Gets the Error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: HealthErrorDetails[];
+  /**
+   * Gets the appliance names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applianceNames?: string[];
+  /**
+   * Gets a value indicating whether the WebApp has errors or not.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hasErrors?: boolean;
+  /**
+   * provisioning state enum
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** Web application REST Resource. */
+export interface WebServer extends ProxyResource {
+  /**
+   * Gets the configuration location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationLocation?: string;
+  /**
+   * Gets the configuration location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+  /**
+   * Gets the list of machines.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly machineIds?: string[];
+  /**
+   * Gets the list of web applications.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly webApplications?: string[];
+  /**
+   * Gets the display name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * Gets the server FQDN.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverFqdn?: string;
+  /**
+   * Gets the run as account id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly runAsAccountId?: string;
+  /**
+   * Gets a value indicating whether application is deleted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDeleted?: boolean;
+  /**
+   * Gets the timestamp marking creation of the entity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTimestamp?: string;
+  /**
+   * Gets the timestamp marking last update operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedTimestamp?: string;
+  /**
+   * Gets the server type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverType?: string;
+  /**
+   * Gets the Error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: HealthErrorDetails[];
+  /**
+   * Gets the appliance names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applianceNames?: string[];
+  /**
+   * Gets a value indicating whether the WebApp has errors or not.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hasErrors?: boolean;
+  /**
+   * provisioning state enum
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** A host resource belonging to a site resource. */
+export interface ServerJob extends ProxyResource {
+  /**
+   * Gets operation status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * Gets operation start time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: string;
+  /**
+   * Gets operation end time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: string;
+  /**
+   * Gets or sets the display name of the Job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * Gets the client request Id used in the operation execution context.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientRequestId?: string;
+  /**
+   * Gets the activity Id used in the operation execution context.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly activityId?: string;
+  /**
+   * Gets the errors.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: ErrorDetails[];
+  /**
+   * The status of the last operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** A machine resource belonging to a site resource. */
+export interface Server extends ProxyResource {
+  /**
+   * Gets the Display name of the machine.
+   *             For server entity hydrated
+   * FQDN is set as display name
+   *             as the server id and server name are
+   * same.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /** Gets or sets the FQDN/IPAddress of the server. */
+  fqdn?: string;
+  /** Gets or sets the network adapters of the server. */
+  networkAdapters?: ServerNetworkAdapter[];
+  /** Gets or sets the FQDN of machine which can be changed. */
+  hydratedFqdn?: string;
+  /** Gets or sets the disk details of server. */
+  disks?: ServerDisk[];
+  /** Gets or sets the validation required for the machine. */
+  validationRequired?: string;
+  /**
+   * Processor Info of the Server machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly processorInfo?: ProcessorInfo;
+  /** Gets or sets the firmware. */
+  firmware?: string;
+  /**
+   * Operating System Details extracted from the guest
+   *             bu executing
+   * script inside the guest VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly guestOsDetails?: GuestOsDetails;
+  /**
+   * Number of applications installed in the guest VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfApplications?: number;
+  /**
+   * The last time at which the Guest Details was discovered
+   *             or the
+   * error while discovering guest details based discovery
+   *             of the
+   * machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly guestDetailsDiscoveryTimestamp?: Date;
+  /**
+   * Whether Refresh Fabric Layout Guest Details has been completed once.
+   *
+   *   Portal will show discovery in progress, if this value is true.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isGuestDetailsDiscoveryInProgress?: boolean;
+  /**
+   * Gets or sets if dependency mapping feature is enabled or not
+   *             for
+   * the VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dependencyMapping?: string;
+  /**
+   * Gets or sets when dependency mapping collection is last started.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dependencyMappingStartTime?: Date;
+  /**
+   * Gets or sets when dependency mapping collection was last disabled.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dependencyMappingEndTime?: string;
+  /** Gets or sets the run as account ID of the machine. */
+  runAsAccountId?: string;
+  /**
+   * Gets the appliance names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applianceNames?: string[];
+  /**
+   * Errors for machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: HealthErrorDetails[];
+  /**
+   * Gets the data related to application discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applicationDiscovery?: ApplicationDiscovery;
+  /**
+   * Gets the data related to dependency map discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dependencyMapDiscovery?: DependencyMapDiscovery;
+  /**
+   * Gets the data related to static discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly staticDiscovery?: StaticDiscovery;
+  /**
+   * Gets the data related to SQL discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sqlDiscovery?: SqlDiscovery;
+  /**
+   * Gets the data related to Web application discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly webAppDiscovery?: WebAppDiscovery;
+  /**
+   * Gets the data related to Oracle discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly oracleDiscovery?: OracleDiscovery;
+  /**
+   * Gets the data related to SpringBoot discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly springBootDiscovery?: SpringBootDiscovery;
+  /**
+   * Gets the data related to iis discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly iisDiscovery?: WebAppDiscovery;
+  /**
+   * Gets the data related to tomcat discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tomcatDiscovery?: WebAppDiscovery;
+  /**
+   * Apps And Roles of the Server.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly appsAndRoles?: AppsAndRoles;
+  /** product support status. */
+  productSupportStatus?: ProductSupportStatus;
+  /**
+   * Gets or sets the Number of Processor Cores
+   *             allocated for the
+   * machine.
+   */
+  numberOfProcessorCore?: number;
+  /** Gets or sets the allocated Memory in MB. */
+  allocatedMemoryInMb?: number;
+  /** Gets or sets the Operating System Details installed on the machine. */
+  operatingSystemDetails?: OperatingSystem;
+  /** Gets or sets the Machine BIOS serial number. */
+  biosSerialNumber?: string;
+  /** Gets or sets the BIOS GUID. */
+  biosGuid?: string;
+  /**
+   * Value indicating whether VM is deleted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDeleted?: boolean;
+  /**
+   * Gets the marking machine creation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTimestamp?: string;
+  /** Gets or sets tags on the Server machine. */
+  tags?: { [propertyName: string]: Record<string, unknown> };
+  /**
+   * Gets the timestamp marking last updated on the machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedTimestamp?: string;
+  /** Provisioning state of the server resource. */
+  provisioningState?: ProvisioningState;
+  /**
+   * Gets the data related to Azure arc discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly arcDiscovery?: ArcDiscovery;
+  /**
+   * Gets or sets the discovery source of the server.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly discoverySource?: "Arc";
+  /**
+   * Gets or sets the hypervisor type of the server.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hypervisor?: string;
+}
+
+/** An software inventory resource belonging to a server resource. */
+export interface ServerSoftwareInventory extends ProxyResource {
+  /**
+   * Apps And Roles of the machine entity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly appsAndRoles?: AppsAndRoles;
+  /**
+   * provisioning state enum
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** A run as account resource belonging to a site resource. */
+export interface ServerRunAsAccount extends ProxyResource {
+  /**
+   * Display name of the run as account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * Gets the credential type of the run as account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly credentialType?: string;
+  /**
+   * Timestamp marking run as account creation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTimestamp?: string;
+  /**
+   * Timestamp marking last updated on the run as account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedTimestamp?: string;
+  /**
+   * Gets the appliance name of the run as account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applianceName?: string;
+  /**
+   * provisioning state enum
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** A host resource belonging to a site resource. */
+export interface VmwareHost extends ProxyResource {
+  /**
+   * Gets the timestamp marking VMware host creation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTimestamp?: string;
+  /**
+   * Gets the timestamp marking last updated on the VMware host.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedTimestamp?: string;
+  /**
+   * Gets the data stores.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly datastores?: VmwareDatastore[];
+  /**
+   * Gets the V-center ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vcenterId?: string;
+  /**
+   * Gets the instance UUID of the vmware host.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uuid?: string;
+  /**
+   * Gets the appliance names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applianceNames?: string[];
+  /**
+   * provisioning state enum
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** A host resource belonging to a site resource. */
+export interface VmwareJob extends ProxyResource {
+  /**
+   * Gets operation status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * Gets operation start time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: string;
+  /**
+   * Gets operation end time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: string;
+  /**
+   * Gets or sets the display name of the Job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * Gets the client request Id used in the operation execution context.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientRequestId?: string;
+  /**
+   * Gets the activity Id used in the operation execution context.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly activityId?: string;
+  /**
+   * Gets the errors.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: ErrorDetails[];
+  /**
+   * The status of the last operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** An machine resource belonging to a site resource. */
+export interface MachineResource extends ProxyResource {
+  /**
+   * VCenter FQDN/IPAddress.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vCenterFqdn?: string;
+  /**
+   * VCenter ARM ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vCenterId?: string;
+  /**
+   * On-premise Instance UUID of the machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceUuid?: string;
+  /**
+   * Scope of the data center.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataCenterScope?: string;
+  /**
+   * User description of the machine.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly description?: string;
+  /**
+   * Disks attached to the machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly disks?: VmwareDisk[];
+  /**
+   * Indicates whether the host is in maintenance mode.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hostInMaintenanceMode?: boolean;
+  /**
+   * The host name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hostName?: string;
+  /**
+   * The host power state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hostPowerState?: string;
+  /**
+   * The host version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hostVersion?: string;
+  /**
+   * Network adapters attached to the machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkAdapters?: VmwareNetworkAdapter[];
+  /**
+   * VMware tools status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vMwareToolsStatus?: string;
+  /**
+   * VMware tools version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vMwareToolsVersion?: string;
+  /**
+   * Value indicating whether change tracking is supported.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly changeTrackingSupported?: boolean;
+  /**
+   * Value indicating whether change tracking is enabled.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly changeTrackingEnabled?: boolean;
+  /**
+   * Maximum number of snapshots for the VM.            Default value is -1.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxSnapshots?: number;
+  /**
+   * Gets or sets whether Disk Enabled UUID is set or not.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diskEnabledUuid?: string;
+  /**
+   * Number of snapshots for the VM.             Default value is -1.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfSnapshots?: number;
+  /**
+   * Gets or sets the machine alt guest name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly altGuestName?: string;
+  /**
+   * Gets the Machine power status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly powerStatus?: string;
+  /**
+   * Gets the VM FQDN.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vmFqdn?: string;
+  /**
+   * Gets the Root location of the VM configuration file.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vmConfigurationFileLocation?: string;
+  /** Gets or sets the firmware. */
+  firmware?: string;
+  /**
+   * Operating System Details extracted from the guest
+   *             bu executing
+   * script inside the guest VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly guestOsDetails?: GuestOsDetails;
+  /**
+   * Number of applications installed in the guest VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfApplications?: number;
+  /**
+   * The last time at which the Guest Details was discovered
+   *             or the
+   * error while discovering guest details based discovery
+   *             of the
+   * machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly guestDetailsDiscoveryTimestamp?: Date;
+  /**
+   * Whether Refresh Fabric Layout Guest Details has been completed once.
+   *
+   *   Portal will show discovery in progress, if this value is true.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isGuestDetailsDiscoveryInProgress?: boolean;
+  /**
+   * Gets or sets if dependency mapping feature is enabled or not
+   *             for
+   * the VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dependencyMapping?: string;
+  /**
+   * Gets or sets when dependency mapping collection is last started.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dependencyMappingStartTime?: Date;
+  /**
+   * Gets or sets when dependency mapping collection was last disabled.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dependencyMappingEndTime?: string;
+  /** Gets or sets the run as account ID of the machine. */
+  runAsAccountId?: string;
+  /**
+   * Gets the appliance names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applianceNames?: string[];
+  /**
+   * Errors for machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: HealthErrorDetails[];
+  /**
+   * Gets the data related to application discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applicationDiscovery?: ApplicationDiscovery;
+  /**
+   * Gets the data related to dependency map discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dependencyMapDiscovery?: DependencyMapDiscovery;
+  /**
+   * Gets the data related to static discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly staticDiscovery?: StaticDiscovery;
+  /**
+   * Gets the data related to SQL discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sqlDiscovery?: SqlDiscovery;
+  /**
+   * Gets the data related to Web application discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly webAppDiscovery?: WebAppDiscovery;
+  /**
+   * Gets the data related to Oracle discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly oracleDiscovery?: OracleDiscovery;
+  /**
+   * Gets the data related to SpringBoot discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly springBootDiscovery?: SpringBootDiscovery;
+  /**
+   * Gets the data related to iis discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly iisDiscovery?: WebAppDiscovery;
+  /**
+   * Gets the data related to tomcat discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tomcatDiscovery?: WebAppDiscovery;
+  /**
+   * Apps And Roles of the Server.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly appsAndRoles?: AppsAndRoles;
+  /** product support status. */
+  productSupportStatus?: ProductSupportStatus;
+  /**
+   * Gets or sets the Number of Processor Cores
+   *             allocated for the
+   * machine.
+   */
+  numberOfProcessorCore?: number;
+  /** Gets or sets the allocated Memory in MB. */
+  allocatedMemoryInMb?: number;
+  /** Gets or sets the Operating System Details installed on the machine. */
+  operatingSystemDetails?: OperatingSystem;
+  /** Gets or sets the Machine BIOS serial number. */
+  biosSerialNumber?: string;
+  /** Gets or sets the BIOS GUID. */
+  biosGuid?: string;
+  /**
+   * Gets the Display name of the machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * Value indicating whether VM is deleted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDeleted?: boolean;
+  /**
+   * Gets the marking machine creation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTimestamp?: string;
+  /** Gets or sets tags on the VMware machine. */
+  tags?: { [propertyName: string]: string };
+  /**
+   * Gets the timestamp marking last updated on the machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedTimestamp?: string;
+  /**
+   * The status of the last operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Gets the data related to Azure arc discovery.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly arcDiscovery?: ArcDiscovery;
 }
 
-/** Defines headers for Projects_listBySubscription operation. */
-export interface ProjectsListBySubscriptionHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** An software inventory resource belonging to a machine resource. */
+export interface VmwareMachineSoftwareInventory extends ProxyResource {
+  /**
+   * Apps And Roles of the machine entity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly appsAndRoles?: AppsAndRoles;
+  /**
+   * provisioning state enum
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
 }
 
-/** Defines headers for Projects_list operation. */
-export interface ProjectsListHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** A runasaccount resource belonging to a site resource. */
+export interface VmwareRunAsAccountResource extends ProxyResource {
+  /**
+   * Display name of the run as account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * Gets the credential type of the run as account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly credentialType?: string;
+  /**
+   * Timestamp marking run as account creation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTimestamp?: string;
+  /**
+   * Timestamp marking last updated on the run as account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedTimestamp?: string;
+  /**
+   * Gets the appliance name of the run as account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applianceName?: string;
+  /**
+   * provisioning state enum
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
 }
 
-/** Defines headers for Projects_get operation. */
-export interface ProjectsGetHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** A vcenter resource belonging to a site resource. */
+export interface Vcenter extends ProxyResource {
+  /** Gets or sets the run as account ID of the vCenter. */
+  runAsAccountId?: string;
+  /**
+   * Gets the errors.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: HealthErrorDetails[];
+  /**
+   * Gets the timestamp marking vCenter creation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTimestamp?: string;
+  /**
+   * Gets the timestamp marking last updated on the vCenter.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedTimestamp?: string;
+  /** Gets or sets the FQDN/IPAddress of the vCenter. */
+  fqdn?: string;
+  /** Gets or sets the port of the vCenter. */
+  port?: string;
+  /**
+   * Gets the version of the vCenter.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+  /**
+   * Gets the performance statistics enabled on the vCenter.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly perfStatisticsLevel?: string;
+  /**
+   * Gets the instance UUID of the vCenter.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceUuid?: string;
+  /** Gets or sets the friendly name of the vCenter. */
+  friendlyName?: string;
+  /** The status of the last operation. */
+  provisioningState?: ProvisioningState;
 }
 
-/** Defines headers for Projects_create operation. */
-export interface ProjectsCreateHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** A cluster resource belonging to a site resource. */
+export interface HypervOperationsStatusResource extends ProxyResource {
+  /**
+   * Gets the timestamp marking Hyper-V cluster creation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTimestamp?: string;
+  /**
+   * Gets the timestamp marking last updated on the Hyper-V cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedTimestamp?: string;
+  /** Gets or sets the FQDN/IPAddress of the Hyper-V cluster. */
+  fqdn?: string;
+  /**
+   * Gets the functional level of the Hyper-V cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly functionalLevel?: number;
+  /**
+   * Gets the status of the Hyper-V cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /** Gets or sets Run as account ID of the Hyper-V cluster. */
+  runAsAccountId?: string;
+  /** Gets or sets list of hosts (FQDN) currently being tracked by the cluster. */
+  hostFqdnList?: string[];
+  /**
+   * Gets the errors.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: HealthErrorDetails[];
+  /** The status of the last operation. */
+  provisioningState?: ProvisioningState;
 }
 
-/** Defines headers for Projects_update operation. */
-export interface ProjectsUpdateHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for ImportSitesController_create operation. */
+export interface ImportSitesControllerCreateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Defines headers for Projects_delete operation. */
-export interface ProjectsDeleteHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for MasterSitesController_create operation. */
+export interface MasterSitesControllerCreateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Defines headers for Projects_assessmentOptions operation. */
-export interface ProjectsAssessmentOptionsHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for MasterSitesController_update operation. */
+export interface MasterSitesControllerUpdateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for Projects_assessmentOptionsList operation. */
-export interface ProjectsAssessmentOptionsListHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for MasterSitesController_refreshArcStatus operation. */
+export interface MasterSitesControllerRefreshArcStatusHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for Projects_listBySubscriptionNext operation. */
-export interface ProjectsListBySubscriptionNextHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for ServerSitesController_create operation. */
+export interface ServerSitesControllerCreateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Defines headers for Projects_listNext operation. */
-export interface ProjectsListNextHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for ServerSitesController_exportApplications operation. */
+export interface ServerSitesControllerExportApplicationsHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for Machines_listByProject operation. */
-export interface MachinesListByProjectHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for ServerSitesController_exportMachineErrors operation. */
+export interface ServerSitesControllerExportMachineErrorsHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for Machines_get operation. */
-export interface MachinesGetHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for ServerSitesController_refreshSite operation. */
+export interface ServerSitesControllerRefreshSiteHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for Machines_listByProjectNext operation. */
-export interface MachinesListByProjectNextHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for ServerSitesController_updateDependencyMapStatus operation. */
+export interface ServerSitesControllerUpdateDependencyMapStatusHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for Groups_listByProject operation. */
-export interface GroupsListByProjectHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for ServerSitesController_updateProperties operation. */
+export interface ServerSitesControllerUpdatePropertiesHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for Groups_get operation. */
-export interface GroupsGetHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for SitesController_create operation. */
+export interface SitesControllerCreateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Defines headers for Groups_create operation. */
-export interface GroupsCreateHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for SitesController_exportApplications operation. */
+export interface SitesControllerExportApplicationsHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for Groups_delete operation. */
-export interface GroupsDeleteHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for SitesController_exportMachineErrors operation. */
+export interface SitesControllerExportMachineErrorsHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for Groups_updateMachines operation. */
-export interface GroupsUpdateMachinesHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for SitesController_exportMachines operation. */
+export interface SitesControllerExportMachinesHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for Assessments_listByGroup operation. */
-export interface AssessmentsListByGroupHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for HypervSitesController_create operation. */
+export interface HypervSitesControllerCreateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Defines headers for Assessments_listByProject operation. */
-export interface AssessmentsListByProjectHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for HypervSitesController_exportApplications operation. */
+export interface HypervSitesControllerExportApplicationsHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for Assessments_get operation. */
-export interface AssessmentsGetHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for HypervSitesController_exportMachineErrors operation. */
+export interface HypervSitesControllerExportMachineErrorsHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for Assessments_create operation. */
-export interface AssessmentsCreateHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for HypervDependencyMapController_clientGroupMembers operation. */
+export interface HypervDependencyMapControllerClientGroupMembersHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for Assessments_delete operation. */
-export interface AssessmentsDeleteHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for HypervDependencyMapController_exportDependencies operation. */
+export interface HypervDependencyMapControllerExportDependenciesHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for Assessments_getReportDownloadUrl operation. */
-export interface AssessmentsGetReportDownloadUrlHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for HypervDependencyMapController_generateCoarseMap operation. */
+export interface HypervDependencyMapControllerGenerateCoarseMapHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for AssessedMachines_listByAssessment operation. */
-export interface AssessedMachinesListByAssessmentHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for HypervDependencyMapController_generateDetailedMap operation. */
+export interface HypervDependencyMapControllerGenerateDetailedMapHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for AssessedMachines_get operation. */
-export interface AssessedMachinesGetHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for HypervDependencyMapController_serverGroupMembers operation. */
+export interface HypervDependencyMapControllerServerGroupMembersHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for AssessedMachines_listByAssessmentNext operation. */
-export interface AssessedMachinesListByAssessmentNextHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for HypervDependencyMapController_updateDependencyMapStatus operation. */
+export interface HypervDependencyMapControllerUpdateDependencyMapStatusHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for HyperVCollectors_listByProject operation. */
-export interface HyperVCollectorsListByProjectHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for HypervClusterController_createCluster operation. */
+export interface HypervClusterControllerCreateClusterHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Defines headers for HyperVCollectors_get operation. */
-export interface HyperVCollectorsGetHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for HypervHostController_create operation. */
+export interface HypervHostControllerCreateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Defines headers for HyperVCollectors_create operation. */
-export interface HyperVCollectorsCreateHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for HypervHostController_delete operation. */
+export interface HypervHostControllerDeleteHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for HyperVCollectors_delete operation. */
-export interface HyperVCollectorsDeleteHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for HypervMachinesController_updateProperties operation. */
+export interface HypervMachinesControllerUpdatePropertiesHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for ServerCollectors_listByProject operation. */
-export interface ServerCollectorsListByProjectHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for PrivateEndpointConnectionController_create operation. */
+export interface PrivateEndpointConnectionControllerCreateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Defines headers for ServerCollectors_get operation. */
-export interface ServerCollectorsGetHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for SqlSitesController_create operation. */
+export interface SqlSitesControllerCreateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Defines headers for ServerCollectors_create operation. */
-export interface ServerCollectorsCreateHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for SqlSitesController_update operation. */
+export interface SqlSitesControllerUpdateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for ServerCollectors_delete operation. */
-export interface ServerCollectorsDeleteHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for SqlSitesController_exportSqlServerErrors operation. */
+export interface SqlSitesControllerExportSqlServerErrorsHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for VMwareCollectors_listByProject operation. */
-export interface VMwareCollectorsListByProjectHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for SqlSitesController_exportSqlServers operation. */
+export interface SqlSitesControllerExportSqlServersHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for VMwareCollectors_get operation. */
-export interface VMwareCollectorsGetHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for SqlSitesController_refresh operation. */
+export interface SqlSitesControllerRefreshHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for VMwareCollectors_create operation. */
-export interface VMwareCollectorsCreateHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for SqlSitesController_importUri operation. */
+export interface SqlSitesControllerImportUriHeaders {
+  /** URL to monitor operation status */
+  operationLocation?: string;
 }
 
-/** Defines headers for VMwareCollectors_delete operation. */
-export interface VMwareCollectorsDeleteHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for SqlDiscoverySiteDataSourceController_create operation. */
+export interface SqlDiscoverySiteDataSourceControllerCreateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Defines headers for ImportCollectors_listByProject operation. */
-export interface ImportCollectorsListByProjectHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for WebAppSitesController_create operation. */
+export interface WebAppSitesControllerCreateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Defines headers for ImportCollectors_get operation. */
-export interface ImportCollectorsGetHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for WebAppSitesController_update operation. */
+export interface WebAppSitesControllerUpdateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for ImportCollectors_create operation. */
-export interface ImportCollectorsCreateHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for WebAppSitesController_delete operation. */
+export interface WebAppSitesControllerDeleteHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for ImportCollectors_delete operation. */
-export interface ImportCollectorsDeleteHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for WebAppSitesController_exportInventory operation. */
+export interface WebAppSitesControllerExportInventoryHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for PrivateEndpointConnection_listByProject operation. */
-export interface PrivateEndpointConnectionListByProjectHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for WebAppSitesController_refresh operation. */
+export interface WebAppSitesControllerRefreshHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for PrivateEndpointConnection_get operation. */
-export interface PrivateEndpointConnectionGetHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for WebAppDiscoverySiteDataSourcesController_create operation. */
+export interface WebAppDiscoverySiteDataSourcesControllerCreateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Defines headers for PrivateEndpointConnection_update operation. */
-export interface PrivateEndpointConnectionUpdateHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for WebAppDiscoverySiteDataSourcesController_delete operation. */
+export interface WebAppDiscoverySiteDataSourcesControllerDeleteHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for PrivateEndpointConnection_delete operation. */
-export interface PrivateEndpointConnectionDeleteHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for WebAppPropertiesController_updateProperties operation. */
+export interface WebAppPropertiesControllerUpdatePropertiesHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for PrivateLinkResource_get operation. */
-export interface PrivateLinkResourceGetHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for ServerDependencyMapController_clientGroupMembers operation. */
+export interface ServerDependencyMapControllerClientGroupMembersHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Defines headers for PrivateLinkResource_listByProject operation. */
-export interface PrivateLinkResourceListByProjectHeaders {
-  /** Service generated Request ID. */
-  xMsRequestId?: string;
+/** Defines headers for ServerDependencyMapController_exportDependencies operation. */
+export interface ServerDependencyMapControllerExportDependenciesHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/** Known values of {@link ProjectStatus} that the service accepts. */
-export enum KnownProjectStatus {
-  /** Active */
-  Active = "Active",
-  /** Inactive */
-  Inactive = "Inactive"
+/** Defines headers for ServerDependencyMapController_generateCoarseMap operation. */
+export interface ServerDependencyMapControllerGenerateCoarseMapHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for ServerDependencyMapController_generateDetailedMap operation. */
+export interface ServerDependencyMapControllerGenerateDetailedMapHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for ServerDependencyMapController_serverGroupMembers operation. */
+export interface ServerDependencyMapControllerServerGroupMembersHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for DependencyMapController_clientGroupMembers operation. */
+export interface DependencyMapControllerClientGroupMembersHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for DependencyMapController_exportDependencies operation. */
+export interface DependencyMapControllerExportDependenciesHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for DependencyMapController_generateCoarseMap operation. */
+export interface DependencyMapControllerGenerateCoarseMapHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for DependencyMapController_generateDetailedMap operation. */
+export interface DependencyMapControllerGenerateDetailedMapHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for DependencyMapController_serverGroupMembers operation. */
+export interface DependencyMapControllerServerGroupMembersHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for MachinesController_start operation. */
+export interface MachinesControllerStartHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for MachinesController_stop operation. */
+export interface MachinesControllerStopHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for VmwarePropertiesController_updateDependencyMapStatus operation. */
+export interface VmwarePropertiesControllerUpdateDependencyMapStatusHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for VmwarePropertiesController_updateProperties operation. */
+export interface VmwarePropertiesControllerUpdatePropertiesHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for VmwarePropertiesController_updateRunAsAccount operation. */
+export interface VmwarePropertiesControllerUpdateRunAsAccountHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for VmwarePropertiesController_updateTags operation. */
+export interface VmwarePropertiesControllerUpdateTagsHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for VcenterController_create operation. */
+export interface VcenterControllerCreateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Known values of {@link Origin} that the service accepts. */
+export enum KnownOrigin {
+  /** User */
+  User = "user",
+  /** System */
+  System = "system",
+  /** UserSystem */
+  UserSystem = "user,system",
 }
 
 /**
- * Defines values for ProjectStatus. \
- * {@link KnownProjectStatus} can be used interchangeably with ProjectStatus,
+ * Defines values for Origin. \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Active** \
- * **Inactive**
+ * **user** \
+ * **system** \
+ * **user,system**
  */
-export type ProjectStatus = string;
+export type Origin = string;
 
-/** Known values of {@link PrivateEndpointConnectionPropertiesProvisioningState} that the service accepts. */
-export enum KnownPrivateEndpointConnectionPropertiesProvisioningState {
-  /** Accepted */
-  Accepted = "Accepted",
-  /** InProgress */
-  InProgress = "InProgress",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed"
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  /** Internal */
+  Internal = "Internal",
 }
 
 /**
- * Defines values for PrivateEndpointConnectionPropertiesProvisioningState. \
- * {@link KnownPrivateEndpointConnectionPropertiesProvisioningState} can be used interchangeably with PrivateEndpointConnectionPropertiesProvisioningState,
+ * Defines values for ActionType. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Accepted** \
- * **InProgress** \
- * **Succeeded** \
- * **Failed**
+ * **Internal**
  */
-export type PrivateEndpointConnectionPropertiesProvisioningState = string;
-
-/** Known values of {@link PrivateLinkServiceConnectionStateStatus} that the service accepts. */
-export enum KnownPrivateLinkServiceConnectionStateStatus {
-  /** Approved */
-  Approved = "Approved",
-  /** Pending */
-  Pending = "Pending",
-  /** Rejected */
-  Rejected = "Rejected",
-  /** Disconnected */
-  Disconnected = "Disconnected"
-}
-
-/**
- * Defines values for PrivateLinkServiceConnectionStateStatus. \
- * {@link KnownPrivateLinkServiceConnectionStateStatus} can be used interchangeably with PrivateLinkServiceConnectionStateStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Approved** \
- * **Pending** \
- * **Rejected** \
- * **Disconnected**
- */
-export type PrivateLinkServiceConnectionStateStatus = string;
+export type ActionType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
-  /** Accepted */
-  Accepted = "Accepted",
-  /** Creating */
-  Creating = "Creating",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Failed */
+  /** Created value. */
+  Created = "Created",
+  /** Updated value. */
+  Updated = "Updated",
+  /** Running value. */
+  Running = "Running",
+  /** Completed value. */
+  Completed = "Completed",
+  /** Failed value. */
   Failed = "Failed",
-  /** Moving */
-  Moving = "Moving",
-  /** Succeeded */
-  Succeeded = "Succeeded"
+  /** Succeeded value. */
+  Succeeded = "Succeeded",
+  /** Canceled value. */
+  Canceled = "Canceled",
 }
 
 /**
@@ -1547,1972 +5894,3582 @@ export enum KnownProvisioningState {
  * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Accepted** \
- * **Creating** \
- * **Deleting** \
- * **Failed** \
- * **Moving** \
- * **Succeeded**
+ * **Created**: Created value. \
+ * **Updated**: Updated value. \
+ * **Running**: Running value. \
+ * **Completed**: Completed value. \
+ * **Failed**: Failed value. \
+ * **Succeeded**: Succeeded value. \
+ * **Canceled**: Canceled value.
  */
 export type ProvisioningState = string;
 
-/** Known values of {@link MachineBootType} that the service accepts. */
-export enum KnownMachineBootType {
-  /** Unknown */
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link MasterSitePropertiesPublicNetworkAccess} that the service accepts. */
+export enum KnownMasterSitePropertiesPublicNetworkAccess {
+  /** NotSpecified value. */
+  NotSpecified = "NotSpecified",
+  /** Enabled value. */
+  Enabled = "Enabled",
+  /** Disabled value. */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for MasterSitePropertiesPublicNetworkAccess. \
+ * {@link KnownMasterSitePropertiesPublicNetworkAccess} can be used interchangeably with MasterSitePropertiesPublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: NotSpecified value. \
+ * **Enabled**: Enabled value. \
+ * **Disabled**: Disabled value.
+ */
+export type MasterSitePropertiesPublicNetworkAccess = string;
+
+/** Known values of {@link PrivateLinkServiceConnectionStateStatus} that the service accepts. */
+export enum KnownPrivateLinkServiceConnectionStateStatus {
+  /** Approved value. */
+  Approved = "Approved",
+  /** Pending value. */
+  Pending = "Pending",
+  /** Rejected value. */
+  Rejected = "Rejected",
+  /** Disconnected value. */
+  Disconnected = "Disconnected",
+}
+
+/**
+ * Defines values for PrivateLinkServiceConnectionStateStatus. \
+ * {@link KnownPrivateLinkServiceConnectionStateStatus} can be used interchangeably with PrivateLinkServiceConnectionStateStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Approved**: Approved value. \
+ * **Pending**: Pending value. \
+ * **Rejected**: Rejected value. \
+ * **Disconnected**: Disconnected value.
+ */
+export type PrivateLinkServiceConnectionStateStatus = string;
+
+/** Known values of {@link ArcScopeType} that the service accepts. */
+export enum KnownArcScopeType {
+  /** Scope is based on Subscription or Resource Group IDs. */
+  SubscriptionOrResourceGroupIds = "SubscriptionOrResourceGroupIds",
+}
+
+/**
+ * Defines values for ArcScopeType. \
+ * {@link KnownArcScopeType} can be used interchangeably with ArcScopeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SubscriptionOrResourceGroupIds**: Scope is based on Subscription or Resource Group IDs.
+ */
+export type ArcScopeType = string;
+
+/** Known values of {@link HealthErrorDetailsSource} that the service accepts. */
+export enum KnownHealthErrorDetailsSource {
+  /** RefreshFabricLayout value. */
+  RefreshFabricLayout = "RefreshFabricLayout",
+  /** RefreshFabricLayoutGuest value. */
+  RefreshFabricLayoutGuest = "RefreshFabricLayoutGuest",
+  /** RefreshFabricLayoutDependencyMap value. */
+  RefreshFabricLayoutDependencyMap = "RefreshFabricLayoutDependencyMap",
+}
+
+/**
+ * Defines values for HealthErrorDetailsSource. \
+ * {@link KnownHealthErrorDetailsSource} can be used interchangeably with HealthErrorDetailsSource,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **RefreshFabricLayout**: RefreshFabricLayout value. \
+ * **RefreshFabricLayoutGuest**: RefreshFabricLayoutGuest value. \
+ * **RefreshFabricLayoutDependencyMap**: RefreshFabricLayoutDependencyMap value.
+ */
+export type HealthErrorDetailsSource = string;
+
+/** Known values of {@link HealthErrorDetailsDiscoveryScope} that the service accepts. */
+export enum KnownHealthErrorDetailsDiscoveryScope {
+  /** AppsAndRoles value. */
+  AppsAndRoles = "AppsAndRoles",
+  /** DependencyMap value. */
+  DependencyMap = "DependencyMap",
+  /** StaticData value. */
+  StaticData = "StaticData",
+  /** SQLServerConnectionInfo value. */
+  SQLServerConnectionInfo = "SQLServerConnectionInfo",
+  /** DiscoveryTargets value. */
+  DiscoveryTargets = "DiscoveryTargets",
+}
+
+/**
+ * Defines values for HealthErrorDetailsDiscoveryScope. \
+ * {@link KnownHealthErrorDetailsDiscoveryScope} can be used interchangeably with HealthErrorDetailsDiscoveryScope,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AppsAndRoles**: AppsAndRoles value. \
+ * **DependencyMap**: DependencyMap value. \
+ * **StaticData**: StaticData value. \
+ * **SQLServerConnectionInfo**: SQLServerConnectionInfo value. \
+ * **DiscoveryTargets**: DiscoveryTargets value.
+ */
+export type HealthErrorDetailsDiscoveryScope = string;
+
+/** Known values of {@link DiscoveryScopes} that the service accepts. */
+export enum KnownDiscoveryScopes {
+  /** AppsAndRoles value. */
+  AppsAndRoles = "AppsAndRoles",
+  /** DependencyMap value. */
+  DependencyMap = "DependencyMap",
+  /** StaticData value. */
+  StaticData = "StaticData",
+  /** SQLServerConnectionInfo value. */
+  SQLServerConnectionInfo = "SQLServerConnectionInfo",
+}
+
+/**
+ * Defines values for DiscoveryScopes. \
+ * {@link KnownDiscoveryScopes} can be used interchangeably with DiscoveryScopes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AppsAndRoles**: AppsAndRoles value. \
+ * **DependencyMap**: DependencyMap value. \
+ * **StaticData**: StaticData value. \
+ * **SQLServerConnectionInfo**: SQLServerConnectionInfo value.
+ */
+export type DiscoveryScopes = string;
+
+/** Known values of {@link ExportMachineErrorsProperties} that the service accepts. */
+export enum KnownExportMachineErrorsProperties {
+  /** AppsAndRoles value. */
+  AppsAndRoles = "AppsAndRoles",
+  /** DependencyMap value. */
+  DependencyMap = "DependencyMap",
+  /** StaticData value. */
+  StaticData = "StaticData",
+  /** SQLServerConnectionInfo value. */
+  SQLServerConnectionInfo = "SQLServerConnectionInfo",
+}
+
+/**
+ * Defines values for ExportMachineErrorsProperties. \
+ * {@link KnownExportMachineErrorsProperties} can be used interchangeably with ExportMachineErrorsProperties,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AppsAndRoles**: AppsAndRoles value. \
+ * **DependencyMap**: DependencyMap value. \
+ * **StaticData**: StaticData value. \
+ * **SQLServerConnectionInfo**: SQLServerConnectionInfo value.
+ */
+export type ExportMachineErrorsProperties = string;
+
+/** Known values of {@link SiteHealthSummaryFabricLayoutUpdateSourcesItem} that the service accepts. */
+export enum KnownSiteHealthSummaryFabricLayoutUpdateSourcesItem {
+  /** RefreshFabricLayout value. */
+  RefreshFabricLayout = "RefreshFabricLayout",
+  /** RefreshFabricLayoutGuest value. */
+  RefreshFabricLayoutGuest = "RefreshFabricLayoutGuest",
+  /** RefreshFabricLayoutDependencyMap value. */
+  RefreshFabricLayoutDependencyMap = "RefreshFabricLayoutDependencyMap",
+}
+
+/**
+ * Defines values for SiteHealthSummaryFabricLayoutUpdateSourcesItem. \
+ * {@link KnownSiteHealthSummaryFabricLayoutUpdateSourcesItem} can be used interchangeably with SiteHealthSummaryFabricLayoutUpdateSourcesItem,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **RefreshFabricLayout**: RefreshFabricLayout value. \
+ * **RefreshFabricLayoutGuest**: RefreshFabricLayoutGuest value. \
+ * **RefreshFabricLayoutDependencyMap**: RefreshFabricLayoutDependencyMap value.
+ */
+export type SiteHealthSummaryFabricLayoutUpdateSourcesItem = string;
+
+/** Known values of {@link HighAvailability} that the service accepts. */
+export enum KnownHighAvailability {
+  /** Unknown value. */
   Unknown = "Unknown",
-  /** EFI */
-  EFI = "EFI",
-  /** Bios */
-  Bios = "BIOS"
-}
-
-/**
- * Defines values for MachineBootType. \
- * {@link KnownMachineBootType} can be used interchangeably with MachineBootType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unknown** \
- * **EFI** \
- * **BIOS**
- */
-export type MachineBootType = string;
-
-/** Known values of {@link GroupStatus} that the service accepts. */
-export enum KnownGroupStatus {
-  /** Created */
-  Created = "Created",
-  /** Updated */
-  Updated = "Updated",
-  /** Running */
-  Running = "Running",
-  /** Completed */
-  Completed = "Completed",
-  /** Invalid */
-  Invalid = "Invalid"
-}
-
-/**
- * Defines values for GroupStatus. \
- * {@link KnownGroupStatus} can be used interchangeably with GroupStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Created** \
- * **Updated** \
- * **Running** \
- * **Completed** \
- * **Invalid**
- */
-export type GroupStatus = string;
-
-/** Known values of {@link GroupUpdateOperation} that the service accepts. */
-export enum KnownGroupUpdateOperation {
-  /** Add */
-  Add = "Add",
-  /** Remove */
-  Remove = "Remove"
-}
-
-/**
- * Defines values for GroupUpdateOperation. \
- * {@link KnownGroupUpdateOperation} can be used interchangeably with GroupUpdateOperation,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Add** \
- * **Remove**
- */
-export type GroupUpdateOperation = string;
-
-/** Known values of {@link AzureLocation} that the service accepts. */
-export enum KnownAzureLocation {
-  /** Unknown */
-  Unknown = "Unknown",
-  /** EastAsia */
-  EastAsia = "EastAsia",
-  /** SoutheastAsia */
-  SoutheastAsia = "SoutheastAsia",
-  /** AustraliaEast */
-  AustraliaEast = "AustraliaEast",
-  /** AustraliaSoutheast */
-  AustraliaSoutheast = "AustraliaSoutheast",
-  /** BrazilSouth */
-  BrazilSouth = "BrazilSouth",
-  /** CanadaCentral */
-  CanadaCentral = "CanadaCentral",
-  /** CanadaEast */
-  CanadaEast = "CanadaEast",
-  /** WestEurope */
-  WestEurope = "WestEurope",
-  /** NorthEurope */
-  NorthEurope = "NorthEurope",
-  /** CentralIndia */
-  CentralIndia = "CentralIndia",
-  /** SouthIndia */
-  SouthIndia = "SouthIndia",
-  /** WestIndia */
-  WestIndia = "WestIndia",
-  /** JapanEast */
-  JapanEast = "JapanEast",
-  /** JapanWest */
-  JapanWest = "JapanWest",
-  /** KoreaCentral */
-  KoreaCentral = "KoreaCentral",
-  /** KoreaSouth */
-  KoreaSouth = "KoreaSouth",
-  /** UkWest */
-  UkWest = "UkWest",
-  /** UkSouth */
-  UkSouth = "UkSouth",
-  /** NorthCentralUs */
-  NorthCentralUs = "NorthCentralUs",
-  /** EastUs */
-  EastUs = "EastUs",
-  /** WestUs2 */
-  WestUs2 = "WestUs2",
-  /** SouthCentralUs */
-  SouthCentralUs = "SouthCentralUs",
-  /** CentralUs */
-  CentralUs = "CentralUs",
-  /** EastUs2 */
-  EastUs2 = "EastUs2",
-  /** WestUs */
-  WestUs = "WestUs",
-  /** WestCentralUs */
-  WestCentralUs = "WestCentralUs",
-  /** GermanyCentral */
-  GermanyCentral = "GermanyCentral",
-  /** GermanyNortheast */
-  GermanyNortheast = "GermanyNortheast",
-  /** ChinaNorth */
-  ChinaNorth = "ChinaNorth",
-  /** ChinaEast */
-  ChinaEast = "ChinaEast",
-  /** USGovArizona */
-  USGovArizona = "USGovArizona",
-  /** USGovTexas */
-  USGovTexas = "USGovTexas",
-  /** USGovIowa */
-  USGovIowa = "USGovIowa",
-  /** USGovVirginia */
-  USGovVirginia = "USGovVirginia",
-  /** USDoDCentral */
-  USDoDCentral = "USDoDCentral",
-  /** USDoDEast */
-  USDoDEast = "USDoDEast"
-}
-
-/**
- * Defines values for AzureLocation. \
- * {@link KnownAzureLocation} can be used interchangeably with AzureLocation,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unknown** \
- * **EastAsia** \
- * **SoutheastAsia** \
- * **AustraliaEast** \
- * **AustraliaSoutheast** \
- * **BrazilSouth** \
- * **CanadaCentral** \
- * **CanadaEast** \
- * **WestEurope** \
- * **NorthEurope** \
- * **CentralIndia** \
- * **SouthIndia** \
- * **WestIndia** \
- * **JapanEast** \
- * **JapanWest** \
- * **KoreaCentral** \
- * **KoreaSouth** \
- * **UkWest** \
- * **UkSouth** \
- * **NorthCentralUs** \
- * **EastUs** \
- * **WestUs2** \
- * **SouthCentralUs** \
- * **CentralUs** \
- * **EastUs2** \
- * **WestUs** \
- * **WestCentralUs** \
- * **GermanyCentral** \
- * **GermanyNortheast** \
- * **ChinaNorth** \
- * **ChinaEast** \
- * **USGovArizona** \
- * **USGovTexas** \
- * **USGovIowa** \
- * **USGovVirginia** \
- * **USDoDCentral** \
- * **USDoDEast**
- */
-export type AzureLocation = string;
-
-/** Known values of {@link AzureOfferCode} that the service accepts. */
-export enum KnownAzureOfferCode {
-  /** Unknown */
-  Unknown = "Unknown",
-  /** Msazr0003P */
-  Msazr0003P = "MSAZR0003P",
-  /** Msazr0044P */
-  Msazr0044P = "MSAZR0044P",
-  /** Msazr0059P */
-  Msazr0059P = "MSAZR0059P",
-  /** Msazr0060P */
-  Msazr0060P = "MSAZR0060P",
-  /** Msazr0062P */
-  Msazr0062P = "MSAZR0062P",
-  /** Msazr0063P */
-  Msazr0063P = "MSAZR0063P",
-  /** Msazr0064P */
-  Msazr0064P = "MSAZR0064P",
-  /** Msazr0029P */
-  Msazr0029P = "MSAZR0029P",
-  /** Msazr0022P */
-  Msazr0022P = "MSAZR0022P",
-  /** Msazr0023P */
-  Msazr0023P = "MSAZR0023P",
-  /** Msazr0148P */
-  Msazr0148P = "MSAZR0148P",
-  /** Msazr0025P */
-  Msazr0025P = "MSAZR0025P",
-  /** Msazr0036P */
-  Msazr0036P = "MSAZR0036P",
-  /** Msazr0120P */
-  Msazr0120P = "MSAZR0120P",
-  /** Msazr0121P */
-  Msazr0121P = "MSAZR0121P",
-  /** Msazr0122P */
-  Msazr0122P = "MSAZR0122P",
-  /** Msazr0123P */
-  Msazr0123P = "MSAZR0123P",
-  /** Msazr0124P */
-  Msazr0124P = "MSAZR0124P",
-  /** Msazr0125P */
-  Msazr0125P = "MSAZR0125P",
-  /** Msazr0126P */
-  Msazr0126P = "MSAZR0126P",
-  /** Msazr0127P */
-  Msazr0127P = "MSAZR0127P",
-  /** Msazr0128P */
-  Msazr0128P = "MSAZR0128P",
-  /** Msazr0129P */
-  Msazr0129P = "MSAZR0129P",
-  /** Msazr0130P */
-  Msazr0130P = "MSAZR0130P",
-  /** Msazr0111P */
-  Msazr0111P = "MSAZR0111P",
-  /** Msazr0144P */
-  Msazr0144P = "MSAZR0144P",
-  /** Msazr0149P */
-  Msazr0149P = "MSAZR0149P",
-  /** Msmcazr0044P */
-  Msmcazr0044P = "MSMCAZR0044P",
-  /** Msmcazr0059P */
-  Msmcazr0059P = "MSMCAZR0059P",
-  /** Msmcazr0060P */
-  Msmcazr0060P = "MSMCAZR0060P",
-  /** Msmcazr0063P */
-  Msmcazr0063P = "MSMCAZR0063P",
-  /** Msmcazr0120P */
-  Msmcazr0120P = "MSMCAZR0120P",
-  /** Msmcazr0121P */
-  Msmcazr0121P = "MSMCAZR0121P",
-  /** Msmcazr0125P */
-  Msmcazr0125P = "MSMCAZR0125P",
-  /** Msmcazr0128P */
-  Msmcazr0128P = "MSMCAZR0128P",
-  /** Msazrde0003P */
-  Msazrde0003P = "MSAZRDE0003P",
-  /** Msazrde0044P */
-  Msazrde0044P = "MSAZRDE0044P",
-  /** Msazrusgov0003P */
-  Msazrusgov0003P = "MSAZRUSGOV0003P",
-  /** EA */
-  EA = "EA"
-}
-
-/**
- * Defines values for AzureOfferCode. \
- * {@link KnownAzureOfferCode} can be used interchangeably with AzureOfferCode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unknown** \
- * **MSAZR0003P** \
- * **MSAZR0044P** \
- * **MSAZR0059P** \
- * **MSAZR0060P** \
- * **MSAZR0062P** \
- * **MSAZR0063P** \
- * **MSAZR0064P** \
- * **MSAZR0029P** \
- * **MSAZR0022P** \
- * **MSAZR0023P** \
- * **MSAZR0148P** \
- * **MSAZR0025P** \
- * **MSAZR0036P** \
- * **MSAZR0120P** \
- * **MSAZR0121P** \
- * **MSAZR0122P** \
- * **MSAZR0123P** \
- * **MSAZR0124P** \
- * **MSAZR0125P** \
- * **MSAZR0126P** \
- * **MSAZR0127P** \
- * **MSAZR0128P** \
- * **MSAZR0129P** \
- * **MSAZR0130P** \
- * **MSAZR0111P** \
- * **MSAZR0144P** \
- * **MSAZR0149P** \
- * **MSMCAZR0044P** \
- * **MSMCAZR0059P** \
- * **MSMCAZR0060P** \
- * **MSMCAZR0063P** \
- * **MSMCAZR0120P** \
- * **MSMCAZR0121P** \
- * **MSMCAZR0125P** \
- * **MSMCAZR0128P** \
- * **MSAZRDE0003P** \
- * **MSAZRDE0044P** \
- * **MSAZRUSGOV0003P** \
- * **EA**
- */
-export type AzureOfferCode = string;
-
-/** Known values of {@link AzurePricingTier} that the service accepts. */
-export enum KnownAzurePricingTier {
-  /** Standard */
-  Standard = "Standard",
-  /** Basic */
-  Basic = "Basic"
-}
-
-/**
- * Defines values for AzurePricingTier. \
- * {@link KnownAzurePricingTier} can be used interchangeably with AzurePricingTier,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Standard** \
- * **Basic**
- */
-export type AzurePricingTier = string;
-
-/** Known values of {@link AzureStorageRedundancy} that the service accepts. */
-export enum KnownAzureStorageRedundancy {
-  /** Unknown */
-  Unknown = "Unknown",
-  /** LocallyRedundant */
-  LocallyRedundant = "LocallyRedundant",
-  /** ZoneRedundant */
-  ZoneRedundant = "ZoneRedundant",
-  /** GeoRedundant */
-  GeoRedundant = "GeoRedundant",
-  /** ReadAccessGeoRedundant */
-  ReadAccessGeoRedundant = "ReadAccessGeoRedundant"
-}
-
-/**
- * Defines values for AzureStorageRedundancy. \
- * {@link KnownAzureStorageRedundancy} can be used interchangeably with AzureStorageRedundancy,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unknown** \
- * **LocallyRedundant** \
- * **ZoneRedundant** \
- * **GeoRedundant** \
- * **ReadAccessGeoRedundant**
- */
-export type AzureStorageRedundancy = string;
-
-/** Known values of {@link Percentile} that the service accepts. */
-export enum KnownPercentile {
-  /** Percentile50 */
-  Percentile50 = "Percentile50",
-  /** Percentile90 */
-  Percentile90 = "Percentile90",
-  /** Percentile95 */
-  Percentile95 = "Percentile95",
-  /** Percentile99 */
-  Percentile99 = "Percentile99"
-}
-
-/**
- * Defines values for Percentile. \
- * {@link KnownPercentile} can be used interchangeably with Percentile,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Percentile50** \
- * **Percentile90** \
- * **Percentile95** \
- * **Percentile99**
- */
-export type Percentile = string;
-
-/** Known values of {@link TimeRange} that the service accepts. */
-export enum KnownTimeRange {
-  /** Day */
-  Day = "Day",
-  /** Week */
-  Week = "Week",
-  /** Month */
-  Month = "Month",
-  /** Custom */
-  Custom = "Custom"
-}
-
-/**
- * Defines values for TimeRange. \
- * {@link KnownTimeRange} can be used interchangeably with TimeRange,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Day** \
- * **Week** \
- * **Month** \
- * **Custom**
- */
-export type TimeRange = string;
-
-/** Known values of {@link AssessmentStage} that the service accepts. */
-export enum KnownAssessmentStage {
-  /** InProgress */
-  InProgress = "InProgress",
-  /** UnderReview */
-  UnderReview = "UnderReview",
-  /** Approved */
-  Approved = "Approved"
-}
-
-/**
- * Defines values for AssessmentStage. \
- * {@link KnownAssessmentStage} can be used interchangeably with AssessmentStage,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **InProgress** \
- * **UnderReview** \
- * **Approved**
- */
-export type AssessmentStage = string;
-
-/** Known values of {@link Currency} that the service accepts. */
-export enum KnownCurrency {
-  /** Unknown */
-  Unknown = "Unknown",
-  /** USD */
-  USD = "USD",
-  /** DKK */
-  DKK = "DKK",
-  /** CAD */
-  CAD = "CAD",
-  /** IDR */
-  IDR = "IDR",
-  /** JPY */
-  JPY = "JPY",
-  /** KRW */
-  KRW = "KRW",
-  /** NZD */
-  NZD = "NZD",
-  /** NOK */
-  NOK = "NOK",
-  /** RUB */
-  RUB = "RUB",
-  /** SAR */
-  SAR = "SAR",
-  /** ZAR */
-  ZAR = "ZAR",
-  /** SEK */
-  SEK = "SEK",
-  /** TRY */
-  TRY = "TRY",
-  /** GBP */
-  GBP = "GBP",
-  /** MXN */
-  MXN = "MXN",
-  /** MYR */
-  MYR = "MYR",
-  /** INR */
-  INR = "INR",
-  /** HKD */
-  HKD = "HKD",
-  /** BRL */
-  BRL = "BRL",
-  /** TWD */
-  TWD = "TWD",
-  /** EUR */
-  EUR = "EUR",
-  /** CHF */
-  CHF = "CHF",
-  /** ARS */
-  ARS = "ARS",
-  /** AUD */
-  AUD = "AUD",
-  /** CNY */
-  CNY = "CNY"
-}
-
-/**
- * Defines values for Currency. \
- * {@link KnownCurrency} can be used interchangeably with Currency,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unknown** \
- * **USD** \
- * **DKK** \
- * **CAD** \
- * **IDR** \
- * **JPY** \
- * **KRW** \
- * **NZD** \
- * **NOK** \
- * **RUB** \
- * **SAR** \
- * **ZAR** \
- * **SEK** \
- * **TRY** \
- * **GBP** \
- * **MXN** \
- * **MYR** \
- * **INR** \
- * **HKD** \
- * **BRL** \
- * **TWD** \
- * **EUR** \
- * **CHF** \
- * **ARS** \
- * **AUD** \
- * **CNY**
- */
-export type Currency = string;
-
-/** Known values of {@link AzureHybridUseBenefit} that the service accepts. */
-export enum KnownAzureHybridUseBenefit {
-  /** Unknown */
-  Unknown = "Unknown",
-  /** Yes */
+  /** No value. */
+  No = "No",
+  /** Yes value. */
   Yes = "Yes",
-  /** No */
-  No = "No"
 }
 
 /**
- * Defines values for AzureHybridUseBenefit. \
- * {@link KnownAzureHybridUseBenefit} can be used interchangeably with AzureHybridUseBenefit,
+ * Defines values for HighAvailability. \
+ * {@link KnownHighAvailability} can be used interchangeably with HighAvailability,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unknown** \
- * **Yes** \
- * **No**
+ * **Unknown**: Unknown value. \
+ * **No**: No value. \
+ * **Yes**: Yes value.
  */
-export type AzureHybridUseBenefit = string;
+export type HighAvailability = string;
 
-/** Known values of {@link AssessmentSizingCriterion} that the service accepts. */
-export enum KnownAssessmentSizingCriterion {
-  /** PerformanceBased */
-  PerformanceBased = "PerformanceBased",
-  /** AsOnPremises */
-  AsOnPremises = "AsOnPremises"
+/** Known values of {@link ApplicationDiscoveryScopeStatus} that the service accepts. */
+export enum KnownApplicationDiscoveryScopeStatus {
+  /** DiscoverySucceededAtleastOnce value. */
+  DiscoverySucceededAtleastOnce = "DiscoverySucceededAtleastOnce",
+  /** DiscoveryFailed value. */
+  DiscoveryFailed = "DiscoveryFailed",
+  /** RunAsAccountNotAssociated value. */
+  RunAsAccountNotAssociated = "RunAsAccountNotAssociated",
+  /** DiscoveryNotStarted value. */
+  DiscoveryNotStarted = "DiscoveryNotStarted",
+  /** DiscoveryInProgress value. */
+  DiscoveryInProgress = "DiscoveryInProgress",
+  /** Disabled value. */
+  Disabled = "Disabled",
+  /** DiscoveryPartiallySucceded value. */
+  DiscoveryPartiallySucceded = "DiscoveryPartiallySucceded",
+  /** DiscoverySucceeded value. */
+  DiscoverySucceeded = "DiscoverySucceeded",
 }
 
 /**
- * Defines values for AssessmentSizingCriterion. \
- * {@link KnownAssessmentSizingCriterion} can be used interchangeably with AssessmentSizingCriterion,
+ * Defines values for ApplicationDiscoveryScopeStatus. \
+ * {@link KnownApplicationDiscoveryScopeStatus} can be used interchangeably with ApplicationDiscoveryScopeStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **PerformanceBased** \
- * **AsOnPremises**
+ * **DiscoverySucceededAtleastOnce**: DiscoverySucceededAtleastOnce value. \
+ * **DiscoveryFailed**: DiscoveryFailed value. \
+ * **RunAsAccountNotAssociated**: RunAsAccountNotAssociated value. \
+ * **DiscoveryNotStarted**: DiscoveryNotStarted value. \
+ * **DiscoveryInProgress**: DiscoveryInProgress value. \
+ * **Disabled**: Disabled value. \
+ * **DiscoveryPartiallySucceded**: DiscoveryPartiallySucceded value. \
+ * **DiscoverySucceeded**: DiscoverySucceeded value.
  */
-export type AssessmentSizingCriterion = string;
+export type ApplicationDiscoveryScopeStatus = string;
 
-/** Known values of {@link ReservedInstance} that the service accepts. */
-export enum KnownReservedInstance {
-  /** None */
-  None = "None",
-  /** RI1Year */
-  RI1Year = "RI1Year",
-  /** RI3Year */
-  RI3Year = "RI3Year"
+/** Known values of {@link DependencyMapDiscoveryScopeStatus} that the service accepts. */
+export enum KnownDependencyMapDiscoveryScopeStatus {
+  /** DiscoverySucceededAtleastOnce value. */
+  DiscoverySucceededAtleastOnce = "DiscoverySucceededAtleastOnce",
+  /** DiscoveryFailed value. */
+  DiscoveryFailed = "DiscoveryFailed",
+  /** RunAsAccountNotAssociated value. */
+  RunAsAccountNotAssociated = "RunAsAccountNotAssociated",
+  /** DiscoveryNotStarted value. */
+  DiscoveryNotStarted = "DiscoveryNotStarted",
+  /** DiscoveryInProgress value. */
+  DiscoveryInProgress = "DiscoveryInProgress",
+  /** Disabled value. */
+  Disabled = "Disabled",
+  /** DiscoveryPartiallySucceded value. */
+  DiscoveryPartiallySucceded = "DiscoveryPartiallySucceded",
+  /** DiscoverySucceeded value. */
+  DiscoverySucceeded = "DiscoverySucceeded",
 }
 
 /**
- * Defines values for ReservedInstance. \
- * {@link KnownReservedInstance} can be used interchangeably with ReservedInstance,
+ * Defines values for DependencyMapDiscoveryScopeStatus. \
+ * {@link KnownDependencyMapDiscoveryScopeStatus} can be used interchangeably with DependencyMapDiscoveryScopeStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None** \
- * **RI1Year** \
- * **RI3Year**
+ * **DiscoverySucceededAtleastOnce**: DiscoverySucceededAtleastOnce value. \
+ * **DiscoveryFailed**: DiscoveryFailed value. \
+ * **RunAsAccountNotAssociated**: RunAsAccountNotAssociated value. \
+ * **DiscoveryNotStarted**: DiscoveryNotStarted value. \
+ * **DiscoveryInProgress**: DiscoveryInProgress value. \
+ * **Disabled**: Disabled value. \
+ * **DiscoveryPartiallySucceded**: DiscoveryPartiallySucceded value. \
+ * **DiscoverySucceeded**: DiscoverySucceeded value.
  */
-export type ReservedInstance = string;
+export type DependencyMapDiscoveryScopeStatus = string;
 
-/** Known values of {@link AzureVmFamily} that the service accepts. */
-export enum KnownAzureVmFamily {
-  /** Unknown */
+/** Known values of {@link StaticDiscoveryScopeStatus} that the service accepts. */
+export enum KnownStaticDiscoveryScopeStatus {
+  /** DiscoverySucceededAtleastOnce value. */
+  DiscoverySucceededAtleastOnce = "DiscoverySucceededAtleastOnce",
+  /** DiscoveryFailed value. */
+  DiscoveryFailed = "DiscoveryFailed",
+  /** RunAsAccountNotAssociated value. */
+  RunAsAccountNotAssociated = "RunAsAccountNotAssociated",
+  /** DiscoveryNotStarted value. */
+  DiscoveryNotStarted = "DiscoveryNotStarted",
+  /** DiscoveryInProgress value. */
+  DiscoveryInProgress = "DiscoveryInProgress",
+  /** Disabled value. */
+  Disabled = "Disabled",
+  /** DiscoveryPartiallySucceded value. */
+  DiscoveryPartiallySucceded = "DiscoveryPartiallySucceded",
+  /** DiscoverySucceeded value. */
+  DiscoverySucceeded = "DiscoverySucceeded",
+}
+
+/**
+ * Defines values for StaticDiscoveryScopeStatus. \
+ * {@link KnownStaticDiscoveryScopeStatus} can be used interchangeably with StaticDiscoveryScopeStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DiscoverySucceededAtleastOnce**: DiscoverySucceededAtleastOnce value. \
+ * **DiscoveryFailed**: DiscoveryFailed value. \
+ * **RunAsAccountNotAssociated**: RunAsAccountNotAssociated value. \
+ * **DiscoveryNotStarted**: DiscoveryNotStarted value. \
+ * **DiscoveryInProgress**: DiscoveryInProgress value. \
+ * **Disabled**: Disabled value. \
+ * **DiscoveryPartiallySucceded**: DiscoveryPartiallySucceded value. \
+ * **DiscoverySucceeded**: DiscoverySucceeded value.
+ */
+export type StaticDiscoveryScopeStatus = string;
+
+/** Known values of {@link SqlMetadataDiscoveryPipe} that the service accepts. */
+export enum KnownSqlMetadataDiscoveryPipe {
+  /** Unknown value. */
   Unknown = "Unknown",
-  /** BasicA0A4 */
-  BasicA0A4 = "Basic_A0_A4",
-  /** StandardA0A7 */
-  StandardA0A7 = "Standard_A0_A7",
-  /** StandardA8A11 */
-  StandardA8A11 = "Standard_A8_A11",
-  /** Av2Series */
-  Av2Series = "Av2_series",
-  /** DSeries */
-  DSeries = "D_series",
-  /** Dv2Series */
-  Dv2Series = "Dv2_series",
-  /** DSSeries */
-  DSSeries = "DS_series",
-  /** DSv2Series */
-  DSv2Series = "DSv2_series",
-  /** FSeries */
-  FSeries = "F_series",
-  /** FsSeries */
-  FsSeries = "Fs_series",
-  /** GSeries */
-  GSeries = "G_series",
-  /** GSSeries */
-  GSSeries = "GS_series",
-  /** HSeries */
-  HSeries = "H_series",
-  /** LsSeries */
-  LsSeries = "Ls_series",
-  /** Dsv3Series */
-  Dsv3Series = "Dsv3_series",
-  /** Dv3Series */
-  Dv3Series = "Dv3_series",
-  /** Fsv2Series */
-  Fsv2Series = "Fsv2_series",
-  /** Ev3Series */
-  Ev3Series = "Ev3_series",
-  /** Esv3Series */
-  Esv3Series = "Esv3_series",
-  /** MSeries */
-  MSeries = "M_series",
-  /** DCSeries */
-  DCSeries = "DC_Series"
+  /** VMware value. */
+  VMware = "VMware",
+  /** PowerShell value. */
+  PowerShell = "PowerShell",
+  /** SSH value. */
+  SSH = "SSH",
+  /** CIM value. */
+  CIM = "CIM",
+  /** Other value. */
+  Other = "Other",
 }
 
 /**
- * Defines values for AzureVmFamily. \
- * {@link KnownAzureVmFamily} can be used interchangeably with AzureVmFamily,
+ * Defines values for SqlMetadataDiscoveryPipe. \
+ * {@link KnownSqlMetadataDiscoveryPipe} can be used interchangeably with SqlMetadataDiscoveryPipe,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unknown** \
- * **Basic_A0_A4** \
- * **Standard_A0_A7** \
- * **Standard_A8_A11** \
- * **Av2_series** \
- * **D_series** \
- * **Dv2_series** \
- * **DS_series** \
- * **DSv2_series** \
- * **F_series** \
- * **Fs_series** \
- * **G_series** \
- * **GS_series** \
- * **H_series** \
- * **Ls_series** \
- * **Dsv3_series** \
- * **Dv3_series** \
- * **Fsv2_series** \
- * **Ev3_series** \
- * **Esv3_series** \
- * **M_series** \
- * **DC_Series**
+ * **Unknown**: Unknown value. \
+ * **VMware**: VMware value. \
+ * **PowerShell**: PowerShell value. \
+ * **SSH**: SSH value. \
+ * **CIM**: CIM value. \
+ * **Other**: Other value.
  */
-export type AzureVmFamily = string;
+export type SqlMetadataDiscoveryPipe = string;
 
-/** Known values of {@link AzureDiskType} that the service accepts. */
-export enum KnownAzureDiskType {
-  /** Unknown */
+/** Known values of {@link SQLDiscoveryScopeStatus} that the service accepts. */
+export enum KnownSQLDiscoveryScopeStatus {
+  /** DiscoverySucceededAtleastOnce value. */
+  DiscoverySucceededAtleastOnce = "DiscoverySucceededAtleastOnce",
+  /** DiscoveryFailed value. */
+  DiscoveryFailed = "DiscoveryFailed",
+  /** RunAsAccountNotAssociated value. */
+  RunAsAccountNotAssociated = "RunAsAccountNotAssociated",
+  /** DiscoveryNotStarted value. */
+  DiscoveryNotStarted = "DiscoveryNotStarted",
+  /** DiscoveryInProgress value. */
+  DiscoveryInProgress = "DiscoveryInProgress",
+  /** Disabled value. */
+  Disabled = "Disabled",
+  /** DiscoveryPartiallySucceded value. */
+  DiscoveryPartiallySucceded = "DiscoveryPartiallySucceded",
+  /** DiscoverySucceeded value. */
+  DiscoverySucceeded = "DiscoverySucceeded",
+}
+
+/**
+ * Defines values for SQLDiscoveryScopeStatus. \
+ * {@link KnownSQLDiscoveryScopeStatus} can be used interchangeably with SQLDiscoveryScopeStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DiscoverySucceededAtleastOnce**: DiscoverySucceededAtleastOnce value. \
+ * **DiscoveryFailed**: DiscoveryFailed value. \
+ * **RunAsAccountNotAssociated**: RunAsAccountNotAssociated value. \
+ * **DiscoveryNotStarted**: DiscoveryNotStarted value. \
+ * **DiscoveryInProgress**: DiscoveryInProgress value. \
+ * **Disabled**: Disabled value. \
+ * **DiscoveryPartiallySucceded**: DiscoveryPartiallySucceded value. \
+ * **DiscoverySucceeded**: DiscoverySucceeded value.
+ */
+export type SQLDiscoveryScopeStatus = string;
+
+/** Known values of {@link DiscoveryScopeStatus} that the service accepts. */
+export enum KnownDiscoveryScopeStatus {
+  /** DiscoverySucceededAtleastOnce value. */
+  DiscoverySucceededAtleastOnce = "DiscoverySucceededAtleastOnce",
+  /** DiscoveryFailed value. */
+  DiscoveryFailed = "DiscoveryFailed",
+  /** RunAsAccountNotAssociated value. */
+  RunAsAccountNotAssociated = "RunAsAccountNotAssociated",
+  /** DiscoveryNotStarted value. */
+  DiscoveryNotStarted = "DiscoveryNotStarted",
+  /** DiscoveryInProgress value. */
+  DiscoveryInProgress = "DiscoveryInProgress",
+  /** Disabled value. */
+  Disabled = "Disabled",
+  /** DiscoveryPartiallySucceded value. */
+  DiscoveryPartiallySucceded = "DiscoveryPartiallySucceded",
+  /** DiscoverySucceeded value. */
+  DiscoverySucceeded = "DiscoverySucceeded",
+}
+
+/**
+ * Defines values for DiscoveryScopeStatus. \
+ * {@link KnownDiscoveryScopeStatus} can be used interchangeably with DiscoveryScopeStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DiscoverySucceededAtleastOnce**: DiscoverySucceededAtleastOnce value. \
+ * **DiscoveryFailed**: DiscoveryFailed value. \
+ * **RunAsAccountNotAssociated**: RunAsAccountNotAssociated value. \
+ * **DiscoveryNotStarted**: DiscoveryNotStarted value. \
+ * **DiscoveryInProgress**: DiscoveryInProgress value. \
+ * **Disabled**: Disabled value. \
+ * **DiscoveryPartiallySucceded**: DiscoveryPartiallySucceded value. \
+ * **DiscoverySucceeded**: DiscoverySucceeded value.
+ */
+export type DiscoveryScopeStatus = string;
+
+/** Known values of {@link ShallowDiscoveryStatus} that the service accepts. */
+export enum KnownShallowDiscoveryStatus {
+  /** DiscoverySucceededAtleastOnce value. */
+  DiscoverySucceededAtleastOnce = "DiscoverySucceededAtleastOnce",
+  /** DiscoveryFailed value. */
+  DiscoveryFailed = "DiscoveryFailed",
+  /** RunAsAccountNotAssociated value. */
+  RunAsAccountNotAssociated = "RunAsAccountNotAssociated",
+  /** DiscoveryNotStarted value. */
+  DiscoveryNotStarted = "DiscoveryNotStarted",
+  /** DiscoveryInProgress value. */
+  DiscoveryInProgress = "DiscoveryInProgress",
+  /** Disabled value. */
+  Disabled = "Disabled",
+  /** DiscoveryPartiallySucceded value. */
+  DiscoveryPartiallySucceded = "DiscoveryPartiallySucceded",
+  /** DiscoverySucceeded value. */
+  DiscoverySucceeded = "DiscoverySucceeded",
+}
+
+/**
+ * Defines values for ShallowDiscoveryStatus. \
+ * {@link KnownShallowDiscoveryStatus} can be used interchangeably with ShallowDiscoveryStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DiscoverySucceededAtleastOnce**: DiscoverySucceededAtleastOnce value. \
+ * **DiscoveryFailed**: DiscoveryFailed value. \
+ * **RunAsAccountNotAssociated**: RunAsAccountNotAssociated value. \
+ * **DiscoveryNotStarted**: DiscoveryNotStarted value. \
+ * **DiscoveryInProgress**: DiscoveryInProgress value. \
+ * **Disabled**: Disabled value. \
+ * **DiscoveryPartiallySucceded**: DiscoveryPartiallySucceded value. \
+ * **DiscoverySucceeded**: DiscoverySucceeded value.
+ */
+export type ShallowDiscoveryStatus = string;
+
+/** Known values of {@link EsuStatus} that the service accepts. */
+export enum KnownEsuStatus {
+  /** Unknown value. */
   Unknown = "Unknown",
-  /** Standard */
-  Standard = "Standard",
-  /** Premium */
-  Premium = "Premium",
-  /** StandardSSD */
-  StandardSSD = "StandardSSD",
-  /** StandardOrPremium */
-  StandardOrPremium = "StandardOrPremium"
+  /** Active value. */
+  Active = "Active",
+  /** InActive value. */
+  InActive = "InActive",
 }
 
 /**
- * Defines values for AzureDiskType. \
- * {@link KnownAzureDiskType} can be used interchangeably with AzureDiskType,
+ * Defines values for EsuStatus. \
+ * {@link KnownEsuStatus} can be used interchangeably with EsuStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unknown** \
- * **Standard** \
- * **Premium** \
- * **StandardSSD** \
- * **StandardOrPremium**
+ * **Unknown**: Unknown value. \
+ * **Active**: Active value. \
+ * **InActive**: InActive value.
  */
-export type AzureDiskType = string;
+export type EsuStatus = string;
 
-/** Known values of {@link AssessmentStatus} that the service accepts. */
-export enum KnownAssessmentStatus {
-  /** Created */
-  Created = "Created",
-  /** Updated */
-  Updated = "Updated",
-  /** Running */
-  Running = "Running",
-  /** Completed */
+/** Known values of {@link SupportStatus} that the service accepts. */
+export enum KnownSupportStatus {
+  /** Unknown value. */
+  Unknown = "Unknown",
+  /** Mainstream value. */
+  Mainstream = "Mainstream",
+  /** Extended value. */
+  Extended = "Extended",
+}
+
+/**
+ * Defines values for SupportStatus. \
+ * {@link KnownSupportStatus} can be used interchangeably with SupportStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Unknown value. \
+ * **Mainstream**: Mainstream value. \
+ * **Extended**: Extended value.
+ */
+export type SupportStatus = string;
+
+/** Known values of {@link EsuYear} that the service accepts. */
+export enum KnownEsuYear {
+  /** Unknown value. */
+  Unknown = "Unknown",
+  /** FirstYear value. */
+  FirstYear = "FirstYear",
+  /** SecondYear value. */
+  SecondYear = "SecondYear",
+  /** ThirdYear value. */
+  ThirdYear = "ThirdYear",
+  /** UpgradeYear value. */
+  UpgradeYear = "UpgradeYear",
+}
+
+/**
+ * Defines values for EsuYear. \
+ * {@link KnownEsuYear} can be used interchangeably with EsuYear,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Unknown value. \
+ * **FirstYear**: FirstYear value. \
+ * **SecondYear**: SecondYear value. \
+ * **ThirdYear**: ThirdYear value. \
+ * **UpgradeYear**: UpgradeYear value.
+ */
+export type EsuYear = string;
+
+/** Known values of {@link AzureArcStatus} that the service accepts. */
+export enum KnownAzureArcStatus {
+  /** Unknown value. */
+  Unknown = "Unknown",
+  /** Not enabled value. */
+  NotEnabled = "NotEnabled",
+  /** Enabled value. */
+  Enabled = "Enabled",
+}
+
+/**
+ * Defines values for AzureArcStatus. \
+ * {@link KnownAzureArcStatus} can be used interchangeably with AzureArcStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Unknown value. \
+ * **NotEnabled**: Not enabled value. \
+ * **Enabled**: Enabled value.
+ */
+export type AzureArcStatus = string;
+
+/** Known values of {@link Default} that the service accepts. */
+export enum KnownDefault {
+  /** default value. */
+  Default = "default",
+}
+
+/**
+ * Defines values for Default. \
+ * {@link KnownDefault} can be used interchangeably with Default,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **default**: default value.
+ */
+export type Default = string;
+
+/** Known values of {@link ImportTypeValues} that the service accepts. */
+export enum KnownImportTypeValues {
+  /** AzureMigrateCSV value. */
+  AzureMigrateCSV = "AzureMigrateCSV",
+  /** RVToolsXlsx value. */
+  RVToolsXlsx = "RVToolsXlsx",
+}
+
+/**
+ * Defines values for ImportTypeValues. \
+ * {@link KnownImportTypeValues} can be used interchangeably with ImportTypeValues,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AzureMigrateCSV**: AzureMigrateCSV value. \
+ * **RVToolsXlsx**: RVToolsXlsx value.
+ */
+export type ImportTypeValues = string;
+
+/** Known values of {@link DeleteImportedMachinesJobPropertiesJobState} that the service accepts. */
+export enum KnownDeleteImportedMachinesJobPropertiesJobState {
+  /** Unknown value. */
+  Unknown = "Unknown",
+  /** Verified value. */
+  Verified = "Verified",
+  /** VerifiedWithErrors value. */
+  VerifiedWithErrors = "VerifiedWithErrors",
+  /** Completed value. */
   Completed = "Completed",
-  /** Invalid */
-  Invalid = "Invalid",
-  /** OutOfSync */
-  OutOfSync = "OutOfSync",
-  /** OutDated */
-  OutDated = "OutDated"
+  /** Failed value. */
+  Failed = "Failed",
 }
 
 /**
- * Defines values for AssessmentStatus. \
- * {@link KnownAssessmentStatus} can be used interchangeably with AssessmentStatus,
+ * Defines values for DeleteImportedMachinesJobPropertiesJobState. \
+ * {@link KnownDeleteImportedMachinesJobPropertiesJobState} can be used interchangeably with DeleteImportedMachinesJobPropertiesJobState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Created** \
- * **Updated** \
- * **Running** \
- * **Completed** \
- * **Invalid** \
- * **OutOfSync** \
- * **OutDated**
+ * **Unknown**: Unknown value. \
+ * **Verified**: Verified value. \
+ * **VerifiedWithErrors**: VerifiedWithErrors value. \
+ * **Completed**: Completed value. \
+ * **Failed**: Failed value.
  */
-export type AssessmentStatus = string;
+export type DeleteImportedMachinesJobPropertiesJobState = string;
 
-/** Known values of {@link AzureDiskSize} that the service accepts. */
-export enum KnownAzureDiskSize {
-  /** Unknown */
+/** Known values of {@link JobResult} that the service accepts. */
+export enum KnownJobResult {
+  /** Unknown value. */
   Unknown = "Unknown",
-  /** StandardS4 */
-  StandardS4 = "Standard_S4",
-  /** StandardS6 */
-  StandardS6 = "Standard_S6",
-  /** StandardS10 */
-  StandardS10 = "Standard_S10",
-  /** StandardS15 */
-  StandardS15 = "Standard_S15",
-  /** StandardS20 */
-  StandardS20 = "Standard_S20",
-  /** StandardS30 */
-  StandardS30 = "Standard_S30",
-  /** StandardS40 */
-  StandardS40 = "Standard_S40",
-  /** StandardS50 */
-  StandardS50 = "Standard_S50",
-  /** PremiumP4 */
-  PremiumP4 = "Premium_P4",
-  /** PremiumP6 */
-  PremiumP6 = "Premium_P6",
-  /** PremiumP10 */
-  PremiumP10 = "Premium_P10",
-  /** PremiumP15 */
-  PremiumP15 = "Premium_P15",
-  /** PremiumP20 */
-  PremiumP20 = "Premium_P20",
-  /** PremiumP30 */
-  PremiumP30 = "Premium_P30",
-  /** PremiumP40 */
-  PremiumP40 = "Premium_P40",
-  /** PremiumP50 */
-  PremiumP50 = "Premium_P50",
-  /** StandardS60 */
-  StandardS60 = "Standard_S60",
-  /** StandardS70 */
-  StandardS70 = "Standard_S70",
-  /** StandardS80 */
-  StandardS80 = "Standard_S80",
-  /** PremiumP60 */
-  PremiumP60 = "Premium_P60",
-  /** PremiumP70 */
-  PremiumP70 = "Premium_P70",
-  /** PremiumP80 */
-  PremiumP80 = "Premium_P80",
-  /** StandardSSDE10 */
-  StandardSSDE10 = "StandardSSD_E10",
-  /** StandardSSDE15 */
-  StandardSSDE15 = "StandardSSD_E15",
-  /** StandardSSDE20 */
-  StandardSSDE20 = "StandardSSD_E20",
-  /** StandardSSDE30 */
-  StandardSSDE30 = "StandardSSD_E30",
-  /** StandardSSDE40 */
-  StandardSSDE40 = "StandardSSD_E40",
-  /** StandardSSDE50 */
-  StandardSSDE50 = "StandardSSD_E50",
-  /** StandardSSDE60 */
-  StandardSSDE60 = "StandardSSD_E60",
-  /** StandardSSDE70 */
-  StandardSSDE70 = "StandardSSD_E70",
-  /** StandardSSDE80 */
-  StandardSSDE80 = "StandardSSD_E80",
-  /** StandardSSDE4 */
-  StandardSSDE4 = "StandardSSD_E4",
-  /** StandardSSDE6 */
-  StandardSSDE6 = "StandardSSD_E6"
+  /** Completed value. */
+  Completed = "Completed",
+  /** CompletedWithWarnings value. */
+  CompletedWithWarnings = "CompletedWithWarnings",
+  /** CompletedWithErrors value. */
+  CompletedWithErrors = "CompletedWithErrors",
+  /** Failed value. */
+  Failed = "Failed",
+  /** WaitingForBlobUpload value. */
+  WaitingForBlobUpload = "WaitingForBlobUpload",
+  /** InProgress value. */
+  InProgress = "InProgress",
 }
 
 /**
- * Defines values for AzureDiskSize. \
- * {@link KnownAzureDiskSize} can be used interchangeably with AzureDiskSize,
+ * Defines values for JobResult. \
+ * {@link KnownJobResult} can be used interchangeably with JobResult,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unknown** \
- * **Standard_S4** \
- * **Standard_S6** \
- * **Standard_S10** \
- * **Standard_S15** \
- * **Standard_S20** \
- * **Standard_S30** \
- * **Standard_S40** \
- * **Standard_S50** \
- * **Premium_P4** \
- * **Premium_P6** \
- * **Premium_P10** \
- * **Premium_P15** \
- * **Premium_P20** \
- * **Premium_P30** \
- * **Premium_P40** \
- * **Premium_P50** \
- * **Standard_S60** \
- * **Standard_S70** \
- * **Standard_S80** \
- * **Premium_P60** \
- * **Premium_P70** \
- * **Premium_P80** \
- * **StandardSSD_E10** \
- * **StandardSSD_E15** \
- * **StandardSSD_E20** \
- * **StandardSSD_E30** \
- * **StandardSSD_E40** \
- * **StandardSSD_E50** \
- * **StandardSSD_E60** \
- * **StandardSSD_E70** \
- * **StandardSSD_E80** \
- * **StandardSSD_E4** \
- * **StandardSSD_E6**
+ * **Unknown**: Unknown value. \
+ * **Completed**: Completed value. \
+ * **CompletedWithWarnings**: CompletedWithWarnings value. \
+ * **CompletedWithErrors**: CompletedWithErrors value. \
+ * **Failed**: Failed value. \
+ * **WaitingForBlobUpload**: WaitingForBlobUpload value. \
+ * **InProgress**: InProgress value.
  */
-export type AzureDiskSize = string;
+export type JobResult = string;
 
-/** Known values of {@link CloudSuitability} that the service accepts. */
-export enum KnownCloudSuitability {
-  /** Unknown */
+/** Known values of {@link SqlSitePropertiesDiscoveryScenario} that the service accepts. */
+export enum KnownSqlSitePropertiesDiscoveryScenario {
+  /** Migrate value. */
+  Migrate = "Migrate",
+  /** DR value. */
+  DR = "DR",
+}
+
+/**
+ * Defines values for SqlSitePropertiesDiscoveryScenario. \
+ * {@link KnownSqlSitePropertiesDiscoveryScenario} can be used interchangeably with SqlSitePropertiesDiscoveryScenario,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Migrate**: Migrate value. \
+ * **DR**: DR value.
+ */
+export type SqlSitePropertiesDiscoveryScenario = string;
+
+/** Known values of {@link SqlImportType} that the service accepts. */
+export enum KnownSqlImportType {
+  /** Unknown value. */
   Unknown = "Unknown",
-  /** NotSuitable */
-  NotSuitable = "NotSuitable",
-  /** Suitable */
-  Suitable = "Suitable",
-  /** ConditionallySuitable */
-  ConditionallySuitable = "ConditionallySuitable",
-  /** ReadinessUnknown */
-  ReadinessUnknown = "ReadinessUnknown"
+  /** AzureMigrateCsv value. */
+  AzureMigrateCsv = "AzureMigrateCsv",
 }
 
 /**
- * Defines values for CloudSuitability. \
- * {@link KnownCloudSuitability} can be used interchangeably with CloudSuitability,
+ * Defines values for SqlImportType. \
+ * {@link KnownSqlImportType} can be used interchangeably with SqlImportType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unknown** \
- * **NotSuitable** \
- * **Suitable** \
- * **ConditionallySuitable** \
- * **ReadinessUnknown**
+ * **Unknown**: Unknown value. \
+ * **AzureMigrateCsv**: AzureMigrateCsv value.
  */
-export type CloudSuitability = string;
+export type SqlImportType = string;
 
-/** Known values of {@link AzureDiskSuitabilityExplanation} that the service accepts. */
-export enum KnownAzureDiskSuitabilityExplanation {
-  /** Unknown */
+/** Known values of {@link ImportSqlInventoryJobResult} that the service accepts. */
+export enum KnownImportSqlInventoryJobResult {
+  /** Unknown value. */
   Unknown = "Unknown",
-  /** NotApplicable */
-  NotApplicable = "NotApplicable",
-  /** DiskSizeGreaterThanSupported */
-  DiskSizeGreaterThanSupported = "DiskSizeGreaterThanSupported",
-  /** NoSuitableDiskSizeForIops */
-  NoSuitableDiskSizeForIops = "NoSuitableDiskSizeForIops",
-  /** NoSuitableDiskSizeForThroughput */
-  NoSuitableDiskSizeForThroughput = "NoSuitableDiskSizeForThroughput",
-  /** NoDiskSizeFoundInSelectedLocation */
-  NoDiskSizeFoundInSelectedLocation = "NoDiskSizeFoundInSelectedLocation",
-  /** NoDiskSizeFoundForSelectedRedundancy */
-  NoDiskSizeFoundForSelectedRedundancy = "NoDiskSizeFoundForSelectedRedundancy",
-  /** InternalErrorOccurredForDiskEvaluation */
-  InternalErrorOccurredForDiskEvaluation = "InternalErrorOccurredForDiskEvaluation",
-  /** NoEaPriceFoundForDiskSize */
-  NoEaPriceFoundForDiskSize = "NoEaPriceFoundForDiskSize"
+  /** Completed value. */
+  Completed = "Completed",
+  /** CompletedWithWarnings value. */
+  CompletedWithWarnings = "CompletedWithWarnings",
+  /** CompletedWithErrors value. */
+  CompletedWithErrors = "CompletedWithErrors",
+  /** Failed value. */
+  Failed = "Failed",
+  /** WaitingForBlobUpload value. */
+  WaitingForBlobUpload = "WaitingForBlobUpload",
+  /** InProgress value. */
+  InProgress = "InProgress",
 }
 
 /**
- * Defines values for AzureDiskSuitabilityExplanation. \
- * {@link KnownAzureDiskSuitabilityExplanation} can be used interchangeably with AzureDiskSuitabilityExplanation,
+ * Defines values for ImportSqlInventoryJobResult. \
+ * {@link KnownImportSqlInventoryJobResult} can be used interchangeably with ImportSqlInventoryJobResult,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unknown** \
- * **NotApplicable** \
- * **DiskSizeGreaterThanSupported** \
- * **NoSuitableDiskSizeForIops** \
- * **NoSuitableDiskSizeForThroughput** \
- * **NoDiskSizeFoundInSelectedLocation** \
- * **NoDiskSizeFoundForSelectedRedundancy** \
- * **InternalErrorOccurredForDiskEvaluation** \
- * **NoEaPriceFoundForDiskSize**
+ * **Unknown**: Unknown value. \
+ * **Completed**: Completed value. \
+ * **CompletedWithWarnings**: CompletedWithWarnings value. \
+ * **CompletedWithErrors**: CompletedWithErrors value. \
+ * **Failed**: Failed value. \
+ * **WaitingForBlobUpload**: WaitingForBlobUpload value. \
+ * **InProgress**: InProgress value.
  */
-export type AzureDiskSuitabilityExplanation = string;
+export type ImportSqlInventoryJobResult = string;
 
-/** Known values of {@link AzureDiskSuitabilityDetail} that the service accepts. */
-export enum KnownAzureDiskSuitabilityDetail {
-  /** None */
+/** Known values of {@link SqlAvailabilityGroupPropertiesAvailabilityGroupType} that the service accepts. */
+export enum KnownSqlAvailabilityGroupPropertiesAvailabilityGroupType {
+  /** Unknown value. */
+  Unknown = "Unknown",
+  /** Traditional value. */
+  Traditional = "Traditional",
+  /** Distributed value. */
+  Distributed = "Distributed",
+}
+
+/**
+ * Defines values for SqlAvailabilityGroupPropertiesAvailabilityGroupType. \
+ * {@link KnownSqlAvailabilityGroupPropertiesAvailabilityGroupType} can be used interchangeably with SqlAvailabilityGroupPropertiesAvailabilityGroupType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Unknown value. \
+ * **Traditional**: Traditional value. \
+ * **Distributed**: Distributed value.
+ */
+export type SqlAvailabilityGroupPropertiesAvailabilityGroupType = string;
+
+/** Known values of {@link SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaType} that the service accepts. */
+export enum KnownSqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaType {
+  /** Unknown value. */
+  Unknown = "Unknown",
+  /** DatabaseReplica value. */
+  DatabaseReplica = "DatabaseReplica",
+  /** AvailabilityGroupReplica value. */
+  AvailabilityGroupReplica = "AvailabilityGroupReplica",
+}
+
+/**
+ * Defines values for SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaType. \
+ * {@link KnownSqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaType} can be used interchangeably with SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Unknown value. \
+ * **DatabaseReplica**: DatabaseReplica value. \
+ * **AvailabilityGroupReplica**: AvailabilityGroupReplica value.
+ */
+export type SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaType =
+  string;
+
+/** Known values of {@link SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaState} that the service accepts. */
+export enum KnownSqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaState {
+  /** Unknown value. */
+  Unknown = "Unknown",
+  /** Primary value. */
+  Primary = "Primary",
+  /** Secondary value. */
+  Secondary = "Secondary",
+}
+
+/**
+ * Defines values for SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaState. \
+ * {@link KnownSqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaState} can be used interchangeably with SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Unknown value. \
+ * **Primary**: Primary value. \
+ * **Secondary**: Secondary value.
+ */
+export type SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaState =
+  string;
+
+/** Known values of {@link SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaSyncStatus} that the service accepts. */
+export enum KnownSqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaSyncStatus {
+  /** Unknown value. */
+  Unknown = "Unknown",
+  /** Synchronized value. */
+  Synchronized = "Synchronized",
+  /** Unsynchronized value. */
+  Unsynchronized = "Unsynchronized",
+}
+
+/**
+ * Defines values for SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaSyncStatus. \
+ * {@link KnownSqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaSyncStatus} can be used interchangeably with SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaSyncStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Unknown value. \
+ * **Synchronized**: Synchronized value. \
+ * **Unsynchronized**: Unsynchronized value.
+ */
+export type SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaSyncStatus =
+  string;
+
+/** Known values of {@link SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaCommitMode} that the service accepts. */
+export enum KnownSqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaCommitMode {
+  /** Unknown value. */
+  Unknown = "Unknown",
+  /** Synchronous value. */
+  Synchronous = "Synchronous",
+  /** Asynchronous value. */
+  Asynchronous = "Asynchronous",
+}
+
+/**
+ * Defines values for SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaCommitMode. \
+ * {@link KnownSqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaCommitMode} can be used interchangeably with SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaCommitMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Unknown value. \
+ * **Synchronous**: Synchronous value. \
+ * **Asynchronous**: Asynchronous value.
+ */
+export type SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaCommitMode =
+  string;
+
+/** Known values of {@link SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaReadMode} that the service accepts. */
+export enum KnownSqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaReadMode {
+  /** Unknown value. */
+  Unknown = "Unknown",
+  /** None value. */
   None = "None",
-  /** NumberOfReadOperationsPerSecondMissing */
-  NumberOfReadOperationsPerSecondMissing = "NumberOfReadOperationsPerSecondMissing",
-  /** NumberOfWriteOperationsPerSecondMissing */
-  NumberOfWriteOperationsPerSecondMissing = "NumberOfWriteOperationsPerSecondMissing",
-  /** MegabytesPerSecondOfReadMissing */
-  MegabytesPerSecondOfReadMissing = "MegabytesPerSecondOfReadMissing",
-  /** MegabytesPerSecondOfWriteMissing */
-  MegabytesPerSecondOfWriteMissing = "MegabytesPerSecondOfWriteMissing",
-  /** DiskGigabytesConsumedMissing */
-  DiskGigabytesConsumedMissing = "DiskGigabytesConsumedMissing",
-  /** DiskGigabytesProvisionedMissing */
-  DiskGigabytesProvisionedMissing = "DiskGigabytesProvisionedMissing",
-  /** NumberOfReadOperationsPerSecondOutOfRange */
-  NumberOfReadOperationsPerSecondOutOfRange = "NumberOfReadOperationsPerSecondOutOfRange",
-  /** NumberOfWriteOperationsPerSecondOutOfRange */
-  NumberOfWriteOperationsPerSecondOutOfRange = "NumberOfWriteOperationsPerSecondOutOfRange",
-  /** MegabytesPerSecondOfReadOutOfRange */
-  MegabytesPerSecondOfReadOutOfRange = "MegabytesPerSecondOfReadOutOfRange",
-  /** MegabytesPerSecondOfWriteOutOfRange */
-  MegabytesPerSecondOfWriteOutOfRange = "MegabytesPerSecondOfWriteOutOfRange",
-  /** DiskGigabytesConsumedOutOfRange */
-  DiskGigabytesConsumedOutOfRange = "DiskGigabytesConsumedOutOfRange",
-  /** DiskGigabytesProvisionedOutOfRange */
-  DiskGigabytesProvisionedOutOfRange = "DiskGigabytesProvisionedOutOfRange"
+  /** ReadOnly value. */
+  ReadOnly = "ReadOnly",
+  /** ReadWrite value. */
+  ReadWrite = "ReadWrite",
 }
 
 /**
- * Defines values for AzureDiskSuitabilityDetail. \
- * {@link KnownAzureDiskSuitabilityDetail} can be used interchangeably with AzureDiskSuitabilityDetail,
+ * Defines values for SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaReadMode. \
+ * {@link KnownSqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaReadMode} can be used interchangeably with SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaReadMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None** \
- * **NumberOfReadOperationsPerSecondMissing** \
- * **NumberOfWriteOperationsPerSecondMissing** \
- * **MegabytesPerSecondOfReadMissing** \
- * **MegabytesPerSecondOfWriteMissing** \
- * **DiskGigabytesConsumedMissing** \
- * **DiskGigabytesProvisionedMissing** \
- * **NumberOfReadOperationsPerSecondOutOfRange** \
- * **NumberOfWriteOperationsPerSecondOutOfRange** \
- * **MegabytesPerSecondOfReadOutOfRange** \
- * **MegabytesPerSecondOfWriteOutOfRange** \
- * **DiskGigabytesConsumedOutOfRange** \
- * **DiskGigabytesProvisionedOutOfRange**
+ * **Unknown**: Unknown value. \
+ * **None**: None value. \
+ * **ReadOnly**: ReadOnly value. \
+ * **ReadWrite**: ReadWrite value.
  */
-export type AzureDiskSuitabilityDetail = string;
+export type SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaReadMode =
+  string;
 
-/** Known values of {@link AzureNetworkAdapterSuitabilityExplanation} that the service accepts. */
-export enum KnownAzureNetworkAdapterSuitabilityExplanation {
-  /** Unknown */
+/** Known values of {@link SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaSeedMode} that the service accepts. */
+export enum KnownSqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaSeedMode {
+  /** Unknown value. */
   Unknown = "Unknown",
-  /** NotApplicable */
+  /** Manual value. */
+  Manual = "Manual",
+  /** Automatic value. */
+  Automatic = "Automatic",
+}
+
+/**
+ * Defines values for SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaSeedMode. \
+ * {@link KnownSqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaSeedMode} can be used interchangeably with SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaSeedMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Unknown value. \
+ * **Manual**: Manual value. \
+ * **Automatic**: Automatic value.
+ */
+export type SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaSeedMode =
+  string;
+
+/** Known values of {@link SqlAvailabilityReplicaOverviewReplicaState} that the service accepts. */
+export enum KnownSqlAvailabilityReplicaOverviewReplicaState {
+  /** Unknown value. */
+  Unknown = "Unknown",
+  /** Primary value. */
+  Primary = "Primary",
+  /** Secondary value. */
+  Secondary = "Secondary",
+}
+
+/**
+ * Defines values for SqlAvailabilityReplicaOverviewReplicaState. \
+ * {@link KnownSqlAvailabilityReplicaOverviewReplicaState} can be used interchangeably with SqlAvailabilityReplicaOverviewReplicaState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Unknown value. \
+ * **Primary**: Primary value. \
+ * **Secondary**: Secondary value.
+ */
+export type SqlAvailabilityReplicaOverviewReplicaState = string;
+
+/** Known values of {@link FileType} that the service accepts. */
+export enum KnownFileType {
+  /** Rows value. */
+  Rows = "Rows",
+  /** Log value. */
+  Log = "Log",
+  /** Filestream value. */
+  Filestream = "Filestream",
+  /** NotSpecified value. */
+  NotSupported = "NotSupported",
+  /** Fulltext value. */
+  Fulltext = "Fulltext",
+}
+
+/**
+ * Defines values for FileType. \
+ * {@link KnownFileType} can be used interchangeably with FileType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Rows**: Rows value. \
+ * **Log**: Log value. \
+ * **Filestream**: Filestream value. \
+ * **NotSupported**: NotSpecified value. \
+ * **Fulltext**: Fulltext value.
+ */
+export type FileType = string;
+
+/** Known values of {@link MicrosoftAzureFDSWebRoleHealthErrorDetailsSource} that the service accepts. */
+export enum KnownMicrosoftAzureFDSWebRoleHealthErrorDetailsSource {
+  /** RefreshFabricLayout value. */
+  RefreshFabricLayout = "RefreshFabricLayout",
+  /** RefreshFabricLayoutGuest value. */
+  RefreshFabricLayoutGuest = "RefreshFabricLayoutGuest",
+  /** RefreshFabricLayoutDependencyMap value. */
+  RefreshFabricLayoutDependencyMap = "RefreshFabricLayoutDependencyMap",
+}
+
+/**
+ * Defines values for MicrosoftAzureFDSWebRoleHealthErrorDetailsSource. \
+ * {@link KnownMicrosoftAzureFDSWebRoleHealthErrorDetailsSource} can be used interchangeably with MicrosoftAzureFDSWebRoleHealthErrorDetailsSource,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **RefreshFabricLayout**: RefreshFabricLayout value. \
+ * **RefreshFabricLayoutGuest**: RefreshFabricLayoutGuest value. \
+ * **RefreshFabricLayoutDependencyMap**: RefreshFabricLayoutDependencyMap value.
+ */
+export type MicrosoftAzureFDSWebRoleHealthErrorDetailsSource = string;
+
+/** Known values of {@link SqlMachineOverviewFciRole} that the service accepts. */
+export enum KnownSqlMachineOverviewFciRole {
+  /** Unknown value. */
+  Unknown = "Unknown",
+  /** NotApplicable value. */
   NotApplicable = "NotApplicable",
-  /** InternalErrorOccurred */
-  InternalErrorOccurred = "InternalErrorOccurred"
+  /** ActiveNode value. */
+  ActiveNode = "ActiveNode",
+  /** PossibleOwnerNode value. */
+  PossibleOwnerNode = "PossibleOwnerNode",
 }
 
 /**
- * Defines values for AzureNetworkAdapterSuitabilityExplanation. \
- * {@link KnownAzureNetworkAdapterSuitabilityExplanation} can be used interchangeably with AzureNetworkAdapterSuitabilityExplanation,
+ * Defines values for SqlMachineOverviewFciRole. \
+ * {@link KnownSqlMachineOverviewFciRole} can be used interchangeably with SqlMachineOverviewFciRole,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unknown** \
- * **NotApplicable** \
- * **InternalErrorOccurred**
+ * **Unknown**: Unknown value. \
+ * **NotApplicable**: NotApplicable value. \
+ * **ActiveNode**: ActiveNode value. \
+ * **PossibleOwnerNode**: PossibleOwnerNode value.
  */
-export type AzureNetworkAdapterSuitabilityExplanation = string;
+export type SqlMachineOverviewFciRole = string;
 
-/** Known values of {@link AzureNetworkAdapterSuitabilityDetail} that the service accepts. */
-export enum KnownAzureNetworkAdapterSuitabilityDetail {
-  /** None */
-  None = "None",
-  /** MegabytesOfDataTransmittedMissing */
-  MegabytesOfDataTransmittedMissing = "MegabytesOfDataTransmittedMissing",
-  /** MegabytesOfDataTransmittedOutOfRange */
-  MegabytesOfDataTransmittedOutOfRange = "MegabytesOfDataTransmittedOutOfRange"
-}
-
-/**
- * Defines values for AzureNetworkAdapterSuitabilityDetail. \
- * {@link KnownAzureNetworkAdapterSuitabilityDetail} can be used interchangeably with AzureNetworkAdapterSuitabilityDetail,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **MegabytesOfDataTransmittedMissing** \
- * **MegabytesOfDataTransmittedOutOfRange**
- */
-export type AzureNetworkAdapterSuitabilityDetail = string;
-
-/** Known values of {@link AzureVmSize} that the service accepts. */
-export enum KnownAzureVmSize {
-  /** Unknown */
+/** Known values of {@link FCIInstanceState} that the service accepts. */
+export enum KnownFCIInstanceState {
+  /** Unknown value. */
   Unknown = "Unknown",
-  /** BasicA0 */
-  BasicA0 = "Basic_A0",
-  /** BasicA1 */
-  BasicA1 = "Basic_A1",
-  /** BasicA2 */
-  BasicA2 = "Basic_A2",
-  /** BasicA3 */
-  BasicA3 = "Basic_A3",
-  /** BasicA4 */
-  BasicA4 = "Basic_A4",
-  /** StandardA0 */
-  StandardA0 = "Standard_A0",
-  /** StandardA1 */
-  StandardA1 = "Standard_A1",
-  /** StandardA2 */
-  StandardA2 = "Standard_A2",
-  /** StandardA3 */
-  StandardA3 = "Standard_A3",
-  /** StandardA4 */
-  StandardA4 = "Standard_A4",
-  /** StandardA5 */
-  StandardA5 = "Standard_A5",
-  /** StandardA6 */
-  StandardA6 = "Standard_A6",
-  /** StandardA7 */
-  StandardA7 = "Standard_A7",
-  /** StandardA8 */
-  StandardA8 = "Standard_A8",
-  /** StandardA9 */
-  StandardA9 = "Standard_A9",
-  /** StandardA10 */
-  StandardA10 = "Standard_A10",
-  /** StandardA11 */
-  StandardA11 = "Standard_A11",
-  /** StandardA1V2 */
-  StandardA1V2 = "Standard_A1_v2",
-  /** StandardA2V2 */
-  StandardA2V2 = "Standard_A2_v2",
-  /** StandardA4V2 */
-  StandardA4V2 = "Standard_A4_v2",
-  /** StandardA8V2 */
-  StandardA8V2 = "Standard_A8_v2",
-  /** StandardA2MV2 */
-  StandardA2MV2 = "Standard_A2m_v2",
-  /** StandardA4MV2 */
-  StandardA4MV2 = "Standard_A4m_v2",
-  /** StandardA8MV2 */
-  StandardA8MV2 = "Standard_A8m_v2",
-  /** StandardD1 */
-  StandardD1 = "Standard_D1",
-  /** StandardD2 */
-  StandardD2 = "Standard_D2",
-  /** StandardD3 */
-  StandardD3 = "Standard_D3",
-  /** StandardD4 */
-  StandardD4 = "Standard_D4",
-  /** StandardD11 */
-  StandardD11 = "Standard_D11",
-  /** StandardD12 */
-  StandardD12 = "Standard_D12",
-  /** StandardD13 */
-  StandardD13 = "Standard_D13",
-  /** StandardD14 */
-  StandardD14 = "Standard_D14",
-  /** StandardD1V2 */
-  StandardD1V2 = "Standard_D1_v2",
-  /** StandardD2V2 */
-  StandardD2V2 = "Standard_D2_v2",
-  /** StandardD3V2 */
-  StandardD3V2 = "Standard_D3_v2",
-  /** StandardD4V2 */
-  StandardD4V2 = "Standard_D4_v2",
-  /** StandardD5V2 */
-  StandardD5V2 = "Standard_D5_v2",
-  /** StandardD11V2 */
-  StandardD11V2 = "Standard_D11_v2",
-  /** StandardD12V2 */
-  StandardD12V2 = "Standard_D12_v2",
-  /** StandardD13V2 */
-  StandardD13V2 = "Standard_D13_v2",
-  /** StandardD14V2 */
-  StandardD14V2 = "Standard_D14_v2",
-  /** StandardD15V2 */
-  StandardD15V2 = "Standard_D15_v2",
-  /** StandardDS1 */
-  StandardDS1 = "Standard_DS1",
-  /** StandardDS2 */
-  StandardDS2 = "Standard_DS2",
-  /** StandardDS3 */
-  StandardDS3 = "Standard_DS3",
-  /** StandardDS4 */
-  StandardDS4 = "Standard_DS4",
-  /** StandardDS11 */
-  StandardDS11 = "Standard_DS11",
-  /** StandardDS12 */
-  StandardDS12 = "Standard_DS12",
-  /** StandardDS13 */
-  StandardDS13 = "Standard_DS13",
-  /** StandardDS14 */
-  StandardDS14 = "Standard_DS14",
-  /** StandardDS1V2 */
-  StandardDS1V2 = "Standard_DS1_v2",
-  /** StandardDS2V2 */
-  StandardDS2V2 = "Standard_DS2_v2",
-  /** StandardDS3V2 */
-  StandardDS3V2 = "Standard_DS3_v2",
-  /** StandardDS4V2 */
-  StandardDS4V2 = "Standard_DS4_v2",
-  /** StandardDS5V2 */
-  StandardDS5V2 = "Standard_DS5_v2",
-  /** StandardDS11V2 */
-  StandardDS11V2 = "Standard_DS11_v2",
-  /** StandardDS12V2 */
-  StandardDS12V2 = "Standard_DS12_v2",
-  /** StandardDS13V2 */
-  StandardDS13V2 = "Standard_DS13_v2",
-  /** StandardDS14V2 */
-  StandardDS14V2 = "Standard_DS14_v2",
-  /** StandardDS15V2 */
-  StandardDS15V2 = "Standard_DS15_v2",
-  /** StandardF1 */
-  StandardF1 = "Standard_F1",
-  /** StandardF2 */
-  StandardF2 = "Standard_F2",
-  /** StandardF4 */
-  StandardF4 = "Standard_F4",
-  /** StandardF8 */
-  StandardF8 = "Standard_F8",
-  /** StandardF16 */
-  StandardF16 = "Standard_F16",
-  /** StandardF1S */
-  StandardF1S = "Standard_F1s",
-  /** StandardF2S */
-  StandardF2S = "Standard_F2s",
-  /** StandardF4S */
-  StandardF4S = "Standard_F4s",
-  /** StandardF8S */
-  StandardF8S = "Standard_F8s",
-  /** StandardF16S */
-  StandardF16S = "Standard_F16s",
-  /** StandardG1 */
-  StandardG1 = "Standard_G1",
-  /** StandardG2 */
-  StandardG2 = "Standard_G2",
-  /** StandardG3 */
-  StandardG3 = "Standard_G3",
-  /** StandardG4 */
-  StandardG4 = "Standard_G4",
-  /** StandardG5 */
-  StandardG5 = "Standard_G5",
-  /** StandardGS1 */
-  StandardGS1 = "Standard_GS1",
-  /** StandardGS2 */
-  StandardGS2 = "Standard_GS2",
-  /** StandardGS3 */
-  StandardGS3 = "Standard_GS3",
-  /** StandardGS4 */
-  StandardGS4 = "Standard_GS4",
-  /** StandardGS5 */
-  StandardGS5 = "Standard_GS5",
-  /** StandardH8 */
-  StandardH8 = "Standard_H8",
-  /** StandardH16 */
-  StandardH16 = "Standard_H16",
-  /** StandardH8M */
-  StandardH8M = "Standard_H8m",
-  /** StandardH16M */
-  StandardH16M = "Standard_H16m",
-  /** StandardH16R */
-  StandardH16R = "Standard_H16r",
-  /** StandardH16Mr */
-  StandardH16Mr = "Standard_H16mr",
-  /** StandardL4S */
-  StandardL4S = "Standard_L4s",
-  /** StandardL8S */
-  StandardL8S = "Standard_L8s",
-  /** StandardL16S */
-  StandardL16S = "Standard_L16s",
-  /** StandardL32S */
-  StandardL32S = "Standard_L32s",
-  /** StandardD2SV3 */
-  StandardD2SV3 = "Standard_D2s_v3",
-  /** StandardD4SV3 */
-  StandardD4SV3 = "Standard_D4s_v3",
-  /** StandardD8SV3 */
-  StandardD8SV3 = "Standard_D8s_v3",
-  /** StandardD16SV3 */
-  StandardD16SV3 = "Standard_D16s_v3",
-  /** StandardD32SV3 */
-  StandardD32SV3 = "Standard_D32s_v3",
-  /** StandardD64SV3 */
-  StandardD64SV3 = "Standard_D64s_v3",
-  /** StandardD2V3 */
-  StandardD2V3 = "Standard_D2_v3",
-  /** StandardD4V3 */
-  StandardD4V3 = "Standard_D4_v3",
-  /** StandardD8V3 */
-  StandardD8V3 = "Standard_D8_v3",
-  /** StandardD16V3 */
-  StandardD16V3 = "Standard_D16_v3",
-  /** StandardD32V3 */
-  StandardD32V3 = "Standard_D32_v3",
-  /** StandardD64V3 */
-  StandardD64V3 = "Standard_D64_v3",
-  /** StandardF2SV2 */
-  StandardF2SV2 = "Standard_F2s_v2",
-  /** StandardF4SV2 */
-  StandardF4SV2 = "Standard_F4s_v2",
-  /** StandardF8SV2 */
-  StandardF8SV2 = "Standard_F8s_v2",
-  /** StandardF16SV2 */
-  StandardF16SV2 = "Standard_F16s_v2",
-  /** StandardF32SV2 */
-  StandardF32SV2 = "Standard_F32s_v2",
-  /** StandardF64SV2 */
-  StandardF64SV2 = "Standard_F64s_v2",
-  /** StandardF72SV2 */
-  StandardF72SV2 = "Standard_F72s_v2",
-  /** StandardE2V3 */
-  StandardE2V3 = "Standard_E2_v3",
-  /** StandardE4V3 */
-  StandardE4V3 = "Standard_E4_v3",
-  /** StandardE8V3 */
-  StandardE8V3 = "Standard_E8_v3",
-  /** StandardE16V3 */
-  StandardE16V3 = "Standard_E16_v3",
-  /** StandardE32V3 */
-  StandardE32V3 = "Standard_E32_v3",
-  /** StandardE64V3 */
-  StandardE64V3 = "Standard_E64_v3",
-  /** StandardE2SV3 */
-  StandardE2SV3 = "Standard_E2s_v3",
-  /** StandardE4SV3 */
-  StandardE4SV3 = "Standard_E4s_v3",
-  /** StandardE8SV3 */
-  StandardE8SV3 = "Standard_E8s_v3",
-  /** StandardE16SV3 */
-  StandardE16SV3 = "Standard_E16s_v3",
-  /** StandardE32SV3 */
-  StandardE32SV3 = "Standard_E32s_v3",
-  /** StandardE64SV3 */
-  StandardE64SV3 = "Standard_E64s_v3",
-  /** StandardM64S */
-  StandardM64S = "Standard_M64s",
-  /** StandardM64Ms */
-  StandardM64Ms = "Standard_M64ms",
-  /** StandardM128S */
-  StandardM128S = "Standard_M128s",
-  /** StandardM128Ms */
-  StandardM128Ms = "Standard_M128ms"
+  /** Inherited value. */
+  Inherited = "Inherited",
+  /** Initializing value. */
+  Initializing = "Initializing",
+  /** Online value. */
+  Online = "Online",
+  /** Offline value. */
+  Offline = "Offline",
+  /** Failed value. */
+  Failed = "Failed",
+  /** Pending value. */
+  Pending = "Pending",
+  /** OnlinePending value. */
+  OnlinePending = "OnlinePending",
+  /** OfflinePending value. */
+  OfflinePending = "OfflinePending",
 }
 
 /**
- * Defines values for AzureVmSize. \
- * {@link KnownAzureVmSize} can be used interchangeably with AzureVmSize,
+ * Defines values for FCIInstanceState. \
+ * {@link KnownFCIInstanceState} can be used interchangeably with FCIInstanceState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unknown** \
- * **Basic_A0** \
- * **Basic_A1** \
- * **Basic_A2** \
- * **Basic_A3** \
- * **Basic_A4** \
- * **Standard_A0** \
- * **Standard_A1** \
- * **Standard_A2** \
- * **Standard_A3** \
- * **Standard_A4** \
- * **Standard_A5** \
- * **Standard_A6** \
- * **Standard_A7** \
- * **Standard_A8** \
- * **Standard_A9** \
- * **Standard_A10** \
- * **Standard_A11** \
- * **Standard_A1_v2** \
- * **Standard_A2_v2** \
- * **Standard_A4_v2** \
- * **Standard_A8_v2** \
- * **Standard_A2m_v2** \
- * **Standard_A4m_v2** \
- * **Standard_A8m_v2** \
- * **Standard_D1** \
- * **Standard_D2** \
- * **Standard_D3** \
- * **Standard_D4** \
- * **Standard_D11** \
- * **Standard_D12** \
- * **Standard_D13** \
- * **Standard_D14** \
- * **Standard_D1_v2** \
- * **Standard_D2_v2** \
- * **Standard_D3_v2** \
- * **Standard_D4_v2** \
- * **Standard_D5_v2** \
- * **Standard_D11_v2** \
- * **Standard_D12_v2** \
- * **Standard_D13_v2** \
- * **Standard_D14_v2** \
- * **Standard_D15_v2** \
- * **Standard_DS1** \
- * **Standard_DS2** \
- * **Standard_DS3** \
- * **Standard_DS4** \
- * **Standard_DS11** \
- * **Standard_DS12** \
- * **Standard_DS13** \
- * **Standard_DS14** \
- * **Standard_DS1_v2** \
- * **Standard_DS2_v2** \
- * **Standard_DS3_v2** \
- * **Standard_DS4_v2** \
- * **Standard_DS5_v2** \
- * **Standard_DS11_v2** \
- * **Standard_DS12_v2** \
- * **Standard_DS13_v2** \
- * **Standard_DS14_v2** \
- * **Standard_DS15_v2** \
- * **Standard_F1** \
- * **Standard_F2** \
- * **Standard_F4** \
- * **Standard_F8** \
- * **Standard_F16** \
- * **Standard_F1s** \
- * **Standard_F2s** \
- * **Standard_F4s** \
- * **Standard_F8s** \
- * **Standard_F16s** \
- * **Standard_G1** \
- * **Standard_G2** \
- * **Standard_G3** \
- * **Standard_G4** \
- * **Standard_G5** \
- * **Standard_GS1** \
- * **Standard_GS2** \
- * **Standard_GS3** \
- * **Standard_GS4** \
- * **Standard_GS5** \
- * **Standard_H8** \
- * **Standard_H16** \
- * **Standard_H8m** \
- * **Standard_H16m** \
- * **Standard_H16r** \
- * **Standard_H16mr** \
- * **Standard_L4s** \
- * **Standard_L8s** \
- * **Standard_L16s** \
- * **Standard_L32s** \
- * **Standard_D2s_v3** \
- * **Standard_D4s_v3** \
- * **Standard_D8s_v3** \
- * **Standard_D16s_v3** \
- * **Standard_D32s_v3** \
- * **Standard_D64s_v3** \
- * **Standard_D2_v3** \
- * **Standard_D4_v3** \
- * **Standard_D8_v3** \
- * **Standard_D16_v3** \
- * **Standard_D32_v3** \
- * **Standard_D64_v3** \
- * **Standard_F2s_v2** \
- * **Standard_F4s_v2** \
- * **Standard_F8s_v2** \
- * **Standard_F16s_v2** \
- * **Standard_F32s_v2** \
- * **Standard_F64s_v2** \
- * **Standard_F72s_v2** \
- * **Standard_E2_v3** \
- * **Standard_E4_v3** \
- * **Standard_E8_v3** \
- * **Standard_E16_v3** \
- * **Standard_E32_v3** \
- * **Standard_E64_v3** \
- * **Standard_E2s_v3** \
- * **Standard_E4s_v3** \
- * **Standard_E8s_v3** \
- * **Standard_E16s_v3** \
- * **Standard_E32s_v3** \
- * **Standard_E64s_v3** \
- * **Standard_M64s** \
- * **Standard_M64ms** \
- * **Standard_M128s** \
- * **Standard_M128ms**
+ * **Unknown**: Unknown value. \
+ * **Inherited**: Inherited value. \
+ * **Initializing**: Initializing value. \
+ * **Online**: Online value. \
+ * **Offline**: Offline value. \
+ * **Failed**: Failed value. \
+ * **Pending**: Pending value. \
+ * **OnlinePending**: OnlinePending value. \
+ * **OfflinePending**: OfflinePending value.
  */
-export type AzureVmSize = string;
+export type FCIInstanceState = string;
 
-/** Known values of {@link AzureVmSuitabilityExplanation} that the service accepts. */
-export enum KnownAzureVmSuitabilityExplanation {
-  /** Unknown */
+/** Known values of {@link SqlServerStatus} that the service accepts. */
+export enum KnownSqlServerStatus {
+  /** Unknown value. */
   Unknown = "Unknown",
-  /** NotApplicable */
-  NotApplicable = "NotApplicable",
-  /** GuestOperatingSystemArchitectureNotSupported */
-  GuestOperatingSystemArchitectureNotSupported = "GuestOperatingSystemArchitectureNotSupported",
-  /** GuestOperatingSystemNotSupported */
-  GuestOperatingSystemNotSupported = "GuestOperatingSystemNotSupported",
-  /** BootTypeNotSupported */
-  BootTypeNotSupported = "BootTypeNotSupported",
-  /** MoreDisksThanSupported */
-  MoreDisksThanSupported = "MoreDisksThanSupported",
-  /** NoSuitableVmSizeFound */
-  NoSuitableVmSizeFound = "NoSuitableVmSizeFound",
-  /** OneOrMoreDisksNotSuitable */
-  OneOrMoreDisksNotSuitable = "OneOrMoreDisksNotSuitable",
-  /** OneOrMoreAdaptersNotSuitable */
-  OneOrMoreAdaptersNotSuitable = "OneOrMoreAdaptersNotSuitable",
-  /** InternalErrorOccurredDuringComputeEvaluation */
-  InternalErrorOccurredDuringComputeEvaluation = "InternalErrorOccurredDuringComputeEvaluation",
-  /** InternalErrorOccurredDuringStorageEvaluation */
-  InternalErrorOccurredDuringStorageEvaluation = "InternalErrorOccurredDuringStorageEvaluation",
-  /** InternalErrorOccurredDuringNetworkEvaluation */
-  InternalErrorOccurredDuringNetworkEvaluation = "InternalErrorOccurredDuringNetworkEvaluation",
-  /** NoVmSizeSupportsStoragePerformance */
-  NoVmSizeSupportsStoragePerformance = "NoVmSizeSupportsStoragePerformance",
-  /** NoVmSizeSupportsNetworkPerformance */
-  NoVmSizeSupportsNetworkPerformance = "NoVmSizeSupportsNetworkPerformance",
-  /** NoVmSizeForSelectedPricingTier */
-  NoVmSizeForSelectedPricingTier = "NoVmSizeForSelectedPricingTier",
-  /** NoVmSizeForSelectedAzureLocation */
-  NoVmSizeForSelectedAzureLocation = "NoVmSizeForSelectedAzureLocation",
-  /** CheckRedHatLinuxVersion */
-  CheckRedHatLinuxVersion = "CheckRedHatLinuxVersion",
-  /** CheckOpenSuseLinuxVersion */
-  CheckOpenSuseLinuxVersion = "CheckOpenSuseLinuxVersion",
-  /** CheckWindowsServer2008R2Version */
-  CheckWindowsServer2008R2Version = "CheckWindowsServer2008R2Version",
-  /** CheckCentOsVersion */
-  CheckCentOsVersion = "CheckCentOsVersion",
-  /** CheckDebianLinuxVersion */
-  CheckDebianLinuxVersion = "CheckDebianLinuxVersion",
-  /** CheckSuseLinuxVersion */
-  CheckSuseLinuxVersion = "CheckSuseLinuxVersion",
-  /** CheckOracleLinuxVersion */
-  CheckOracleLinuxVersion = "CheckOracleLinuxVersion",
-  /** CheckUbuntuLinuxVersion */
-  CheckUbuntuLinuxVersion = "CheckUbuntuLinuxVersion",
-  /** CheckCoreOsLinuxVersion */
-  CheckCoreOsLinuxVersion = "CheckCoreOsLinuxVersion",
-  /** WindowsServerVersionConditionallySupported */
-  WindowsServerVersionConditionallySupported = "WindowsServerVersionConditionallySupported",
-  /** NoGuestOperatingSystemConditionallySupported */
-  NoGuestOperatingSystemConditionallySupported = "NoGuestOperatingSystemConditionallySupported",
-  /** WindowsClientVersionsConditionallySupported */
-  WindowsClientVersionsConditionallySupported = "WindowsClientVersionsConditionallySupported",
-  /** BootTypeUnknown */
-  BootTypeUnknown = "BootTypeUnknown",
-  /** GuestOperatingSystemUnknown */
-  GuestOperatingSystemUnknown = "GuestOperatingSystemUnknown",
-  /** WindowsServerVersionsSupportedWithCaveat */
-  WindowsServerVersionsSupportedWithCaveat = "WindowsServerVersionsSupportedWithCaveat",
-  /** WindowsOSNoLongerUnderMSSupport */
-  WindowsOSNoLongerUnderMSSupport = "WindowsOSNoLongerUnderMSSupport",
-  /** EndorsedWithConditionsLinuxDistributions */
-  EndorsedWithConditionsLinuxDistributions = "EndorsedWithConditionsLinuxDistributions",
-  /** UnendorsedLinuxDistributions */
-  UnendorsedLinuxDistributions = "UnendorsedLinuxDistributions",
-  /** NoVmSizeForStandardPricingTier */
-  NoVmSizeForStandardPricingTier = "NoVmSizeForStandardPricingTier",
-  /** NoVmSizeForBasicPricingTier */
-  NoVmSizeForBasicPricingTier = "NoVmSizeForBasicPricingTier"
+  /** ContinuePending value. */
+  ContinuePending = "ContinuePending",
+  /** Paused value. */
+  Paused = "Paused",
+  /** PausePending value. */
+  PausePending = "PausePending",
+  /** Running value. */
+  Running = "Running",
+  /** StartPending value. */
+  StartPending = "StartPending",
+  /** Stopped value. */
+  Stopped = "Stopped",
+  /** StopPending value. */
+  StopPending = "StopPending",
 }
 
 /**
- * Defines values for AzureVmSuitabilityExplanation. \
- * {@link KnownAzureVmSuitabilityExplanation} can be used interchangeably with AzureVmSuitabilityExplanation,
+ * Defines values for SqlServerStatus. \
+ * {@link KnownSqlServerStatus} can be used interchangeably with SqlServerStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unknown** \
- * **NotApplicable** \
- * **GuestOperatingSystemArchitectureNotSupported** \
- * **GuestOperatingSystemNotSupported** \
- * **BootTypeNotSupported** \
- * **MoreDisksThanSupported** \
- * **NoSuitableVmSizeFound** \
- * **OneOrMoreDisksNotSuitable** \
- * **OneOrMoreAdaptersNotSuitable** \
- * **InternalErrorOccurredDuringComputeEvaluation** \
- * **InternalErrorOccurredDuringStorageEvaluation** \
- * **InternalErrorOccurredDuringNetworkEvaluation** \
- * **NoVmSizeSupportsStoragePerformance** \
- * **NoVmSizeSupportsNetworkPerformance** \
- * **NoVmSizeForSelectedPricingTier** \
- * **NoVmSizeForSelectedAzureLocation** \
- * **CheckRedHatLinuxVersion** \
- * **CheckOpenSuseLinuxVersion** \
- * **CheckWindowsServer2008R2Version** \
- * **CheckCentOsVersion** \
- * **CheckDebianLinuxVersion** \
- * **CheckSuseLinuxVersion** \
- * **CheckOracleLinuxVersion** \
- * **CheckUbuntuLinuxVersion** \
- * **CheckCoreOsLinuxVersion** \
- * **WindowsServerVersionConditionallySupported** \
- * **NoGuestOperatingSystemConditionallySupported** \
- * **WindowsClientVersionsConditionallySupported** \
- * **BootTypeUnknown** \
- * **GuestOperatingSystemUnknown** \
- * **WindowsServerVersionsSupportedWithCaveat** \
- * **WindowsOSNoLongerUnderMSSupport** \
- * **EndorsedWithConditionsLinuxDistributions** \
- * **UnendorsedLinuxDistributions** \
- * **NoVmSizeForStandardPricingTier** \
- * **NoVmSizeForBasicPricingTier**
+ * **Unknown**: Unknown value. \
+ * **ContinuePending**: ContinuePending value. \
+ * **Paused**: Paused value. \
+ * **PausePending**: PausePending value. \
+ * **Running**: Running value. \
+ * **StartPending**: StartPending value. \
+ * **Stopped**: Stopped value. \
+ * **StopPending**: StopPending value.
  */
-export type AzureVmSuitabilityExplanation = string;
+export type SqlServerStatus = string;
 
-/** Known values of {@link AzureVmSuitabilityDetail} that the service accepts. */
-export enum KnownAzureVmSuitabilityDetail {
-  /** None */
-  None = "None",
-  /** RecommendedSizeHasLessNetworkAdapters */
-  RecommendedSizeHasLessNetworkAdapters = "RecommendedSizeHasLessNetworkAdapters",
-  /** CannotReportComputeCost */
-  CannotReportComputeCost = "CannotReportComputeCost",
-  /** CannotReportStorageCost */
-  CannotReportStorageCost = "CannotReportStorageCost",
-  /** CannotReportBandwidthCosts */
-  CannotReportBandwidthCosts = "CannotReportBandwidthCosts",
-  /** PercentageOfCoresUtilizedMissing */
-  PercentageOfCoresUtilizedMissing = "PercentageOfCoresUtilizedMissing",
-  /** PercentageOfMemoryUtilizedMissing */
-  PercentageOfMemoryUtilizedMissing = "PercentageOfMemoryUtilizedMissing",
-  /** PercentageOfCoresUtilizedOutOfRange */
-  PercentageOfCoresUtilizedOutOfRange = "PercentageOfCoresUtilizedOutOfRange",
-  /** PercentageOfMemoryUtilizedOutOfRange */
-  PercentageOfMemoryUtilizedOutOfRange = "PercentageOfMemoryUtilizedOutOfRange"
+/** Known values of {@link WebAppSitePropertiesDiscoveryScenario} that the service accepts. */
+export enum KnownWebAppSitePropertiesDiscoveryScenario {
+  /** Migrate value. */
+  Migrate = "Migrate",
+  /** DR value. */
+  DR = "DR",
 }
 
 /**
- * Defines values for AzureVmSuitabilityDetail. \
- * {@link KnownAzureVmSuitabilityDetail} can be used interchangeably with AzureVmSuitabilityDetail,
+ * Defines values for WebAppSitePropertiesDiscoveryScenario. \
+ * {@link KnownWebAppSitePropertiesDiscoveryScenario} can be used interchangeably with WebAppSitePropertiesDiscoveryScenario,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None** \
- * **RecommendedSizeHasLessNetworkAdapters** \
- * **CannotReportComputeCost** \
- * **CannotReportStorageCost** \
- * **CannotReportBandwidthCosts** \
- * **PercentageOfCoresUtilizedMissing** \
- * **PercentageOfMemoryUtilizedMissing** \
- * **PercentageOfCoresUtilizedOutOfRange** \
- * **PercentageOfMemoryUtilizedOutOfRange**
+ * **Migrate**: Migrate value. \
+ * **DR**: DR value.
  */
-export type AzureVmSuitabilityDetail = string;
+export type WebAppSitePropertiesDiscoveryScenario = string;
 
-/** Optional parameters. */
-export interface ProjectsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscription operation. */
-export type ProjectsListBySubscriptionResponse = ProjectsListBySubscriptionHeaders &
-  ProjectResultList;
-
-/** Optional parameters. */
-export interface ProjectsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ProjectsListResponse = ProjectsListHeaders & ProjectResultList;
-
-/** Optional parameters. */
-export interface ProjectsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ProjectsGetResponse = ProjectsGetHeaders & Project;
-
-/** Optional parameters. */
-export interface ProjectsCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** New or Updated project object. */
-  project?: Project;
+/** Known values of {@link VMwareDatastoreType} that the service accepts. */
+export enum KnownVMwareDatastoreType {
+  /** Unknown value. */
+  Unknown = "Unknown",
+  /** CIFS value. */
+  Cifs = "CIFS",
+  /** NFS value. */
+  NFS = "NFS",
+  /** NFS41 value. */
+  NFS41 = "NFS41",
+  /** PMEM value. */
+  Pmem = "PMEM",
+  /** VFFS value. */
+  Vffs = "VFFS",
+  /** VMFS value. */
+  Vmfs = "VMFS",
+  /** VSAN value. */
+  Vsan = "VSAN",
+  /** VVOL value. */
+  Vvol = "VVOL",
 }
 
-/** Contains response data for the create operation. */
-export type ProjectsCreateResponse = ProjectsCreateHeaders & Project;
+/**
+ * Defines values for VMwareDatastoreType. \
+ * {@link KnownVMwareDatastoreType} can be used interchangeably with VMwareDatastoreType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Unknown value. \
+ * **CIFS**: CIFS value. \
+ * **NFS**: NFS value. \
+ * **NFS41**: NFS41 value. \
+ * **PMEM**: PMEM value. \
+ * **VFFS**: VFFS value. \
+ * **VMFS**: VMFS value. \
+ * **VSAN**: VSAN value. \
+ * **VVOL**: VVOL value.
+ */
+export type VMwareDatastoreType = string;
 
-/** Optional parameters. */
-export interface ProjectsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Updated project object. */
-  project?: Project;
+/** Known values of {@link DefaultAutoGenerated} that the service accepts. */
+export enum KnownDefaultAutoGenerated {
+  /** default value. */
+  Default = "default",
 }
 
-/** Contains response data for the update operation. */
-export type ProjectsUpdateResponse = ProjectsUpdateHeaders & Project;
+/**
+ * Defines values for DefaultAutoGenerated. \
+ * {@link KnownDefaultAutoGenerated} can be used interchangeably with DefaultAutoGenerated,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **default**: default value.
+ */
+export type DefaultAutoGenerated = string;
 
-/** Optional parameters. */
-export interface ProjectsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the delete operation. */
-export type ProjectsDeleteResponse = ProjectsDeleteHeaders;
-
-/** Optional parameters. */
-export interface ProjectsAssessmentOptionsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the assessmentOptions operation. */
-export type ProjectsAssessmentOptionsResponse = ProjectsAssessmentOptionsHeaders &
-  AssessmentOptions;
-
-/** Optional parameters. */
-export interface ProjectsAssessmentOptionsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the assessmentOptionsList operation. */
-export type ProjectsAssessmentOptionsListResponse = ProjectsAssessmentOptionsListHeaders &
-  AssessmentOptionsResultList;
-
-/** Optional parameters. */
-export interface ProjectsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type ProjectsListBySubscriptionNextResponse = ProjectsListBySubscriptionNextHeaders &
-  ProjectResultList;
-
-/** Optional parameters. */
-export interface ProjectsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ProjectsListNextResponse = ProjectsListNextHeaders &
-  ProjectResultList;
-
-/** Optional parameters. */
-export interface MachinesListByProjectOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByProject operation. */
-export type MachinesListByProjectResponse = MachinesListByProjectHeaders &
-  MachineResultList;
-
-/** Optional parameters. */
-export interface MachinesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type MachinesGetResponse = MachinesGetHeaders & Machine;
-
-/** Optional parameters. */
-export interface MachinesListByProjectNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByProjectNext operation. */
-export type MachinesListByProjectNextResponse = MachinesListByProjectNextHeaders &
-  MachineResultList;
-
-/** Optional parameters. */
-export interface GroupsListByProjectOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByProject operation. */
-export type GroupsListByProjectResponse = GroupsListByProjectHeaders &
-  GroupResultList;
-
-/** Optional parameters. */
-export interface GroupsGetOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type GroupsGetResponse = GroupsGetHeaders & Group;
-
-/** Optional parameters. */
-export interface GroupsCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** New or Updated Group object. */
-  group?: Group;
+/** Known values of {@link DefaultValues} that the service accepts. */
+export enum KnownDefaultValues {
+  /** default value. */
+  Default = "default",
 }
 
-/** Contains response data for the create operation. */
-export type GroupsCreateResponse = GroupsCreateHeaders & Group;
+/**
+ * Defines values for DefaultValues. \
+ * {@link KnownDefaultValues} can be used interchangeably with DefaultValues,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **default**: default value.
+ */
+export type DefaultValues = string;
 
-/** Optional parameters. */
-export interface GroupsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the delete operation. */
-export type GroupsDeleteResponse = GroupsDeleteHeaders;
-
-/** Optional parameters. */
-export interface GroupsUpdateMachinesOptionalParams
-  extends coreClient.OperationOptions {
-  /** Machines list to be added or removed from group. */
-  groupUpdateProperties?: UpdateGroupBody;
+/** Known values of {@link HighAvailabilityValues} that the service accepts. */
+export enum KnownHighAvailabilityValues {
+  /** Unknown value. */
+  Unknown = "Unknown",
+  /** No value. */
+  No = "No",
+  /** Yes value. */
+  Yes = "Yes",
 }
 
-/** Contains response data for the updateMachines operation. */
-export type GroupsUpdateMachinesResponse = GroupsUpdateMachinesHeaders & Group;
+/**
+ * Defines values for HighAvailabilityValues. \
+ * {@link KnownHighAvailabilityValues} can be used interchangeably with HighAvailabilityValues,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Unknown value. \
+ * **No**: No value. \
+ * **Yes**: Yes value.
+ */
+export type HighAvailabilityValues = string;
 
-/** Optional parameters. */
-export interface AssessmentsListByGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByGroup operation. */
-export type AssessmentsListByGroupResponse = AssessmentsListByGroupHeaders &
-  AssessmentResultList;
-
-/** Optional parameters. */
-export interface AssessmentsListByProjectOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByProject operation. */
-export type AssessmentsListByProjectResponse = AssessmentsListByProjectHeaders &
-  AssessmentResultList;
-
-/** Optional parameters. */
-export interface AssessmentsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type AssessmentsGetResponse = AssessmentsGetHeaders & Assessment;
-
-/** Optional parameters. */
-export interface AssessmentsCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** New or Updated Assessment object. */
-  assessment?: Assessment;
+/** Known values of {@link Versions} that the service accepts. */
+export enum KnownVersions {
+  /** Api version 2018-05-01-preview. */
+  V20180501Preview = "2018-05-01-preview",
+  /** Api version 2019-05-01-preview. */
+  V20190501Preview = "2019-05-01-preview",
+  /** Api version 2020-01-01. */
+  V20200101 = "2020-01-01",
+  /** Api version 2020-01-01-preview. */
+  V20200101Preview = "2020-01-01-preview",
+  /** Api version 2020-02-01. */
+  V20200201 = "2020-02-01",
+  /** Api version 2020-07-07. */
+  V20200707 = "2020-07-07",
+  /** Api version 2020-07-10. */
+  V20200710 = "2020-07-10",
+  /** Api version 2020-08-01-preview. */
+  V20200801Preview = "2020-08-01-preview",
+  /** Api version 2020-11-11-preview. */
+  V20201111Preview = "2020-11-11-preview",
+  /** Api version 2022-10-27. */
+  V20221027 = "2022-10-27",
+  /** Api version 2023-06-06. */
+  V20230606 = "2023-06-06",
+  /** Api version 2023-10-01-preview. */
+  V20231001Preview = "2023-10-01-preview",
+  /** Api version 2024-05-01-preview. */
+  V20240501Preview = "2024-05-01-preview",
+  /** Api version 2024-12-01-preview. */
+  V20241201Preview = "2024-12-01-preview",
 }
 
-/** Contains response data for the create operation. */
-export type AssessmentsCreateResponse = AssessmentsCreateHeaders & Assessment;
-
-/** Optional parameters. */
-export interface AssessmentsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the delete operation. */
-export type AssessmentsDeleteResponse = AssessmentsDeleteHeaders;
-
-/** Optional parameters. */
-export interface AssessmentsGetReportDownloadUrlOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getReportDownloadUrl operation. */
-export type AssessmentsGetReportDownloadUrlResponse = AssessmentsGetReportDownloadUrlHeaders &
-  DownloadUrl;
-
-/** Optional parameters. */
-export interface AssessedMachinesListByAssessmentOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByAssessment operation. */
-export type AssessedMachinesListByAssessmentResponse = AssessedMachinesListByAssessmentHeaders &
-  AssessedMachineResultList;
-
-/** Optional parameters. */
-export interface AssessedMachinesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type AssessedMachinesGetResponse = AssessedMachinesGetHeaders &
-  AssessedMachine;
-
-/** Optional parameters. */
-export interface AssessedMachinesListByAssessmentNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByAssessmentNext operation. */
-export type AssessedMachinesListByAssessmentNextResponse = AssessedMachinesListByAssessmentNextHeaders &
-  AssessedMachineResultList;
-
-/** Optional parameters. */
-export interface HyperVCollectorsListByProjectOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByProject operation. */
-export type HyperVCollectorsListByProjectResponse = HyperVCollectorsListByProjectHeaders &
-  HyperVCollectorList;
-
-/** Optional parameters. */
-export interface HyperVCollectorsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type HyperVCollectorsGetResponse = HyperVCollectorsGetHeaders &
-  HyperVCollector;
-
-/** Optional parameters. */
-export interface HyperVCollectorsCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** New or Updated Hyper-V collector. */
-  collectorBody?: HyperVCollector;
-}
-
-/** Contains response data for the create operation. */
-export type HyperVCollectorsCreateResponse = HyperVCollectorsCreateHeaders &
-  HyperVCollector;
-
-/** Optional parameters. */
-export interface HyperVCollectorsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the delete operation. */
-export type HyperVCollectorsDeleteResponse = HyperVCollectorsDeleteHeaders;
-
-/** Optional parameters. */
-export interface ServerCollectorsListByProjectOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByProject operation. */
-export type ServerCollectorsListByProjectResponse = ServerCollectorsListByProjectHeaders &
-  ServerCollectorList;
-
-/** Optional parameters. */
-export interface ServerCollectorsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ServerCollectorsGetResponse = ServerCollectorsGetHeaders &
-  ServerCollector;
-
-/** Optional parameters. */
-export interface ServerCollectorsCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** New or Updated Server collector. */
-  collectorBody?: ServerCollector;
-}
-
-/** Contains response data for the create operation. */
-export type ServerCollectorsCreateResponse = ServerCollectorsCreateHeaders &
-  ServerCollector;
-
-/** Optional parameters. */
-export interface ServerCollectorsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the delete operation. */
-export type ServerCollectorsDeleteResponse = ServerCollectorsDeleteHeaders;
-
-/** Optional parameters. */
-export interface VMwareCollectorsListByProjectOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByProject operation. */
-export type VMwareCollectorsListByProjectResponse = VMwareCollectorsListByProjectHeaders &
-  VMwareCollectorList;
-
-/** Optional parameters. */
-export interface VMwareCollectorsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type VMwareCollectorsGetResponse = VMwareCollectorsGetHeaders &
-  VMwareCollector;
-
-/** Optional parameters. */
-export interface VMwareCollectorsCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** New or Updated VMware collector. */
-  collectorBody?: VMwareCollector;
-}
-
-/** Contains response data for the create operation. */
-export type VMwareCollectorsCreateResponse = VMwareCollectorsCreateHeaders &
-  VMwareCollector;
-
-/** Optional parameters. */
-export interface VMwareCollectorsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the delete operation. */
-export type VMwareCollectorsDeleteResponse = VMwareCollectorsDeleteHeaders;
-
-/** Optional parameters. */
-export interface ImportCollectorsListByProjectOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByProject operation. */
-export type ImportCollectorsListByProjectResponse = ImportCollectorsListByProjectHeaders &
-  ImportCollectorList;
-
-/** Optional parameters. */
-export interface ImportCollectorsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ImportCollectorsGetResponse = ImportCollectorsGetHeaders &
-  ImportCollector;
-
-/** Optional parameters. */
-export interface ImportCollectorsCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** New or Updated Import collector. */
-  collectorBody?: ImportCollector;
-}
-
-/** Contains response data for the create operation. */
-export type ImportCollectorsCreateResponse = ImportCollectorsCreateHeaders &
-  ImportCollector;
-
-/** Optional parameters. */
-export interface ImportCollectorsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the delete operation. */
-export type ImportCollectorsDeleteResponse = ImportCollectorsDeleteHeaders;
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionListByProjectOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByProject operation. */
-export type PrivateEndpointConnectionListByProjectResponse = PrivateEndpointConnectionListByProjectHeaders &
-  PrivateEndpointConnectionCollection;
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type PrivateEndpointConnectionGetResponse = PrivateEndpointConnectionGetHeaders &
-  PrivateEndpointConnection;
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** New or Updated Private Endpoint Connection object. */
-  privateEndpointConnectionBody?: PrivateEndpointConnection;
-}
-
-/** Contains response data for the update operation. */
-export type PrivateEndpointConnectionUpdateResponse = PrivateEndpointConnectionUpdateHeaders &
-  PrivateEndpointConnection;
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the delete operation. */
-export type PrivateEndpointConnectionDeleteResponse = PrivateEndpointConnectionDeleteHeaders;
-
-/** Optional parameters. */
-export interface PrivateLinkResourceGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type PrivateLinkResourceGetResponse = PrivateLinkResourceGetHeaders &
-  PrivateLinkResource;
-
-/** Optional parameters. */
-export interface PrivateLinkResourceListByProjectOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByProject operation. */
-export type PrivateLinkResourceListByProjectResponse = PrivateLinkResourceListByProjectHeaders &
-  PrivateLinkResourceCollection;
+/**
+ * Defines values for Versions. \
+ * {@link KnownVersions} can be used interchangeably with Versions,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **2018-05-01-preview**: Api version 2018-05-01-preview. \
+ * **2019-05-01-preview**: Api version 2019-05-01-preview. \
+ * **2020-01-01**: Api version 2020-01-01. \
+ * **2020-01-01-preview**: Api version 2020-01-01-preview. \
+ * **2020-02-01**: Api version 2020-02-01. \
+ * **2020-07-07**: Api version 2020-07-07. \
+ * **2020-07-10**: Api version 2020-07-10. \
+ * **2020-08-01-preview**: Api version 2020-08-01-preview. \
+ * **2020-11-11-preview**: Api version 2020-11-11-preview. \
+ * **2022-10-27**: Api version 2022-10-27. \
+ * **2023-06-06**: Api version 2023-06-06. \
+ * **2023-10-01-preview**: Api version 2023-10-01-preview. \
+ * **2024-05-01-preview**: Api version 2024-05-01-preview. \
+ * **2024-12-01-preview**: Api version 2024-12-01-preview.
+ */
+export type Versions = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type OperationsListResponse = OperationResultList;
+export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface AzureMigrateV2OptionalParams
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface HypervSitesListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type HypervSitesListBySubscriptionResponse = HypervSiteListResult;
+
+/** Optional parameters. */
+export interface HypervSitesListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type HypervSitesListByResourceGroupResponse = HypervSiteListResult;
+
+/** Optional parameters. */
+export interface HypervSitesListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type HypervSitesListBySubscriptionNextResponse = HypervSiteListResult;
+
+/** Optional parameters. */
+export interface HypervSitesListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type HypervSitesListByResourceGroupNextResponse = HypervSiteListResult;
+
+/** Optional parameters. */
+export interface ImportSitesControllerListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type ImportSitesControllerListBySubscriptionResponse =
+  ImportSiteListResult;
+
+/** Optional parameters. */
+export interface ImportSitesControllerListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type ImportSitesControllerListByResourceGroupResponse =
+  ImportSiteListResult;
+
+/** Optional parameters. */
+export interface ImportSitesControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ImportSitesControllerGetResponse = ImportSite;
+
+/** Optional parameters. */
+export interface ImportSitesControllerCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type ImportSitesControllerCreateResponse = ImportSite;
+
+/** Optional parameters. */
+export interface ImportSitesControllerUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type ImportSitesControllerUpdateResponse = ImportSite;
+
+/** Optional parameters. */
+export interface ImportSitesControllerDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ImportSitesControllerDeleteImportedMachinesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the deleteImportedMachines operation. */
+export type ImportSitesControllerDeleteImportedMachinesResponse =
+  SasUriResponse;
+
+/** Optional parameters. */
+export interface ImportSitesControllerExportUriOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the exportUri operation. */
+export type ImportSitesControllerExportUriResponse = SasUriResponse;
+
+/** Optional parameters. */
+export interface ImportSitesControllerImportUriOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the importUri operation. */
+export type ImportSitesControllerImportUriResponse = SasUriResponse;
+
+/** Optional parameters. */
+export interface ImportSitesControllerListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type ImportSitesControllerListBySubscriptionNextResponse =
+  ImportSiteListResult;
+
+/** Optional parameters. */
+export interface ImportSitesControllerListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type ImportSitesControllerListByResourceGroupNextResponse =
+  ImportSiteListResult;
+
+/** Optional parameters. */
+export interface MasterSitesControllerListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type MasterSitesControllerListBySubscriptionResponse =
+  MasterSiteListResult;
+
+/** Optional parameters. */
+export interface MasterSitesControllerListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type MasterSitesControllerListByResourceGroupResponse =
+  MasterSiteListResult;
+
+/** Optional parameters. */
+export interface MasterSitesControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type MasterSitesControllerGetResponse = MasterSite;
+
+/** Optional parameters. */
+export interface MasterSitesControllerCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type MasterSitesControllerCreateResponse = MasterSite;
+
+/** Optional parameters. */
+export interface MasterSitesControllerUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type MasterSitesControllerUpdateResponse = MasterSite;
+
+/** Optional parameters. */
+export interface MasterSitesControllerDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface MasterSitesControllerErrorSummaryOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the errorSummary operation. */
+export type MasterSitesControllerErrorSummaryResponse = SiteErrorSummary;
+
+/** Optional parameters. */
+export interface MasterSitesControllerRefreshArcStatusOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the refreshArcStatus operation. */
+export type MasterSitesControllerRefreshArcStatusResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface MasterSitesControllerListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type MasterSitesControllerListBySubscriptionNextResponse =
+  MasterSiteListResult;
+
+/** Optional parameters. */
+export interface MasterSitesControllerListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type MasterSitesControllerListByResourceGroupNextResponse =
+  MasterSiteListResult;
+
+/** Optional parameters. */
+export interface ServerSitesControllerListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type ServerSitesControllerListBySubscriptionResponse =
+  ServerSiteResourceListResult;
+
+/** Optional parameters. */
+export interface ServerSitesControllerListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type ServerSitesControllerListByResourceGroupResponse =
+  ServerSiteResourceListResult;
+
+/** Optional parameters. */
+export interface ServerSitesControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ServerSitesControllerGetResponse = ServerSiteResource;
+
+/** Optional parameters. */
+export interface ServerSitesControllerCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type ServerSitesControllerCreateResponse = ServerSiteResource;
+
+/** Optional parameters. */
+export interface ServerSitesControllerUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type ServerSitesControllerUpdateResponse = ServerSiteResource;
+
+/** Optional parameters. */
+export interface ServerSitesControllerDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ServerSitesControllerComputeErrorSummaryOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the computeErrorSummary operation. */
+export type ServerSitesControllerComputeErrorSummaryResponse = SiteErrorSummary;
+
+/** Optional parameters. */
+export interface ServerSitesControllerComputeusageOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the computeusage operation. */
+export type ServerSitesControllerComputeusageResponse = ServerSiteUsageResponse;
+
+/** Optional parameters. */
+export interface ServerSitesControllerExportApplicationsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the exportApplications operation. */
+export type ServerSitesControllerExportApplicationsResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface ServerSitesControllerExportMachineErrorsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the exportMachineErrors operation. */
+export type ServerSitesControllerExportMachineErrorsResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface ServerSitesControllerListHealthSummaryOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listHealthSummary operation. */
+export type ServerSitesControllerListHealthSummaryResponse =
+  SiteHealthSummaryCollection;
+
+/** Optional parameters. */
+export interface ServerSitesControllerRefreshSiteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the refreshSite operation. */
+export type ServerSitesControllerRefreshSiteResponse = Record<string, unknown>;
+
+/** Optional parameters. */
+export interface ServerSitesControllerSummaryOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the summary operation. */
+export type ServerSitesControllerSummaryResponse = ServerSiteUsage;
+
+/** Optional parameters. */
+export interface ServerSitesControllerUpdateDependencyMapStatusOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateDependencyMapStatus operation. */
+export type ServerSitesControllerUpdateDependencyMapStatusResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface ServerSitesControllerUpdatePropertiesOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateProperties operation. */
+export type ServerSitesControllerUpdatePropertiesResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface ServerSitesControllerListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type ServerSitesControllerListBySubscriptionNextResponse =
+  ServerSiteResourceListResult;
+
+/** Optional parameters. */
+export interface ServerSitesControllerListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type ServerSitesControllerListByResourceGroupNextResponse =
+  ServerSiteResourceListResult;
+
+/** Optional parameters. */
+export interface SitesControllerListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type SitesControllerListBySubscriptionResponse = VmwareSiteListResult;
+
+/** Optional parameters. */
+export interface SitesControllerListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type SitesControllerListByResourceGroupResponse = VmwareSiteListResult;
+
+/** Optional parameters. */
+export interface SitesControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SitesControllerGetResponse = VmwareSite;
+
+/** Optional parameters. */
+export interface SitesControllerCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type SitesControllerCreateResponse = VmwareSite;
+
+/** Optional parameters. */
+export interface SitesControllerUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type SitesControllerUpdateResponse = VmwareSite;
+
+/** Optional parameters. */
+export interface SitesControllerDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SitesControllerComputeErrorSummaryOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the computeErrorSummary operation. */
+export type SitesControllerComputeErrorSummaryResponse = SiteErrorSummary;
+
+/** Optional parameters. */
+export interface SitesControllerComputeusageOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the computeusage operation. */
+export type SitesControllerComputeusageResponse = VmwareSiteUsage;
+
+/** Optional parameters. */
+export interface SitesControllerExportApplicationsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the exportApplications operation. */
+export type SitesControllerExportApplicationsResponse = Record<string, unknown>;
+
+/** Optional parameters. */
+export interface SitesControllerExportMachineErrorsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the exportMachineErrors operation. */
+export type SitesControllerExportMachineErrorsResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface SitesControllerExportMachinesOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the exportMachines operation. */
+export type SitesControllerExportMachinesResponse = Record<string, unknown>;
+
+/** Optional parameters. */
+export interface SitesControllerListHealthSummaryOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listHealthSummary operation. */
+export type SitesControllerListHealthSummaryResponse =
+  SiteHealthSummaryCollection;
+
+/** Optional parameters. */
+export interface SitesControllerSummaryOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the summary operation. */
+export type SitesControllerSummaryResponse = VmwareSiteUsage;
+
+/** Optional parameters. */
+export interface SitesControllerListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type SitesControllerListBySubscriptionNextResponse =
+  VmwareSiteListResult;
+
+/** Optional parameters. */
+export interface SitesControllerListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type SitesControllerListByResourceGroupNextResponse =
+  VmwareSiteListResult;
+
+/** Optional parameters. */
+export interface HypervSitesControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type HypervSitesControllerGetResponse = HypervSite;
+
+/** Optional parameters. */
+export interface HypervSitesControllerCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type HypervSitesControllerCreateResponse = HypervSite;
+
+/** Optional parameters. */
+export interface HypervSitesControllerUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type HypervSitesControllerUpdateResponse = HypervSite;
+
+/** Optional parameters. */
+export interface HypervSitesControllerDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface HypervSitesControllerComputeErrorSummaryOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the computeErrorSummary operation. */
+export type HypervSitesControllerComputeErrorSummaryResponse = SiteErrorSummary;
+
+/** Optional parameters. */
+export interface HypervSitesControllerComputeusageOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the computeusage operation. */
+export type HypervSitesControllerComputeusageResponse = HypervSiteUsage;
+
+/** Optional parameters. */
+export interface HypervSitesControllerExportApplicationsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the exportApplications operation. */
+export type HypervSitesControllerExportApplicationsResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface HypervSitesControllerExportMachineErrorsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the exportMachineErrors operation. */
+export type HypervSitesControllerExportMachineErrorsResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface HypervSitesControllerListHealthSummaryOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listHealthSummary operation. */
+export type HypervSitesControllerListHealthSummaryResponse =
+  SiteHealthSummaryCollection;
+
+/** Optional parameters. */
+export interface HypervSitesControllerSummaryOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the summary operation. */
+export type HypervSitesControllerSummaryResponse = HypervSiteUsage;
+
+/** Optional parameters. */
+export interface HypervDependencyMapControllerClientGroupMembersOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the clientGroupMembers operation. */
+export type HypervDependencyMapControllerClientGroupMembersResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface HypervDependencyMapControllerExportDependenciesOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the exportDependencies operation. */
+export type HypervDependencyMapControllerExportDependenciesResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface HypervDependencyMapControllerGenerateCoarseMapOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the generateCoarseMap operation. */
+export type HypervDependencyMapControllerGenerateCoarseMapResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface HypervDependencyMapControllerGenerateDetailedMapOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the generateDetailedMap operation. */
+export type HypervDependencyMapControllerGenerateDetailedMapResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface HypervDependencyMapControllerServerGroupMembersOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the serverGroupMembers operation. */
+export type HypervDependencyMapControllerServerGroupMembersResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface HypervDependencyMapControllerUpdateDependencyMapStatusOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateDependencyMapStatus operation. */
+export type HypervDependencyMapControllerUpdateDependencyMapStatusResponse =
+  Record<string, unknown>;
+
+/** Optional parameters. */
+export interface HypervClusterControllerListByHypervSiteOptionalParams
+  extends coreClient.OperationOptions {
+  /** filter query */
+  filter?: string;
+}
+
+/** Contains response data for the listByHypervSite operation. */
+export type HypervClusterControllerListByHypervSiteResponse =
+  HypervClusterListResult;
+
+/** Optional parameters. */
+export interface HypervClusterControllerGetClusterOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getCluster operation. */
+export type HypervClusterControllerGetClusterResponse = HypervCluster;
+
+/** Optional parameters. */
+export interface HypervClusterControllerCreateClusterOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createCluster operation. */
+export type HypervClusterControllerCreateClusterResponse = HypervCluster;
+
+/** Optional parameters. */
+export interface HypervClusterControllerDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface HypervClusterControllerListByHypervSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByHypervSiteNext operation. */
+export type HypervClusterControllerListByHypervSiteNextResponse =
+  HypervClusterListResult;
+
+/** Optional parameters. */
+export interface HypervHostControllerListByHypervSiteOptionalParams
+  extends coreClient.OperationOptions {
+  /** filter query */
+  filter?: string;
+}
+
+/** Contains response data for the listByHypervSite operation. */
+export type HypervHostControllerListByHypervSiteResponse = HypervHostListResult;
+
+/** Optional parameters. */
+export interface HypervHostControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type HypervHostControllerGetResponse = HypervHost;
+
+/** Optional parameters. */
+export interface HypervHostControllerCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type HypervHostControllerCreateResponse = HypervHost;
+
+/** Optional parameters. */
+export interface HypervHostControllerDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface HypervHostControllerListByHypervSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByHypervSiteNext operation. */
+export type HypervHostControllerListByHypervSiteNextResponse =
+  HypervHostListResult;
+
+/** Optional parameters. */
+export interface HypervJobsListByHypervSiteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByHypervSite operation. */
+export type HypervJobsListByHypervSiteResponse = HypervJobListResult;
+
+/** Optional parameters. */
+export interface HypervJobsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type HypervJobsGetResponse = HypervJob;
+
+/** Optional parameters. */
+export interface HypervJobsListByHypervSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByHypervSiteNext operation. */
+export type HypervJobsListByHypervSiteNextResponse = HypervJobListResult;
+
+/** Optional parameters. */
+export interface HypervMachinesControllerListByHypervSiteOptionalParams
+  extends coreClient.OperationOptions {
+  /** filter query */
+  filter?: string;
+  /** page size  query */
+  top?: number;
+  /** Optional parameter for continuation token. */
+  continuationToken?: string;
+  /** Total count of machines in the given site. */
+  totalRecordCount?: number;
+}
+
+/** Contains response data for the listByHypervSite operation. */
+export type HypervMachinesControllerListByHypervSiteResponse =
+  HypervMachineListResult;
+
+/** Optional parameters. */
+export interface HypervMachinesControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type HypervMachinesControllerGetResponse = HypervMachine;
+
+/** Optional parameters. */
+export interface HypervMachinesControllerUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type HypervMachinesControllerUpdateResponse = HypervMachine;
+
+/** Optional parameters. */
+export interface HypervMachinesControllerUpdatePropertiesOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateProperties operation. */
+export type HypervMachinesControllerUpdatePropertiesResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface HypervMachinesControllerListByHypervSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByHypervSiteNext operation. */
+export type HypervMachinesControllerListByHypervSiteNextResponse =
+  HypervMachineListResult;
+
+/** Optional parameters. */
+export interface HypervSoftwareInventoriesControllerGetMachineSoftwareInventoryOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getMachineSoftwareInventory operation. */
+export type HypervSoftwareInventoriesControllerGetMachineSoftwareInventoryResponse =
+  HypervVmSoftwareInventory;
+
+/** Optional parameters. */
+export interface HypervSoftwareInventoriesControllerListByHypervMachineOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByHypervMachine operation. */
+export type HypervSoftwareInventoriesControllerListByHypervMachineResponse =
+  HypervVmSoftwareInventoryListResult;
+
+/** Optional parameters. */
+export interface HypervSoftwareInventoriesControllerListByHypervMachineNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByHypervMachineNext operation. */
+export type HypervSoftwareInventoriesControllerListByHypervMachineNextResponse =
+  HypervVmSoftwareInventoryListResult;
+
+/** Optional parameters. */
+export interface HypervOperationsStatusControllerGetHypervOperationsStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getHypervOperationsStatus operation. */
+export type HypervOperationsStatusControllerGetHypervOperationsStatusResponse =
+  OperationStatus;
+
+/** Optional parameters. */
+export interface HypervRunAsAccountsControllerListByHypervSiteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByHypervSite operation. */
+export type HypervRunAsAccountsControllerListByHypervSiteResponse =
+  HypervRunAsAccountResourceListResult;
+
+/** Optional parameters. */
+export interface HypervRunAsAccountsControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type HypervRunAsAccountsControllerGetResponse =
+  HypervRunAsAccountResource;
+
+/** Optional parameters. */
+export interface HypervRunAsAccountsControllerListByHypervSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByHypervSiteNext operation. */
+export type HypervRunAsAccountsControllerListByHypervSiteNextResponse =
+  HypervRunAsAccountResourceListResult;
+
+/** Optional parameters. */
+export interface ImportJobsControllerListDeletejobsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listDeletejobs operation. */
+export type ImportJobsControllerListDeletejobsResponse =
+  PagedDeleteImportMachinesJob;
+
+/** Optional parameters. */
+export interface ImportJobsControllerGetDeletejobOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getDeletejob operation. */
+export type ImportJobsControllerGetDeletejobResponse = DeleteImportMachinesJob;
+
+/** Optional parameters. */
+export interface ImportJobsControllerListExportjobsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listExportjobs operation. */
+export type ImportJobsControllerListExportjobsResponse =
+  PagedExportImportedMachinesJob;
+
+/** Optional parameters. */
+export interface ImportJobsControllerGetExportjobOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getExportjob operation. */
+export type ImportJobsControllerGetExportjobResponse =
+  ExportImportedMachinesJob;
+
+/** Optional parameters. */
+export interface ImportJobsControllerListImportjobsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listImportjobs operation. */
+export type ImportJobsControllerListImportjobsResponse = PagedImportMachinesJob;
+
+/** Optional parameters. */
+export interface ImportJobsControllerGetImportjobOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getImportjob operation. */
+export type ImportJobsControllerGetImportjobResponse = ImportMachinesJob;
+
+/** Optional parameters. */
+export interface ImportJobsControllerListByImportSiteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByImportSite operation. */
+export type ImportJobsControllerListByImportSiteResponse = ImportJobListResult;
+
+/** Optional parameters. */
+export interface ImportJobsControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ImportJobsControllerGetResponse = ImportJob;
+
+/** Optional parameters. */
+export interface ImportJobsControllerListDeletejobsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listDeletejobsNext operation. */
+export type ImportJobsControllerListDeletejobsNextResponse =
+  PagedDeleteImportMachinesJob;
+
+/** Optional parameters. */
+export interface ImportJobsControllerListExportjobsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listExportjobsNext operation. */
+export type ImportJobsControllerListExportjobsNextResponse =
+  PagedExportImportedMachinesJob;
+
+/** Optional parameters. */
+export interface ImportJobsControllerListImportjobsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listImportjobsNext operation. */
+export type ImportJobsControllerListImportjobsNextResponse =
+  PagedImportMachinesJob;
+
+/** Optional parameters. */
+export interface ImportJobsControllerListByImportSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByImportSiteNext operation. */
+export type ImportJobsControllerListByImportSiteNextResponse =
+  ImportJobListResult;
+
+/** Optional parameters. */
+export interface ImportMachinesControllerListByImportSiteOptionalParams
+  extends coreClient.OperationOptions {
+  /** filter query */
+  filter?: string;
+  /** Optional parameter for continuation token. */
+  continuationToken?: string;
+  /** Total count of machines in the given site. */
+  totalRecordCount?: number;
+  /** page size  query */
+  top?: string;
+}
+
+/** Contains response data for the listByImportSite operation. */
+export type ImportMachinesControllerListByImportSiteResponse =
+  ImportMachineListResult;
+
+/** Optional parameters. */
+export interface ImportMachinesControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ImportMachinesControllerGetResponse = ImportMachine;
+
+/** Optional parameters. */
+export interface ImportMachinesControllerDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ImportMachinesControllerListByImportSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByImportSiteNext operation. */
+export type ImportMachinesControllerListByImportSiteNextResponse =
+  ImportMachineListResult;
+
+/** Optional parameters. */
+export interface MasterSitesOperationsStatusControllerGetVmwareOperationStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getVmwareOperationStatus operation. */
+export type MasterSitesOperationsStatusControllerGetVmwareOperationStatusResponse =
+  OperationStatus;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionControllerListByMasterSiteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByMasterSite operation. */
+export type PrivateEndpointConnectionControllerListByMasterSiteResponse =
+  PrivateEndpointConnectionListResult;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateEndpointConnectionControllerGetResponse =
+  PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionControllerCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type PrivateEndpointConnectionControllerCreateResponse =
+  PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionControllerDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionControllerListByMasterSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByMasterSiteNext operation. */
+export type PrivateEndpointConnectionControllerListByMasterSiteNextResponse =
+  PrivateEndpointConnectionListResult;
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesControllerListByMasterSiteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByMasterSite operation. */
+export type PrivateLinkResourcesControllerListByMasterSiteResponse =
+  PrivateLinkResourceListResult;
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateLinkResourcesControllerGetResponse = PrivateLinkResource;
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesControllerListByMasterSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByMasterSiteNext operation. */
+export type PrivateLinkResourcesControllerListByMasterSiteNextResponse =
+  PrivateLinkResourceListResult;
+
+/** Optional parameters. */
+export interface SqlSitesControllerListByMasterSiteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByMasterSite operation. */
+export type SqlSitesControllerListByMasterSiteResponse = SqlSiteListResult;
+
+/** Optional parameters. */
+export interface SqlSitesControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SqlSitesControllerGetResponse = SqlSite;
+
+/** Optional parameters. */
+export interface SqlSitesControllerCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type SqlSitesControllerCreateResponse = SqlSite;
+
+/** Optional parameters. */
+export interface SqlSitesControllerUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type SqlSitesControllerUpdateResponse = SqlSite;
+
+/** Optional parameters. */
+export interface SqlSitesControllerDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SqlSitesControllerErrorSummaryOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the errorSummary operation. */
+export type SqlSitesControllerErrorSummaryResponse = SiteErrorSummary;
+
+/** Optional parameters. */
+export interface SqlSitesControllerExportUriOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the exportUri operation. */
+export type SqlSitesControllerExportUriResponse = SQLInventoryImportBody;
+
+/** Optional parameters. */
+export interface SqlSitesControllerExportSqlServerErrorsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the exportSqlServerErrors operation. */
+export type SqlSitesControllerExportSqlServerErrorsResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface SqlSitesControllerExportSqlServersOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the exportSqlServers operation. */
+export type SqlSitesControllerExportSqlServersResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface SqlSitesControllerRefreshOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the refresh operation. */
+export type SqlSitesControllerRefreshResponse = Record<string, unknown>;
+
+/** Optional parameters. */
+export interface SqlSitesControllerSummaryOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the summary operation. */
+export type SqlSitesControllerSummaryResponse = SqlSiteUsage;
+
+/** Optional parameters. */
+export interface SqlSitesControllerImportUriOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the importUri operation. */
+export type SqlSitesControllerImportUriResponse =
+  SqlSitesControllerImportUriHeaders;
+
+/** Optional parameters. */
+export interface SqlSitesControllerValidateAndImportUriOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the validateAndImportUri operation. */
+export type SqlSitesControllerValidateAndImportUriResponse =
+  SQLInventoryImportBody;
+
+/** Optional parameters. */
+export interface SqlSitesControllerListByMasterSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByMasterSiteNext operation. */
+export type SqlSitesControllerListByMasterSiteNextResponse = SqlSiteListResult;
+
+/** Optional parameters. */
+export interface SqlDiscoverySiteDataSourceControllerListBySqlSiteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySqlSite operation. */
+export type SqlDiscoverySiteDataSourceControllerListBySqlSiteResponse =
+  SqlDiscoverySiteDataSourceListResult;
+
+/** Optional parameters. */
+export interface SqlDiscoverySiteDataSourceControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SqlDiscoverySiteDataSourceControllerGetResponse =
+  SqlDiscoverySiteDataSource;
+
+/** Optional parameters. */
+export interface SqlDiscoverySiteDataSourceControllerCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type SqlDiscoverySiteDataSourceControllerCreateResponse =
+  SqlDiscoverySiteDataSource;
+
+/** Optional parameters. */
+export interface SqlDiscoverySiteDataSourceControllerDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SqlDiscoverySiteDataSourceControllerListBySqlSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySqlSiteNext operation. */
+export type SqlDiscoverySiteDataSourceControllerListBySqlSiteNextResponse =
+  SqlDiscoverySiteDataSourceListResult;
+
+/** Optional parameters. */
+export interface SqlImportJobsControllerListImportjobsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listImportjobs operation. */
+export type SqlImportJobsControllerListImportjobsResponse =
+  PagedImportSqlInventoryJob;
+
+/** Optional parameters. */
+export interface SqlImportJobsControllerGetImportjobOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getImportjob operation. */
+export type SqlImportJobsControllerGetImportjobResponse = ImportSqlInventoryJob;
+
+/** Optional parameters. */
+export interface SqlImportJobsControllerListImportjobsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listImportjobsNext operation. */
+export type SqlImportJobsControllerListImportjobsNextResponse =
+  PagedImportSqlInventoryJob;
+
+/** Optional parameters. */
+export interface SqlJobsControllerListBySqlSiteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySqlSite operation. */
+export type SqlJobsControllerListBySqlSiteResponse = SqlJobListResult;
+
+/** Optional parameters. */
+export interface SqlJobsControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SqlJobsControllerGetResponse = SqlJob;
+
+/** Optional parameters. */
+export interface SqlJobsControllerListBySqlSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySqlSiteNext operation. */
+export type SqlJobsControllerListBySqlSiteNextResponse = SqlJobListResult;
+
+/** Optional parameters. */
+export interface SqlOperationsStatusControllerGetSqlOperationStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getSqlOperationStatus operation. */
+export type SqlOperationsStatusControllerGetSqlOperationStatusResponse =
+  OperationStatus;
+
+/** Optional parameters. */
+export interface SqlRunAsAccountsControllerListBySqlSiteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySqlSite operation. */
+export type SqlRunAsAccountsControllerListBySqlSiteResponse =
+  SqlRunAsAccountListResult;
+
+/** Optional parameters. */
+export interface SqlRunAsAccountsControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SqlRunAsAccountsControllerGetResponse = SqlRunAsAccount;
+
+/** Optional parameters. */
+export interface SqlRunAsAccountsControllerListBySqlSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySqlSiteNext operation. */
+export type SqlRunAsAccountsControllerListBySqlSiteNextResponse =
+  SqlRunAsAccountListResult;
+
+/** Optional parameters. */
+export interface SqlAvailabilityGroupsControllerListBySqlSiteOptionalParams
+  extends coreClient.OperationOptions {
+  /** filter query */
+  filter?: string;
+  /** Optional parameter for continuation token. */
+  continuationToken?: string;
+  /** Total count of machines in the given site. */
+  totalRecordCount?: number;
+  /** page size  query */
+  top?: string;
+}
+
+/** Contains response data for the listBySqlSite operation. */
+export type SqlAvailabilityGroupsControllerListBySqlSiteResponse =
+  SqlAvailabilityGroupListResult;
+
+/** Optional parameters. */
+export interface SqlAvailabilityGroupsControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SqlAvailabilityGroupsControllerGetResponse = SqlAvailabilityGroup;
+
+/** Optional parameters. */
+export interface SqlAvailabilityGroupsControllerListBySqlSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySqlSiteNext operation. */
+export type SqlAvailabilityGroupsControllerListBySqlSiteNextResponse =
+  SqlAvailabilityGroupListResult;
+
+/** Optional parameters. */
+export interface SqlDatabasesControllerListBySqlSiteOptionalParams
+  extends coreClient.OperationOptions {
+  /** filter query */
+  filter?: string;
+  /** Optional parameter for continuation token. */
+  continuationToken?: string;
+  /** Total count of machines in the given site. */
+  totalRecordCount?: number;
+  /** page size  query */
+  top?: string;
+}
+
+/** Contains response data for the listBySqlSite operation. */
+export type SqlDatabasesControllerListBySqlSiteResponse =
+  SqlDatabaseV2ListResult;
+
+/** Optional parameters. */
+export interface SqlDatabasesControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SqlDatabasesControllerGetResponse = SqlDatabaseV2;
+
+/** Optional parameters. */
+export interface SqlDatabasesControllerListBySqlSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySqlSiteNext operation. */
+export type SqlDatabasesControllerListBySqlSiteNextResponse =
+  SqlDatabaseV2ListResult;
+
+/** Optional parameters. */
+export interface SqlServersControllerListBySqlSiteOptionalParams
+  extends coreClient.OperationOptions {
+  /** filter query */
+  filter?: string;
+  /** Optional parameter for continuation token. */
+  continuationToken?: string;
+  /** Total count of machines in the given site. */
+  totalRecordCount?: number;
+  /** page size  query */
+  top?: string;
+}
+
+/** Contains response data for the listBySqlSite operation. */
+export type SqlServersControllerListBySqlSiteResponse = SqlServerV2ListResult;
+
+/** Optional parameters. */
+export interface SqlServersControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SqlServersControllerGetResponse = SqlServerV2;
+
+/** Optional parameters. */
+export interface SqlServersControllerUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type SqlServersControllerUpdateResponse = SqlServerV2;
+
+/** Optional parameters. */
+export interface SqlServersControllerListBySqlSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySqlSiteNext operation. */
+export type SqlServersControllerListBySqlSiteNextResponse =
+  SqlServerV2ListResult;
+
+/** Optional parameters. */
+export interface WebAppSitesControllerListByMasterSiteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByMasterSite operation. */
+export type WebAppSitesControllerListByMasterSiteResponse =
+  WebAppSiteListResult;
+
+/** Optional parameters. */
+export interface WebAppSitesControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WebAppSitesControllerGetResponse = WebAppSite;
+
+/** Optional parameters. */
+export interface WebAppSitesControllerCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type WebAppSitesControllerCreateResponse = WebAppSite;
+
+/** Optional parameters. */
+export interface WebAppSitesControllerUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type WebAppSitesControllerUpdateResponse = WebAppSite;
+
+/** Optional parameters. */
+export interface WebAppSitesControllerDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface WebAppSitesControllerErrorSummaryOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the errorSummary operation. */
+export type WebAppSitesControllerErrorSummaryResponse = SiteErrorSummary;
+
+/** Optional parameters. */
+export interface WebAppSitesControllerExportInventoryOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the exportInventory operation. */
+export type WebAppSitesControllerExportInventoryResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface WebAppSitesControllerRefreshOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the refresh operation. */
+export type WebAppSitesControllerRefreshResponse = Record<string, unknown>;
+
+/** Optional parameters. */
+export interface WebAppSitesControllerSummaryOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the summary operation. */
+export type WebAppSitesControllerSummaryResponse = WebAppSiteUsage;
+
+/** Optional parameters. */
+export interface WebAppSitesControllerListByMasterSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByMasterSiteNext operation. */
+export type WebAppSitesControllerListByMasterSiteNextResponse =
+  WebAppSiteListResult;
+
+/** Optional parameters. */
+export interface WebAppDiscoverySiteDataSourcesControllerListByWebAppSiteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByWebAppSite operation. */
+export type WebAppDiscoverySiteDataSourcesControllerListByWebAppSiteResponse =
+  DiscoverySiteDataSourceListResult;
+
+/** Optional parameters. */
+export interface WebAppDiscoverySiteDataSourcesControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WebAppDiscoverySiteDataSourcesControllerGetResponse =
+  DiscoverySiteDataSource;
+
+/** Optional parameters. */
+export interface WebAppDiscoverySiteDataSourcesControllerCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type WebAppDiscoverySiteDataSourcesControllerCreateResponse =
+  DiscoverySiteDataSource;
+
+/** Optional parameters. */
+export interface WebAppDiscoverySiteDataSourcesControllerDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface WebAppDiscoverySiteDataSourcesControllerListByWebAppSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByWebAppSiteNext operation. */
+export type WebAppDiscoverySiteDataSourcesControllerListByWebAppSiteNextResponse =
+  DiscoverySiteDataSourceListResult;
+
+/** Optional parameters. */
+export interface WebAppExtendedMachinesControllerListByWebAppSiteOptionalParams
+  extends coreClient.OperationOptions {
+  /** filter query */
+  filter?: string;
+  /** Optional parameter for continuation token. */
+  continuationToken?: string;
+  /** Total count of machines in the given site. */
+  totalRecordCount?: number;
+  /** page size  query */
+  top?: string;
+}
+
+/** Contains response data for the listByWebAppSite operation. */
+export type WebAppExtendedMachinesControllerListByWebAppSiteResponse =
+  WebAppExtendedMachineListResult;
+
+/** Optional parameters. */
+export interface WebAppExtendedMachinesControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WebAppExtendedMachinesControllerGetResponse = WebAppExtendedMachine;
+
+/** Optional parameters. */
+export interface WebAppExtendedMachinesControllerListByWebAppSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByWebAppSiteNext operation. */
+export type WebAppExtendedMachinesControllerListByWebAppSiteNextResponse =
+  WebAppExtendedMachineListResult;
+
+/** Optional parameters. */
+export interface IisWebApplicationsControllerListByWebAppSiteOptionalParams
+  extends coreClient.OperationOptions {
+  /** filter query */
+  filter?: string;
+  /** Optional parameter for continuation token. */
+  continuationToken?: string;
+  /** Total count of machines in the given site. */
+  totalRecordCount?: number;
+  /** page size  query */
+  top?: string;
+}
+
+/** Contains response data for the listByWebAppSite operation. */
+export type IisWebApplicationsControllerListByWebAppSiteResponse =
+  IisWebApplicationsListResult;
+
+/** Optional parameters. */
+export interface IisWebApplicationsControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type IisWebApplicationsControllerGetResponse = IisWebApplications;
+
+/** Optional parameters. */
+export interface IisWebApplicationsControllerUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type IisWebApplicationsControllerUpdateResponse = IisWebApplications;
+
+/** Optional parameters. */
+export interface IisWebApplicationsControllerListByWebAppSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByWebAppSiteNext operation. */
+export type IisWebApplicationsControllerListByWebAppSiteNextResponse =
+  IisWebApplicationsListResult;
+
+/** Optional parameters. */
+export interface IisWebServersControllerListByWebAppSiteOptionalParams
+  extends coreClient.OperationOptions {
+  /** filter query */
+  filter?: string;
+  /** Optional parameter for continuation token. */
+  continuationToken?: string;
+  /** Total count of machines in the given site. */
+  totalRecordCount?: number;
+  /** page size  query */
+  top?: string;
+}
+
+/** Contains response data for the listByWebAppSite operation. */
+export type IisWebServersControllerListByWebAppSiteResponse =
+  IisWebServersListResult;
+
+/** Optional parameters. */
+export interface IisWebServersControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type IisWebServersControllerGetResponse = IisWebServers;
+
+/** Optional parameters. */
+export interface IisWebServersControllerListByWebAppSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByWebAppSiteNext operation. */
+export type IisWebServersControllerListByWebAppSiteNextResponse =
+  IisWebServersListResult;
+
+/** Optional parameters. */
+export interface WebAppRunAsAccountsControllerListByWebAppSiteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByWebAppSite operation. */
+export type WebAppRunAsAccountsControllerListByWebAppSiteResponse =
+  WebAppRunAsAccountListResult;
+
+/** Optional parameters. */
+export interface WebAppRunAsAccountsControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WebAppRunAsAccountsControllerGetResponse = WebAppRunAsAccount;
+
+/** Optional parameters. */
+export interface WebAppRunAsAccountsControllerListByWebAppSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByWebAppSiteNext operation. */
+export type WebAppRunAsAccountsControllerListByWebAppSiteNextResponse =
+  WebAppRunAsAccountListResult;
+
+/** Optional parameters. */
+export interface TomcatWebApplicationsControllerListByWebAppSiteOptionalParams
+  extends coreClient.OperationOptions {
+  /** filter query */
+  filter?: string;
+  /** Optional parameter for continuation token. */
+  continuationToken?: string;
+  /** Total count of machines in the given site. */
+  totalRecordCount?: number;
+  /** page size  query */
+  top?: string;
+}
+
+/** Contains response data for the listByWebAppSite operation. */
+export type TomcatWebApplicationsControllerListByWebAppSiteResponse =
+  TomcatWebApplicationsListResult;
+
+/** Optional parameters. */
+export interface TomcatWebApplicationsControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type TomcatWebApplicationsControllerGetResponse = TomcatWebApplications;
+
+/** Optional parameters. */
+export interface TomcatWebApplicationsControllerUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type TomcatWebApplicationsControllerUpdateResponse =
+  TomcatWebApplications;
+
+/** Optional parameters. */
+export interface TomcatWebApplicationsControllerListByWebAppSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByWebAppSiteNext operation. */
+export type TomcatWebApplicationsControllerListByWebAppSiteNextResponse =
+  TomcatWebApplicationsListResult;
+
+/** Optional parameters. */
+export interface TomcatWebServersControllerListByWebAppSiteOptionalParams
+  extends coreClient.OperationOptions {
+  /** filter query */
+  filter?: string;
+  /** Optional parameter for continuation token. */
+  continuationToken?: string;
+  /** Total count of machines in the given site. */
+  totalRecordCount?: number;
+  /** page size  query */
+  top?: string;
+}
+
+/** Contains response data for the listByWebAppSite operation. */
+export type TomcatWebServersControllerListByWebAppSiteResponse =
+  TomcatWebServersListResult;
+
+/** Optional parameters. */
+export interface TomcatWebServersControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type TomcatWebServersControllerGetResponse = TomcatWebServers;
+
+/** Optional parameters. */
+export interface TomcatWebServersControllerListByWebAppSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByWebAppSiteNext operation. */
+export type TomcatWebServersControllerListByWebAppSiteNextResponse =
+  TomcatWebServersListResult;
+
+/** Optional parameters. */
+export interface WebAppPropertiesControllerUpdatePropertiesOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateProperties operation. */
+export type WebAppPropertiesControllerUpdatePropertiesResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface WebApplicationsControllerListByWebAppSiteOptionalParams
+  extends coreClient.OperationOptions {
+  /** filter query */
+  filter?: string;
+  /** Optional parameter for continuation token. */
+  continuationToken?: string;
+  /** Total count of machines in the given site. */
+  totalRecordCount?: number;
+  /** page size  query */
+  top?: string;
+}
+
+/** Contains response data for the listByWebAppSite operation. */
+export type WebApplicationsControllerListByWebAppSiteResponse =
+  WebApplicationListResult;
+
+/** Optional parameters. */
+export interface WebApplicationsControllerListByWebAppSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByWebAppSiteNext operation. */
+export type WebApplicationsControllerListByWebAppSiteNextResponse =
+  WebApplicationListResult;
+
+/** Optional parameters. */
+export interface WebServersControllerListByWebAppSiteOptionalParams
+  extends coreClient.OperationOptions {
+  /** filter query */
+  filter?: string;
+  /** Optional parameter for continuation token. */
+  continuationToken?: string;
+  /** Total count of machines in the given site. */
+  totalRecordCount?: number;
+  /** page size  query */
+  top?: string;
+}
+
+/** Contains response data for the listByWebAppSite operation. */
+export type WebServersControllerListByWebAppSiteResponse = WebServerListResult;
+
+/** Optional parameters. */
+export interface WebServersControllerListByWebAppSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByWebAppSiteNext operation. */
+export type WebServersControllerListByWebAppSiteNextResponse =
+  WebServerListResult;
+
+/** Optional parameters. */
+export interface ServerDependencyMapControllerClientGroupMembersOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the clientGroupMembers operation. */
+export type ServerDependencyMapControllerClientGroupMembersResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface ServerDependencyMapControllerExportDependenciesOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the exportDependencies operation. */
+export type ServerDependencyMapControllerExportDependenciesResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface ServerDependencyMapControllerGenerateCoarseMapOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the generateCoarseMap operation. */
+export type ServerDependencyMapControllerGenerateCoarseMapResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface ServerDependencyMapControllerGenerateDetailedMapOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the generateDetailedMap operation. */
+export type ServerDependencyMapControllerGenerateDetailedMapResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface ServerDependencyMapControllerServerGroupMembersOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the serverGroupMembers operation. */
+export type ServerDependencyMapControllerServerGroupMembersResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface ServerJobsControllerListByServerSiteResourceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServerSiteResource operation. */
+export type ServerJobsControllerListByServerSiteResourceResponse =
+  ServerJobListResult;
+
+/** Optional parameters. */
+export interface ServerJobsControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ServerJobsControllerGetResponse = ServerJob;
+
+/** Optional parameters. */
+export interface ServerJobsControllerListByServerSiteResourceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServerSiteResourceNext operation. */
+export type ServerJobsControllerListByServerSiteResourceNextResponse =
+  ServerJobListResult;
+
+/** Optional parameters. */
+export interface ServersControllerListByServerSiteResourceOptionalParams
+  extends coreClient.OperationOptions {
+  /** filter query */
+  filter?: string;
+  /** Optional parameter for continuation token. */
+  continuationToken?: string;
+  /** Total count of machines in the given site. */
+  totalRecordCount?: number;
+  /** page size  query */
+  top?: string;
+}
+
+/** Contains response data for the listByServerSiteResource operation. */
+export type ServersControllerListByServerSiteResourceResponse =
+  ServerListResult;
+
+/** Optional parameters. */
+export interface ServersControllerGetMachineOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getMachine operation. */
+export type ServersControllerGetMachineResponse = Server;
+
+/** Optional parameters. */
+export interface ServersControllerUpdateMachineOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateMachine operation. */
+export type ServersControllerUpdateMachineResponse = Server;
+
+/** Optional parameters. */
+export interface ServersControllerDeleteMachineOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ServersControllerListByServerSiteResourceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServerSiteResourceNext operation. */
+export type ServersControllerListByServerSiteResourceNextResponse =
+  ServerListResult;
+
+/** Optional parameters. */
+export interface ServerSoftwareInventoriesControllerGetMachineSoftwareInventoryOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getMachineSoftwareInventory operation. */
+export type ServerSoftwareInventoriesControllerGetMachineSoftwareInventoryResponse =
+  ServerSoftwareInventory;
+
+/** Optional parameters. */
+export interface ServerSoftwareInventoriesControllerListByServerOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServer operation. */
+export type ServerSoftwareInventoriesControllerListByServerResponse =
+  ServerSoftwareInventoryListResult;
+
+/** Optional parameters. */
+export interface ServerSoftwareInventoriesControllerListByServerNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServerNext operation. */
+export type ServerSoftwareInventoriesControllerListByServerNextResponse =
+  ServerSoftwareInventoryListResult;
+
+/** Optional parameters. */
+export interface ServerOperationsStatusControllerGetServerSiteOperationsStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getServerSiteOperationsStatus operation. */
+export type ServerOperationsStatusControllerGetServerSiteOperationsStatusResponse =
+  OperationStatus;
+
+/** Optional parameters. */
+export interface ServerRunAsAccountsControllerListByServerSiteResourceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServerSiteResource operation. */
+export type ServerRunAsAccountsControllerListByServerSiteResourceResponse =
+  ServerRunAsAccountListResult;
+
+/** Optional parameters. */
+export interface ServerRunAsAccountsControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ServerRunAsAccountsControllerGetResponse = ServerRunAsAccount;
+
+/** Optional parameters. */
+export interface ServerRunAsAccountsControllerListByServerSiteResourceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServerSiteResourceNext operation. */
+export type ServerRunAsAccountsControllerListByServerSiteResourceNextResponse =
+  ServerRunAsAccountListResult;
+
+/** Optional parameters. */
+export interface DependencyMapControllerClientGroupMembersOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the clientGroupMembers operation. */
+export type DependencyMapControllerClientGroupMembersResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface DependencyMapControllerExportDependenciesOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the exportDependencies operation. */
+export type DependencyMapControllerExportDependenciesResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface DependencyMapControllerGenerateCoarseMapOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the generateCoarseMap operation. */
+export type DependencyMapControllerGenerateCoarseMapResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface DependencyMapControllerGenerateDetailedMapOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the generateDetailedMap operation. */
+export type DependencyMapControllerGenerateDetailedMapResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface DependencyMapControllerServerGroupMembersOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the serverGroupMembers operation. */
+export type DependencyMapControllerServerGroupMembersResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface VmwareHostControllerListByVmwareSiteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByVmwareSite operation. */
+export type VmwareHostControllerListByVmwareSiteResponse = VmwareHostListResult;
+
+/** Optional parameters. */
+export interface VmwareHostControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VmwareHostControllerGetResponse = VmwareHost;
+
+/** Optional parameters. */
+export interface VmwareHostControllerListByVmwareSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByVmwareSiteNext operation. */
+export type VmwareHostControllerListByVmwareSiteNextResponse =
+  VmwareHostListResult;
+
+/** Optional parameters. */
+export interface HypervJobsControllerListByVmwareSiteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByVmwareSite operation. */
+export type HypervJobsControllerListByVmwareSiteResponse = VmwareJobListResult;
+
+/** Optional parameters. */
+export interface HypervJobsControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type HypervJobsControllerGetResponse = VmwareJob;
+
+/** Optional parameters. */
+export interface HypervJobsControllerListByVmwareSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByVmwareSiteNext operation. */
+export type HypervJobsControllerListByVmwareSiteNextResponse =
+  VmwareJobListResult;
+
+/** Optional parameters. */
+export interface MachinesControllerListByVmwareSiteOptionalParams
+  extends coreClient.OperationOptions {
+  /** filter query */
+  filter?: string;
+  /** page size  query */
+  top?: number;
+  /** Optional parameter for continuation token. */
+  continuationToken?: string;
+  /** Total count of machines in the given site. */
+  totalRecordCount?: number;
+}
+
+/** Contains response data for the listByVmwareSite operation. */
+export type MachinesControllerListByVmwareSiteResponse =
+  MachineResourceListResult;
+
+/** Optional parameters. */
+export interface MachinesControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type MachinesControllerGetResponse = MachineResource;
+
+/** Optional parameters. */
+export interface MachinesControllerUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type MachinesControllerUpdateResponse = MachineResource;
+
+/** Optional parameters. */
+export interface MachinesControllerStartOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the start operation. */
+export type MachinesControllerStartResponse = Record<string, unknown>;
+
+/** Optional parameters. */
+export interface MachinesControllerStopOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the stop operation. */
+export type MachinesControllerStopResponse = Record<string, unknown>;
+
+/** Optional parameters. */
+export interface MachinesControllerListByVmwareSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByVmwareSiteNext operation. */
+export type MachinesControllerListByVmwareSiteNextResponse =
+  MachineResourceListResult;
+
+/** Optional parameters. */
+export interface VmwareSoftwareInventoriesControllerGetMachineSoftwareInventoryOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getMachineSoftwareInventory operation. */
+export type VmwareSoftwareInventoriesControllerGetMachineSoftwareInventoryResponse =
+  VmwareMachineSoftwareInventory;
+
+/** Optional parameters. */
+export interface VmwareSoftwareInventoriesControllerListByMachineResourceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByMachineResource operation. */
+export type VmwareSoftwareInventoriesControllerListByMachineResourceResponse =
+  VmwareMachineSoftwareInventoryListResult;
+
+/** Optional parameters. */
+export interface VmwareSoftwareInventoriesControllerListByMachineResourceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByMachineResourceNext operation. */
+export type VmwareSoftwareInventoriesControllerListByMachineResourceNextResponse =
+  VmwareMachineSoftwareInventoryListResult;
+
+/** Optional parameters. */
+export interface VmwareOperationsStatusGetVmwareOperationStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getVmwareOperationStatus operation. */
+export type VmwareOperationsStatusGetVmwareOperationStatusResponse =
+  OperationStatus;
+
+/** Optional parameters. */
+export interface RunAsAccountsControllerListByVmwareSiteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByVmwareSite operation. */
+export type RunAsAccountsControllerListByVmwareSiteResponse =
+  VmwareRunAsAccountResourceListResult;
+
+/** Optional parameters. */
+export interface RunAsAccountsControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RunAsAccountsControllerGetResponse = VmwareRunAsAccountResource;
+
+/** Optional parameters. */
+export interface RunAsAccountsControllerListByVmwareSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByVmwareSiteNext operation. */
+export type RunAsAccountsControllerListByVmwareSiteNextResponse =
+  VmwareRunAsAccountResourceListResult;
+
+/** Optional parameters. */
+export interface VmwarePropertiesControllerUpdateDependencyMapStatusOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateDependencyMapStatus operation. */
+export type VmwarePropertiesControllerUpdateDependencyMapStatusResponse =
+  Record<string, unknown>;
+
+/** Optional parameters. */
+export interface VmwarePropertiesControllerUpdatePropertiesOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateProperties operation. */
+export type VmwarePropertiesControllerUpdatePropertiesResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface VmwarePropertiesControllerUpdateRunAsAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateRunAsAccount operation. */
+export type VmwarePropertiesControllerUpdateRunAsAccountResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface VmwarePropertiesControllerUpdateTagsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateTags operation. */
+export type VmwarePropertiesControllerUpdateTagsResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
+export interface VcenterControllerListByVmwareSiteOptionalParams
+  extends coreClient.OperationOptions {
+  /** filter query */
+  filter?: string;
+}
+
+/** Contains response data for the listByVmwareSite operation. */
+export type VcenterControllerListByVmwareSiteResponse = VcenterListResult;
+
+/** Optional parameters. */
+export interface VcenterControllerGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VcenterControllerGetResponse = Vcenter;
+
+/** Optional parameters. */
+export interface VcenterControllerCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type VcenterControllerCreateResponse = Vcenter;
+
+/** Optional parameters. */
+export interface VcenterControllerDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface VcenterControllerListByVmwareSiteNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByVmwareSiteNext operation. */
+export type VcenterControllerListByVmwareSiteNextResponse = VcenterListResult;
+
+/** Optional parameters. */
+export interface AzureMigrateDiscoveryServiceOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;

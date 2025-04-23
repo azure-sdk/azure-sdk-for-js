@@ -1,15 +1,1008 @@
 # Release History
-
-## 2.0.4 (Unreleased)
-
+    
+## 3.0.0-beta.1 (2025-04-23)
+Compared with version 2.0.3
+    
 ### Features Added
+
+  - Added operation group DependencyMapController
+  - Added operation group HypervClusterController
+  - Added operation group HypervDependencyMapController
+  - Added operation group HypervHostController
+  - Added operation group HypervJobs
+  - Added operation group HypervJobsController
+  - Added operation group HypervMachinesController
+  - Added operation group HypervOperationsStatusController
+  - Added operation group HypervRunAsAccountsController
+  - Added operation group HypervSites
+  - Added operation group HypervSitesController
+  - Added operation group HypervSoftwareInventoriesController
+  - Added operation group IisWebApplicationsController
+  - Added operation group IisWebServersController
+  - Added operation group ImportJobsController
+  - Added operation group ImportMachinesController
+  - Added operation group ImportSitesController
+  - Added operation group MachinesController
+  - Added operation group MasterSitesController
+  - Added operation group MasterSitesOperationsStatusController
+  - Added operation group PrivateEndpointConnectionController
+  - Added operation group PrivateLinkResourcesController
+  - Added operation group RunAsAccountsController
+  - Added operation group ServerDependencyMapController
+  - Added operation group ServerJobsController
+  - Added operation group ServerOperationsStatusController
+  - Added operation group ServerRunAsAccountsController
+  - Added operation group ServersController
+  - Added operation group ServerSitesController
+  - Added operation group ServerSoftwareInventoriesController
+  - Added operation group SitesController
+  - Added operation group SqlAvailabilityGroupsController
+  - Added operation group SqlDatabasesController
+  - Added operation group SqlDiscoverySiteDataSourceController
+  - Added operation group SqlImportJobsController
+  - Added operation group SqlJobsController
+  - Added operation group SqlOperationsStatusController
+  - Added operation group SqlRunAsAccountsController
+  - Added operation group SqlServersController
+  - Added operation group SqlSitesController
+  - Added operation group TomcatWebApplicationsController
+  - Added operation group TomcatWebServersController
+  - Added operation group VcenterController
+  - Added operation group VmwareHostController
+  - Added operation group VmwareOperationsStatus
+  - Added operation group VmwarePropertiesController
+  - Added operation group VmwareSoftwareInventoriesController
+  - Added operation group WebAppDiscoverySiteDataSourcesController
+  - Added operation group WebAppExtendedMachinesController
+  - Added operation group WebApplicationsController
+  - Added operation group WebAppPropertiesController
+  - Added operation group WebAppRunAsAccountsController
+  - Added operation group WebAppSitesController
+  - Added operation group WebServersController
+  - Added Interface Application
+  - Added Interface ApplicationDiscovery
+  - Added Interface AppsAndRoles
+  - Added Interface ArcDiscovery
+  - Added Interface ArcScopeProperties
+  - Added Interface ArcScopePropertiesUpdate
+  - Added Interface AzureMigrateDiscoveryServiceOptionalParams
+  - Added Interface BizTalkServer
+  - Added Interface ConnectorUnit
+  - Added Interface DeleteImportMachinesJob
+  - Added Interface DeleteImportMachinesJobCollection
+  - Added Interface DependencyMapControllerClientGroupMembersHeaders
+  - Added Interface DependencyMapControllerClientGroupMembersOptionalParams
+  - Added Interface DependencyMapControllerExportDependenciesHeaders
+  - Added Interface DependencyMapControllerExportDependenciesOptionalParams
+  - Added Interface DependencyMapControllerGenerateCoarseMapHeaders
+  - Added Interface DependencyMapControllerGenerateCoarseMapOptionalParams
+  - Added Interface DependencyMapControllerGenerateDetailedMapHeaders
+  - Added Interface DependencyMapControllerGenerateDetailedMapOptionalParams
+  - Added Interface DependencyMapControllerServerGroupMembersHeaders
+  - Added Interface DependencyMapControllerServerGroupMembersOptionalParams
+  - Added Interface DependencyMapDiscovery
+  - Added Interface DependencyMapMachineInput
+  - Added Interface DependencyMapServiceMapextensionsClientGroupMembersRequest
+  - Added Interface DependencyMapServiceMapextensionsDependencyMapRequestFilters
+  - Added Interface DependencyMapServiceMapextensionsExportDependenciesRequest
+  - Added Interface DependencyMapServiceMapextensionsScopeMapRequest
+  - Added Interface DependencyMapServiceMapextensionsServerGroupMembersRequest
+  - Added Interface DependencyMapServiceMapextensionsSingleMachineDetailedMapRequest
+  - Added Interface DirectoryPath
+  - Added Interface DiscoveryScopeErrorSummary
+  - Added Interface DiscoverySiteDataSource
+  - Added Interface DiscoverySiteDataSourceListResult
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorDetails
+  - Added Interface ErrorResponse
+  - Added Interface Errors
+  - Added Interface ErrorSummaryRequest
+  - Added Interface ExchangeServer
+  - Added Interface ExportImportedMachinesJob
+  - Added Interface ExportImportedMachinesJobEntityProperties
+  - Added Interface ExportMachineErrorsRequest
+  - Added Interface ExportMachinesRequest
+  - Added Interface ExportSqlServersRequest
+  - Added Interface ExportWebAppsRequest
+  - Added Interface Feature
+  - Added Interface FileMetaData
+  - Added Interface FrontEndBinding
+  - Added Interface GuestOsDetails
+  - Added Interface HealthErrorDetails
+  - Added Interface HypervCluster
+  - Added Interface HypervClusterControllerCreateClusterHeaders
+  - Added Interface HypervClusterControllerCreateClusterOptionalParams
+  - Added Interface HypervClusterControllerDeleteOptionalParams
+  - Added Interface HypervClusterControllerGetClusterOptionalParams
+  - Added Interface HypervClusterControllerListByHypervSiteNextOptionalParams
+  - Added Interface HypervClusterControllerListByHypervSiteOptionalParams
+  - Added Interface HypervClusterListResult
+  - Added Interface HypervDependencyMapControllerClientGroupMembersHeaders
+  - Added Interface HypervDependencyMapControllerClientGroupMembersOptionalParams
+  - Added Interface HypervDependencyMapControllerExportDependenciesHeaders
+  - Added Interface HypervDependencyMapControllerExportDependenciesOptionalParams
+  - Added Interface HypervDependencyMapControllerGenerateCoarseMapHeaders
+  - Added Interface HypervDependencyMapControllerGenerateCoarseMapOptionalParams
+  - Added Interface HypervDependencyMapControllerGenerateDetailedMapHeaders
+  - Added Interface HypervDependencyMapControllerGenerateDetailedMapOptionalParams
+  - Added Interface HypervDependencyMapControllerServerGroupMembersHeaders
+  - Added Interface HypervDependencyMapControllerServerGroupMembersOptionalParams
+  - Added Interface HypervDependencyMapControllerUpdateDependencyMapStatusHeaders
+  - Added Interface HypervDependencyMapControllerUpdateDependencyMapStatusOptionalParams
+  - Added Interface HypervDisk
+  - Added Interface HypervHost
+  - Added Interface HypervHostControllerCreateHeaders
+  - Added Interface HypervHostControllerCreateOptionalParams
+  - Added Interface HypervHostControllerDeleteHeaders
+  - Added Interface HypervHostControllerDeleteOptionalParams
+  - Added Interface HypervHostControllerGetOptionalParams
+  - Added Interface HypervHostControllerListByHypervSiteNextOptionalParams
+  - Added Interface HypervHostControllerListByHypervSiteOptionalParams
+  - Added Interface HypervHostListResult
+  - Added Interface HypervJob
+  - Added Interface HypervJobListResult
+  - Added Interface HypervJobsControllerGetOptionalParams
+  - Added Interface HypervJobsControllerListByVmwareSiteNextOptionalParams
+  - Added Interface HypervJobsControllerListByVmwareSiteOptionalParams
+  - Added Interface HypervJobsGetOptionalParams
+  - Added Interface HypervJobsListByHypervSiteNextOptionalParams
+  - Added Interface HypervJobsListByHypervSiteOptionalParams
+  - Added Interface HypervMachine
+  - Added Interface HypervMachineListResult
+  - Added Interface HypervMachinesControllerGetOptionalParams
+  - Added Interface HypervMachinesControllerListByHypervSiteNextOptionalParams
+  - Added Interface HypervMachinesControllerListByHypervSiteOptionalParams
+  - Added Interface HypervMachinesControllerUpdateOptionalParams
+  - Added Interface HypervMachinesControllerUpdatePropertiesHeaders
+  - Added Interface HypervMachinesControllerUpdatePropertiesOptionalParams
+  - Added Interface HypervMachineUpdate
+  - Added Interface HypervNetworkAdapter
+  - Added Interface HypervOperationsStatusControllerGetHypervOperationsStatusOptionalParams
+  - Added Interface HypervOperationsStatusResource
+  - Added Interface HypervRunAsAccountResource
+  - Added Interface HypervRunAsAccountResourceListResult
+  - Added Interface HypervRunAsAccountsControllerGetOptionalParams
+  - Added Interface HypervRunAsAccountsControllerListByHypervSiteNextOptionalParams
+  - Added Interface HypervRunAsAccountsControllerListByHypervSiteOptionalParams
+  - Added Interface HypervSite
+  - Added Interface HypervSiteListResult
+  - Added Interface HypervSitesControllerComputeErrorSummaryOptionalParams
+  - Added Interface HypervSitesControllerComputeusageOptionalParams
+  - Added Interface HypervSitesControllerCreateHeaders
+  - Added Interface HypervSitesControllerCreateOptionalParams
+  - Added Interface HypervSitesControllerDeleteOptionalParams
+  - Added Interface HypervSitesControllerExportApplicationsHeaders
+  - Added Interface HypervSitesControllerExportApplicationsOptionalParams
+  - Added Interface HypervSitesControllerExportMachineErrorsHeaders
+  - Added Interface HypervSitesControllerExportMachineErrorsOptionalParams
+  - Added Interface HypervSitesControllerGetOptionalParams
+  - Added Interface HypervSitesControllerListHealthSummaryOptionalParams
+  - Added Interface HypervSitesControllerSummaryOptionalParams
+  - Added Interface HypervSitesControllerUpdateOptionalParams
+  - Added Interface HypervSitesListByResourceGroupNextOptionalParams
+  - Added Interface HypervSitesListByResourceGroupOptionalParams
+  - Added Interface HypervSitesListBySubscriptionNextOptionalParams
+  - Added Interface HypervSitesListBySubscriptionOptionalParams
+  - Added Interface HypervSiteUpdate
+  - Added Interface HypervSiteUsage
+  - Added Interface HypervSoftwareInventoriesControllerGetMachineSoftwareInventoryOptionalParams
+  - Added Interface HypervSoftwareInventoriesControllerListByHypervMachineNextOptionalParams
+  - Added Interface HypervSoftwareInventoriesControllerListByHypervMachineOptionalParams
+  - Added Interface HypervVmSoftwareInventory
+  - Added Interface HypervVmSoftwareInventoryListResult
+  - Added Interface IisApplicationUnit
+  - Added Interface IisVirtualApplicationUnit
+  - Added Interface IisWebApplications
+  - Added Interface IisWebApplicationsControllerGetOptionalParams
+  - Added Interface IisWebApplicationsControllerListByWebAppSiteNextOptionalParams
+  - Added Interface IisWebApplicationsControllerListByWebAppSiteOptionalParams
+  - Added Interface IisWebApplicationsControllerUpdateOptionalParams
+  - Added Interface IisWebApplicationsListResult
+  - Added Interface IisWebApplicationsUpdate
+  - Added Interface IisWebServers
+  - Added Interface IisWebServersControllerGetOptionalParams
+  - Added Interface IisWebServersControllerListByWebAppSiteNextOptionalParams
+  - Added Interface IisWebServersControllerListByWebAppSiteOptionalParams
+  - Added Interface IisWebServersListResult
+  - Added Interface ImportJob
+  - Added Interface ImportJobListResult
+  - Added Interface ImportJobsControllerGetDeletejobOptionalParams
+  - Added Interface ImportJobsControllerGetExportjobOptionalParams
+  - Added Interface ImportJobsControllerGetImportjobOptionalParams
+  - Added Interface ImportJobsControllerGetOptionalParams
+  - Added Interface ImportJobsControllerListByImportSiteNextOptionalParams
+  - Added Interface ImportJobsControllerListByImportSiteOptionalParams
+  - Added Interface ImportJobsControllerListDeletejobsNextOptionalParams
+  - Added Interface ImportJobsControllerListDeletejobsOptionalParams
+  - Added Interface ImportJobsControllerListExportjobsNextOptionalParams
+  - Added Interface ImportJobsControllerListExportjobsOptionalParams
+  - Added Interface ImportJobsControllerListImportjobsNextOptionalParams
+  - Added Interface ImportJobsControllerListImportjobsOptionalParams
+  - Added Interface ImportMachine
+  - Added Interface ImportMachineListResult
+  - Added Interface ImportMachinesControllerDeleteOptionalParams
+  - Added Interface ImportMachinesControllerGetOptionalParams
+  - Added Interface ImportMachinesControllerListByImportSiteNextOptionalParams
+  - Added Interface ImportMachinesControllerListByImportSiteOptionalParams
+  - Added Interface ImportMachinesJob
+  - Added Interface ImportMachinesJobProperties
+  - Added Interface ImportSite
+  - Added Interface ImportSiteListResult
+  - Added Interface ImportSitesControllerCreateHeaders
+  - Added Interface ImportSitesControllerCreateOptionalParams
+  - Added Interface ImportSitesControllerDeleteImportedMachinesOptionalParams
+  - Added Interface ImportSitesControllerDeleteOptionalParams
+  - Added Interface ImportSitesControllerExportUriOptionalParams
+  - Added Interface ImportSitesControllerGetOptionalParams
+  - Added Interface ImportSitesControllerImportUriOptionalParams
+  - Added Interface ImportSitesControllerListByResourceGroupNextOptionalParams
+  - Added Interface ImportSitesControllerListByResourceGroupOptionalParams
+  - Added Interface ImportSitesControllerListBySubscriptionNextOptionalParams
+  - Added Interface ImportSitesControllerListBySubscriptionOptionalParams
+  - Added Interface ImportSitesControllerUpdateOptionalParams
+  - Added Interface ImportSiteUpdate
+  - Added Interface ImportSqlInventoryJob
+  - Added Interface ImportSqlInventoryJobProperties
+  - Added Interface JobErrorSummary
+  - Added Interface MachineMetadata
+  - Added Interface MachineMetadataCollection
+  - Added Interface MachineResource
+  - Added Interface MachineResourceListResult
+  - Added Interface MachineResourceUpdate
+  - Added Interface MachinesControllerGetOptionalParams
+  - Added Interface MachinesControllerListByVmwareSiteNextOptionalParams
+  - Added Interface MachinesControllerListByVmwareSiteOptionalParams
+  - Added Interface MachinesControllerStartHeaders
+  - Added Interface MachinesControllerStartOptionalParams
+  - Added Interface MachinesControllerStopHeaders
+  - Added Interface MachinesControllerStopOptionalParams
+  - Added Interface MachinesControllerUpdateOptionalParams
+  - Added Interface MasterSite
+  - Added Interface MasterSiteListResult
+  - Added Interface MasterSitesControllerCreateHeaders
+  - Added Interface MasterSitesControllerCreateOptionalParams
+  - Added Interface MasterSitesControllerDeleteOptionalParams
+  - Added Interface MasterSitesControllerErrorSummaryOptionalParams
+  - Added Interface MasterSitesControllerGetOptionalParams
+  - Added Interface MasterSitesControllerListByResourceGroupNextOptionalParams
+  - Added Interface MasterSitesControllerListByResourceGroupOptionalParams
+  - Added Interface MasterSitesControllerListBySubscriptionNextOptionalParams
+  - Added Interface MasterSitesControllerListBySubscriptionOptionalParams
+  - Added Interface MasterSitesControllerRefreshArcStatusHeaders
+  - Added Interface MasterSitesControllerRefreshArcStatusOptionalParams
+  - Added Interface MasterSitesControllerUpdateHeaders
+  - Added Interface MasterSitesControllerUpdateOptionalParams
+  - Added Interface MasterSitesOperationsStatusControllerGetVmwareOperationStatusOptionalParams
+  - Added Interface MasterSiteUpdate
+  - Added Interface OperatingSystem
+  - Added Interface OperationListResult
+  - Added Interface OperationsListNextOptionalParams
+  - Added Interface OperationStatus
+  - Added Interface OperationStatusError
+  - Added Interface OperationStatusProperties
+  - Added Interface OracleDiscovery
+  - Added Interface OtherDatabase
+  - Added Interface PagedDeleteImportMachinesJob
+  - Added Interface PagedExportImportedMachinesJob
+  - Added Interface PagedImportMachinesJob
+  - Added Interface PagedImportSqlInventoryJob
+  - Added Interface PrivateEndpointConnectionControllerCreateHeaders
+  - Added Interface PrivateEndpointConnectionControllerCreateOptionalParams
+  - Added Interface PrivateEndpointConnectionControllerDeleteOptionalParams
+  - Added Interface PrivateEndpointConnectionControllerGetOptionalParams
+  - Added Interface PrivateEndpointConnectionControllerListByMasterSiteNextOptionalParams
+  - Added Interface PrivateEndpointConnectionControllerListByMasterSiteOptionalParams
+  - Added Interface PrivateEndpointConnectionListResult
+  - Added Interface PrivateLinkResourceListResult
+  - Added Interface PrivateLinkResourcesControllerGetOptionalParams
+  - Added Interface PrivateLinkResourcesControllerListByMasterSiteNextOptionalParams
+  - Added Interface PrivateLinkResourcesControllerListByMasterSiteOptionalParams
+  - Added Interface ProcessorInfo
+  - Added Interface ProductSupportStatus
+  - Added Interface ProxyResource
+  - Added Interface ProxySiteRefreshBody
+  - Added Interface RequestExportMachineErrorsProperties
+  - Added Interface Resource
+  - Added Interface RunAsAccountMachineInput
+  - Added Interface RunAsAccountProperties
+  - Added Interface RunAsAccountsControllerGetOptionalParams
+  - Added Interface RunAsAccountsControllerListByVmwareSiteNextOptionalParams
+  - Added Interface RunAsAccountsControllerListByVmwareSiteOptionalParams
+  - Added Interface SasUriResponse
+  - Added Interface Server
+  - Added Interface ServerDependencyMapControllerClientGroupMembersHeaders
+  - Added Interface ServerDependencyMapControllerClientGroupMembersOptionalParams
+  - Added Interface ServerDependencyMapControllerExportDependenciesHeaders
+  - Added Interface ServerDependencyMapControllerExportDependenciesOptionalParams
+  - Added Interface ServerDependencyMapControllerGenerateCoarseMapHeaders
+  - Added Interface ServerDependencyMapControllerGenerateCoarseMapOptionalParams
+  - Added Interface ServerDependencyMapControllerGenerateDetailedMapHeaders
+  - Added Interface ServerDependencyMapControllerGenerateDetailedMapOptionalParams
+  - Added Interface ServerDependencyMapControllerServerGroupMembersHeaders
+  - Added Interface ServerDependencyMapControllerServerGroupMembersOptionalParams
+  - Added Interface ServerDisk
+  - Added Interface ServerJob
+  - Added Interface ServerJobListResult
+  - Added Interface ServerJobsControllerGetOptionalParams
+  - Added Interface ServerJobsControllerListByServerSiteResourceNextOptionalParams
+  - Added Interface ServerJobsControllerListByServerSiteResourceOptionalParams
+  - Added Interface ServerListResult
+  - Added Interface ServerNetworkAdapter
+  - Added Interface ServerOperationsStatusControllerGetServerSiteOperationsStatusOptionalParams
+  - Added Interface ServerRunAsAccount
+  - Added Interface ServerRunAsAccountListResult
+  - Added Interface ServerRunAsAccountsControllerGetOptionalParams
+  - Added Interface ServerRunAsAccountsControllerListByServerSiteResourceNextOptionalParams
+  - Added Interface ServerRunAsAccountsControllerListByServerSiteResourceOptionalParams
+  - Added Interface ServersControllerDeleteMachineOptionalParams
+  - Added Interface ServersControllerGetMachineOptionalParams
+  - Added Interface ServersControllerListByServerSiteResourceNextOptionalParams
+  - Added Interface ServersControllerListByServerSiteResourceOptionalParams
+  - Added Interface ServersControllerUpdateMachineOptionalParams
+  - Added Interface ServerSiteResource
+  - Added Interface ServerSiteResourceListResult
+  - Added Interface ServerSiteResourceUpdate
+  - Added Interface ServerSitesControllerComputeErrorSummaryOptionalParams
+  - Added Interface ServerSitesControllerComputeusageOptionalParams
+  - Added Interface ServerSitesControllerCreateHeaders
+  - Added Interface ServerSitesControllerCreateOptionalParams
+  - Added Interface ServerSitesControllerDeleteOptionalParams
+  - Added Interface ServerSitesControllerExportApplicationsHeaders
+  - Added Interface ServerSitesControllerExportApplicationsOptionalParams
+  - Added Interface ServerSitesControllerExportMachineErrorsHeaders
+  - Added Interface ServerSitesControllerExportMachineErrorsOptionalParams
+  - Added Interface ServerSitesControllerGetOptionalParams
+  - Added Interface ServerSitesControllerListByResourceGroupNextOptionalParams
+  - Added Interface ServerSitesControllerListByResourceGroupOptionalParams
+  - Added Interface ServerSitesControllerListBySubscriptionNextOptionalParams
+  - Added Interface ServerSitesControllerListBySubscriptionOptionalParams
+  - Added Interface ServerSitesControllerListHealthSummaryOptionalParams
+  - Added Interface ServerSitesControllerRefreshSiteHeaders
+  - Added Interface ServerSitesControllerRefreshSiteOptionalParams
+  - Added Interface ServerSitesControllerSummaryOptionalParams
+  - Added Interface ServerSitesControllerUpdateDependencyMapStatusHeaders
+  - Added Interface ServerSitesControllerUpdateDependencyMapStatusOptionalParams
+  - Added Interface ServerSitesControllerUpdateOptionalParams
+  - Added Interface ServerSitesControllerUpdatePropertiesHeaders
+  - Added Interface ServerSitesControllerUpdatePropertiesOptionalParams
+  - Added Interface ServerSiteUsage
+  - Added Interface ServerSiteUsageResponse
+  - Added Interface ServerSoftwareInventoriesControllerGetMachineSoftwareInventoryOptionalParams
+  - Added Interface ServerSoftwareInventoriesControllerListByServerNextOptionalParams
+  - Added Interface ServerSoftwareInventoriesControllerListByServerOptionalParams
+  - Added Interface ServerSoftwareInventory
+  - Added Interface ServerSoftwareInventoryListResult
+  - Added Interface ServerUpdate
+  - Added Interface SharePointServer
+  - Added Interface SiteAgentProperties
+  - Added Interface SiteApplianceProperties
+  - Added Interface SiteErrorSummary
+  - Added Interface SiteHealthSummary
+  - Added Interface SiteHealthSummaryCollection
+  - Added Interface SitesControllerComputeErrorSummaryOptionalParams
+  - Added Interface SitesControllerComputeusageOptionalParams
+  - Added Interface SitesControllerCreateHeaders
+  - Added Interface SitesControllerCreateOptionalParams
+  - Added Interface SitesControllerDeleteOptionalParams
+  - Added Interface SitesControllerExportApplicationsHeaders
+  - Added Interface SitesControllerExportApplicationsOptionalParams
+  - Added Interface SitesControllerExportMachineErrorsHeaders
+  - Added Interface SitesControllerExportMachineErrorsOptionalParams
+  - Added Interface SitesControllerExportMachinesHeaders
+  - Added Interface SitesControllerExportMachinesOptionalParams
+  - Added Interface SitesControllerGetOptionalParams
+  - Added Interface SitesControllerListByResourceGroupNextOptionalParams
+  - Added Interface SitesControllerListByResourceGroupOptionalParams
+  - Added Interface SitesControllerListBySubscriptionNextOptionalParams
+  - Added Interface SitesControllerListBySubscriptionOptionalParams
+  - Added Interface SitesControllerListHealthSummaryOptionalParams
+  - Added Interface SitesControllerSummaryOptionalParams
+  - Added Interface SitesControllerUpdateOptionalParams
+  - Added Interface SiteSpnProperties
+  - Added Interface SpringBootDiscovery
+  - Added Interface SqlAvailabilityGroup
+  - Added Interface SqlAvailabilityGroupListResult
+  - Added Interface SqlAvailabilityGroupReplicaInfo
+  - Added Interface SqlAvailabilityGroupsControllerGetOptionalParams
+  - Added Interface SqlAvailabilityGroupsControllerListBySqlSiteNextOptionalParams
+  - Added Interface SqlAvailabilityGroupsControllerListBySqlSiteOptionalParams
+  - Added Interface SqlAvailabilityReplicaOverview
+  - Added Interface SqlAvailabilityReplicaProperties
+  - Added Interface SqlDatabaseReplicaInfo
+  - Added Interface SqlDatabasesControllerGetOptionalParams
+  - Added Interface SqlDatabasesControllerListBySqlSiteNextOptionalParams
+  - Added Interface SqlDatabasesControllerListBySqlSiteOptionalParams
+  - Added Interface SqlDatabaseV2
+  - Added Interface SqlDatabaseV2ListResult
+  - Added Interface SqlDiscovery
+  - Added Interface SqlDiscoverySiteDataSource
+  - Added Interface SqlDiscoverySiteDataSourceControllerCreateHeaders
+  - Added Interface SqlDiscoverySiteDataSourceControllerCreateOptionalParams
+  - Added Interface SqlDiscoverySiteDataSourceControllerDeleteOptionalParams
+  - Added Interface SqlDiscoverySiteDataSourceControllerGetOptionalParams
+  - Added Interface SqlDiscoverySiteDataSourceControllerListBySqlSiteNextOptionalParams
+  - Added Interface SqlDiscoverySiteDataSourceControllerListBySqlSiteOptionalParams
+  - Added Interface SqlDiscoverySiteDataSourceListResult
+  - Added Interface SqlFciProperties
+  - Added Interface SqlImportJobErrorSummary
+  - Added Interface SqlImportJobsControllerGetImportjobOptionalParams
+  - Added Interface SqlImportJobsControllerListImportjobsNextOptionalParams
+  - Added Interface SqlImportJobsControllerListImportjobsOptionalParams
+  - Added Interface SQLInventoryImportBody
+  - Added Interface SqlJob
+  - Added Interface SqlJobListResult
+  - Added Interface SqlJobsControllerGetOptionalParams
+  - Added Interface SqlJobsControllerListBySqlSiteNextOptionalParams
+  - Added Interface SqlJobsControllerListBySqlSiteOptionalParams
+  - Added Interface SqlMachineOverview
+  - Added Interface SqlOperationsStatusControllerGetSqlOperationStatusOptionalParams
+  - Added Interface SqlRunAsAccount
+  - Added Interface SqlRunAsAccountListResult
+  - Added Interface SqlRunAsAccountsControllerGetOptionalParams
+  - Added Interface SqlRunAsAccountsControllerListBySqlSiteNextOptionalParams
+  - Added Interface SqlRunAsAccountsControllerListBySqlSiteOptionalParams
+  - Added Interface SqlServerApplication
+  - Added Interface SqlServersControllerGetOptionalParams
+  - Added Interface SqlServersControllerListBySqlSiteNextOptionalParams
+  - Added Interface SqlServersControllerListBySqlSiteOptionalParams
+  - Added Interface SqlServersControllerUpdateOptionalParams
+  - Added Interface SqlServerV2
+  - Added Interface SqlServerV2ListResult
+  - Added Interface SqlServerV2Update
+  - Added Interface SqlSite
+  - Added Interface SqlSiteListResult
+  - Added Interface SqlSiteRefreshBody
+  - Added Interface SqlSitesControllerCreateHeaders
+  - Added Interface SqlSitesControllerCreateOptionalParams
+  - Added Interface SqlSitesControllerDeleteOptionalParams
+  - Added Interface SqlSitesControllerErrorSummaryOptionalParams
+  - Added Interface SqlSitesControllerExportSqlServerErrorsHeaders
+  - Added Interface SqlSitesControllerExportSqlServerErrorsOptionalParams
+  - Added Interface SqlSitesControllerExportSqlServersHeaders
+  - Added Interface SqlSitesControllerExportSqlServersOptionalParams
+  - Added Interface SqlSitesControllerExportUriOptionalParams
+  - Added Interface SqlSitesControllerGetOptionalParams
+  - Added Interface SqlSitesControllerImportUriHeaders
+  - Added Interface SqlSitesControllerImportUriOptionalParams
+  - Added Interface SqlSitesControllerListByMasterSiteNextOptionalParams
+  - Added Interface SqlSitesControllerListByMasterSiteOptionalParams
+  - Added Interface SqlSitesControllerRefreshHeaders
+  - Added Interface SqlSitesControllerRefreshOptionalParams
+  - Added Interface SqlSitesControllerSummaryOptionalParams
+  - Added Interface SqlSitesControllerUpdateHeaders
+  - Added Interface SqlSitesControllerUpdateOptionalParams
+  - Added Interface SqlSitesControllerValidateAndImportUriOptionalParams
+  - Added Interface SqlSiteUpdate
+  - Added Interface SqlSiteUsage
+  - Added Interface StaticDiscovery
+  - Added Interface SystemCenter
+  - Added Interface SystemData
+  - Added Interface TagsMachineInput
+  - Added Interface TomcatEngineUnit
+  - Added Interface TomcatHostUnit
+  - Added Interface TomcatServiceUnit
+  - Added Interface TomcatWebApplications
+  - Added Interface TomcatWebApplicationsControllerGetOptionalParams
+  - Added Interface TomcatWebApplicationsControllerListByWebAppSiteNextOptionalParams
+  - Added Interface TomcatWebApplicationsControllerListByWebAppSiteOptionalParams
+  - Added Interface TomcatWebApplicationsControllerUpdateOptionalParams
+  - Added Interface TomcatWebApplicationsListResult
+  - Added Interface TomcatWebServers
+  - Added Interface TomcatWebServersControllerGetOptionalParams
+  - Added Interface TomcatWebServersControllerListByWebAppSiteNextOptionalParams
+  - Added Interface TomcatWebServersControllerListByWebAppSiteOptionalParams
+  - Added Interface TomcatWebServersListResult
+  - Added Interface TrackedResource
+  - Added Interface UpdateMachineDepMapStatus
+  - Added Interface UpdateMachineRunAsAccount
+  - Added Interface UpdateMachineTags
+  - Added Interface V20180501PreviewVmwareRunAsAccount
+  - Added Interface V20180501PreviewVmwareRunAsAccountVmwareRunAsAccountCollection
+  - Added Interface Vcenter
+  - Added Interface VcenterControllerCreateHeaders
+  - Added Interface VcenterControllerCreateOptionalParams
+  - Added Interface VcenterControllerDeleteOptionalParams
+  - Added Interface VcenterControllerGetOptionalParams
+  - Added Interface VcenterControllerListByVmwareSiteNextOptionalParams
+  - Added Interface VcenterControllerListByVmwareSiteOptionalParams
+  - Added Interface VcenterListResult
+  - Added Interface VmwareDatastore
+  - Added Interface VmwareDisk
+  - Added Interface VmwareHost
+  - Added Interface VmwareHostControllerGetOptionalParams
+  - Added Interface VmwareHostControllerListByVmwareSiteNextOptionalParams
+  - Added Interface VmwareHostControllerListByVmwareSiteOptionalParams
+  - Added Interface VmwareHostListResult
+  - Added Interface VmwareJob
+  - Added Interface VmwareJobListResult
+  - Added Interface VmwareMachineSoftwareInventory
+  - Added Interface VmwareMachineSoftwareInventoryListResult
+  - Added Interface VmwareNetworkAdapter
+  - Added Interface VmwareOperationsStatusGetVmwareOperationStatusOptionalParams
+  - Added Interface VmwarePropertiesControllerUpdateDependencyMapStatusHeaders
+  - Added Interface VmwarePropertiesControllerUpdateDependencyMapStatusOptionalParams
+  - Added Interface VmwarePropertiesControllerUpdatePropertiesHeaders
+  - Added Interface VmwarePropertiesControllerUpdatePropertiesOptionalParams
+  - Added Interface VmwarePropertiesControllerUpdateRunAsAccountHeaders
+  - Added Interface VmwarePropertiesControllerUpdateRunAsAccountOptionalParams
+  - Added Interface VmwarePropertiesControllerUpdateTagsHeaders
+  - Added Interface VmwarePropertiesControllerUpdateTagsOptionalParams
+  - Added Interface VmwareRunAsAccountResource
+  - Added Interface VmwareRunAsAccountResourceListResult
+  - Added Interface VmwareSite
+  - Added Interface VmwareSiteListResult
+  - Added Interface VmwareSiteUpdate
+  - Added Interface VmwareSiteUsage
+  - Added Interface VmwareSoftwareInventoriesControllerGetMachineSoftwareInventoryOptionalParams
+  - Added Interface VmwareSoftwareInventoriesControllerListByMachineResourceNextOptionalParams
+  - Added Interface VmwareSoftwareInventoriesControllerListByMachineResourceOptionalParams
+  - Added Interface WebAppDiscovery
+  - Added Interface WebAppDiscoverySiteDataSourcesControllerCreateHeaders
+  - Added Interface WebAppDiscoverySiteDataSourcesControllerCreateOptionalParams
+  - Added Interface WebAppDiscoverySiteDataSourcesControllerDeleteHeaders
+  - Added Interface WebAppDiscoverySiteDataSourcesControllerDeleteOptionalParams
+  - Added Interface WebAppDiscoverySiteDataSourcesControllerGetOptionalParams
+  - Added Interface WebAppDiscoverySiteDataSourcesControllerListByWebAppSiteNextOptionalParams
+  - Added Interface WebAppDiscoverySiteDataSourcesControllerListByWebAppSiteOptionalParams
+  - Added Interface WebAppExtendedMachine
+  - Added Interface WebAppExtendedMachineListResult
+  - Added Interface WebAppExtendedMachinesControllerGetOptionalParams
+  - Added Interface WebAppExtendedMachinesControllerListByWebAppSiteNextOptionalParams
+  - Added Interface WebAppExtendedMachinesControllerListByWebAppSiteOptionalParams
+  - Added Interface WebApplication
+  - Added Interface WebApplicationAppsAndRolesModel
+  - Added Interface WebApplicationConfigurationUnit
+  - Added Interface WebApplicationDirectoryUnit
+  - Added Interface WebApplicationFramework
+  - Added Interface WebApplicationListResult
+  - Added Interface WebApplicationsControllerListByWebAppSiteNextOptionalParams
+  - Added Interface WebApplicationsControllerListByWebAppSiteOptionalParams
+  - Added Interface WebAppProperties
+  - Added Interface WebAppPropertiesCollection
+  - Added Interface WebAppPropertiesControllerUpdatePropertiesHeaders
+  - Added Interface WebAppPropertiesControllerUpdatePropertiesOptionalParams
+  - Added Interface WebAppRunAsAccount
+  - Added Interface WebAppRunAsAccountListResult
+  - Added Interface WebAppRunAsAccountsControllerGetOptionalParams
+  - Added Interface WebAppRunAsAccountsControllerListByWebAppSiteNextOptionalParams
+  - Added Interface WebAppRunAsAccountsControllerListByWebAppSiteOptionalParams
+  - Added Interface WebAppSite
+  - Added Interface WebAppSiteListResult
+  - Added Interface WebAppSitesControllerCreateHeaders
+  - Added Interface WebAppSitesControllerCreateOptionalParams
+  - Added Interface WebAppSitesControllerDeleteHeaders
+  - Added Interface WebAppSitesControllerDeleteOptionalParams
+  - Added Interface WebAppSitesControllerErrorSummaryOptionalParams
+  - Added Interface WebAppSitesControllerExportInventoryHeaders
+  - Added Interface WebAppSitesControllerExportInventoryOptionalParams
+  - Added Interface WebAppSitesControllerGetOptionalParams
+  - Added Interface WebAppSitesControllerListByMasterSiteNextOptionalParams
+  - Added Interface WebAppSitesControllerListByMasterSiteOptionalParams
+  - Added Interface WebAppSitesControllerRefreshHeaders
+  - Added Interface WebAppSitesControllerRefreshOptionalParams
+  - Added Interface WebAppSitesControllerSummaryOptionalParams
+  - Added Interface WebAppSitesControllerUpdateHeaders
+  - Added Interface WebAppSitesControllerUpdateOptionalParams
+  - Added Interface WebAppSiteUpdate
+  - Added Interface WebAppSiteUsage
+  - Added Interface WebRoleImportDisk
+  - Added Interface WebRoleOperatingSystem
+  - Added Interface WebServer
+  - Added Interface WebServerListResult
+  - Added Interface WebServersControllerListByWebAppSiteNextOptionalParams
+  - Added Interface WebServersControllerListByWebAppSiteOptionalParams
+  - Added Class AzureMigrateDiscoveryService
+  - Added Type Alias ActionType
+  - Added Type Alias ApplicationDiscoveryScopeStatus
+  - Added Type Alias ArcScopeType
+  - Added Type Alias AzureArcStatus
+  - Added Type Alias CreatedByType
+  - Added Type Alias Default
+  - Added Type Alias DefaultAutoGenerated
+  - Added Type Alias DefaultValues
+  - Added Type Alias DeleteImportedMachinesJobPropertiesJobState
+  - Added Type Alias DependencyMapControllerClientGroupMembersResponse
+  - Added Type Alias DependencyMapControllerExportDependenciesResponse
+  - Added Type Alias DependencyMapControllerGenerateCoarseMapResponse
+  - Added Type Alias DependencyMapControllerGenerateDetailedMapResponse
+  - Added Type Alias DependencyMapControllerServerGroupMembersResponse
+  - Added Type Alias DependencyMapDiscoveryScopeStatus
+  - Added Type Alias DiscoveryScopes
+  - Added Type Alias DiscoveryScopeStatus
+  - Added Type Alias EsuStatus
+  - Added Type Alias EsuYear
+  - Added Type Alias ExportMachineErrorsProperties
+  - Added Type Alias FCIInstanceState
+  - Added Type Alias FileType
+  - Added Type Alias HealthErrorDetailsDiscoveryScope
+  - Added Type Alias HealthErrorDetailsSource
+  - Added Type Alias HighAvailability
+  - Added Type Alias HighAvailabilityValues
+  - Added Type Alias HypervClusterControllerCreateClusterResponse
+  - Added Type Alias HypervClusterControllerGetClusterResponse
+  - Added Type Alias HypervClusterControllerListByHypervSiteNextResponse
+  - Added Type Alias HypervClusterControllerListByHypervSiteResponse
+  - Added Type Alias HypervDependencyMapControllerClientGroupMembersResponse
+  - Added Type Alias HypervDependencyMapControllerExportDependenciesResponse
+  - Added Type Alias HypervDependencyMapControllerGenerateCoarseMapResponse
+  - Added Type Alias HypervDependencyMapControllerGenerateDetailedMapResponse
+  - Added Type Alias HypervDependencyMapControllerServerGroupMembersResponse
+  - Added Type Alias HypervDependencyMapControllerUpdateDependencyMapStatusResponse
+  - Added Type Alias HypervHostControllerCreateResponse
+  - Added Type Alias HypervHostControllerGetResponse
+  - Added Type Alias HypervHostControllerListByHypervSiteNextResponse
+  - Added Type Alias HypervHostControllerListByHypervSiteResponse
+  - Added Type Alias HypervJobsControllerGetResponse
+  - Added Type Alias HypervJobsControllerListByVmwareSiteNextResponse
+  - Added Type Alias HypervJobsControllerListByVmwareSiteResponse
+  - Added Type Alias HypervJobsGetResponse
+  - Added Type Alias HypervJobsListByHypervSiteNextResponse
+  - Added Type Alias HypervJobsListByHypervSiteResponse
+  - Added Type Alias HypervMachinesControllerGetResponse
+  - Added Type Alias HypervMachinesControllerListByHypervSiteNextResponse
+  - Added Type Alias HypervMachinesControllerListByHypervSiteResponse
+  - Added Type Alias HypervMachinesControllerUpdatePropertiesResponse
+  - Added Type Alias HypervMachinesControllerUpdateResponse
+  - Added Type Alias HypervOperationsStatusControllerGetHypervOperationsStatusResponse
+  - Added Type Alias HypervRunAsAccountsControllerGetResponse
+  - Added Type Alias HypervRunAsAccountsControllerListByHypervSiteNextResponse
+  - Added Type Alias HypervRunAsAccountsControllerListByHypervSiteResponse
+  - Added Type Alias HypervSitesControllerComputeErrorSummaryResponse
+  - Added Type Alias HypervSitesControllerComputeusageResponse
+  - Added Type Alias HypervSitesControllerCreateResponse
+  - Added Type Alias HypervSitesControllerExportApplicationsResponse
+  - Added Type Alias HypervSitesControllerExportMachineErrorsResponse
+  - Added Type Alias HypervSitesControllerGetResponse
+  - Added Type Alias HypervSitesControllerListHealthSummaryResponse
+  - Added Type Alias HypervSitesControllerSummaryResponse
+  - Added Type Alias HypervSitesControllerUpdateResponse
+  - Added Type Alias HypervSitesListByResourceGroupNextResponse
+  - Added Type Alias HypervSitesListByResourceGroupResponse
+  - Added Type Alias HypervSitesListBySubscriptionNextResponse
+  - Added Type Alias HypervSitesListBySubscriptionResponse
+  - Added Type Alias HypervSoftwareInventoriesControllerGetMachineSoftwareInventoryResponse
+  - Added Type Alias HypervSoftwareInventoriesControllerListByHypervMachineNextResponse
+  - Added Type Alias HypervSoftwareInventoriesControllerListByHypervMachineResponse
+  - Added Type Alias IisWebApplicationsControllerGetResponse
+  - Added Type Alias IisWebApplicationsControllerListByWebAppSiteNextResponse
+  - Added Type Alias IisWebApplicationsControllerListByWebAppSiteResponse
+  - Added Type Alias IisWebApplicationsControllerUpdateResponse
+  - Added Type Alias IisWebServersControllerGetResponse
+  - Added Type Alias IisWebServersControllerListByWebAppSiteNextResponse
+  - Added Type Alias IisWebServersControllerListByWebAppSiteResponse
+  - Added Type Alias ImportJobsControllerGetDeletejobResponse
+  - Added Type Alias ImportJobsControllerGetExportjobResponse
+  - Added Type Alias ImportJobsControllerGetImportjobResponse
+  - Added Type Alias ImportJobsControllerGetResponse
+  - Added Type Alias ImportJobsControllerListByImportSiteNextResponse
+  - Added Type Alias ImportJobsControllerListByImportSiteResponse
+  - Added Type Alias ImportJobsControllerListDeletejobsNextResponse
+  - Added Type Alias ImportJobsControllerListDeletejobsResponse
+  - Added Type Alias ImportJobsControllerListExportjobsNextResponse
+  - Added Type Alias ImportJobsControllerListExportjobsResponse
+  - Added Type Alias ImportJobsControllerListImportjobsNextResponse
+  - Added Type Alias ImportJobsControllerListImportjobsResponse
+  - Added Type Alias ImportMachinesControllerGetResponse
+  - Added Type Alias ImportMachinesControllerListByImportSiteNextResponse
+  - Added Type Alias ImportMachinesControllerListByImportSiteResponse
+  - Added Type Alias ImportSitesControllerCreateResponse
+  - Added Type Alias ImportSitesControllerDeleteImportedMachinesResponse
+  - Added Type Alias ImportSitesControllerExportUriResponse
+  - Added Type Alias ImportSitesControllerGetResponse
+  - Added Type Alias ImportSitesControllerImportUriResponse
+  - Added Type Alias ImportSitesControllerListByResourceGroupNextResponse
+  - Added Type Alias ImportSitesControllerListByResourceGroupResponse
+  - Added Type Alias ImportSitesControllerListBySubscriptionNextResponse
+  - Added Type Alias ImportSitesControllerListBySubscriptionResponse
+  - Added Type Alias ImportSitesControllerUpdateResponse
+  - Added Type Alias ImportSqlInventoryJobResult
+  - Added Type Alias ImportTypeValues
+  - Added Type Alias JobResult
+  - Added Type Alias MachinesControllerGetResponse
+  - Added Type Alias MachinesControllerListByVmwareSiteNextResponse
+  - Added Type Alias MachinesControllerListByVmwareSiteResponse
+  - Added Type Alias MachinesControllerStartResponse
+  - Added Type Alias MachinesControllerStopResponse
+  - Added Type Alias MachinesControllerUpdateResponse
+  - Added Type Alias MasterSitePropertiesPublicNetworkAccess
+  - Added Type Alias MasterSitesControllerCreateResponse
+  - Added Type Alias MasterSitesControllerErrorSummaryResponse
+  - Added Type Alias MasterSitesControllerGetResponse
+  - Added Type Alias MasterSitesControllerListByResourceGroupNextResponse
+  - Added Type Alias MasterSitesControllerListByResourceGroupResponse
+  - Added Type Alias MasterSitesControllerListBySubscriptionNextResponse
+  - Added Type Alias MasterSitesControllerListBySubscriptionResponse
+  - Added Type Alias MasterSitesControllerRefreshArcStatusResponse
+  - Added Type Alias MasterSitesControllerUpdateResponse
+  - Added Type Alias MasterSitesOperationsStatusControllerGetVmwareOperationStatusResponse
+  - Added Type Alias MicrosoftAzureFDSWebRoleHealthErrorDetailsSource
+  - Added Type Alias OperationsListNextResponse
+  - Added Type Alias Origin
+  - Added Type Alias PrivateEndpointConnectionControllerCreateResponse
+  - Added Type Alias PrivateEndpointConnectionControllerGetResponse
+  - Added Type Alias PrivateEndpointConnectionControllerListByMasterSiteNextResponse
+  - Added Type Alias PrivateEndpointConnectionControllerListByMasterSiteResponse
+  - Added Type Alias PrivateLinkResourcesControllerGetResponse
+  - Added Type Alias PrivateLinkResourcesControllerListByMasterSiteNextResponse
+  - Added Type Alias PrivateLinkResourcesControllerListByMasterSiteResponse
+  - Added Type Alias RunAsAccountsControllerGetResponse
+  - Added Type Alias RunAsAccountsControllerListByVmwareSiteNextResponse
+  - Added Type Alias RunAsAccountsControllerListByVmwareSiteResponse
+  - Added Type Alias ServerDependencyMapControllerClientGroupMembersResponse
+  - Added Type Alias ServerDependencyMapControllerExportDependenciesResponse
+  - Added Type Alias ServerDependencyMapControllerGenerateCoarseMapResponse
+  - Added Type Alias ServerDependencyMapControllerGenerateDetailedMapResponse
+  - Added Type Alias ServerDependencyMapControllerServerGroupMembersResponse
+  - Added Type Alias ServerJobsControllerGetResponse
+  - Added Type Alias ServerJobsControllerListByServerSiteResourceNextResponse
+  - Added Type Alias ServerJobsControllerListByServerSiteResourceResponse
+  - Added Type Alias ServerOperationsStatusControllerGetServerSiteOperationsStatusResponse
+  - Added Type Alias ServerRunAsAccountsControllerGetResponse
+  - Added Type Alias ServerRunAsAccountsControllerListByServerSiteResourceNextResponse
+  - Added Type Alias ServerRunAsAccountsControllerListByServerSiteResourceResponse
+  - Added Type Alias ServersControllerGetMachineResponse
+  - Added Type Alias ServersControllerListByServerSiteResourceNextResponse
+  - Added Type Alias ServersControllerListByServerSiteResourceResponse
+  - Added Type Alias ServersControllerUpdateMachineResponse
+  - Added Type Alias ServerSitesControllerComputeErrorSummaryResponse
+  - Added Type Alias ServerSitesControllerComputeusageResponse
+  - Added Type Alias ServerSitesControllerCreateResponse
+  - Added Type Alias ServerSitesControllerExportApplicationsResponse
+  - Added Type Alias ServerSitesControllerExportMachineErrorsResponse
+  - Added Type Alias ServerSitesControllerGetResponse
+  - Added Type Alias ServerSitesControllerListByResourceGroupNextResponse
+  - Added Type Alias ServerSitesControllerListByResourceGroupResponse
+  - Added Type Alias ServerSitesControllerListBySubscriptionNextResponse
+  - Added Type Alias ServerSitesControllerListBySubscriptionResponse
+  - Added Type Alias ServerSitesControllerListHealthSummaryResponse
+  - Added Type Alias ServerSitesControllerRefreshSiteResponse
+  - Added Type Alias ServerSitesControllerSummaryResponse
+  - Added Type Alias ServerSitesControllerUpdateDependencyMapStatusResponse
+  - Added Type Alias ServerSitesControllerUpdatePropertiesResponse
+  - Added Type Alias ServerSitesControllerUpdateResponse
+  - Added Type Alias ServerSoftwareInventoriesControllerGetMachineSoftwareInventoryResponse
+  - Added Type Alias ServerSoftwareInventoriesControllerListByServerNextResponse
+  - Added Type Alias ServerSoftwareInventoriesControllerListByServerResponse
+  - Added Type Alias ShallowDiscoveryStatus
+  - Added Type Alias SiteHealthSummaryFabricLayoutUpdateSourcesItem
+  - Added Type Alias SitesControllerComputeErrorSummaryResponse
+  - Added Type Alias SitesControllerComputeusageResponse
+  - Added Type Alias SitesControllerCreateResponse
+  - Added Type Alias SitesControllerExportApplicationsResponse
+  - Added Type Alias SitesControllerExportMachineErrorsResponse
+  - Added Type Alias SitesControllerExportMachinesResponse
+  - Added Type Alias SitesControllerGetResponse
+  - Added Type Alias SitesControllerListByResourceGroupNextResponse
+  - Added Type Alias SitesControllerListByResourceGroupResponse
+  - Added Type Alias SitesControllerListBySubscriptionNextResponse
+  - Added Type Alias SitesControllerListBySubscriptionResponse
+  - Added Type Alias SitesControllerListHealthSummaryResponse
+  - Added Type Alias SitesControllerSummaryResponse
+  - Added Type Alias SitesControllerUpdateResponse
+  - Added Type Alias SqlAvailabilityGroupPropertiesAvailabilityGroupType
+  - Added Type Alias SqlAvailabilityGroupsControllerGetResponse
+  - Added Type Alias SqlAvailabilityGroupsControllerListBySqlSiteNextResponse
+  - Added Type Alias SqlAvailabilityGroupsControllerListBySqlSiteResponse
+  - Added Type Alias SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaCommitMode
+  - Added Type Alias SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaReadMode
+  - Added Type Alias SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaSeedMode
+  - Added Type Alias SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaState
+  - Added Type Alias SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaSyncStatus
+  - Added Type Alias SqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaType
+  - Added Type Alias SqlAvailabilityReplicaOverviewReplicaState
+  - Added Type Alias SqlDatabasesControllerGetResponse
+  - Added Type Alias SqlDatabasesControllerListBySqlSiteNextResponse
+  - Added Type Alias SqlDatabasesControllerListBySqlSiteResponse
+  - Added Type Alias SQLDiscoveryScopeStatus
+  - Added Type Alias SqlDiscoverySiteDataSourceControllerCreateResponse
+  - Added Type Alias SqlDiscoverySiteDataSourceControllerGetResponse
+  - Added Type Alias SqlDiscoverySiteDataSourceControllerListBySqlSiteNextResponse
+  - Added Type Alias SqlDiscoverySiteDataSourceControllerListBySqlSiteResponse
+  - Added Type Alias SqlImportJobsControllerGetImportjobResponse
+  - Added Type Alias SqlImportJobsControllerListImportjobsNextResponse
+  - Added Type Alias SqlImportJobsControllerListImportjobsResponse
+  - Added Type Alias SqlImportType
+  - Added Type Alias SqlJobsControllerGetResponse
+  - Added Type Alias SqlJobsControllerListBySqlSiteNextResponse
+  - Added Type Alias SqlJobsControllerListBySqlSiteResponse
+  - Added Type Alias SqlMachineOverviewFciRole
+  - Added Type Alias SqlMetadataDiscoveryPipe
+  - Added Type Alias SqlOperationsStatusControllerGetSqlOperationStatusResponse
+  - Added Type Alias SqlRunAsAccountsControllerGetResponse
+  - Added Type Alias SqlRunAsAccountsControllerListBySqlSiteNextResponse
+  - Added Type Alias SqlRunAsAccountsControllerListBySqlSiteResponse
+  - Added Type Alias SqlServersControllerGetResponse
+  - Added Type Alias SqlServersControllerListBySqlSiteNextResponse
+  - Added Type Alias SqlServersControllerListBySqlSiteResponse
+  - Added Type Alias SqlServersControllerUpdateResponse
+  - Added Type Alias SqlServerStatus
+  - Added Type Alias SqlSitePropertiesDiscoveryScenario
+  - Added Type Alias SqlSitesControllerCreateResponse
+  - Added Type Alias SqlSitesControllerErrorSummaryResponse
+  - Added Type Alias SqlSitesControllerExportSqlServerErrorsResponse
+  - Added Type Alias SqlSitesControllerExportSqlServersResponse
+  - Added Type Alias SqlSitesControllerExportUriResponse
+  - Added Type Alias SqlSitesControllerGetResponse
+  - Added Type Alias SqlSitesControllerImportUriResponse
+  - Added Type Alias SqlSitesControllerListByMasterSiteNextResponse
+  - Added Type Alias SqlSitesControllerListByMasterSiteResponse
+  - Added Type Alias SqlSitesControllerRefreshResponse
+  - Added Type Alias SqlSitesControllerSummaryResponse
+  - Added Type Alias SqlSitesControllerUpdateResponse
+  - Added Type Alias SqlSitesControllerValidateAndImportUriResponse
+  - Added Type Alias StaticDiscoveryScopeStatus
+  - Added Type Alias SupportStatus
+  - Added Type Alias TomcatWebApplicationsControllerGetResponse
+  - Added Type Alias TomcatWebApplicationsControllerListByWebAppSiteNextResponse
+  - Added Type Alias TomcatWebApplicationsControllerListByWebAppSiteResponse
+  - Added Type Alias TomcatWebApplicationsControllerUpdateResponse
+  - Added Type Alias TomcatWebServersControllerGetResponse
+  - Added Type Alias TomcatWebServersControllerListByWebAppSiteNextResponse
+  - Added Type Alias TomcatWebServersControllerListByWebAppSiteResponse
+  - Added Type Alias VcenterControllerCreateResponse
+  - Added Type Alias VcenterControllerGetResponse
+  - Added Type Alias VcenterControllerListByVmwareSiteNextResponse
+  - Added Type Alias VcenterControllerListByVmwareSiteResponse
+  - Added Type Alias Versions
+  - Added Type Alias VMwareDatastoreType
+  - Added Type Alias VmwareHostControllerGetResponse
+  - Added Type Alias VmwareHostControllerListByVmwareSiteNextResponse
+  - Added Type Alias VmwareHostControllerListByVmwareSiteResponse
+  - Added Type Alias VmwareOperationsStatusGetVmwareOperationStatusResponse
+  - Added Type Alias VmwarePropertiesControllerUpdateDependencyMapStatusResponse
+  - Added Type Alias VmwarePropertiesControllerUpdatePropertiesResponse
+  - Added Type Alias VmwarePropertiesControllerUpdateRunAsAccountResponse
+  - Added Type Alias VmwarePropertiesControllerUpdateTagsResponse
+  - Added Type Alias VmwareSoftwareInventoriesControllerGetMachineSoftwareInventoryResponse
+  - Added Type Alias VmwareSoftwareInventoriesControllerListByMachineResourceNextResponse
+  - Added Type Alias VmwareSoftwareInventoriesControllerListByMachineResourceResponse
+  - Added Type Alias WebAppDiscoverySiteDataSourcesControllerCreateResponse
+  - Added Type Alias WebAppDiscoverySiteDataSourcesControllerGetResponse
+  - Added Type Alias WebAppDiscoverySiteDataSourcesControllerListByWebAppSiteNextResponse
+  - Added Type Alias WebAppDiscoverySiteDataSourcesControllerListByWebAppSiteResponse
+  - Added Type Alias WebAppExtendedMachinesControllerGetResponse
+  - Added Type Alias WebAppExtendedMachinesControllerListByWebAppSiteNextResponse
+  - Added Type Alias WebAppExtendedMachinesControllerListByWebAppSiteResponse
+  - Added Type Alias WebApplicationsControllerListByWebAppSiteNextResponse
+  - Added Type Alias WebApplicationsControllerListByWebAppSiteResponse
+  - Added Type Alias WebAppPropertiesControllerUpdatePropertiesResponse
+  - Added Type Alias WebAppRunAsAccountsControllerGetResponse
+  - Added Type Alias WebAppRunAsAccountsControllerListByWebAppSiteNextResponse
+  - Added Type Alias WebAppRunAsAccountsControllerListByWebAppSiteResponse
+  - Added Type Alias WebAppSitePropertiesDiscoveryScenario
+  - Added Type Alias WebAppSitesControllerCreateResponse
+  - Added Type Alias WebAppSitesControllerErrorSummaryResponse
+  - Added Type Alias WebAppSitesControllerExportInventoryResponse
+  - Added Type Alias WebAppSitesControllerGetResponse
+  - Added Type Alias WebAppSitesControllerListByMasterSiteNextResponse
+  - Added Type Alias WebAppSitesControllerListByMasterSiteResponse
+  - Added Type Alias WebAppSitesControllerRefreshResponse
+  - Added Type Alias WebAppSitesControllerSummaryResponse
+  - Added Type Alias WebAppSitesControllerUpdateResponse
+  - Added Type Alias WebServersControllerListByWebAppSiteNextResponse
+  - Added Type Alias WebServersControllerListByWebAppSiteResponse
+  - Interface Operation has a new optional parameter actionType
+  - Interface Operation has a new optional parameter isDataAction
+  - Interface PrivateEndpointConnection has a new optional parameter groupIds
+  - Interface PrivateEndpointConnection has a new optional parameter privateEndpoint
+  - Interface PrivateEndpointConnection has a new optional parameter privateLinkServiceConnectionState
+  - Interface PrivateEndpointConnection has a new optional parameter provisioningState
+  - Interface PrivateLinkResource has a new optional parameter groupId
+  - Interface PrivateLinkResource has a new optional parameter provisioningState
+  - Interface PrivateLinkResource has a new optional parameter requiredMembers
+  - Interface PrivateLinkResource has a new optional parameter requiredZoneNames
+  - Added Enum KnownActionType
+  - Added Enum KnownApplicationDiscoveryScopeStatus
+  - Added Enum KnownArcScopeType
+  - Added Enum KnownAzureArcStatus
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownDefault
+  - Added Enum KnownDefaultAutoGenerated
+  - Added Enum KnownDefaultValues
+  - Added Enum KnownDeleteImportedMachinesJobPropertiesJobState
+  - Added Enum KnownDependencyMapDiscoveryScopeStatus
+  - Added Enum KnownDiscoveryScopes
+  - Added Enum KnownDiscoveryScopeStatus
+  - Added Enum KnownEsuStatus
+  - Added Enum KnownEsuYear
+  - Added Enum KnownExportMachineErrorsProperties
+  - Added Enum KnownFCIInstanceState
+  - Added Enum KnownFileType
+  - Added Enum KnownHealthErrorDetailsDiscoveryScope
+  - Added Enum KnownHealthErrorDetailsSource
+  - Added Enum KnownHighAvailability
+  - Added Enum KnownHighAvailabilityValues
+  - Added Enum KnownImportSqlInventoryJobResult
+  - Added Enum KnownImportTypeValues
+  - Added Enum KnownJobResult
+  - Added Enum KnownMasterSitePropertiesPublicNetworkAccess
+  - Added Enum KnownMicrosoftAzureFDSWebRoleHealthErrorDetailsSource
+  - Added Enum KnownOrigin
+  - Added Enum KnownShallowDiscoveryStatus
+  - Added Enum KnownSiteHealthSummaryFabricLayoutUpdateSourcesItem
+  - Added Enum KnownSqlAvailabilityGroupPropertiesAvailabilityGroupType
+  - Added Enum KnownSqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaCommitMode
+  - Added Enum KnownSqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaReadMode
+  - Added Enum KnownSqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaSeedMode
+  - Added Enum KnownSqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaState
+  - Added Enum KnownSqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaSyncStatus
+  - Added Enum KnownSqlAvailabilityGroupSqlAvailabilityReplicaPropertiesReplicaType
+  - Added Enum KnownSqlAvailabilityReplicaOverviewReplicaState
+  - Added Enum KnownSQLDiscoveryScopeStatus
+  - Added Enum KnownSqlImportType
+  - Added Enum KnownSqlMachineOverviewFciRole
+  - Added Enum KnownSqlMetadataDiscoveryPipe
+  - Added Enum KnownSqlServerStatus
+  - Added Enum KnownSqlSitePropertiesDiscoveryScenario
+  - Added Enum KnownStaticDiscoveryScopeStatus
+  - Added Enum KnownSupportStatus
+  - Added Enum KnownVersions
+  - Added Enum KnownVMwareDatastoreType
+  - Added Enum KnownWebAppSitePropertiesDiscoveryScenario
+  - Enum KnownProvisioningState has a new value Canceled
+  - Enum KnownProvisioningState has a new value Completed
+  - Enum KnownProvisioningState has a new value Created
+  - Enum KnownProvisioningState has a new value Running
+  - Enum KnownProvisioningState has a new value Updated
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group AssessedMachines
+  - Removed operation group Assessments
+  - Removed operation group Groups
+  - Removed operation group HyperVCollectors
+  - Removed operation group ImportCollectors
+  - Removed operation group Machines
+  - Removed operation group PrivateEndpointConnectionOperations
+  - Removed operation group PrivateLinkResourceOperations
+  - Removed operation group Projects
+  - Removed operation group ServerCollectors
+  - Removed operation group VMwareCollectors
+  - Deleted Class AzureMigrateV2
+  - Interface PrivateEndpointConnection no longer has parameter eTag
+  - Interface PrivateEndpointConnection no longer has parameter id
+  - Interface PrivateEndpointConnection no longer has parameter name
+  - Interface PrivateEndpointConnection no longer has parameter properties
+  - Interface PrivateEndpointConnection no longer has parameter type
+  - Interface PrivateLinkResource no longer has parameter id
+  - Interface PrivateLinkResource no longer has parameter name
+  - Interface PrivateLinkResource no longer has parameter properties
+  - Interface PrivateLinkResource no longer has parameter type
+  - Type of parameter origin of interface Operation is changed from string to Origin
+  - Removed Enum KnownAssessmentSizingCriterion
+  - Removed Enum KnownAssessmentStage
+  - Removed Enum KnownAssessmentStatus
+  - Removed Enum KnownAzureDiskSize
+  - Removed Enum KnownAzureDiskSuitabilityDetail
+  - Removed Enum KnownAzureDiskSuitabilityExplanation
+  - Removed Enum KnownAzureDiskType
+  - Removed Enum KnownAzureHybridUseBenefit
+  - Removed Enum KnownAzureLocation
+  - Removed Enum KnownAzureNetworkAdapterSuitabilityDetail
+  - Removed Enum KnownAzureNetworkAdapterSuitabilityExplanation
+  - Removed Enum KnownAzureOfferCode
+  - Removed Enum KnownAzurePricingTier
+  - Removed Enum KnownAzureStorageRedundancy
+  - Removed Enum KnownAzureVmFamily
+  - Removed Enum KnownAzureVmSize
+  - Removed Enum KnownAzureVmSuitabilityDetail
+  - Removed Enum KnownAzureVmSuitabilityExplanation
+  - Removed Enum KnownCloudSuitability
+  - Removed Enum KnownCurrency
+  - Removed Enum KnownGroupStatus
+  - Removed Enum KnownGroupUpdateOperation
+  - Removed Enum KnownMachineBootType
+  - Removed Enum KnownPercentile
+  - Removed Enum KnownPrivateEndpointConnectionPropertiesProvisioningState
+  - Removed Enum KnownProjectStatus
+  - Removed Enum KnownReservedInstance
+  - Removed Enum KnownTimeRange
+  - Enum KnownProvisioningState no longer has value Accepted
+  - Enum KnownProvisioningState no longer has value Creating
+  - Enum KnownProvisioningState no longer has value Deleting
+  - Enum KnownProvisioningState no longer has value Moving
+    
 ## 2.0.3 (2023-01-29)
 
 ### Features Added
@@ -40,4 +1033,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
