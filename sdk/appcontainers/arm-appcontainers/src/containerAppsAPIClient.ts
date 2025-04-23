@@ -15,28 +15,46 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  AppResiliencyOperationsImpl,
   ContainerAppsAuthConfigsImpl,
   AvailableWorkloadProfilesImpl,
   BillingMetersImpl,
+  BuildersImpl,
+  BuildsByBuilderResourceImpl,
+  BuildsImpl,
+  BuildAuthTokenImpl,
   ConnectedEnvironmentsImpl,
   ConnectedEnvironmentsCertificatesImpl,
   ConnectedEnvironmentsDaprComponentsImpl,
   ConnectedEnvironmentsStoragesImpl,
   ContainerAppsImpl,
+  ContainerAppsBuildsByContainerAppImpl,
+  ContainerAppsBuildsImpl,
+  ContainerAppsLabelHistoryImpl,
+  ContainerAppsPatchesImpl,
   ContainerAppsRevisionsImpl,
   ContainerAppsRevisionReplicasImpl,
   ContainerAppsDiagnosticsImpl,
   ManagedEnvironmentDiagnosticsImpl,
   ManagedEnvironmentsDiagnosticsImpl,
   JobsImpl,
+  DotNetComponentsImpl,
+  FunctionsExtensionImpl,
   OperationsImpl,
   JavaComponentsImpl,
   JobsExecutionsImpl,
+  LogicAppsImpl,
   ManagedEnvironmentsImpl,
   CertificatesImpl,
   ManagedCertificatesImpl,
   NamespacesImpl,
+  ManagedEnvironmentPrivateEndpointConnectionsImpl,
+  ManagedEnvironmentPrivateLinkResourcesImpl,
+  DaprComponentResiliencyPoliciesImpl,
   DaprComponentsImpl,
+  DaprSubscriptionsImpl,
+  HttpRouteConfigOperationsImpl,
+  MaintenanceConfigurationsImpl,
   ManagedEnvironmentsStoragesImpl,
   ContainerAppsSessionPoolsImpl,
   ContainerAppsSourceControlsImpl,
@@ -44,28 +62,46 @@ import {
   ManagedEnvironmentUsagesImpl,
 } from "./operations/index.js";
 import {
+  AppResiliencyOperations,
   ContainerAppsAuthConfigs,
   AvailableWorkloadProfiles,
   BillingMeters,
+  Builders,
+  BuildsByBuilderResource,
+  Builds,
+  BuildAuthToken,
   ConnectedEnvironments,
   ConnectedEnvironmentsCertificates,
   ConnectedEnvironmentsDaprComponents,
   ConnectedEnvironmentsStorages,
   ContainerApps,
+  ContainerAppsBuildsByContainerApp,
+  ContainerAppsBuilds,
+  ContainerAppsLabelHistory,
+  ContainerAppsPatches,
   ContainerAppsRevisions,
   ContainerAppsRevisionReplicas,
   ContainerAppsDiagnostics,
   ManagedEnvironmentDiagnostics,
   ManagedEnvironmentsDiagnostics,
   Jobs,
+  DotNetComponents,
+  FunctionsExtension,
   Operations,
   JavaComponents,
   JobsExecutions,
+  LogicApps,
   ManagedEnvironments,
   Certificates,
   ManagedCertificates,
   Namespaces,
+  ManagedEnvironmentPrivateEndpointConnections,
+  ManagedEnvironmentPrivateLinkResources,
+  DaprComponentResiliencyPolicies,
   DaprComponents,
+  DaprSubscriptions,
+  HttpRouteConfigOperations,
+  MaintenanceConfigurations,
   ManagedEnvironmentsStorages,
   ContainerAppsSessionPools,
   ContainerAppsSourceControls,
@@ -90,7 +126,7 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the ContainerAppsAPIClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
@@ -114,7 +150,7 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-appcontainers/2.2.0`;
+    const packageDetails = `azsdk-js-arm-appcontainers/3.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -168,10 +204,15 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2025-01-01";
+    this.apiVersion = options.apiVersion || "2025-02-02-preview";
+    this.appResiliencyOperations = new AppResiliencyOperationsImpl(this);
     this.containerAppsAuthConfigs = new ContainerAppsAuthConfigsImpl(this);
     this.availableWorkloadProfiles = new AvailableWorkloadProfilesImpl(this);
     this.billingMeters = new BillingMetersImpl(this);
+    this.builders = new BuildersImpl(this);
+    this.buildsByBuilderResource = new BuildsByBuilderResourceImpl(this);
+    this.builds = new BuildsImpl(this);
+    this.buildAuthToken = new BuildAuthTokenImpl(this);
     this.connectedEnvironments = new ConnectedEnvironmentsImpl(this);
     this.connectedEnvironmentsCertificates =
       new ConnectedEnvironmentsCertificatesImpl(this);
@@ -181,6 +222,11 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
       this,
     );
     this.containerApps = new ContainerAppsImpl(this);
+    this.containerAppsBuildsByContainerApp =
+      new ContainerAppsBuildsByContainerAppImpl(this);
+    this.containerAppsBuilds = new ContainerAppsBuildsImpl(this);
+    this.containerAppsLabelHistory = new ContainerAppsLabelHistoryImpl(this);
+    this.containerAppsPatches = new ContainerAppsPatchesImpl(this);
     this.containerAppsRevisions = new ContainerAppsRevisionsImpl(this);
     this.containerAppsRevisionReplicas = new ContainerAppsRevisionReplicasImpl(
       this,
@@ -192,14 +238,26 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     this.managedEnvironmentsDiagnostics =
       new ManagedEnvironmentsDiagnosticsImpl(this);
     this.jobs = new JobsImpl(this);
+    this.dotNetComponents = new DotNetComponentsImpl(this);
+    this.functionsExtension = new FunctionsExtensionImpl(this);
     this.operations = new OperationsImpl(this);
     this.javaComponents = new JavaComponentsImpl(this);
     this.jobsExecutions = new JobsExecutionsImpl(this);
+    this.logicApps = new LogicAppsImpl(this);
     this.managedEnvironments = new ManagedEnvironmentsImpl(this);
     this.certificates = new CertificatesImpl(this);
     this.managedCertificates = new ManagedCertificatesImpl(this);
     this.namespaces = new NamespacesImpl(this);
+    this.managedEnvironmentPrivateEndpointConnections =
+      new ManagedEnvironmentPrivateEndpointConnectionsImpl(this);
+    this.managedEnvironmentPrivateLinkResources =
+      new ManagedEnvironmentPrivateLinkResourcesImpl(this);
+    this.daprComponentResiliencyPolicies =
+      new DaprComponentResiliencyPoliciesImpl(this);
     this.daprComponents = new DaprComponentsImpl(this);
+    this.daprSubscriptions = new DaprSubscriptionsImpl(this);
+    this.httpRouteConfigOperations = new HttpRouteConfigOperationsImpl(this);
+    this.maintenanceConfigurations = new MaintenanceConfigurationsImpl(this);
     this.managedEnvironmentsStorages = new ManagedEnvironmentsStoragesImpl(
       this,
     );
@@ -272,28 +330,46 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     );
   }
 
+  appResiliencyOperations: AppResiliencyOperations;
   containerAppsAuthConfigs: ContainerAppsAuthConfigs;
   availableWorkloadProfiles: AvailableWorkloadProfiles;
   billingMeters: BillingMeters;
+  builders: Builders;
+  buildsByBuilderResource: BuildsByBuilderResource;
+  builds: Builds;
+  buildAuthToken: BuildAuthToken;
   connectedEnvironments: ConnectedEnvironments;
   connectedEnvironmentsCertificates: ConnectedEnvironmentsCertificates;
   connectedEnvironmentsDaprComponents: ConnectedEnvironmentsDaprComponents;
   connectedEnvironmentsStorages: ConnectedEnvironmentsStorages;
   containerApps: ContainerApps;
+  containerAppsBuildsByContainerApp: ContainerAppsBuildsByContainerApp;
+  containerAppsBuilds: ContainerAppsBuilds;
+  containerAppsLabelHistory: ContainerAppsLabelHistory;
+  containerAppsPatches: ContainerAppsPatches;
   containerAppsRevisions: ContainerAppsRevisions;
   containerAppsRevisionReplicas: ContainerAppsRevisionReplicas;
   containerAppsDiagnostics: ContainerAppsDiagnostics;
   managedEnvironmentDiagnostics: ManagedEnvironmentDiagnostics;
   managedEnvironmentsDiagnostics: ManagedEnvironmentsDiagnostics;
   jobs: Jobs;
+  dotNetComponents: DotNetComponents;
+  functionsExtension: FunctionsExtension;
   operations: Operations;
   javaComponents: JavaComponents;
   jobsExecutions: JobsExecutions;
+  logicApps: LogicApps;
   managedEnvironments: ManagedEnvironments;
   certificates: Certificates;
   managedCertificates: ManagedCertificates;
   namespaces: Namespaces;
+  managedEnvironmentPrivateEndpointConnections: ManagedEnvironmentPrivateEndpointConnections;
+  managedEnvironmentPrivateLinkResources: ManagedEnvironmentPrivateLinkResources;
+  daprComponentResiliencyPolicies: DaprComponentResiliencyPolicies;
   daprComponents: DaprComponents;
+  daprSubscriptions: DaprSubscriptions;
+  httpRouteConfigOperations: HttpRouteConfigOperations;
+  maintenanceConfigurations: MaintenanceConfigurations;
   managedEnvironmentsStorages: ManagedEnvironmentsStorages;
   containerAppsSessionPools: ContainerAppsSessionPools;
   containerAppsSourceControls: ContainerAppsSourceControls;
