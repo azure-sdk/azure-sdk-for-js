@@ -1,5 +1,13 @@
 # Release History
     
+## 23.0.0 (2025-04-23)
+    
+### Breaking Changes
+
+  - Operation VirtualMachineImages.listWithProperties has a new signature
+  - Removed Enum KnownExpand
+    
+    
 ## 22.4.0 (2025-03-18)
     
 ### Features Added
