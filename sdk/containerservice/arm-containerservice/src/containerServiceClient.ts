@@ -8,17 +8,18 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import type {
+import {
   PipelineRequest,
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import type * as coreAuth from "@azure/core-auth";
+import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   ManagedClustersImpl,
   ContainerServiceImpl,
   MaintenanceConfigurationsImpl,
+  NamespacesImpl,
   AgentPoolsImpl,
   MachinesImpl,
   PrivateEndpointConnectionsImpl,
@@ -31,11 +32,12 @@ import {
   TrustedAccessRoleBindingsImpl,
   LoadBalancersImpl,
 } from "./operations/index.js";
-import type {
+import {
   Operations,
   ManagedClusters,
   ContainerService,
   MaintenanceConfigurations,
+  Namespaces,
   AgentPools,
   Machines,
   PrivateEndpointConnections,
@@ -48,7 +50,7 @@ import type {
   TrustedAccessRoleBindings,
   LoadBalancers,
 } from "./operationsInterfaces/index.js";
-import type { ContainerServiceClientOptionalParams } from "./models/index.js";
+import { ContainerServiceClientOptionalParams } from "./models/index.js";
 
 export class ContainerServiceClient extends coreClient.ServiceClient {
   $host: string;
@@ -136,11 +138,12 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2025-01-02-preview";
+    this.apiVersion = options.apiVersion || "2025-03-02-preview";
     this.operations = new OperationsImpl(this);
     this.managedClusters = new ManagedClustersImpl(this);
     this.containerService = new ContainerServiceImpl(this);
     this.maintenanceConfigurations = new MaintenanceConfigurationsImpl(this);
+    this.namespaces = new NamespacesImpl(this);
     this.agentPools = new AgentPoolsImpl(this);
     this.machines = new MachinesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
@@ -190,6 +193,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
   managedClusters: ManagedClusters;
   containerService: ContainerService;
   maintenanceConfigurations: MaintenanceConfigurations;
+  namespaces: Namespaces;
   agentPools: AgentPools;
   machines: Machines;
   privateEndpointConnections: PrivateEndpointConnections;

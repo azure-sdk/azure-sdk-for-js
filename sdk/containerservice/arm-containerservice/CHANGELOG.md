@@ -1,6 +1,6 @@
 # Release History
     
-## 22.0.0-beta.2 (2025-04-18)
+## 22.0.0-beta.2 (2025-04-23)
 Compared with version 21.5.0
     
 ### Features Added
@@ -8,6 +8,7 @@ Compared with version 21.5.0
   - Added operation group ContainerService
   - Added operation group LoadBalancers
   - Added operation group ManagedClusterSnapshots
+  - Added operation group Namespaces
   - Added operation group OperationStatusResultOperations
   - Added operation ManagedClusters.beginRebalanceLoadBalancers
   - Added operation ManagedClusters.beginRebalanceLoadBalancersAndWait
@@ -17,7 +18,6 @@ Compared with version 21.5.0
   - Added operation ManagedClusters.listSafeguardsVersions
   - Added Interface AgentPoolArtifactStreamingProfile
   - Added Interface AgentPoolGatewayProfile
-  - Added Interface AgentPoolGPUProfile
   - Added Interface AgentPoolStatus
   - Added Interface AutoScaleProfile
   - Added Interface Component
@@ -73,6 +73,18 @@ Compared with version 21.5.0
   - Added Interface ManagedClusterStaticEgressGatewayProfile
   - Added Interface ManagedClusterStatus
   - Added Interface ManualScaleProfile
+  - Added Interface Namespace
+  - Added Interface NamespaceListResult
+  - Added Interface NamespaceProperties
+  - Added Interface NamespacesCreateOrUpdateOptionalParams
+  - Added Interface NamespacesDeleteHeaders
+  - Added Interface NamespacesDeleteOptionalParams
+  - Added Interface NamespacesGetOptionalParams
+  - Added Interface NamespacesListByManagedClusterNextOptionalParams
+  - Added Interface NamespacesListByManagedClusterOptionalParams
+  - Added Interface NamespacesListCredentialOptionalParams
+  - Added Interface NamespacesUpdateOptionalParams
+  - Added Interface NetworkPolicies
   - Added Interface NetworkProfileForSnapshot
   - Added Interface NodeImageVersion
   - Added Interface NodeImageVersionsListResult
@@ -83,6 +95,7 @@ Compared with version 21.5.0
   - Added Interface OperationStatusResultListNextOptionalParams
   - Added Interface OperationStatusResultListOptionalParams
   - Added Interface RebalanceLoadBalancersRequestBody
+  - Added Interface ResourceQuota
   - Added Interface SafeguardsAvailableVersion
   - Added Interface SafeguardsAvailableVersionsList
   - Added Interface SafeguardsAvailableVersionsProperties
@@ -91,10 +104,13 @@ Compared with version 21.5.0
   - Added Interface VirtualMachineNodes
   - Added Interface VirtualMachinesProfile
   - Added Type Alias AddonAutoscaling
+  - Added Type Alias AdoptionPolicy
+  - Added Type Alias AdvancedNetworkPolicies
   - Added Type Alias AgentPoolSSHAccess
   - Added Type Alias ClusterServiceLoadBalancerHealthProbeMode
   - Added Type Alias ContainerServiceListNodeImageVersionsNextResponse
   - Added Type Alias ContainerServiceListNodeImageVersionsResponse
+  - Added Type Alias DeletePolicy
   - Added Type Alias DriverType
   - Added Type Alias GuardrailsSupport
   - Added Type Alias IpvsScheduler
@@ -119,6 +135,14 @@ Compared with version 21.5.0
   - Added Type Alias ManagedClusterSnapshotsUpdateTagsResponse
   - Added Type Alias ManagedClustersRebalanceLoadBalancersResponse
   - Added Type Alias Mode
+  - Added Type Alias NamespaceProvisioningState
+  - Added Type Alias NamespacesCreateOrUpdateResponse
+  - Added Type Alias NamespacesDeleteResponse
+  - Added Type Alias NamespacesGetResponse
+  - Added Type Alias NamespacesListByManagedClusterNextResponse
+  - Added Type Alias NamespacesListByManagedClusterResponse
+  - Added Type Alias NamespacesListCredentialResponse
+  - Added Type Alias NamespacesUpdateResponse
   - Added Type Alias NginxIngressControllerType
   - Added Type Alias NodeProvisioningMode
   - Added Type Alias OperationStatusResultGetByAgentPoolResponse
@@ -128,9 +152,13 @@ Compared with version 21.5.0
   - Added Type Alias Operator
   - Added Type Alias PodIPAllocationMode
   - Added Type Alias PodLinkLocalAccess
+  - Added Type Alias PolicyRule
   - Added Type Alias SafeguardsSupport
   - Added Type Alias SeccompDefault
+  - Added Type Alias TransitEncryption
   - Added Type Alias UndrainableNodeBehavior
+  - Interface AdvancedNetworkingSecurity has a new optional parameter advancedNetworkPolicies
+  - Interface AdvancedNetworkingSecurity has a new optional parameter transitEncryption
   - Interface AgentPool has a new optional parameter artifactStreamingProfile
   - Interface AgentPool has a new optional parameter enableCustomCATrust
   - Interface AgentPool has a new optional parameter gatewayProfile
@@ -148,6 +176,7 @@ Compared with version 21.5.0
   - Interface ContainerServiceNetworkProfile has a new optional parameter kubeProxyConfig
   - Interface ContainerServiceNetworkProfile has a new optional parameter podLinkLocalAccess
   - Interface ContainerServiceNetworkProfile has a new optional parameter staticEgressGatewayProfile
+  - Interface GPUProfile has a new optional parameter driverType
   - Interface IstioEgressGateway has a new optional parameter gatewayConfigurationName
   - Interface IstioEgressGateway has a new optional parameter namespace
   - Interface KubeletConfig has a new optional parameter seccompDefault
@@ -182,20 +211,26 @@ Compared with version 21.5.0
   - Interface ManagedClusterStorageProfileDiskCSIDriver has a new optional parameter version
   - Interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler has a new optional parameter addonAutoscaling
   - Added Enum KnownAddonAutoscaling
+  - Added Enum KnownAdoptionPolicy
+  - Added Enum KnownAdvancedNetworkPolicies
   - Added Enum KnownAgentPoolSSHAccess
   - Added Enum KnownClusterServiceLoadBalancerHealthProbeMode
+  - Added Enum KnownDeletePolicy
   - Added Enum KnownDriverType
   - Added Enum KnownGuardrailsSupport
   - Added Enum KnownIpvsScheduler
   - Added Enum KnownLevel
   - Added Enum KnownMode
+  - Added Enum KnownNamespaceProvisioningState
   - Added Enum KnownNginxIngressControllerType
   - Added Enum KnownNodeProvisioningMode
   - Added Enum KnownOperator
   - Added Enum KnownPodIPAllocationMode
   - Added Enum KnownPodLinkLocalAccess
+  - Added Enum KnownPolicyRule
   - Added Enum KnownSafeguardsSupport
   - Added Enum KnownSeccompDefault
+  - Added Enum KnownTransitEncryption
   - Added Enum KnownUndrainableNodeBehavior
   - Enum KnownAgentPoolMode has a new value Gateway
   - Enum KnownAgentPoolType has a new value VirtualMachines
@@ -209,9 +244,6 @@ Compared with version 21.5.0
 ### Breaking Changes
 
   - Interface IstioEgressGateway has a new required parameter name
-  - Type of parameter gpuProfile of interface AgentPool is changed from GPUProfile to AgentPoolGPUProfile
-  - Type of parameter gpuProfile of interface ManagedClusterAgentPoolProfileProperties is changed from GPUProfile to AgentPoolGPUProfile
-  - Removed Enum KnownGPUDriver
     
     
 ## 21.5.0 (2025-03-24)
