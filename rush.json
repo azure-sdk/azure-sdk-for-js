@@ -2341,6 +2341,11 @@
       "packageName": "@azure/arm-portalservicescopilot",
       "projectFolder": "sdk/portalservices/arm-portalservicescopilot",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-edgemarketplace",
+      "projectFolder": "sdk/edgemarketplace/arm-edgemarketplace",
+      "versionPolicyName": "management"
     }
   ]
 }
