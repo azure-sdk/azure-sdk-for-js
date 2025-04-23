@@ -10,6 +10,7 @@ import type {
   AgentThreadCreationOptions,
   UpdateAgentThreadOptions,
   ThreadMessageOptions,
+  RunAdditionalFieldList,
   CreateRunOptions,
   ToolOutput,
   CreateAndRunThreadOptions,
@@ -98,11 +99,12 @@ export interface CreateMessageBodyParam {
   body: ThreadMessageOptions;
 }
 
-export type CreateMessageParameters = CreateMessageBodyParam & RequestParameters;
+export type CreateMessageParameters = CreateMessageBodyParam &
+  RequestParameters;
 
 export interface ListMessagesQueryParamProperties {
   /** Filter messages by the run ID that generated them. */
-  runId?: string;
+  run_id?: string;
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
   /**
@@ -128,13 +130,38 @@ export interface UpdateMessageBodyParam {
   body: { metadata?: Record<string, string> | null };
 }
 
-export type UpdateMessageParameters = UpdateMessageBodyParam & RequestParameters;
+export type UpdateMessageParameters = UpdateMessageBodyParam &
+  RequestParameters;
 
 export interface CreateRunBodyParam {
   body: CreateRunOptions;
 }
 
-export type CreateRunParameters = CreateRunBodyParam & RequestParameters;
+/** This is the wrapper object for the parameter `include[]` with explode set to false and style set to form. */
+export interface CreateRunIncludeQueryParam {
+  /** Value of the parameter */
+  value: RunAdditionalFieldList[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
+export interface CreateRunQueryParamProperties {
+  /**
+   * A list of additional fields to include in the response.
+   * Currently the only supported value is `step_details.tool_calls[*].file_search.results[*].content` to fetch the file search result content.
+   */
+  "include[]"?: RunAdditionalFieldList[] | CreateRunIncludeQueryParam;
+}
+
+export interface CreateRunQueryParam {
+  queryParameters?: CreateRunQueryParamProperties;
+}
+
+export type CreateRunParameters = CreateRunQueryParam &
+  CreateRunBodyParam &
+  RequestParameters;
 
 export interface ListRunsQueryParamProperties {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
@@ -165,20 +192,60 @@ export interface UpdateRunBodyParam {
 export type UpdateRunParameters = UpdateRunBodyParam & RequestParameters;
 
 export interface SubmitToolOutputsToRunBodyParam {
-  body: { toolOutputs: Array<ToolOutput>; stream?: boolean | null };
+  body: { tool_outputs: Array<ToolOutput>; stream?: boolean | null };
 }
 
-export type SubmitToolOutputsToRunParameters = SubmitToolOutputsToRunBodyParam & RequestParameters;
+export type SubmitToolOutputsToRunParameters = SubmitToolOutputsToRunBodyParam &
+  RequestParameters;
 export type CancelRunParameters = RequestParameters;
 
 export interface CreateThreadAndRunBodyParam {
   body: CreateAndRunThreadOptions;
 }
 
-export type CreateThreadAndRunParameters = CreateThreadAndRunBodyParam & RequestParameters;
-export type GetRunStepParameters = RequestParameters;
+export type CreateThreadAndRunParameters = CreateThreadAndRunBodyParam &
+  RequestParameters;
+
+/** This is the wrapper object for the parameter `include[]` with explode set to false and style set to form. */
+export interface GetRunStepIncludeQueryParam {
+  /** Value of the parameter */
+  value: RunAdditionalFieldList[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
+export interface GetRunStepQueryParamProperties {
+  /**
+   * A list of additional fields to include in the response.
+   * Currently the only supported value is `step_details.tool_calls[*].file_search.results[*].content` to fetch the file search result content.
+   */
+  "include[]"?: RunAdditionalFieldList[] | GetRunStepIncludeQueryParam;
+}
+
+export interface GetRunStepQueryParam {
+  queryParameters?: GetRunStepQueryParamProperties;
+}
+
+export type GetRunStepParameters = GetRunStepQueryParam & RequestParameters;
+
+/** This is the wrapper object for the parameter `include[]` with explode set to false and style set to form. */
+export interface ListRunStepsIncludeQueryParam {
+  /** Value of the parameter */
+  value: RunAdditionalFieldList[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
 
 export interface ListRunStepsQueryParamProperties {
+  /**
+   * A list of additional fields to include in the response.
+   * Currently the only supported value is `step_details.tool_calls[*].file_search.results[*].content` to fetch the file search result content.
+   */
+  "include[]"?: RunAdditionalFieldList[] | ListRunStepsIncludeQueryParam;
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
   /**
@@ -215,12 +282,22 @@ export interface ListFilesQueryParam {
 export type ListFilesParameters = ListFilesQueryParam & RequestParameters;
 
 export interface UploadFileBodyParam {
+  /**
+   * Multipart body
+   *
+   * Value may contain any sequence of octets
+   */
   body:
     | FormData
     | Array<
         | {
             name: "file";
-            body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
+            body:
+              | string
+              | Uint8Array
+              | ReadableStream<Uint8Array>
+              | NodeJS.ReadableStream
+              | File;
             filename?: string;
             contentType?: string;
           }
@@ -265,20 +342,23 @@ export interface ListVectorStoresQueryParam {
   queryParameters?: ListVectorStoresQueryParamProperties;
 }
 
-export type ListVectorStoresParameters = ListVectorStoresQueryParam & RequestParameters;
+export type ListVectorStoresParameters = ListVectorStoresQueryParam &
+  RequestParameters;
 
 export interface CreateVectorStoreBodyParam {
   body: VectorStoreOptions;
 }
 
-export type CreateVectorStoreParameters = CreateVectorStoreBodyParam & RequestParameters;
+export type CreateVectorStoreParameters = CreateVectorStoreBodyParam &
+  RequestParameters;
 export type GetVectorStoreParameters = RequestParameters;
 
 export interface ModifyVectorStoreBodyParam {
   body: VectorStoreUpdateOptions;
 }
 
-export type ModifyVectorStoreParameters = ModifyVectorStoreBodyParam & RequestParameters;
+export type ModifyVectorStoreParameters = ModifyVectorStoreBodyParam &
+  RequestParameters;
 export type DeleteVectorStoreParameters = RequestParameters;
 
 export interface ListVectorStoreFilesQueryParamProperties {
@@ -306,30 +386,32 @@ export interface ListVectorStoreFilesQueryParam {
   queryParameters?: ListVectorStoreFilesQueryParamProperties;
 }
 
-export type ListVectorStoreFilesParameters = ListVectorStoreFilesQueryParam & RequestParameters;
+export type ListVectorStoreFilesParameters = ListVectorStoreFilesQueryParam &
+  RequestParameters;
 
 export interface CreateVectorStoreFileBodyParam {
   body: {
-    fileId?: string;
-    dataSources?: Array<VectorStoreDataSource>;
-    chunkingStrategy?: VectorStoreChunkingStrategyRequest;
+    file_id?: string;
+    data_source?: VectorStoreDataSource;
+    chunking_strategy?: VectorStoreChunkingStrategyRequest;
   };
 }
 
-export type CreateVectorStoreFileParameters = CreateVectorStoreFileBodyParam & RequestParameters;
+export type CreateVectorStoreFileParameters = CreateVectorStoreFileBodyParam &
+  RequestParameters;
 export type GetVectorStoreFileParameters = RequestParameters;
 export type DeleteVectorStoreFileParameters = RequestParameters;
 
 export interface CreateVectorStoreFileBatchBodyParam {
   body: {
-    fileIds?: string[];
-    dataSources?: Array<VectorStoreDataSource>;
-    chunkingStrategy?: VectorStoreChunkingStrategyRequest;
+    file_ids?: string[];
+    data_sources?: Array<VectorStoreDataSource>;
+    chunking_strategy?: VectorStoreChunkingStrategyRequest;
   };
 }
 
-export type CreateVectorStoreFileBatchParameters = CreateVectorStoreFileBatchBodyParam &
-  RequestParameters;
+export type CreateVectorStoreFileBatchParameters =
+  CreateVectorStoreFileBatchBodyParam & RequestParameters;
 export type GetVectorStoreFileBatchParameters = RequestParameters;
 export type CancelVectorStoreFileBatchParameters = RequestParameters;
 
@@ -358,12 +440,16 @@ export interface ListVectorStoreFileBatchFilesQueryParam {
   queryParameters?: ListVectorStoreFileBatchFilesQueryParamProperties;
 }
 
-export type ListVectorStoreFileBatchFilesParameters = ListVectorStoreFileBatchFilesQueryParam &
-  RequestParameters;
+export type ListVectorStoreFileBatchFilesParameters =
+  ListVectorStoreFileBatchFilesQueryParam & RequestParameters;
 export type GetWorkspaceParameters = RequestParameters;
 
 export interface ListConnectionsQueryParamProperties {
-  /** Category of the workspace connection. */
+  /**
+   * Category of the workspace connection.
+   *
+   * Possible values: "AzureOpenAI", "Serverless", "AzureBlob", "AIServices", "CognitiveSearch", "ApiKey", "CustomKeys", "CognitiveService"
+   */
   category?: ConnectionType;
   /** Indicates whether to list datastores. Service default: do not list datastores. */
   includeAll?: boolean;
@@ -375,15 +461,16 @@ export interface ListConnectionsQueryParam {
   queryParameters?: ListConnectionsQueryParamProperties;
 }
 
-export type ListConnectionsParameters = ListConnectionsQueryParam & RequestParameters;
+export type ListConnectionsParameters = ListConnectionsQueryParam &
+  RequestParameters;
 export type GetConnectionParameters = RequestParameters;
 
 export interface GetConnectionWithSecretsBodyParam {
   body: { ignored: string };
 }
 
-export type GetConnectionWithSecretsParameters = GetConnectionWithSecretsBodyParam &
-  RequestParameters;
+export type GetConnectionWithSecretsParameters =
+  GetConnectionWithSecretsBodyParam & RequestParameters;
 export type GetAppInsightsParameters = RequestParameters;
 
 export interface GetHeaders {
@@ -426,7 +513,9 @@ export interface ListHeaderParam {
   headers?: RawHttpHeadersInput & ListHeaders;
 }
 
-export type ListParameters = ListQueryParam & ListHeaderParam & RequestParameters;
+export type ListParameters = ListQueryParam &
+  ListHeaderParam &
+  RequestParameters;
 
 export interface UpdateHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -480,9 +569,10 @@ export interface CreateOrReplaceScheduleHeaderParam {
   headers?: RawHttpHeadersInput & CreateOrReplaceScheduleHeaders;
 }
 
-export type CreateOrReplaceScheduleParameters = CreateOrReplaceScheduleHeaderParam &
-  CreateOrReplaceScheduleBodyParam &
-  RequestParameters;
+export type CreateOrReplaceScheduleParameters =
+  CreateOrReplaceScheduleHeaderParam &
+    CreateOrReplaceScheduleBodyParam &
+    RequestParameters;
 
 export interface ListScheduleHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
