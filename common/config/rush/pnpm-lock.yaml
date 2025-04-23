@@ -2649,7 +2649,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-datafactory@file:projects/arm-datafactory.tgz':
-    resolution: {integrity: sha512-HgJz2N5jNNuxb/8qZqKooHInHrwELAro6z3Q/Fp/nxbwMlV/Q/xfBqPcrSOtvfMwHjfFWen+zcWNdXQV/Q+XHA==, tarball: file:projects/arm-datafactory.tgz}
+    resolution: {integrity: sha512-+FbZqAqRiHtUnpbraqYZ1l8yva7qiMku9/ACtkVXVWmEbjB95Lo6PydfEWISN8Qlat1NW8AuEGq0mLvYWJXWsw==, tarball: file:projects/arm-datafactory.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-datalake-analytics@file:projects/arm-datalake-analytics.tgz':
@@ -2749,7 +2749,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-elasticsan@file:projects/arm-elasticsan.tgz':
-    resolution: {integrity: sha512-AoYPz/q8zeMsOIvSc/WmeOqPeYRkd/XBT1CPrxDl68Up/EZzi1BOA/9QAcYsy9C6De6Nj2PUmPJ3w72bZ/fWOA==, tarball: file:projects/arm-elasticsan.tgz}
+    resolution: {integrity: sha512-n77j2ag9WwfN1dAmlNCAmOU9K/XoKdKnL9M1tzPumMp/StB2atph07AlWJ+NKnm5NQ7YLjeNnNoZOpSna8MNbg==, tarball: file:projects/arm-elasticsan.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-eventgrid@file:projects/arm-eventgrid.tgz':
@@ -3297,11 +3297,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-storageactions@file:projects/arm-storageactions.tgz':
-    resolution: {integrity: sha512-pdQVLjMy8YvTf5IbFMnfQQLSpErK7uSYlQxojzF5D/WoBgG+QWvopDlvrEGXA1OvzxfyCPUWRVo4+s1XiTWTWA==, tarball: file:projects/arm-storageactions.tgz}
+    resolution: {integrity: sha512-j4ar8TKBDSjGd8Je6XzNCCf8NdFthVMM0uJ54tkeFaWgGr0cz1yOZmjQyr5YMnOgT0Gp9Ig2VwvLyG5bl05CbQ==, tarball: file:projects/arm-storageactions.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-storagecache@file:projects/arm-storagecache.tgz':
-    resolution: {integrity: sha512-ebnAvxjuTF48P6zb3GsWBPNn6QnbkW3oeIl0Z04CiQ93uJNGcUoH8wPdgD2Mt4W1jIY4Rq12wVB4ZNINZ37HcQ==, tarball: file:projects/arm-storagecache.tgz}
+    resolution: {integrity: sha512-eY+3/KjlPu2L8WGIaggbEloASYREr3q+m6sKcU+iIGe/7rRbxcgqur71aUk6j+5A2/xUAwD3/RrK2pK0EElZ6g==, tarball: file:projects/arm-storagecache.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-storageimportexport@file:projects/arm-storageimportexport.tgz':
