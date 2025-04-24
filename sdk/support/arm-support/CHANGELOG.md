@@ -1,15 +1,43 @@
 # Release History
-
-## 3.0.1 (Unreleased)
-
+    
+## 4.0.0-beta.1 (2025-04-24)
+Compared with version 3.0.0
+    
 ### Features Added
+
+  - Added operation group LookUpResourceId
+  - Added operation group ProblemClassificationsNoSubscription
+  - Added operation group ServiceClassifications
+  - Added operation group ServiceClassificationsNoSubscription
+  - Added operation ProblemClassifications.classifyProblems
+  - Added Interface ClassificationService
+  - Added Interface LookUpResourceIdPostOptionalParams
+  - Added Interface LookUpResourceIdRequest
+  - Added Interface LookUpResourceIdResponse
+  - Added Interface ProblemClassificationsClassificationInput
+  - Added Interface ProblemClassificationsClassificationOutput
+  - Added Interface ProblemClassificationsClassificationResult
+  - Added Interface ProblemClassificationsClassifyProblemsOptionalParams
+  - Added Interface ProblemClassificationsNoSubscriptionClassifyProblemsOptionalParams
+  - Added Interface ServiceClassificationAnswer
+  - Added Interface ServiceClassificationOutput
+  - Added Interface ServiceClassificationRequest
+  - Added Interface ServiceClassificationsClassifyServicesOptionalParams
+  - Added Interface ServiceClassificationsNoSubscriptionClassifyServicesOptionalParams
+  - Added Type Alias LookUpResourceIdPostResponse
+  - Added Type Alias ProblemClassificationsClassifyProblemsResponse
+  - Added Type Alias ProblemClassificationsNoSubscriptionClassifyProblemsResponse
+  - Added Type Alias ServiceClassificationsClassifyServicesResponse
+  - Added Type Alias ServiceClassificationsNoSubscriptionClassifyServicesResponse
+  - Interface ProblemClassification has a new optional parameter metadata
+  - Interface ProblemClassification has a new optional parameter parentProblemClassification
+  - Interface Service has a new optional parameter metadata
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Parameter body of interface MessageProperties is now required
+    
+    
 ## 3.0.0 (2024-04-16)
     
 ### Features Added
@@ -162,4 +190,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
