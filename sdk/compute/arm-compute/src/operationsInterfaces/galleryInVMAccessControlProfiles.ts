@@ -28,20 +28,15 @@ export interface GalleryInVMAccessControlProfiles {
   /**
    * List gallery inVMAccessControlProfiles in a gallery.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery from which the InVMAccessControlProfiles are
-   *                    to be listed.
    * @param options The options parameters.
    */
   listByGallery(
     resourceGroupName: string,
-    galleryName: string,
     options?: GalleryInVMAccessControlProfilesListByGalleryOptionalParams,
   ): PagedAsyncIterableIterator<GalleryInVMAccessControlProfile>;
   /**
    * Create or update a gallery inVMAccessControlProfile.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the InVMAccessControlProfile is to
-   *                    be created.
    * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be created
    *                                     or updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed
    *                                     in the middle. The maximum length is 80 characters.
@@ -51,7 +46,6 @@ export interface GalleryInVMAccessControlProfiles {
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
-    galleryName: string,
     inVMAccessControlProfileName: string,
     galleryInVMAccessControlProfile: GalleryInVMAccessControlProfile,
     options?: GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams,
@@ -64,8 +58,6 @@ export interface GalleryInVMAccessControlProfiles {
   /**
    * Create or update a gallery inVMAccessControlProfile.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the InVMAccessControlProfile is to
-   *                    be created.
    * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be created
    *                                     or updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed
    *                                     in the middle. The maximum length is 80 characters.
@@ -75,7 +67,6 @@ export interface GalleryInVMAccessControlProfiles {
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    galleryName: string,
     inVMAccessControlProfileName: string,
     galleryInVMAccessControlProfile: GalleryInVMAccessControlProfile,
     options?: GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams,
@@ -83,8 +74,6 @@ export interface GalleryInVMAccessControlProfiles {
   /**
    * Update a gallery inVMAccessControlProfile.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the InVMAccessControlProfile is to
-   *                    be updated.
    * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be updated.
    *                                     The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the
    *                                     middle. The maximum length is 80 characters.
@@ -94,7 +83,6 @@ export interface GalleryInVMAccessControlProfiles {
    */
   beginUpdate(
     resourceGroupName: string,
-    galleryName: string,
     inVMAccessControlProfileName: string,
     galleryInVMAccessControlProfile: GalleryInVMAccessControlProfileUpdate,
     options?: GalleryInVMAccessControlProfilesUpdateOptionalParams,
@@ -107,8 +95,6 @@ export interface GalleryInVMAccessControlProfiles {
   /**
    * Update a gallery inVMAccessControlProfile.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the InVMAccessControlProfile is to
-   *                    be updated.
    * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be updated.
    *                                     The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the
    *                                     middle. The maximum length is 80 characters.
@@ -118,7 +104,6 @@ export interface GalleryInVMAccessControlProfiles {
    */
   beginUpdateAndWait(
     resourceGroupName: string,
-    galleryName: string,
     inVMAccessControlProfileName: string,
     galleryInVMAccessControlProfile: GalleryInVMAccessControlProfileUpdate,
     options?: GalleryInVMAccessControlProfilesUpdateOptionalParams,
@@ -126,29 +111,23 @@ export interface GalleryInVMAccessControlProfiles {
   /**
    * Retrieves information about a gallery inVMAccessControlProfile.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery from which the InVMAccessControlProfiles are
-   *                    to be retrieved.
    * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be
    *                                     retrieved.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    galleryName: string,
     inVMAccessControlProfileName: string,
     options?: GalleryInVMAccessControlProfilesGetOptionalParams,
   ): Promise<GalleryInVMAccessControlProfilesGetResponse>;
   /**
    * Delete a gallery inVMAccessControlProfile.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName he name of the Shared Image Gallery in which the InVMAccessControlProfile
-   *                    resides.
    * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be deleted.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
-    galleryName: string,
     inVMAccessControlProfileName: string,
     options?: GalleryInVMAccessControlProfilesDeleteOptionalParams,
   ): Promise<
@@ -160,14 +139,11 @@ export interface GalleryInVMAccessControlProfiles {
   /**
    * Delete a gallery inVMAccessControlProfile.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName he name of the Shared Image Gallery in which the InVMAccessControlProfile
-   *                    resides.
    * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be deleted.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
-    galleryName: string,
     inVMAccessControlProfileName: string,
     options?: GalleryInVMAccessControlProfilesDeleteOptionalParams,
   ): Promise<GalleryInVMAccessControlProfilesDeleteResponse>;

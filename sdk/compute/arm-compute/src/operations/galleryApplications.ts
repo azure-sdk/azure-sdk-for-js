@@ -51,20 +51,13 @@ export class GalleryApplicationsImpl implements GalleryApplications {
   /**
    * List gallery Application Definitions in a gallery.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery from which Application Definitions are
-   *                    to be listed.
    * @param options The options parameters.
    */
   public listByGallery(
     resourceGroupName: string,
-    galleryName: string,
     options?: GalleryApplicationsListByGalleryOptionalParams,
   ): PagedAsyncIterableIterator<GalleryApplication> {
-    const iter = this.listByGalleryPagingAll(
-      resourceGroupName,
-      galleryName,
-      options,
-    );
+    const iter = this.listByGalleryPagingAll(resourceGroupName, options);
     return {
       next() {
         return iter.next();
@@ -78,7 +71,6 @@ export class GalleryApplicationsImpl implements GalleryApplications {
         }
         return this.listByGalleryPagingPage(
           resourceGroupName,
-          galleryName,
           options,
           settings,
         );
@@ -88,18 +80,13 @@ export class GalleryApplicationsImpl implements GalleryApplications {
 
   private async *listByGalleryPagingPage(
     resourceGroupName: string,
-    galleryName: string,
     options?: GalleryApplicationsListByGalleryOptionalParams,
     settings?: PageSettings,
   ): AsyncIterableIterator<GalleryApplication[]> {
     let result: GalleryApplicationsListByGalleryResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByGallery(
-        resourceGroupName,
-        galleryName,
-        options,
-      );
+      result = await this._listByGallery(resourceGroupName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -108,7 +95,6 @@ export class GalleryApplicationsImpl implements GalleryApplications {
     while (continuationToken) {
       result = await this._listByGalleryNext(
         resourceGroupName,
-        galleryName,
         continuationToken,
         options,
       );
@@ -121,12 +107,10 @@ export class GalleryApplicationsImpl implements GalleryApplications {
 
   private async *listByGalleryPagingAll(
     resourceGroupName: string,
-    galleryName: string,
     options?: GalleryApplicationsListByGalleryOptionalParams,
   ): AsyncIterableIterator<GalleryApplication> {
     for await (const page of this.listByGalleryPagingPage(
       resourceGroupName,
-      galleryName,
       options,
     )) {
       yield* page;
@@ -136,8 +120,6 @@ export class GalleryApplicationsImpl implements GalleryApplications {
   /**
    * Create or update a gallery Application Definition.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition is
-   *                    to be created.
    * @param galleryApplicationName The name of the gallery Application Definition to be created or
    *                               updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in
    *                               the middle. The maximum length is 80 characters.
@@ -146,7 +128,6 @@ export class GalleryApplicationsImpl implements GalleryApplications {
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    galleryName: string,
     galleryApplicationName: string,
     galleryApplication: GalleryApplication,
     options?: GalleryApplicationsCreateOrUpdateOptionalParams,
@@ -198,7 +179,6 @@ export class GalleryApplicationsImpl implements GalleryApplications {
       sendOperationFn,
       args: {
         resourceGroupName,
-        galleryName,
         galleryApplicationName,
         galleryApplication,
         options,
@@ -219,8 +199,6 @@ export class GalleryApplicationsImpl implements GalleryApplications {
   /**
    * Create or update a gallery Application Definition.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition is
-   *                    to be created.
    * @param galleryApplicationName The name of the gallery Application Definition to be created or
    *                               updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in
    *                               the middle. The maximum length is 80 characters.
@@ -229,14 +207,12 @@ export class GalleryApplicationsImpl implements GalleryApplications {
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    galleryName: string,
     galleryApplicationName: string,
     galleryApplication: GalleryApplication,
     options?: GalleryApplicationsCreateOrUpdateOptionalParams,
   ): Promise<GalleryApplicationsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      galleryName,
       galleryApplicationName,
       galleryApplication,
       options,
@@ -247,8 +223,6 @@ export class GalleryApplicationsImpl implements GalleryApplications {
   /**
    * Update a gallery Application Definition.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition is
-   *                    to be updated.
    * @param galleryApplicationName The name of the gallery Application Definition to be updated. The
    *                               allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle.
    *                               The maximum length is 80 characters.
@@ -257,7 +231,6 @@ export class GalleryApplicationsImpl implements GalleryApplications {
    */
   async beginUpdate(
     resourceGroupName: string,
-    galleryName: string,
     galleryApplicationName: string,
     galleryApplication: GalleryApplicationUpdate,
     options?: GalleryApplicationsUpdateOptionalParams,
@@ -309,7 +282,6 @@ export class GalleryApplicationsImpl implements GalleryApplications {
       sendOperationFn,
       args: {
         resourceGroupName,
-        galleryName,
         galleryApplicationName,
         galleryApplication,
         options,
@@ -330,8 +302,6 @@ export class GalleryApplicationsImpl implements GalleryApplications {
   /**
    * Update a gallery Application Definition.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition is
-   *                    to be updated.
    * @param galleryApplicationName The name of the gallery Application Definition to be updated. The
    *                               allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle.
    *                               The maximum length is 80 characters.
@@ -340,14 +310,12 @@ export class GalleryApplicationsImpl implements GalleryApplications {
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    galleryName: string,
     galleryApplicationName: string,
     galleryApplication: GalleryApplicationUpdate,
     options?: GalleryApplicationsUpdateOptionalParams,
   ): Promise<GalleryApplicationsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      galleryName,
       galleryApplicationName,
       galleryApplication,
       options,
@@ -358,19 +326,16 @@ export class GalleryApplicationsImpl implements GalleryApplications {
   /**
    * Retrieves information about a gallery Application Definition.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery from which the Application Definitions
-   *                    are to be retrieved.
    * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    galleryName: string,
     galleryApplicationName: string,
     options?: GalleryApplicationsGetOptionalParams,
   ): Promise<GalleryApplicationsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, galleryName, galleryApplicationName, options },
+      { resourceGroupName, galleryApplicationName, options },
       getOperationSpec,
     );
   }
@@ -378,14 +343,11 @@ export class GalleryApplicationsImpl implements GalleryApplications {
   /**
    * Delete a gallery Application.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition is
-   *                    to be deleted.
    * @param galleryApplicationName The name of the gallery Application Definition to be deleted.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    galleryName: string,
     galleryApplicationName: string,
     options?: GalleryApplicationsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
@@ -429,7 +391,7 @@ export class GalleryApplicationsImpl implements GalleryApplications {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, galleryName, galleryApplicationName, options },
+      args: { resourceGroupName, galleryApplicationName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
@@ -443,20 +405,16 @@ export class GalleryApplicationsImpl implements GalleryApplications {
   /**
    * Delete a gallery Application.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition is
-   *                    to be deleted.
    * @param galleryApplicationName The name of the gallery Application Definition to be deleted.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    galleryName: string,
     galleryApplicationName: string,
     options?: GalleryApplicationsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      galleryName,
       galleryApplicationName,
       options,
     );
@@ -466,17 +424,14 @@ export class GalleryApplicationsImpl implements GalleryApplications {
   /**
    * List gallery Application Definitions in a gallery.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery from which Application Definitions are
-   *                    to be listed.
    * @param options The options parameters.
    */
   private _listByGallery(
     resourceGroupName: string,
-    galleryName: string,
     options?: GalleryApplicationsListByGalleryOptionalParams,
   ): Promise<GalleryApplicationsListByGalleryResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, galleryName, options },
+      { resourceGroupName, options },
       listByGalleryOperationSpec,
     );
   }
@@ -484,19 +439,16 @@ export class GalleryApplicationsImpl implements GalleryApplications {
   /**
    * ListByGalleryNext
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery from which Application Definitions are
-   *                    to be listed.
    * @param nextLink The nextLink from the previous successful call to the ListByGallery method.
    * @param options The options parameters.
    */
   private _listByGalleryNext(
     resourceGroupName: string,
-    galleryName: string,
     nextLink: string,
     options?: GalleryApplicationsListByGalleryNextOptionalParams,
   ): Promise<GalleryApplicationsListByGalleryNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, galleryName, nextLink, options },
+      { resourceGroupName, nextLink, options },
       listByGalleryNextOperationSpec,
     );
   }

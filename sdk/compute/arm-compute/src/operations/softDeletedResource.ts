@@ -38,7 +38,6 @@ export class SoftDeletedResourceImpl implements SoftDeletedResource {
    * List soft-deleted resources of an artifact in the gallery, such as soft-deleted gallery image
    * version of an image.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Gallery in which the soft-deleted resources resides.
    * @param artifactType The type of the artifact to be listed, such as gallery image version.
    * @param artifactName The artifact name to be listed. If artifact type is Images, then the artifact
    *                     name should be the gallery image name.
@@ -46,14 +45,12 @@ export class SoftDeletedResourceImpl implements SoftDeletedResource {
    */
   public listByArtifactName(
     resourceGroupName: string,
-    galleryName: string,
     artifactType: string,
     artifactName: string,
     options?: SoftDeletedResourceListByArtifactNameOptionalParams,
   ): PagedAsyncIterableIterator<GallerySoftDeletedResource> {
     const iter = this.listByArtifactNamePagingAll(
       resourceGroupName,
-      galleryName,
       artifactType,
       artifactName,
       options,
@@ -71,7 +68,6 @@ export class SoftDeletedResourceImpl implements SoftDeletedResource {
         }
         return this.listByArtifactNamePagingPage(
           resourceGroupName,
-          galleryName,
           artifactType,
           artifactName,
           options,
@@ -83,7 +79,6 @@ export class SoftDeletedResourceImpl implements SoftDeletedResource {
 
   private async *listByArtifactNamePagingPage(
     resourceGroupName: string,
-    galleryName: string,
     artifactType: string,
     artifactName: string,
     options?: SoftDeletedResourceListByArtifactNameOptionalParams,
@@ -94,7 +89,6 @@ export class SoftDeletedResourceImpl implements SoftDeletedResource {
     if (!continuationToken) {
       result = await this._listByArtifactName(
         resourceGroupName,
-        galleryName,
         artifactType,
         artifactName,
         options,
@@ -107,7 +101,6 @@ export class SoftDeletedResourceImpl implements SoftDeletedResource {
     while (continuationToken) {
       result = await this._listByArtifactNameNext(
         resourceGroupName,
-        galleryName,
         artifactType,
         artifactName,
         continuationToken,
@@ -122,14 +115,12 @@ export class SoftDeletedResourceImpl implements SoftDeletedResource {
 
   private async *listByArtifactNamePagingAll(
     resourceGroupName: string,
-    galleryName: string,
     artifactType: string,
     artifactName: string,
     options?: SoftDeletedResourceListByArtifactNameOptionalParams,
   ): AsyncIterableIterator<GallerySoftDeletedResource> {
     for await (const page of this.listByArtifactNamePagingPage(
       resourceGroupName,
-      galleryName,
       artifactType,
       artifactName,
       options,
@@ -142,7 +133,6 @@ export class SoftDeletedResourceImpl implements SoftDeletedResource {
    * List soft-deleted resources of an artifact in the gallery, such as soft-deleted gallery image
    * version of an image.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Gallery in which the soft-deleted resources resides.
    * @param artifactType The type of the artifact to be listed, such as gallery image version.
    * @param artifactName The artifact name to be listed. If artifact type is Images, then the artifact
    *                     name should be the gallery image name.
@@ -150,13 +140,12 @@ export class SoftDeletedResourceImpl implements SoftDeletedResource {
    */
   private _listByArtifactName(
     resourceGroupName: string,
-    galleryName: string,
     artifactType: string,
     artifactName: string,
     options?: SoftDeletedResourceListByArtifactNameOptionalParams,
   ): Promise<SoftDeletedResourceListByArtifactNameResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, galleryName, artifactType, artifactName, options },
+      { resourceGroupName, artifactType, artifactName, options },
       listByArtifactNameOperationSpec,
     );
   }
@@ -164,7 +153,6 @@ export class SoftDeletedResourceImpl implements SoftDeletedResource {
   /**
    * ListByArtifactNameNext
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Gallery in which the soft-deleted resources resides.
    * @param artifactType The type of the artifact to be listed, such as gallery image version.
    * @param artifactName The artifact name to be listed. If artifact type is Images, then the artifact
    *                     name should be the gallery image name.
@@ -173,21 +161,13 @@ export class SoftDeletedResourceImpl implements SoftDeletedResource {
    */
   private _listByArtifactNameNext(
     resourceGroupName: string,
-    galleryName: string,
     artifactType: string,
     artifactName: string,
     nextLink: string,
     options?: SoftDeletedResourceListByArtifactNameNextOptionalParams,
   ): Promise<SoftDeletedResourceListByArtifactNameNextResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        galleryName,
-        artifactType,
-        artifactName,
-        nextLink,
-        options,
-      },
+      { resourceGroupName, artifactType, artifactName, nextLink, options },
       listByArtifactNameNextOperationSpec,
     );
   }
@@ -211,7 +191,7 @@ const listByArtifactNameOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.galleryName1,
+    Parameters.galleryName,
     Parameters.artifactType,
     Parameters.artifactName,
   ],
@@ -234,7 +214,7 @@ const listByArtifactNameNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.resourceGroupName,
-    Parameters.galleryName1,
+    Parameters.galleryName,
     Parameters.artifactType,
     Parameters.artifactName,
   ],

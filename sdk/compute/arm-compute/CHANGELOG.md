@@ -1,5 +1,119 @@
 # Release History
     
+## 23.0.0 (2025-04-24)
+    
+### Features Added
+
+  - Added operation group GalleryScripts
+  - Added operation group GalleryScriptVersions
+  - Added Interface GalleryScript
+  - Added Interface GalleryScriptList
+  - Added Interface GalleryScriptParameter
+  - Added Interface GalleryScriptProperties
+  - Added Interface GalleryScriptsCreateOrUpdateHeaders
+  - Added Interface GalleryScriptsCreateOrUpdateOptionalParams
+  - Added Interface GalleryScriptsDeleteHeaders
+  - Added Interface GalleryScriptsDeleteOptionalParams
+  - Added Interface GalleryScriptsGetOptionalParams
+  - Added Interface GalleryScriptsListByGalleryNextOptionalParams
+  - Added Interface GalleryScriptsListByGalleryOptionalParams
+  - Added Interface GalleryScriptsUpdateHeaders
+  - Added Interface GalleryScriptsUpdateOptionalParams
+  - Added Interface GalleryScriptUpdate
+  - Added Interface GalleryScriptVersion
+  - Added Interface GalleryScriptVersionList
+  - Added Interface GalleryScriptVersionProperties
+  - Added Interface GalleryScriptVersionPublishingProfile
+  - Added Interface GalleryScriptVersionSafetyProfile
+  - Added Interface GalleryScriptVersionsCreateOrUpdateHeaders
+  - Added Interface GalleryScriptVersionsCreateOrUpdateOptionalParams
+  - Added Interface GalleryScriptVersionsDeleteHeaders
+  - Added Interface GalleryScriptVersionsDeleteOptionalParams
+  - Added Interface GalleryScriptVersionsGetOptionalParams
+  - Added Interface GalleryScriptVersionsListByGalleryScriptNextOptionalParams
+  - Added Interface GalleryScriptVersionsListByGalleryScriptOptionalParams
+  - Added Interface GalleryScriptVersionsUpdateHeaders
+  - Added Interface GalleryScriptVersionsUpdateOptionalParams
+  - Added Interface GalleryScriptVersionUpdate
+  - Added Interface GenericGalleryParameter
+  - Added Interface ScriptSource
+  - Added Type Alias GalleryScriptParameterType
+  - Added Type Alias GalleryScriptsCreateOrUpdateResponse
+  - Added Type Alias GalleryScriptsDeleteResponse
+  - Added Type Alias GalleryScriptsGetResponse
+  - Added Type Alias GalleryScriptsListByGalleryNextResponse
+  - Added Type Alias GalleryScriptsListByGalleryResponse
+  - Added Type Alias GalleryScriptsUpdateResponse
+  - Added Type Alias GalleryScriptVersionsCreateOrUpdateResponse
+  - Added Type Alias GalleryScriptVersionsDeleteResponse
+  - Added Type Alias GalleryScriptVersionsGetResponse
+  - Added Type Alias GalleryScriptVersionsListByGalleryScriptNextResponse
+  - Added Type Alias GalleryScriptVersionsListByGalleryScriptResponse
+  - Added Type Alias GalleryScriptVersionsUpdateResponse
+
+### Breaking Changes
+
+  - Operation Galleries.beginCreateOrUpdate has a new signature
+  - Operation Galleries.beginCreateOrUpdateAndWait has a new signature
+  - Operation Galleries.beginDelete has a new signature
+  - Operation Galleries.beginDeleteAndWait has a new signature
+  - Operation Galleries.beginUpdate has a new signature
+  - Operation Galleries.beginUpdateAndWait has a new signature
+  - Operation Galleries.get has a new signature
+  - Operation GalleryApplications.beginCreateOrUpdate has a new signature
+  - Operation GalleryApplications.beginCreateOrUpdateAndWait has a new signature
+  - Operation GalleryApplications.beginDelete has a new signature
+  - Operation GalleryApplications.beginDeleteAndWait has a new signature
+  - Operation GalleryApplications.beginUpdate has a new signature
+  - Operation GalleryApplications.beginUpdateAndWait has a new signature
+  - Operation GalleryApplications.get has a new signature
+  - Operation GalleryApplications.listByGallery has a new signature
+  - Operation GalleryApplicationVersions.beginCreateOrUpdate has a new signature
+  - Operation GalleryApplicationVersions.beginCreateOrUpdateAndWait has a new signature
+  - Operation GalleryApplicationVersions.beginDelete has a new signature
+  - Operation GalleryApplicationVersions.beginDeleteAndWait has a new signature
+  - Operation GalleryApplicationVersions.beginUpdate has a new signature
+  - Operation GalleryApplicationVersions.beginUpdateAndWait has a new signature
+  - Operation GalleryApplicationVersions.get has a new signature
+  - Operation GalleryApplicationVersions.listByGalleryApplication has a new signature
+  - Operation GalleryImages.beginCreateOrUpdate has a new signature
+  - Operation GalleryImages.beginCreateOrUpdateAndWait has a new signature
+  - Operation GalleryImages.beginDelete has a new signature
+  - Operation GalleryImages.beginDeleteAndWait has a new signature
+  - Operation GalleryImages.beginUpdate has a new signature
+  - Operation GalleryImages.beginUpdateAndWait has a new signature
+  - Operation GalleryImages.get has a new signature
+  - Operation GalleryImages.listByGallery has a new signature
+  - Operation GalleryImageVersions.beginCreateOrUpdate has a new signature
+  - Operation GalleryImageVersions.beginCreateOrUpdateAndWait has a new signature
+  - Operation GalleryImageVersions.beginDelete has a new signature
+  - Operation GalleryImageVersions.beginDeleteAndWait has a new signature
+  - Operation GalleryImageVersions.beginUpdate has a new signature
+  - Operation GalleryImageVersions.beginUpdateAndWait has a new signature
+  - Operation GalleryImageVersions.get has a new signature
+  - Operation GalleryImageVersions.listByGalleryImage has a new signature
+  - Operation GalleryInVMAccessControlProfiles.beginCreateOrUpdate has a new signature
+  - Operation GalleryInVMAccessControlProfiles.beginCreateOrUpdateAndWait has a new signature
+  - Operation GalleryInVMAccessControlProfiles.beginDelete has a new signature
+  - Operation GalleryInVMAccessControlProfiles.beginDeleteAndWait has a new signature
+  - Operation GalleryInVMAccessControlProfiles.beginUpdate has a new signature
+  - Operation GalleryInVMAccessControlProfiles.beginUpdateAndWait has a new signature
+  - Operation GalleryInVMAccessControlProfiles.get has a new signature
+  - Operation GalleryInVMAccessControlProfiles.listByGallery has a new signature
+  - Operation GalleryInVMAccessControlProfileVersions.beginCreateOrUpdate has a new signature
+  - Operation GalleryInVMAccessControlProfileVersions.beginCreateOrUpdateAndWait has a new signature
+  - Operation GalleryInVMAccessControlProfileVersions.beginDelete has a new signature
+  - Operation GalleryInVMAccessControlProfileVersions.beginDeleteAndWait has a new signature
+  - Operation GalleryInVMAccessControlProfileVersions.beginUpdate has a new signature
+  - Operation GalleryInVMAccessControlProfileVersions.beginUpdateAndWait has a new signature
+  - Operation GalleryInVMAccessControlProfileVersions.get has a new signature
+  - Operation GalleryInVMAccessControlProfileVersions.listByGalleryInVMAccessControlProfile has a new signature
+  - Operation GallerySharingProfile.beginUpdate has a new signature
+  - Operation GallerySharingProfile.beginUpdateAndWait has a new signature
+  - Operation SoftDeletedResource.listByArtifactName has a new signature
+  - Class ComputeManagementClient has a new signature
+    
+    
 ## 22.4.0 (2025-03-18)
     
 ### Features Added
