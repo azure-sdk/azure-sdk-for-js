@@ -136,7 +136,7 @@ export interface ManagedServiceIdentity {
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
     userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity | null;
+        [propertyName: string]: UserAssignedIdentity;
     };
 }
 
@@ -284,7 +284,13 @@ export interface StorageTaskAssignmentOperations {
 // @public
 export interface StorageTaskAssignmentsListResult {
     readonly nextLink?: string;
-    readonly value?: StorageTaskAssignment[];
+    readonly value: StorageTaskAssignment[];
+}
+
+// @public
+export interface StorageTaskListResult {
+    readonly nextLink?: string;
+    readonly value: StorageTask[];
 }
 
 // @public
@@ -380,7 +386,7 @@ export interface StorageTaskReportProperties {
 // @public
 export interface StorageTaskReportSummary {
     readonly nextLink?: string;
-    readonly value?: StorageTaskReportInstance[];
+    readonly value: StorageTaskReportInstance[];
 }
 
 // @public
@@ -399,8 +405,8 @@ export interface StorageTasks {
 
 // @public
 export interface StorageTasksCreateHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -414,8 +420,8 @@ export type StorageTasksCreateResponse = StorageTask;
 
 // @public
 export interface StorageTasksDeleteHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -439,34 +445,28 @@ export interface StorageTasksListByResourceGroupNextOptionalParams extends coreC
 }
 
 // @public
-export type StorageTasksListByResourceGroupNextResponse = StorageTasksListResult;
+export type StorageTasksListByResourceGroupNextResponse = StorageTaskListResult;
 
 // @public
 export interface StorageTasksListByResourceGroupOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type StorageTasksListByResourceGroupResponse = StorageTasksListResult;
+export type StorageTasksListByResourceGroupResponse = StorageTaskListResult;
 
 // @public
 export interface StorageTasksListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type StorageTasksListBySubscriptionNextResponse = StorageTasksListResult;
+export type StorageTasksListBySubscriptionNextResponse = StorageTaskListResult;
 
 // @public
 export interface StorageTasksListBySubscriptionOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type StorageTasksListBySubscriptionResponse = StorageTasksListResult;
-
-// @public
-export interface StorageTasksListResult {
-    readonly nextLink?: string;
-    readonly value?: StorageTask[];
-}
+export type StorageTasksListBySubscriptionResponse = StorageTaskListResult;
 
 // @public
 export interface StorageTasksPreviewActionsOptionalParams extends coreClient.OperationOptions {
@@ -498,8 +498,8 @@ export type StorageTasksReportListResponse = StorageTaskReportSummary;
 
 // @public
 export interface StorageTasksUpdateHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -514,10 +514,20 @@ export type StorageTasksUpdateResponse = StorageTask;
 // @public
 export interface StorageTaskUpdateParameters {
     identity?: ManagedServiceIdentity;
-    properties?: StorageTaskProperties;
+    properties?: StorageTaskUpdateProperties;
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface StorageTaskUpdateProperties {
+    action?: StorageTaskAction;
+    readonly creationTimeInUtc?: Date;
+    description?: string;
+    enabled?: boolean;
+    readonly provisioningState?: ProvisioningState;
+    readonly taskVersion?: number;
 }
 
 // @public

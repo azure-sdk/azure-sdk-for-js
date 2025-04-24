@@ -12,18 +12,18 @@ import {
   StorageTask,
   StorageTasksListBySubscriptionOptionalParams,
   StorageTasksListByResourceGroupOptionalParams,
-  StorageTasksCreateOptionalParams,
-  StorageTasksCreateResponse,
-  StorageTasksDeleteOptionalParams,
-  StorageTasksDeleteResponse,
-  StorageTasksGetOptionalParams,
-  StorageTasksGetResponse,
-  StorageTaskUpdateParameters,
-  StorageTasksUpdateOptionalParams,
-  StorageTasksUpdateResponse,
   StorageTaskPreviewAction,
   StorageTasksPreviewActionsOptionalParams,
   StorageTasksPreviewActionsResponse,
+  StorageTasksGetOptionalParams,
+  StorageTasksGetResponse,
+  StorageTasksCreateOptionalParams,
+  StorageTasksCreateResponse,
+  StorageTaskUpdateParameters,
+  StorageTasksUpdateOptionalParams,
+  StorageTasksUpdateResponse,
+  StorageTasksDeleteOptionalParams,
+  StorageTasksDeleteResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,6 +45,31 @@ export interface StorageTasks {
     resourceGroupName: string,
     options?: StorageTasksListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<StorageTask>;
+  /**
+   * Runs the input conditions against input object metadata properties and designates matched objects in
+   * response.
+   * @param location The name of the Azure region.
+   * @param parameters The parameters to preview action condition.
+   * @param options The options parameters.
+   */
+  previewActions(
+    location: string,
+    parameters: StorageTaskPreviewAction,
+    options?: StorageTasksPreviewActionsOptionalParams,
+  ): Promise<StorageTasksPreviewActionsResponse>;
+  /**
+   * Get the storage task properties
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param storageTaskName The name of the storage task within the specified resource group. Storage
+   *                        task names must be between 3 and 18 characters in length and use numbers and lower-case letters
+   *                        only.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    storageTaskName: string,
+    options?: StorageTasksGetOptionalParams,
+  ): Promise<StorageTasksGetResponse>;
   /**
    * Asynchronously creates a new storage task resource with the specified parameters. If a storage task
    * is already created and a subsequent create request is issued with different properties, the storage
@@ -87,50 +112,6 @@ export interface StorageTasks {
     options?: StorageTasksCreateOptionalParams,
   ): Promise<StorageTasksCreateResponse>;
   /**
-   * Delete the storage task resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param storageTaskName The name of the storage task within the specified resource group. Storage
-   *                        task names must be between 3 and 18 characters in length and use numbers and lower-case letters
-   *                        only.
-   * @param options The options parameters.
-   */
-  beginDelete(
-    resourceGroupName: string,
-    storageTaskName: string,
-    options?: StorageTasksDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<StorageTasksDeleteResponse>,
-      StorageTasksDeleteResponse
-    >
-  >;
-  /**
-   * Delete the storage task resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param storageTaskName The name of the storage task within the specified resource group. Storage
-   *                        task names must be between 3 and 18 characters in length and use numbers and lower-case letters
-   *                        only.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceGroupName: string,
-    storageTaskName: string,
-    options?: StorageTasksDeleteOptionalParams,
-  ): Promise<StorageTasksDeleteResponse>;
-  /**
-   * Get the storage task properties
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param storageTaskName The name of the storage task within the specified resource group. Storage
-   *                        task names must be between 3 and 18 characters in length and use numbers and lower-case letters
-   *                        only.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    storageTaskName: string,
-    options?: StorageTasksGetOptionalParams,
-  ): Promise<StorageTasksGetResponse>;
-  /**
    * Update storage task properties
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageTaskName The name of the storage task within the specified resource group. Storage
@@ -166,15 +147,34 @@ export interface StorageTasks {
     options?: StorageTasksUpdateOptionalParams,
   ): Promise<StorageTasksUpdateResponse>;
   /**
-   * Runs the input conditions against input object metadata properties and designates matched objects in
-   * response.
-   * @param location The location to perform preview of the actions.
-   * @param parameters The parameters to preview action condition.
+   * Delete the storage task resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param storageTaskName The name of the storage task within the specified resource group. Storage
+   *                        task names must be between 3 and 18 characters in length and use numbers and lower-case letters
+   *                        only.
    * @param options The options parameters.
    */
-  previewActions(
-    location: string,
-    parameters: StorageTaskPreviewAction,
-    options?: StorageTasksPreviewActionsOptionalParams,
-  ): Promise<StorageTasksPreviewActionsResponse>;
+  beginDelete(
+    resourceGroupName: string,
+    storageTaskName: string,
+    options?: StorageTasksDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<StorageTasksDeleteResponse>,
+      StorageTasksDeleteResponse
+    >
+  >;
+  /**
+   * Delete the storage task resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param storageTaskName The name of the storage task within the specified resource group. Storage
+   *                        task names must be between 3 and 18 characters in length and use numbers and lower-case letters
+   *                        only.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    storageTaskName: string,
+    options?: StorageTasksDeleteOptionalParams,
+  ): Promise<StorageTasksDeleteResponse>;
 }

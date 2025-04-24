@@ -214,554 +214,6 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
   },
 };
 
-export const ManagedServiceIdentity: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedServiceIdentity",
-    modelProperties: {
-      principalId: {
-        serializedName: "principalId",
-        readOnly: true,
-        type: {
-          name: "Uuid",
-        },
-      },
-      tenantId: {
-        serializedName: "tenantId",
-        readOnly: true,
-        type: {
-          name: "Uuid",
-        },
-      },
-      type: {
-        serializedName: "type",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      userAssignedIdentities: {
-        serializedName: "userAssignedIdentities",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: { name: "Composite", className: "UserAssignedIdentity" },
-          },
-        },
-      },
-    },
-  },
-};
-
-export const UserAssignedIdentity: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "UserAssignedIdentity",
-    modelProperties: {
-      principalId: {
-        serializedName: "principalId",
-        readOnly: true,
-        type: {
-          name: "Uuid",
-        },
-      },
-      clientId: {
-        serializedName: "clientId",
-        readOnly: true,
-        type: {
-          name: "Uuid",
-        },
-      },
-    },
-  },
-};
-
-export const StorageTaskProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "StorageTaskProperties",
-    modelProperties: {
-      taskVersion: {
-        constraints: {
-          InclusiveMaximum: 1,
-          InclusiveMinimum: 1,
-        },
-        serializedName: "taskVersion",
-        readOnly: true,
-        type: {
-          name: "Number",
-        },
-      },
-      enabled: {
-        serializedName: "enabled",
-        required: true,
-        type: {
-          name: "Boolean",
-        },
-      },
-      description: {
-        serializedName: "description",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      action: {
-        serializedName: "action",
-        type: {
-          name: "Composite",
-          className: "StorageTaskAction",
-        },
-      },
-      provisioningState: {
-        serializedName: "provisioningState",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      creationTimeInUtc: {
-        serializedName: "creationTimeInUtc",
-        readOnly: true,
-        type: {
-          name: "DateTime",
-        },
-      },
-    },
-  },
-};
-
-export const StorageTaskAction: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "StorageTaskAction",
-    modelProperties: {
-      if: {
-        serializedName: "if",
-        type: {
-          name: "Composite",
-          className: "IfCondition",
-        },
-      },
-      else: {
-        serializedName: "else",
-        type: {
-          name: "Composite",
-          className: "ElseCondition",
-        },
-      },
-    },
-  },
-};
-
-export const IfCondition: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "IfCondition",
-    modelProperties: {
-      condition: {
-        serializedName: "condition",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      operations: {
-        serializedName: "operations",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "StorageTaskOperation",
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
-export const StorageTaskOperation: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "StorageTaskOperation",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      parameters: {
-        serializedName: "parameters",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } },
-        },
-      },
-      onSuccess: {
-        serializedName: "onSuccess",
-        type: {
-          name: "String",
-        },
-      },
-      onFailure: {
-        serializedName: "onFailure",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const ElseCondition: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ElseCondition",
-    modelProperties: {
-      operations: {
-        serializedName: "operations",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "StorageTaskOperation",
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
-export const Resource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Resource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData",
-        },
-      },
-    },
-  },
-};
-
-export const SystemData: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SystemData",
-    modelProperties: {
-      createdBy: {
-        serializedName: "createdBy",
-        type: {
-          name: "String",
-        },
-      },
-      createdByType: {
-        serializedName: "createdByType",
-        type: {
-          name: "String",
-        },
-      },
-      createdAt: {
-        serializedName: "createdAt",
-        type: {
-          name: "DateTime",
-        },
-      },
-      lastModifiedBy: {
-        serializedName: "lastModifiedBy",
-        type: {
-          name: "String",
-        },
-      },
-      lastModifiedByType: {
-        serializedName: "lastModifiedByType",
-        type: {
-          name: "String",
-        },
-      },
-      lastModifiedAt: {
-        serializedName: "lastModifiedAt",
-        type: {
-          name: "DateTime",
-        },
-      },
-    },
-  },
-};
-
-export const StorageTaskUpdateParameters: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "StorageTaskUpdateParameters",
-    modelProperties: {
-      identity: {
-        serializedName: "identity",
-        type: {
-          name: "Composite",
-          className: "ManagedServiceIdentity",
-        },
-      },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } },
-        },
-      },
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "StorageTaskProperties",
-        },
-      },
-    },
-  },
-};
-
-export const StorageTasksListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "StorageTasksListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "StorageTask",
-            },
-          },
-        },
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const StorageTaskAssignmentsListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "StorageTaskAssignmentsListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "StorageTaskAssignment",
-            },
-          },
-        },
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const StorageTaskAssignment: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "StorageTaskAssignment",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const StorageTaskReportSummary: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "StorageTaskReportSummary",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "StorageTaskReportInstance",
-            },
-          },
-        },
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const StorageTaskReportProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "StorageTaskReportProperties",
-    modelProperties: {
-      taskAssignmentId: {
-        serializedName: "taskAssignmentId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      storageAccountId: {
-        serializedName: "storageAccountId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      startTime: {
-        serializedName: "startTime",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      finishTime: {
-        serializedName: "finishTime",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      objectsTargetedCount: {
-        serializedName: "objectsTargetedCount",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      objectsOperatedOnCount: {
-        serializedName: "objectsOperatedOnCount",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      objectFailedCount: {
-        serializedName: "objectFailedCount",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      objectsSucceededCount: {
-        serializedName: "objectsSucceededCount",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      runStatusError: {
-        serializedName: "runStatusError",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      runStatusEnum: {
-        serializedName: "runStatusEnum",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      summaryReportPath: {
-        serializedName: "summaryReportPath",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      taskId: {
-        serializedName: "taskId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      taskVersion: {
-        serializedName: "taskVersion",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      runResult: {
-        serializedName: "runResult",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
 export const StorageTaskPreviewAction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -960,6 +412,610 @@ export const StorageTaskPreviewActionIfCondition: coreClient.CompositeMapper = {
   },
 };
 
+export const StorageTaskListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageTaskListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "StorageTask",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const StorageTaskProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageTaskProperties",
+    modelProperties: {
+      taskVersion: {
+        constraints: {
+          InclusiveMaximum: 1,
+          InclusiveMinimum: 1,
+        },
+        serializedName: "taskVersion",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      enabled: {
+        serializedName: "enabled",
+        required: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      action: {
+        serializedName: "action",
+        type: {
+          name: "Composite",
+          className: "StorageTaskAction",
+        },
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      creationTimeInUtc: {
+        serializedName: "creationTimeInUtc",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
+};
+
+export const StorageTaskAction: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageTaskAction",
+    modelProperties: {
+      if: {
+        serializedName: "if",
+        type: {
+          name: "Composite",
+          className: "IfCondition",
+        },
+      },
+      else: {
+        serializedName: "else",
+        type: {
+          name: "Composite",
+          className: "ElseCondition",
+        },
+      },
+    },
+  },
+};
+
+export const IfCondition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IfCondition",
+    modelProperties: {
+      condition: {
+        serializedName: "condition",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      operations: {
+        serializedName: "operations",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "StorageTaskOperation",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const StorageTaskOperation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageTaskOperation",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      onSuccess: {
+        serializedName: "onSuccess",
+        type: {
+          name: "String",
+        },
+      },
+      onFailure: {
+        serializedName: "onFailure",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ElseCondition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ElseCondition",
+    modelProperties: {
+      operations: {
+        serializedName: "operations",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "StorageTaskOperation",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ManagedServiceIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedServiceIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "Uuid",
+        },
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "Uuid",
+        },
+      },
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "UserAssignedIdentity" },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const UserAssignedIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserAssignedIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "Uuid",
+        },
+      },
+      clientId: {
+        serializedName: "clientId",
+        readOnly: true,
+        type: {
+          name: "Uuid",
+        },
+      },
+    },
+  },
+};
+
+export const Resource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData",
+        },
+      },
+    },
+  },
+};
+
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String",
+        },
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String",
+        },
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime",
+        },
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
+};
+
+export const StorageTaskUpdateParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageTaskUpdateParameters",
+    modelProperties: {
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity",
+        },
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "StorageTaskUpdateProperties",
+        },
+      },
+    },
+  },
+};
+
+export const StorageTaskUpdateProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageTaskUpdateProperties",
+    modelProperties: {
+      taskVersion: {
+        constraints: {
+          InclusiveMaximum: 1,
+          InclusiveMinimum: 1,
+        },
+        serializedName: "taskVersion",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean",
+        },
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String",
+        },
+      },
+      action: {
+        serializedName: "action",
+        type: {
+          name: "Composite",
+          className: "StorageTaskAction",
+        },
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      creationTimeInUtc: {
+        serializedName: "creationTimeInUtc",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
+};
+
+export const StorageTaskReportSummary: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageTaskReportSummary",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "StorageTaskReportInstance",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const StorageTaskReportProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageTaskReportProperties",
+    modelProperties: {
+      taskAssignmentId: {
+        serializedName: "taskAssignmentId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      storageAccountId: {
+        serializedName: "storageAccountId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      startTime: {
+        serializedName: "startTime",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      finishTime: {
+        serializedName: "finishTime",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      objectsTargetedCount: {
+        serializedName: "objectsTargetedCount",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      objectsOperatedOnCount: {
+        serializedName: "objectsOperatedOnCount",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      objectFailedCount: {
+        serializedName: "objectFailedCount",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      objectsSucceededCount: {
+        serializedName: "objectsSucceededCount",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      runStatusError: {
+        serializedName: "runStatusError",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      runStatusEnum: {
+        serializedName: "runStatusEnum",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      summaryReportPath: {
+        serializedName: "summaryReportPath",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      taskId: {
+        serializedName: "taskId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      taskVersion: {
+        serializedName: "taskVersion",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      runResult: {
+        serializedName: "runResult",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const StorageTaskAssignmentsListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageTaskAssignmentsListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "StorageTaskAssignment",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const StorageTaskAssignment: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageTaskAssignment",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const TrackedResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1000,18 +1056,18 @@ export const StorageTask: coreClient.CompositeMapper = {
     className: "StorageTask",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      identity: {
-        serializedName: "identity",
-        type: {
-          name: "Composite",
-          className: "ManagedServiceIdentity",
-        },
-      },
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
           className: "StorageTaskProperties",
+        },
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity",
         },
       },
     },
@@ -1046,19 +1102,10 @@ export const StorageTasksCreateHeaders: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-    },
-  },
-};
-
-export const StorageTasksDeleteHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "StorageTasksDeleteHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
+      retryAfter: {
+        serializedName: "retry-after",
         type: {
-          name: "String",
+          name: "Number",
         },
       },
     },
@@ -1074,6 +1121,33 @@ export const StorageTasksUpdateHeaders: coreClient.CompositeMapper = {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const StorageTasksDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageTasksDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },

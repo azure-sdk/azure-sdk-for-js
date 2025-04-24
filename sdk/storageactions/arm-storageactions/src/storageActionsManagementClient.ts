@@ -17,14 +17,14 @@ import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   StorageTasksImpl,
-  StorageTaskAssignmentOperationsImpl,
   StorageTasksReportImpl,
+  StorageTaskAssignmentOperationsImpl,
 } from "./operations/index.js";
 import {
   Operations,
   StorageTasks,
-  StorageTaskAssignmentOperations,
   StorageTasksReport,
+  StorageTaskAssignmentOperations,
 } from "./operationsInterfaces/index.js";
 import { StorageActionsManagementClientOptionalParams } from "./models/index.js";
 
@@ -60,7 +60,7 @@ export class StorageActionsManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-storageactions/1.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-storageactions/1.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -117,9 +117,9 @@ export class StorageActionsManagementClient extends coreClient.ServiceClient {
     this.apiVersion = options.apiVersion || "2023-01-01";
     this.operations = new OperationsImpl(this);
     this.storageTasks = new StorageTasksImpl(this);
+    this.storageTasksReport = new StorageTasksReportImpl(this);
     this.storageTaskAssignmentOperations =
       new StorageTaskAssignmentOperationsImpl(this);
-    this.storageTasksReport = new StorageTasksReportImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -153,6 +153,6 @@ export class StorageActionsManagementClient extends coreClient.ServiceClient {
 
   operations: Operations;
   storageTasks: StorageTasks;
-  storageTaskAssignmentOperations: StorageTaskAssignmentOperations;
   storageTasksReport: StorageTasksReport;
+  storageTaskAssignmentOperations: StorageTaskAssignmentOperations;
 }

@@ -121,38 +121,81 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** Managed service identity (system assigned and/or user assigned identities) */
-export interface ManagedServiceIdentity {
-  /**
-   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
-  type: ManagedServiceIdentityType;
-  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: {
-    [propertyName: string]: UserAssignedIdentity | null;
-  };
+/** Storage Task Preview Action. */
+export interface StorageTaskPreviewAction {
+  /** Properties of the storage task preview. */
+  properties: StorageTaskPreviewActionProperties;
 }
 
-/** User assigned identity properties */
-export interface UserAssignedIdentity {
+/** Storage task preview action properties. */
+export interface StorageTaskPreviewActionProperties {
+  /** Properties of a sample container to test for a match with the preview action. */
+  container: StorageTaskPreviewContainerProperties;
+  /** Properties of some sample blobs in the container to test for matches with the preview action. */
+  blobs: StorageTaskPreviewBlobProperties[];
+  /** Preview action to test */
+  action: StorageTaskPreviewActionCondition;
+}
+
+/** Storage task preview container properties */
+export interface StorageTaskPreviewContainerProperties {
+  /** Name of test container */
+  name?: string;
+  /** metadata key value pairs to be tested for a match against the provided condition. */
+  metadata?: StorageTaskPreviewKeyValueProperties[];
+}
+
+/** Storage task preview object key value pair properties. */
+export interface StorageTaskPreviewKeyValueProperties {
+  /** Represents the key property of the pair. */
+  key?: string;
+  /** Represents the value property of the pair. */
+  value?: string;
+}
+
+/** Storage task preview container properties */
+export interface StorageTaskPreviewBlobProperties {
+  /** Name of test blob */
+  name?: string;
+  /** properties key value pairs to be tested for a match against the provided condition. */
+  properties?: StorageTaskPreviewKeyValueProperties[];
+  /** metadata key value pairs to be tested for a match against the provided condition. */
+  metadata?: StorageTaskPreviewKeyValueProperties[];
+  /** tags key value pairs to be tested for a match against the provided condition. */
+  tags?: StorageTaskPreviewKeyValueProperties[];
   /**
-   * The principal ID of the assigned identity.
+   * Represents the condition block name that matched blob properties.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly principalId?: string;
+  readonly matchedBlock?: MatchedBlockName;
+}
+
+/** Represents the storage task conditions to be tested for a match with container and blob properties. */
+export interface StorageTaskPreviewActionCondition {
+  /** The condition to be tested for a match with container and blob properties. */
+  if: StorageTaskPreviewActionIfCondition;
+  /** Specify whether the else block is present in the condition. */
+  elseBlockExists: boolean;
+}
+
+/** Represents storage task preview action condition. */
+export interface StorageTaskPreviewActionIfCondition {
+  /** Storage task condition to bes tested for a match. */
+  condition?: string;
+}
+
+/** The response of a StorageTask list operation. */
+export interface StorageTaskListResult {
   /**
-   * The client ID of the assigned identity.
+   * The StorageTask items on this page
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly clientId?: string;
+  readonly value: StorageTask[];
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** Properties of the storage task. */
@@ -214,6 +257,38 @@ export interface ElseCondition {
   operations: StorageTaskOperation[];
 }
 
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /**
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
@@ -261,55 +336,43 @@ export interface StorageTaskUpdateParameters {
   /** Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters. */
   tags?: { [propertyName: string]: string };
   /** Properties of the storage task. */
-  properties?: StorageTaskProperties;
+  properties?: StorageTaskUpdateProperties;
 }
 
-/** The response from the List Storage Task operation. */
-export interface StorageTasksListResult {
+/** Properties of the storage task. */
+export interface StorageTaskUpdateProperties {
   /**
-   * Gets the list of storage tasks and their properties.
+   * Storage task version.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: StorageTask[];
+  readonly taskVersion?: number;
+  /** Storage Task is enabled when set to true and disabled when set to false */
+  enabled?: boolean;
+  /** Text that describes the purpose of the storage task */
+  description?: string;
+  /** The storage task action that is executed */
+  action?: StorageTaskAction;
   /**
-   * Request URL that can be used to query next page of storage tasks. Returned when total number of requested storage tasks exceed maximum page size.
+   * Represents the provisioning state of the storage task.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly nextLink?: string;
-}
-
-/** The response from the List Storage Tasks operation. */
-export interface StorageTaskAssignmentsListResult {
+  readonly provisioningState?: ProvisioningState;
   /**
-   * List of Storage Task Assignment Resource IDs associated with this Storage Task.
+   * The creation date and time of the storage task in UTC.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: StorageTaskAssignment[];
-  /**
-   * Request URL that can be used to query next page of Resource IDs. Returned when total number of requested Resource IDs exceed maximum page size.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Storage Task Assignment associated with this Storage Task. */
-export interface StorageTaskAssignment {
-  /**
-   * Resource ID of the Storage Task Assignment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
+  readonly creationTimeInUtc?: Date;
 }
 
 /** Fetch Storage Tasks Run Summary. */
 export interface StorageTaskReportSummary {
   /**
-   * Gets storage tasks run result summary.
+   * The StorageTaskReportInstance items on this page
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: StorageTaskReportInstance[];
+  readonly value: StorageTaskReportInstance[];
   /**
-   * Request URL that can be used to query next page of storage task run results summary. Returned when the number of run instances and summary reports exceed maximum page size.
+   * The link to the next page of items
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
@@ -389,67 +452,27 @@ export interface StorageTaskReportProperties {
   readonly runResult?: RunResult;
 }
 
-/** Storage Task Preview Action. */
-export interface StorageTaskPreviewAction {
-  /** Properties of the storage task preview. */
-  properties: StorageTaskPreviewActionProperties;
-}
-
-/** Storage task preview action properties. */
-export interface StorageTaskPreviewActionProperties {
-  /** Properties of a sample container to test for a match with the preview action. */
-  container: StorageTaskPreviewContainerProperties;
-  /** Properties of some sample blobs in the container to test for matches with the preview action. */
-  blobs: StorageTaskPreviewBlobProperties[];
-  /** Preview action to test */
-  action: StorageTaskPreviewActionCondition;
-}
-
-/** Storage task preview container properties */
-export interface StorageTaskPreviewContainerProperties {
-  /** Name of test container */
-  name?: string;
-  /** metadata key value pairs to be tested for a match against the provided condition. */
-  metadata?: StorageTaskPreviewKeyValueProperties[];
-}
-
-/** Storage task preview object key value pair properties. */
-export interface StorageTaskPreviewKeyValueProperties {
-  /** Represents the key property of the pair. */
-  key?: string;
-  /** Represents the value property of the pair. */
-  value?: string;
-}
-
-/** Storage task preview container properties */
-export interface StorageTaskPreviewBlobProperties {
-  /** Name of test blob */
-  name?: string;
-  /** properties key value pairs to be tested for a match against the provided condition. */
-  properties?: StorageTaskPreviewKeyValueProperties[];
-  /** metadata key value pairs to be tested for a match against the provided condition. */
-  metadata?: StorageTaskPreviewKeyValueProperties[];
-  /** tags key value pairs to be tested for a match against the provided condition. */
-  tags?: StorageTaskPreviewKeyValueProperties[];
+/** The response from the List Storage Tasks operation. */
+export interface StorageTaskAssignmentsListResult {
   /**
-   * Represents the condition block name that matched blob properties.
+   * The StorageTaskAssignment items on this page
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly matchedBlock?: MatchedBlockName;
+  readonly value: StorageTaskAssignment[];
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
-/** Represents the storage task conditions to be tested for a match with container and blob properties. */
-export interface StorageTaskPreviewActionCondition {
-  /** The condition to be tested for a match with container and blob properties. */
-  if: StorageTaskPreviewActionIfCondition;
-  /** Specify whether the else block is present in the condition. */
-  elseBlockExists: boolean;
-}
-
-/** Represents storage task preview action condition. */
-export interface StorageTaskPreviewActionIfCondition {
-  /** Storage task condition to bes tested for a match. */
-  condition?: string;
+/** Storage Task Assignment associated with this Storage Task. */
+export interface StorageTaskAssignment {
+  /**
+   * Resource ID of the Storage Task Assignment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
@@ -465,10 +488,10 @@ export interface ProxyResource extends Resource {}
 
 /** Represents Storage Task. */
 export interface StorageTask extends TrackedResource {
-  /** The managed service identity of the resource. */
-  identity: ManagedServiceIdentity;
   /** Properties of the storage task. */
   properties: StorageTaskProperties;
+  /** The managed service identity of the resource. */
+  identity: ManagedServiceIdentity;
 }
 
 /** Storage Tasks run report instance */
@@ -479,17 +502,26 @@ export interface StorageTaskReportInstance extends ProxyResource {
 
 /** Defines headers for StorageTasks_create operation. */
 export interface StorageTasksCreateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
-}
-
-/** Defines headers for StorageTasks_delete operation. */
-export interface StorageTasksDeleteHeaders {
-  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for StorageTasks_update operation. */
 export interface StorageTasksUpdateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for StorageTasks_delete operation. */
+export interface StorageTasksDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
@@ -528,29 +560,26 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 
-/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
-export enum KnownManagedServiceIdentityType {
+/** Known values of {@link MatchedBlockName} that the service accepts. */
+export enum KnownMatchedBlockName {
+  /** If */
+  If = "If",
+  /** Else */
+  Else = "Else",
   /** None */
   None = "None",
-  /** SystemAssigned */
-  SystemAssigned = "SystemAssigned",
-  /** UserAssigned */
-  UserAssigned = "UserAssigned",
-  /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
- * Defines values for ManagedServiceIdentityType. \
- * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ * Defines values for MatchedBlockName. \
+ * {@link KnownMatchedBlockName} can be used interchangeably with MatchedBlockName,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None** \
- * **SystemAssigned** \
- * **UserAssigned** \
- * **SystemAssigned,UserAssigned**
+ * **If** \
+ * **Else** \
+ * **None**
  */
-export type ManagedServiceIdentityType = string;
+export type MatchedBlockName = string;
 
 /** Known values of {@link StorageTaskOperationName} that the service accepts. */
 export enum KnownStorageTaskOperationName {
@@ -651,6 +680,30 @@ export enum KnownProvisioningState {
  */
 export type ProvisioningState = string;
 
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned,UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
+
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
   /** User */
@@ -711,27 +764,6 @@ export enum KnownRunResult {
  */
 export type RunResult = string;
 
-/** Known values of {@link MatchedBlockName} that the service accepts. */
-export enum KnownMatchedBlockName {
-  /** If */
-  If = "If",
-  /** Else */
-  Else = "Else",
-  /** None */
-  None = "None",
-}
-
-/**
- * Defines values for MatchedBlockName. \
- * {@link KnownMatchedBlockName} can be used interchangeably with MatchedBlockName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **If** \
- * **Else** \
- * **None**
- */
-export type MatchedBlockName = string;
-
 /** Optional parameters. */
 export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
@@ -747,6 +779,34 @@ export interface OperationsListNextOptionalParams
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
+export interface StorageTasksPreviewActionsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the previewActions operation. */
+export type StorageTasksPreviewActionsResponse = StorageTaskPreviewAction;
+
+/** Optional parameters. */
+export interface StorageTasksListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type StorageTasksListBySubscriptionResponse = StorageTaskListResult;
+
+/** Optional parameters. */
+export interface StorageTasksListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type StorageTasksListByResourceGroupResponse = StorageTaskListResult;
+
+/** Optional parameters. */
+export interface StorageTasksGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type StorageTasksGetResponse = StorageTask;
+
+/** Optional parameters. */
 export interface StorageTasksCreateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -757,25 +817,6 @@ export interface StorageTasksCreateOptionalParams
 
 /** Contains response data for the create operation. */
 export type StorageTasksCreateResponse = StorageTask;
-
-/** Optional parameters. */
-export interface StorageTasksDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the delete operation. */
-export type StorageTasksDeleteResponse = StorageTasksDeleteHeaders;
-
-/** Optional parameters. */
-export interface StorageTasksGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type StorageTasksGetResponse = StorageTask;
 
 /** Optional parameters. */
 export interface StorageTasksUpdateOptionalParams
@@ -790,59 +831,30 @@ export interface StorageTasksUpdateOptionalParams
 export type StorageTasksUpdateResponse = StorageTask;
 
 /** Optional parameters. */
-export interface StorageTasksListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
+export interface StorageTasksDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-/** Contains response data for the listBySubscription operation. */
-export type StorageTasksListBySubscriptionResponse = StorageTasksListResult;
-
-/** Optional parameters. */
-export interface StorageTasksListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type StorageTasksListByResourceGroupResponse = StorageTasksListResult;
-
-/** Optional parameters. */
-export interface StorageTasksPreviewActionsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the previewActions operation. */
-export type StorageTasksPreviewActionsResponse = StorageTaskPreviewAction;
+/** Contains response data for the delete operation. */
+export type StorageTasksDeleteResponse = StorageTasksDeleteHeaders;
 
 /** Optional parameters. */
 export interface StorageTasksListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type StorageTasksListBySubscriptionNextResponse = StorageTasksListResult;
+export type StorageTasksListBySubscriptionNextResponse = StorageTaskListResult;
 
 /** Optional parameters. */
 export interface StorageTasksListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type StorageTasksListByResourceGroupNextResponse =
-  StorageTasksListResult;
-
-/** Optional parameters. */
-export interface StorageTaskAssignmentListOptionalParams
-  extends coreClient.OperationOptions {
-  /** Optional, specifies the maximum number of Storage Task Assignment Resource IDs to be included in the list response. */
-  maxpagesize?: number;
-}
-
-/** Contains response data for the list operation. */
-export type StorageTaskAssignmentListResponse =
-  StorageTaskAssignmentsListResult;
-
-/** Optional parameters. */
-export interface StorageTaskAssignmentListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type StorageTaskAssignmentListNextResponse =
-  StorageTaskAssignmentsListResult;
+export type StorageTasksListByResourceGroupNextResponse = StorageTaskListResult;
 
 /** Optional parameters. */
 export interface StorageTasksReportListOptionalParams
@@ -862,6 +874,25 @@ export interface StorageTasksReportListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type StorageTasksReportListNextResponse = StorageTaskReportSummary;
+
+/** Optional parameters. */
+export interface StorageTaskAssignmentListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Optional, specifies the maximum number of Storage Task Assignment Resource IDs to be included in the list response. */
+  maxpagesize?: number;
+}
+
+/** Contains response data for the list operation. */
+export type StorageTaskAssignmentListResponse =
+  StorageTaskAssignmentsListResult;
+
+/** Optional parameters. */
+export interface StorageTaskAssignmentListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type StorageTaskAssignmentListNextResponse =
+  StorageTaskAssignmentsListResult;
 
 /** Optional parameters. */
 export interface StorageActionsManagementClientOptionalParams

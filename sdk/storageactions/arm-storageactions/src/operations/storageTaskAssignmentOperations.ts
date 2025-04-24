@@ -175,9 +175,9 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion, Parameters.maxpagesize],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageTaskName,
-    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -196,9 +196,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageTaskName,
-    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,

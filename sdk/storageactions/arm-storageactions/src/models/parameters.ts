@@ -12,9 +12,9 @@ import {
   OperationQueryParameter,
 } from "@azure/core-client";
 import {
+  StorageTaskPreviewAction as StorageTaskPreviewActionMapper,
   StorageTask as StorageTaskMapper,
   StorageTaskUpdateParameters as StorageTaskUpdateParametersMapper,
-  StorageTaskPreviewAction as StorageTaskPreviewActionMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -79,7 +79,32 @@ export const contentType: OperationParameter = {
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: StorageTaskMapper,
+  mapper: StorageTaskPreviewActionMapper,
+};
+
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "Uuid",
+    },
+  },
+};
+
+export const location: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    constraints: {
+      MinLength: 1,
+    },
+    serializedName: "location",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -113,36 +138,14 @@ export const storageTaskName: OperationURLParameter = {
   },
 };
 
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "Uuid",
-    },
-  },
-};
-
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: StorageTaskUpdateParametersMapper,
+  mapper: StorageTaskMapper,
 };
 
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
-  mapper: StorageTaskPreviewActionMapper,
-};
-
-export const location: OperationURLParameter = {
-  parameterPath: "location",
-  mapper: {
-    serializedName: "location",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
+  mapper: StorageTaskUpdateParametersMapper,
 };
 
 export const maxpagesize: OperationQueryParameter = {
