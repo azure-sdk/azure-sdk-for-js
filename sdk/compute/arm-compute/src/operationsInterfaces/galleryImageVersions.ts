@@ -27,21 +27,18 @@ export interface GalleryImageVersions {
   /**
    * List gallery image versions in a gallery image definition.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
    * @param galleryImageName The name of the Shared Image Gallery Image Definition from which the Image
    *                         Versions are to be listed.
    * @param options The options parameters.
    */
   listByGalleryImage(
     resourceGroupName: string,
-    galleryName: string,
     galleryImageName: string,
     options?: GalleryImageVersionsListByGalleryImageOptionalParams,
   ): PagedAsyncIterableIterator<GalleryImageVersion>;
   /**
    * Create or update a gallery image version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
    * @param galleryImageName The name of the gallery image definition in which the Image Version is to be
    *                         created.
    * @param galleryImageVersionName The name of the gallery image version to be created. Needs to follow
@@ -53,7 +50,6 @@ export interface GalleryImageVersions {
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
-    galleryName: string,
     galleryImageName: string,
     galleryImageVersionName: string,
     galleryImageVersion: GalleryImageVersion,
@@ -67,7 +63,6 @@ export interface GalleryImageVersions {
   /**
    * Create or update a gallery image version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
    * @param galleryImageName The name of the gallery image definition in which the Image Version is to be
    *                         created.
    * @param galleryImageVersionName The name of the gallery image version to be created. Needs to follow
@@ -79,7 +74,6 @@ export interface GalleryImageVersions {
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    galleryName: string,
     galleryImageName: string,
     galleryImageVersionName: string,
     galleryImageVersion: GalleryImageVersion,
@@ -88,7 +82,6 @@ export interface GalleryImageVersions {
   /**
    * Update a gallery image version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
    * @param galleryImageName The name of the gallery image definition in which the Image Version is to be
    *                         updated.
    * @param galleryImageVersionName The name of the gallery image version to be updated. Needs to follow
@@ -99,7 +92,6 @@ export interface GalleryImageVersions {
    */
   beginUpdate(
     resourceGroupName: string,
-    galleryName: string,
     galleryImageName: string,
     galleryImageVersionName: string,
     galleryImageVersion: GalleryImageVersionUpdate,
@@ -113,7 +105,6 @@ export interface GalleryImageVersions {
   /**
    * Update a gallery image version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
    * @param galleryImageName The name of the gallery image definition in which the Image Version is to be
    *                         updated.
    * @param galleryImageVersionName The name of the gallery image version to be updated. Needs to follow
@@ -124,7 +115,6 @@ export interface GalleryImageVersions {
    */
   beginUpdateAndWait(
     resourceGroupName: string,
-    galleryName: string,
     galleryImageName: string,
     galleryImageVersionName: string,
     galleryImageVersion: GalleryImageVersionUpdate,
@@ -133,14 +123,12 @@ export interface GalleryImageVersions {
   /**
    * Retrieves information about a gallery image version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
    * @param galleryImageName The name of the gallery image definition in which the Image Version resides.
    * @param galleryImageVersionName The name of the gallery image version to be retrieved.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    galleryName: string,
     galleryImageName: string,
     galleryImageVersionName: string,
     options?: GalleryImageVersionsGetOptionalParams,
@@ -148,14 +136,12 @@ export interface GalleryImageVersions {
   /**
    * Delete a gallery image version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
    * @param galleryImageName The name of the gallery image definition in which the Image Version resides.
    * @param galleryImageVersionName The name of the gallery image version to be deleted.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
-    galleryName: string,
     galleryImageName: string,
     galleryImageVersionName: string,
     options?: GalleryImageVersionsDeleteOptionalParams,
@@ -163,14 +149,12 @@ export interface GalleryImageVersions {
   /**
    * Delete a gallery image version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
    * @param galleryImageName The name of the gallery image definition in which the Image Version resides.
    * @param galleryImageVersionName The name of the gallery image version to be deleted.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
-    galleryName: string,
     galleryImageName: string,
     galleryImageVersionName: string,
     options?: GalleryImageVersionsDeleteOptionalParams,

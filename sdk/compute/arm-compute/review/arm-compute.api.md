@@ -1161,7 +1161,7 @@ export interface CommunityGalleryMetadata {
 export class ComputeManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ComputeManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, options?: ComputeManagementClientOptionalParams);
     // (undocumented)
     availabilitySets: AvailabilitySets;
     // (undocumented)
@@ -1210,6 +1210,16 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     galleryInVMAccessControlProfiles: GalleryInVMAccessControlProfiles;
     // (undocumented)
     galleryInVMAccessControlProfileVersions: GalleryInVMAccessControlProfileVersions;
+    // (undocumented)
+    galleryName: string;
+    // (undocumented)
+    galleryScriptName: string;
+    // (undocumented)
+    galleryScripts: GalleryScripts;
+    // (undocumented)
+    galleryScriptVersionName: string;
+    // (undocumented)
+    galleryScriptVersions: GalleryScriptVersions;
     // (undocumented)
     gallerySharingProfile: GallerySharingProfile;
     // (undocumented)
@@ -2369,13 +2379,13 @@ export type FileFormat = string;
 
 // @public
 export interface Galleries {
-    beginCreateOrUpdate(resourceGroupName: string, galleryName: string, gallery: Gallery, options?: GalleriesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleriesCreateOrUpdateResponse>, GalleriesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, gallery: Gallery, options?: GalleriesCreateOrUpdateOptionalParams): Promise<GalleriesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, galleryName: string, options?: GalleriesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, galleryName: string, options?: GalleriesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, galleryName: string, gallery: GalleryUpdate, options?: GalleriesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleriesUpdateResponse>, GalleriesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, galleryName: string, gallery: GalleryUpdate, options?: GalleriesUpdateOptionalParams): Promise<GalleriesUpdateResponse>;
-    get(resourceGroupName: string, galleryName: string, options?: GalleriesGetOptionalParams): Promise<GalleriesGetResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, gallery: Gallery, options?: GalleriesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleriesCreateOrUpdateResponse>, GalleriesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, gallery: Gallery, options?: GalleriesCreateOrUpdateOptionalParams): Promise<GalleriesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, options?: GalleriesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, options?: GalleriesDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, gallery: GalleryUpdate, options?: GalleriesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleriesUpdateResponse>, GalleriesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, gallery: GalleryUpdate, options?: GalleriesUpdateOptionalParams): Promise<GalleriesUpdateResponse>;
+    get(resourceGroupName: string, options?: GalleriesGetOptionalParams): Promise<GalleriesGetResponse>;
     list(options?: GalleriesListOptionalParams): PagedAsyncIterableIterator<Gallery>;
     listByResourceGroup(resourceGroupName: string, options?: GalleriesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Gallery>;
 }
@@ -2491,14 +2501,14 @@ export interface GalleryApplicationList {
 
 // @public
 export interface GalleryApplications {
-    beginCreateOrUpdate(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: GalleryApplication, options?: GalleryApplicationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryApplicationsCreateOrUpdateResponse>, GalleryApplicationsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: GalleryApplication, options?: GalleryApplicationsCreateOrUpdateOptionalParams): Promise<GalleryApplicationsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: GalleryApplicationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: GalleryApplicationsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: GalleryApplicationUpdate, options?: GalleryApplicationsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryApplicationsUpdateResponse>, GalleryApplicationsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: GalleryApplicationUpdate, options?: GalleryApplicationsUpdateOptionalParams): Promise<GalleryApplicationsUpdateResponse>;
-    get(resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: GalleryApplicationsGetOptionalParams): Promise<GalleryApplicationsGetResponse>;
-    listByGallery(resourceGroupName: string, galleryName: string, options?: GalleryApplicationsListByGalleryOptionalParams): PagedAsyncIterableIterator<GalleryApplication>;
+    beginCreateOrUpdate(resourceGroupName: string, galleryApplicationName: string, galleryApplication: GalleryApplication, options?: GalleryApplicationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryApplicationsCreateOrUpdateResponse>, GalleryApplicationsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryApplicationName: string, galleryApplication: GalleryApplication, options?: GalleryApplicationsCreateOrUpdateOptionalParams): Promise<GalleryApplicationsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, galleryApplicationName: string, options?: GalleryApplicationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, galleryApplicationName: string, options?: GalleryApplicationsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, galleryApplicationName: string, galleryApplication: GalleryApplicationUpdate, options?: GalleryApplicationsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryApplicationsUpdateResponse>, GalleryApplicationsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, galleryApplicationName: string, galleryApplication: GalleryApplicationUpdate, options?: GalleryApplicationsUpdateOptionalParams): Promise<GalleryApplicationsUpdateResponse>;
+    get(resourceGroupName: string, galleryApplicationName: string, options?: GalleryApplicationsGetOptionalParams): Promise<GalleryApplicationsGetResponse>;
+    listByGallery(resourceGroupName: string, options?: GalleryApplicationsListByGalleryOptionalParams): PagedAsyncIterableIterator<GalleryApplication>;
 }
 
 // @public
@@ -2589,14 +2599,14 @@ export interface GalleryApplicationVersionPublishingProfile extends GalleryArtif
 
 // @public
 export interface GalleryApplicationVersions {
-    beginCreateOrUpdate(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersion, options?: GalleryApplicationVersionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryApplicationVersionsCreateOrUpdateResponse>, GalleryApplicationVersionsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersion, options?: GalleryApplicationVersionsCreateOrUpdateOptionalParams): Promise<GalleryApplicationVersionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, options?: GalleryApplicationVersionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, options?: GalleryApplicationVersionsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersionUpdate, options?: GalleryApplicationVersionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryApplicationVersionsUpdateResponse>, GalleryApplicationVersionsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersionUpdate, options?: GalleryApplicationVersionsUpdateOptionalParams): Promise<GalleryApplicationVersionsUpdateResponse>;
-    get(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, options?: GalleryApplicationVersionsGetOptionalParams): Promise<GalleryApplicationVersionsGetResponse>;
-    listByGalleryApplication(resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: GalleryApplicationVersionsListByGalleryApplicationOptionalParams): PagedAsyncIterableIterator<GalleryApplicationVersion>;
+    beginCreateOrUpdate(resourceGroupName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersion, options?: GalleryApplicationVersionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryApplicationVersionsCreateOrUpdateResponse>, GalleryApplicationVersionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersion, options?: GalleryApplicationVersionsCreateOrUpdateOptionalParams): Promise<GalleryApplicationVersionsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, galleryApplicationName: string, galleryApplicationVersionName: string, options?: GalleryApplicationVersionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, galleryApplicationName: string, galleryApplicationVersionName: string, options?: GalleryApplicationVersionsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersionUpdate, options?: GalleryApplicationVersionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryApplicationVersionsUpdateResponse>, GalleryApplicationVersionsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersionUpdate, options?: GalleryApplicationVersionsUpdateOptionalParams): Promise<GalleryApplicationVersionsUpdateResponse>;
+    get(resourceGroupName: string, galleryApplicationName: string, galleryApplicationVersionName: string, options?: GalleryApplicationVersionsGetOptionalParams): Promise<GalleryApplicationVersionsGetResponse>;
+    listByGalleryApplication(resourceGroupName: string, galleryApplicationName: string, options?: GalleryApplicationVersionsListByGalleryApplicationOptionalParams): PagedAsyncIterableIterator<GalleryApplicationVersion>;
 }
 
 // @public
@@ -2778,14 +2788,14 @@ export interface GalleryImageList {
 
 // @public
 export interface GalleryImages {
-    beginCreateOrUpdate(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImage: GalleryImage, options?: GalleryImagesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryImagesCreateOrUpdateResponse>, GalleryImagesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImage: GalleryImage, options?: GalleryImagesCreateOrUpdateOptionalParams): Promise<GalleryImagesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, galleryName: string, galleryImageName: string, options?: GalleryImagesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, galleryName: string, galleryImageName: string, options?: GalleryImagesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImage: GalleryImageUpdate, options?: GalleryImagesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryImagesUpdateResponse>, GalleryImagesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImage: GalleryImageUpdate, options?: GalleryImagesUpdateOptionalParams): Promise<GalleryImagesUpdateResponse>;
-    get(resourceGroupName: string, galleryName: string, galleryImageName: string, options?: GalleryImagesGetOptionalParams): Promise<GalleryImagesGetResponse>;
-    listByGallery(resourceGroupName: string, galleryName: string, options?: GalleryImagesListByGalleryOptionalParams): PagedAsyncIterableIterator<GalleryImage>;
+    beginCreateOrUpdate(resourceGroupName: string, galleryImageName: string, galleryImage: GalleryImage, options?: GalleryImagesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryImagesCreateOrUpdateResponse>, GalleryImagesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryImageName: string, galleryImage: GalleryImage, options?: GalleryImagesCreateOrUpdateOptionalParams): Promise<GalleryImagesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, galleryImageName: string, options?: GalleryImagesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, galleryImageName: string, options?: GalleryImagesDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, galleryImageName: string, galleryImage: GalleryImageUpdate, options?: GalleryImagesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryImagesUpdateResponse>, GalleryImagesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, galleryImageName: string, galleryImage: GalleryImageUpdate, options?: GalleryImagesUpdateOptionalParams): Promise<GalleryImagesUpdateResponse>;
+    get(resourceGroupName: string, galleryImageName: string, options?: GalleryImagesGetOptionalParams): Promise<GalleryImagesGetResponse>;
+    listByGallery(resourceGroupName: string, options?: GalleryImagesListByGalleryOptionalParams): PagedAsyncIterableIterator<GalleryImage>;
 }
 
 // @public
@@ -2877,14 +2887,14 @@ export interface GalleryImageVersionPublishingProfile extends GalleryArtifactPub
 
 // @public
 export interface GalleryImageVersions {
-    beginCreateOrUpdate(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: GalleryImageVersion, options?: GalleryImageVersionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryImageVersionsCreateOrUpdateResponse>, GalleryImageVersionsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: GalleryImageVersion, options?: GalleryImageVersionsCreateOrUpdateOptionalParams): Promise<GalleryImageVersionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, options?: GalleryImageVersionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, options?: GalleryImageVersionsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: GalleryImageVersionUpdate, options?: GalleryImageVersionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryImageVersionsUpdateResponse>, GalleryImageVersionsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: GalleryImageVersionUpdate, options?: GalleryImageVersionsUpdateOptionalParams): Promise<GalleryImageVersionsUpdateResponse>;
-    get(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, options?: GalleryImageVersionsGetOptionalParams): Promise<GalleryImageVersionsGetResponse>;
-    listByGalleryImage(resourceGroupName: string, galleryName: string, galleryImageName: string, options?: GalleryImageVersionsListByGalleryImageOptionalParams): PagedAsyncIterableIterator<GalleryImageVersion>;
+    beginCreateOrUpdate(resourceGroupName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: GalleryImageVersion, options?: GalleryImageVersionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryImageVersionsCreateOrUpdateResponse>, GalleryImageVersionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: GalleryImageVersion, options?: GalleryImageVersionsCreateOrUpdateOptionalParams): Promise<GalleryImageVersionsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, galleryImageName: string, galleryImageVersionName: string, options?: GalleryImageVersionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, galleryImageName: string, galleryImageVersionName: string, options?: GalleryImageVersionsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: GalleryImageVersionUpdate, options?: GalleryImageVersionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryImageVersionsUpdateResponse>, GalleryImageVersionsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: GalleryImageVersionUpdate, options?: GalleryImageVersionsUpdateOptionalParams): Promise<GalleryImageVersionsUpdateResponse>;
+    get(resourceGroupName: string, galleryImageName: string, galleryImageVersionName: string, options?: GalleryImageVersionsGetOptionalParams): Promise<GalleryImageVersionsGetResponse>;
+    listByGalleryImage(resourceGroupName: string, galleryImageName: string, options?: GalleryImageVersionsListByGalleryImageOptionalParams): PagedAsyncIterableIterator<GalleryImageVersion>;
 }
 
 // @public
@@ -2985,14 +2995,14 @@ export interface GalleryInVMAccessControlProfileProperties extends GalleryResour
 
 // @public
 export interface GalleryInVMAccessControlProfiles {
-    beginCreateOrUpdate(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, galleryInVMAccessControlProfile: GalleryInVMAccessControlProfile, options?: GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryInVMAccessControlProfilesCreateOrUpdateResponse>, GalleryInVMAccessControlProfilesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, galleryInVMAccessControlProfile: GalleryInVMAccessControlProfile, options?: GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams): Promise<GalleryInVMAccessControlProfilesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, options?: GalleryInVMAccessControlProfilesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<GalleryInVMAccessControlProfilesDeleteResponse>, GalleryInVMAccessControlProfilesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, options?: GalleryInVMAccessControlProfilesDeleteOptionalParams): Promise<GalleryInVMAccessControlProfilesDeleteResponse>;
-    beginUpdate(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, galleryInVMAccessControlProfile: GalleryInVMAccessControlProfileUpdate, options?: GalleryInVMAccessControlProfilesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryInVMAccessControlProfilesUpdateResponse>, GalleryInVMAccessControlProfilesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, galleryInVMAccessControlProfile: GalleryInVMAccessControlProfileUpdate, options?: GalleryInVMAccessControlProfilesUpdateOptionalParams): Promise<GalleryInVMAccessControlProfilesUpdateResponse>;
-    get(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, options?: GalleryInVMAccessControlProfilesGetOptionalParams): Promise<GalleryInVMAccessControlProfilesGetResponse>;
-    listByGallery(resourceGroupName: string, galleryName: string, options?: GalleryInVMAccessControlProfilesListByGalleryOptionalParams): PagedAsyncIterableIterator<GalleryInVMAccessControlProfile>;
+    beginCreateOrUpdate(resourceGroupName: string, inVMAccessControlProfileName: string, galleryInVMAccessControlProfile: GalleryInVMAccessControlProfile, options?: GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryInVMAccessControlProfilesCreateOrUpdateResponse>, GalleryInVMAccessControlProfilesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, inVMAccessControlProfileName: string, galleryInVMAccessControlProfile: GalleryInVMAccessControlProfile, options?: GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams): Promise<GalleryInVMAccessControlProfilesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, inVMAccessControlProfileName: string, options?: GalleryInVMAccessControlProfilesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<GalleryInVMAccessControlProfilesDeleteResponse>, GalleryInVMAccessControlProfilesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, inVMAccessControlProfileName: string, options?: GalleryInVMAccessControlProfilesDeleteOptionalParams): Promise<GalleryInVMAccessControlProfilesDeleteResponse>;
+    beginUpdate(resourceGroupName: string, inVMAccessControlProfileName: string, galleryInVMAccessControlProfile: GalleryInVMAccessControlProfileUpdate, options?: GalleryInVMAccessControlProfilesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryInVMAccessControlProfilesUpdateResponse>, GalleryInVMAccessControlProfilesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, inVMAccessControlProfileName: string, galleryInVMAccessControlProfile: GalleryInVMAccessControlProfileUpdate, options?: GalleryInVMAccessControlProfilesUpdateOptionalParams): Promise<GalleryInVMAccessControlProfilesUpdateResponse>;
+    get(resourceGroupName: string, inVMAccessControlProfileName: string, options?: GalleryInVMAccessControlProfilesGetOptionalParams): Promise<GalleryInVMAccessControlProfilesGetResponse>;
+    listByGallery(resourceGroupName: string, options?: GalleryInVMAccessControlProfilesListByGalleryOptionalParams): PagedAsyncIterableIterator<GalleryInVMAccessControlProfile>;
 }
 
 // @public
@@ -3083,14 +3093,14 @@ export interface GalleryInVMAccessControlProfileVersionProperties extends Galler
 
 // @public
 export interface GalleryInVMAccessControlProfileVersions {
-    beginCreateOrUpdate(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersion, options?: GalleryInVMAccessControlProfileVersionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryInVMAccessControlProfileVersionsCreateOrUpdateResponse>, GalleryInVMAccessControlProfileVersionsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersion, options?: GalleryInVMAccessControlProfileVersionsCreateOrUpdateOptionalParams): Promise<GalleryInVMAccessControlProfileVersionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, options?: GalleryInVMAccessControlProfileVersionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<GalleryInVMAccessControlProfileVersionsDeleteResponse>, GalleryInVMAccessControlProfileVersionsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, options?: GalleryInVMAccessControlProfileVersionsDeleteOptionalParams): Promise<GalleryInVMAccessControlProfileVersionsDeleteResponse>;
-    beginUpdate(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersionUpdate, options?: GalleryInVMAccessControlProfileVersionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryInVMAccessControlProfileVersionsUpdateResponse>, GalleryInVMAccessControlProfileVersionsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersionUpdate, options?: GalleryInVMAccessControlProfileVersionsUpdateOptionalParams): Promise<GalleryInVMAccessControlProfileVersionsUpdateResponse>;
-    get(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, options?: GalleryInVMAccessControlProfileVersionsGetOptionalParams): Promise<GalleryInVMAccessControlProfileVersionsGetResponse>;
-    listByGalleryInVMAccessControlProfile(resourceGroupName: string, galleryName: string, inVMAccessControlProfileName: string, options?: GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileOptionalParams): PagedAsyncIterableIterator<GalleryInVMAccessControlProfileVersion>;
+    beginCreateOrUpdate(resourceGroupName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersion, options?: GalleryInVMAccessControlProfileVersionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryInVMAccessControlProfileVersionsCreateOrUpdateResponse>, GalleryInVMAccessControlProfileVersionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersion, options?: GalleryInVMAccessControlProfileVersionsCreateOrUpdateOptionalParams): Promise<GalleryInVMAccessControlProfileVersionsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, options?: GalleryInVMAccessControlProfileVersionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<GalleryInVMAccessControlProfileVersionsDeleteResponse>, GalleryInVMAccessControlProfileVersionsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, options?: GalleryInVMAccessControlProfileVersionsDeleteOptionalParams): Promise<GalleryInVMAccessControlProfileVersionsDeleteResponse>;
+    beginUpdate(resourceGroupName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersionUpdate, options?: GalleryInVMAccessControlProfileVersionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryInVMAccessControlProfileVersionsUpdateResponse>, GalleryInVMAccessControlProfileVersionsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersionUpdate, options?: GalleryInVMAccessControlProfileVersionsUpdateOptionalParams): Promise<GalleryInVMAccessControlProfileVersionsUpdateResponse>;
+    get(resourceGroupName: string, inVMAccessControlProfileName: string, inVMAccessControlProfileVersionName: string, options?: GalleryInVMAccessControlProfileVersionsGetOptionalParams): Promise<GalleryInVMAccessControlProfileVersionsGetResponse>;
+    listByGalleryInVMAccessControlProfile(resourceGroupName: string, inVMAccessControlProfileName: string, options?: GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileOptionalParams): PagedAsyncIterableIterator<GalleryInVMAccessControlProfileVersion>;
 }
 
 // @public
@@ -3190,12 +3200,237 @@ export interface GalleryResourceProfileVersionPropertiesBase {
 }
 
 // @public
+export interface GalleryScript extends Resource {
+    properties?: GalleryScriptProperties;
+}
+
+// @public
+export interface GalleryScriptList {
+    nextLink?: string;
+    value: GalleryScript[];
+}
+
+// @public
+export interface GalleryScriptParameter extends GenericGalleryParameter {
+    enumValues?: string[];
+    maxValue?: string;
+    minValue?: string;
+    type?: GalleryScriptParameterType;
+}
+
+// @public
+export type GalleryScriptParameterType = "String" | "Int" | "Double" | "Boolean" | "Enum";
+
+// @public
+export interface GalleryScriptProperties {
+    description?: string;
+    endOfLifeDate?: Date;
+    eula?: string;
+    privacyStatementUri?: string;
+    readonly provisioningState?: GalleryProvisioningState;
+    releaseNoteUri?: string;
+    supportedOSType: OperatingSystemTypes;
+}
+
+// @public
+export interface GalleryScripts {
+    beginCreateOrUpdate(resourceGroupName: string, galleryScript: GalleryScript, options?: GalleryScriptsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryScriptsCreateOrUpdateResponse>, GalleryScriptsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryScript: GalleryScript, options?: GalleryScriptsCreateOrUpdateOptionalParams): Promise<GalleryScriptsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, options?: GalleryScriptsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<GalleryScriptsDeleteResponse>, GalleryScriptsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, options?: GalleryScriptsDeleteOptionalParams): Promise<GalleryScriptsDeleteResponse>;
+    beginUpdate(resourceGroupName: string, galleryScript: GalleryScriptUpdate, options?: GalleryScriptsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryScriptsUpdateResponse>, GalleryScriptsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, galleryScript: GalleryScriptUpdate, options?: GalleryScriptsUpdateOptionalParams): Promise<GalleryScriptsUpdateResponse>;
+    get(resourceGroupName: string, options?: GalleryScriptsGetOptionalParams): Promise<GalleryScriptsGetResponse>;
+    listByGallery(resourceGroupName: string, options?: GalleryScriptsListByGalleryOptionalParams): PagedAsyncIterableIterator<GalleryScript>;
+}
+
+// @public
+export interface GalleryScriptsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
+export interface GalleryScriptsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GalleryScriptsCreateOrUpdateResponse = GalleryScriptsCreateOrUpdateHeaders & GalleryScript;
+
+// @public
+export interface GalleryScriptsDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface GalleryScriptsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GalleryScriptsDeleteResponse = GalleryScriptsDeleteHeaders;
+
+// @public
+export interface GalleryScriptsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GalleryScriptsGetResponse = GalleryScript;
+
+// @public
+export interface GalleryScriptsListByGalleryNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GalleryScriptsListByGalleryNextResponse = GalleryScriptList;
+
+// @public
+export interface GalleryScriptsListByGalleryOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GalleryScriptsListByGalleryResponse = GalleryScriptList;
+
+// @public
+export interface GalleryScriptsUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface GalleryScriptsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GalleryScriptsUpdateResponse = GalleryScript;
+
+// @public
+export interface GalleryScriptUpdate extends UpdateResourceDefinition {
+    properties?: GalleryScriptProperties;
+}
+
+// @public
+export interface GalleryScriptVersion extends Resource {
+    properties?: GalleryScriptVersionProperties;
+}
+
+// @public
+export interface GalleryScriptVersionList {
+    nextLink?: string;
+    value: GalleryScriptVersion[];
+}
+
+// @public
+export interface GalleryScriptVersionProperties {
+    readonly provisioningState?: GalleryProvisioningState;
+    publishingProfile: GalleryScriptVersionPublishingProfile;
+    readonly replicationStatus?: ReplicationStatus;
+    safetyProfile?: GalleryScriptVersionSafetyProfile;
+}
+
+// @public
+export interface GalleryScriptVersionPublishingProfile extends GalleryArtifactPublishingProfileBase {
+    source: ScriptSource;
+}
+
+// @public
+export interface GalleryScriptVersions {
+    beginCreateOrUpdate(resourceGroupName: string, galleryScriptVersion: GalleryScriptVersion, options?: GalleryScriptVersionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryScriptVersionsCreateOrUpdateResponse>, GalleryScriptVersionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryScriptVersion: GalleryScriptVersion, options?: GalleryScriptVersionsCreateOrUpdateOptionalParams): Promise<GalleryScriptVersionsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, options?: GalleryScriptVersionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<GalleryScriptVersionsDeleteResponse>, GalleryScriptVersionsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, options?: GalleryScriptVersionsDeleteOptionalParams): Promise<GalleryScriptVersionsDeleteResponse>;
+    beginUpdate(resourceGroupName: string, galleryScriptVersion: GalleryScriptVersionUpdate, options?: GalleryScriptVersionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryScriptVersionsUpdateResponse>, GalleryScriptVersionsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, galleryScriptVersion: GalleryScriptVersionUpdate, options?: GalleryScriptVersionsUpdateOptionalParams): Promise<GalleryScriptVersionsUpdateResponse>;
+    get(resourceGroupName: string, options?: GalleryScriptVersionsGetOptionalParams): Promise<GalleryScriptVersionsGetResponse>;
+    listByGalleryScript(resourceGroupName: string, options?: GalleryScriptVersionsListByGalleryScriptOptionalParams): PagedAsyncIterableIterator<GalleryScriptVersion>;
+}
+
+// @public
+export interface GalleryScriptVersionSafetyProfile extends GalleryArtifactSafetyProfileBase {
+}
+
+// @public
+export interface GalleryScriptVersionsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
+export interface GalleryScriptVersionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GalleryScriptVersionsCreateOrUpdateResponse = GalleryScriptVersionsCreateOrUpdateHeaders & GalleryScriptVersion;
+
+// @public
+export interface GalleryScriptVersionsDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface GalleryScriptVersionsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GalleryScriptVersionsDeleteResponse = GalleryScriptVersionsDeleteHeaders;
+
+// @public
+export interface GalleryScriptVersionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GalleryScriptVersionsGetResponse = GalleryScriptVersion;
+
+// @public
+export interface GalleryScriptVersionsListByGalleryScriptNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GalleryScriptVersionsListByGalleryScriptNextResponse = GalleryScriptVersionList;
+
+// @public
+export interface GalleryScriptVersionsListByGalleryScriptOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GalleryScriptVersionsListByGalleryScriptResponse = GalleryScriptVersionList;
+
+// @public
+export interface GalleryScriptVersionsUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface GalleryScriptVersionsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GalleryScriptVersionsUpdateResponse = GalleryScriptVersion;
+
+// @public
+export interface GalleryScriptVersionUpdate extends UpdateResourceDefinition {
+    properties?: GalleryScriptVersionProperties;
+}
+
+// @public
 export type GallerySharingPermissionTypes = string;
 
 // @public
 export interface GallerySharingProfile {
-    beginUpdate(resourceGroupName: string, galleryName: string, sharingUpdate: SharingUpdate, options?: GallerySharingProfileUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GallerySharingProfileUpdateResponse>, GallerySharingProfileUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, galleryName: string, sharingUpdate: SharingUpdate, options?: GallerySharingProfileUpdateOptionalParams): Promise<GallerySharingProfileUpdateResponse>;
+    beginUpdate(resourceGroupName: string, sharingUpdate: SharingUpdate, options?: GallerySharingProfileUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GallerySharingProfileUpdateResponse>, GallerySharingProfileUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, sharingUpdate: SharingUpdate, options?: GallerySharingProfileUpdateOptionalParams): Promise<GallerySharingProfileUpdateResponse>;
 }
 
 // @public
@@ -3238,6 +3473,14 @@ export interface GalleryUpdate extends UpdateResourceDefinition {
     sharingProfile?: SharingProfile;
     readonly sharingStatus?: SharingStatus;
     softDeletePolicy?: SoftDeletePolicy;
+}
+
+// @public
+export interface GenericGalleryParameter {
+    defaultValue?: string;
+    description?: string;
+    name: string;
+    required?: boolean;
 }
 
 // @public
@@ -5761,6 +6004,12 @@ export interface ScheduledEventsProfile {
 }
 
 // @public
+export interface ScriptSource {
+    parameters?: GalleryScriptParameter[];
+    scriptLink: string;
+}
+
+// @public
 export type SecurityEncryptionTypes = string;
 
 // @public
@@ -6183,7 +6432,7 @@ export type SoftDeletedArtifactTypes = string;
 
 // @public
 export interface SoftDeletedResource {
-    listByArtifactName(resourceGroupName: string, galleryName: string, artifactType: string, artifactName: string, options?: SoftDeletedResourceListByArtifactNameOptionalParams): PagedAsyncIterableIterator<GallerySoftDeletedResource>;
+    listByArtifactName(resourceGroupName: string, artifactType: string, artifactName: string, options?: SoftDeletedResourceListByArtifactNameOptionalParams): PagedAsyncIterableIterator<GallerySoftDeletedResource>;
 }
 
 // @public

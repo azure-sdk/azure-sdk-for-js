@@ -27,23 +27,18 @@ export interface GalleryApplicationVersions {
   /**
    * List gallery Application Versions in a gallery Application Definition.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
    * @param galleryApplicationName The name of the Shared Application Gallery Application Definition from
    *                               which the Application Versions are to be listed.
    * @param options The options parameters.
    */
   listByGalleryApplication(
     resourceGroupName: string,
-    galleryName: string,
     galleryApplicationName: string,
     options?: GalleryApplicationVersionsListByGalleryApplicationOptionalParams,
   ): PagedAsyncIterableIterator<GalleryApplicationVersion>;
   /**
    * Create or update a gallery Application Version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
    * @param galleryApplicationName The name of the gallery Application Definition in which the
    *                               Application Version is to be created.
    * @param galleryApplicationVersionName The name of the gallery Application Version to be created.
@@ -55,7 +50,6 @@ export interface GalleryApplicationVersions {
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
-    galleryName: string,
     galleryApplicationName: string,
     galleryApplicationVersionName: string,
     galleryApplicationVersion: GalleryApplicationVersion,
@@ -69,8 +63,6 @@ export interface GalleryApplicationVersions {
   /**
    * Create or update a gallery Application Version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
    * @param galleryApplicationName The name of the gallery Application Definition in which the
    *                               Application Version is to be created.
    * @param galleryApplicationVersionName The name of the gallery Application Version to be created.
@@ -82,7 +74,6 @@ export interface GalleryApplicationVersions {
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    galleryName: string,
     galleryApplicationName: string,
     galleryApplicationVersionName: string,
     galleryApplicationVersion: GalleryApplicationVersion,
@@ -91,8 +82,6 @@ export interface GalleryApplicationVersions {
   /**
    * Update a gallery Application Version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
    * @param galleryApplicationName The name of the gallery Application Definition in which the
    *                               Application Version is to be updated.
    * @param galleryApplicationVersionName The name of the gallery Application Version to be updated.
@@ -104,7 +93,6 @@ export interface GalleryApplicationVersions {
    */
   beginUpdate(
     resourceGroupName: string,
-    galleryName: string,
     galleryApplicationName: string,
     galleryApplicationVersionName: string,
     galleryApplicationVersion: GalleryApplicationVersionUpdate,
@@ -118,8 +106,6 @@ export interface GalleryApplicationVersions {
   /**
    * Update a gallery Application Version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
    * @param galleryApplicationName The name of the gallery Application Definition in which the
    *                               Application Version is to be updated.
    * @param galleryApplicationVersionName The name of the gallery Application Version to be updated.
@@ -131,7 +117,6 @@ export interface GalleryApplicationVersions {
    */
   beginUpdateAndWait(
     resourceGroupName: string,
-    galleryName: string,
     galleryApplicationName: string,
     galleryApplicationVersionName: string,
     galleryApplicationVersion: GalleryApplicationVersionUpdate,
@@ -140,8 +125,6 @@ export interface GalleryApplicationVersions {
   /**
    * Retrieves information about a gallery Application Version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
    * @param galleryApplicationName The name of the gallery Application Definition in which the
    *                               Application Version resides.
    * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
@@ -149,7 +132,6 @@ export interface GalleryApplicationVersions {
    */
   get(
     resourceGroupName: string,
-    galleryName: string,
     galleryApplicationName: string,
     galleryApplicationVersionName: string,
     options?: GalleryApplicationVersionsGetOptionalParams,
@@ -157,8 +139,6 @@ export interface GalleryApplicationVersions {
   /**
    * Delete a gallery Application Version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
    * @param galleryApplicationName The name of the gallery Application Definition in which the
    *                               Application Version resides.
    * @param galleryApplicationVersionName The name of the gallery Application Version to be deleted.
@@ -166,7 +146,6 @@ export interface GalleryApplicationVersions {
    */
   beginDelete(
     resourceGroupName: string,
-    galleryName: string,
     galleryApplicationName: string,
     galleryApplicationVersionName: string,
     options?: GalleryApplicationVersionsDeleteOptionalParams,
@@ -174,8 +153,6 @@ export interface GalleryApplicationVersions {
   /**
    * Delete a gallery Application Version.
    * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
    * @param galleryApplicationName The name of the gallery Application Definition in which the
    *                               Application Version resides.
    * @param galleryApplicationVersionName The name of the gallery Application Version to be deleted.
@@ -183,7 +160,6 @@ export interface GalleryApplicationVersions {
    */
   beginDeleteAndWait(
     resourceGroupName: string,
-    galleryName: string,
     galleryApplicationName: string,
     galleryApplicationVersionName: string,
     options?: GalleryApplicationVersionsDeleteOptionalParams,

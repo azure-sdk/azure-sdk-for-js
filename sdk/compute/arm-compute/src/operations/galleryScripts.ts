@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { GalleryInVMAccessControlProfiles } from "../operationsInterfaces/index.js";
+import { GalleryScripts } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -20,31 +20,29 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  GalleryInVMAccessControlProfile,
-  GalleryInVMAccessControlProfilesListByGalleryNextOptionalParams,
-  GalleryInVMAccessControlProfilesListByGalleryOptionalParams,
-  GalleryInVMAccessControlProfilesListByGalleryResponse,
-  GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams,
-  GalleryInVMAccessControlProfilesCreateOrUpdateResponse,
-  GalleryInVMAccessControlProfileUpdate,
-  GalleryInVMAccessControlProfilesUpdateOptionalParams,
-  GalleryInVMAccessControlProfilesUpdateResponse,
-  GalleryInVMAccessControlProfilesGetOptionalParams,
-  GalleryInVMAccessControlProfilesGetResponse,
-  GalleryInVMAccessControlProfilesDeleteOptionalParams,
-  GalleryInVMAccessControlProfilesDeleteResponse,
-  GalleryInVMAccessControlProfilesListByGalleryNextResponse,
+  GalleryScript,
+  GalleryScriptsListByGalleryNextOptionalParams,
+  GalleryScriptsListByGalleryOptionalParams,
+  GalleryScriptsListByGalleryResponse,
+  GalleryScriptsCreateOrUpdateOptionalParams,
+  GalleryScriptsCreateOrUpdateResponse,
+  GalleryScriptUpdate,
+  GalleryScriptsUpdateOptionalParams,
+  GalleryScriptsUpdateResponse,
+  GalleryScriptsGetOptionalParams,
+  GalleryScriptsGetResponse,
+  GalleryScriptsDeleteOptionalParams,
+  GalleryScriptsDeleteResponse,
+  GalleryScriptsListByGalleryNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing GalleryInVMAccessControlProfiles operations. */
-export class GalleryInVMAccessControlProfilesImpl
-  implements GalleryInVMAccessControlProfiles
-{
+/** Class containing GalleryScripts operations. */
+export class GalleryScriptsImpl implements GalleryScripts {
   private readonly client: ComputeManagementClient;
 
   /**
-   * Initialize a new instance of the class GalleryInVMAccessControlProfiles class.
+   * Initialize a new instance of the class GalleryScripts class.
    * @param client Reference to the service client
    */
   constructor(client: ComputeManagementClient) {
@@ -52,14 +50,14 @@ export class GalleryInVMAccessControlProfilesImpl
   }
 
   /**
-   * List gallery inVMAccessControlProfiles in a gallery.
+   * List gallery Script Definitions in a gallery.
    * @param resourceGroupName The name of the resource group.
    * @param options The options parameters.
    */
   public listByGallery(
     resourceGroupName: string,
-    options?: GalleryInVMAccessControlProfilesListByGalleryOptionalParams,
-  ): PagedAsyncIterableIterator<GalleryInVMAccessControlProfile> {
+    options?: GalleryScriptsListByGalleryOptionalParams,
+  ): PagedAsyncIterableIterator<GalleryScript> {
     const iter = this.listByGalleryPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -83,10 +81,10 @@ export class GalleryInVMAccessControlProfilesImpl
 
   private async *listByGalleryPagingPage(
     resourceGroupName: string,
-    options?: GalleryInVMAccessControlProfilesListByGalleryOptionalParams,
+    options?: GalleryScriptsListByGalleryOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<GalleryInVMAccessControlProfile[]> {
-    let result: GalleryInVMAccessControlProfilesListByGalleryResponse;
+  ): AsyncIterableIterator<GalleryScript[]> {
+    let result: GalleryScriptsListByGalleryResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByGallery(resourceGroupName, options);
@@ -110,8 +108,8 @@ export class GalleryInVMAccessControlProfilesImpl
 
   private async *listByGalleryPagingAll(
     resourceGroupName: string,
-    options?: GalleryInVMAccessControlProfilesListByGalleryOptionalParams,
-  ): AsyncIterableIterator<GalleryInVMAccessControlProfile> {
+    options?: GalleryScriptsListByGalleryOptionalParams,
+  ): AsyncIterableIterator<GalleryScript> {
     for await (const page of this.listByGalleryPagingPage(
       resourceGroupName,
       options,
@@ -121,30 +119,26 @@ export class GalleryInVMAccessControlProfilesImpl
   }
 
   /**
-   * Create or update a gallery inVMAccessControlProfile.
+   * Create or update a Gallery Script Definition. Gallery scripts allow the storage, sharing and reuse
+   * of common scripts
    * @param resourceGroupName The name of the resource group.
-   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be created
-   *                                     or updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed
-   *                                     in the middle. The maximum length is 80 characters.
-   * @param galleryInVMAccessControlProfile Parameters supplied to the create or update gallery
-   *                                        inVMAccessControlProfile operation.
+   * @param galleryScript Parameters supplied to the create or update gallery Script operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    inVMAccessControlProfileName: string,
-    galleryInVMAccessControlProfile: GalleryInVMAccessControlProfile,
-    options?: GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams,
+    galleryScript: GalleryScript,
+    options?: GalleryScriptsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<GalleryInVMAccessControlProfilesCreateOrUpdateResponse>,
-      GalleryInVMAccessControlProfilesCreateOrUpdateResponse
+      OperationState<GalleryScriptsCreateOrUpdateResponse>,
+      GalleryScriptsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<GalleryInVMAccessControlProfilesCreateOrUpdateResponse> => {
+    ): Promise<GalleryScriptsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -181,17 +175,12 @@ export class GalleryInVMAccessControlProfilesImpl
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        inVMAccessControlProfileName,
-        galleryInVMAccessControlProfile,
-        options,
-      },
+      args: { resourceGroupName, galleryScript, options },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      GalleryInVMAccessControlProfilesCreateOrUpdateResponse,
-      OperationState<GalleryInVMAccessControlProfilesCreateOrUpdateResponse>
+      GalleryScriptsCreateOrUpdateResponse,
+      OperationState<GalleryScriptsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -201,55 +190,45 @@ export class GalleryInVMAccessControlProfilesImpl
   }
 
   /**
-   * Create or update a gallery inVMAccessControlProfile.
+   * Create or update a Gallery Script Definition. Gallery scripts allow the storage, sharing and reuse
+   * of common scripts
    * @param resourceGroupName The name of the resource group.
-   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be created
-   *                                     or updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed
-   *                                     in the middle. The maximum length is 80 characters.
-   * @param galleryInVMAccessControlProfile Parameters supplied to the create or update gallery
-   *                                        inVMAccessControlProfile operation.
+   * @param galleryScript Parameters supplied to the create or update gallery Script operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    inVMAccessControlProfileName: string,
-    galleryInVMAccessControlProfile: GalleryInVMAccessControlProfile,
-    options?: GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams,
-  ): Promise<GalleryInVMAccessControlProfilesCreateOrUpdateResponse> {
+    galleryScript: GalleryScript,
+    options?: GalleryScriptsCreateOrUpdateOptionalParams,
+  ): Promise<GalleryScriptsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      inVMAccessControlProfileName,
-      galleryInVMAccessControlProfile,
+      galleryScript,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Update a gallery inVMAccessControlProfile.
+   * Update a gallery Script Definition.
    * @param resourceGroupName The name of the resource group.
-   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be updated.
-   *                                     The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the
-   *                                     middle. The maximum length is 80 characters.
-   * @param galleryInVMAccessControlProfile Parameters supplied to the update gallery
-   *                                        inVMAccessControlProfile operation.
+   * @param galleryScript Parameters supplied to the update gallery Script operation.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    inVMAccessControlProfileName: string,
-    galleryInVMAccessControlProfile: GalleryInVMAccessControlProfileUpdate,
-    options?: GalleryInVMAccessControlProfilesUpdateOptionalParams,
+    galleryScript: GalleryScriptUpdate,
+    options?: GalleryScriptsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<GalleryInVMAccessControlProfilesUpdateResponse>,
-      GalleryInVMAccessControlProfilesUpdateResponse
+      OperationState<GalleryScriptsUpdateResponse>,
+      GalleryScriptsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<GalleryInVMAccessControlProfilesUpdateResponse> => {
+    ): Promise<GalleryScriptsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -286,17 +265,12 @@ export class GalleryInVMAccessControlProfilesImpl
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        inVMAccessControlProfileName,
-        galleryInVMAccessControlProfile,
-        options,
-      },
+      args: { resourceGroupName, galleryScript, options },
       spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
-      GalleryInVMAccessControlProfilesUpdateResponse,
-      OperationState<GalleryInVMAccessControlProfilesUpdateResponse>
+      GalleryScriptsUpdateResponse,
+      OperationState<GalleryScriptsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -306,68 +280,57 @@ export class GalleryInVMAccessControlProfilesImpl
   }
 
   /**
-   * Update a gallery inVMAccessControlProfile.
+   * Update a gallery Script Definition.
    * @param resourceGroupName The name of the resource group.
-   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be updated.
-   *                                     The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the
-   *                                     middle. The maximum length is 80 characters.
-   * @param galleryInVMAccessControlProfile Parameters supplied to the update gallery
-   *                                        inVMAccessControlProfile operation.
+   * @param galleryScript Parameters supplied to the update gallery Script operation.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    inVMAccessControlProfileName: string,
-    galleryInVMAccessControlProfile: GalleryInVMAccessControlProfileUpdate,
-    options?: GalleryInVMAccessControlProfilesUpdateOptionalParams,
-  ): Promise<GalleryInVMAccessControlProfilesUpdateResponse> {
+    galleryScript: GalleryScriptUpdate,
+    options?: GalleryScriptsUpdateOptionalParams,
+  ): Promise<GalleryScriptsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      inVMAccessControlProfileName,
-      galleryInVMAccessControlProfile,
+      galleryScript,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Retrieves information about a gallery inVMAccessControlProfile.
+   * Retrieves information about a gallery Script Definition.
    * @param resourceGroupName The name of the resource group.
-   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be
-   *                                     retrieved.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    inVMAccessControlProfileName: string,
-    options?: GalleryInVMAccessControlProfilesGetOptionalParams,
-  ): Promise<GalleryInVMAccessControlProfilesGetResponse> {
+    options?: GalleryScriptsGetOptionalParams,
+  ): Promise<GalleryScriptsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, inVMAccessControlProfileName, options },
+      { resourceGroupName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Delete a gallery inVMAccessControlProfile.
+   * Delete a gallery Script.
    * @param resourceGroupName The name of the resource group.
-   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be deleted.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    inVMAccessControlProfileName: string,
-    options?: GalleryInVMAccessControlProfilesDeleteOptionalParams,
+    options?: GalleryScriptsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<GalleryInVMAccessControlProfilesDeleteResponse>,
-      GalleryInVMAccessControlProfilesDeleteResponse
+      OperationState<GalleryScriptsDeleteResponse>,
+      GalleryScriptsDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<GalleryInVMAccessControlProfilesDeleteResponse> => {
+    ): Promise<GalleryScriptsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -404,12 +367,12 @@ export class GalleryInVMAccessControlProfilesImpl
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, inVMAccessControlProfileName, options },
+      args: { resourceGroupName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      GalleryInVMAccessControlProfilesDeleteResponse,
-      OperationState<GalleryInVMAccessControlProfilesDeleteResponse>
+      GalleryScriptsDeleteResponse,
+      OperationState<GalleryScriptsDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -419,33 +382,27 @@ export class GalleryInVMAccessControlProfilesImpl
   }
 
   /**
-   * Delete a gallery inVMAccessControlProfile.
+   * Delete a gallery Script.
    * @param resourceGroupName The name of the resource group.
-   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be deleted.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    inVMAccessControlProfileName: string,
-    options?: GalleryInVMAccessControlProfilesDeleteOptionalParams,
-  ): Promise<GalleryInVMAccessControlProfilesDeleteResponse> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      inVMAccessControlProfileName,
-      options,
-    );
+    options?: GalleryScriptsDeleteOptionalParams,
+  ): Promise<GalleryScriptsDeleteResponse> {
+    const poller = await this.beginDelete(resourceGroupName, options);
     return poller.pollUntilDone();
   }
 
   /**
-   * List gallery inVMAccessControlProfiles in a gallery.
+   * List gallery Script Definitions in a gallery.
    * @param resourceGroupName The name of the resource group.
    * @param options The options parameters.
    */
   private _listByGallery(
     resourceGroupName: string,
-    options?: GalleryInVMAccessControlProfilesListByGalleryOptionalParams,
-  ): Promise<GalleryInVMAccessControlProfilesListByGalleryResponse> {
+    options?: GalleryScriptsListByGalleryOptionalParams,
+  ): Promise<GalleryScriptsListByGalleryResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByGalleryOperationSpec,
@@ -461,8 +418,8 @@ export class GalleryInVMAccessControlProfilesImpl
   private _listByGalleryNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: GalleryInVMAccessControlProfilesListByGalleryNextOptionalParams,
-  ): Promise<GalleryInVMAccessControlProfilesListByGalleryNextResponse> {
+    options?: GalleryScriptsListByGalleryNextOptionalParams,
+  ): Promise<GalleryScriptsListByGalleryNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByGalleryNextOperationSpec,
@@ -473,77 +430,81 @@ export class GalleryInVMAccessControlProfilesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles/{inVMAccessControlProfileName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/scripts/{galleryScriptName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.GalleryInVMAccessControlProfile,
+      bodyMapper: Mappers.GalleryScript,
+      headersMapper: Mappers.GalleryScriptsCreateOrUpdateHeaders,
     },
     201: {
-      bodyMapper: Mappers.GalleryInVMAccessControlProfile,
+      bodyMapper: Mappers.GalleryScript,
+      headersMapper: Mappers.GalleryScriptsCreateOrUpdateHeaders,
     },
     202: {
-      bodyMapper: Mappers.GalleryInVMAccessControlProfile,
+      bodyMapper: Mappers.GalleryScript,
+      headersMapper: Mappers.GalleryScriptsCreateOrUpdateHeaders,
     },
     204: {
-      bodyMapper: Mappers.GalleryInVMAccessControlProfile,
+      bodyMapper: Mappers.GalleryScript,
+      headersMapper: Mappers.GalleryScriptsCreateOrUpdateHeaders,
     },
     default: {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.galleryInVMAccessControlProfile,
+  requestBody: Parameters.galleryScript,
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.galleryName,
-    Parameters.inVMAccessControlProfileName,
+    Parameters.galleryScriptName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles/{inVMAccessControlProfileName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/scripts/{galleryScriptName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.GalleryInVMAccessControlProfile,
+      bodyMapper: Mappers.GalleryScript,
     },
     201: {
-      bodyMapper: Mappers.GalleryInVMAccessControlProfile,
+      bodyMapper: Mappers.GalleryScript,
     },
     202: {
-      bodyMapper: Mappers.GalleryInVMAccessControlProfile,
+      bodyMapper: Mappers.GalleryScript,
     },
     204: {
-      bodyMapper: Mappers.GalleryInVMAccessControlProfile,
+      bodyMapper: Mappers.GalleryScript,
     },
     default: {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.galleryInVMAccessControlProfile1,
+  requestBody: Parameters.galleryScript1,
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.galleryName,
-    Parameters.inVMAccessControlProfileName1,
+    Parameters.galleryScriptName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles/{inVMAccessControlProfileName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/scripts/{galleryScriptName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GalleryInVMAccessControlProfile,
+      bodyMapper: Mappers.GalleryScript,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -555,26 +516,26 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.galleryName,
-    Parameters.inVMAccessControlProfileName1,
+    Parameters.galleryScriptName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles/{inVMAccessControlProfileName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/scripts/{galleryScriptName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.GalleryInVMAccessControlProfilesDeleteHeaders,
+      headersMapper: Mappers.GalleryScriptsDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.GalleryInVMAccessControlProfilesDeleteHeaders,
+      headersMapper: Mappers.GalleryScriptsDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.GalleryInVMAccessControlProfilesDeleteHeaders,
+      headersMapper: Mappers.GalleryScriptsDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.GalleryInVMAccessControlProfilesDeleteHeaders,
+      headersMapper: Mappers.GalleryScriptsDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -586,17 +547,17 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.galleryName,
-    Parameters.inVMAccessControlProfileName1,
+    Parameters.galleryScriptName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const listByGalleryOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/scripts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GalleryInVMAccessControlProfileList,
+      bodyMapper: Mappers.GalleryScriptList,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -617,7 +578,7 @@ const listByGalleryNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GalleryInVMAccessControlProfileList,
+      bodyMapper: Mappers.GalleryScriptList,
     },
     default: {
       bodyMapper: Mappers.CloudError,
