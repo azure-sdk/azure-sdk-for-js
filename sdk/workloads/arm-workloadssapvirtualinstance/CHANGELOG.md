@@ -1,7 +1,7 @@
 # Release History
     
-## 1.0.0 (2025-04-22)
+## 1.0.0 (2025-04-24)
 
 ### Features Added
 
-This is the first stable version with the package of @azure/arm-workloadssapvirtualinstance
+The package of @azure/arm-workloadssapvirtualinstance is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
