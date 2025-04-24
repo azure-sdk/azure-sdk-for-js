@@ -12,7 +12,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function getCopilotSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const client = new PortalServicesClient(credential);
+  const subscriptionId = "00000000-0000-0000-0000-00000000000";
+  const client = new PortalServicesClient(credential, subscriptionId);
   const result = await client.copilotSettings.get();
   console.log(result);
 }
