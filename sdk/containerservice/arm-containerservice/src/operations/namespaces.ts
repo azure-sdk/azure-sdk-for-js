@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { TrustedAccessRoleBindings } from "../operationsInterfaces/index.js";
+import { Namespaces } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -20,28 +20,31 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  TrustedAccessRoleBinding,
-  TrustedAccessRoleBindingsListNextOptionalParams,
-  TrustedAccessRoleBindingsListOptionalParams,
-  TrustedAccessRoleBindingsListResponse,
-  TrustedAccessRoleBindingsGetOptionalParams,
-  TrustedAccessRoleBindingsGetResponse,
-  TrustedAccessRoleBindingsCreateOrUpdateOptionalParams,
-  TrustedAccessRoleBindingsCreateOrUpdateResponse,
-  TrustedAccessRoleBindingsDeleteOptionalParams,
-  TrustedAccessRoleBindingsDeleteResponse,
-  TrustedAccessRoleBindingsListNextResponse,
+  Namespace,
+  NamespacesListByManagedClusterNextOptionalParams,
+  NamespacesListByManagedClusterOptionalParams,
+  NamespacesListByManagedClusterResponse,
+  NamespacesGetOptionalParams,
+  NamespacesGetResponse,
+  NamespacesCreateOrUpdateOptionalParams,
+  NamespacesCreateOrUpdateResponse,
+  NamespacesDeleteOptionalParams,
+  NamespacesDeleteResponse,
+  TagsObject,
+  NamespacesUpdateOptionalParams,
+  NamespacesUpdateResponse,
+  NamespacesListCredentialOptionalParams,
+  NamespacesListCredentialResponse,
+  NamespacesListByManagedClusterNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing TrustedAccessRoleBindings operations. */
-export class TrustedAccessRoleBindingsImpl
-  implements TrustedAccessRoleBindings
-{
+/** Class containing Namespaces operations. */
+export class NamespacesImpl implements Namespaces {
   private readonly client: ContainerServiceClient;
 
   /**
-   * Initialize a new instance of the class TrustedAccessRoleBindings class.
+   * Initialize a new instance of the class Namespaces class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerServiceClient) {
@@ -49,17 +52,21 @@ export class TrustedAccessRoleBindingsImpl
   }
 
   /**
-   * List trusted access role bindings.
+   * Gets a list of managed namespaces in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
-  public list(
+  public listByManagedCluster(
     resourceGroupName: string,
     resourceName: string,
-    options?: TrustedAccessRoleBindingsListOptionalParams,
-  ): PagedAsyncIterableIterator<TrustedAccessRoleBinding> {
-    const iter = this.listPagingAll(resourceGroupName, resourceName, options);
+    options?: NamespacesListByManagedClusterOptionalParams,
+  ): PagedAsyncIterableIterator<Namespace> {
+    const iter = this.listByManagedClusterPagingAll(
+      resourceGroupName,
+      resourceName,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -71,7 +78,7 @@ export class TrustedAccessRoleBindingsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
+        return this.listByManagedClusterPagingPage(
           resourceGroupName,
           resourceName,
           options,
@@ -81,23 +88,27 @@ export class TrustedAccessRoleBindingsImpl
     };
   }
 
-  private async *listPagingPage(
+  private async *listByManagedClusterPagingPage(
     resourceGroupName: string,
     resourceName: string,
-    options?: TrustedAccessRoleBindingsListOptionalParams,
+    options?: NamespacesListByManagedClusterOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<TrustedAccessRoleBinding[]> {
-    let result: TrustedAccessRoleBindingsListResponse;
+  ): AsyncIterableIterator<Namespace[]> {
+    let result: NamespacesListByManagedClusterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, resourceName, options);
+      result = await this._listByManagedCluster(
+        resourceGroupName,
+        resourceName,
+        options,
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
+      result = await this._listByManagedClusterNext(
         resourceGroupName,
         resourceName,
         continuationToken,
@@ -110,12 +121,12 @@ export class TrustedAccessRoleBindingsImpl
     }
   }
 
-  private async *listPagingAll(
+  private async *listByManagedClusterPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: TrustedAccessRoleBindingsListOptionalParams,
-  ): AsyncIterableIterator<TrustedAccessRoleBinding> {
-    for await (const page of this.listPagingPage(
+    options?: NamespacesListByManagedClusterOptionalParams,
+  ): AsyncIterableIterator<Namespace> {
+    for await (const page of this.listByManagedClusterPagingPage(
       resourceGroupName,
       resourceName,
       options,
@@ -125,70 +136,65 @@ export class TrustedAccessRoleBindingsImpl
   }
 
   /**
-   * List trusted access role bindings.
+   * Gets a list of managed namespaces in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
-  private _list(
+  private _listByManagedCluster(
     resourceGroupName: string,
     resourceName: string,
-    options?: TrustedAccessRoleBindingsListOptionalParams,
-  ): Promise<TrustedAccessRoleBindingsListResponse> {
+    options?: NamespacesListByManagedClusterOptionalParams,
+  ): Promise<NamespacesListByManagedClusterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listOperationSpec,
+      listByManagedClusterOperationSpec,
     );
   }
 
   /**
-   * Get a trusted access role binding.
+   * Gets the specified namespace of a managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param trustedAccessRoleBindingName The name of trusted access role binding.
+   * @param namespaceName The name of the namespace.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     resourceName: string,
-    trustedAccessRoleBindingName: string,
-    options?: TrustedAccessRoleBindingsGetOptionalParams,
-  ): Promise<TrustedAccessRoleBindingsGetResponse> {
+    namespaceName: string,
+    options?: NamespacesGetOptionalParams,
+  ): Promise<NamespacesGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        resourceName,
-        trustedAccessRoleBindingName,
-        options,
-      },
+      { resourceGroupName, resourceName, namespaceName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Create or update a trusted access role binding
+   * Creates or updates a namespace in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param trustedAccessRoleBindingName The name of trusted access role binding.
-   * @param trustedAccessRoleBinding A trusted access role binding
+   * @param namespaceName The name of the namespace.
+   * @param parameters The namespace to create or update.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     resourceName: string,
-    trustedAccessRoleBindingName: string,
-    trustedAccessRoleBinding: TrustedAccessRoleBinding,
-    options?: TrustedAccessRoleBindingsCreateOrUpdateOptionalParams,
+    namespaceName: string,
+    parameters: Namespace,
+    options?: NamespacesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<TrustedAccessRoleBindingsCreateOrUpdateResponse>,
-      TrustedAccessRoleBindingsCreateOrUpdateResponse
+      OperationState<NamespacesCreateOrUpdateResponse>,
+      NamespacesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<TrustedAccessRoleBindingsCreateOrUpdateResponse> => {
+    ): Promise<NamespacesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -228,15 +234,15 @@ export class TrustedAccessRoleBindingsImpl
       args: {
         resourceGroupName,
         resourceName,
-        trustedAccessRoleBindingName,
-        trustedAccessRoleBinding,
+        namespaceName,
+        parameters,
         options,
       },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      TrustedAccessRoleBindingsCreateOrUpdateResponse,
-      OperationState<TrustedAccessRoleBindingsCreateOrUpdateResponse>
+      NamespacesCreateOrUpdateResponse,
+      OperationState<NamespacesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -246,52 +252,52 @@ export class TrustedAccessRoleBindingsImpl
   }
 
   /**
-   * Create or update a trusted access role binding
+   * Creates or updates a namespace in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param trustedAccessRoleBindingName The name of trusted access role binding.
-   * @param trustedAccessRoleBinding A trusted access role binding
+   * @param namespaceName The name of the namespace.
+   * @param parameters The namespace to create or update.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     resourceName: string,
-    trustedAccessRoleBindingName: string,
-    trustedAccessRoleBinding: TrustedAccessRoleBinding,
-    options?: TrustedAccessRoleBindingsCreateOrUpdateOptionalParams,
-  ): Promise<TrustedAccessRoleBindingsCreateOrUpdateResponse> {
+    namespaceName: string,
+    parameters: Namespace,
+    options?: NamespacesCreateOrUpdateOptionalParams,
+  ): Promise<NamespacesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       resourceName,
-      trustedAccessRoleBindingName,
-      trustedAccessRoleBinding,
+      namespaceName,
+      parameters,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete a trusted access role binding.
+   * Deletes a namespace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param trustedAccessRoleBindingName The name of trusted access role binding.
+   * @param namespaceName The name of the namespace.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     resourceName: string,
-    trustedAccessRoleBindingName: string,
-    options?: TrustedAccessRoleBindingsDeleteOptionalParams,
+    namespaceName: string,
+    options?: NamespacesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<TrustedAccessRoleBindingsDeleteResponse>,
-      TrustedAccessRoleBindingsDeleteResponse
+      OperationState<NamespacesDeleteResponse>,
+      NamespacesDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<TrustedAccessRoleBindingsDeleteResponse> => {
+    ): Promise<NamespacesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -328,17 +334,12 @@ export class TrustedAccessRoleBindingsImpl
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        resourceName,
-        trustedAccessRoleBindingName,
-        options,
-      },
+      args: { resourceGroupName, resourceName, namespaceName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      TrustedAccessRoleBindingsDeleteResponse,
-      OperationState<TrustedAccessRoleBindingsDeleteResponse>
+      NamespacesDeleteResponse,
+      OperationState<NamespacesDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -348,55 +349,96 @@ export class TrustedAccessRoleBindingsImpl
   }
 
   /**
-   * Delete a trusted access role binding.
+   * Deletes a namespace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param trustedAccessRoleBindingName The name of trusted access role binding.
+   * @param namespaceName The name of the namespace.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     resourceName: string,
-    trustedAccessRoleBindingName: string,
-    options?: TrustedAccessRoleBindingsDeleteOptionalParams,
-  ): Promise<TrustedAccessRoleBindingsDeleteResponse> {
+    namespaceName: string,
+    options?: NamespacesDeleteOptionalParams,
+  ): Promise<NamespacesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       resourceName,
-      trustedAccessRoleBindingName,
+      namespaceName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * ListNext
+   * Updates tags on a namespace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param namespaceName The name of the namespace.
+   * @param parameters Parameters supplied to the patch namespace operation, we only support patch tags
+   *                   for now.
    * @param options The options parameters.
    */
-  private _listNext(
+  update(
+    resourceGroupName: string,
+    resourceName: string,
+    namespaceName: string,
+    parameters: TagsObject,
+    options?: NamespacesUpdateOptionalParams,
+  ): Promise<NamespacesUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, resourceName, namespaceName, parameters, options },
+      updateOperationSpec,
+    );
+  }
+
+  /**
+   * Lists the credentials of a namespace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param namespaceName The name of the namespace.
+   * @param options The options parameters.
+   */
+  listCredential(
+    resourceGroupName: string,
+    resourceName: string,
+    namespaceName: string,
+    options?: NamespacesListCredentialOptionalParams,
+  ): Promise<NamespacesListCredentialResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, resourceName, namespaceName, options },
+      listCredentialOperationSpec,
+    );
+  }
+
+  /**
+   * ListByManagedClusterNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param nextLink The nextLink from the previous successful call to the ListByManagedCluster method.
+   * @param options The options parameters.
+   */
+  private _listByManagedClusterNext(
     resourceGroupName: string,
     resourceName: string,
     nextLink: string,
-    options?: TrustedAccessRoleBindingsListNextOptionalParams,
-  ): Promise<TrustedAccessRoleBindingsListNextResponse> {
+    options?: NamespacesListByManagedClusterNextOptionalParams,
+  ): Promise<NamespacesListByManagedClusterNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, nextLink, options },
-      listNextOperationSpec,
+      listByManagedClusterNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings",
+const listByManagedClusterOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/namespaces",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TrustedAccessRoleBindingListResult,
+      bodyMapper: Mappers.NamespaceListResult,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -413,11 +455,11 @@ const listOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/namespaces/{namespaceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TrustedAccessRoleBinding,
+      bodyMapper: Mappers.Namespace,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -429,59 +471,59 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.trustedAccessRoleBindingName,
+    Parameters.namespaceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/namespaces/{namespaceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.TrustedAccessRoleBinding,
+      bodyMapper: Mappers.Namespace,
     },
     201: {
-      bodyMapper: Mappers.TrustedAccessRoleBinding,
+      bodyMapper: Mappers.Namespace,
     },
     202: {
-      bodyMapper: Mappers.TrustedAccessRoleBinding,
+      bodyMapper: Mappers.Namespace,
     },
     204: {
-      bodyMapper: Mappers.TrustedAccessRoleBinding,
+      bodyMapper: Mappers.Namespace,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.trustedAccessRoleBinding,
+  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.trustedAccessRoleBindingName,
+    Parameters.namespaceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/namespaces/{namespaceName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.TrustedAccessRoleBindingsDeleteHeaders,
+      headersMapper: Mappers.NamespacesDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.TrustedAccessRoleBindingsDeleteHeaders,
+      headersMapper: Mappers.NamespacesDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.TrustedAccessRoleBindingsDeleteHeaders,
+      headersMapper: Mappers.NamespacesDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.TrustedAccessRoleBindingsDeleteHeaders,
+      headersMapper: Mappers.NamespacesDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -493,17 +535,63 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.trustedAccessRoleBindingName,
+    Parameters.namespaceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/namespaces/{namespaceName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Namespace,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.parameters1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+    Parameters.namespaceName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const listCredentialOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/namespaces/{namespaceName}/listCredential",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CredentialResults,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+    Parameters.namespaceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByManagedClusterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TrustedAccessRoleBindingListResult,
+      bodyMapper: Mappers.NamespaceListResult,
     },
     default: {
       bodyMapper: Mappers.CloudError,
