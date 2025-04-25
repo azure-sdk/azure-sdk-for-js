@@ -232,6 +232,7 @@ export interface FluxConfiguration extends ProxyResource {
         [propertyName: string]: KustomizationDefinition | null;
     };
     namespace?: string;
+    ociRepository?: OCIRepositoryDefinition;
     readonly provisioningState?: ProvisioningState;
     reconciliationWaitDuration?: string;
     readonly repositoryPublicKey?: string;
@@ -257,6 +258,7 @@ export interface FluxConfigurationPatch {
     kustomizations?: {
         [propertyName: string]: KustomizationPatchDefinition | null;
     };
+    ociRepository?: OCIRepositoryPatchDefinition;
     sourceKind?: SourceKindType;
     suspend?: boolean;
 }
@@ -422,6 +424,12 @@ export enum KnownMessageLevelType {
 }
 
 // @public
+export enum KnownOperationType {
+    Copy = "copy",
+    Extract = "extract"
+}
+
+// @public
 export enum KnownOperatorScopeType {
     Cluster = "cluster",
     Namespace = "namespace"
@@ -461,7 +469,8 @@ export enum KnownScopeType {
 export enum KnownSourceKindType {
     AzureBlob = "AzureBlob",
     Bucket = "Bucket",
-    GitRepository = "GitRepository"
+    GitRepository = "GitRepository",
+    OCIRepository = "OCIRepository"
 }
 
 // @public
@@ -483,7 +492,7 @@ export interface KustomizationPatchDefinition {
     dependsOn?: string[];
     force?: boolean;
     path?: string;
-    postBuild?: PostBuildDefinition;
+    postBuild?: PostBuildPatchDefinition;
     prune?: boolean;
     retryIntervalInSeconds?: number;
     syncIntervalInSeconds?: number;
@@ -493,6 +502,18 @@ export interface KustomizationPatchDefinition {
 
 // @public
 export type KustomizationValidationType = string;
+
+// @public
+export interface LayerSelectorDefinition {
+    mediaType?: string;
+    operation?: OperationType;
+}
+
+// @public
+export interface LayerSelectorPatchDefinition {
+    mediaType?: string;
+    operation?: OperationType;
+}
 
 // @public
 export type LevelType = string;
@@ -505,6 +526,18 @@ export interface ManagedIdentityDefinition {
 // @public
 export interface ManagedIdentityPatchDefinition {
     clientId?: string;
+}
+
+// @public
+export interface MatchOidcIdentityDefinition {
+    issuer?: string;
+    subject?: string;
+}
+
+// @public
+export interface MatchOidcIdentityPatchDefinition {
+    issuer?: string;
+    subject?: string;
 }
 
 // @public
@@ -534,6 +567,50 @@ export interface ObjectStatusDefinition {
     name?: string;
     namespace?: string;
     statusConditions?: ObjectStatusConditionDefinition[];
+}
+
+// @public
+export interface OCIRepositoryDefinition {
+    insecure?: boolean;
+    layerSelector?: LayerSelectorDefinition;
+    localAuthRef?: string;
+    repositoryRef?: OCIRepositoryRefDefinition;
+    serviceAccountName?: string;
+    syncIntervalInSeconds?: number;
+    timeoutInSeconds?: number;
+    tlsConfig?: TlsConfigDefinition;
+    url?: string;
+    useWorkloadIdentity?: boolean;
+    verify?: VerifyDefinition;
+}
+
+// @public
+export interface OCIRepositoryPatchDefinition {
+    insecure?: boolean;
+    layerSelector?: LayerSelectorPatchDefinition;
+    localAuthRef?: string;
+    repositoryRef?: OCIRepositoryRefPatchDefinition;
+    serviceAccountName?: string;
+    syncIntervalInSeconds?: number;
+    timeoutInSeconds?: number;
+    tlsConfig?: TlsConfigPatchDefinition;
+    url?: string;
+    useWorkloadIdentity?: boolean;
+    verify?: VerifyPatchDefinition;
+}
+
+// @public
+export interface OCIRepositoryRefDefinition {
+    digest?: string;
+    semver?: string;
+    tag?: string;
+}
+
+// @public
+export interface OCIRepositoryRefPatchDefinition {
+    digest?: string;
+    semver?: string;
+    tag?: string;
 }
 
 // @public
@@ -600,6 +677,9 @@ export interface OperationStatusResult {
 }
 
 // @public
+export type OperationType = string;
+
+// @public
 export type OperatorScopeType = string;
 
 // @public
@@ -633,6 +713,14 @@ export interface PostBuildDefinition {
         [propertyName: string]: string;
     };
     substituteFrom?: (SubstituteFromDefinition | null)[];
+}
+
+// @public
+export interface PostBuildPatchDefinition {
+    substitute?: {
+        [propertyName: string]: string;
+    };
+    substituteFrom?: (SubstituteFromPatchDefinition | null)[];
 }
 
 // @public
@@ -747,8 +835,6 @@ export class SourceControlConfigurationClient extends coreClient.ServiceClient {
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: SourceControlConfigurationClientOptionalParams);
     // (undocumented)
-    apiVersion: string;
-    // (undocumented)
     extensions: Extensions;
     // (undocumented)
     fluxConfigOperationStatus: FluxConfigOperationStatus;
@@ -767,7 +853,6 @@ export class SourceControlConfigurationClient extends coreClient.ServiceClient {
 // @public
 export interface SourceControlConfigurationClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
-    apiVersion?: string;
     endpoint?: string;
 }
 
@@ -831,6 +916,13 @@ export interface SubstituteFromDefinition {
 }
 
 // @public
+export interface SubstituteFromPatchDefinition {
+    kind?: string;
+    name?: string;
+    optional?: boolean;
+}
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -838,6 +930,38 @@ export interface SystemData {
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface TlsConfigDefinition {
+    caCertificate?: string;
+    clientCertificate?: string;
+    privateKey?: string;
+}
+
+// @public
+export interface TlsConfigPatchDefinition {
+    caCertificate?: string;
+    clientCertificate?: string;
+    privateKey?: string;
+}
+
+// @public
+export interface VerifyDefinition {
+    matchOidcIdentity?: (MatchOidcIdentityDefinition | null)[];
+    provider?: string;
+    verificationConfig?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface VerifyPatchDefinition {
+    matchOidcIdentity?: (MatchOidcIdentityPatchDefinition | null)[];
+    provider?: string;
+    verificationConfig?: {
+        [propertyName: string]: string;
+    };
 }
 
 // (No @packageDocumentation comment for this package)

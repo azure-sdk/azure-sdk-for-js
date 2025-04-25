@@ -15,7 +15,7 @@ import {
   SourceControlConfigurationsGetResponse,
   SourceControlConfigurationsCreateOrUpdateOptionalParams,
   SourceControlConfigurationsCreateOrUpdateResponse,
-  SourceControlConfigurationsDeleteOptionalParams
+  SourceControlConfigurationsDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +36,7 @@ export interface SourceControlConfigurations {
     clusterRp: string,
     clusterResourceName: string,
     clusterName: string,
-    options?: SourceControlConfigurationsListOptionalParams
+    options?: SourceControlConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<SourceControlConfiguration>;
   /**
    * Gets details of the Source Control Configuration.
@@ -55,7 +55,7 @@ export interface SourceControlConfigurations {
     clusterResourceName: string,
     clusterName: string,
     sourceControlConfigurationName: string,
-    options?: SourceControlConfigurationsGetOptionalParams
+    options?: SourceControlConfigurationsGetOptionalParams,
   ): Promise<SourceControlConfigurationsGetResponse>;
   /**
    * Create a new Kubernetes Source Control Configuration.
@@ -76,7 +76,7 @@ export interface SourceControlConfigurations {
     clusterName: string,
     sourceControlConfigurationName: string,
     sourceControlConfiguration: SourceControlConfiguration,
-    options?: SourceControlConfigurationsCreateOrUpdateOptionalParams
+    options?: SourceControlConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<SourceControlConfigurationsCreateOrUpdateResponse>;
   /**
    * This will delete the YAML file used to set up the Source control configuration, thus stopping future
@@ -96,7 +96,7 @@ export interface SourceControlConfigurations {
     clusterResourceName: string,
     clusterName: string,
     sourceControlConfigurationName: string,
-    options?: SourceControlConfigurationsDeleteOptionalParams
+    options?: SourceControlConfigurationsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * This will delete the YAML file used to set up the Source control configuration, thus stopping future
@@ -116,6 +116,6 @@ export interface SourceControlConfigurations {
     clusterResourceName: string,
     clusterName: string,
     sourceControlConfigurationName: string,
-    options?: SourceControlConfigurationsDeleteOptionalParams
+    options?: SourceControlConfigurationsDeleteOptionalParams,
   ): Promise<void>;
 }
