@@ -8,105 +8,426 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** List of Deployment stacks. */
-export interface DeploymentStackListResult {
-  /** An array of Deployment stacks. */
-  value?: DeploymentStack[];
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface OperationListResult {
   /**
-   * The URL to use for getting the next set of results.
+   * List of operations supported by the resource provider
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Operation[];
+  /**
+   * URL to get the next set of operation list results (if there are any).
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
 }
 
-/** Entity representing the reference to the template. */
-export interface DeploymentStacksTemplateLink {
-  /** The URI of the template to deploy. Use either the uri or id property, but not both. */
-  uri?: string;
-  /** The resourceId of a Template Spec. Use either the id or uri property, but not both. */
-  id?: string;
-  /** The relativePath property can be used to deploy a linked template at a location relative to the parent. If the parent template was linked with a TemplateSpec, this will reference an artifact in the TemplateSpec.  If the parent was linked with a URI, the child deployment will be a combination of the parent and relativePath URIs. */
-  relativePath?: string;
-  /** The query string (for example, a SAS token) to be used with the templateLink URI. */
-  queryString?: string;
-  /** If included, must match the ContentVersion in the template. */
-  contentVersion?: string;
-}
-
-/** Deployment parameter for the template. */
-export interface DeploymentParameter {
-  /** Input value to the parameter. */
-  value?: any;
-  /** Type of the value. */
-  type?: string;
-  /** Azure Key Vault parameter reference. */
-  reference?: KeyVaultParameterReference;
-}
-
-/** Azure Key Vault parameter reference. */
-export interface KeyVaultParameterReference {
-  /** Azure Key Vault reference. */
-  keyVault: KeyVaultReference;
-  /** Azure Key Vault secret name. */
-  secretName: string;
-  /** Azure Key Vault secret version. */
-  secretVersion?: string;
-}
-
-/** Azure Key Vault reference. */
-export interface KeyVaultReference {
-  /** Azure Key Vault resourceId. */
-  id: string;
-}
-
-/** Entity representing the reference to the deployment parameters. */
-export interface DeploymentStacksParametersLink {
-  /** The URI of the parameters file. */
-  uri: string;
-  /** If included, must match the ContentVersion in the template. */
-  contentVersion?: string;
-}
-
-/** Defines the behavior of resources that are no longer managed after the stack is updated or deleted. */
-export interface ActionOnUnmanage {
-  /** Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state. */
-  resources: DeploymentStacksDeleteDetachEnum;
-  /** Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state. */
-  resourceGroups?: DeploymentStacksDeleteDetachEnum;
-  /** Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state. */
-  managementGroups?: DeploymentStacksDeleteDetachEnum;
-}
-
-/** The debug setting. */
-export interface DeploymentStacksDebugSetting {
-  /** Specifies the type of information to log for debugging. The permitted values are none, requestContent, responseContent, or both requestContent and responseContent separated by a comma. The default is none. When setting this value, carefully consider the type of information that is being passed in during deployment. By logging information about the request or response, sensitive data that is retrieved through the deployment operations could potentially be exposed. */
-  detailLevel?: string;
-}
-
-/** Defines how resources deployed by the Deployment stack are locked. */
-export interface DenySettings {
-  /** denySettings Mode that defines denied actions. */
-  mode: DenySettingsMode;
-  /** List of AAD principal IDs excluded from the lock. Up to 5 principals are permitted. */
-  excludedPrincipals?: string[];
-  /** List of role-based management operations that are excluded from the denySettings. Up to 200 actions are permitted. If the denySetting mode is set to 'denyWriteAndDelete', then the following actions are automatically appended to 'excludedActions': '*\/read' and 'Microsoft.Authorization/locks/delete'. If the denySetting mode is set to 'denyDelete', then the following actions are automatically appended to 'excludedActions': 'Microsoft.Authorization/locks/delete'. Duplicate actions will be removed. */
-  excludedActions?: string[];
-  /** DenySettings will be applied to child resource scopes of every managed resource with a deny assignment. */
-  applyToChildScopes?: boolean;
-}
-
-/** The resourceId model. */
-export interface ResourceReference {
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
   /**
-   * The resourceId of a resource managed by the deployment stack.
+   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+  /**
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: Origin;
+  /**
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionType?: ActionType;
+}
+
+/** Localized display information for this particular operation. */
+export interface OperationDisplay {
+  /**
+   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provider?: string;
+  /**
+   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resource?: string;
+  /**
+   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+}
+
+/** An error response for a resource management request. */
+export interface CloudError {
+  /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.) */
+  error?: ErrorResponse;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.) */
+export interface ErrorResponse {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorResponse[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** Location list operation response. */
+export interface LocationListResult {
+  /** An array of locations. */
+  value?: Location[];
+}
+
+/** Location information. */
+export interface Location {
+  /**
+   * The fully qualified ID of the location. For example, /subscriptions/8d65815f-a5b6-402f-9298-045155da7d74/locations/westus.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
+  /**
+   * The subscription ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+  /**
+   * The location name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The location type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: LocationType;
+  /**
+   * The display name of the location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * The display name of the location and its region.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly regionalDisplayName?: string;
+  /** Metadata of the location, such as lat/long, paired region, and others. */
+  metadata?: LocationMetadata;
+  /** The availability zone mappings for this region. */
+  availabilityZoneMappings?: AvailabilityZoneMappings[];
 }
 
-/** Deployment Stacks error response. */
-export interface DeploymentStacksError {
-  /** The error detail. */
+/** Location metadata information */
+export interface LocationMetadata {
+  /**
+   * The type of the region.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly regionType?: RegionType;
+  /**
+   * The category of the region.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly regionCategory?: RegionCategory;
+  /**
+   * The geography of the location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly geography?: string;
+  /**
+   * The geography group of the location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly geographyGroup?: string;
+  /**
+   * The longitude of the location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly longitude?: string;
+  /**
+   * The latitude of the location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly latitude?: string;
+  /**
+   * The physical location of the Azure location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly physicalLocation?: string;
+  /** The regions paired to this region. */
+  pairedRegion?: PairedRegion[];
+  /**
+   * The home location of an edge zone.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly homeLocation?: string;
+}
+
+/** Information regarding paired region. */
+export interface PairedRegion {
+  /**
+   * The name of the paired region.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The fully qualified ID of the location. For example, /subscriptions/8d65815f-a5b6-402f-9298-045155da7d74/locations/westus.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The subscription ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+}
+
+/** Availability zone mappings for the region */
+export interface AvailabilityZoneMappings {
+  /**
+   * The logical zone id for the availability zone
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly logicalZone?: string;
+  /**
+   * The fully qualified physical zone id of availability zone to which logical zone id is mapped to
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly physicalZone?: string;
+}
+
+/** Subscription information. */
+export interface Subscription {
+  /**
+   * The fully qualified ID for the subscription. For example, /subscriptions/8d65815f-a5b6-402f-9298-045155da7d74
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The subscription ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+  /**
+   * The subscription display name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * The subscription tenant ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /**
+   * The subscription state. Possible values are Enabled, Warned, PastDue, Disabled, and Deleted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: SubscriptionState;
+  /** The subscription policies. */
+  subscriptionPolicies?: SubscriptionPolicies;
+  /** The authorization source of the request. Valid values are one or more combinations of Legacy, RoleBased, Bypassed, Direct and Management. For example, 'Legacy, RoleBased'. */
+  authorizationSource?: string;
+  /** An array containing the tenants managing the subscription. */
+  managedByTenants?: ManagedByTenant[];
+  /** The tags attached to the subscription. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** Subscription policies. */
+export interface SubscriptionPolicies {
+  /**
+   * The subscription location placement ID. The ID indicates which regions are visible for a subscription. For example, a subscription with a location placement Id of Public_2014-09-01 has access to Azure public regions.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly locationPlacementId?: string;
+  /**
+   * The subscription quota ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly quotaId?: string;
+  /**
+   * The subscription spending limit.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly spendingLimit?: SpendingLimit;
+}
+
+/** Information about a tenant managing the subscription. */
+export interface ManagedByTenant {
+  /**
+   * The tenant ID of the managing tenant. This is a GUID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+}
+
+/** Subscription list operation response. */
+export interface SubscriptionListResult {
+  /** An array of subscriptions. */
+  value?: Subscription[];
+  /** The URL to get the next set of results. */
+  nextLink: string;
+}
+
+/** Tenant Ids information. */
+export interface TenantListResult {
+  /** An array of tenants. */
+  value?: TenantIdDescription[];
+  /** The URL to use for getting the next set of results. */
+  nextLink: string;
+}
+
+/** Tenant Id information. */
+export interface TenantIdDescription {
+  /**
+   * The fully qualified ID of the tenant. For example, /tenants/8d65815f-a5b6-402f-9298-045155da7d74
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The tenant ID. For example, 8d65815f-a5b6-402f-9298-045155da7d74
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /**
+   * Category of the tenant.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantCategory?: TenantCategory;
+  /**
+   * Country/region name of the address for the tenant.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly country?: string;
+  /**
+   * Country/region abbreviation for the tenant.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly countryCode?: string;
+  /**
+   * The display name of the tenant.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * The list of domains for the tenant.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly domains?: string[];
+  /**
+   * The default domain for the tenant.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly defaultDomain?: string;
+  /**
+   * The tenant type. Only available for 'Home' tenant category.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantType?: string;
+  /**
+   * The tenant's branding logo URL. Only available for 'Home' tenant category.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantBrandingLogoUrl?: string;
+}
+
+/** Check zone peers request parameters. */
+export interface CheckZonePeersRequest {
+  /** The Microsoft location. */
+  location?: string;
+  /** The peer Microsoft Azure subscription ID. */
+  subscriptionIds?: string[];
+}
+
+/** Result of the Check zone peers operation. */
+export interface CheckZonePeersResult {
+  /**
+   * The subscription ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+  /** the location of the subscription. */
+  location?: string;
+  /** The Availability Zones shared by the subscriptions. */
+  availabilityZonePeers?: AvailabilityZonePeers[];
+}
+
+/** List of availability zones shared by the subscriptions. */
+export interface AvailabilityZonePeers {
+  /**
+   * The availabilityZone.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly availabilityZone?: string;
+  /** Details of shared availability zone. */
+  peers?: Peers[];
+}
+
+/** Information about shared availability zone. */
+export interface Peers {
+  /**
+   * The subscription ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+  /**
+   * The availabilityZone.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly availabilityZone?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponseAutoGenerated {
+  /** The error object. */
   error?: ErrorDetail;
 }
 
@@ -139,661 +460,251 @@ export interface ErrorDetail {
   readonly additionalInfo?: ErrorAdditionalInfo[];
 }
 
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly info?: Record<string, unknown>;
+/** Name and Type of the Resource */
+export interface ResourceName {
+  /** Name of the resource */
+  name: string;
+  /** The type of the resource */
+  type: string;
 }
 
-/** Common properties for all Azure resources. */
-export interface AzureResourceBase {
-  /**
-   * String Id used to locate any resource on Azure.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Name of this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Type of this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
+/** Resource Name valid if not a reserved word, does not contain a reserved word and does not start with a reserved word */
+export interface CheckResourceNameResult {
+  /** Name of Resource */
+  name?: string;
+  /** Type of Resource */
+  type?: string;
+  /** Is the resource name Allowed or Reserved */
+  status?: ResourceNameStatus;
 }
 
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface OperationAutoGenerated {
+  /** Operation name: {provider}/{resource}/{operation} */
+  name?: string;
+  /**
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplayAutoGenerated;
+  /**
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: Origin;
+  /**
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionType?: ActionType;
 }
 
-/** Export Template specific properties of the Deployment stack. */
-export interface DeploymentStackTemplateDefinition {
-  /** The template content. Use this element to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both. */
-  template?: Record<string, unknown>;
-  /** The URI of the template. Use either the templateLink property or the template property, but not both. */
-  templateLink?: DeploymentStacksTemplateLink;
-}
-
-/** The Deployment stack validation result details. */
-export interface DeploymentStackValidateProperties {
-  /** Defines the behavior of resources that are no longer managed after the Deployment stack is updated or deleted. */
-  actionOnUnmanage?: ActionOnUnmanage;
-  /** The correlation id of the Deployment stack validate operation. It is in GUID format and is used for tracing. */
-  correlationId?: string;
-  /** The Deployment stack deny settings. */
-  denySettings?: DenySettings;
-  /** The Deployment stack deployment scope. */
-  deploymentScope?: string;
-  /** The Deployment stack validation description. */
+/** Localized display information for this particular operation. */
+export interface OperationDisplayAutoGenerated {
+  /** Service provider: Microsoft.Resources */
+  provider?: string;
+  /** Resource on which the operation is performed: Profile, endpoint, etc. */
+  resource?: string;
+  /** Operation type: Read, write, delete, etc. */
+  operation?: string;
+  /** Description of the operation. */
   description?: string;
-  /** Deployment parameters. */
-  parameters?: { [propertyName: string]: DeploymentParameter };
-  /** The URI of the template. */
-  templateLink?: DeploymentStacksTemplateLink;
-  /** The array of resources that were validated. */
-  validatedResources?: ResourceReference[];
 }
 
-/** The resourceId extended model. This is used to document failed resources with a resourceId and a corresponding error. */
-export interface ResourceReferenceExtended
-  extends ResourceReference,
-    DeploymentStacksError {}
-
-/** The managed resource model. */
-export interface ManagedResourceReference extends ResourceReference {
-  /** Current management state of the resource in the deployment stack. */
-  status?: ResourceStatusMode;
-  /** denyAssignment settings applied to the resource. */
-  denyStatus?: DenyStatusMode;
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface OperationListResultAutoGenerated {
+  /** List of operations supported by the resource provider */
+  value?: OperationAutoGenerated[];
+  /** URL to get the next set of operation list results (if there are any). */
+  nextLink?: string;
 }
 
-/** Deployment stack properties. */
-export interface DeploymentStackProperties extends DeploymentStacksError {
-  /** The template content. You use this element when you want to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both. */
-  template?: Record<string, unknown>;
-  /** The URI of the template. Use either the templateLink property or the template property, but not both. */
-  templateLink?: DeploymentStacksTemplateLink;
-  /** Name and value pairs that define the deployment parameters for the template. Use this element when providing the parameter values directly in the request, rather than linking to an existing parameter file. Use either the parametersLink property or the parameters property, but not both. */
-  parameters?: { [propertyName: string]: DeploymentParameter };
-  /** The URI of parameters file. Use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both. */
-  parametersLink?: DeploymentStacksParametersLink;
-  /** Defines the behavior of resources that are no longer managed after the Deployment stack is updated or deleted. */
-  actionOnUnmanage: ActionOnUnmanage;
-  /** The debug setting of the deployment. */
-  debugSetting?: DeploymentStacksDebugSetting;
-  /** Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. */
-  bypassStackOutOfSyncError?: boolean;
-  /** The scope at which the initial deployment should be created. If a scope is not specified, it will default to the scope of the deployment stack. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroupId}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}'). */
-  deploymentScope?: string;
-  /** Deployment stack description. Max length of 4096 characters. */
-  description?: string;
-  /** Defines how resources deployed by the stack are locked. */
-  denySettings: DenySettings;
-  /**
-   * State of the deployment stack.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: DeploymentStackProvisioningState;
-  /**
-   * The correlation id of the last Deployment stack upsert or delete operation. It is in GUID format and is used for tracing.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationId?: string;
-  /**
-   * An array of resources that were detached during the most recent Deployment stack update. Detached means that the resource was removed from the template, but no relevant deletion operations were specified. So, the resource still exists while no longer being associated with the stack.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly detachedResources?: ResourceReference[];
-  /**
-   * An array of resources that were deleted during the most recent Deployment stack update. Deleted means that the resource was removed from the template and relevant deletion operations were specified.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly deletedResources?: ResourceReference[];
-  /**
-   * An array of resources that failed to reach goal state during the most recent update. Each resourceId is accompanied by an error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly failedResources?: ResourceReferenceExtended[];
-  /**
-   * An array of resources currently managed by the deployment stack.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resources?: ManagedResourceReference[];
-  /**
-   * The resourceId of the deployment resource created by the deployment stack.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly deploymentId?: string;
-  /**
-   * The outputs of the deployment resource created by the deployment stack.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly outputs?: Record<string, unknown>;
-  /**
-   * The duration of the last successful Deployment stack update.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly duration?: string;
-}
-
-/** The Deployment stack validation result. */
-export interface DeploymentStackValidateResult
-  extends AzureResourceBase,
-    DeploymentStacksError {
-  /** The validation result details. */
-  properties?: DeploymentStackValidateProperties;
-}
-
-/** Deployment stack object. */
-export interface DeploymentStack extends AzureResourceBase {
-  /** The location of the Deployment stack. It cannot be changed after creation. It must be one of the supported Azure locations. */
-  location?: string;
-  /** Deployment stack resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** Deployment stack properties. */
-  properties?: DeploymentStackProperties;
-}
-
-/** Defines headers for DeploymentStacks_deleteAtResourceGroup operation. */
-export interface DeploymentStacksDeleteAtResourceGroupHeaders {
-  location?: string;
-}
-
-/** Defines headers for DeploymentStacks_deleteAtSubscription operation. */
-export interface DeploymentStacksDeleteAtSubscriptionHeaders {
-  location?: string;
-}
-
-/** Defines headers for DeploymentStacks_deleteAtManagementGroup operation. */
-export interface DeploymentStacksDeleteAtManagementGroupHeaders {
-  location?: string;
-}
-
-/** Defines headers for DeploymentStacks_validateStackAtResourceGroup operation. */
-export interface DeploymentStacksValidateStackAtResourceGroupHeaders {
-  location?: string;
-  /** Number of seconds to wait before polling for status. */
-  retryAfter?: string;
-}
-
-/** Defines headers for DeploymentStacks_validateStackAtSubscription operation. */
-export interface DeploymentStacksValidateStackAtSubscriptionHeaders {
-  location?: string;
-  /** Number of seconds to wait before polling for status. */
-  retryAfter?: string;
-}
-
-/** Defines headers for DeploymentStacks_validateStackAtManagementGroup operation. */
-export interface DeploymentStacksValidateStackAtManagementGroupHeaders {
-  location?: string;
-  /** Number of seconds to wait before polling for status. */
-  retryAfter?: string;
-}
-
-/** Known values of {@link DeploymentStacksDeleteDetachEnum} that the service accepts. */
-export enum KnownDeploymentStacksDeleteDetachEnum {
-  /** Delete */
-  Delete = "delete",
-  /** Detach */
-  Detach = "detach",
-}
-
-/**
- * Defines values for DeploymentStacksDeleteDetachEnum. \
- * {@link KnownDeploymentStacksDeleteDetachEnum} can be used interchangeably with DeploymentStacksDeleteDetachEnum,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **delete** \
- * **detach**
- */
-export type DeploymentStacksDeleteDetachEnum = string;
-
-/** Known values of {@link DenySettingsMode} that the service accepts. */
-export enum KnownDenySettingsMode {
-  /** Authorized users are able to read and modify the resources, but cannot delete. */
-  DenyDelete = "denyDelete",
-  /** Authorized users can read from a resource, but cannot modify or delete it. */
-  DenyWriteAndDelete = "denyWriteAndDelete",
-  /** No denyAssignments have been applied. */
-  None = "none",
-}
-
-/**
- * Defines values for DenySettingsMode. \
- * {@link KnownDenySettingsMode} can be used interchangeably with DenySettingsMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **denyDelete**: Authorized users are able to read and modify the resources, but cannot delete. \
- * **denyWriteAndDelete**: Authorized users can read from a resource, but cannot modify or delete it. \
- * **none**: No denyAssignments have been applied.
- */
-export type DenySettingsMode = string;
-
-/** Known values of {@link DeploymentStackProvisioningState} that the service accepts. */
-export enum KnownDeploymentStackProvisioningState {
-  /** Creating */
-  Creating = "creating",
-  /** Validating */
-  Validating = "validating",
-  /** Waiting */
-  Waiting = "waiting",
-  /** Deploying */
-  Deploying = "deploying",
-  /** Canceling */
-  Canceling = "canceling",
-  /** UpdatingDenyAssignments */
-  UpdatingDenyAssignments = "updatingDenyAssignments",
-  /** DeletingResources */
-  DeletingResources = "deletingResources",
-  /** Succeeded */
-  Succeeded = "succeeded",
-  /** Failed */
-  Failed = "failed",
-  /** Canceled */
-  Canceled = "canceled",
-  /** Deleting */
-  Deleting = "deleting",
-}
-
-/**
- * Defines values for DeploymentStackProvisioningState. \
- * {@link KnownDeploymentStackProvisioningState} can be used interchangeably with DeploymentStackProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **creating** \
- * **validating** \
- * **waiting** \
- * **deploying** \
- * **canceling** \
- * **updatingDenyAssignments** \
- * **deletingResources** \
- * **succeeded** \
- * **failed** \
- * **canceled** \
- * **deleting**
- */
-export type DeploymentStackProvisioningState = string;
-
-/** Known values of {@link ResourceStatusMode} that the service accepts. */
-export enum KnownResourceStatusMode {
-  /** This resource is managed by the deployment stack. */
-  Managed = "managed",
-  /** Unable to remove the deny assignment on resource. */
-  RemoveDenyFailed = "removeDenyFailed",
-  /** Unable to delete the resource from Azure. The delete will be retried on the next stack deployment, or can be deleted manually. */
-  DeleteFailed = "deleteFailed",
-}
-
-/**
- * Defines values for ResourceStatusMode. \
- * {@link KnownResourceStatusMode} can be used interchangeably with ResourceStatusMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **managed**: This resource is managed by the deployment stack. \
- * **removeDenyFailed**: Unable to remove the deny assignment on resource. \
- * **deleteFailed**: Unable to delete the resource from Azure. The delete will be retried on the next stack deployment, or can be deleted manually.
- */
-export type ResourceStatusMode = string;
-
-/** Known values of {@link DenyStatusMode} that the service accepts. */
-export enum KnownDenyStatusMode {
-  /** Authorized users are able to read and modify the resources, but cannot delete. */
-  DenyDelete = "denyDelete",
-  /** Resource type does not support denyAssignments. */
-  NotSupported = "notSupported",
-  /** denyAssignments are not supported on resources outside the scope of the deployment stack. */
-  Inapplicable = "inapplicable",
-  /** Authorized users can only read from a resource, but cannot modify or delete it. */
-  DenyWriteAndDelete = "denyWriteAndDelete",
-  /** Deny assignment has been removed by Azure due to a resource management change (management group move, etc.) */
-  RemovedBySystem = "removedBySystem",
-  /** No denyAssignments have been applied. */
-  None = "none",
-}
-
-/**
- * Defines values for DenyStatusMode. \
- * {@link KnownDenyStatusMode} can be used interchangeably with DenyStatusMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **denyDelete**: Authorized users are able to read and modify the resources, but cannot delete. \
- * **notSupported**: Resource type does not support denyAssignments. \
- * **inapplicable**: denyAssignments are not supported on resources outside the scope of the deployment stack. \
- * **denyWriteAndDelete**: Authorized users can only read from a resource, but cannot modify or delete it. \
- * **removedBySystem**: Deny assignment has been removed by Azure due to a resource management change (management group move, etc.) \
- * **none**: No denyAssignments have been applied.
- */
-export type DenyStatusMode = string;
-
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
+/** Known values of {@link Origin} that the service accepts. */
+export enum KnownOrigin {
   /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key",
+  User = "user",
+  /** System */
+  System = "system",
+  /** UserSystem */
+  UserSystem = "user,system",
 }
 
 /**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ * Defines values for Origin. \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
+ * **user** \
+ * **system** \
+ * **user,system**
  */
-export type CreatedByType = string;
+export type Origin = string;
 
-/** Known values of {@link UnmanageActionResourceMode} that the service accepts. */
-export enum KnownUnmanageActionResourceMode {
-  /** Delete */
-  Delete = "delete",
-  /** Detach */
-  Detach = "detach",
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  /** Internal */
+  Internal = "Internal",
 }
 
 /**
- * Defines values for UnmanageActionResourceMode. \
- * {@link KnownUnmanageActionResourceMode} can be used interchangeably with UnmanageActionResourceMode,
+ * Defines values for ActionType. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **delete** \
- * **detach**
+ * **Internal**
  */
-export type UnmanageActionResourceMode = string;
+export type ActionType = string;
 
-/** Known values of {@link UnmanageActionResourceGroupMode} that the service accepts. */
-export enum KnownUnmanageActionResourceGroupMode {
-  /** Delete */
-  Delete = "delete",
-  /** Detach */
-  Detach = "detach",
+/** Known values of {@link RegionType} that the service accepts. */
+export enum KnownRegionType {
+  /** Physical */
+  Physical = "Physical",
+  /** Logical */
+  Logical = "Logical",
 }
 
 /**
- * Defines values for UnmanageActionResourceGroupMode. \
- * {@link KnownUnmanageActionResourceGroupMode} can be used interchangeably with UnmanageActionResourceGroupMode,
+ * Defines values for RegionType. \
+ * {@link KnownRegionType} can be used interchangeably with RegionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **delete** \
- * **detach**
+ * **Physical** \
+ * **Logical**
  */
-export type UnmanageActionResourceGroupMode = string;
+export type RegionType = string;
 
-/** Known values of {@link UnmanageActionManagementGroupMode} that the service accepts. */
-export enum KnownUnmanageActionManagementGroupMode {
-  /** Delete */
-  Delete = "delete",
-  /** Detach */
-  Detach = "detach",
+/** Known values of {@link RegionCategory} that the service accepts. */
+export enum KnownRegionCategory {
+  /** Recommended */
+  Recommended = "Recommended",
+  /** Extended */
+  Extended = "Extended",
+  /** Other */
+  Other = "Other",
 }
 
 /**
- * Defines values for UnmanageActionManagementGroupMode. \
- * {@link KnownUnmanageActionManagementGroupMode} can be used interchangeably with UnmanageActionManagementGroupMode,
+ * Defines values for RegionCategory. \
+ * {@link KnownRegionCategory} can be used interchangeably with RegionCategory,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **delete** \
- * **detach**
+ * **Recommended** \
+ * **Extended** \
+ * **Other**
  */
-export type UnmanageActionManagementGroupMode = string;
+export type RegionCategory = string;
 
-/** Optional parameters. */
-export interface DeploymentStacksListAtResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAtResourceGroup operation. */
-export type DeploymentStacksListAtResourceGroupResponse =
-  DeploymentStackListResult;
-
-/** Optional parameters. */
-export interface DeploymentStacksListAtSubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAtSubscription operation. */
-export type DeploymentStacksListAtSubscriptionResponse =
-  DeploymentStackListResult;
-
-/** Optional parameters. */
-export interface DeploymentStacksListAtManagementGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAtManagementGroup operation. */
-export type DeploymentStacksListAtManagementGroupResponse =
-  DeploymentStackListResult;
-
-/** Optional parameters. */
-export interface DeploymentStacksCreateOrUpdateAtResourceGroupOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
+/** Known values of {@link ResourceNameStatus} that the service accepts. */
+export enum KnownResourceNameStatus {
+  /** Allowed */
+  Allowed = "Allowed",
+  /** Reserved */
+  Reserved = "Reserved",
 }
 
-/** Contains response data for the createOrUpdateAtResourceGroup operation. */
-export type DeploymentStacksCreateOrUpdateAtResourceGroupResponse =
-  DeploymentStack;
+/**
+ * Defines values for ResourceNameStatus. \
+ * {@link KnownResourceNameStatus} can be used interchangeably with ResourceNameStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Allowed** \
+ * **Reserved**
+ */
+export type ResourceNameStatus = string;
+/** Defines values for LocationType. */
+export type LocationType = "Region" | "EdgeZone";
+/** Defines values for SubscriptionState. */
+export type SubscriptionState =
+  | "Enabled"
+  | "Warned"
+  | "PastDue"
+  | "Disabled"
+  | "Deleted";
+/** Defines values for SpendingLimit. */
+export type SpendingLimit = "On" | "Off" | "CurrentPeriodOff";
+/** Defines values for TenantCategory. */
+export type TenantCategory = "Home" | "ProjectedBy" | "ManagedBy";
 
 /** Optional parameters. */
-export interface DeploymentStacksGetAtResourceGroupOptionalParams
+export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the getAtResourceGroup operation. */
-export type DeploymentStacksGetAtResourceGroupResponse = DeploymentStack;
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface DeploymentStacksDeleteAtResourceGroupOptionalParams
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface SubscriptionsListLocationsOptionalParams
   extends coreClient.OperationOptions {
-  /** Flag to indicate delete rather than detach for unmanaged resources. */
-  unmanageActionResources?: UnmanageActionResourceMode;
-  /** Flag to indicate delete rather than detach for unmanaged resource groups. */
-  unmanageActionResourceGroups?: UnmanageActionResourceGroupMode;
-  /** Flag to indicate delete rather than detach for unmanaged management groups. */
-  unmanageActionManagementGroups?: UnmanageActionManagementGroupMode;
-  /** Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. */
-  bypassStackOutOfSyncError?: boolean;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
+  /** Whether to include extended locations. */
+  includeExtendedLocations?: boolean;
 }
 
+/** Contains response data for the listLocations operation. */
+export type SubscriptionsListLocationsResponse = LocationListResult;
+
 /** Optional parameters. */
-export interface DeploymentStacksCreateOrUpdateAtSubscriptionOptionalParams
+export interface SubscriptionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SubscriptionsGetResponse = Subscription;
+
+/** Optional parameters. */
+export interface SubscriptionsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SubscriptionsListResponse = SubscriptionListResult;
+
+/** Optional parameters. */
+export interface SubscriptionsCheckZonePeersOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkZonePeers operation. */
+export type SubscriptionsCheckZonePeersResponse = CheckZonePeersResult;
+
+/** Optional parameters. */
+export interface SubscriptionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SubscriptionsListNextResponse = SubscriptionListResult;
+
+/** Optional parameters. */
+export interface TenantsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type TenantsListResponse = TenantListResult;
+
+/** Optional parameters. */
+export interface TenantsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type TenantsListNextResponse = TenantListResult;
+
+/** Optional parameters. */
+export interface CheckResourceNameOptionalParams
   extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
+  /** Resource object with values for resource name and resource type */
+  resourceNameDefinition?: ResourceName;
 }
 
-/** Contains response data for the createOrUpdateAtSubscription operation. */
-export type DeploymentStacksCreateOrUpdateAtSubscriptionResponse =
-  DeploymentStack;
+/** Contains response data for the checkResourceName operation. */
+export type CheckResourceNameResponse = CheckResourceNameResult;
 
 /** Optional parameters. */
-export interface DeploymentStacksGetAtSubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getAtSubscription operation. */
-export type DeploymentStacksGetAtSubscriptionResponse = DeploymentStack;
-
-/** Optional parameters. */
-export interface DeploymentStacksDeleteAtSubscriptionOptionalParams
-  extends coreClient.OperationOptions {
-  /** Flag to indicate delete rather than detach for unmanaged resources. */
-  unmanageActionResources?: UnmanageActionResourceMode;
-  /** Flag to indicate delete rather than detach for unmanaged resource groups. */
-  unmanageActionResourceGroups?: UnmanageActionResourceGroupMode;
-  /** Flag to indicate delete rather than detach for unmanaged management groups. */
-  unmanageActionManagementGroups?: UnmanageActionManagementGroupMode;
-  /** Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. */
-  bypassStackOutOfSyncError?: boolean;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface DeploymentStacksCreateOrUpdateAtManagementGroupOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdateAtManagementGroup operation. */
-export type DeploymentStacksCreateOrUpdateAtManagementGroupResponse =
-  DeploymentStack;
-
-/** Optional parameters. */
-export interface DeploymentStacksGetAtManagementGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getAtManagementGroup operation. */
-export type DeploymentStacksGetAtManagementGroupResponse = DeploymentStack;
-
-/** Optional parameters. */
-export interface DeploymentStacksDeleteAtManagementGroupOptionalParams
-  extends coreClient.OperationOptions {
-  /** Flag to indicate delete rather than detach for unmanaged resources. */
-  unmanageActionResources?: UnmanageActionResourceMode;
-  /** Flag to indicate delete rather than detach for unmanaged resource groups. */
-  unmanageActionResourceGroups?: UnmanageActionResourceGroupMode;
-  /** Flag to indicate delete rather than detach for unmanaged management groups. */
-  unmanageActionManagementGroups?: UnmanageActionManagementGroupMode;
-  /** Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. */
-  bypassStackOutOfSyncError?: boolean;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface DeploymentStacksExportTemplateAtResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the exportTemplateAtResourceGroup operation. */
-export type DeploymentStacksExportTemplateAtResourceGroupResponse =
-  DeploymentStackTemplateDefinition;
-
-/** Optional parameters. */
-export interface DeploymentStacksExportTemplateAtSubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the exportTemplateAtSubscription operation. */
-export type DeploymentStacksExportTemplateAtSubscriptionResponse =
-  DeploymentStackTemplateDefinition;
-
-/** Optional parameters. */
-export interface DeploymentStacksExportTemplateAtManagementGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the exportTemplateAtManagementGroup operation. */
-export type DeploymentStacksExportTemplateAtManagementGroupResponse =
-  DeploymentStackTemplateDefinition;
-
-/** Optional parameters. */
-export interface DeploymentStacksValidateStackAtResourceGroupOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the validateStackAtResourceGroup operation. */
-export type DeploymentStacksValidateStackAtResourceGroupResponse =
-  DeploymentStackValidateResult;
-
-/** Optional parameters. */
-export interface DeploymentStacksValidateStackAtSubscriptionOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the validateStackAtSubscription operation. */
-export type DeploymentStacksValidateStackAtSubscriptionResponse =
-  DeploymentStackValidateResult;
-
-/** Optional parameters. */
-export interface DeploymentStacksValidateStackAtManagementGroupOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the validateStackAtManagementGroup operation. */
-export type DeploymentStacksValidateStackAtManagementGroupResponse =
-  DeploymentStackValidateResult;
-
-/** Optional parameters. */
-export interface DeploymentStacksListAtResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAtResourceGroupNext operation. */
-export type DeploymentStacksListAtResourceGroupNextResponse =
-  DeploymentStackListResult;
-
-/** Optional parameters. */
-export interface DeploymentStacksListAtSubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAtSubscriptionNext operation. */
-export type DeploymentStacksListAtSubscriptionNextResponse =
-  DeploymentStackListResult;
-
-/** Optional parameters. */
-export interface DeploymentStacksListAtManagementGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAtManagementGroupNext operation. */
-export type DeploymentStacksListAtManagementGroupNextResponse =
-  DeploymentStackListResult;
-
-/** Optional parameters. */
-export interface DeploymentStacksClientOptionalParams
+export interface SubscriptionClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
