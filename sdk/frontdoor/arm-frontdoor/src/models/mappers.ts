@@ -92,6 +92,16 @@ export const PolicySettings: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      captchaExpirationInMinutes: {
+        constraints: {
+          InclusiveMaximum: 1440,
+          InclusiveMinimum: 5,
+        },
+        serializedName: "captchaExpirationInMinutes",
+        type: {
+          name: "Number",
+        },
+      },
       state: {
         serializedName: "logScrubbing.state",
         type: {

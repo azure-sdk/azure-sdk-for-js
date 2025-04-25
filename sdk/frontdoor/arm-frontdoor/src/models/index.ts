@@ -40,6 +40,8 @@ export interface PolicySettings {
   requestBodyCheck?: PolicyRequestBodyCheck;
   /** Defines the JavaScript challenge cookie validity lifetime in minutes. This setting is only applicable to Premium_AzureFrontDoor. Value must be an integer between 5 and 1440 with the default value being 30. */
   javascriptChallengeExpirationInMinutes?: number;
+  /** Defines the Captcha cookie validity lifetime in minutes. This setting is only applicable to Premium_AzureFrontDoor. Value must be an integer between 5 and 1440 with the default value being 30. */
+  captchaExpirationInMinutes?: number;
   /** State of the log scrubbing config. Default value is Enabled. */
   state?: WebApplicationFirewallScrubbingState;
   /** List of log scrubbing rules applied to the Web Application Firewall logs. */
@@ -1685,6 +1687,8 @@ export enum KnownActionType {
   AnomalyScoring = "AnomalyScoring",
   /** JSChallenge */
   JSChallenge = "JSChallenge",
+  /** Captcha */
+  Captcha = "CAPTCHA",
 }
 
 /**
@@ -1697,7 +1701,8 @@ export enum KnownActionType {
  * **Log** \
  * **Redirect** \
  * **AnomalyScoring** \
- * **JSChallenge**
+ * **JSChallenge** \
+ * **CAPTCHA**
  */
 export type ActionType = string;
 

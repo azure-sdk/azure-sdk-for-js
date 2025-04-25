@@ -85,7 +85,7 @@ export class FrontDoorManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-frontdoor/5.3.1`;
+    const packageDetails = `azsdk-js-arm-frontdoor/5.4.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
