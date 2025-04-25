@@ -16,7 +16,7 @@ import { AppPlatformManagementClient } from "../appPlatformManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
@@ -29,7 +29,7 @@ import {
   GatewayRouteConfigsCreateOrUpdateOptionalParams,
   GatewayRouteConfigsCreateOrUpdateResponse,
   GatewayRouteConfigsDeleteOptionalParams,
-  GatewayRouteConfigsListNextResponse
+  GatewayRouteConfigsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,13 +57,13 @@ export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
     resourceGroupName: string,
     serviceName: string,
     gatewayName: string,
-    options?: GatewayRouteConfigsListOptionalParams
+    options?: GatewayRouteConfigsListOptionalParams,
   ): PagedAsyncIterableIterator<GatewayRouteConfigResource> {
     const iter = this.listPagingAll(
       resourceGroupName,
       serviceName,
       gatewayName,
-      options
+      options,
     );
     return {
       next() {
@@ -81,9 +81,9 @@ export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
           serviceName,
           gatewayName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -92,7 +92,7 @@ export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
     serviceName: string,
     gatewayName: string,
     options?: GatewayRouteConfigsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<GatewayRouteConfigResource[]> {
     let result: GatewayRouteConfigsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -101,7 +101,7 @@ export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
         resourceGroupName,
         serviceName,
         gatewayName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -114,7 +114,7 @@ export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
         serviceName,
         gatewayName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -127,13 +127,13 @@ export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
     resourceGroupName: string,
     serviceName: string,
     gatewayName: string,
-    options?: GatewayRouteConfigsListOptionalParams
+    options?: GatewayRouteConfigsListOptionalParams,
   ): AsyncIterableIterator<GatewayRouteConfigResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
       gatewayName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -153,11 +153,11 @@ export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
     serviceName: string,
     gatewayName: string,
     routeConfigName: string,
-    options?: GatewayRouteConfigsGetOptionalParams
+    options?: GatewayRouteConfigsGetOptionalParams,
   ): Promise<GatewayRouteConfigsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, gatewayName, routeConfigName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -179,7 +179,7 @@ export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
     gatewayName: string,
     routeConfigName: string,
     gatewayRouteConfigResource: GatewayRouteConfigResource,
-    options?: GatewayRouteConfigsCreateOrUpdateOptionalParams
+    options?: GatewayRouteConfigsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GatewayRouteConfigsCreateOrUpdateResponse>,
@@ -188,21 +188,20 @@ export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<GatewayRouteConfigsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -211,8 +210,8 @@ export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -220,8 +219,8 @@ export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -233,16 +232,16 @@ export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
         gatewayName,
         routeConfigName,
         gatewayRouteConfigResource,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       GatewayRouteConfigsCreateOrUpdateResponse,
       OperationState<GatewayRouteConfigsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -266,7 +265,7 @@ export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
     gatewayName: string,
     routeConfigName: string,
     gatewayRouteConfigResource: GatewayRouteConfigResource,
-    options?: GatewayRouteConfigsCreateOrUpdateOptionalParams
+    options?: GatewayRouteConfigsCreateOrUpdateOptionalParams,
   ): Promise<GatewayRouteConfigsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
@@ -274,7 +273,7 @@ export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
       gatewayName,
       routeConfigName,
       gatewayRouteConfigResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -293,25 +292,24 @@ export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
     serviceName: string,
     gatewayName: string,
     routeConfigName: string,
-    options?: GatewayRouteConfigsDeleteOptionalParams
+    options?: GatewayRouteConfigsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -320,8 +318,8 @@ export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -329,8 +327,8 @@ export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -341,13 +339,13 @@ export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
         serviceName,
         gatewayName,
         routeConfigName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -367,14 +365,14 @@ export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
     serviceName: string,
     gatewayName: string,
     routeConfigName: string,
-    options?: GatewayRouteConfigsDeleteOptionalParams
+    options?: GatewayRouteConfigsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
       gatewayName,
       routeConfigName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -391,11 +389,11 @@ export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
     resourceGroupName: string,
     serviceName: string,
     gatewayName: string,
-    options?: GatewayRouteConfigsListOptionalParams
+    options?: GatewayRouteConfigsListOptionalParams,
   ): Promise<GatewayRouteConfigsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, gatewayName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -413,11 +411,11 @@ export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
     serviceName: string,
     gatewayName: string,
     nextLink: string,
-    options?: GatewayRouteConfigsListNextOptionalParams
+    options?: GatewayRouteConfigsListNextOptionalParams,
   ): Promise<GatewayRouteConfigsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, gatewayName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -425,16 +423,15 @@ export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/routeConfigs/{routeConfigName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/routeConfigs/{routeConfigName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GatewayRouteConfigResource
+      bodyMapper: Mappers.GatewayRouteConfigResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -443,31 +440,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.gatewayName,
-    Parameters.routeConfigName
+    Parameters.routeConfigName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/routeConfigs/{routeConfigName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/routeConfigs/{routeConfigName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.GatewayRouteConfigResource
+      bodyMapper: Mappers.GatewayRouteConfigResource,
     },
     201: {
-      bodyMapper: Mappers.GatewayRouteConfigResource
+      bodyMapper: Mappers.GatewayRouteConfigResource,
     },
     202: {
-      bodyMapper: Mappers.GatewayRouteConfigResource
+      bodyMapper: Mappers.GatewayRouteConfigResource,
     },
     204: {
-      bodyMapper: Mappers.GatewayRouteConfigResource
+      bodyMapper: Mappers.GatewayRouteConfigResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.gatewayRouteConfigResource,
   queryParameters: [Parameters.apiVersion],
@@ -477,15 +473,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.gatewayName,
-    Parameters.routeConfigName
+    Parameters.routeConfigName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/routeConfigs/{routeConfigName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/routeConfigs/{routeConfigName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -493,8 +488,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -503,22 +498,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.gatewayName,
-    Parameters.routeConfigName
+    Parameters.routeConfigName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/routeConfigs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/routeConfigs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GatewayRouteConfigResourceCollection
+      bodyMapper: Mappers.GatewayRouteConfigResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -526,21 +520,21 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.gatewayName
+    Parameters.gatewayName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GatewayRouteConfigResourceCollection
+      bodyMapper: Mappers.GatewayRouteConfigResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -548,8 +542,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.nextLink,
-    Parameters.gatewayName
+    Parameters.gatewayName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

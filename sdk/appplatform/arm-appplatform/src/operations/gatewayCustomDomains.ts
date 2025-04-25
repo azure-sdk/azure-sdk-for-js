@@ -16,7 +16,7 @@ import { AppPlatformManagementClient } from "../appPlatformManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
@@ -29,7 +29,7 @@ import {
   GatewayCustomDomainsCreateOrUpdateOptionalParams,
   GatewayCustomDomainsCreateOrUpdateResponse,
   GatewayCustomDomainsDeleteOptionalParams,
-  GatewayCustomDomainsListNextResponse
+  GatewayCustomDomainsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,13 +57,13 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
     resourceGroupName: string,
     serviceName: string,
     gatewayName: string,
-    options?: GatewayCustomDomainsListOptionalParams
+    options?: GatewayCustomDomainsListOptionalParams,
   ): PagedAsyncIterableIterator<GatewayCustomDomainResource> {
     const iter = this.listPagingAll(
       resourceGroupName,
       serviceName,
       gatewayName,
-      options
+      options,
     );
     return {
       next() {
@@ -81,9 +81,9 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
           serviceName,
           gatewayName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -92,7 +92,7 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
     serviceName: string,
     gatewayName: string,
     options?: GatewayCustomDomainsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<GatewayCustomDomainResource[]> {
     let result: GatewayCustomDomainsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -101,7 +101,7 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
         resourceGroupName,
         serviceName,
         gatewayName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -114,7 +114,7 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
         serviceName,
         gatewayName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -127,13 +127,13 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
     resourceGroupName: string,
     serviceName: string,
     gatewayName: string,
-    options?: GatewayCustomDomainsListOptionalParams
+    options?: GatewayCustomDomainsListOptionalParams,
   ): AsyncIterableIterator<GatewayCustomDomainResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
       gatewayName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -153,11 +153,11 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
     serviceName: string,
     gatewayName: string,
     domainName: string,
-    options?: GatewayCustomDomainsGetOptionalParams
+    options?: GatewayCustomDomainsGetOptionalParams,
   ): Promise<GatewayCustomDomainsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, gatewayName, domainName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -178,7 +178,7 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
     gatewayName: string,
     domainName: string,
     gatewayCustomDomainResource: GatewayCustomDomainResource,
-    options?: GatewayCustomDomainsCreateOrUpdateOptionalParams
+    options?: GatewayCustomDomainsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GatewayCustomDomainsCreateOrUpdateResponse>,
@@ -187,21 +187,20 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<GatewayCustomDomainsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -210,8 +209,8 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -219,8 +218,8 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -232,16 +231,16 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
         gatewayName,
         domainName,
         gatewayCustomDomainResource,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       GatewayCustomDomainsCreateOrUpdateResponse,
       OperationState<GatewayCustomDomainsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -264,7 +263,7 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
     gatewayName: string,
     domainName: string,
     gatewayCustomDomainResource: GatewayCustomDomainResource,
-    options?: GatewayCustomDomainsCreateOrUpdateOptionalParams
+    options?: GatewayCustomDomainsCreateOrUpdateOptionalParams,
   ): Promise<GatewayCustomDomainsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
@@ -272,7 +271,7 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
       gatewayName,
       domainName,
       gatewayCustomDomainResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -291,25 +290,24 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
     serviceName: string,
     gatewayName: string,
     domainName: string,
-    options?: GatewayCustomDomainsDeleteOptionalParams
+    options?: GatewayCustomDomainsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -318,8 +316,8 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -327,8 +325,8 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -339,13 +337,13 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
         serviceName,
         gatewayName,
         domainName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -365,14 +363,14 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
     serviceName: string,
     gatewayName: string,
     domainName: string,
-    options?: GatewayCustomDomainsDeleteOptionalParams
+    options?: GatewayCustomDomainsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
       gatewayName,
       domainName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -389,11 +387,11 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
     resourceGroupName: string,
     serviceName: string,
     gatewayName: string,
-    options?: GatewayCustomDomainsListOptionalParams
+    options?: GatewayCustomDomainsListOptionalParams,
   ): Promise<GatewayCustomDomainsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, gatewayName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -411,11 +409,11 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
     serviceName: string,
     gatewayName: string,
     nextLink: string,
-    options?: GatewayCustomDomainsListNextOptionalParams
+    options?: GatewayCustomDomainsListNextOptionalParams,
   ): Promise<GatewayCustomDomainsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, gatewayName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -423,16 +421,15 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/domains/{domainName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/domains/{domainName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GatewayCustomDomainResource
+      bodyMapper: Mappers.GatewayCustomDomainResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -441,31 +438,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.domainName,
-    Parameters.gatewayName
+    Parameters.gatewayName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/domains/{domainName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/domains/{domainName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.GatewayCustomDomainResource
+      bodyMapper: Mappers.GatewayCustomDomainResource,
     },
     201: {
-      bodyMapper: Mappers.GatewayCustomDomainResource
+      bodyMapper: Mappers.GatewayCustomDomainResource,
     },
     202: {
-      bodyMapper: Mappers.GatewayCustomDomainResource
+      bodyMapper: Mappers.GatewayCustomDomainResource,
     },
     204: {
-      bodyMapper: Mappers.GatewayCustomDomainResource
+      bodyMapper: Mappers.GatewayCustomDomainResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.gatewayCustomDomainResource,
   queryParameters: [Parameters.apiVersion],
@@ -475,15 +471,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.domainName,
-    Parameters.gatewayName
+    Parameters.gatewayName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/domains/{domainName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/domains/{domainName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -491,8 +486,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -501,22 +496,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.domainName,
-    Parameters.gatewayName
+    Parameters.gatewayName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/domains",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/domains",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GatewayCustomDomainResourceCollection
+      bodyMapper: Mappers.GatewayCustomDomainResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -524,21 +518,21 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.gatewayName
+    Parameters.gatewayName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GatewayCustomDomainResourceCollection
+      bodyMapper: Mappers.GatewayCustomDomainResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -546,8 +540,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.nextLink,
-    Parameters.gatewayName
+    Parameters.gatewayName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

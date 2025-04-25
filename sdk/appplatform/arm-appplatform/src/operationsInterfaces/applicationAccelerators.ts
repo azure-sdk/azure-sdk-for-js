@@ -16,7 +16,7 @@ import {
   ApplicationAcceleratorsCreateOrUpdateOptionalParams,
   ApplicationAcceleratorsCreateOrUpdateResponse,
   ApplicationAcceleratorsDeleteOptionalParams,
-  ApplicationAcceleratorsDeleteResponse
+  ApplicationAcceleratorsDeleteResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface ApplicationAccelerators {
   list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApplicationAcceleratorsListOptionalParams
+    options?: ApplicationAcceleratorsListOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationAcceleratorResource>;
   /**
    * Get the application accelerator.
@@ -46,7 +46,7 @@ export interface ApplicationAccelerators {
     resourceGroupName: string,
     serviceName: string,
     applicationAcceleratorName: string,
-    options?: ApplicationAcceleratorsGetOptionalParams
+    options?: ApplicationAcceleratorsGetOptionalParams,
   ): Promise<ApplicationAcceleratorsGetResponse>;
   /**
    * Create or update the application accelerator.
@@ -62,7 +62,7 @@ export interface ApplicationAccelerators {
     serviceName: string,
     applicationAcceleratorName: string,
     applicationAcceleratorResource: ApplicationAcceleratorResource,
-    options?: ApplicationAcceleratorsCreateOrUpdateOptionalParams
+    options?: ApplicationAcceleratorsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApplicationAcceleratorsCreateOrUpdateResponse>,
@@ -83,7 +83,7 @@ export interface ApplicationAccelerators {
     serviceName: string,
     applicationAcceleratorName: string,
     applicationAcceleratorResource: ApplicationAcceleratorResource,
-    options?: ApplicationAcceleratorsCreateOrUpdateOptionalParams
+    options?: ApplicationAcceleratorsCreateOrUpdateOptionalParams,
   ): Promise<ApplicationAcceleratorsCreateOrUpdateResponse>;
   /**
    * Delete the application accelerator.
@@ -97,7 +97,7 @@ export interface ApplicationAccelerators {
     resourceGroupName: string,
     serviceName: string,
     applicationAcceleratorName: string,
-    options?: ApplicationAcceleratorsDeleteOptionalParams
+    options?: ApplicationAcceleratorsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApplicationAcceleratorsDeleteResponse>,
@@ -116,6 +116,6 @@ export interface ApplicationAccelerators {
     resourceGroupName: string,
     serviceName: string,
     applicationAcceleratorName: string,
-    options?: ApplicationAcceleratorsDeleteOptionalParams
+    options?: ApplicationAcceleratorsDeleteOptionalParams,
   ): Promise<ApplicationAcceleratorsDeleteResponse>;
 }
