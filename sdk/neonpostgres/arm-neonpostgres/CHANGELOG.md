@@ -1,7 +1,7 @@
 # Release History
     
-## 1.0.0 (2025-04-18)
+## 1.0.0 (2025-04-25)
 
 ### Features Added
 
-This is the first stable version with the package of @azure/arm-neonpostgres
+The package of @azure/arm-neonpostgres is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
