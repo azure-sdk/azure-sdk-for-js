@@ -6,402 +6,54 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
-export interface ActionOnUnmanage {
-    managementGroups?: DeploymentStacksDeleteDetachEnum;
-    resourceGroups?: DeploymentStacksDeleteDetachEnum;
-    resources: DeploymentStacksDeleteDetachEnum;
+export type ActionType = string;
+
+// @public
+export interface AvailabilityZoneMappings {
+    readonly logicalZone?: string;
+    readonly physicalZone?: string;
 }
 
 // @public
-export interface AzureResourceBase {
-    readonly id?: string;
-    readonly name?: string;
-    readonly systemData?: SystemData;
-    readonly type?: string;
+export interface AvailabilityZonePeers {
+    readonly availabilityZone?: string;
+    peers?: Peers[];
 }
 
 // @public
-export type CreatedByType = string;
-
-// @public
-export interface DenySettings {
-    applyToChildScopes?: boolean;
-    excludedActions?: string[];
-    excludedPrincipals?: string[];
-    mode: DenySettingsMode;
+export interface CheckResourceNameOptionalParams extends coreClient.OperationOptions {
+    resourceNameDefinition?: ResourceName;
 }
 
 // @public
-export type DenySettingsMode = string;
+export type CheckResourceNameResponse = CheckResourceNameResult;
 
 // @public
-export type DenyStatusMode = string;
-
-// @public
-export interface DeploymentParameter {
-    reference?: KeyVaultParameterReference;
+export interface CheckResourceNameResult {
+    name?: string;
+    status?: ResourceNameStatus;
     type?: string;
-    value?: any;
 }
 
 // @public
-export interface DeploymentStack extends AzureResourceBase {
+export interface CheckZonePeersRequest {
     location?: string;
-    properties?: DeploymentStackProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    subscriptionIds?: string[];
 }
 
 // @public
-export interface DeploymentStackListResult {
-    readonly nextLink?: string;
-    value?: DeploymentStack[];
-}
-
-// @public
-export interface DeploymentStackProperties extends DeploymentStacksError {
-    actionOnUnmanage: ActionOnUnmanage;
-    bypassStackOutOfSyncError?: boolean;
-    readonly correlationId?: string;
-    debugSetting?: DeploymentStacksDebugSetting;
-    readonly deletedResources?: ResourceReference[];
-    denySettings: DenySettings;
-    readonly deploymentId?: string;
-    deploymentScope?: string;
-    description?: string;
-    readonly detachedResources?: ResourceReference[];
-    readonly duration?: string;
-    readonly failedResources?: ResourceReferenceExtended[];
-    readonly outputs?: Record<string, unknown>;
-    parameters?: {
-        [propertyName: string]: DeploymentParameter;
-    };
-    parametersLink?: DeploymentStacksParametersLink;
-    readonly provisioningState?: DeploymentStackProvisioningState;
-    readonly resources?: ManagedResourceReference[];
-    template?: Record<string, unknown>;
-    templateLink?: DeploymentStacksTemplateLink;
-}
-
-// @public
-export type DeploymentStackProvisioningState = string;
-
-// @public
-export interface DeploymentStacks {
-    beginCreateOrUpdateAtManagementGroup(managementGroupId: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksCreateOrUpdateAtManagementGroupOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentStacksCreateOrUpdateAtManagementGroupResponse>, DeploymentStacksCreateOrUpdateAtManagementGroupResponse>>;
-    beginCreateOrUpdateAtManagementGroupAndWait(managementGroupId: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksCreateOrUpdateAtManagementGroupOptionalParams): Promise<DeploymentStacksCreateOrUpdateAtManagementGroupResponse>;
-    beginCreateOrUpdateAtResourceGroup(resourceGroupName: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksCreateOrUpdateAtResourceGroupOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentStacksCreateOrUpdateAtResourceGroupResponse>, DeploymentStacksCreateOrUpdateAtResourceGroupResponse>>;
-    beginCreateOrUpdateAtResourceGroupAndWait(resourceGroupName: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksCreateOrUpdateAtResourceGroupOptionalParams): Promise<DeploymentStacksCreateOrUpdateAtResourceGroupResponse>;
-    beginCreateOrUpdateAtSubscription(deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksCreateOrUpdateAtSubscriptionOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentStacksCreateOrUpdateAtSubscriptionResponse>, DeploymentStacksCreateOrUpdateAtSubscriptionResponse>>;
-    beginCreateOrUpdateAtSubscriptionAndWait(deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksCreateOrUpdateAtSubscriptionOptionalParams): Promise<DeploymentStacksCreateOrUpdateAtSubscriptionResponse>;
-    beginDeleteAtManagementGroup(managementGroupId: string, deploymentStackName: string, options?: DeploymentStacksDeleteAtManagementGroupOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAtManagementGroupAndWait(managementGroupId: string, deploymentStackName: string, options?: DeploymentStacksDeleteAtManagementGroupOptionalParams): Promise<void>;
-    beginDeleteAtResourceGroup(resourceGroupName: string, deploymentStackName: string, options?: DeploymentStacksDeleteAtResourceGroupOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAtResourceGroupAndWait(resourceGroupName: string, deploymentStackName: string, options?: DeploymentStacksDeleteAtResourceGroupOptionalParams): Promise<void>;
-    beginDeleteAtSubscription(deploymentStackName: string, options?: DeploymentStacksDeleteAtSubscriptionOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAtSubscriptionAndWait(deploymentStackName: string, options?: DeploymentStacksDeleteAtSubscriptionOptionalParams): Promise<void>;
-    beginValidateStackAtManagementGroup(managementGroupId: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksValidateStackAtManagementGroupOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentStacksValidateStackAtManagementGroupResponse>, DeploymentStacksValidateStackAtManagementGroupResponse>>;
-    beginValidateStackAtManagementGroupAndWait(managementGroupId: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksValidateStackAtManagementGroupOptionalParams): Promise<DeploymentStacksValidateStackAtManagementGroupResponse>;
-    beginValidateStackAtResourceGroup(resourceGroupName: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksValidateStackAtResourceGroupOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentStacksValidateStackAtResourceGroupResponse>, DeploymentStacksValidateStackAtResourceGroupResponse>>;
-    beginValidateStackAtResourceGroupAndWait(resourceGroupName: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksValidateStackAtResourceGroupOptionalParams): Promise<DeploymentStacksValidateStackAtResourceGroupResponse>;
-    beginValidateStackAtSubscription(deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksValidateStackAtSubscriptionOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentStacksValidateStackAtSubscriptionResponse>, DeploymentStacksValidateStackAtSubscriptionResponse>>;
-    beginValidateStackAtSubscriptionAndWait(deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksValidateStackAtSubscriptionOptionalParams): Promise<DeploymentStacksValidateStackAtSubscriptionResponse>;
-    exportTemplateAtManagementGroup(managementGroupId: string, deploymentStackName: string, options?: DeploymentStacksExportTemplateAtManagementGroupOptionalParams): Promise<DeploymentStacksExportTemplateAtManagementGroupResponse>;
-    exportTemplateAtResourceGroup(resourceGroupName: string, deploymentStackName: string, options?: DeploymentStacksExportTemplateAtResourceGroupOptionalParams): Promise<DeploymentStacksExportTemplateAtResourceGroupResponse>;
-    exportTemplateAtSubscription(deploymentStackName: string, options?: DeploymentStacksExportTemplateAtSubscriptionOptionalParams): Promise<DeploymentStacksExportTemplateAtSubscriptionResponse>;
-    getAtManagementGroup(managementGroupId: string, deploymentStackName: string, options?: DeploymentStacksGetAtManagementGroupOptionalParams): Promise<DeploymentStacksGetAtManagementGroupResponse>;
-    getAtResourceGroup(resourceGroupName: string, deploymentStackName: string, options?: DeploymentStacksGetAtResourceGroupOptionalParams): Promise<DeploymentStacksGetAtResourceGroupResponse>;
-    getAtSubscription(deploymentStackName: string, options?: DeploymentStacksGetAtSubscriptionOptionalParams): Promise<DeploymentStacksGetAtSubscriptionResponse>;
-    listAtManagementGroup(managementGroupId: string, options?: DeploymentStacksListAtManagementGroupOptionalParams): PagedAsyncIterableIterator<DeploymentStack>;
-    listAtResourceGroup(resourceGroupName: string, options?: DeploymentStacksListAtResourceGroupOptionalParams): PagedAsyncIterableIterator<DeploymentStack>;
-    listAtSubscription(options?: DeploymentStacksListAtSubscriptionOptionalParams): PagedAsyncIterableIterator<DeploymentStack>;
-}
-
-// @public (undocumented)
-export class DeploymentStacksClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DeploymentStacksClientOptionalParams);
-    constructor(credentials: coreAuth.TokenCredential, options?: DeploymentStacksClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    deploymentStacks: DeploymentStacks;
-    // (undocumented)
-    subscriptionId?: string;
-}
-
-// @public
-export interface DeploymentStacksClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
-    apiVersion?: string;
-    endpoint?: string;
-}
-
-// @public
-export interface DeploymentStacksCreateOrUpdateAtManagementGroupOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type DeploymentStacksCreateOrUpdateAtManagementGroupResponse = DeploymentStack;
-
-// @public
-export interface DeploymentStacksCreateOrUpdateAtResourceGroupOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type DeploymentStacksCreateOrUpdateAtResourceGroupResponse = DeploymentStack;
-
-// @public
-export interface DeploymentStacksCreateOrUpdateAtSubscriptionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type DeploymentStacksCreateOrUpdateAtSubscriptionResponse = DeploymentStack;
-
-// @public
-export interface DeploymentStacksDebugSetting {
-    detailLevel?: string;
-}
-
-// @public
-export interface DeploymentStacksDeleteAtManagementGroupHeaders {
-    // (undocumented)
+export interface CheckZonePeersResult {
+    availabilityZonePeers?: AvailabilityZonePeers[];
     location?: string;
+    readonly subscriptionId?: string;
 }
 
 // @public
-export interface DeploymentStacksDeleteAtManagementGroupOptionalParams extends coreClient.OperationOptions {
-    bypassStackOutOfSyncError?: boolean;
-    resumeFrom?: string;
-    unmanageActionManagementGroups?: UnmanageActionManagementGroupMode;
-    unmanageActionResourceGroups?: UnmanageActionResourceGroupMode;
-    unmanageActionResources?: UnmanageActionResourceMode;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface DeploymentStacksDeleteAtResourceGroupHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface DeploymentStacksDeleteAtResourceGroupOptionalParams extends coreClient.OperationOptions {
-    bypassStackOutOfSyncError?: boolean;
-    resumeFrom?: string;
-    unmanageActionManagementGroups?: UnmanageActionManagementGroupMode;
-    unmanageActionResourceGroups?: UnmanageActionResourceGroupMode;
-    unmanageActionResources?: UnmanageActionResourceMode;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface DeploymentStacksDeleteAtSubscriptionHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface DeploymentStacksDeleteAtSubscriptionOptionalParams extends coreClient.OperationOptions {
-    bypassStackOutOfSyncError?: boolean;
-    resumeFrom?: string;
-    unmanageActionManagementGroups?: UnmanageActionManagementGroupMode;
-    unmanageActionResourceGroups?: UnmanageActionResourceGroupMode;
-    unmanageActionResources?: UnmanageActionResourceMode;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type DeploymentStacksDeleteDetachEnum = string;
-
-// @public
-export interface DeploymentStacksError {
-    error?: ErrorDetail;
-}
-
-// @public
-export interface DeploymentStacksExportTemplateAtManagementGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentStacksExportTemplateAtManagementGroupResponse = DeploymentStackTemplateDefinition;
-
-// @public
-export interface DeploymentStacksExportTemplateAtResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentStacksExportTemplateAtResourceGroupResponse = DeploymentStackTemplateDefinition;
-
-// @public
-export interface DeploymentStacksExportTemplateAtSubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentStacksExportTemplateAtSubscriptionResponse = DeploymentStackTemplateDefinition;
-
-// @public
-export interface DeploymentStacksGetAtManagementGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentStacksGetAtManagementGroupResponse = DeploymentStack;
-
-// @public
-export interface DeploymentStacksGetAtResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentStacksGetAtResourceGroupResponse = DeploymentStack;
-
-// @public
-export interface DeploymentStacksGetAtSubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentStacksGetAtSubscriptionResponse = DeploymentStack;
-
-// @public
-export interface DeploymentStacksListAtManagementGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentStacksListAtManagementGroupNextResponse = DeploymentStackListResult;
-
-// @public
-export interface DeploymentStacksListAtManagementGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentStacksListAtManagementGroupResponse = DeploymentStackListResult;
-
-// @public
-export interface DeploymentStacksListAtResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentStacksListAtResourceGroupNextResponse = DeploymentStackListResult;
-
-// @public
-export interface DeploymentStacksListAtResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentStacksListAtResourceGroupResponse = DeploymentStackListResult;
-
-// @public
-export interface DeploymentStacksListAtSubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentStacksListAtSubscriptionNextResponse = DeploymentStackListResult;
-
-// @public
-export interface DeploymentStacksListAtSubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentStacksListAtSubscriptionResponse = DeploymentStackListResult;
-
-// @public
-export interface DeploymentStacksParametersLink {
-    contentVersion?: string;
-    uri: string;
-}
-
-// @public
-export interface DeploymentStacksTemplateLink {
-    contentVersion?: string;
-    id?: string;
-    queryString?: string;
-    relativePath?: string;
-    uri?: string;
-}
-
-// @public
-export interface DeploymentStacksValidateStackAtManagementGroupHeaders {
-    // (undocumented)
-    location?: string;
-    retryAfter?: string;
-}
-
-// @public
-export interface DeploymentStacksValidateStackAtManagementGroupOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type DeploymentStacksValidateStackAtManagementGroupResponse = DeploymentStackValidateResult;
-
-// @public
-export interface DeploymentStacksValidateStackAtResourceGroupHeaders {
-    // (undocumented)
-    location?: string;
-    retryAfter?: string;
-}
-
-// @public
-export interface DeploymentStacksValidateStackAtResourceGroupOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type DeploymentStacksValidateStackAtResourceGroupResponse = DeploymentStackValidateResult;
-
-// @public
-export interface DeploymentStacksValidateStackAtSubscriptionHeaders {
-    // (undocumented)
-    location?: string;
-    retryAfter?: string;
-}
-
-// @public
-export interface DeploymentStacksValidateStackAtSubscriptionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type DeploymentStacksValidateStackAtSubscriptionResponse = DeploymentStackValidateResult;
-
-// @public
-export interface DeploymentStackTemplateDefinition {
-    template?: Record<string, unknown>;
-    templateLink?: DeploymentStacksTemplateLink;
-}
-
-// @public
-export interface DeploymentStackValidateProperties {
-    actionOnUnmanage?: ActionOnUnmanage;
-    correlationId?: string;
-    denySettings?: DenySettings;
-    deploymentScope?: string;
-    description?: string;
-    parameters?: {
-        [propertyName: string]: DeploymentParameter;
-    };
-    templateLink?: DeploymentStacksTemplateLink;
-    validatedResources?: ResourceReference[];
-}
-
-// @public
-export interface DeploymentStackValidateResult extends AzureResourceBase, DeploymentStacksError {
-    properties?: DeploymentStackValidateProperties;
+export interface CloudError {
+    error?: ErrorResponse;
 }
 
 // @public
@@ -420,127 +72,330 @@ export interface ErrorDetail {
 }
 
 // @public
+export interface ErrorResponse {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorResponse[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponseAutoGenerated {
+    error?: ErrorDetail;
+}
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
-export interface KeyVaultParameterReference {
-    keyVault: KeyVaultReference;
-    secretName: string;
-    secretVersion?: string;
+export enum KnownActionType {
+    Internal = "Internal"
 }
 
 // @public
-export interface KeyVaultReference {
-    id: string;
+export enum KnownOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
 }
 
 // @public
-export enum KnownCreatedByType {
-    Application = "Application",
-    Key = "Key",
-    ManagedIdentity = "ManagedIdentity",
-    User = "User"
+export enum KnownRegionCategory {
+    Extended = "Extended",
+    Other = "Other",
+    Recommended = "Recommended"
 }
 
 // @public
-export enum KnownDenySettingsMode {
-    DenyDelete = "denyDelete",
-    DenyWriteAndDelete = "denyWriteAndDelete",
-    None = "none"
+export enum KnownRegionType {
+    Logical = "Logical",
+    Physical = "Physical"
 }
 
 // @public
-export enum KnownDenyStatusMode {
-    DenyDelete = "denyDelete",
-    DenyWriteAndDelete = "denyWriteAndDelete",
-    Inapplicable = "inapplicable",
-    None = "none",
-    NotSupported = "notSupported",
-    RemovedBySystem = "removedBySystem"
+export enum KnownResourceNameStatus {
+    Allowed = "Allowed",
+    Reserved = "Reserved"
 }
 
 // @public
-export enum KnownDeploymentStackProvisioningState {
-    Canceled = "canceled",
-    Canceling = "canceling",
-    Creating = "creating",
-    Deleting = "deleting",
-    DeletingResources = "deletingResources",
-    Deploying = "deploying",
-    Failed = "failed",
-    Succeeded = "succeeded",
-    UpdatingDenyAssignments = "updatingDenyAssignments",
-    Validating = "validating",
-    Waiting = "waiting"
-}
-
-// @public
-export enum KnownDeploymentStacksDeleteDetachEnum {
-    Delete = "delete",
-    Detach = "detach"
-}
-
-// @public
-export enum KnownResourceStatusMode {
-    DeleteFailed = "deleteFailed",
-    Managed = "managed",
-    RemoveDenyFailed = "removeDenyFailed"
-}
-
-// @public
-export enum KnownUnmanageActionManagementGroupMode {
-    Delete = "delete",
-    Detach = "detach"
-}
-
-// @public
-export enum KnownUnmanageActionResourceGroupMode {
-    Delete = "delete",
-    Detach = "detach"
-}
-
-// @public
-export enum KnownUnmanageActionResourceMode {
-    Delete = "delete",
-    Detach = "detach"
-}
-
-// @public
-export interface ManagedResourceReference extends ResourceReference {
-    denyStatus?: DenyStatusMode;
-    status?: ResourceStatusMode;
-}
-
-// @public
-export interface ResourceReference {
+interface Location_2 {
+    availabilityZoneMappings?: AvailabilityZoneMappings[];
+    readonly displayName?: string;
     readonly id?: string;
+    metadata?: LocationMetadata;
+    readonly name?: string;
+    readonly regionalDisplayName?: string;
+    readonly subscriptionId?: string;
+    readonly type?: LocationType;
+}
+export { Location_2 as Location }
+
+// @public
+export interface LocationListResult {
+    value?: Location_2[];
 }
 
 // @public
-export interface ResourceReferenceExtended extends ResourceReference, DeploymentStacksError {
+export interface LocationMetadata {
+    readonly geography?: string;
+    readonly geographyGroup?: string;
+    readonly homeLocation?: string;
+    readonly latitude?: string;
+    readonly longitude?: string;
+    pairedRegion?: PairedRegion[];
+    readonly physicalLocation?: string;
+    readonly regionCategory?: RegionCategory;
+    readonly regionType?: RegionType;
 }
 
 // @public
-export type ResourceStatusMode = string;
+export type LocationType = "Region" | "EdgeZone";
 
 // @public
-export interface SystemData {
-    createdAt?: Date;
-    createdBy?: string;
-    createdByType?: CreatedByType;
-    lastModifiedAt?: Date;
-    lastModifiedBy?: string;
-    lastModifiedByType?: CreatedByType;
+export interface ManagedByTenant {
+    readonly tenantId?: string;
 }
 
 // @public
-export type UnmanageActionManagementGroupMode = string;
+export interface Operation {
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
+    readonly isDataAction?: boolean;
+    readonly name?: string;
+    readonly origin?: Origin;
+}
 
 // @public
-export type UnmanageActionResourceGroupMode = string;
+export interface OperationAutoGenerated {
+    readonly actionType?: ActionType;
+    display?: OperationDisplayAutoGenerated;
+    readonly isDataAction?: boolean;
+    name?: string;
+    readonly origin?: Origin;
+}
 
 // @public
-export type UnmanageActionResourceMode = string;
+export interface OperationDisplay {
+    readonly description?: string;
+    readonly operation?: string;
+    readonly provider?: string;
+    readonly resource?: string;
+}
+
+// @public
+export interface OperationDisplayAutoGenerated {
+    description?: string;
+    operation?: string;
+    provider?: string;
+    resource?: string;
+}
+
+// @public
+export interface OperationListResult {
+    readonly nextLink?: string;
+    readonly value?: Operation[];
+}
+
+// @public
+export interface OperationListResultAutoGenerated {
+    nextLink?: string;
+    value?: OperationAutoGenerated[];
+}
+
+// @public
+export interface Operations {
+    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+}
+
+// @public
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListNextResponse = OperationListResult;
+
+// @public
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListResponse = OperationListResult;
+
+// @public
+export type Origin = string;
+
+// @public
+export interface PairedRegion {
+    readonly id?: string;
+    readonly name?: string;
+    readonly subscriptionId?: string;
+}
+
+// @public
+export interface Peers {
+    readonly availabilityZone?: string;
+    readonly subscriptionId?: string;
+}
+
+// @public
+export type RegionCategory = string;
+
+// @public
+export type RegionType = string;
+
+// @public
+export interface ResourceName {
+    name: string;
+    type: string;
+}
+
+// @public
+export type ResourceNameStatus = string;
+
+// @public
+export type SpendingLimit = "On" | "Off" | "CurrentPeriodOff";
+
+// @public
+export interface Subscription {
+    authorizationSource?: string;
+    readonly displayName?: string;
+    readonly id?: string;
+    managedByTenants?: ManagedByTenant[];
+    readonly state?: SubscriptionState;
+    readonly subscriptionId?: string;
+    subscriptionPolicies?: SubscriptionPolicies;
+    tags?: {
+        [propertyName: string]: string;
+    };
+    readonly tenantId?: string;
+}
+
+// @public (undocumented)
+export class SubscriptionClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
+    constructor(credentials: coreAuth.TokenCredential, options?: SubscriptionClientOptionalParams);
+    // (undocumented)
+    apiVersion: string;
+    checkResourceName(options?: CheckResourceNameOptionalParams): Promise<CheckResourceNameResponse>;
+    // (undocumented)
+    operations: Operations;
+    // (undocumented)
+    subscriptions: Subscriptions;
+    // (undocumented)
+    tenants: Tenants;
+}
+
+// @public
+export interface SubscriptionClientOptionalParams extends coreClient.ServiceClientOptions {
+    $host?: string;
+    apiVersion?: string;
+    endpoint?: string;
+}
+
+// @public
+export interface SubscriptionListResult {
+    nextLink: string;
+    value?: Subscription[];
+}
+
+// @public
+export interface SubscriptionPolicies {
+    readonly locationPlacementId?: string;
+    readonly quotaId?: string;
+    readonly spendingLimit?: SpendingLimit;
+}
+
+// @public
+export interface Subscriptions {
+    checkZonePeers(subscriptionId: string, parameters: CheckZonePeersRequest, options?: SubscriptionsCheckZonePeersOptionalParams): Promise<SubscriptionsCheckZonePeersResponse>;
+    get(subscriptionId: string, options?: SubscriptionsGetOptionalParams): Promise<SubscriptionsGetResponse>;
+    list(options?: SubscriptionsListOptionalParams): PagedAsyncIterableIterator<Subscription>;
+    listLocations(subscriptionId: string, options?: SubscriptionsListLocationsOptionalParams): PagedAsyncIterableIterator<Location_2>;
+}
+
+// @public
+export interface SubscriptionsCheckZonePeersOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SubscriptionsCheckZonePeersResponse = CheckZonePeersResult;
+
+// @public
+export interface SubscriptionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SubscriptionsGetResponse = Subscription;
+
+// @public
+export interface SubscriptionsListLocationsOptionalParams extends coreClient.OperationOptions {
+    includeExtendedLocations?: boolean;
+}
+
+// @public
+export type SubscriptionsListLocationsResponse = LocationListResult;
+
+// @public
+export interface SubscriptionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SubscriptionsListNextResponse = SubscriptionListResult;
+
+// @public
+export interface SubscriptionsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SubscriptionsListResponse = SubscriptionListResult;
+
+// @public
+export type SubscriptionState = "Enabled" | "Warned" | "PastDue" | "Disabled" | "Deleted";
+
+// @public
+export type TenantCategory = "Home" | "ProjectedBy" | "ManagedBy";
+
+// @public
+export interface TenantIdDescription {
+    readonly country?: string;
+    readonly countryCode?: string;
+    readonly defaultDomain?: string;
+    readonly displayName?: string;
+    readonly domains?: string[];
+    readonly id?: string;
+    readonly tenantBrandingLogoUrl?: string;
+    readonly tenantCategory?: TenantCategory;
+    readonly tenantId?: string;
+    readonly tenantType?: string;
+}
+
+// @public
+export interface TenantListResult {
+    nextLink: string;
+    value?: TenantIdDescription[];
+}
+
+// @public
+export interface Tenants {
+    list(options?: TenantsListOptionalParams): PagedAsyncIterableIterator<TenantIdDescription>;
+}
+
+// @public
+export interface TenantsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TenantsListNextResponse = TenantListResult;
+
+// @public
+export interface TenantsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TenantsListResponse = TenantListResult;
 
 // (No @packageDocumentation comment for this package)
 

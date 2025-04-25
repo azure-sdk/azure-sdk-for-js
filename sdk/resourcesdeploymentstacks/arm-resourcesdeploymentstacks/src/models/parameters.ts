@@ -11,7 +11,10 @@ import {
   OperationURLParameter,
   OperationQueryParameter,
 } from "@azure/core-client";
-import { DeploymentStack as DeploymentStackMapper } from "../models/mappers.js";
+import {
+  CheckZonePeersRequest as CheckZonePeersRequestMapper,
+  ResourceName as ResourceNameMapper,
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -37,36 +40,10 @@ export const $host: OperationURLParameter = {
   skipEncoding: true,
 };
 
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "Uuid",
-    },
-  },
-};
-
-export const resourceGroupName: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    constraints: {
-      MaxLength: 90,
-      MinLength: 1,
-    },
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-03-01",
+    defaultValue: "2022-12-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -75,18 +52,35 @@ export const apiVersion: OperationQueryParameter = {
   },
 };
 
-export const managementGroupId: OperationURLParameter = {
-  parameterPath: "managementGroupId",
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
   mapper: {
-    constraints: {
-      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
-      MaxLength: 90,
-      MinLength: 1,
-    },
-    serializedName: "managementGroupId",
+    serializedName: "nextLink",
     required: true,
     type: {
       name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const includeExtendedLocations: OperationQueryParameter = {
+  parameterPath: ["options", "includeExtendedLocations"],
+  mapper: {
+    serializedName: "includeExtendedLocations",
+    type: {
+      name: "Boolean",
     },
   },
 };
@@ -103,75 +97,12 @@ export const contentType: OperationParameter = {
   },
 };
 
-export const deploymentStack: OperationParameter = {
-  parameterPath: "deploymentStack",
-  mapper: DeploymentStackMapper,
+export const parameters: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: CheckZonePeersRequestMapper,
 };
 
-export const deploymentStackName: OperationURLParameter = {
-  parameterPath: "deploymentStackName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
-      MaxLength: 90,
-      MinLength: 1,
-    },
-    serializedName: "deploymentStackName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const unmanageActionResources: OperationQueryParameter = {
-  parameterPath: ["options", "unmanageActionResources"],
-  mapper: {
-    serializedName: "unmanageAction.Resources",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const unmanageActionResourceGroups: OperationQueryParameter = {
-  parameterPath: ["options", "unmanageActionResourceGroups"],
-  mapper: {
-    serializedName: "unmanageAction.ResourceGroups",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const unmanageActionManagementGroups: OperationQueryParameter = {
-  parameterPath: ["options", "unmanageActionManagementGroups"],
-  mapper: {
-    serializedName: "unmanageAction.ManagementGroups",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const bypassStackOutOfSyncError: OperationQueryParameter = {
-  parameterPath: ["options", "bypassStackOutOfSyncError"],
-  mapper: {
-    serializedName: "bypassStackOutOfSyncError",
-    type: {
-      name: "Boolean",
-    },
-  },
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-  skipEncoding: true,
+export const resourceNameDefinition: OperationParameter = {
+  parameterPath: ["options", "resourceNameDefinition"],
+  mapper: ResourceNameMapper,
 };

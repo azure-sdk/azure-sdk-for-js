@@ -9,31 +9,12 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  TemplateSpec as TemplateSpecMapper,
-  TemplateSpecUpdateModel as TemplateSpecUpdateModelMapper,
-  TemplateSpecVersion as TemplateSpecVersionMapper,
-  TemplateSpecVersionUpdateModel as TemplateSpecVersionUpdateModelMapper
+  CheckZonePeersRequest as CheckZonePeersRequestMapper,
+  ResourceName as ResourceNameMapper,
 } from "../models/mappers.js";
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const templateSpec: OperationParameter = {
-  parameterPath: "templateSpec",
-  mapper: TemplateSpecMapper
-};
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -42,9 +23,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -53,80 +34,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
-};
-
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceGroupName: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
-      MaxLength: 90,
-      MinLength: 1
-    },
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const templateSpecName: OperationURLParameter = {
-  parameterPath: "templateSpecName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
-      MaxLength: 90,
-      MinLength: 1
-    },
-    serializedName: "templateSpecName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-05-01",
+    defaultValue: "2022-12-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const templateSpec1: OperationParameter = {
-  parameterPath: ["options", "templateSpec"],
-  mapper: TemplateSpecUpdateModelMapper
-};
-
-export const expand: OperationQueryParameter = {
-  parameterPath: ["options", "expand"],
-  mapper: {
-    serializedName: "$expand",
-    type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -135,34 +58,51 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const templateSpecVersionModel: OperationParameter = {
-  parameterPath: "templateSpecVersionModel",
-  mapper: TemplateSpecVersionMapper
-};
-
-export const templateSpecVersion: OperationURLParameter = {
-  parameterPath: "templateSpecVersion",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
-      MaxLength: 90,
-      MinLength: 1
+      name: "String",
     },
-    serializedName: "templateSpecVersion",
+  },
+  skipEncoding: true,
+};
+
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const templateSpecVersionUpdateModel: OperationParameter = {
-  parameterPath: ["options", "templateSpecVersionUpdateModel"],
-  mapper: TemplateSpecVersionUpdateModelMapper
+export const includeExtendedLocations: OperationQueryParameter = {
+  parameterPath: ["options", "includeExtendedLocations"],
+  mapper: {
+    serializedName: "includeExtendedLocations",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: CheckZonePeersRequestMapper,
+};
+
+export const resourceNameDefinition: OperationParameter = {
+  parameterPath: ["options", "resourceNameDefinition"],
+  mapper: ResourceNameMapper,
 };
