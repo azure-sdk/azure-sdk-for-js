@@ -3305,7 +3305,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-sql@file:projects/arm-sql.tgz':
-    resolution: {integrity: sha512-bylI/Z2vYZ5KvXjP4zASZ8VBhpGtvAoEgYoScn8nkHkHbdjWzANaVFmb+oNU8Le+vL/imbjYVBXLFNGSkTDlag==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-/+mTsBHvO04Ul7NtwdlJRn+2uxAGs43Q75UaRhu6ka3nNoAa/0nZIBLFgqCCKYTw6pVvBhHRlp57uWVSsZmTTQ==, tarball: file:projects/arm-sql.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-sqlvirtualmachine@file:projects/arm-sqlvirtualmachine.tgz':
