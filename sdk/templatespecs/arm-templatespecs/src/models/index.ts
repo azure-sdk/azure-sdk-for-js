@@ -8,67 +8,72 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** High-level information about a Template Spec version. */
-export interface TemplateSpecVersionInfo {
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface OperationListResult {
   /**
-   * Template Spec version description.
+   * List of operations supported by the resource provider
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly description?: string;
+  readonly value?: Operation[];
   /**
-   * The timestamp of when the version was created.
+   * URL to get the next set of operation list results (if there are any).
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly timeCreated?: Date;
-  /**
-   * The timestamp of when the version was last modified.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timeModified?: Date;
+  readonly nextLink?: string;
 }
 
-/** Common properties for all Azure resources. */
-export interface AzureResourceBase {
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
   /**
-   * String Id used to locate any resource on Azure.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Name of this resource.
+   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * Type of this resource.
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly type?: string;
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
   /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly systemData?: SystemData;
+  readonly origin?: Origin;
+  /**
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionType?: ActionType;
 }
 
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
+/** Localized display information for this particular operation. */
+export interface OperationDisplay {
+  /**
+   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provider?: string;
+  /**
+   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resource?: string;
+  /**
+   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
 }
 
-/** Template Specs error response. */
-export interface TemplateSpecsError {
+/** An error response for a resource management request. */
+export interface CloudError {
   /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.) */
   error?: ErrorResponse;
 }
@@ -116,239 +121,590 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** List of Template Specs. */
-export interface TemplateSpecsListResult {
-  /** An array of Template Specs. */
-  value?: TemplateSpec[];
+/** Location list operation response. */
+export interface LocationListResult {
+  /** An array of locations. */
+  value?: Location[];
+}
+
+/** Location information. */
+export interface Location {
   /**
-   * The URL to use for getting the next set of results.
+   * The fully qualified ID of the location. For example, /subscriptions/8d65815f-a5b6-402f-9298-045155da7d74/locations/westus.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly nextLink?: string;
-}
-
-/** Represents a Template Spec artifact containing an embedded Azure Resource Manager template for use as a linked template. */
-export interface LinkedTemplateArtifact {
-  /** A filesystem safe relative path of the artifact. */
-  path: string;
-  /** The Azure Resource Manager template. */
-  template: Record<string, unknown>;
-}
-
-/** List of Template Specs versions */
-export interface TemplateSpecVersionsListResult {
-  /** An array of Template Spec versions. */
-  value?: TemplateSpecVersion[];
+  readonly id?: string;
   /**
-   * The URL to use for getting the next set of results.
+   * The subscription ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly nextLink?: string;
+  readonly subscriptionId?: string;
+  /**
+   * The location name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The location type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: LocationType;
+  /**
+   * The display name of the location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * The display name of the location and its region.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly regionalDisplayName?: string;
+  /** Metadata of the location, such as lat/long, paired region, and others. */
+  metadata?: LocationMetadata;
+  /** The availability zone mappings for this region. */
+  availabilityZoneMappings?: AvailabilityZoneMappings[];
 }
 
-/** Template Spec object. */
-export interface TemplateSpec extends AzureResourceBase {
-  /** The location of the Template Spec. It cannot be changed after Template Spec creation. It must be one of the supported Azure locations. */
-  location: string;
-  /** Resource tags. */
+/** Location metadata information */
+export interface LocationMetadata {
+  /**
+   * The type of the region.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly regionType?: RegionType;
+  /**
+   * The category of the region.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly regionCategory?: RegionCategory;
+  /**
+   * The geography of the location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly geography?: string;
+  /**
+   * The geography group of the location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly geographyGroup?: string;
+  /**
+   * The longitude of the location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly longitude?: string;
+  /**
+   * The latitude of the location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly latitude?: string;
+  /**
+   * The physical location of the Azure location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly physicalLocation?: string;
+  /** The regions paired to this region. */
+  pairedRegion?: PairedRegion[];
+  /**
+   * The home location of an edge zone.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly homeLocation?: string;
+}
+
+/** Information regarding paired region. */
+export interface PairedRegion {
+  /**
+   * The name of the paired region.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The fully qualified ID of the location. For example, /subscriptions/8d65815f-a5b6-402f-9298-045155da7d74/locations/westus.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The subscription ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+}
+
+/** Availability zone mappings for the region */
+export interface AvailabilityZoneMappings {
+  /**
+   * The logical zone id for the availability zone
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly logicalZone?: string;
+  /**
+   * The fully qualified physical zone id of availability zone to which logical zone id is mapped to
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly physicalZone?: string;
+}
+
+/** Subscription information. */
+export interface Subscription {
+  /**
+   * The fully qualified ID for the subscription. For example, /subscriptions/8d65815f-a5b6-402f-9298-045155da7d74
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The subscription ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+  /**
+   * The subscription display name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * The subscription tenant ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /**
+   * The subscription state. Possible values are Enabled, Warned, PastDue, Disabled, and Deleted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: SubscriptionState;
+  /** The subscription policies. */
+  subscriptionPolicies?: SubscriptionPolicies;
+  /** The authorization source of the request. Valid values are one or more combinations of Legacy, RoleBased, Bypassed, Direct and Management. For example, 'Legacy, RoleBased'. */
+  authorizationSource?: string;
+  /** An array containing the tenants managing the subscription. */
+  managedByTenants?: ManagedByTenant[];
+  /** The tags attached to the subscription. */
   tags?: { [propertyName: string]: string };
-  /** Template Spec description. */
+}
+
+/** Subscription policies. */
+export interface SubscriptionPolicies {
+  /**
+   * The subscription location placement ID. The ID indicates which regions are visible for a subscription. For example, a subscription with a location placement Id of Public_2014-09-01 has access to Azure public regions.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly locationPlacementId?: string;
+  /**
+   * The subscription quota ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly quotaId?: string;
+  /**
+   * The subscription spending limit.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly spendingLimit?: SpendingLimit;
+}
+
+/** Information about a tenant managing the subscription. */
+export interface ManagedByTenant {
+  /**
+   * The tenant ID of the managing tenant. This is a GUID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+}
+
+/** Subscription list operation response. */
+export interface SubscriptionListResult {
+  /** An array of subscriptions. */
+  value?: Subscription[];
+  /** The URL to get the next set of results. */
+  nextLink: string;
+}
+
+/** Tenant Ids information. */
+export interface TenantListResult {
+  /** An array of tenants. */
+  value?: TenantIdDescription[];
+  /** The URL to use for getting the next set of results. */
+  nextLink: string;
+}
+
+/** Tenant Id information. */
+export interface TenantIdDescription {
+  /**
+   * The fully qualified ID of the tenant. For example, /tenants/8d65815f-a5b6-402f-9298-045155da7d74
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The tenant ID. For example, 8d65815f-a5b6-402f-9298-045155da7d74
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /**
+   * Category of the tenant.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantCategory?: TenantCategory;
+  /**
+   * Country/region name of the address for the tenant.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly country?: string;
+  /**
+   * Country/region abbreviation for the tenant.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly countryCode?: string;
+  /**
+   * The display name of the tenant.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * The list of domains for the tenant.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly domains?: string[];
+  /**
+   * The default domain for the tenant.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly defaultDomain?: string;
+  /**
+   * The tenant type. Only available for 'Home' tenant category.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantType?: string;
+  /**
+   * The tenant's branding logo URL. Only available for 'Home' tenant category.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantBrandingLogoUrl?: string;
+}
+
+/** Check zone peers request parameters. */
+export interface CheckZonePeersRequest {
+  /** The Microsoft location. */
+  location?: string;
+  /** The peer Microsoft Azure subscription ID. */
+  subscriptionIds?: string[];
+}
+
+/** Result of the Check zone peers operation. */
+export interface CheckZonePeersResult {
+  /**
+   * The subscription ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+  /** the location of the subscription. */
+  location?: string;
+  /** The Availability Zones shared by the subscriptions. */
+  availabilityZonePeers?: AvailabilityZonePeers[];
+}
+
+/** List of availability zones shared by the subscriptions. */
+export interface AvailabilityZonePeers {
+  /**
+   * The availabilityZone.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly availabilityZone?: string;
+  /** Details of shared availability zone. */
+  peers?: Peers[];
+}
+
+/** Information about shared availability zone. */
+export interface Peers {
+  /**
+   * The subscription ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+  /**
+   * The availabilityZone.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly availabilityZone?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponseAutoGenerated {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** Name and Type of the Resource */
+export interface ResourceName {
+  /** Name of the resource */
+  name: string;
+  /** The type of the resource */
+  type: string;
+}
+
+/** Resource Name valid if not a reserved word, does not contain a reserved word and does not start with a reserved word */
+export interface CheckResourceNameResult {
+  /** Name of Resource */
+  name?: string;
+  /** Type of Resource */
+  type?: string;
+  /** Is the resource name Allowed or Reserved */
+  status?: ResourceNameStatus;
+}
+
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface OperationAutoGenerated {
+  /** Operation name: {provider}/{resource}/{operation} */
+  name?: string;
+  /**
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplayAutoGenerated;
+  /**
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: Origin;
+  /**
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionType?: ActionType;
+}
+
+/** Localized display information for this particular operation. */
+export interface OperationDisplayAutoGenerated {
+  /** Service provider: Microsoft.Resources */
+  provider?: string;
+  /** Resource on which the operation is performed: Profile, endpoint, etc. */
+  resource?: string;
+  /** Operation type: Read, write, delete, etc. */
+  operation?: string;
+  /** Description of the operation. */
   description?: string;
-  /** Template Spec display name. */
-  displayName?: string;
-  /** The Template Spec metadata. Metadata is an open-ended object and is typically a collection of key-value pairs. */
-  metadata?: Record<string, unknown>;
-  /**
-   * High-level information about the versions within this Template Spec. The keys are the version names. Only populated if the $expand query parameter is set to 'versions'.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly versions?: { [propertyName: string]: TemplateSpecVersionInfo };
 }
 
-/** Template Spec properties to be updated (only tags are currently supported). */
-export interface TemplateSpecUpdateModel extends AzureResourceBase {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface OperationListResultAutoGenerated {
+  /** List of operations supported by the resource provider */
+  value?: OperationAutoGenerated[];
+  /** URL to get the next set of operation list results (if there are any). */
+  nextLink?: string;
 }
 
-/** Template Spec Version object. */
-export interface TemplateSpecVersion extends AzureResourceBase {
-  /** The location of the Template Spec Version. It must match the location of the parent Template Spec. */
-  location: string;
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** Template Spec version description. */
-  description?: string;
-  /** An array of linked template artifacts. */
-  linkedTemplates?: LinkedTemplateArtifact[];
-  /** The version metadata. Metadata is an open-ended object and is typically a collection of key-value pairs. */
-  metadata?: Record<string, unknown>;
-  /** The main Azure Resource Manager template content. */
-  mainTemplate?: Record<string, unknown>;
-  /** The Azure Resource Manager template UI definition content. */
-  uiFormDefinition?: Record<string, unknown>;
-}
-
-/** Template Spec Version properties to be updated (only tags are currently supported). */
-export interface TemplateSpecVersionUpdateModel extends AzureResourceBase {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-}
-
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
+/** Known values of {@link Origin} that the service accepts. */
+export enum KnownOrigin {
   /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key"
+  User = "user",
+  /** System */
+  System = "system",
+  /** UserSystem */
+  UserSystem = "user,system",
 }
 
 /**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ * Defines values for Origin. \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
+ * **user** \
+ * **system** \
+ * **user,system**
  */
-export type CreatedByType = string;
+export type Origin = string;
 
-/** Known values of {@link TemplateSpecExpandKind} that the service accepts. */
-export enum KnownTemplateSpecExpandKind {
-  /** Includes version information with the Template Spec. */
-  Versions = "versions"
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  /** Internal */
+  Internal = "Internal",
 }
 
 /**
- * Defines values for TemplateSpecExpandKind. \
- * {@link KnownTemplateSpecExpandKind} can be used interchangeably with TemplateSpecExpandKind,
+ * Defines values for ActionType. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **versions**: Includes version information with the Template Spec.
+ * **Internal**
  */
-export type TemplateSpecExpandKind = string;
+export type ActionType = string;
 
-/** Optional parameters. */
-export interface TemplateSpecsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type TemplateSpecsCreateOrUpdateResponse = TemplateSpec;
-
-/** Optional parameters. */
-export interface TemplateSpecsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Template Spec resource with the tags to be updated. */
-  templateSpec?: TemplateSpecUpdateModel;
+/** Known values of {@link RegionType} that the service accepts. */
+export enum KnownRegionType {
+  /** Physical */
+  Physical = "Physical",
+  /** Logical */
+  Logical = "Logical",
 }
 
-/** Contains response data for the update operation. */
-export type TemplateSpecsUpdateResponse = TemplateSpec;
+/**
+ * Defines values for RegionType. \
+ * {@link KnownRegionType} can be used interchangeably with RegionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Physical** \
+ * **Logical**
+ */
+export type RegionType = string;
 
-/** Optional parameters. */
-export interface TemplateSpecsGetOptionalParams
-  extends coreClient.OperationOptions {
-  /** Allows for expansion of additional Template Spec details in the response. Optional. */
-  expand?: TemplateSpecExpandKind;
+/** Known values of {@link RegionCategory} that the service accepts. */
+export enum KnownRegionCategory {
+  /** Recommended */
+  Recommended = "Recommended",
+  /** Extended */
+  Extended = "Extended",
+  /** Other */
+  Other = "Other",
 }
 
-/** Contains response data for the get operation. */
-export type TemplateSpecsGetResponse = TemplateSpec;
+/**
+ * Defines values for RegionCategory. \
+ * {@link KnownRegionCategory} can be used interchangeably with RegionCategory,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Recommended** \
+ * **Extended** \
+ * **Other**
+ */
+export type RegionCategory = string;
 
-/** Optional parameters. */
-export interface TemplateSpecsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface TemplateSpecsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {
-  /** Allows for expansion of additional Template Spec details in the response. Optional. */
-  expand?: TemplateSpecExpandKind;
+/** Known values of {@link ResourceNameStatus} that the service accepts. */
+export enum KnownResourceNameStatus {
+  /** Allowed */
+  Allowed = "Allowed",
+  /** Reserved */
+  Reserved = "Reserved",
 }
 
-/** Contains response data for the listBySubscription operation. */
-export type TemplateSpecsListBySubscriptionResponse = TemplateSpecsListResult;
+/**
+ * Defines values for ResourceNameStatus. \
+ * {@link KnownResourceNameStatus} can be used interchangeably with ResourceNameStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Allowed** \
+ * **Reserved**
+ */
+export type ResourceNameStatus = string;
+/** Defines values for LocationType. */
+export type LocationType = "Region" | "EdgeZone";
+/** Defines values for SubscriptionState. */
+export type SubscriptionState =
+  | "Enabled"
+  | "Warned"
+  | "PastDue"
+  | "Disabled"
+  | "Deleted";
+/** Defines values for SpendingLimit. */
+export type SpendingLimit = "On" | "Off" | "CurrentPeriodOff";
+/** Defines values for TenantCategory. */
+export type TenantCategory = "Home" | "ProjectedBy" | "ManagedBy";
 
 /** Optional parameters. */
-export interface TemplateSpecsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {
-  /** Allows for expansion of additional Template Spec details in the response. Optional. */
-  expand?: TemplateSpecExpandKind;
-}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type TemplateSpecsListByResourceGroupResponse = TemplateSpecsListResult;
-
-/** Optional parameters. */
-export interface TemplateSpecsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Allows for expansion of additional Template Spec details in the response. Optional. */
-  expand?: TemplateSpecExpandKind;
-}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type TemplateSpecsListBySubscriptionNextResponse = TemplateSpecsListResult;
-
-/** Optional parameters. */
-export interface TemplateSpecsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Allows for expansion of additional Template Spec details in the response. Optional. */
-  expand?: TemplateSpecExpandKind;
-}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type TemplateSpecsListByResourceGroupNextResponse = TemplateSpecsListResult;
-
-/** Optional parameters. */
-export interface TemplateSpecVersionsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type TemplateSpecVersionsCreateOrUpdateResponse = TemplateSpecVersion;
-
-/** Optional parameters. */
-export interface TemplateSpecVersionsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Template Spec Version resource with the tags to be updated. */
-  templateSpecVersionUpdateModel?: TemplateSpecVersionUpdateModel;
-}
-
-/** Contains response data for the update operation. */
-export type TemplateSpecVersionsUpdateResponse = TemplateSpecVersion;
-
-/** Optional parameters. */
-export interface TemplateSpecVersionsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type TemplateSpecVersionsGetResponse = TemplateSpecVersion;
-
-/** Optional parameters. */
-export interface TemplateSpecVersionsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface TemplateSpecVersionsListOptionalParams
+export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type TemplateSpecVersionsListResponse = TemplateSpecVersionsListResult;
+export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface TemplateSpecVersionsListNextOptionalParams
+export interface OperationsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type TemplateSpecVersionsListNextResponse = TemplateSpecVersionsListResult;
+export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface TemplateSpecsClientOptionalParams
+export interface SubscriptionsListLocationsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Whether to include extended locations. */
+  includeExtendedLocations?: boolean;
+}
+
+/** Contains response data for the listLocations operation. */
+export type SubscriptionsListLocationsResponse = LocationListResult;
+
+/** Optional parameters. */
+export interface SubscriptionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SubscriptionsGetResponse = Subscription;
+
+/** Optional parameters. */
+export interface SubscriptionsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SubscriptionsListResponse = SubscriptionListResult;
+
+/** Optional parameters. */
+export interface SubscriptionsCheckZonePeersOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkZonePeers operation. */
+export type SubscriptionsCheckZonePeersResponse = CheckZonePeersResult;
+
+/** Optional parameters. */
+export interface SubscriptionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SubscriptionsListNextResponse = SubscriptionListResult;
+
+/** Optional parameters. */
+export interface TenantsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type TenantsListResponse = TenantListResult;
+
+/** Optional parameters. */
+export interface TenantsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type TenantsListNextResponse = TenantListResult;
+
+/** Optional parameters. */
+export interface CheckResourceNameOptionalParams
+  extends coreClient.OperationOptions {
+  /** Resource object with values for resource name and resource type */
+  resourceNameDefinition?: ResourceName;
+}
+
+/** Contains response data for the checkResourceName operation. */
+export type CheckResourceNameResponse = CheckResourceNameResult;
+
+/** Optional parameters. */
+export interface SubscriptionClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;

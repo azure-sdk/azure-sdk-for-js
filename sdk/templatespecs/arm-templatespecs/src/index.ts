@@ -9,5 +9,5 @@
 /// <reference lib="esnext.asynciterable" />
 export { getContinuationToken } from "./pagingHelper.js";
 export * from "./models/index.js";
-export { TemplateSpecsClient } from "./templateSpecsClient.js";
+export { SubscriptionClient } from "./subscriptionClient.js";
 export * from "./operationsInterfaces/index.js";
