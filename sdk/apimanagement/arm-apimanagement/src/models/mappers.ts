@@ -2624,6 +2624,67 @@ export const DataMaskingEntity: coreClient.CompositeMapper = {
   },
 };
 
+export const LLMDiagnosticSettings: coreClient.CompositeMapper = {
+  serializedName: "LLMDiagnosticSettings",
+  type: {
+    name: "Composite",
+    className: "LLMDiagnosticSettings",
+    modelProperties: {
+      logs: {
+        serializedName: "logs",
+        xmlName: "logs",
+        type: {
+          name: "String",
+        },
+      },
+      requests: {
+        serializedName: "requests",
+        xmlName: "requests",
+        type: {
+          name: "Composite",
+          className: "LLMMessageDiagnosticSettings",
+        },
+      },
+      responses: {
+        serializedName: "responses",
+        xmlName: "responses",
+        type: {
+          name: "Composite",
+          className: "LLMMessageDiagnosticSettings",
+        },
+      },
+    },
+  },
+};
+
+export const LLMMessageDiagnosticSettings: coreClient.CompositeMapper = {
+  serializedName: "LLMMessageDiagnosticSettings",
+  type: {
+    name: "Composite",
+    className: "LLMMessageDiagnosticSettings",
+    modelProperties: {
+      messages: {
+        serializedName: "messages",
+        xmlName: "messages",
+        type: {
+          name: "String",
+        },
+      },
+      maxSizeInBytes: {
+        constraints: {
+          InclusiveMaximum: 262144,
+          InclusiveMinimum: 1,
+        },
+        serializedName: "maxSizeInBytes",
+        xmlName: "maxSizeInBytes",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
 export const IssueCollection: coreClient.CompositeMapper = {
   serializedName: "IssueCollection",
   type: {
@@ -5872,6 +5933,13 @@ export const ApiManagementServiceBaseProperties: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      releaseChannel: {
+        serializedName: "releaseChannel",
+        xmlName: "releaseChannel",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -7691,6 +7759,13 @@ export const IdentityProviderUpdateParameters: coreClient.CompositeMapper = {
         },
         serializedName: "properties.clientSecret",
         xmlName: "properties.clientSecret",
+        type: {
+          name: "String",
+        },
+      },
+      certificateId: {
+        serializedName: "properties.certificateId",
+        xmlName: "properties.certificateId",
         type: {
           name: "String",
         },
@@ -12186,6 +12261,13 @@ export const ApiManagementServiceResource: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      releaseChannel: {
+        serializedName: "properties.releaseChannel",
+        xmlName: "properties.releaseChannel",
+        type: {
+          name: "String",
+        },
+      },
       publisherEmail: {
         constraints: {
           MaxLength: 100,
@@ -12544,6 +12626,13 @@ export const ApiManagementServiceUpdateParameters: coreClient.CompositeMapper =
           defaultValue: "Enabled",
           serializedName: "properties.developerPortalStatus",
           xmlName: "properties.developerPortalStatus",
+          type: {
+            name: "String",
+          },
+        },
+        releaseChannel: {
+          serializedName: "properties.releaseChannel",
+          xmlName: "properties.releaseChannel",
           type: {
             name: "String",
           },
@@ -13695,6 +13784,13 @@ export const IdentityProviderContractProperties: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      certificateId: {
+        serializedName: "certificateId",
+        xmlName: "certificateId",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -13729,6 +13825,13 @@ export const IdentityProviderCreateContractProperties: coreClient.CompositeMappe
             name: "String",
           },
         },
+        certificateId: {
+          serializedName: "certificateId",
+          xmlName: "certificateId",
+          type: {
+            name: "String",
+          },
+        },
       },
     },
   };
@@ -13756,6 +13859,13 @@ export const IdentityProviderUpdateProperties: coreClient.CompositeMapper = {
         },
         serializedName: "clientSecret",
         xmlName: "clientSecret",
+        type: {
+          name: "String",
+        },
+      },
+      certificateId: {
+        serializedName: "certificateId",
+        xmlName: "certificateId",
         type: {
           name: "String",
         },
@@ -14521,6 +14631,14 @@ export const DiagnosticContract: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "PipelineDiagnosticSettings",
+        },
+      },
+      largeLanguageModel: {
+        serializedName: "properties.largeLanguageModel",
+        xmlName: "properties.largeLanguageModel",
+        type: {
+          name: "Composite",
+          className: "LLMDiagnosticSettings",
         },
       },
       logClientIp: {
@@ -16155,6 +16273,13 @@ export const IdentityProviderContract: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      certificateId: {
+        serializedName: "properties.certificateId",
+        xmlName: "properties.certificateId",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -16269,6 +16394,13 @@ export const IdentityProviderCreateContract: coreClient.CompositeMapper = {
         },
         serializedName: "properties.clientSecret",
         xmlName: "properties.clientSecret",
+        type: {
+          name: "String",
+        },
+      },
+      certificateId: {
+        serializedName: "properties.certificateId",
+        xmlName: "properties.certificateId",
         type: {
           name: "String",
         },

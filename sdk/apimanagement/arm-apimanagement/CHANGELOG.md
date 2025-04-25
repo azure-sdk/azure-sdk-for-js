@@ -1,5 +1,30 @@
 # Release History
     
+## 10.1.0-beta.1 (2025-04-25)
+Compared with version 10.0.0
+    
+### Features Added
+
+  - Added Interface LLMDiagnosticSettings
+  - Added Interface LLMMessageDiagnosticSettings
+  - Added Type Alias LlmDiagnosticSettings
+  - Added Type Alias LlmMessageLogTypes
+  - Added Type Alias ReleaseChannel
+  - Interface ApiManagementServiceBaseProperties has a new optional parameter releaseChannel
+  - Interface ApiManagementServiceResource has a new optional parameter releaseChannel
+  - Interface ApiManagementServiceUpdateParameters has a new optional parameter releaseChannel
+  - Interface DiagnosticContract has a new optional parameter largeLanguageModel
+  - Interface IdentityProviderContract has a new optional parameter certificateId
+  - Interface IdentityProviderContractProperties has a new optional parameter certificateId
+  - Interface IdentityProviderCreateContract has a new optional parameter certificateId
+  - Interface IdentityProviderCreateContractProperties has a new optional parameter certificateId
+  - Interface IdentityProviderUpdateParameters has a new optional parameter certificateId
+  - Interface IdentityProviderUpdateProperties has a new optional parameter certificateId
+  - Added Enum KnownLlmDiagnosticSettings
+  - Added Enum KnownLlmMessageLogTypes
+  - Added Enum KnownReleaseChannel
+    
+    
 ## 10.0.0 (2025-04-17)
     
 ### Features Added

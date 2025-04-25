@@ -848,6 +848,24 @@ export interface DataMaskingEntity {
   mode?: DataMaskingMode;
 }
 
+/** Diagnostic settings for Large Language Models */
+export interface LLMDiagnosticSettings {
+  /** Specifies whether default diagnostic should be enabled for Large Language Models or not. */
+  logs?: LlmDiagnosticSettings;
+  /** Diagnostic settings for Large Language Models requests. */
+  requests?: LLMMessageDiagnosticSettings;
+  /** Diagnostic settings for Large Language Models responses. */
+  responses?: LLMMessageDiagnosticSettings;
+}
+
+/** Diagnostic settings for Large Language Models Messages */
+export interface LLMMessageDiagnosticSettings {
+  /** Specifies which message should be logged. Currently there is only 'all' option. */
+  messages?: LlmMessageLogTypes;
+  /** Maximum size of message to logs in bytes. The default size is 32KB. */
+  maxSizeInBytes?: number;
+}
+
 /** Paged Issue list representation. */
 export interface IssueCollection {
   /**
@@ -1871,6 +1889,8 @@ export interface ApiManagementServiceBaseProperties {
   legacyPortalStatus?: LegacyPortalStatus;
   /** Status of developer portal in this API Management service. */
   developerPortalStatus?: DeveloperPortalStatus;
+  /** Release Channel of this API Management service. */
+  releaseChannel?: ReleaseChannel;
 }
 
 /** Custom hostname configuration. */
@@ -2435,6 +2455,8 @@ export interface IdentityProviderUpdateParameters {
   clientId?: string;
   /** Client secret of the Application in external Identity Provider, used to authenticate login request. For example, it is App Secret for Facebook login, API Key for Google login, Public Key for Microsoft. */
   clientSecret?: string;
+  /** Certificate full resource ID used in external Identity Provider */
+  certificateId?: string;
 }
 
 /** Client or app secret used in IdentityProviders, Aad, OpenID or OAuth. */
@@ -3858,6 +3880,8 @@ export interface ApiManagementServiceResource extends ApimResource {
   legacyPortalStatus?: LegacyPortalStatus;
   /** Status of developer portal in this API Management service. */
   developerPortalStatus?: DeveloperPortalStatus;
+  /** Release Channel of this API Management service. */
+  releaseChannel?: ReleaseChannel;
   /** Publisher email. */
   publisherEmail: string;
   /** Publisher name. */
@@ -3978,6 +4002,8 @@ export interface ApiManagementServiceUpdateParameters extends ApimResource {
   legacyPortalStatus?: LegacyPortalStatus;
   /** Status of developer portal in this API Management service. */
   developerPortalStatus?: DeveloperPortalStatus;
+  /** Release Channel of this API Management service. */
+  releaseChannel?: ReleaseChannel;
   /** Publisher email. */
   publisherEmail?: string;
   /** Publisher name. */
@@ -4298,6 +4324,8 @@ export interface IdentityProviderContractProperties
   clientId: string;
   /** Client secret of the Application in external Identity Provider, used to authenticate login request. For example, it is App Secret for Facebook login, API Key for Google login, Public Key for Microsoft. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
   clientSecret?: string;
+  /** Certificate full resource ID used in external Identity Provider */
+  certificateId?: string;
 }
 
 /** The external Identity Providers like Facebook, Google, Microsoft, Twitter or Azure Active Directory which can be used to enable access to the API Management service developer portal for all users. */
@@ -4307,6 +4335,8 @@ export interface IdentityProviderCreateContractProperties
   clientId: string;
   /** Client secret of the Application in external Identity Provider, used to authenticate login request. For example, it is App Secret for Facebook login, API Key for Google login, Public Key for Microsoft. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
   clientSecret: string;
+  /** Certificate full resource ID used in external Identity Provider */
+  certificateId?: string;
 }
 
 /** Parameters supplied to the Update Identity Provider operation. */
@@ -4316,6 +4346,8 @@ export interface IdentityProviderUpdateProperties
   clientId?: string;
   /** Client secret of the Application in external Identity Provider, used to authenticate login request. For example, it is App Secret for Facebook login, API Key for Google login, Public Key for Microsoft. */
   clientSecret?: string;
+  /** Certificate full resource ID used in external Identity Provider */
+  certificateId?: string;
 }
 
 /** NamedValue Contract properties. */
@@ -4531,6 +4563,8 @@ export interface DiagnosticContract extends ProxyResource {
   frontend?: PipelineDiagnosticSettings;
   /** Diagnostic settings for incoming/outgoing HTTP messages to the Backend */
   backend?: PipelineDiagnosticSettings;
+  /** Large Language Models diagnostic settings */
+  largeLanguageModel?: LLMDiagnosticSettings;
   /** Log the ClientIP. Default is false. */
   logClientIp?: boolean;
   /** Sets correlation protocol to use for Application Insights diagnostics. */
@@ -4976,6 +5010,8 @@ export interface IdentityProviderContract extends ProxyResource {
   clientId?: string;
   /** Client secret of the Application in external Identity Provider, used to authenticate login request. For example, it is App Secret for Facebook login, API Key for Google login, Public Key for Microsoft. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
   clientSecret?: string;
+  /** Certificate full resource ID used in external Identity Provider */
+  certificateId?: string;
 }
 
 /** Identity Provider details. */
@@ -5002,6 +5038,8 @@ export interface IdentityProviderCreateContract extends ProxyResource {
   clientId?: string;
   /** Client secret of the Application in external Identity Provider, used to authenticate login request. For example, it is App Secret for Facebook login, API Key for Google login, Public Key for Microsoft. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
   clientSecret?: string;
+  /** Certificate full resource ID used in external Identity Provider */
+  certificateId?: string;
 }
 
 /** Logger details. */
@@ -7795,6 +7833,39 @@ export enum KnownDataMaskingMode {
  */
 export type DataMaskingMode = string;
 
+/** Known values of {@link LlmDiagnosticSettings} that the service accepts. */
+export enum KnownLlmDiagnosticSettings {
+  /** Default LLM logs are enabled. */
+  Enabled = "enabled",
+  /** Default LLM logs are disabled. */
+  Disabled = "disabled",
+}
+
+/**
+ * Defines values for LlmDiagnosticSettings. \
+ * {@link KnownLlmDiagnosticSettings} can be used interchangeably with LlmDiagnosticSettings,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **enabled**: Default LLM logs are enabled. \
+ * **disabled**: Default LLM logs are disabled.
+ */
+export type LlmDiagnosticSettings = string;
+
+/** Known values of {@link LlmMessageLogTypes} that the service accepts. */
+export enum KnownLlmMessageLogTypes {
+  /** Log all messages. */
+  All = "all",
+}
+
+/**
+ * Defines values for LlmMessageLogTypes. \
+ * {@link KnownLlmMessageLogTypes} can be used interchangeably with LlmMessageLogTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **all**: Log all messages.
+ */
+export type LlmMessageLogTypes = string;
+
 /** Known values of {@link HttpCorrelationProtocol} that the service accepts. */
 export enum KnownHttpCorrelationProtocol {
   /** Do not read and inject correlation headers. */
@@ -8562,6 +8633,27 @@ export enum KnownDeveloperPortalStatus {
  * **Disabled**: Developer Portal is disabled for the service.
  */
 export type DeveloperPortalStatus = string;
+
+/** Known values of {@link ReleaseChannel} that the service accepts. */
+export enum KnownReleaseChannel {
+  /** Preview Channel of the service. */
+  Preview = "Preview",
+  /** Default Channel of the service. */
+  Default = "Default",
+  /** Stable Channel of the service. */
+  Stable = "Stable",
+}
+
+/**
+ * Defines values for ReleaseChannel. \
+ * {@link KnownReleaseChannel} can be used interchangeably with ReleaseChannel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Preview**: Preview Channel of the service. \
+ * **Default**: Default Channel of the service. \
+ * **Stable**: Stable Channel of the service.
+ */
+export type ReleaseChannel = string;
 
 /** Known values of {@link ApimIdentityType} that the service accepts. */
 export enum KnownApimIdentityType {

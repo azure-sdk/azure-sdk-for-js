@@ -2409,7 +2409,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-apimanagement@file:projects/arm-apimanagement.tgz':
-    resolution: {integrity: sha512-HsyZVoTmHvtuA9mbwPZOAq4k57FcYni+pLrXFLL0PO4ZwUOYvFXkWrNARQ3gFCCSi0vR/o5w/mpdt2PM67/esA==, tarball: file:projects/arm-apimanagement.tgz}
+    resolution: {integrity: sha512-YL7LrJZrP8LiaqG0sLuD8sVupRsY7/m599hZ7KrbgcfBx2RcJeBmKG5/ZGIiEftx22GffClixZFTmq3LRi0Ybw==, tarball: file:projects/arm-apimanagement.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-appcomplianceautomation@file:projects/arm-appcomplianceautomation.tgz':
