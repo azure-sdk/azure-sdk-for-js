@@ -14,7 +14,7 @@ import {
   AccessReviewInstancesGetByIdResponse,
   AccessReviewInstanceProperties,
   AccessReviewInstancesCreateOptionalParams,
-  AccessReviewInstancesCreateResponse
+  AccessReviewInstancesCreateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,7 +27,7 @@ export interface AccessReviewInstances {
    */
   list(
     scheduleDefinitionId: string,
-    options?: AccessReviewInstancesListOptionalParams
+    options?: AccessReviewInstancesListOptionalParams,
   ): PagedAsyncIterableIterator<AccessReviewInstance>;
   /**
    * Get access review instances
@@ -38,7 +38,7 @@ export interface AccessReviewInstances {
   getById(
     scheduleDefinitionId: string,
     id: string,
-    options?: AccessReviewInstancesGetByIdOptionalParams
+    options?: AccessReviewInstancesGetByIdOptionalParams,
   ): Promise<AccessReviewInstancesGetByIdResponse>;
   /**
    * Update access review instance.
@@ -51,6 +51,6 @@ export interface AccessReviewInstances {
     scheduleDefinitionId: string,
     id: string,
     properties: AccessReviewInstanceProperties,
-    options?: AccessReviewInstancesCreateOptionalParams
+    options?: AccessReviewInstancesCreateOptionalParams,
   ): Promise<AccessReviewInstancesCreateResponse>;
 }
