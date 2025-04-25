@@ -20,7 +20,7 @@ import {
   OperationStatusListResponse,
   OperationStatusGetOptionalParams,
   OperationStatusGetResponse,
-  OperationStatusListNextResponse
+  OperationStatusListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,14 +51,14 @@ export class OperationStatusImpl implements OperationStatus {
     clusterRp: string,
     clusterResourceName: string,
     clusterName: string,
-    options?: OperationStatusListOptionalParams
+    options?: OperationStatusListOptionalParams,
   ): PagedAsyncIterableIterator<OperationStatusResult> {
     const iter = this.listPagingAll(
       resourceGroupName,
       clusterRp,
       clusterResourceName,
       clusterName,
-      options
+      options,
     );
     return {
       next() {
@@ -77,9 +77,9 @@ export class OperationStatusImpl implements OperationStatus {
           clusterResourceName,
           clusterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -89,7 +89,7 @@ export class OperationStatusImpl implements OperationStatus {
     clusterResourceName: string,
     clusterName: string,
     options?: OperationStatusListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<OperationStatusResult[]> {
     let result: OperationStatusListResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +99,7 @@ export class OperationStatusImpl implements OperationStatus {
         clusterRp,
         clusterResourceName,
         clusterName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -113,7 +113,7 @@ export class OperationStatusImpl implements OperationStatus {
         clusterResourceName,
         clusterName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -127,14 +127,14 @@ export class OperationStatusImpl implements OperationStatus {
     clusterRp: string,
     clusterResourceName: string,
     clusterName: string,
-    options?: OperationStatusListOptionalParams
+    options?: OperationStatusListOptionalParams,
   ): AsyncIterableIterator<OperationStatusResult> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       clusterRp,
       clusterResourceName,
       clusterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -159,7 +159,7 @@ export class OperationStatusImpl implements OperationStatus {
     clusterName: string,
     extensionName: string,
     operationId: string,
-    options?: OperationStatusGetOptionalParams
+    options?: OperationStatusGetOptionalParams,
   ): Promise<OperationStatusGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -169,9 +169,9 @@ export class OperationStatusImpl implements OperationStatus {
         clusterName,
         extensionName,
         operationId,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -190,7 +190,7 @@ export class OperationStatusImpl implements OperationStatus {
     clusterRp: string,
     clusterResourceName: string,
     clusterName: string,
-    options?: OperationStatusListOptionalParams
+    options?: OperationStatusListOptionalParams,
   ): Promise<OperationStatusListResponse> {
     return this.client.sendOperationRequest(
       {
@@ -198,9 +198,9 @@ export class OperationStatusImpl implements OperationStatus {
         clusterRp,
         clusterResourceName,
         clusterName,
-        options
+        options,
       },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -221,7 +221,7 @@ export class OperationStatusImpl implements OperationStatus {
     clusterResourceName: string,
     clusterName: string,
     nextLink: string,
-    options?: OperationStatusListNextOptionalParams
+    options?: OperationStatusListNextOptionalParams,
   ): Promise<OperationStatusListNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -230,9 +230,9 @@ export class OperationStatusImpl implements OperationStatus {
         clusterResourceName,
         clusterName,
         nextLink,
-        options
+        options,
       },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -240,16 +240,15 @@ export class OperationStatusImpl implements OperationStatus {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/extensions/{extensionName}/operations/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/extensions/{extensionName}/operations/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -260,22 +259,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterResourceName,
     Parameters.clusterName,
     Parameters.extensionName,
-    Parameters.operationId
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/operations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/operations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatusList
+      bodyMapper: Mappers.OperationStatusList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -284,21 +282,21 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterRp,
     Parameters.clusterResourceName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatusList
+      bodyMapper: Mappers.OperationStatusList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -307,8 +305,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterRp,
     Parameters.clusterResourceName,
     Parameters.clusterName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

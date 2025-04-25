@@ -2901,7 +2901,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-kubernetesconfiguration@file:projects/arm-kubernetesconfiguration.tgz':
-    resolution: {integrity: sha512-2shvkLMZLltZK6dC3XHx7jE/9RwmJ2g26H/Vu8VTDuS7SOAYbqFiHbs0e2tVm3k4p4QO/g54/jBJQSvDiRAo0g==, tarball: file:projects/arm-kubernetesconfiguration.tgz}
+    resolution: {integrity: sha512-ajX6pn1qXNiVrXl4DEr82KENC4aFtMg1xzBeyBBvOMTzzvYBNnNMVtXh09CQNhfiKa1nUFpHl3Pl7dU8HQbUHw==, tarball: file:projects/arm-kubernetesconfiguration.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-kusto@file:projects/arm-kusto.tgz':
