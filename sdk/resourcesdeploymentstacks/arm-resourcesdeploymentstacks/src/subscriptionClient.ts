@@ -11,46 +11,46 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { TemplateSpecsImpl, TemplateSpecVersionsImpl } from "./operations/index.js";
-import { TemplateSpecs, TemplateSpecVersions } from "./operationsInterfaces/index.js";
-import { TemplateSpecsClientOptionalParams } from "./models/index.js";
+import { OperationsImpl, SubscriptionsImpl, TenantsImpl } from "./operations/index.js";
+import { Operations, Subscriptions, Tenants } from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
+import {
+  SubscriptionClientOptionalParams,
+  CheckResourceNameOptionalParams,
+  CheckResourceNameResponse,
+} from "./models/index.js";
 
-export class TemplateSpecsClient extends coreClient.ServiceClient {
+export class SubscriptionClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
   apiVersion: string;
 
   /**
-   * Initializes a new instance of the TemplateSpecsClient class.
+   * Initializes a new instance of the SubscriptionClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Subscription Id which forms part of the URI for every service call.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
-    subscriptionId: string,
-    options?: TemplateSpecsClientOptionalParams
+    options?: SubscriptionClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
-    }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
     }
 
     // Initializing default values for options
     if (!options) {
       options = {};
     }
-    const defaults: TemplateSpecsClientOptionalParams = {
+    const defaults: SubscriptionClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-templatespecs/2.1.1`;
+    const packageDetails = `azsdk-js-arm-resourcesdeploymentstacks/2.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -60,20 +60,21 @@ export class TemplateSpecsClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -83,7 +84,7 @@ export class TemplateSpecsClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -93,19 +94,18 @@ export class TemplateSpecsClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
-    // Parameter assignments
-    this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-05-01";
-    this.templateSpecs = new TemplateSpecsImpl(this);
-    this.templateSpecVersions = new TemplateSpecVersionsImpl(this);
+    this.apiVersion = options.apiVersion || "2022-12-01";
+    this.operations = new OperationsImpl(this);
+    this.subscriptions = new SubscriptionsImpl(this);
+    this.tenants = new TenantsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -118,7 +118,7 @@ export class TemplateSpecsClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -132,11 +132,47 @@ export class TemplateSpecsClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  templateSpecs: TemplateSpecs;
-  templateSpecVersions: TemplateSpecVersions;
+  /**
+   * A resource name is valid if it is not a reserved word, does not contains a reserved word and does
+   * not start with a reserved word
+   * @param options The options parameters.
+   */
+  checkResourceName(
+    options?: CheckResourceNameOptionalParams,
+  ): Promise<CheckResourceNameResponse> {
+    return this.sendOperationRequest(
+      { options },
+      checkResourceNameOperationSpec,
+    );
+  }
+
+  operations: Operations;
+  subscriptions: Subscriptions;
+  tenants: Tenants;
 }
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const checkResourceNameOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Resources/checkResourceName",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CheckResourceNameResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.resourceNameDefinition,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};

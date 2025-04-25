@@ -14,57 +14,43 @@ import {
   SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { DeploymentStacksImpl } from "./operations/index.js";
-import { DeploymentStacks } from "./operationsInterfaces/index.js";
-import { DeploymentStacksClientOptionalParams } from "./models/index.js";
+import { OperationsImpl, SubscriptionsImpl, TenantsImpl } from "./operations/index.js";
+import { Operations, Subscriptions, Tenants } from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
+import {
+  SubscriptionClientOptionalParams,
+  CheckResourceNameOptionalParams,
+  CheckResourceNameResponse,
+} from "./models/index.js";
 
-export class DeploymentStacksClient extends coreClient.ServiceClient {
+export class SubscriptionClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId?: string;
   apiVersion: string;
 
   /**
-   * Initializes a new instance of the DeploymentStacksClient class.
+   * Initializes a new instance of the SubscriptionClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
-    subscriptionId: string,
-    options?: DeploymentStacksClientOptionalParams,
-  );
-  constructor(
-    credentials: coreAuth.TokenCredential,
-    options?: DeploymentStacksClientOptionalParams,
-  );
-  constructor(
-    credentials: coreAuth.TokenCredential,
-    subscriptionIdOrOptions?: DeploymentStacksClientOptionalParams | string,
-    options?: DeploymentStacksClientOptionalParams,
+    options?: SubscriptionClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
-    }
-
-    let subscriptionId: string | undefined;
-
-    if (typeof subscriptionIdOrOptions === "string") {
-      subscriptionId = subscriptionIdOrOptions;
-    } else if (typeof subscriptionIdOrOptions === "object") {
-      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
     if (!options) {
       options = {};
     }
-    const defaults: DeploymentStacksClientOptionalParams = {
+    const defaults: SubscriptionClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-resourcesdeploymentstacks/1.0.1`;
+    const packageDetails = `azsdk-js-arm-templatespecs/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -113,13 +99,13 @@ export class DeploymentStacksClient extends coreClient.ServiceClient {
         }),
       );
     }
-    // Parameter assignments
-    this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-03-01";
-    this.deploymentStacks = new DeploymentStacksImpl(this);
+    this.apiVersion = options.apiVersion || "2022-12-01";
+    this.operations = new OperationsImpl(this);
+    this.subscriptions = new SubscriptionsImpl(this);
+    this.tenants = new TenantsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -151,5 +137,42 @@ export class DeploymentStacksClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  deploymentStacks: DeploymentStacks;
+  /**
+   * A resource name is valid if it is not a reserved word, does not contains a reserved word and does
+   * not start with a reserved word
+   * @param options The options parameters.
+   */
+  checkResourceName(
+    options?: CheckResourceNameOptionalParams,
+  ): Promise<CheckResourceNameResponse> {
+    return this.sendOperationRequest(
+      { options },
+      checkResourceNameOperationSpec,
+    );
+  }
+
+  operations: Operations;
+  subscriptions: Subscriptions;
+  tenants: Tenants;
 }
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const checkResourceNameOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Resources/checkResourceName",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CheckResourceNameResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.resourceNameDefinition,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
