@@ -4,29 +4,27 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
+import * as coreAuth from '@azure/core-auth';
+import * as coreClient from '@azure/core-client';
 import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type ActionType = string;
 
-// @public (undocumented)
-export class AgriculturePlatformClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: AgriculturePlatformClientOptionalParams);
-    readonly agriService: AgriServiceOperations;
-    readonly operations: OperationsOperations;
-    readonly pipeline: Pipeline;
-}
-
 // @public
-export interface AgriculturePlatformClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
+export interface AgriService {
+    beginCreateOrUpdate(resourceGroupName: string, agriServiceResourceName: string, resource: AgriServiceResource, options?: AgriServiceCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AgriServiceCreateOrUpdateResponse>, AgriServiceCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, agriServiceResourceName: string, resource: AgriServiceResource, options?: AgriServiceCreateOrUpdateOptionalParams): Promise<AgriServiceCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, agriServiceResourceName: string, options?: AgriServiceDeleteOptionalParams): Promise<SimplePollerLike<OperationState<AgriServiceDeleteResponse>, AgriServiceDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, agriServiceResourceName: string, options?: AgriServiceDeleteOptionalParams): Promise<AgriServiceDeleteResponse>;
+    beginUpdate(resourceGroupName: string, agriServiceResourceName: string, properties: AgriServiceResourceUpdate, options?: AgriServiceUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AgriServiceUpdateResponse>, AgriServiceUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, agriServiceResourceName: string, properties: AgriServiceResourceUpdate, options?: AgriServiceUpdateOptionalParams): Promise<AgriServiceUpdateResponse>;
+    get(resourceGroupName: string, agriServiceResourceName: string, options?: AgriServiceGetOptionalParams): Promise<AgriServiceGetResponse>;
+    listAvailableSolutions(resourceGroupName: string, agriServiceResourceName: string, options?: AgriServiceListAvailableSolutionsOptionalParams): Promise<AgriServiceListAvailableSolutionsResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: AgriServiceListByResourceGroupOptionalParams): PagedAsyncIterableIterator<AgriServiceResource>;
+    listBySubscription(options?: AgriServiceListBySubscriptionOptionalParams): PagedAsyncIterableIterator<AgriServiceResource>;
 }
 
 // @public
@@ -41,47 +39,88 @@ export interface AgriServiceConfig {
 }
 
 // @public
-export interface AgriServiceCreateOrUpdateOptionalParams extends OperationOptions {
+export interface AgriServiceCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface AgriServiceCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface AgriServiceDeleteOptionalParams extends OperationOptions {
+export type AgriServiceCreateOrUpdateResponse = AgriServiceResource;
+
+// @public
+export interface AgriServiceDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface AgriServiceDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface AgriServiceGetOptionalParams extends OperationOptions {
+export type AgriServiceDeleteResponse = AgriServiceDeleteHeaders;
+
+// @public
+export interface AgriServiceGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface AgriServiceListAvailableSolutionsOptionalParams extends OperationOptions {
+export type AgriServiceGetResponse = AgriServiceResource;
+
+// @public
+export interface AgriServiceListAvailableSolutionsOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface AgriServiceListByResourceGroupOptionalParams extends OperationOptions {
+export type AgriServiceListAvailableSolutionsResponse = AvailableAgriSolutionListResult;
+
+// @public
+export interface AgriServiceListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface AgriServiceListBySubscriptionOptionalParams extends OperationOptions {
+export type AgriServiceListByResourceGroupNextResponse = AgriServiceResourceListResult;
+
+// @public
+export interface AgriServiceListByResourceGroupOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface AgriServiceOperations {
-    createOrUpdate: (resourceGroupName: string, agriServiceResourceName: string, resource: AgriServiceResource, options?: AgriServiceCreateOrUpdateOptionalParams) => PollerLike<OperationState<AgriServiceResource>, AgriServiceResource>;
-    delete: (resourceGroupName: string, agriServiceResourceName: string, options?: AgriServiceDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, agriServiceResourceName: string, options?: AgriServiceGetOptionalParams) => Promise<AgriServiceResource>;
-    listAvailableSolutions: (resourceGroupName: string, agriServiceResourceName: string, options?: AgriServiceListAvailableSolutionsOptionalParams) => Promise<AvailableAgriSolutionListResult>;
-    listByResourceGroup: (resourceGroupName: string, options?: AgriServiceListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<AgriServiceResource>;
-    listBySubscription: (options?: AgriServiceListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<AgriServiceResource>;
-    update: (resourceGroupName: string, agriServiceResourceName: string, properties: AgriServiceResourceUpdate, options?: AgriServiceUpdateOptionalParams) => PollerLike<OperationState<AgriServiceResource>, AgriServiceResource>;
+export type AgriServiceListByResourceGroupResponse = AgriServiceResourceListResult;
+
+// @public
+export interface AgriServiceListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export type AgriServiceListBySubscriptionNextResponse = AgriServiceResourceListResult;
+
+// @public
+export interface AgriServiceListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AgriServiceListBySubscriptionResponse = AgriServiceResourceListResult;
 
 // @public
 export interface AgriServiceResource extends TrackedResource {
     identity?: ManagedServiceIdentity;
     properties?: AgriServiceResourceProperties;
     sku?: Sku;
+}
+
+// @public
+export interface AgriServiceResourceListResult {
+    nextLink?: string;
+    value: AgriServiceResource[];
 }
 
 // @public
@@ -95,10 +134,12 @@ export interface AgriServiceResourceProperties {
 
 // @public
 export interface AgriServiceResourceUpdate {
-    identity?: ManagedServiceIdentity;
+    identity?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdate;
     properties?: AgriServiceResourceUpdateProperties;
-    sku?: Sku;
-    tags?: Record<string, string>;
+    sku?: AzureResourceManagerCommonTypesSkuUpdate;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -109,9 +150,19 @@ export interface AgriServiceResourceUpdateProperties {
 }
 
 // @public
-export interface AgriServiceUpdateOptionalParams extends OperationOptions {
+export interface AgriServiceUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface AgriServiceUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type AgriServiceUpdateResponse = AgriServiceResource;
 
 // @public
 export type AuthCredentialsKind = string;
@@ -122,9 +173,25 @@ export interface AvailableAgriSolutionListResult {
 }
 
 // @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
+export interface AzureResourceManagerCommonTypesManagedServiceIdentityUpdate {
+    type?: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: Components19Kgb1NSchemasAzureResourcemanagerCommontypesManagedserviceidentityupdatePropertiesUserassignedidentitiesAdditionalproperties | null;
+    };
+}
+
+// @public
+export interface AzureResourceManagerCommonTypesSkuUpdate {
+    capacity?: number;
+    family?: string;
+    name?: string;
+    size?: string;
+    tier?: SkuTier;
+}
+
+// @public (undocumented)
+export interface Components19Kgb1NSchemasAzureResourcemanagerCommontypesManagedserviceidentityupdatePropertiesUserassignedidentitiesAdditionalproperties extends UserAssignedIdentity {
+}
 
 // @public
 export type CreatedByType = string;
@@ -159,7 +226,7 @@ export interface DataManagerForAgricultureSolution {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: Record<string, unknown>;
     readonly type?: string;
 }
 
@@ -176,6 +243,9 @@ export interface ErrorDetail {
 export interface ErrorResponse {
     error?: ErrorDetail;
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface InstalledSolutionMap {
@@ -229,11 +299,6 @@ export enum KnownProvisioningState {
 }
 
 // @public
-export enum KnownVersions {
-    V20240601Preview = "2024-06-01-preview"
-}
-
-// @public
 export interface ManagedOnBehalfOfConfiguration {
     readonly moboBrokerResources: MoboBrokerResource[];
 }
@@ -243,7 +308,9 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity | null;
+    };
 }
 
 // @public
@@ -253,6 +320,28 @@ export type ManagedServiceIdentityType = string;
 export interface MarketPlaceOfferDetails {
     publisherId: string;
     saasOfferId: string;
+}
+
+// @public (undocumented)
+export class MicrosoftAgriculturePlatform extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: MicrosoftAgriculturePlatformOptionalParams);
+    // (undocumented)
+    agriService: AgriService;
+    // (undocumented)
+    apiVersion: string;
+    // (undocumented)
+    operations: Operations;
+    // (undocumented)
+    subscriptionId: string;
+}
+
+// @public
+export interface MicrosoftAgriculturePlatformOptionalParams extends coreClient.ServiceClientOptions {
+    $host?: string;
+    apiVersion?: string;
+    endpoint?: string;
 }
 
 // @public
@@ -278,28 +367,32 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationsListOptionalParams extends OperationOptions {
+export interface OperationListResult {
+    readonly nextLink?: string;
+    readonly value?: Operation[];
 }
 
 // @public
-export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
+export interface Operations {
+    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
+
+// @public
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListNextResponse = OperationListResult;
+
+// @public
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListResponse = OperationListResult;
 
 // @public
 export type Origin = string;
-
-// @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
 
 // @public
 export type ProvisioningState = string;
@@ -310,16 +403,6 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
-}
-
-// @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AgriculturePlatformClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -357,7 +440,9 @@ export interface SystemData {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: Record<string, string>;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
