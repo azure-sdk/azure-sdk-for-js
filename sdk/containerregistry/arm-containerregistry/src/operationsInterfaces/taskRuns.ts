@@ -92,7 +92,20 @@ export interface TaskRuns {
    * @param taskRunName The name of the task run.
    * @param options The options parameters.
    */
-  delete(
+  beginDelete(
+    resourceGroupName: string,
+    registryName: string,
+    taskRunName: string,
+    options?: TaskRunsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Deletes a specified task run resource.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param taskRunName The name of the task run.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
     resourceGroupName: string,
     registryName: string,
     taskRunName: string,

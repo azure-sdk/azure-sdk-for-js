@@ -8,23 +8,13 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest,
-} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  ArchivesImpl,
-  ArchiveVersionsImpl,
   CacheRulesImpl,
   ConnectedRegistriesImpl,
   CredentialSetsImpl,
-  ExportPipelinesImpl,
   RegistriesImpl,
-  ImportPipelinesImpl,
   OperationsImpl,
-  PipelineRunsImpl,
   PrivateEndpointConnectionsImpl,
   ReplicationsImpl,
   ScopeMapsImpl,
@@ -36,16 +26,11 @@ import {
   TasksImpl,
 } from "./operations/index.js";
 import {
-  Archives,
-  ArchiveVersions,
   CacheRules,
   ConnectedRegistries,
   CredentialSets,
-  ExportPipelines,
   Registries,
-  ImportPipelines,
   Operations,
-  PipelineRuns,
   PrivateEndpointConnections,
   Replications,
   ScopeMaps,
@@ -60,7 +45,6 @@ import { ContainerRegistryManagementClientOptionalParams } from "./models/index.
 
 export class ContainerRegistryManagementClient extends coreClient.ServiceClient {
   $host: string;
-  apiVersion: string;
   subscriptionId: string;
 
   /**
@@ -144,17 +128,11 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2025-03-01-preview";
-    this.archives = new ArchivesImpl(this);
-    this.archiveVersions = new ArchiveVersionsImpl(this);
     this.cacheRules = new CacheRulesImpl(this);
     this.connectedRegistries = new ConnectedRegistriesImpl(this);
     this.credentialSets = new CredentialSetsImpl(this);
-    this.exportPipelines = new ExportPipelinesImpl(this);
     this.registries = new RegistriesImpl(this);
-    this.importPipelines = new ImportPipelinesImpl(this);
     this.operations = new OperationsImpl(this);
-    this.pipelineRuns = new PipelineRunsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.replications = new ReplicationsImpl(this);
     this.scopeMaps = new ScopeMapsImpl(this);
@@ -164,47 +142,13 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
     this.runs = new RunsImpl(this);
     this.taskRuns = new TaskRunsImpl(this);
     this.tasks = new TasksImpl(this);
-    this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
-  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
-  private addCustomApiVersionPolicy(apiVersion?: string) {
-    if (!apiVersion) {
-      return;
-    }
-    const apiVersionPolicy = {
-      name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest,
-      ): Promise<PipelineResponse> {
-        const param = request.url.split("?");
-        if (param.length > 1) {
-          const newParams = param[1].split("&").map((item) => {
-            if (item.indexOf("api-version") > -1) {
-              return "api-version=" + apiVersion;
-            } else {
-              return item;
-            }
-          });
-          request.url = param[0] + "?" + newParams.join("&");
-        }
-        return next(request);
-      },
-    };
-    this.pipeline.addPolicy(apiVersionPolicy);
-  }
-
-  archives: Archives;
-  archiveVersions: ArchiveVersions;
   cacheRules: CacheRules;
   connectedRegistries: ConnectedRegistries;
   credentialSets: CredentialSets;
-  exportPipelines: ExportPipelines;
   registries: Registries;
-  importPipelines: ImportPipelines;
   operations: Operations;
-  pipelineRuns: PipelineRuns;
   privateEndpointConnections: PrivateEndpointConnections;
   replications: Replications;
   scopeMaps: ScopeMaps;
