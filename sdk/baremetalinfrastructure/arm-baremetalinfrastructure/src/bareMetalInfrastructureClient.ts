@@ -11,20 +11,20 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  AzureBareMetalInstancesImpl,
   OperationsImpl,
-  AzureBareMetalStorageInstancesImpl
-} from "./operations/index.js";
+  AzureBareMetalInstancesImpl,
+  AzureBareMetalStorageInstancesImpl,
+} from "./operations";
 import {
-  AzureBareMetalInstances,
   Operations,
-  AzureBareMetalStorageInstances
-} from "./operationsInterfaces/index.js";
-import { BareMetalInfrastructureClientOptionalParams } from "./models/index.js";
+  AzureBareMetalInstances,
+  AzureBareMetalStorageInstances,
+} from "./operationsInterfaces";
+import { BareMetalInfrastructureClientOptionalParams } from "./models";
 
 export class BareMetalInfrastructureClient extends coreClient.ServiceClient {
   $host: string;
@@ -40,7 +40,7 @@ export class BareMetalInfrastructureClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: BareMetalInfrastructureClientOptionalParams
+    options?: BareMetalInfrastructureClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -55,10 +55,10 @@ export class BareMetalInfrastructureClient extends coreClient.ServiceClient {
     }
     const defaults: BareMetalInfrastructureClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-baremetalinfrastructure/1.0.0-beta.3`;
+    const packageDetails = `azsdk-js-arm-baremetalinfrastructure/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -68,20 +68,21 @@ export class BareMetalInfrastructureClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -91,7 +92,7 @@ export class BareMetalInfrastructureClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -101,9 +102,9 @@ export class BareMetalInfrastructureClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -111,12 +112,11 @@ export class BareMetalInfrastructureClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-08-04-preview";
-    this.azureBareMetalInstances = new AzureBareMetalInstancesImpl(this);
+    this.apiVersion = options.apiVersion || "2024-08-01-preview";
     this.operations = new OperationsImpl(this);
-    this.azureBareMetalStorageInstances = new AzureBareMetalStorageInstancesImpl(
-      this
-    );
+    this.azureBareMetalInstances = new AzureBareMetalInstancesImpl(this);
+    this.azureBareMetalStorageInstances =
+      new AzureBareMetalStorageInstancesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -129,7 +129,7 @@ export class BareMetalInfrastructureClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -143,12 +143,12 @@ export class BareMetalInfrastructureClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  azureBareMetalInstances: AzureBareMetalInstances;
   operations: Operations;
+  azureBareMetalInstances: AzureBareMetalInstances;
   azureBareMetalStorageInstances: AzureBareMetalStorageInstances;
 }

@@ -8,59 +8,114 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const OperationStatus: coreClient.CompositeMapper = {
+export const OperationListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "OperationStatus",
+    className: "OperationListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Operation",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const Operation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Operation",
     modelProperties: {
       name: {
         serializedName: "name",
+        readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      status: {
-        serializedName: "status",
+      isDataAction: {
+        serializedName: "isDataAction",
+        readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "Boolean",
+        },
       },
-      startTime: {
-        serializedName: "startTime",
-        type: {
-          name: "String"
-        }
-      },
-      error: {
-        serializedName: "error",
+      display: {
+        serializedName: "display",
         type: {
           name: "Composite",
-          className: "OperationStatusError"
-        }
-      }
-    }
-  }
+          className: "OperationDisplay",
+        },
+      },
+      origin: {
+        serializedName: "origin",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      actionType: {
+        serializedName: "actionType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const OperationStatusError: coreClient.CompositeMapper = {
+export const OperationDisplay: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "OperationStatusError",
+    className: "OperationDisplay",
     modelProperties: {
-      code: {
-        serializedName: "code",
+      provider: {
+        serializedName: "provider",
+        readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      message: {
-        serializedName: "message",
+      resource: {
+        serializedName: "resource",
+        readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+      operation: {
+        serializedName: "operation",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      description: {
+        serializedName: "description",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorResponse: coreClient.CompositeMapper = {
@@ -72,11 +127,11 @@ export const ErrorResponse: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorDetail"
-        }
-      }
-    }
-  }
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorDetail: coreClient.CompositeMapper = {
@@ -88,22 +143,22 @@ export const ErrorDetail: coreClient.CompositeMapper = {
         serializedName: "code",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       target: {
         serializedName: "target",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       details: {
         serializedName: "details",
@@ -113,10 +168,10 @@ export const ErrorDetail: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorDetail"
-            }
-          }
-        }
+              className: "ErrorDetail",
+            },
+          },
+        },
       },
       additionalInfo: {
         serializedName: "additionalInfo",
@@ -126,13 +181,13 @@ export const ErrorDetail: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorAdditionalInfo"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ErrorAdditionalInfo",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
@@ -144,61 +199,47 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       info: {
         serializedName: "info",
         readOnly: true,
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
 };
 
-export const ForceState: coreClient.CompositeMapper = {
+export const AzureBareMetalInstanceListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ForceState",
-    modelProperties: {
-      forceState: {
-        serializedName: "forceState",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AzureBareMetalInstancesListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AzureBareMetalInstancesListResult",
+    className: "AzureBareMetalInstanceListResult",
     modelProperties: {
       value: {
         serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "AzureBareMetalInstance"
-            }
-          }
-        }
+              className: "AzureBareMetalInstance",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const HardwareProfile: coreClient.CompositeMapper = {
@@ -208,20 +249,18 @@ export const HardwareProfile: coreClient.CompositeMapper = {
     modelProperties: {
       hardwareType: {
         serializedName: "hardwareType",
-        readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       azureBareMetalInstanceSize: {
         serializedName: "azureBareMetalInstanceSize",
-        readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const StorageProfile: coreClient.CompositeMapper = {
@@ -231,10 +270,9 @@ export const StorageProfile: coreClient.CompositeMapper = {
     modelProperties: {
       nfsIpAddress: {
         serializedName: "nfsIpAddress",
-        readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       osDisks: {
         serializedName: "osDisks",
@@ -243,13 +281,13 @@ export const StorageProfile: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Disk"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "Disk",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const Disk: coreClient.CompositeMapper = {
@@ -260,24 +298,24 @@ export const Disk: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       diskSizeGB: {
         serializedName: "diskSizeGB",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       lun: {
         serializedName: "lun",
         readOnly: true,
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const OSProfile: coreClient.CompositeMapper = {
@@ -288,31 +326,29 @@ export const OSProfile: coreClient.CompositeMapper = {
       computerName: {
         serializedName: "computerName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       osType: {
         serializedName: "osType",
-        readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       version: {
         serializedName: "version",
-        readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sshPublicKey: {
         serializedName: "sshPublicKey",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const NetworkProfile: coreClient.CompositeMapper = {
@@ -327,20 +363,19 @@ export const NetworkProfile: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "NetworkInterface"
-            }
-          }
-        }
+              className: "NetworkInterface",
+            },
+          },
+        },
       },
       circuitId: {
         serializedName: "circuitId",
-        readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const NetworkInterface: coreClient.CompositeMapper = {
@@ -351,11 +386,11 @@ export const NetworkInterface: coreClient.CompositeMapper = {
       ipAddress: {
         serializedName: "ipAddress",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Resource: coreClient.CompositeMapper = {
@@ -367,32 +402,32 @@ export const Resource: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       systemData: {
         serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "SystemData"
-        }
-      }
-    }
-  }
+          className: "SystemData",
+        },
+      },
+    },
+  },
 };
 
 export const SystemData: coreClient.CompositeMapper = {
@@ -403,195 +438,71 @@ export const SystemData: coreClient.CompositeMapper = {
       createdBy: {
         serializedName: "createdBy",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       createdByType: {
         serializedName: "createdByType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       createdAt: {
         serializedName: "createdAt",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       lastModifiedBy: {
         serializedName: "lastModifiedBy",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastModifiedByType: {
         serializedName: "lastModifiedByType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastModifiedAt: {
         serializedName: "lastModifiedAt",
         type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
-export const OperationListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "OperationListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Operation"
-            }
-          }
-        }
+export const AzureBareMetalStorageInstanceListResult: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AzureBareMetalStorageInstanceListResult",
+      modelProperties: {
+        value: {
+          serializedName: "value",
+          required: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "AzureBareMetalStorageInstance",
+              },
+            },
+          },
+        },
+        nextLink: {
+          serializedName: "nextLink",
+          type: {
+            name: "String",
+          },
+        },
       },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const Operation: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Operation",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      isDataAction: {
-        serializedName: "isDataAction",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      display: {
-        serializedName: "display",
-        type: {
-          name: "Composite",
-          className: "OperationDisplay"
-        }
-      },
-      origin: {
-        serializedName: "origin",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      actionType: {
-        serializedName: "actionType",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const OperationDisplay: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "OperationDisplay",
-    modelProperties: {
-      provider: {
-        serializedName: "provider",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      resource: {
-        serializedName: "resource",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      operation: {
-        serializedName: "operation",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "description",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const Tags: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Tags",
-    modelProperties: {
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
-};
-
-export const AzureBareMetalStorageInstancesListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AzureBareMetalStorageInstancesListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AzureBareMetalStorageInstance"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const StorageProperties: coreClient.CompositeMapper = {
   type: {
@@ -600,49 +511,50 @@ export const StorageProperties: coreClient.CompositeMapper = {
     modelProperties: {
       provisioningState: {
         serializedName: "provisioningState",
+        readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       offeringType: {
         serializedName: "offeringType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       storageType: {
         serializedName: "storageType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       generation: {
         serializedName: "generation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       hardwareType: {
         serializedName: "hardwareType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       workloadType: {
         serializedName: "workloadType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       storageBillingProperties: {
         serializedName: "storageBillingProperties",
         type: {
           name: "Composite",
-          className: "StorageBillingProperties"
-        }
-      }
-    }
-  }
+          className: "StorageBillingProperties",
+        },
+      },
+    },
+  },
 };
 
 export const StorageBillingProperties: coreClient.CompositeMapper = {
@@ -653,18 +565,175 @@ export const StorageBillingProperties: coreClient.CompositeMapper = {
       billingMode: {
         serializedName: "billingMode",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       azureBareMetalStorageInstanceSize: {
         serializedName: "azureBareMetalStorageInstanceSize",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
+
+export const AzureBareMetalStorageInstanceIdentity: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AzureBareMetalStorageInstanceIdentity",
+      modelProperties: {
+        principalId: {
+          serializedName: "principalId",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        tenantId: {
+          serializedName: "tenantId",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        type: {
+          serializedName: "type",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const Tags: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Tags",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
+};
+
+export const ForceState: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ForceState",
+    modelProperties: {
+      forceState: {
+        serializedName: "forceState",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const OperationStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationStatus",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String",
+        },
+      },
+      status: {
+        serializedName: "status",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "String",
+        },
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "OperationStatusError",
+        },
+      },
+    },
+  },
+};
+
+export const OperationStatusError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationStatusError",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String",
+        },
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AzureBareMetalStorageInstanceBody: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureBareMetalStorageInstanceBody",
+    modelProperties: {
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "AzureBareMetalStorageInstanceIdentity",
+        },
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
+};
+
+export const AzureResourceManagerArmResponseOperationStatus: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AzureResourceManagerArmResponseOperationStatus",
+      modelProperties: {
+        body: {
+          serializedName: "body",
+          type: {
+            name: "Composite",
+            className: "OperationStatus",
+          },
+        },
+      },
+    },
+  };
 
 export const TrackedResource: coreClient.CompositeMapper = {
   type: {
@@ -676,18 +745,18 @@ export const TrackedResource: coreClient.CompositeMapper = {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       location: {
         serializedName: "location",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const AzureBareMetalInstance: coreClient.CompositeMapper = {
@@ -700,73 +769,69 @@ export const AzureBareMetalInstance: coreClient.CompositeMapper = {
         serializedName: "properties.hardwareProfile",
         type: {
           name: "Composite",
-          className: "HardwareProfile"
-        }
+          className: "HardwareProfile",
+        },
       },
       storageProfile: {
         serializedName: "properties.storageProfile",
         type: {
           name: "Composite",
-          className: "StorageProfile"
-        }
+          className: "StorageProfile",
+        },
       },
       osProfile: {
         serializedName: "properties.osProfile",
         type: {
           name: "Composite",
-          className: "OSProfile"
-        }
+          className: "OSProfile",
+        },
       },
       networkProfile: {
         serializedName: "properties.networkProfile",
         type: {
           name: "Composite",
-          className: "NetworkProfile"
-        }
+          className: "NetworkProfile",
+        },
       },
       azureBareMetalInstanceId: {
         serializedName: "properties.azureBareMetalInstanceId",
-        readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       powerState: {
         serializedName: "properties.powerState",
-        readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       proximityPlacementGroup: {
         serializedName: "properties.proximityPlacementGroup",
-        readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       hwRevision: {
         serializedName: "properties.hwRevision",
-        readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       partnerNodeId: {
         serializedName: "properties.partnerNodeId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const AzureBareMetalStorageInstance: coreClient.CompositeMapper = {
@@ -775,23 +840,74 @@ export const AzureBareMetalStorageInstance: coreClient.CompositeMapper = {
     className: "AzureBareMetalStorageInstance",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "AzureBareMetalStorageInstanceIdentity",
+        },
+      },
       azureBareMetalStorageInstanceUniqueIdentifier: {
         serializedName:
           "properties.azureBareMetalStorageInstanceUniqueIdentifier",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       storageProperties: {
         serializedName: "properties.storageProperties",
         type: {
           name: "Composite",
-          className: "StorageProperties"
-        }
-      }
-    }
-  }
+          className: "StorageProperties",
+        },
+      },
+    },
+  },
 };
+
+export const AzureBareMetalInstancesRestartHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AzureBareMetalInstancesRestartHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
+      },
+    },
+  };
+
+export const AzureBareMetalInstancesShutdownHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AzureBareMetalInstancesShutdownHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
+      },
+    },
+  };
 
 export const AzureBareMetalInstancesStartHeaders: coreClient.CompositeMapper = {
   type: {
@@ -801,39 +917,15 @@ export const AzureBareMetalInstancesStartHeaders: coreClient.CompositeMapper = {
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AzureBareMetalInstancesRestartHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AzureBareMetalInstancesRestartHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AzureBareMetalInstancesShutdownHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AzureBareMetalInstancesShutdownHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
