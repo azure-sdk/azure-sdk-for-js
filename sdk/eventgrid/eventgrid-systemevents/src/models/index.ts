@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { SystemEventsClient } from "./systemEventsClient.js";
 export {
   ApiCenterApiDefinitionAddedEventData,
   ApiCenterApiSpecification,
@@ -64,11 +63,26 @@ export {
   MicrosoftTeamsAppIdentifierModel,
   AcsIncomingCallCustomContext,
   AcsUserDisconnectedEventData,
+  AcsCallingEventProperties,
+  AcsCallParticipantProperties,
+  AcsCallGroupProperties,
+  AcsCallRoomProperties,
+  AcsCallStartedEventData,
+  AcsCallEndedEventData,
+  AcsCallEndedByProperties,
+  KnownAcsCallEndedByKind,
+  AcsCallEndedByKind,
+  AcsCallEndReasonProperties,
+  AcsCallParticipantEventProperties,
+  AcsCallParticipantAddedEventData,
+  AcsCallParticipantRemovedEventData,
   AcsChatEventBase,
   AcsChatEventInThreadBase,
   AcsChatMessageEventBase,
   AcsChatMessageReceivedEventData,
   AcsChatMessageEventInThreadBase,
+  AcsChatAzureBotCommandReceivedInThreadEventData,
+  AcsChatTypingIndicatorReceivedInThreadEventData,
   AcsChatMessageReceivedInThreadEventData,
   AcsChatMessageEditedEventData,
   AcsChatMessageEditedInThreadEventData,
@@ -186,6 +200,7 @@ export {
   DataBoxStageName,
   DataBoxCopyCompletedEventData,
   DataBoxOrderCompletedEventData,
+  EdgeSolutionVersionPublishedEventData,
   EventHubCaptureFileCreatedEventData,
   MapsGeofenceEvent,
   MapsGeofenceGeometry,
@@ -324,5 +339,4 @@ export {
   ResourceNotificationsResourceManagementDeletedEventData,
   ResourceNotificationsContainerServiceEventResourcesScheduledEventData,
   KnownServiceApiVersions,
-} from "./models/index.js";
-export { SystemEventsClientOptionalParams } from "./api/index.js";
+} from "./models.js";
