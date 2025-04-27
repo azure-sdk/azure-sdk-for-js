@@ -11068,7 +11068,24 @@ export const AmazonRdsForOracleLinkedService: coreClient.CompositeMapper = {
       ...LinkedService.type.modelProperties,
       connectionString: {
         serializedName: "typeProperties.connectionString",
-        required: true,
+        type: {
+          name: "any",
+        },
+      },
+      server: {
+        serializedName: "typeProperties.server",
+        type: {
+          name: "any",
+        },
+      },
+      authenticationType: {
+        serializedName: "typeProperties.authenticationType",
+        type: {
+          name: "String",
+        },
+      },
+      username: {
+        serializedName: "typeProperties.username",
         type: {
           name: "any",
         },
@@ -11078,6 +11095,72 @@ export const AmazonRdsForOracleLinkedService: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SecretBase",
+        },
+      },
+      encryptionClient: {
+        serializedName: "typeProperties.encryptionClient",
+        type: {
+          name: "any",
+        },
+      },
+      encryptionTypesClient: {
+        serializedName: "typeProperties.encryptionTypesClient",
+        type: {
+          name: "any",
+        },
+      },
+      cryptoChecksumClient: {
+        serializedName: "typeProperties.cryptoChecksumClient",
+        type: {
+          name: "any",
+        },
+      },
+      cryptoChecksumTypesClient: {
+        serializedName: "typeProperties.cryptoChecksumTypesClient",
+        type: {
+          name: "any",
+        },
+      },
+      initialLobFetchSize: {
+        serializedName: "typeProperties.initialLobFetchSize",
+        type: {
+          name: "any",
+        },
+      },
+      fetchSize: {
+        serializedName: "typeProperties.fetchSize",
+        type: {
+          name: "any",
+        },
+      },
+      statementCacheSize: {
+        serializedName: "typeProperties.statementCacheSize",
+        type: {
+          name: "any",
+        },
+      },
+      initializationString: {
+        serializedName: "typeProperties.initializationString",
+        type: {
+          name: "any",
+        },
+      },
+      enableBulkLoad: {
+        serializedName: "typeProperties.enableBulkLoad",
+        type: {
+          name: "any",
+        },
+      },
+      supportV1DataTypes: {
+        serializedName: "typeProperties.supportV1DataTypes",
+        type: {
+          name: "any",
+        },
+      },
+      fetchTswtzAsTimestamp: {
+        serializedName: "typeProperties.fetchTswtzAsTimestamp",
+        type: {
+          name: "any",
         },
       },
       encryptedCredential: {
@@ -16508,6 +16591,12 @@ export const AzureDatabricksLinkedService: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CredentialReference",
+        },
+      },
+      dataSecurityMode: {
+        serializedName: "typeProperties.dataSecurityMode",
+        type: {
+          name: "any",
         },
       },
     },

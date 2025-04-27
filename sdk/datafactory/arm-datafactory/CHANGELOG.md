@@ -1,5 +1,28 @@
 # Release History
     
+## 19.1.0 (2025-04-27)
+    
+### Features Added
+
+  - Added Type Alias AmazonRdsForOracleAuthenticationType
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter authenticationType
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter cryptoChecksumClient
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter cryptoChecksumTypesClient
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter enableBulkLoad
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter encryptionClient
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter encryptionTypesClient
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter fetchSize
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter fetchTswtzAsTimestamp
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter initializationString
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter initialLobFetchSize
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter server
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter statementCacheSize
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter supportV1DataTypes
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter username
+  - Interface AzureDatabricksLinkedService has a new optional parameter dataSecurityMode
+  - Added Enum KnownAmazonRdsForOracleAuthenticationType
+    
+    
 ## 19.0.0 (2025-04-11)
     
 ### Features Added

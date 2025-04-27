@@ -130,11 +130,28 @@ export interface AmazonMWSSource extends TabularSource {
 }
 
 // @public
+export type AmazonRdsForOracleAuthenticationType = string;
+
+// @public
 export interface AmazonRdsForOracleLinkedService extends LinkedService {
-    connectionString: any;
+    authenticationType?: AmazonRdsForOracleAuthenticationType;
+    connectionString?: any;
+    cryptoChecksumClient?: any;
+    cryptoChecksumTypesClient?: any;
+    enableBulkLoad?: any;
     encryptedCredential?: string;
+    encryptionClient?: any;
+    encryptionTypesClient?: any;
+    fetchSize?: any;
+    fetchTswtzAsTimestamp?: any;
+    initializationString?: any;
+    initialLobFetchSize?: any;
     password?: SecretBaseUnion;
+    server?: any;
+    statementCacheSize?: any;
+    supportV1DataTypes?: any;
     type: "AmazonRdsForOracle";
+    username?: any;
 }
 
 // @public
@@ -592,6 +609,7 @@ export interface AzureDatabricksLinkedService extends LinkedService {
     accessToken?: SecretBaseUnion;
     authentication?: any;
     credential?: CredentialReference;
+    dataSecurityMode?: any;
     domain: any;
     encryptedCredential?: string;
     existingClusterId?: any;
@@ -4534,6 +4552,11 @@ export enum KnownActivityOnInactiveMarkAs {
 export enum KnownActivityState {
     Active = "Active",
     Inactive = "Inactive"
+}
+
+// @public
+export enum KnownAmazonRdsForOracleAuthenticationType {
+    Basic = "Basic"
 }
 
 // @public
