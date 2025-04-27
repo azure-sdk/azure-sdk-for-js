@@ -1,5 +1,12 @@
 # Release History
     
+## 19.1.0 (2025-04-27)
+    
+### Features Added
+
+  - Interface AzureDatabricksLinkedService has a new optional parameter dataSecurityMode
+    
+    
 ## 19.0.0 (2025-04-11)
     
 ### Features Added

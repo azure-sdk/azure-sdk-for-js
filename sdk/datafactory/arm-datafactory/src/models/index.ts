@@ -6995,6 +6995,8 @@ export interface AzureDatabricksLinkedService extends LinkedService {
   policyId?: any;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
+  /** The data security mode for the Databricks Cluster. Type: string (or Expression with resultType string). */
+  dataSecurityMode?: any;
 }
 
 /** Azure Databricks Delta Lake linked service. */

@@ -16510,6 +16510,12 @@ export const AzureDatabricksLinkedService: coreClient.CompositeMapper = {
           className: "CredentialReference",
         },
       },
+      dataSecurityMode: {
+        serializedName: "typeProperties.dataSecurityMode",
+        type: {
+          name: "any",
+        },
+      },
     },
   },
 };
