@@ -10,6 +10,15 @@ import {
 export { AgriculturePlatformClient } from "./agriculturePlatformClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
+  Operation,
+  OperationDisplay,
+  KnownOrigin,
+  Origin,
+  KnownActionType,
+  ActionType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   AgriServiceResource,
   AgriServiceResourceProperties,
   KnownProvisioningState,
@@ -34,20 +43,11 @@ export {
   SystemData,
   KnownCreatedByType,
   CreatedByType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
   AgriServiceResourceUpdate,
   AgriServiceResourceUpdateProperties,
   AvailableAgriSolutionListResult,
   DataManagerForAgricultureSolution,
   MarketPlaceOfferDetails,
-  Operation,
-  OperationDisplay,
-  KnownOrigin,
-  Origin,
-  KnownActionType,
-  ActionType,
   KnownVersions,
 } from "./models/index.js";
 export { AgriculturePlatformClientOptionalParams } from "./api/index.js";
@@ -61,5 +61,8 @@ export {
   AgriServiceGetOptionalParams,
 } from "./api/agriService/index.js";
 export { OperationsListOptionalParams } from "./api/operations/index.js";
-export { AgriServiceOperations, OperationsOperations } from "./classic/index.js";
+export {
+  AgriServiceOperations,
+  OperationsOperations,
+} from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
