@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import type { ManagedClusterSnapshots } from "../operationsInterfaces/index.js";
+import { ManagedClusterSnapshots } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import type { ContainerServiceClient } from "../containerServiceClient.js";
-import type {
+import { ContainerServiceClient } from "../containerServiceClient.js";
+import {
   ManagedClusterSnapshot,
   ManagedClusterSnapshotsListNextOptionalParams,
   ManagedClusterSnapshotsListOptionalParams,
@@ -78,7 +78,7 @@ export class ManagedClusterSnapshotsImpl implements ManagedClusterSnapshots {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(options);
-      const page = result.value || [];
+      let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -86,7 +86,7 @@ export class ManagedClusterSnapshotsImpl implements ManagedClusterSnapshots {
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      const page = result.value || [];
+      let page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -121,11 +121,7 @@ export class ManagedClusterSnapshotsImpl implements ManagedClusterSnapshots {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -139,19 +135,15 @@ export class ManagedClusterSnapshotsImpl implements ManagedClusterSnapshots {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
-      const page = result.value || [];
+      let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
-      const page = result.value || [];
+      let page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -161,10 +153,7 @@ export class ManagedClusterSnapshotsImpl implements ManagedClusterSnapshots {
     resourceGroupName: string,
     options?: ManagedClusterSnapshotsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<ManagedClusterSnapshot> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -275,10 +264,7 @@ export class ManagedClusterSnapshotsImpl implements ManagedClusterSnapshots {
     nextLink: string,
     options?: ManagedClusterSnapshotsListNextOptionalParams,
   ): Promise<ManagedClusterSnapshotsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -329,11 +315,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -438,11 +420,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

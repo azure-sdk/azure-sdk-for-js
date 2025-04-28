@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type {
+import {
   OperationParameter,
   OperationURLParameter,
   OperationQueryParameter,
@@ -57,7 +57,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2025-02-02-preview",
+    defaultValue: "2025-03-02-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -110,9 +110,7 @@ export const resourceName: OperationURLParameter = {
   parameterPath: "resourceName",
   mapper: {
     constraints: {
-      Pattern: new RegExp(
-        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$",
-      ),
+      Pattern: new RegExp("^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"),
       MaxLength: 63,
       MinLength: 1,
     },
@@ -252,9 +250,7 @@ export const mode: OperationURLParameter = {
   parameterPath: "mode",
   mapper: {
     constraints: {
-      Pattern: new RegExp(
-        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$",
-      ),
+      Pattern: new RegExp("^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"),
       MaxLength: 24,
       MinLength: 1,
     },
