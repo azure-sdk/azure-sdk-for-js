@@ -8,24 +8,12 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest
-} from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "./pagingHelper.js";
-import {
-  ApplicationsImpl,
-  ApplicationDefinitionsImpl,
-  JitRequestsImpl
-} from "./operations/index.js";
-import {
-  Applications,
-  ApplicationDefinitions,
-  JitRequests
-} from "./operationsInterfaces/index.js";
+import { ApplicationsImpl, ApplicationDefinitionsImpl } from "./operations/index.js";
+import { Applications, ApplicationDefinitions } from "./operationsInterfaces/index.js";
 import * as Parameters from "./models/parameters.js";
 import * as Mappers from "./models/mappers.js";
 import {
@@ -34,7 +22,7 @@ import {
   ListOperationsNextOptionalParams,
   ListOperationsOptionalParams,
   ListOperationsResponse,
-  ListOperationsNextResponse
+  ListOperationsNextResponse,
 } from "./models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,16 +40,13 @@ export class ApplicationClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: ApplicationClientOptionalParams
+    options?: ApplicationClientOptionalParams,
   );
-  constructor(
-    credentials: coreAuth.TokenCredential,
-    options?: ApplicationClientOptionalParams
-  );
+  constructor(credentials: coreAuth.TokenCredential, options?: ApplicationClientOptionalParams);
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionIdOrOptions?: ApplicationClientOptionalParams | string,
-    options?: ApplicationClientOptionalParams
+    options?: ApplicationClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -81,10 +66,10 @@ export class ApplicationClient extends coreClient.ServiceClient {
     }
     const defaults: ApplicationClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-managedapplications/3.0.0`;
+    const packageDetails = `azsdk-js-arm-managedapplications/4.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -94,20 +79,19 @@ export class ApplicationClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -117,19 +101,17 @@ export class ApplicationClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -137,10 +119,9 @@ export class ApplicationClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-07-01";
+    this.apiVersion = options.apiVersion || "2018-06-01";
     this.applications = new ApplicationsImpl(this);
     this.applicationDefinitions = new ApplicationDefinitionsImpl(this);
-    this.jitRequests = new JitRequestsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -151,10 +132,7 @@ export class ApplicationClient extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
@@ -167,7 +145,7 @@ export class ApplicationClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -177,7 +155,7 @@ export class ApplicationClient extends coreClient.ServiceClient {
    * @param options The options parameters.
    */
   public listOperations(
-    options?: ListOperationsOptionalParams
+    options?: ListOperationsOptionalParams,
   ): PagedAsyncIterableIterator<Operation> {
     const iter = this.listOperationsPagingAll(options);
     return {
@@ -192,13 +170,13 @@ export class ApplicationClient extends coreClient.ServiceClient {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listOperationsPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listOperationsPagingPage(
     options?: ListOperationsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Operation[]> {
     let result: ListOperationsResponse;
     let continuationToken = settings?.continuationToken;
@@ -219,7 +197,7 @@ export class ApplicationClient extends coreClient.ServiceClient {
   }
 
   private async *listOperationsPagingAll(
-    options?: ListOperationsOptionalParams
+    options?: ListOperationsOptionalParams,
   ): AsyncIterableIterator<Operation> {
     for await (const page of this.listOperationsPagingPage(options)) {
       yield* page;
@@ -230,9 +208,7 @@ export class ApplicationClient extends coreClient.ServiceClient {
    * Lists all of the available Microsoft.Solutions REST API operations.
    * @param options The options parameters.
    */
-  private _listOperations(
-    options?: ListOperationsOptionalParams
-  ): Promise<ListOperationsResponse> {
+  private _listOperations(options?: ListOperationsOptionalParams): Promise<ListOperationsResponse> {
     return this.sendOperationRequest({ options }, listOperationsOperationSpec);
   }
 
@@ -243,17 +219,13 @@ export class ApplicationClient extends coreClient.ServiceClient {
    */
   private _listOperationsNext(
     nextLink: string,
-    options?: ListOperationsNextOptionalParams
+    options?: ListOperationsNextOptionalParams,
   ): Promise<ListOperationsNextResponse> {
-    return this.sendOperationRequest(
-      { nextLink, options },
-      listOperationsNextOperationSpec
-    );
+    return this.sendOperationRequest({ nextLink, options }, listOperationsNextOperationSpec);
   }
 
   applications: Applications;
   applicationDefinitions: ApplicationDefinitions;
-  jitRequests: JitRequests;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -263,29 +235,23 @@ const listOperationsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.OperationListResult,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.OperationListResult,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
