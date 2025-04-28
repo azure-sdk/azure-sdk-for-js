@@ -16,7 +16,5 @@ export interface Tenants {
    * Gets the tenants for your account.
    * @param options The options parameters.
    */
-  list(
-    options?: TenantsListOptionalParams
-  ): PagedAsyncIterableIterator<TenantIdDescription>;
+  list(options?: TenantsListOptionalParams): PagedAsyncIterableIterator<TenantIdDescription>;
 }

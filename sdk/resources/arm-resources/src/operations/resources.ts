@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ResourceManagementClient } from "../resourceManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   GenericResourceExpanded,
@@ -87,11 +83,7 @@ export class ResourcesImpl implements Resources {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -111,11 +103,7 @@ export class ResourcesImpl implements Resources {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -127,10 +115,7 @@ export class ResourcesImpl implements Resources {
     resourceGroupName: string,
     options?: ResourcesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<GenericResourceExpanded> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -229,8 +214,7 @@ export class ResourcesImpl implements Resources {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -285,11 +269,7 @@ export class ResourcesImpl implements Resources {
     parameters: ResourcesMoveInfo,
     options?: ResourcesMoveResourcesOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginMoveResources(
-      sourceResourceGroupName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginMoveResources(sourceResourceGroupName, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -320,8 +300,7 @@ export class ResourcesImpl implements Resources {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -390,9 +369,7 @@ export class ResourcesImpl implements Resources {
    * Get all the resources in a subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: ResourcesListOptionalParams,
-  ): Promise<ResourcesListResponse> {
+  private _list(options?: ResourcesListOptionalParams): Promise<ResourcesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -460,8 +437,7 @@ export class ResourcesImpl implements Resources {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -578,8 +554,7 @@ export class ResourcesImpl implements Resources {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -687,12 +662,7 @@ export class ResourcesImpl implements Resources {
     apiVersion: string,
     parameters: GenericResource,
     options?: ResourcesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ResourcesUpdateResponse>,
-      ResourcesUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<ResourcesUpdateResponse>, ResourcesUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -703,8 +673,7 @@ export class ResourcesImpl implements Resources {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -869,8 +838,7 @@ export class ResourcesImpl implements Resources {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -957,8 +925,7 @@ export class ResourcesImpl implements Resources {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1016,12 +983,7 @@ export class ResourcesImpl implements Resources {
     parameters: GenericResource,
     options?: ResourcesCreateOrUpdateByIdOptionalParams,
   ): Promise<ResourcesCreateOrUpdateByIdResponse> {
-    const poller = await this.beginCreateOrUpdateById(
-      resourceId,
-      apiVersion,
-      parameters,
-      options,
-    );
+    const poller = await this.beginCreateOrUpdateById(resourceId, apiVersion, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -1040,10 +1002,7 @@ export class ResourcesImpl implements Resources {
     parameters: GenericResource,
     options?: ResourcesUpdateByIdOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ResourcesUpdateByIdResponse>,
-      ResourcesUpdateByIdResponse
-    >
+    SimplePollerLike<OperationState<ResourcesUpdateByIdResponse>, ResourcesUpdateByIdResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -1055,8 +1014,7 @@ export class ResourcesImpl implements Resources {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1114,12 +1072,7 @@ export class ResourcesImpl implements Resources {
     parameters: GenericResource,
     options?: ResourcesUpdateByIdOptionalParams,
   ): Promise<ResourcesUpdateByIdResponse> {
-    const poller = await this.beginUpdateById(
-      resourceId,
-      apiVersion,
-      parameters,
-      options,
-    );
+    const poller = await this.beginUpdateById(resourceId, apiVersion, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -1168,10 +1121,7 @@ export class ResourcesImpl implements Resources {
     nextLink: string,
     options?: ResourcesListNextOptionalParams,
   ): Promise<ResourcesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -1188,17 +1138,8 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.expand,
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.expand, Parameters.filter, Parameters.top],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1214,13 +1155,9 @@ const moveResourcesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.sourceResourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.sourceResourceGroupName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -1237,13 +1174,9 @@ const validateMoveResourcesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.sourceResourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.sourceResourceGroupName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -1259,12 +1192,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.expand,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.expand, Parameters.filter, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1282,9 +1210,9 @@ const checkExistenceOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
+    Parameters.resourceProviderNamespace,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceProviderNamespace,
     Parameters.parentResourcePath,
     Parameters.resourceType,
     Parameters.resourceName,
@@ -1307,9 +1235,9 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
+    Parameters.resourceProviderNamespace,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceProviderNamespace,
     Parameters.parentResourcePath,
     Parameters.resourceType,
     Parameters.resourceName,
@@ -1337,13 +1265,13 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
+    Parameters.resourceProviderNamespace,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceProviderNamespace,
     Parameters.parentResourcePath,
     Parameters.resourceType,
     Parameters.resourceName,
@@ -1372,13 +1300,13 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
+    Parameters.resourceProviderNamespace,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceProviderNamespace,
     Parameters.parentResourcePath,
     Parameters.resourceType,
     Parameters.resourceName,
@@ -1401,9 +1329,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
+    Parameters.resourceProviderNamespace,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceProviderNamespace,
     Parameters.parentResourcePath,
     Parameters.resourceType,
     Parameters.resourceName,
@@ -1463,7 +1391,7 @@ const createOrUpdateByIdOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.resourceId],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -1490,7 +1418,7 @@ const updateByIdOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.resourceId],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -1544,11 +1472,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };

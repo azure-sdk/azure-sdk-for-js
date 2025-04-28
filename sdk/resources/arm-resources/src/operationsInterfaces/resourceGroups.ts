@@ -33,9 +33,7 @@ export interface ResourceGroups {
    * Gets all the resource groups for a subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: ResourceGroupsListOptionalParams,
-  ): PagedAsyncIterableIterator<ResourceGroup>;
+  list(options?: ResourceGroupsListOptionalParams): PagedAsyncIterableIterator<ResourceGroup>;
   /**
    * Checks whether a resource group exists.
    * @param resourceGroupName The name of the resource group to check. The name is case insensitive.
