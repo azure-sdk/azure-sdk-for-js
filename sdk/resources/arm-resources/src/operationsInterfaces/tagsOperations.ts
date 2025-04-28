@@ -38,9 +38,7 @@ export interface TagsOperations {
    * result.
    * @param options The options parameters.
    */
-  list(
-    options?: TagsListOptionalParams,
-  ): PagedAsyncIterableIterator<TagDetails>;
+  list(options?: TagsListOptionalParams): PagedAsyncIterableIterator<TagDetails>;
   /**
    * This operation allows deleting a value from the list of predefined values for an existing predefined
    * tag name. The value being deleted must not be in use as a tag value for the given tag name for any
@@ -129,10 +127,7 @@ export interface TagsOperations {
     parameters: TagsPatchResource,
     options?: TagsUpdateAtScopeOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<TagsUpdateAtScopeResponse>,
-      TagsUpdateAtScopeResponse
-    >
+    SimplePollerLike<OperationState<TagsUpdateAtScopeResponse>, TagsUpdateAtScopeResponse>
   >;
   /**
    * This operation allows replacing, merging or selectively deleting tags on the specified resource or
