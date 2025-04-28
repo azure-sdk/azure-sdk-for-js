@@ -4,11 +4,11 @@
 
 ```ts
 
-import type * as coreAuth from '@azure/core-auth';
+import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { SimplePollerLike } from '@azure/core-lro';
+import { OperationState } from '@azure/core-lro';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AbsoluteMonthlySchedule {
@@ -61,7 +61,7 @@ export interface AgentPool extends SubResource {
     readonly eTag?: string;
     gatewayProfile?: AgentPoolGatewayProfile;
     gpuInstanceProfile?: GPUInstanceProfile;
-    gpuProfile?: AgentPoolGPUProfile;
+    gpuProfile?: GPUProfile;
     hostGroupID?: string;
     kubeletConfig?: KubeletConfig;
     kubeletDiskType?: KubeletDiskType;
@@ -136,12 +136,6 @@ export interface AgentPoolDeleteMachinesParameter {
 // @public
 export interface AgentPoolGatewayProfile {
     publicIPPrefixSize?: number;
-}
-
-// @public (undocumented)
-export interface AgentPoolGPUProfile {
-    driverType?: DriverType;
-    installGPUDriver?: boolean;
 }
 
 // @public
@@ -619,7 +613,16 @@ export type Format = string;
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
+export type GPUDriver = string;
+
+// @public
 export type GPUInstanceProfile = string;
+
+// @public (undocumented)
+export interface GPUProfile {
+    driver?: GPUDriver;
+    driverType?: DriverType;
+}
 
 // @public
 export interface GuardrailsAvailableVersion extends Resource {
@@ -812,6 +815,12 @@ export enum KnownFormat {
 }
 
 // @public
+export enum KnownGPUDriver {
+    Install = "Install",
+    None = "None"
+}
+
+// @public
 export enum KnownGPUInstanceProfile {
     MIG1G = "MIG1g",
     MIG2G = "MIG2g",
@@ -966,6 +975,12 @@ export enum KnownNodeOSUpgradeChannel {
     None = "None",
     SecurityPatch = "SecurityPatch",
     Unmanaged = "Unmanaged"
+}
+
+// @public
+export enum KnownNodeProvisioningDefaultNodePools {
+    Auto = "Auto",
+    None = "None"
 }
 
 // @public
@@ -1445,7 +1460,6 @@ export interface ManagedCluster extends TrackedResource {
     diskEncryptionSetID?: string;
     dnsPrefix?: string;
     enableNamespaceResources?: boolean;
-    enablePodSecurityPolicy?: boolean;
     enableRbac?: boolean;
     readonly eTag?: string;
     extendedLocation?: ExtendedLocation;
@@ -1538,7 +1552,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     readonly eTag?: string;
     gatewayProfile?: AgentPoolGatewayProfile;
     gpuInstanceProfile?: GPUInstanceProfile;
-    gpuProfile?: AgentPoolGPUProfile;
+    gpuProfile?: GPUProfile;
     hostGroupID?: string;
     kubeletConfig?: KubeletConfig;
     kubeletDiskType?: KubeletDiskType;
@@ -1673,6 +1687,7 @@ export interface ManagedClusterCostAnalysis {
 // @public
 export interface ManagedClusterHttpProxyConfig {
     readonly effectiveNoProxy?: string[];
+    enabled?: boolean;
     httpProxy?: string;
     httpsProxy?: string;
     noProxy?: string[];
@@ -1764,6 +1779,7 @@ export interface ManagedClusterNATGatewayProfile {
 
 // @public (undocumented)
 export interface ManagedClusterNodeProvisioningProfile {
+    defaultNodePools?: NodeProvisioningDefaultNodePools;
     mode?: NodeProvisioningMode;
 }
 
@@ -2704,6 +2720,9 @@ export interface NodeImageVersionsListResult {
 
 // @public
 export type NodeOSUpgradeChannel = string;
+
+// @public
+export type NodeProvisioningDefaultNodePools = string;
 
 // @public
 export type NodeProvisioningMode = string;
