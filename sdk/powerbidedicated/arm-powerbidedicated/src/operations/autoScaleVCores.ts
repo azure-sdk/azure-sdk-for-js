@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
 import { AutoScaleVCores } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
@@ -14,18 +15,22 @@ import * as Parameters from "../models/parameters.js";
 import { PowerBIDedicated } from "../powerBIDedicated.js";
 import {
   AutoScaleVCore,
-  AutoScaleVCoresListByResourceGroupOptionalParams,
-  AutoScaleVCoresListByResourceGroupResponse,
+  AutoScaleVCoresListBySubscriptionNextOptionalParams,
   AutoScaleVCoresListBySubscriptionOptionalParams,
   AutoScaleVCoresListBySubscriptionResponse,
+  AutoScaleVCoresListByResourceGroupNextOptionalParams,
+  AutoScaleVCoresListByResourceGroupOptionalParams,
+  AutoScaleVCoresListByResourceGroupResponse,
   AutoScaleVCoresGetOptionalParams,
   AutoScaleVCoresGetResponse,
   AutoScaleVCoresCreateOptionalParams,
   AutoScaleVCoresCreateResponse,
-  AutoScaleVCoresDeleteOptionalParams,
   AutoScaleVCoreUpdateParameters,
   AutoScaleVCoresUpdateOptionalParams,
-  AutoScaleVCoresUpdateResponse
+  AutoScaleVCoresUpdateResponse,
+  AutoScaleVCoresDeleteOptionalParams,
+  AutoScaleVCoresListBySubscriptionNextResponse,
+  AutoScaleVCoresListByResourceGroupNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,64 +47,11 @@ export class AutoScaleVCoresImpl implements AutoScaleVCores {
   }
 
   /**
-   * Gets all the auto scale v-cores for the given resource group.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param options The options parameters.
-   */
-  public listByResourceGroup(
-    resourceGroupName: string,
-    options?: AutoScaleVCoresListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<AutoScaleVCore> {
-    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listByResourceGroupPagingPage(
-    resourceGroupName: string,
-    options?: AutoScaleVCoresListByResourceGroupOptionalParams,
-    _settings?: PageSettings
-  ): AsyncIterableIterator<AutoScaleVCore[]> {
-    let result: AutoScaleVCoresListByResourceGroupResponse;
-    result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-  }
-
-  private async *listByResourceGroupPagingAll(
-    resourceGroupName: string,
-    options?: AutoScaleVCoresListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<AutoScaleVCore> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
    * Lists all the auto scale v-cores for the given subscription.
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: AutoScaleVCoresListBySubscriptionOptionalParams
+    options?: AutoScaleVCoresListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<AutoScaleVCore> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -114,21 +66,34 @@ export class AutoScaleVCoresImpl implements AutoScaleVCores {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: AutoScaleVCoresListBySubscriptionOptionalParams,
-    _settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AutoScaleVCore[]> {
     let result: AutoScaleVCoresListBySubscriptionResponse;
-    result = await this._listBySubscription(options);
-    yield result.value || [];
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listBySubscriptionNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: AutoScaleVCoresListBySubscriptionOptionalParams
+    options?: AutoScaleVCoresListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<AutoScaleVCore> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -136,9 +101,91 @@ export class AutoScaleVCoresImpl implements AutoScaleVCores {
   }
 
   /**
+   * Gets all the auto scale v-cores for the given resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  public listByResourceGroup(
+    resourceGroupName: string,
+    options?: AutoScaleVCoresListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<AutoScaleVCore> {
+    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
+      },
+    };
+  }
+
+  private async *listByResourceGroupPagingPage(
+    resourceGroupName: string,
+    options?: AutoScaleVCoresListByResourceGroupOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<AutoScaleVCore[]> {
+    let result: AutoScaleVCoresListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByResourceGroupPagingAll(
+    resourceGroupName: string,
+    options?: AutoScaleVCoresListByResourceGroupOptionalParams,
+  ): AsyncIterableIterator<AutoScaleVCore> {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists all the auto scale v-cores for the given subscription.
+   * @param options The options parameters.
+   */
+  private _listBySubscription(
+    options?: AutoScaleVCoresListBySubscriptionOptionalParams,
+  ): Promise<AutoScaleVCoresListBySubscriptionResponse> {
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
+  }
+
+  /**
+   * Gets all the auto scale v-cores for the given resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: AutoScaleVCoresListByResourceGroupOptionalParams,
+  ): Promise<AutoScaleVCoresListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
+    );
+  }
+
+  /**
    * Gets details about the specified auto scale v-core.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vcoreName The name of the auto scale v-core. It must be a minimum of 3 characters, and a
    *                  maximum of 63.
    * @param options The options parameters.
@@ -146,18 +193,17 @@ export class AutoScaleVCoresImpl implements AutoScaleVCores {
   get(
     resourceGroupName: string,
     vcoreName: string,
-    options?: AutoScaleVCoresGetOptionalParams
+    options?: AutoScaleVCoresGetOptionalParams,
   ): Promise<AutoScaleVCoresGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vcoreName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
    * Provisions the specified auto scale v-core based on the configuration specified in the request.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vcoreName The name of the auto scale v-core. It must be a minimum of 3 characters, and a
    *                  maximum of 63.
    * @param vCoreParameters Contains the information used to provision the auto scale v-core.
@@ -167,37 +213,17 @@ export class AutoScaleVCoresImpl implements AutoScaleVCores {
     resourceGroupName: string,
     vcoreName: string,
     vCoreParameters: AutoScaleVCore,
-    options?: AutoScaleVCoresCreateOptionalParams
+    options?: AutoScaleVCoresCreateOptionalParams,
   ): Promise<AutoScaleVCoresCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vcoreName, vCoreParameters, options },
-      createOperationSpec
-    );
-  }
-
-  /**
-   * Deletes the specified auto scale v-core.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param vcoreName The name of the auto scale v-core. It must be a minimum of 3 characters, and a
-   *                  maximum of 63.
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    vcoreName: string,
-    options?: AutoScaleVCoresDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, vcoreName, options },
-      deleteOperationSpec
+      createOperationSpec,
     );
   }
 
   /**
    * Updates the current state of the specified auto scale v-core.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vcoreName The name of the auto scale v-core. It must be a minimum of 3 characters, and a
    *                  maximum of 63.
    * @param vCoreUpdateParameters Request object that contains the updated information for the auto scale
@@ -208,172 +234,218 @@ export class AutoScaleVCoresImpl implements AutoScaleVCores {
     resourceGroupName: string,
     vcoreName: string,
     vCoreUpdateParameters: AutoScaleVCoreUpdateParameters,
-    options?: AutoScaleVCoresUpdateOptionalParams
+    options?: AutoScaleVCoresUpdateOptionalParams,
   ): Promise<AutoScaleVCoresUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vcoreName, vCoreUpdateParameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
   /**
-   * Gets all the auto scale v-cores for the given resource group.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
+   * Deletes the specified auto scale v-core.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vcoreName The name of the auto scale v-core. It must be a minimum of 3 characters, and a
+   *                  maximum of 63.
    * @param options The options parameters.
    */
-  private _listByResourceGroup(
+  delete(
     resourceGroupName: string,
-    options?: AutoScaleVCoresListByResourceGroupOptionalParams
-  ): Promise<AutoScaleVCoresListByResourceGroupResponse> {
+    vcoreName: string,
+    options?: AutoScaleVCoresDeleteOptionalParams,
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      { resourceGroupName, vcoreName, options },
+      deleteOperationSpec,
     );
   }
 
   /**
-   * Lists all the auto scale v-cores for the given subscription.
+   * ListBySubscriptionNext
+   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
    */
-  private _listBySubscription(
-    options?: AutoScaleVCoresListBySubscriptionOptionalParams
-  ): Promise<AutoScaleVCoresListBySubscriptionResponse> {
+  private _listBySubscriptionNext(
+    nextLink: string,
+    options?: AutoScaleVCoresListBySubscriptionNextOptionalParams,
+  ): Promise<AutoScaleVCoresListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec
+      { nextLink, options },
+      listBySubscriptionNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListByResourceGroupNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroupNext(
+    resourceGroupName: string,
+    nextLink: string,
+    options?: AutoScaleVCoresListByResourceGroupNextOptionalParams,
+  ): Promise<AutoScaleVCoresListByResourceGroupNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, nextLink, options },
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/autoScaleVCores/{vcoreName}",
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.PowerBIDedicated/autoScaleVCores",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AutoScaleVCore
+      bodyMapper: Mappers.AutoScaleVCoreListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/autoScaleVCores",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AutoScaleVCoreListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/autoScaleVCores/{vcoreName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AutoScaleVCore,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.vcoreName
+    Parameters.resourceGroupName,
+    Parameters.vcoreName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/autoScaleVCores/{vcoreName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/autoScaleVCores/{vcoreName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AutoScaleVCore
+      bodyMapper: Mappers.AutoScaleVCore,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.vCoreParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.vcoreName
+    Parameters.resourceGroupName,
+    Parameters.vcoreName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/autoScaleVCores/{vcoreName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.vcoreName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/autoScaleVCores/{vcoreName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/autoScaleVCores/{vcoreName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.AutoScaleVCore
+      bodyMapper: Mappers.AutoScaleVCore,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.vCoreUpdateParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.vcoreName
+    Parameters.resourceGroupName,
+    Parameters.vcoreName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/autoScaleVCores",
-  httpMethod: "GET",
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/autoScaleVCores/{vcoreName}",
+  httpMethod: "DELETE",
   responses: {
-    200: {
-      bodyMapper: Mappers.AutoScaleVCoreListResult
-    },
+    200: {},
+    204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.vcoreName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.PowerBIDedicated/autoScaleVCores",
+const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AutoScaleVCoreListResult
+      bodyMapper: Mappers.AutoScaleVCoreListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AutoScaleVCoreListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

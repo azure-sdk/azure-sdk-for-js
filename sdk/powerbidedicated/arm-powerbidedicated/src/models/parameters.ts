@@ -9,14 +9,14 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
+  AutoScaleVCore as AutoScaleVCoreMapper,
+  AutoScaleVCoreUpdateParameters as AutoScaleVCoreUpdateParametersMapper,
+  CheckCapacityNameAvailabilityParameters as CheckCapacityNameAvailabilityParametersMapper,
   DedicatedCapacity as DedicatedCapacityMapper,
   DedicatedCapacityUpdateParameters as DedicatedCapacityUpdateParametersMapper,
-  CheckCapacityNameAvailabilityParameters as CheckCapacityNameAvailabilityParametersMapper,
-  AutoScaleVCore as AutoScaleVCoreMapper,
-  AutoScaleVCoreUpdateParameters as AutoScaleVCoreUpdateParametersMapper
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -26,9 +26,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -37,42 +37,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
-};
-
-export const resourceGroupName: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
-      MaxLength: 90,
-      MinLength: 1
-    },
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const dedicatedCapacityName: OperationURLParameter = {
-  parameterPath: "dedicatedCapacityName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-z][a-z0-9]*$"),
-      MaxLength: 63,
-      MinLength: 3
-    },
-    serializedName: "dedicatedCapacityName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -82,20 +50,66 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
+    constraints: {
+      MinLength: 1,
+    },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const resourceGroupName: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const vcoreName: OperationURLParameter = {
+  parameterPath: "vcoreName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-a-zA-Z0-9_]+$"),
+      MaxLength: 63,
+      MinLength: 3,
+    },
+    serializedName: "vcoreName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -105,71 +119,62 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const vCoreParameters: OperationParameter = {
+  parameterPath: "vCoreParameters",
+  mapper: AutoScaleVCoreMapper,
+};
+
+export const vCoreUpdateParameters: OperationParameter = {
+  parameterPath: "vCoreUpdateParameters",
+  mapper: AutoScaleVCoreUpdateParametersMapper,
 };
 
 export const capacityParameters: OperationParameter = {
   parameterPath: "capacityParameters",
-  mapper: DedicatedCapacityMapper
-};
-
-export const capacityUpdateParameters: OperationParameter = {
-  parameterPath: "capacityUpdateParameters",
-  mapper: DedicatedCapacityUpdateParametersMapper
-};
-
-export const capacityParameters1: OperationParameter = {
-  parameterPath: "capacityParameters",
-  mapper: CheckCapacityNameAvailabilityParametersMapper
+  mapper: CheckCapacityNameAvailabilityParametersMapper,
 };
 
 export const location: OperationURLParameter = {
   parameterPath: "location",
   mapper: {
+    constraints: {
+      MinLength: 1,
+    },
     serializedName: "location",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
 };
 
-export const vcoreName: OperationURLParameter = {
-  parameterPath: "vcoreName",
+export const dedicatedCapacityName: OperationURLParameter = {
+  parameterPath: "dedicatedCapacityName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[-a-zA-Z0-9_]+$"),
+      Pattern: new RegExp("^[a-z][a-z0-9]*$"),
       MaxLength: 63,
-      MinLength: 3
+      MinLength: 3,
     },
-    serializedName: "vcoreName",
+    serializedName: "dedicatedCapacityName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const vCoreParameters: OperationParameter = {
-  parameterPath: "vCoreParameters",
-  mapper: AutoScaleVCoreMapper
+export const capacityParameters1: OperationParameter = {
+  parameterPath: "capacityParameters",
+  mapper: DedicatedCapacityMapper,
 };
 
-export const vCoreUpdateParameters: OperationParameter = {
-  parameterPath: "vCoreUpdateParameters",
-  mapper: AutoScaleVCoreUpdateParametersMapper
+export const capacityUpdateParameters: OperationParameter = {
+  parameterPath: "capacityUpdateParameters",
+  mapper: DedicatedCapacityUpdateParametersMapper,
 };

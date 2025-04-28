@@ -9,42 +9,40 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   AutoScaleVCore,
-  AutoScaleVCoresListByResourceGroupOptionalParams,
   AutoScaleVCoresListBySubscriptionOptionalParams,
+  AutoScaleVCoresListByResourceGroupOptionalParams,
   AutoScaleVCoresGetOptionalParams,
   AutoScaleVCoresGetResponse,
   AutoScaleVCoresCreateOptionalParams,
   AutoScaleVCoresCreateResponse,
-  AutoScaleVCoresDeleteOptionalParams,
   AutoScaleVCoreUpdateParameters,
   AutoScaleVCoresUpdateOptionalParams,
-  AutoScaleVCoresUpdateResponse
+  AutoScaleVCoresUpdateResponse,
+  AutoScaleVCoresDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AutoScaleVCores. */
 export interface AutoScaleVCores {
   /**
-   * Gets all the auto scale v-cores for the given resource group.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param options The options parameters.
-   */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: AutoScaleVCoresListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<AutoScaleVCore>;
-  /**
    * Lists all the auto scale v-cores for the given subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: AutoScaleVCoresListBySubscriptionOptionalParams
+    options?: AutoScaleVCoresListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<AutoScaleVCore>;
+  /**
+   * Gets all the auto scale v-cores for the given resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: AutoScaleVCoresListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AutoScaleVCore>;
   /**
    * Gets details about the specified auto scale v-core.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vcoreName The name of the auto scale v-core. It must be a minimum of 3 characters, and a
    *                  maximum of 63.
    * @param options The options parameters.
@@ -52,12 +50,11 @@ export interface AutoScaleVCores {
   get(
     resourceGroupName: string,
     vcoreName: string,
-    options?: AutoScaleVCoresGetOptionalParams
+    options?: AutoScaleVCoresGetOptionalParams,
   ): Promise<AutoScaleVCoresGetResponse>;
   /**
    * Provisions the specified auto scale v-core based on the configuration specified in the request.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vcoreName The name of the auto scale v-core. It must be a minimum of 3 characters, and a
    *                  maximum of 63.
    * @param vCoreParameters Contains the information used to provision the auto scale v-core.
@@ -67,25 +64,11 @@ export interface AutoScaleVCores {
     resourceGroupName: string,
     vcoreName: string,
     vCoreParameters: AutoScaleVCore,
-    options?: AutoScaleVCoresCreateOptionalParams
+    options?: AutoScaleVCoresCreateOptionalParams,
   ): Promise<AutoScaleVCoresCreateResponse>;
   /**
-   * Deletes the specified auto scale v-core.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param vcoreName The name of the auto scale v-core. It must be a minimum of 3 characters, and a
-   *                  maximum of 63.
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    vcoreName: string,
-    options?: AutoScaleVCoresDeleteOptionalParams
-  ): Promise<void>;
-  /**
    * Updates the current state of the specified auto scale v-core.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vcoreName The name of the auto scale v-core. It must be a minimum of 3 characters, and a
    *                  maximum of 63.
    * @param vCoreUpdateParameters Request object that contains the updated information for the auto scale
@@ -96,6 +79,18 @@ export interface AutoScaleVCores {
     resourceGroupName: string,
     vcoreName: string,
     vCoreUpdateParameters: AutoScaleVCoreUpdateParameters,
-    options?: AutoScaleVCoresUpdateOptionalParams
+    options?: AutoScaleVCoresUpdateOptionalParams,
   ): Promise<AutoScaleVCoresUpdateResponse>;
+  /**
+   * Deletes the specified auto scale v-core.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vcoreName The name of the auto scale v-core. It must be a minimum of 3 characters, and a
+   *                  maximum of 63.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    vcoreName: string,
+    options?: AutoScaleVCoresDeleteOptionalParams,
+  ): Promise<void>;
 }

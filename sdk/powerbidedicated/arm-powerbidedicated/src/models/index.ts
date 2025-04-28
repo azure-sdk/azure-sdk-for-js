@@ -8,119 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** Represents the SKU name and Azure pricing tier for PowerBI Dedicated capacity resource. */
-export interface CapacitySku {
-  /** Name of the SKU level. */
-  name: string;
-  /** The name of the Azure pricing tier to which the SKU applies. */
-  tier?: CapacitySkuTier;
-}
-
-/** An object that represents a set of mutable Dedicated capacity resource properties. */
-export interface DedicatedCapacityMutableProperties {
-  /** A collection of Dedicated capacity administrators */
-  administration?: DedicatedCapacityAdministrators;
-  /** Specifies the generation of the Power BI Embedded capacity. If no value is specified, the default value 'Gen2' is used. [Learn More](https://docs.microsoft.com/power-bi/developer/embedded/power-bi-embedded-generation-2) */
-  mode?: Mode;
-}
-
-/** An array of administrator user identities */
-export interface DedicatedCapacityAdministrators {
-  /** An array of administrator user identities. */
-  members?: string[];
-}
-
-/** Represents an instance of an PowerBI Dedicated resource. */
-export interface Resource {
-  /**
-   * An identifier that represents the PowerBI Dedicated resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the PowerBI Dedicated resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the PowerBI Dedicated resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Location of the PowerBI Dedicated resource. */
-  location: string;
-  /** Key-value pairs of additional resource provisioning properties. */
-  tags?: { [propertyName: string]: string };
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** An identifier for the identity that created the resource */
-  createdBy?: string;
-  /** The type of identity that created the resource */
-  createdByType?: IdentityType;
-  /** The timestamp of resource creation (UTC) */
-  createdAt?: Date;
-  /** An identifier for the identity that last modified the resource */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource */
-  lastModifiedByType?: IdentityType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-/** Describes the format of Error response. */
-export interface ErrorResponse {
-  /** The error object */
-  error?: ErrorResponseError;
-}
-
-/** The error object */
-export interface ErrorResponseError {
-  /** Error code */
-  code?: string;
-  /** Error message indicating why the operation failed. */
-  message?: string;
-}
-
-/** Provision request specification */
-export interface DedicatedCapacityUpdateParameters {
-  /** The SKU of the Dedicated capacity resource. */
-  sku?: CapacitySku;
-  /** Key-value pairs of additional provisioning properties. */
-  tags?: { [propertyName: string]: string };
-  /** A collection of Dedicated capacity administrators */
-  administration?: DedicatedCapacityAdministrators;
-  /** Specifies the generation of the Power BI Embedded capacity. If no value is specified, the default value 'Gen2' is used. [Learn More](https://docs.microsoft.com/power-bi/developer/embedded/power-bi-embedded-generation-2) */
-  mode?: Mode;
-}
-
-/** An array of Dedicated capacities resources. */
-export interface DedicatedCapacities {
-  /** An array of Dedicated capacities resources. */
-  value: DedicatedCapacity[];
-}
-
-/** An object that represents enumerating SKUs for new resources */
-export interface SkuEnumerationForNewResourceResult {
-  /** The collection of available SKUs for new resources */
-  value?: CapacitySku[];
-}
-
-/** An object that represents enumerating SKUs for existing resources */
-export interface SkuEnumerationForExistingResourceResult {
-  /** The collection of available SKUs for existing resources */
-  value?: SkuDetailsForExistingResource[];
-}
-
-/** An object that represents SKU details for existing resources */
-export interface SkuDetailsForExistingResource {
-  /** The SKU in SKU details for existing resources. */
-  sku?: CapacitySku;
-}
-
 /** Result listing capacities. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /**
@@ -144,6 +31,13 @@ export interface Operation {
   readonly name?: string;
   /** The object that represents the operation. */
   display?: OperationDisplay;
+  /**
+   * Origin of the operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: string;
+  /** Additional properties to expose performance metrics to shoebox. */
+  properties?: OperationProperties;
 }
 
 /** The object that represents the operation. */
@@ -163,6 +57,195 @@ export interface OperationDisplay {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operation?: string;
+  /** Localized description of the operation. */
+  description?: string;
+}
+
+/** Additional properties to expose performance metrics to shoebox. */
+export interface OperationProperties {
+  /** Service specification for exposing performance metrics to shoebox. */
+  serviceSpecification?: ServiceSpecification;
+}
+
+/** Service specification for exposing performance metrics to shoebox. */
+export interface ServiceSpecification {
+  /** Metric specifications for exposing performance metrics to shoebox. */
+  metricSpecifications?: MetricSpecification[];
+  /** Log specifications for exposing diagnostic logs to shoebox. */
+  logSpecifications?: LogSpecification[];
+}
+
+/** Metric specification for exposing performance metrics to shoebox. */
+export interface MetricSpecification {
+  /**
+   * Metric name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /** Localizable metric name */
+  displayName?: string;
+  /** Localizable description of metric */
+  displayDescription?: string;
+  /**
+   * Unit for the metric
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly unit?: string;
+  /**
+   * Aggregation type for the metric
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly aggregationType?: string;
+  /**
+   * Pattern used to filter the metric
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly metricFilterPattern?: string;
+  /** For describing multi dimensional metrics */
+  dimensions?: MetricSpecificationDimensionsItem[];
+}
+
+export interface MetricSpecificationDimensionsItem {
+  /**
+   * Dimension of the metric
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /** Localizable dimension of the metric */
+  displayName?: string;
+}
+
+/** Log specification for exposing diagnostic logs to shoebox. */
+export interface LogSpecification {
+  /**
+   * Name of the log
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /** Localizable name of the log */
+  displayName?: string;
+  /**
+   * Blob duration for the log
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly blobDuration?: string;
+}
+
+/** The error object */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorResponseError;
+}
+
+/** The error object. */
+export interface ErrorResponseError {
+  /** Error code. */
+  code?: string;
+  /** Error message indicating why the operation failed. */
+  message?: string;
+}
+
+/** An array of auto scale v-core resources. */
+export interface AutoScaleVCoreListResult {
+  /** An array of auto scale v-core resources. */
+  value: AutoScaleVCore[];
+  nextLink?: string;
+}
+
+/** An object that represents a set of mutable auto scale v-core resource properties. */
+export interface AutoScaleVCoreMutableProperties {
+  /** The maximum capacity of an auto scale v-core resource. */
+  capacityLimit?: number;
+}
+
+/** Represents the SKU name and Azure pricing tier for auto scale v-core resource. */
+export interface AutoScaleVCoreSku {
+  /** Name of the SKU level. */
+  name: string;
+  /** The name of the Azure pricing tier to which the SKU applies. */
+  tier?: VCoreSkuTier;
+  /** The capacity of an auto scale v-core resource. */
+  capacity?: number;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** An array of Dedicated capacities resources. */
+export interface DedicatedCapacities {
+  /** An array of Dedicated capacities resources. */
+  value: DedicatedCapacity[];
+}
+
+/** An object that represents a set of mutable Dedicated capacity resource properties. */
+export interface DedicatedCapacityMutableProperties {
+  /** A collection of Dedicated capacity administrators */
+  administration?: DedicatedCapacityAdministrators;
+  /** Specifies the generation of the Power BI Embedded capacity. If no value is specified, the default value 'Gen2' is used. [Learn More](https://docs.microsoft.com/power-bi/developer/embedded/power-bi-embedded-generation-2) */
+  mode?: Mode;
+  /**
+   * Tenant ID for the capacity. Used for creating Pro Plus capacity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /**
+   * Capacity name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly friendlyName?: string;
+}
+
+/** An array of administrator user identities */
+export interface DedicatedCapacityAdministrators {
+  /** An array of administrator user identities. */
+  members?: string[];
+}
+
+/** Represents the SKU name and Azure pricing tier for PowerBI Dedicated capacity resource. */
+export interface CapacitySku {
+  /** Name of the SKU level. */
+  name: string;
+  /** The name of the Azure pricing tier to which the SKU applies. */
+  tier?: CapacitySkuTier;
+  /** The capacity of the SKU. */
+  capacity?: number;
 }
 
 /** Details of capacity name request body. */
@@ -183,20 +266,10 @@ export interface CheckCapacityNameAvailabilityResult {
   message?: string;
 }
 
-/** Represents the SKU name and Azure pricing tier for auto scale v-core resource. */
-export interface AutoScaleVCoreSku {
-  /** Name of the SKU level. */
-  name: string;
-  /** The name of the Azure pricing tier to which the SKU applies. */
-  tier?: VCoreSkuTier;
-  /** The capacity of an auto scale v-core resource. */
-  capacity?: number;
-}
-
-/** An object that represents a set of mutable auto scale v-core resource properties. */
-export interface AutoScaleVCoreMutableProperties {
-  /** The maximum capacity of an auto scale v-core resource. */
-  capacityLimit?: number;
+/** An object that represents enumerating SKUs for new resources */
+export interface SkuEnumerationForNewResourceResult {
+  /** The collection of available SKUs for new resources */
+  value?: CapacitySku[];
 }
 
 /** Update request specification */
@@ -209,35 +282,63 @@ export interface AutoScaleVCoreUpdateParameters {
   capacityLimit?: number;
 }
 
-/** An array of auto scale v-core resources. */
-export interface AutoScaleVCoreListResult {
-  /** An array of auto scale v-core resources. */
-  value: AutoScaleVCore[];
-}
-
-/** Properties of Dedicated Capacity resource. */
-export interface DedicatedCapacityProperties
-  extends DedicatedCapacityMutableProperties {
-  /**
-   * The current state of PowerBI Dedicated resource. The state is to indicate more states outside of resource provisioning.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: State;
-  /**
-   * The current deployment state of PowerBI Dedicated resource. The provisioningState is to indicate states for resource provisioning.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: CapacityProvisioningState;
-}
-
-/** Represents an instance of a Dedicated Capacity resource. */
-export interface DedicatedCapacity extends Resource {
-  /** The SKU of the PowerBI Dedicated capacity resource. */
-  sku: CapacitySku;
+/** Provision request specification */
+export interface DedicatedCapacityUpdateParameters {
+  /** The SKU of the Dedicated capacity resource. */
+  sku?: CapacitySku;
+  /** Key-value pairs of additional provisioning properties. */
+  tags?: { [propertyName: string]: string };
   /** A collection of Dedicated capacity administrators */
   administration?: DedicatedCapacityAdministrators;
   /** Specifies the generation of the Power BI Embedded capacity. If no value is specified, the default value 'Gen2' is used. [Learn More](https://docs.microsoft.com/power-bi/developer/embedded/power-bi-embedded-generation-2) */
   mode?: Mode;
+  /**
+   * Tenant ID for the capacity. Used for creating Pro Plus capacity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /**
+   * Capacity name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly friendlyName?: string;
+}
+
+/** An object that represents enumerating SKUs for existing resources */
+export interface SkuEnumerationForExistingResourceResult {
+  /** The collection of available SKUs for existing resources */
+  value?: SkuDetailsForExistingResource[];
+}
+
+/** An object that represents SKU details for existing resources */
+export interface SkuDetailsForExistingResource {
+  /** The resource type */
+  resourceType?: string;
+  /** The SKU in SKU details for existing resources. */
+  sku?: CapacitySku;
+}
+
+/** Properties of an auto scale v-core resource. */
+export interface AutoScaleVCoreProperties extends AutoScaleVCoreMutableProperties {
+  /** The object ID of the capacity resource associated with the auto scale v-core resource. */
+  capacityObjectId?: string;
+  /**
+   * The current deployment state of an auto scale v-core resource. The provisioningState is to indicate states for resource provisioning.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: VCoreProvisioningState;
+}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+/** Properties of Dedicated Capacity resource. */
+export interface DedicatedCapacityProperties extends DedicatedCapacityMutableProperties {
   /**
    * The current state of PowerBI Dedicated resource. The state is to indicate more states outside of resource provisioning.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -251,7 +352,7 @@ export interface DedicatedCapacity extends Resource {
 }
 
 /** Represents an instance of an auto scale v-core resource. */
-export interface AutoScaleVCore extends Resource {
+export interface AutoScaleVCore extends TrackedResource {
   /** The SKU of the auto scale v-core resource. */
   sku: AutoScaleVCoreSku;
   /** The maximum capacity of an auto scale v-core resource. */
@@ -265,38 +366,129 @@ export interface AutoScaleVCore extends Resource {
   readonly provisioningState?: VCoreProvisioningState;
 }
 
-/** Properties of an auto scale v-core resource. */
-export interface AutoScaleVCoreProperties
-  extends AutoScaleVCoreMutableProperties {
-  /** The object ID of the capacity resource associated with the auto scale v-core resource. */
-  capacityObjectId?: string;
+/** Represents an instance of a Dedicated Capacity resource. */
+export interface DedicatedCapacity extends TrackedResource {
+  /** The SKU of the PowerBI Dedicated capacity resource. */
+  sku: CapacitySku;
+  /** A collection of Dedicated capacity administrators */
+  administration?: DedicatedCapacityAdministrators;
+  /** Specifies the generation of the Power BI Embedded capacity. If no value is specified, the default value 'Gen2' is used. [Learn More](https://docs.microsoft.com/power-bi/developer/embedded/power-bi-embedded-generation-2) */
+  mode?: Mode;
   /**
-   * The current deployment state of an auto scale v-core resource. The provisioningState is to indicate states for resource provisioning.
+   * Tenant ID for the capacity. Used for creating Pro Plus capacity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: VCoreProvisioningState;
+  readonly tenantId?: string;
+  /**
+   * Capacity name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly friendlyName?: string;
+  /**
+   * The current state of PowerBI Dedicated resource. The state is to indicate more states outside of resource provisioning.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: State;
+  /**
+   * The current deployment state of PowerBI Dedicated resource. The provisioningState is to indicate states for resource provisioning.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: CapacityProvisioningState;
 }
 
-/** Known values of {@link CapacitySkuTier} that the service accepts. */
-export enum KnownCapacitySkuTier {
-  /** PbieAzure */
-  PbieAzure = "PBIE_Azure",
-  /** Premium */
-  Premium = "Premium",
-  /** AutoPremiumHost */
-  AutoPremiumHost = "AutoPremiumHost"
+/** Defines headers for Capacities_create operation. */
+export interface CapacitiesCreateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Capacities_update operation. */
+export interface CapacitiesUpdateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Capacities_delete operation. */
+export interface CapacitiesDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Capacities_resume operation. */
+export interface CapacitiesResumeHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Capacities_suspend operation. */
+export interface CapacitiesSuspendHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Known values of {@link VCoreProvisioningState} that the service accepts. */
+export enum KnownVCoreProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
 }
 
 /**
- * Defines values for CapacitySkuTier. \
- * {@link KnownCapacitySkuTier} can be used interchangeably with CapacitySkuTier,
+ * Defines values for VCoreProvisioningState. \
+ * {@link KnownVCoreProvisioningState} can be used interchangeably with VCoreProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **PBIE_Azure** \
- * **Premium** \
- * **AutoPremiumHost**
+ * **Succeeded**
  */
-export type CapacitySkuTier = string;
+export type VCoreProvisioningState = string;
+
+/** Known values of {@link VCoreSkuTier} that the service accepts. */
+export enum KnownVCoreSkuTier {
+  /** AutoScale */
+  AutoScale = "AutoScale",
+}
+
+/**
+ * Defines values for VCoreSkuTier. \
+ * {@link KnownVCoreSkuTier} can be used interchangeably with VCoreSkuTier,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AutoScale**
+ */
+export type VCoreSkuTier = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 
 /** Known values of {@link State} that the service accepts. */
 export enum KnownState {
@@ -323,7 +515,7 @@ export enum KnownState {
   /** Preparing */
   Preparing = "Preparing",
   /** Scaling */
-  Scaling = "Scaling"
+  Scaling = "Scaling",
 }
 
 /**
@@ -371,7 +563,7 @@ export enum KnownCapacityProvisioningState {
   /** Preparing */
   Preparing = "Preparing",
   /** Scaling */
-  Scaling = "Scaling"
+  Scaling = "Scaling",
 }
 
 /**
@@ -399,7 +591,7 @@ export enum KnownMode {
   /** Gen1 */
   Gen1 = "Gen1",
   /** Gen2 */
-  Gen2 = "Gen2"
+  Gen2 = "Gen2",
 }
 
 /**
@@ -412,70 +604,121 @@ export enum KnownMode {
  */
 export type Mode = string;
 
-/** Known values of {@link IdentityType} that the service accepts. */
-export enum KnownIdentityType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key"
+/** Known values of {@link CapacitySkuTier} that the service accepts. */
+export enum KnownCapacitySkuTier {
+  /** PbieAzure */
+  PbieAzure = "PBIE_Azure",
+  /** Premium */
+  Premium = "Premium",
+  /** AutoPremiumHost */
+  AutoPremiumHost = "AutoPremiumHost",
 }
 
 /**
- * Defines values for IdentityType. \
- * {@link KnownIdentityType} can be used interchangeably with IdentityType,
+ * Defines values for CapacitySkuTier. \
+ * {@link KnownCapacitySkuTier} can be used interchangeably with CapacitySkuTier,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
+ * **PBIE_Azure** \
+ * **Premium** \
+ * **AutoPremiumHost**
  */
-export type IdentityType = string;
-
-/** Known values of {@link VCoreSkuTier} that the service accepts. */
-export enum KnownVCoreSkuTier {
-  /** AutoScale */
-  AutoScale = "AutoScale"
-}
-
-/**
- * Defines values for VCoreSkuTier. \
- * {@link KnownVCoreSkuTier} can be used interchangeably with VCoreSkuTier,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AutoScale**
- */
-export type VCoreSkuTier = string;
-
-/** Known values of {@link VCoreProvisioningState} that the service accepts. */
-export enum KnownVCoreProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded"
-}
-
-/**
- * Defines values for VCoreProvisioningState. \
- * {@link KnownVCoreProvisioningState} can be used interchangeably with VCoreProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded**
- */
-export type VCoreProvisioningState = string;
+export type CapacitySkuTier = string;
 
 /** Optional parameters. */
-export interface CapacitiesGetDetailsOptionalParams
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface AutoScaleVCoresListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type AutoScaleVCoresListBySubscriptionResponse = AutoScaleVCoreListResult;
+
+/** Optional parameters. */
+export interface AutoScaleVCoresListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type AutoScaleVCoresListByResourceGroupResponse = AutoScaleVCoreListResult;
+
+/** Optional parameters. */
+export interface AutoScaleVCoresGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AutoScaleVCoresGetResponse = AutoScaleVCore;
+
+/** Optional parameters. */
+export interface AutoScaleVCoresCreateOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type AutoScaleVCoresCreateResponse = AutoScaleVCore;
+
+/** Optional parameters. */
+export interface AutoScaleVCoresUpdateOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type AutoScaleVCoresUpdateResponse = AutoScaleVCore;
+
+/** Optional parameters. */
+export interface AutoScaleVCoresDeleteOptionalParams extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AutoScaleVCoresListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type AutoScaleVCoresListBySubscriptionNextResponse = AutoScaleVCoreListResult;
+
+/** Optional parameters. */
+export interface AutoScaleVCoresListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type AutoScaleVCoresListByResourceGroupNextResponse = AutoScaleVCoreListResult;
+
+/** Optional parameters. */
+export interface CapacitiesListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type CapacitiesListResponse = DedicatedCapacities;
+
+/** Optional parameters. */
+export interface CapacitiesCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkNameAvailability operation. */
+export type CapacitiesCheckNameAvailabilityResponse = CheckCapacityNameAvailabilityResult;
+
+/** Optional parameters. */
+export interface CapacitiesListSkusOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSkus operation. */
+export type CapacitiesListSkusResponse = SkuEnumerationForNewResourceResult;
+
+/** Optional parameters. */
+export interface CapacitiesListByResourceGroupOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type CapacitiesListByResourceGroupResponse = DedicatedCapacities;
+
+/** Optional parameters. */
+export interface CapacitiesGetDetailsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDetails operation. */
 export type CapacitiesGetDetailsResponse = DedicatedCapacity;
 
 /** Optional parameters. */
-export interface CapacitiesCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface CapacitiesCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -486,17 +729,7 @@ export interface CapacitiesCreateOptionalParams
 export type CapacitiesCreateResponse = DedicatedCapacity;
 
 /** Optional parameters. */
-export interface CapacitiesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface CapacitiesUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface CapacitiesUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -507,8 +740,7 @@ export interface CapacitiesUpdateOptionalParams
 export type CapacitiesUpdateResponse = DedicatedCapacity;
 
 /** Optional parameters. */
-export interface CapacitiesSuspendOptionalParams
-  extends coreClient.OperationOptions {
+export interface CapacitiesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -516,8 +748,7 @@ export interface CapacitiesSuspendOptionalParams
 }
 
 /** Optional parameters. */
-export interface CapacitiesResumeOptionalParams
-  extends coreClient.OperationOptions {
+export interface CapacitiesResumeOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -525,96 +756,21 @@ export interface CapacitiesResumeOptionalParams
 }
 
 /** Optional parameters. */
-export interface CapacitiesListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type CapacitiesListByResourceGroupResponse = DedicatedCapacities;
-
-/** Optional parameters. */
-export interface CapacitiesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type CapacitiesListResponse = DedicatedCapacities;
-
-/** Optional parameters. */
-export interface CapacitiesListSkusOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listSkus operation. */
-export type CapacitiesListSkusResponse = SkuEnumerationForNewResourceResult;
-
-/** Optional parameters. */
-export interface CapacitiesListSkusForCapacityOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CapacitiesListSkusForCapacityOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSkusForCapacity operation. */
 export type CapacitiesListSkusForCapacityResponse = SkuEnumerationForExistingResourceResult;
 
 /** Optional parameters. */
-export interface CapacitiesCheckNameAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the checkNameAvailability operation. */
-export type CapacitiesCheckNameAvailabilityResponse = CheckCapacityNameAvailabilityResult;
-
-/** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type OperationsListResponse = OperationListResult;
+export interface CapacitiesSuspendOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type OperationsListNextResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface AutoScaleVCoresGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type AutoScaleVCoresGetResponse = AutoScaleVCore;
-
-/** Optional parameters. */
-export interface AutoScaleVCoresCreateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the create operation. */
-export type AutoScaleVCoresCreateResponse = AutoScaleVCore;
-
-/** Optional parameters. */
-export interface AutoScaleVCoresDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AutoScaleVCoresUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type AutoScaleVCoresUpdateResponse = AutoScaleVCore;
-
-/** Optional parameters. */
-export interface AutoScaleVCoresListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type AutoScaleVCoresListByResourceGroupResponse = AutoScaleVCoreListResult;
-
-/** Optional parameters. */
-export interface AutoScaleVCoresListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscription operation. */
-export type AutoScaleVCoresListBySubscriptionResponse = AutoScaleVCoreListResult;
-
-/** Optional parameters. */
-export interface PowerBIDedicatedOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface PowerBIDedicatedOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

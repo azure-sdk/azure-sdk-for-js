@@ -1,15 +1,47 @@
 # Release History
-
-## 4.0.2 (Unreleased)
-
+    
+## 5.0.0 (2025-04-28)
+    
 ### Features Added
+
+  - Added Interface AutoScaleVCoresListByResourceGroupNextOptionalParams
+  - Added Interface AutoScaleVCoresListBySubscriptionNextOptionalParams
+  - Added Interface CapacitiesCreateHeaders
+  - Added Interface CapacitiesDeleteHeaders
+  - Added Interface CapacitiesResumeHeaders
+  - Added Interface CapacitiesSuspendHeaders
+  - Added Interface CapacitiesUpdateHeaders
+  - Added Interface LogSpecification
+  - Added Interface MetricSpecification
+  - Added Interface MetricSpecificationDimensionsItem
+  - Added Interface OperationProperties
+  - Added Interface ServiceSpecification
+  - Added Interface TrackedResource
+  - Added Type Alias AutoScaleVCoresListByResourceGroupNextResponse
+  - Added Type Alias AutoScaleVCoresListBySubscriptionNextResponse
+  - Added Type Alias CreatedByType
+  - Interface AutoScaleVCoreListResult has a new optional parameter nextLink
+  - Interface CapacitySku has a new optional parameter capacity
+  - Interface DedicatedCapacity has a new optional parameter friendlyName
+  - Interface DedicatedCapacity has a new optional parameter tenantId
+  - Interface DedicatedCapacityMutableProperties has a new optional parameter friendlyName
+  - Interface DedicatedCapacityMutableProperties has a new optional parameter tenantId
+  - Interface DedicatedCapacityUpdateParameters has a new optional parameter friendlyName
+  - Interface DedicatedCapacityUpdateParameters has a new optional parameter tenantId
+  - Interface Operation has a new optional parameter origin
+  - Interface Operation has a new optional parameter properties
+  - Interface OperationDisplay has a new optional parameter description
+  - Interface SkuDetailsForExistingResource has a new optional parameter resourceType
+  - Added Enum KnownCreatedByType
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface Resource no longer has parameter location
+  - Interface Resource no longer has parameter tags
+  - Type of parameter createdByType of interface SystemData is changed from IdentityType to CreatedByType
+  - Type of parameter lastModifiedByType of interface SystemData is changed from IdentityType to CreatedByType
+  - Removed Enum KnownIdentityType
+    
 ## 4.0.1 (2023-01-31)
 
 ### Features Added
@@ -55,4 +87,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
