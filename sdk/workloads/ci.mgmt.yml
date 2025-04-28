@@ -14,6 +14,7 @@ trigger:
       - sdk/workloads/arm-workloads
       - sdk/workloads/ci.mgmt.yml
       - sdk/workloads/arm-workloadssapvirtualinstance
+      - sdk/workloads/arm-sapmonitors
 pr:
   branches:
     include:
@@ -28,6 +29,7 @@ pr:
       - sdk/workloads/arm-workloads
       - sdk/workloads/ci.mgmt.yml
       - sdk/workloads/arm-workloadssapvirtualinstance
+      - sdk/workloads/arm-sapmonitors
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -37,3 +39,5 @@ extends:
         safeName: azurearmworkloads
       - name: azure-arm-workloadssapvirtualinstance
         safeName: azurearmworkloadssapvirtualinstance
+      - name: azure-arm-sapmonitors
+        safeName: azurearmsapmonitors
