@@ -31,9 +31,7 @@ export interface Providers {
    * Gets all resource providers for a subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: ProvidersListOptionalParams,
-  ): PagedAsyncIterableIterator<Provider>;
+  list(options?: ProvidersListOptionalParams): PagedAsyncIterableIterator<Provider>;
   /**
    * Gets all resource providers for the tenant.
    * @param options The options parameters.

@@ -12,7 +12,7 @@ import { Operations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ManagementLinkClient } from "../managementLinkClient.js";
+import { DataboundariesManegementClient } from "../databoundariesManegementClient.js";
 import {
   Operation,
   OperationsListNextOptionalParams,
@@ -24,13 +24,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Operations operations. */
 export class OperationsImpl implements Operations {
-  private readonly client: ManagementLinkClient;
+  private readonly client: DataboundariesManegementClient;
 
   /**
    * Initialize a new instance of the class Operations class.
    * @param client Reference to the service client
    */
-  constructor(client: ManagementLinkClient) {
+  constructor(client: DataboundariesManegementClient) {
     this.client = client;
   }
 
@@ -116,6 +116,9 @@ const listOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationListResult,
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
@@ -128,6 +131,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.OperationListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],

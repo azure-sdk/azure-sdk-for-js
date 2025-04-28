@@ -8,11 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest
-} from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import { OperationsImpl, SubscriptionsImpl, TenantsImpl } from "./operations/index.js";
 import { Operations, Subscriptions, Tenants } from "./operationsInterfaces/index.js";
@@ -21,7 +17,7 @@ import * as Mappers from "./models/mappers.js";
 import {
   SubscriptionClientOptionalParams,
   CheckResourceNameOptionalParams,
-  CheckResourceNameResponse
+  CheckResourceNameResponse,
 } from "./models/index.js";
 
 export class SubscriptionClient extends coreClient.ServiceClient {
@@ -33,10 +29,7 @@ export class SubscriptionClient extends coreClient.ServiceClient {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param options The parameter options
    */
-  constructor(
-    credentials: coreAuth.TokenCredential,
-    options?: SubscriptionClientOptionalParams
-  ) {
+  constructor(credentials: coreAuth.TokenCredential, options?: SubscriptionClientOptionalParams) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
@@ -47,10 +40,10 @@ export class SubscriptionClient extends coreClient.ServiceClient {
     }
     const defaults: SubscriptionClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-resources-subscriptions/2.1.1`;
+    const packageDetails = `azsdk-js-arm-resources-subscriptions/1.0.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -60,20 +53,19 @@ export class SubscriptionClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -83,19 +75,17 @@ export class SubscriptionClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
 
@@ -115,10 +105,7 @@ export class SubscriptionClient extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
@@ -131,7 +118,7 @@ export class SubscriptionClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -141,13 +128,8 @@ export class SubscriptionClient extends coreClient.ServiceClient {
    * not start with a reserved word
    * @param options The options parameters.
    */
-  checkResourceName(
-    options?: CheckResourceNameOptionalParams
-  ): Promise<CheckResourceNameResponse> {
-    return this.sendOperationRequest(
-      { options },
-      checkResourceNameOperationSpec
-    );
+  checkResourceName(options?: CheckResourceNameOptionalParams): Promise<CheckResourceNameResponse> {
+    return this.sendOperationRequest({ options }, checkResourceNameOperationSpec);
   }
 
   operations: Operations;
@@ -162,16 +144,16 @@ const checkResourceNameOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckResourceNameResult
+      bodyMapper: Mappers.CheckResourceNameResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.resourceNameDefinition,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
