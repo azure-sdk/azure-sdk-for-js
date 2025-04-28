@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ResourceManagementClient } from "../resourceManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   TagDetails,
@@ -62,9 +58,7 @@ export class TagsOperationsImpl implements TagsOperations {
    * result.
    * @param options The options parameters.
    */
-  public list(
-    options?: TagsListOptionalParams,
-  ): PagedAsyncIterableIterator<TagDetails> {
+  public list(options?: TagsListOptionalParams): PagedAsyncIterableIterator<TagDetails> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -160,10 +154,7 @@ export class TagsOperationsImpl implements TagsOperations {
     tagName: string,
     options?: TagsCreateOrUpdateOptionalParams,
   ): Promise<TagsCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { tagName, options },
-      createOrUpdateOperationSpec,
-    );
+    return this.client.sendOperationRequest({ tagName, options }, createOrUpdateOperationSpec);
   }
 
   /**
@@ -174,10 +165,7 @@ export class TagsOperationsImpl implements TagsOperations {
    * @param options The options parameters.
    */
   delete(tagName: string, options?: TagsDeleteOptionalParams): Promise<void> {
-    return this.client.sendOperationRequest(
-      { tagName, options },
-      deleteOperationSpec,
-    );
+    return this.client.sendOperationRequest({ tagName, options }, deleteOperationSpec);
   }
 
   /**
@@ -218,8 +206,7 @@ export class TagsOperationsImpl implements TagsOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -274,11 +261,7 @@ export class TagsOperationsImpl implements TagsOperations {
     parameters: TagsResource,
     options?: TagsCreateOrUpdateAtScopeOptionalParams,
   ): Promise<TagsCreateOrUpdateAtScopeResponse> {
-    const poller = await this.beginCreateOrUpdateAtScope(
-      scope,
-      parameters,
-      options,
-    );
+    const poller = await this.beginCreateOrUpdateAtScope(scope, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -297,10 +280,7 @@ export class TagsOperationsImpl implements TagsOperations {
     parameters: TagsPatchResource,
     options?: TagsUpdateAtScopeOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<TagsUpdateAtScopeResponse>,
-      TagsUpdateAtScopeResponse
-    >
+    SimplePollerLike<OperationState<TagsUpdateAtScopeResponse>, TagsUpdateAtScopeResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -312,8 +292,7 @@ export class TagsOperationsImpl implements TagsOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -384,10 +363,7 @@ export class TagsOperationsImpl implements TagsOperations {
     scope: string,
     options?: TagsGetAtScopeOptionalParams,
   ): Promise<TagsGetAtScopeResponse> {
-    return this.client.sendOperationRequest(
-      { scope, options },
-      getAtScopeOperationSpec,
-    );
+    return this.client.sendOperationRequest({ scope, options }, getAtScopeOperationSpec);
   }
 
   /**
@@ -409,8 +385,7 @@ export class TagsOperationsImpl implements TagsOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -472,10 +447,7 @@ export class TagsOperationsImpl implements TagsOperations {
     nextLink: string,
     options?: TagsListNextOptionalParams,
   ): Promise<TagsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -540,11 +512,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.tagName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.tagName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -559,11 +527,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.tagName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.tagName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -603,7 +567,7 @@ const createOrUpdateAtScopeOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters9,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -630,7 +594,7 @@ const updateAtScopeOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters10,
+  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -681,11 +645,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
