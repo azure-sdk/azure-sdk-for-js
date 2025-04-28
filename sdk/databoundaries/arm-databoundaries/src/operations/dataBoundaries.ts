@@ -60,10 +60,7 @@ export class DataBoundariesImpl implements DataBoundaries {
     defaultParam: DefaultName,
     options?: DataBoundariesGetTenantOptionalParams,
   ): Promise<DataBoundariesGetTenantResponse> {
-    return this.client.sendOperationRequest(
-      { defaultParam, options },
-      getTenantOperationSpec,
-    );
+    return this.client.sendOperationRequest({ defaultParam, options }, getTenantOperationSpec);
   }
 
   /**
@@ -103,7 +100,7 @@ const putOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.dataBoundaryDefinition,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.defaultParam],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };

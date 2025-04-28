@@ -16,7 +16,7 @@ import {
   FeaturesRegisterOptionalParams,
   FeaturesRegisterResponse,
   FeaturesUnregisterOptionalParams,
-  FeaturesUnregisterResponse
+  FeaturesUnregisterResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,9 +26,7 @@ export interface Features {
    * Gets all the preview features that are available through AFEC for the subscription.
    * @param options The options parameters.
    */
-  listAll(
-    options?: FeaturesListAllOptionalParams
-  ): PagedAsyncIterableIterator<FeatureResult>;
+  listAll(options?: FeaturesListAllOptionalParams): PagedAsyncIterableIterator<FeatureResult>;
   /**
    * Gets all the preview features in a provider namespace that are available through AFEC for the
    * subscription.
@@ -37,7 +35,7 @@ export interface Features {
    */
   list(
     resourceProviderNamespace: string,
-    options?: FeaturesListOptionalParams
+    options?: FeaturesListOptionalParams,
   ): PagedAsyncIterableIterator<FeatureResult>;
   /**
    * Gets the preview feature with the specified name.
@@ -48,7 +46,7 @@ export interface Features {
   get(
     resourceProviderNamespace: string,
     featureName: string,
-    options?: FeaturesGetOptionalParams
+    options?: FeaturesGetOptionalParams,
   ): Promise<FeaturesGetResponse>;
   /**
    * Registers the preview feature for the subscription.
@@ -59,7 +57,7 @@ export interface Features {
   register(
     resourceProviderNamespace: string,
     featureName: string,
-    options?: FeaturesRegisterOptionalParams
+    options?: FeaturesRegisterOptionalParams,
   ): Promise<FeaturesRegisterResponse>;
   /**
    * Unregisters the preview feature for the subscription.
@@ -70,6 +68,6 @@ export interface Features {
   unregister(
     resourceProviderNamespace: string,
     featureName: string,
-    options?: FeaturesUnregisterOptionalParams
+    options?: FeaturesUnregisterOptionalParams,
   ): Promise<FeaturesUnregisterResponse>;
 }
