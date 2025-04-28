@@ -150,7 +150,7 @@ export enum KnownLockLevel {
   /** CanNotDelete */
   CanNotDelete = "CanNotDelete",
   /** ReadOnly */
-  ReadOnly = "ReadOnly"
+  ReadOnly = "ReadOnly",
 }
 
 /**
@@ -173,7 +173,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -189,8 +189,7 @@ export enum KnownCreatedByType {
 export type CreatedByType = string;
 
 /** Optional parameters. */
-export interface AuthorizationOperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AuthorizationOperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type AuthorizationOperationsListResponse = OperationListResult;
@@ -228,12 +227,10 @@ export interface ManagementLocksCreateOrUpdateByScopeOptionalParams
 export type ManagementLocksCreateOrUpdateByScopeResponse = ManagementLockObject;
 
 /** Optional parameters. */
-export interface ManagementLocksDeleteByScopeOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ManagementLocksDeleteByScopeOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ManagementLocksGetByScopeOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ManagementLocksGetByScopeOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByScope operation. */
 export type ManagementLocksGetByScopeResponse = ManagementLockObject;
@@ -305,8 +302,7 @@ export interface ManagementLocksListAtSubscriptionLevelOptionalParams
 export type ManagementLocksListAtSubscriptionLevelResponse = ManagementLockListResult;
 
 /** Optional parameters. */
-export interface ManagementLocksListByScopeOptionalParams
-  extends coreClient.OperationOptions {
+export interface ManagementLocksListByScopeOptionalParams extends coreClient.OperationOptions {
   /** The filter to apply on the operation. */
   filter?: string;
 }
@@ -316,47 +312,33 @@ export type ManagementLocksListByScopeResponse = ManagementLockListResult;
 
 /** Optional parameters. */
 export interface ManagementLocksListAtResourceGroupLevelNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAtResourceGroupLevelNext operation. */
 export type ManagementLocksListAtResourceGroupLevelNextResponse = ManagementLockListResult;
 
 /** Optional parameters. */
 export interface ManagementLocksListAtResourceLevelNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAtResourceLevelNext operation. */
 export type ManagementLocksListAtResourceLevelNextResponse = ManagementLockListResult;
 
 /** Optional parameters. */
 export interface ManagementLocksListAtSubscriptionLevelNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAtSubscriptionLevelNext operation. */
 export type ManagementLocksListAtSubscriptionLevelNextResponse = ManagementLockListResult;
 
 /** Optional parameters. */
-export interface ManagementLocksListByScopeNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
+export interface ManagementLocksListByScopeNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByScopeNext operation. */
 export type ManagementLocksListByScopeNextResponse = ManagementLockListResult;
 
 /** Optional parameters. */
-export interface ManagementLockClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface ManagementLockClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

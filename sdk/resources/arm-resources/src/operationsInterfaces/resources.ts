@@ -52,9 +52,7 @@ export interface Resources {
    * Get all the resources in a subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: ResourcesListOptionalParams,
-  ): PagedAsyncIterableIterator<GenericResourceExpanded>;
+  list(options?: ResourcesListOptionalParams): PagedAsyncIterableIterator<GenericResourceExpanded>;
   /**
    * The resources to be moved must be in the same source resource group in the source subscription being
    * used. The target resource group may be in a different subscription. When moving resources, both the
@@ -249,12 +247,7 @@ export interface Resources {
     apiVersion: string,
     parameters: GenericResource,
     options?: ResourcesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ResourcesUpdateResponse>,
-      ResourcesUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<ResourcesUpdateResponse>, ResourcesUpdateResponse>>;
   /**
    * Updates a resource.
    * @param resourceGroupName The name of the resource group for the resource. The name is case
@@ -388,10 +381,7 @@ export interface Resources {
     parameters: GenericResource,
     options?: ResourcesUpdateByIdOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ResourcesUpdateByIdResponse>,
-      ResourcesUpdateByIdResponse
-    >
+    SimplePollerLike<OperationState<ResourcesUpdateByIdResponse>, ResourcesUpdateByIdResponse>
   >;
   /**
    * Updates a resource by ID.
