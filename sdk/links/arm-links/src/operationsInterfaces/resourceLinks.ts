@@ -15,7 +15,7 @@ import {
   ResourceLinksCreateOrUpdateOptionalParams,
   ResourceLinksCreateOrUpdateResponse,
   ResourceLinksGetOptionalParams,
-  ResourceLinksGetResponse
+  ResourceLinksGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface ResourceLinks {
    * @param options The options parameters.
    */
   listAtSubscription(
-    options?: ResourceLinksListAtSubscriptionOptionalParams
+    options?: ResourceLinksListAtSubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ResourceLink>;
   /**
    * Gets a list of resource links at and below the specified source scope.
@@ -37,7 +37,7 @@ export interface ResourceLinks {
    */
   listAtSourceScope(
     scope: string,
-    options?: ResourceLinksListAtSourceScopeOptionalParams
+    options?: ResourceLinksListAtSourceScopeOptionalParams,
   ): PagedAsyncIterableIterator<ResourceLink>;
   /**
    * Deletes a resource link with the specified ID.
@@ -47,10 +47,7 @@ export interface ResourceLinks {
    *               /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myGroup/Microsoft.Web/sites/mySite/Microsoft.Resources/links/myLink
    * @param options The options parameters.
    */
-  delete(
-    linkId: string,
-    options?: ResourceLinksDeleteOptionalParams
-  ): Promise<void>;
+  delete(linkId: string, options?: ResourceLinksDeleteOptionalParams): Promise<void>;
   /**
    * Creates or updates a resource link between the specified resources.
    * @param linkId The fully qualified ID of the resource link. Use the format,
@@ -63,7 +60,7 @@ export interface ResourceLinks {
   createOrUpdate(
     linkId: string,
     parameters: ResourceLink,
-    options?: ResourceLinksCreateOrUpdateOptionalParams
+    options?: ResourceLinksCreateOrUpdateOptionalParams,
   ): Promise<ResourceLinksCreateOrUpdateResponse>;
   /**
    * Gets a resource link with the specified ID.
@@ -71,8 +68,5 @@ export interface ResourceLinks {
    *               /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myGroup/Microsoft.Web/sites/mySite/Microsoft.Resources/links/myLink
    * @param options The options parameters.
    */
-  get(
-    linkId: string,
-    options?: ResourceLinksGetOptionalParams
-  ): Promise<ResourceLinksGetResponse>;
+  get(linkId: string, options?: ResourceLinksGetOptionalParams): Promise<ResourceLinksGetResponse>;
 }

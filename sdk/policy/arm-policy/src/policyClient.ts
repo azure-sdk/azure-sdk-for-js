@@ -8,28 +8,30 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import type { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
-import type * as coreAuth from "@azure/core-auth";
+import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
+import * as coreAuth from "@azure/core-auth";
 import {
+  PolicyAssignmentsImpl,
   PolicyDefinitionsImpl,
   PolicyDefinitionVersionsImpl,
   PolicySetDefinitionsImpl,
   PolicySetDefinitionVersionsImpl,
-  PolicyAssignmentsImpl,
+  PolicyTokensImpl,
 } from "./operations/index.js";
-import type {
+import {
+  PolicyAssignments,
   PolicyDefinitions,
   PolicyDefinitionVersions,
   PolicySetDefinitions,
   PolicySetDefinitionVersions,
-  PolicyAssignments,
+  PolicyTokens,
 } from "./operationsInterfaces/index.js";
-import type { PolicyClientOptionalParams } from "./models/index.js";
+import { PolicyClientOptionalParams } from "./models/index.js";
 
 export class PolicyClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId?: string;
   apiVersion: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the PolicyClient class.
@@ -69,7 +71,7 @@ export class PolicyClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-policy/6.0.0`;
+    const packageDetails = `azsdk-js-arm-policy/7.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -119,12 +121,13 @@ export class PolicyClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-05-01";
+    this.apiVersion = options.apiVersion || "2025-03-01";
+    this.policyAssignments = new PolicyAssignmentsImpl(this);
     this.policyDefinitions = new PolicyDefinitionsImpl(this);
     this.policyDefinitionVersions = new PolicyDefinitionVersionsImpl(this);
     this.policySetDefinitions = new PolicySetDefinitionsImpl(this);
     this.policySetDefinitionVersions = new PolicySetDefinitionVersionsImpl(this);
-    this.policyAssignments = new PolicyAssignmentsImpl(this);
+    this.policyTokens = new PolicyTokensImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -153,9 +156,10 @@ export class PolicyClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  policyAssignments: PolicyAssignments;
   policyDefinitions: PolicyDefinitions;
   policyDefinitionVersions: PolicyDefinitionVersions;
   policySetDefinitions: PolicySetDefinitions;
   policySetDefinitionVersions: PolicySetDefinitionVersions;
-  policyAssignments: PolicyAssignments;
+  policyTokens: PolicyTokens;
 }
