@@ -88,40 +88,34 @@ export interface ResourceLinkFilter {
 }
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface ResourceLinksDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ResourceLinksDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ResourceLinksCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ResourceLinksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type ResourceLinksCreateOrUpdateResponse = ResourceLink;
 
 /** Optional parameters. */
-export interface ResourceLinksGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ResourceLinksGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ResourceLinksGetResponse = ResourceLink;
 
 /** Optional parameters. */
-export interface ResourceLinksListAtSubscriptionOptionalParams
-  extends coreClient.OperationOptions {
+export interface ResourceLinksListAtSubscriptionOptionalParams extends coreClient.OperationOptions {
   /** The filter to apply on the list resource links operation. The supported filter for list resource links is targetId. For example, $filter=targetId eq {value} */
   filter?: string;
 }
@@ -130,18 +124,14 @@ export interface ResourceLinksListAtSubscriptionOptionalParams
 export type ResourceLinksListAtSubscriptionResponse = ResourceLinkResult;
 
 /** Optional parameters. */
-export interface ResourceLinksListAtSourceScopeOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ResourceLinksListAtSourceScopeOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAtSourceScope operation. */
 export type ResourceLinksListAtSourceScopeResponse = ResourceLinkResult;
 
 /** Optional parameters. */
 export interface ResourceLinksListAtSubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the list resource links operation. The supported filter for list resource links is targetId. For example, $filter=targetId eq {value} */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAtSubscriptionNext operation. */
 export type ResourceLinksListAtSubscriptionNextResponse = ResourceLinkResult;
@@ -154,8 +144,7 @@ export interface ResourceLinksListAtSourceScopeNextOptionalParams
 export type ResourceLinksListAtSourceScopeNextResponse = ResourceLinkResult;
 
 /** Optional parameters. */
-export interface ManagementLinkClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface ManagementLinkClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

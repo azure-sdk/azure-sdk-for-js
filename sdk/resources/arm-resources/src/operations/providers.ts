@@ -53,9 +53,7 @@ export class ProvidersImpl implements Providers {
    * Gets all resource providers for a subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: ProvidersListOptionalParams,
-  ): PagedAsyncIterableIterator<Provider> {
+  public list(options?: ProvidersListOptionalParams): PagedAsyncIterableIterator<Provider> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -226,9 +224,7 @@ export class ProvidersImpl implements Providers {
    * Gets all resource providers for a subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: ProvidersListOptionalParams,
-  ): Promise<ProvidersListResponse> {
+  private _list(options?: ProvidersListOptionalParams): Promise<ProvidersListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -239,10 +235,7 @@ export class ProvidersImpl implements Providers {
   private _listAtTenantScope(
     options?: ProvidersListAtTenantScopeOptionalParams,
   ): Promise<ProvidersListAtTenantScopeResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listAtTenantScopeOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listAtTenantScopeOperationSpec);
   }
 
   /**
@@ -284,10 +277,7 @@ export class ProvidersImpl implements Providers {
     nextLink: string,
     options?: ProvidersListNextOptionalParams,
   ): Promise<ProvidersListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -322,8 +312,8 @@ const unregisterOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceProviderNamespace,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -338,11 +328,7 @@ const registerAtManagementGroupScopeOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.groupId,
-    Parameters.resourceProviderNamespace,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceProviderNamespace, Parameters.groupId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -360,8 +346,8 @@ const providerPermissionsOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceProviderNamespace,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -381,8 +367,8 @@ const registerOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceProviderNamespace,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -434,8 +420,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceProviderNamespace,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -467,11 +453,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
