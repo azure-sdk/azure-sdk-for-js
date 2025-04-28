@@ -191,20 +191,13 @@ export interface ChangesGetOptionalParams extends coreClient.OperationOptions {}
 export type ChangesGetResponse = ChangeResourceResult;
 
 /** Optional parameters. */
-export interface ChangesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** (Optional) Set the maximum number of results per response. */
-  top?: number;
-  /** (Optional) The page-continuation token */
-  skipToken?: string;
-}
+export interface ChangesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ChangesListNextResponse = ChangeResourceListResult;
 
 /** Optional parameters. */
-export interface ChangesClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface ChangesClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

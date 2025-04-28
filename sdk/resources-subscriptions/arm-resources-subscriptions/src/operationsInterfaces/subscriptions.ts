@@ -16,7 +16,7 @@ import {
   SubscriptionsGetResponse,
   CheckZonePeersRequest,
   SubscriptionsCheckZonePeersOptionalParams,
-  SubscriptionsCheckZonePeersResponse
+  SubscriptionsCheckZonePeersResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,15 +30,13 @@ export interface Subscriptions {
    */
   listLocations(
     subscriptionId: string,
-    options?: SubscriptionsListLocationsOptionalParams
+    options?: SubscriptionsListLocationsOptionalParams,
   ): PagedAsyncIterableIterator<Location>;
   /**
    * Gets all subscriptions for a tenant.
    * @param options The options parameters.
    */
-  list(
-    options?: SubscriptionsListOptionalParams
-  ): PagedAsyncIterableIterator<Subscription>;
+  list(options?: SubscriptionsListOptionalParams): PagedAsyncIterableIterator<Subscription>;
   /**
    * Gets details about a specified subscription.
    * @param subscriptionId The ID of the target subscription.
@@ -46,7 +44,7 @@ export interface Subscriptions {
    */
   get(
     subscriptionId: string,
-    options?: SubscriptionsGetOptionalParams
+    options?: SubscriptionsGetOptionalParams,
   ): Promise<SubscriptionsGetResponse>;
   /**
    * Compares a subscriptions logical zone mapping
@@ -57,6 +55,6 @@ export interface Subscriptions {
   checkZonePeers(
     subscriptionId: string,
     parameters: CheckZonePeersRequest,
-    options?: SubscriptionsCheckZonePeersOptionalParams
+    options?: SubscriptionsCheckZonePeersOptionalParams,
   ): Promise<SubscriptionsCheckZonePeersResponse>;
 }
