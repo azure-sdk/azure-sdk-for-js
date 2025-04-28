@@ -528,7 +528,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -545,7 +545,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -562,7 +562,7 @@ export enum KnownRegionType {
   /** Physical */
   Physical = "Physical",
   /** Logical */
-  Logical = "Logical"
+  Logical = "Logical",
 }
 
 /**
@@ -582,7 +582,7 @@ export enum KnownRegionCategory {
   /** Extended */
   Extended = "Extended",
   /** Other */
-  Other = "Other"
+  Other = "Other",
 }
 
 /**
@@ -601,7 +601,7 @@ export enum KnownResourceNameStatus {
   /** Allowed */
   Allowed = "Allowed",
   /** Reserved */
-  Reserved = "Reserved"
+  Reserved = "Reserved",
 }
 
 /**
@@ -616,34 +616,26 @@ export type ResourceNameStatus = string;
 /** Defines values for LocationType. */
 export type LocationType = "Region" | "EdgeZone";
 /** Defines values for SubscriptionState. */
-export type SubscriptionState =
-  | "Enabled"
-  | "Warned"
-  | "PastDue"
-  | "Disabled"
-  | "Deleted";
+export type SubscriptionState = "Enabled" | "Warned" | "PastDue" | "Disabled" | "Deleted";
 /** Defines values for SpendingLimit. */
 export type SpendingLimit = "On" | "Off" | "CurrentPeriodOff";
 /** Defines values for TenantCategory. */
 export type TenantCategory = "Home" | "ProjectedBy" | "ManagedBy";
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface SubscriptionsListLocationsOptionalParams
-  extends coreClient.OperationOptions {
+export interface SubscriptionsListLocationsOptionalParams extends coreClient.OperationOptions {
   /** Whether to include extended locations. */
   includeExtendedLocations?: boolean;
 }
@@ -652,50 +644,43 @@ export interface SubscriptionsListLocationsOptionalParams
 export type SubscriptionsListLocationsResponse = LocationListResult;
 
 /** Optional parameters. */
-export interface SubscriptionsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SubscriptionsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type SubscriptionsGetResponse = Subscription;
 
 /** Optional parameters. */
-export interface SubscriptionsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SubscriptionsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type SubscriptionsListResponse = SubscriptionListResult;
 
 /** Optional parameters. */
-export interface SubscriptionsCheckZonePeersOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SubscriptionsCheckZonePeersOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkZonePeers operation. */
 export type SubscriptionsCheckZonePeersResponse = CheckZonePeersResult;
 
 /** Optional parameters. */
-export interface SubscriptionsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SubscriptionsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SubscriptionsListNextResponse = SubscriptionListResult;
 
 /** Optional parameters. */
-export interface TenantsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TenantsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type TenantsListResponse = TenantListResult;
 
 /** Optional parameters. */
-export interface TenantsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TenantsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type TenantsListNextResponse = TenantListResult;
 
 /** Optional parameters. */
-export interface CheckResourceNameOptionalParams
-  extends coreClient.OperationOptions {
+export interface CheckResourceNameOptionalParams extends coreClient.OperationOptions {
   /** Resource object with values for resource name and resource type */
   resourceNameDefinition?: ResourceName;
 }
@@ -704,8 +689,7 @@ export interface CheckResourceNameOptionalParams
 export type CheckResourceNameResponse = CheckResourceNameResult;
 
 /** Optional parameters. */
-export interface SubscriptionClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface SubscriptionClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */
