@@ -34,5 +34,6 @@ export {
   SystemData,
   KnownCreatedByType,
   CreatedByType,
+  OnlineExperimentWorkspacePatch,
   KnownVersions,
 } from "./models.js";

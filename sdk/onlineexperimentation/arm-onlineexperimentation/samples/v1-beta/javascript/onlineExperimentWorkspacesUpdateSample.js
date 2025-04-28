@@ -16,7 +16,6 @@ async function updateAnOnlineExperimentWorkspace() {
   const client = new OnlineExperimentationClient(credential, subscriptionId);
   const result = await client.onlineExperimentWorkspaces.update("res9871", "expworkspace3", {
     tags: { newKey: "newVal" },
-    location: "",
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
@@ -51,7 +50,6 @@ async function updateAnOnlineExperimentWorkspaceWithCustomerManagedEncryptionKey
           {},
       },
     },
-    location: "",
     properties: {
       logAnalyticsWorkspaceResourceId:
         "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/res9871/providers/Microsoft.OperationalInsights/workspaces/log9871",
@@ -67,7 +65,6 @@ async function updateAnOnlineExperimentWorkspaceWithCustomerManagedEncryptionKey
           keyEncryptionKeyUrl: "https://contosovault.vault.azure.net/keys/contosokek",
         },
       },
-      appConfigurationResourceId: "",
     },
   });
   console.log(result);

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { OnlineExperimentationContext } from "../../api/onlineExperimentationContext.js";
-import { OnlineExperimentWorkspace } from "../../models/models.js";
+import { OnlineExperimentWorkspace, OnlineExperimentWorkspacePatch } from "../../models/models.js";
 import {
   OnlineExperimentWorkspacesListBySubscriptionOptionalParams,
   OnlineExperimentWorkspacesListByResourceGroupOptionalParams,
@@ -48,7 +48,7 @@ export interface OnlineExperimentWorkspacesOperations {
   update: (
     resourceGroupName: string,
     workspaceName: string,
-    properties: OnlineExperimentWorkspace,
+    properties: OnlineExperimentWorkspacePatch,
     options?: OnlineExperimentWorkspacesUpdateOptionalParams,
   ) => PollerLike<OperationState<OnlineExperimentWorkspace>, OnlineExperimentWorkspace>;
   /** Create an experiment workspace, or update an existing workspace */
@@ -82,7 +82,7 @@ function _getOnlineExperimentWorkspaces(context: OnlineExperimentationContext) {
     update: (
       resourceGroupName: string,
       workspaceName: string,
-      properties: OnlineExperimentWorkspace,
+      properties: OnlineExperimentWorkspacePatch,
       options?: OnlineExperimentWorkspacesUpdateOptionalParams,
     ) => update(context, resourceGroupName, workspaceName, properties, options),
     createOrUpdate: (

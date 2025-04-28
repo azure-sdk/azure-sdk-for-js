@@ -42,6 +42,7 @@ export {
   SystemData,
   KnownCreatedByType,
   CreatedByType,
+  OnlineExperimentWorkspacePatch,
   KnownVersions,
 } from "./models/index.js";
 export { OnlineExperimentationClientOptionalParams } from "./api/index.js";
