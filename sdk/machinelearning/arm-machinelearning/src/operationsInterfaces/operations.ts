@@ -13,10 +13,8 @@ import { Operation, OperationsListOptionalParams } from "../models/index.js";
 /** Interface representing a Operations. */
 export interface Operations {
   /**
-   * Lists all of the available Azure Machine Learning Workspaces REST API operations.
+   * Lists all of the available Azure Machine Learning Workspaces REST API operations
    * @param options The options parameters.
    */
-  list(
-    options?: OperationsListOptionalParams,
-  ): PagedAsyncIterableIterator<Operation>;
+  list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }

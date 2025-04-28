@@ -99,10 +99,7 @@ export interface BatchDeployments {
     body: PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties,
     options?: BatchDeploymentsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<BatchDeploymentsUpdateResponse>,
-      BatchDeploymentsUpdateResponse
-    >
+    SimplePollerLike<OperationState<BatchDeploymentsUpdateResponse>, BatchDeploymentsUpdateResponse>
   >;
   /**
    * Update a batch inference deployment (asynchronous).

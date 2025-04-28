@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   FeaturestoreEntityContainer,
@@ -34,9 +30,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing FeaturestoreEntityContainers operations. */
-export class FeaturestoreEntityContainersImpl
-  implements FeaturestoreEntityContainers
-{
+export class FeaturestoreEntityContainersImpl implements FeaturestoreEntityContainers {
   private readonly client: AzureMachineLearningServicesManagementClient;
 
   /**
@@ -70,12 +64,7 @@ export class FeaturestoreEntityContainersImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          workspaceName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, workspaceName, options, settings);
       },
     };
   }
@@ -96,12 +85,7 @@ export class FeaturestoreEntityContainersImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        workspaceName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, workspaceName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -114,11 +98,7 @@ export class FeaturestoreEntityContainersImpl
     workspaceName: string,
     options?: FeaturestoreEntityContainersListOptionalParams,
   ): AsyncIterableIterator<FeaturestoreEntityContainer> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      workspaceName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, workspaceName, options)) {
       yield* page;
     }
   }
@@ -163,8 +143,7 @@ export class FeaturestoreEntityContainersImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -218,12 +197,7 @@ export class FeaturestoreEntityContainersImpl
     name: string,
     options?: FeaturestoreEntityContainersDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      workspaceName,
-      name,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, workspaceName, name, options);
     return poller.pollUntilDone();
   }
 
@@ -276,8 +250,7 @@ export class FeaturestoreEntityContainersImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -490,9 +463,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,
