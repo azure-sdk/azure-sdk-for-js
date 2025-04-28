@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import type { PolicyDefinitions } from "../operationsInterfaces/index.js";
+import { PolicyDefinitions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import type { PolicyClient } from "../policyClient.js";
-import type {
+import { PolicyClient } from "../policyClient.js";
+import {
   PolicyDefinition,
   PolicyDefinitionsListNextOptionalParams,
   PolicyDefinitionsListOptionalParams,
@@ -461,13 +461,13 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicyDefinition,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.policyDefinitionName],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -478,7 +478,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -494,7 +494,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicyDefinition,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -510,7 +510,7 @@ const getBuiltInOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicyDefinition,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -526,13 +526,13 @@ const createOrUpdateAtManagementGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicyDefinition,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.policyDefinitionName, Parameters.managementGroupId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  urlParameters: [Parameters.$host, Parameters.managementGroupId, Parameters.policyDefinitionName],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -543,11 +543,11 @@ const deleteAtManagementGroupOperationSpec: coreClient.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.policyDefinitionName, Parameters.managementGroupId],
+  urlParameters: [Parameters.$host, Parameters.managementGroupId, Parameters.policyDefinitionName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -559,11 +559,11 @@ const getAtManagementGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicyDefinition,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.policyDefinitionName, Parameters.managementGroupId],
+  urlParameters: [Parameters.$host, Parameters.managementGroupId, Parameters.policyDefinitionName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -575,7 +575,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicyDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
@@ -591,7 +591,7 @@ const listBuiltInOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicyDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
@@ -607,7 +607,7 @@ const listByManagementGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicyDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
@@ -623,7 +623,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicyDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
@@ -638,7 +638,7 @@ const listBuiltInNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicyDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
@@ -653,7 +653,7 @@ const listByManagementGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PolicyDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [Parameters.$host, Parameters.managementGroupId, Parameters.nextLink],

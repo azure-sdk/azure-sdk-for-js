@@ -216,7 +216,7 @@ export enum KnownSubscriptionFeatureRegistrationState {
   /** Unregistering */
   Unregistering = "Unregistering",
   /** Unregistered */
-  Unregistered = "Unregistered"
+  Unregistered = "Unregistered",
 }
 
 /**
@@ -241,7 +241,7 @@ export enum KnownSubscriptionFeatureRegistrationApprovalType {
   /** ApprovalRequired */
   ApprovalRequired = "ApprovalRequired",
   /** AutoApproval */
-  AutoApproval = "AutoApproval"
+  AutoApproval = "AutoApproval",
 }
 
 /**
@@ -256,64 +256,55 @@ export enum KnownSubscriptionFeatureRegistrationApprovalType {
 export type SubscriptionFeatureRegistrationApprovalType = string;
 
 /** Optional parameters. */
-export interface ListOperationsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ListOperationsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOperations operation. */
 export type ListOperationsResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface ListOperationsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ListOperationsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOperationsNext operation. */
 export type ListOperationsNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface FeaturesListAllOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FeaturesListAllOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAll operation. */
 export type FeaturesListAllResponse = FeatureOperationsListResult;
 
 /** Optional parameters. */
-export interface FeaturesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FeaturesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type FeaturesListResponse = FeatureOperationsListResult;
 
 /** Optional parameters. */
-export interface FeaturesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FeaturesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type FeaturesGetResponse = FeatureResult;
 
 /** Optional parameters. */
-export interface FeaturesRegisterOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FeaturesRegisterOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the register operation. */
 export type FeaturesRegisterResponse = FeatureResult;
 
 /** Optional parameters. */
-export interface FeaturesUnregisterOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FeaturesUnregisterOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the unregister operation. */
 export type FeaturesUnregisterResponse = FeatureResult;
 
 /** Optional parameters. */
-export interface FeaturesListAllNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FeaturesListAllNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllNext operation. */
 export type FeaturesListAllNextResponse = FeatureOperationsListResult;
 
 /** Optional parameters. */
-export interface FeaturesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FeaturesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type FeaturesListNextResponse = FeatureOperationsListResult;
@@ -333,7 +324,8 @@ export interface SubscriptionFeatureRegistrationsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type SubscriptionFeatureRegistrationsCreateOrUpdateResponse = SubscriptionFeatureRegistration;
+export type SubscriptionFeatureRegistrationsCreateOrUpdateResponse =
+  SubscriptionFeatureRegistration;
 
 /** Optional parameters. */
 export interface SubscriptionFeatureRegistrationsDeleteOptionalParams
@@ -344,32 +336,35 @@ export interface SubscriptionFeatureRegistrationsListBySubscriptionOptionalParam
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type SubscriptionFeatureRegistrationsListBySubscriptionResponse = SubscriptionFeatureRegistrationList;
+export type SubscriptionFeatureRegistrationsListBySubscriptionResponse =
+  SubscriptionFeatureRegistrationList;
 
 /** Optional parameters. */
 export interface SubscriptionFeatureRegistrationsListAllBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllBySubscription operation. */
-export type SubscriptionFeatureRegistrationsListAllBySubscriptionResponse = SubscriptionFeatureRegistrationList;
+export type SubscriptionFeatureRegistrationsListAllBySubscriptionResponse =
+  SubscriptionFeatureRegistrationList;
 
 /** Optional parameters. */
 export interface SubscriptionFeatureRegistrationsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type SubscriptionFeatureRegistrationsListBySubscriptionNextResponse = SubscriptionFeatureRegistrationList;
+export type SubscriptionFeatureRegistrationsListBySubscriptionNextResponse =
+  SubscriptionFeatureRegistrationList;
 
 /** Optional parameters. */
 export interface SubscriptionFeatureRegistrationsListAllBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllBySubscriptionNext operation. */
-export type SubscriptionFeatureRegistrationsListAllBySubscriptionNextResponse = SubscriptionFeatureRegistrationList;
+export type SubscriptionFeatureRegistrationsListAllBySubscriptionNextResponse =
+  SubscriptionFeatureRegistrationList;
 
 /** Optional parameters. */
-export interface FeatureClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface FeatureClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */
