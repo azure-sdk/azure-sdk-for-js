@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   EnvironmentVersion,
@@ -60,12 +56,7 @@ export class EnvironmentVersionsImpl implements EnvironmentVersions {
     name: string,
     options?: EnvironmentVersionsListOptionalParams,
   ): PagedAsyncIterableIterator<EnvironmentVersion> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      workspaceName,
-      name,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, workspaceName, name, options);
     return {
       next() {
         return iter.next();
@@ -77,13 +68,7 @@ export class EnvironmentVersionsImpl implements EnvironmentVersions {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          workspaceName,
-          name,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, workspaceName, name, options, settings);
       },
     };
   }
@@ -98,12 +83,7 @@ export class EnvironmentVersionsImpl implements EnvironmentVersions {
     let result: EnvironmentVersionsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        workspaceName,
-        name,
-        options,
-      );
+      result = await this._list(resourceGroupName, workspaceName, name, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -130,12 +110,7 @@ export class EnvironmentVersionsImpl implements EnvironmentVersions {
     name: string,
     options?: EnvironmentVersionsListOptionalParams,
   ): AsyncIterableIterator<EnvironmentVersion> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      workspaceName,
-      name,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, workspaceName, name, options)) {
       yield* page;
     }
   }
@@ -251,8 +226,7 @@ export class EnvironmentVersionsImpl implements EnvironmentVersions {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -432,7 +406,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body11,
+  requestBody: Parameters.body9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -458,7 +432,7 @@ const publishOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body18,
+  requestBody: Parameters.body16,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -486,9 +460,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink,
     Parameters.name,
   ],
   headerParameters: [Parameters.accept],

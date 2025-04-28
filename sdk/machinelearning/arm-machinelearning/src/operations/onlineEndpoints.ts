@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   OnlineEndpoint,
@@ -77,12 +73,7 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          workspaceName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, workspaceName, options, settings);
       },
     };
   }
@@ -103,12 +94,7 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        workspaceName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, workspaceName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -121,11 +107,7 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
     workspaceName: string,
     options?: OnlineEndpointsListOptionalParams,
   ): AsyncIterableIterator<OnlineEndpoint> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      workspaceName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, workspaceName, options)) {
       yield* page;
     }
   }
@@ -170,8 +152,7 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -225,12 +206,7 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
     endpointName: string,
     options?: OnlineEndpointsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      workspaceName,
-      endpointName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, workspaceName, endpointName, options);
     return poller.pollUntilDone();
   }
 
@@ -268,10 +244,7 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
     body: PartialMinimalTrackedResourceWithIdentity,
     options?: OnlineEndpointsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<OnlineEndpointsUpdateResponse>,
-      OnlineEndpointsUpdateResponse
-    >
+    SimplePollerLike<OperationState<OnlineEndpointsUpdateResponse>, OnlineEndpointsUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -283,8 +256,7 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -382,8 +354,7 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -496,8 +467,7 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -619,7 +589,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.apiVersion,
     Parameters.skip,
     Parameters.tags1,
-    Parameters.properties1,
+    Parameters.properties,
     Parameters.count,
     Parameters.name2,
     Parameters.computeType,
@@ -699,7 +669,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body14,
+  requestBody: Parameters.body12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -732,7 +702,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body27,
+  requestBody: Parameters.body25,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -779,7 +749,7 @@ const regenerateKeysOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body28,
+  requestBody: Parameters.body26,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -828,9 +798,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

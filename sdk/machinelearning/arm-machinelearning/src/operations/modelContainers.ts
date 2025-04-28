@@ -62,12 +62,7 @@ export class ModelContainersImpl implements ModelContainers {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          workspaceName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, workspaceName, options, settings);
       },
     };
   }
@@ -88,12 +83,7 @@ export class ModelContainersImpl implements ModelContainers {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        workspaceName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, workspaceName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -106,11 +96,7 @@ export class ModelContainersImpl implements ModelContainers {
     workspaceName: string,
     options?: ModelContainersListOptionalParams,
   ): AsyncIterableIterator<ModelContainer> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      workspaceName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, workspaceName, options)) {
       yield* page;
     }
   }
@@ -296,7 +282,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body12,
+  requestBody: Parameters.body10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -323,9 +309,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

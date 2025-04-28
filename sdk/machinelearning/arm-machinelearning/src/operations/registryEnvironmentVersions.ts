@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   EnvironmentVersion,
@@ -34,9 +30,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing RegistryEnvironmentVersions operations. */
-export class RegistryEnvironmentVersionsImpl
-  implements RegistryEnvironmentVersions
-{
+export class RegistryEnvironmentVersionsImpl implements RegistryEnvironmentVersions {
   private readonly client: AzureMachineLearningServicesManagementClient;
 
   /**
@@ -60,12 +54,7 @@ export class RegistryEnvironmentVersionsImpl
     environmentName: string,
     options?: RegistryEnvironmentVersionsListOptionalParams,
   ): PagedAsyncIterableIterator<EnvironmentVersion> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      registryName,
-      environmentName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, registryName, environmentName, options);
     return {
       next() {
         return iter.next();
@@ -98,12 +87,7 @@ export class RegistryEnvironmentVersionsImpl
     let result: RegistryEnvironmentVersionsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        registryName,
-        environmentName,
-        options,
-      );
+      result = await this._list(resourceGroupName, registryName, environmentName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -184,8 +168,7 @@ export class RegistryEnvironmentVersionsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -310,8 +293,7 @@ export class RegistryEnvironmentVersionsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -509,7 +491,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body11,
+  requestBody: Parameters.body9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -537,8 +519,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.nextLink,
+    Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.environmentName,
   ],

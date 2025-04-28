@@ -8,24 +8,13 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest,
-} from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  OperationsImpl,
-  WorkspacesImpl,
   UsagesImpl,
   VirtualMachineSizesImpl,
   QuotasImpl,
   ComputeOperationsImpl,
-  PrivateEndpointConnectionsImpl,
-  PrivateLinkResourcesImpl,
-  WorkspaceConnectionsImpl,
-  ManagedNetworkSettingsRuleImpl,
-  ManagedNetworkProvisionsImpl,
   RegistryCodeContainersImpl,
   RegistryCodeVersionsImpl,
   RegistryComponentContainersImpl,
@@ -63,19 +52,19 @@ import {
   ServerlessEndpointsImpl,
   RegistriesImpl,
   WorkspaceFeaturesImpl,
+  OperationsImpl,
+  WorkspacesImpl,
+  PrivateEndpointConnectionsImpl,
+  PrivateLinkResourcesImpl,
+  WorkspaceConnectionsImpl,
+  ManagedNetworkSettingsRuleImpl,
+  ManagedNetworkProvisionsImpl,
 } from "./operations/index.js";
 import {
-  Operations,
-  Workspaces,
   Usages,
   VirtualMachineSizes,
   Quotas,
   ComputeOperations,
-  PrivateEndpointConnections,
-  PrivateLinkResources,
-  WorkspaceConnections,
-  ManagedNetworkSettingsRule,
-  ManagedNetworkProvisions,
   RegistryCodeContainers,
   RegistryCodeVersions,
   RegistryComponentContainers,
@@ -113,6 +102,13 @@ import {
   ServerlessEndpoints,
   Registries,
   WorkspaceFeatures,
+  Operations,
+  Workspaces,
+  PrivateEndpointConnections,
+  PrivateLinkResources,
+  WorkspaceConnections,
+  ManagedNetworkSettingsRule,
+  ManagedNetworkProvisions,
 } from "./operationsInterfaces/index.js";
 import { AzureMachineLearningServicesManagementClientOptionalParams } from "./models/index.js";
 
@@ -143,13 +139,12 @@ export class AzureMachineLearningServicesManagementClient extends coreClient.Ser
     if (!options) {
       options = {};
     }
-    const defaults: AzureMachineLearningServicesManagementClientOptionalParams =
-      {
-        requestContentType: "application/json; charset=utf-8",
-        credential: credentials,
-      };
+    const defaults: AzureMachineLearningServicesManagementClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials,
+    };
 
-    const packageDetails = `azsdk-js-arm-machinelearning/3.0.0`;
+    const packageDetails = `azsdk-js-arm-machinelearning/4.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -161,8 +156,7 @@ export class AzureMachineLearningServicesManagementClient extends coreClient.Ser
       userAgentOptions: {
         userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
@@ -172,8 +166,7 @@ export class AzureMachineLearningServicesManagementClient extends coreClient.Ser
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -189,11 +182,9 @@ export class AzureMachineLearningServicesManagementClient extends coreClient.Ser
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
@@ -203,33 +194,20 @@ export class AzureMachineLearningServicesManagementClient extends coreClient.Ser
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-04-01";
-    this.operations = new OperationsImpl(this);
-    this.workspaces = new WorkspacesImpl(this);
+    this.apiVersion = options.apiVersion || "2025-04-01";
     this.usages = new UsagesImpl(this);
     this.virtualMachineSizes = new VirtualMachineSizesImpl(this);
     this.quotas = new QuotasImpl(this);
     this.computeOperations = new ComputeOperationsImpl(this);
-    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
-    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
-    this.workspaceConnections = new WorkspaceConnectionsImpl(this);
-    this.managedNetworkSettingsRule = new ManagedNetworkSettingsRuleImpl(this);
-    this.managedNetworkProvisions = new ManagedNetworkProvisionsImpl(this);
     this.registryCodeContainers = new RegistryCodeContainersImpl(this);
     this.registryCodeVersions = new RegistryCodeVersionsImpl(this);
-    this.registryComponentContainers = new RegistryComponentContainersImpl(
-      this,
-    );
+    this.registryComponentContainers = new RegistryComponentContainersImpl(this);
     this.registryComponentVersions = new RegistryComponentVersionsImpl(this);
     this.registryDataContainers = new RegistryDataContainersImpl(this);
     this.registryDataVersions = new RegistryDataVersionsImpl(this);
     this.registryDataReferences = new RegistryDataReferencesImpl(this);
-    this.registryEnvironmentContainers = new RegistryEnvironmentContainersImpl(
-      this,
-    );
-    this.registryEnvironmentVersions = new RegistryEnvironmentVersionsImpl(
-      this,
-    );
+    this.registryEnvironmentContainers = new RegistryEnvironmentContainersImpl(this);
+    this.registryEnvironmentVersions = new RegistryEnvironmentVersionsImpl(this);
     this.registryModelContainers = new RegistryModelContainersImpl(this);
     this.registryModelVersions = new RegistryModelVersionsImpl(this);
     this.batchEndpoints = new BatchEndpointsImpl(this);
@@ -246,9 +224,7 @@ export class AzureMachineLearningServicesManagementClient extends coreClient.Ser
     this.featuresetContainers = new FeaturesetContainersImpl(this);
     this.features = new FeaturesImpl(this);
     this.featuresetVersions = new FeaturesetVersionsImpl(this);
-    this.featurestoreEntityContainers = new FeaturestoreEntityContainersImpl(
-      this,
-    );
+    this.featurestoreEntityContainers = new FeaturestoreEntityContainersImpl(this);
     this.featurestoreEntityVersions = new FeaturestoreEntityVersionsImpl(this);
     this.jobs = new JobsImpl(this);
     this.marketplaceSubscriptions = new MarketplaceSubscriptionsImpl(this);
@@ -260,6 +236,13 @@ export class AzureMachineLearningServicesManagementClient extends coreClient.Ser
     this.serverlessEndpoints = new ServerlessEndpointsImpl(this);
     this.registries = new RegistriesImpl(this);
     this.workspaceFeatures = new WorkspaceFeaturesImpl(this);
+    this.operations = new OperationsImpl(this);
+    this.workspaces = new WorkspacesImpl(this);
+    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
+    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.workspaceConnections = new WorkspaceConnectionsImpl(this);
+    this.managedNetworkSettingsRule = new ManagedNetworkSettingsRuleImpl(this);
+    this.managedNetworkProvisions = new ManagedNetworkProvisionsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -270,10 +253,7 @@ export class AzureMachineLearningServicesManagementClient extends coreClient.Ser
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest,
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
@@ -291,17 +271,10 @@ export class AzureMachineLearningServicesManagementClient extends coreClient.Ser
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  operations: Operations;
-  workspaces: Workspaces;
   usages: Usages;
   virtualMachineSizes: VirtualMachineSizes;
   quotas: Quotas;
   computeOperations: ComputeOperations;
-  privateEndpointConnections: PrivateEndpointConnections;
-  privateLinkResources: PrivateLinkResources;
-  workspaceConnections: WorkspaceConnections;
-  managedNetworkSettingsRule: ManagedNetworkSettingsRule;
-  managedNetworkProvisions: ManagedNetworkProvisions;
   registryCodeContainers: RegistryCodeContainers;
   registryCodeVersions: RegistryCodeVersions;
   registryComponentContainers: RegistryComponentContainers;
@@ -339,4 +312,11 @@ export class AzureMachineLearningServicesManagementClient extends coreClient.Ser
   serverlessEndpoints: ServerlessEndpoints;
   registries: Registries;
   workspaceFeatures: WorkspaceFeatures;
+  operations: Operations;
+  workspaces: Workspaces;
+  privateEndpointConnections: PrivateEndpointConnections;
+  privateLinkResources: PrivateLinkResources;
+  workspaceConnections: WorkspaceConnections;
+  managedNetworkSettingsRule: ManagedNetworkSettingsRule;
+  managedNetworkProvisions: ManagedNetworkProvisions;
 }

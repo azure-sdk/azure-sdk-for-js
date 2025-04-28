@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ModelVersion,
@@ -61,12 +57,7 @@ export class RegistryModelVersionsImpl implements RegistryModelVersions {
     modelName: string,
     options?: RegistryModelVersionsListOptionalParams,
   ): PagedAsyncIterableIterator<ModelVersion> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      registryName,
-      modelName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, registryName, modelName, options);
     return {
       next() {
         return iter.next();
@@ -78,13 +69,7 @@ export class RegistryModelVersionsImpl implements RegistryModelVersions {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          registryName,
-          modelName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, registryName, modelName, options, settings);
       },
     };
   }
@@ -99,12 +84,7 @@ export class RegistryModelVersionsImpl implements RegistryModelVersions {
     let result: RegistryModelVersionsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        registryName,
-        modelName,
-        options,
-      );
+      result = await this._list(resourceGroupName, registryName, modelName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -185,8 +165,7 @@ export class RegistryModelVersionsImpl implements RegistryModelVersions {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -305,8 +284,7 @@ export class RegistryModelVersionsImpl implements RegistryModelVersions {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -452,7 +430,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.version1,
     Parameters.description,
     Parameters.tags1,
-    Parameters.properties1,
+    Parameters.properties,
   ],
   urlParameters: [
     Parameters.$host,
@@ -531,7 +509,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body13,
+  requestBody: Parameters.body11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -556,7 +534,7 @@ const createOrGetStartPendingUploadOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body4,
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -584,8 +562,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.nextLink,
+    Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.modelName,
   ],

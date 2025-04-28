@@ -106,10 +106,7 @@ export class QuotasImpl implements Quotas {
     parameters: QuotaUpdateParameters,
     options?: QuotasUpdateOptionalParams,
   ): Promise<QuotasUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { location, parameters, options },
-      updateOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, parameters, options }, updateOperationSpec);
   }
 
   /**
@@ -117,14 +114,8 @@ export class QuotasImpl implements Quotas {
    * @param location The location for which resource usage is queried.
    * @param options The options parameters.
    */
-  private _list(
-    location: string,
-    options?: QuotasListOptionalParams,
-  ): Promise<QuotasListResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listOperationSpec,
-    );
+  private _list(location: string, options?: QuotasListOptionalParams): Promise<QuotasListResponse> {
+    return this.client.sendOperationRequest({ location, options }, listOperationSpec);
   }
 
   /**
@@ -138,10 +129,7 @@ export class QuotasImpl implements Quotas {
     nextLink: string,
     options?: QuotasListNextOptionalParams,
   ): Promise<QuotasListNextResponse> {
-    return this.client.sendOperationRequest(
-      { location, nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -158,13 +146,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters3,
+  requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -181,11 +165,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -203,8 +183,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink,
     Parameters.location,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,
