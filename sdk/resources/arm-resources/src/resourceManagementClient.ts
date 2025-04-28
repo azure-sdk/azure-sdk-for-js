@@ -8,31 +8,23 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest,
-} from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
-  DeploymentsImpl,
   ProvidersImpl,
   ProviderResourceTypesImpl,
   ResourcesImpl,
   ResourceGroupsImpl,
   TagsOperationsImpl,
-  DeploymentOperationsImpl,
 } from "./operations/index.js";
 import {
   Operations,
-  Deployments,
   Providers,
   ProviderResourceTypes,
   Resources,
   ResourceGroups,
   TagsOperations,
-  DeploymentOperations,
 } from "./operationsInterfaces/index.js";
 import { ResourceManagementClientOptionalParams } from "./models/index.js";
 
@@ -82,7 +74,7 @@ export class ResourceManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-resources/6.0.1`;
+    const packageDetails = `azsdk-js-arm-resources/7.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -94,8 +86,7 @@ export class ResourceManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
@@ -105,8 +96,7 @@ export class ResourceManagementClient extends coreClient.ServiceClient {
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -122,11 +112,9 @@ export class ResourceManagementClient extends coreClient.ServiceClient {
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
@@ -136,15 +124,13 @@ export class ResourceManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-11-01";
+    this.apiVersion = options.apiVersion || "2025-04-01";
     this.operations = new OperationsImpl(this);
-    this.deployments = new DeploymentsImpl(this);
     this.providers = new ProvidersImpl(this);
     this.providerResourceTypes = new ProviderResourceTypesImpl(this);
     this.resources = new ResourcesImpl(this);
     this.resourceGroups = new ResourceGroupsImpl(this);
     this.tagsOperations = new TagsOperationsImpl(this);
-    this.deploymentOperations = new DeploymentOperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -155,10 +141,7 @@ export class ResourceManagementClient extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest,
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
@@ -177,11 +160,9 @@ export class ResourceManagementClient extends coreClient.ServiceClient {
   }
 
   operations: Operations;
-  deployments: Deployments;
   providers: Providers;
   providerResourceTypes: ProviderResourceTypes;
   resources: Resources;
   resourceGroups: ResourceGroups;
   tagsOperations: TagsOperations;
-  deploymentOperations: DeploymentOperations;
 }
