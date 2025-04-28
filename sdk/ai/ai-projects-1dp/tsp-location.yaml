@@ -1,0 +1,4 @@
+directory: specification/ai/Azure.AI.Projects
+commit: c693358f3d8838aa92a36dd3278d8a83cb3df348
+repo: /mnt/vss/_work/1/s/azure-rest-api-specs
+additionalDirectories: 
