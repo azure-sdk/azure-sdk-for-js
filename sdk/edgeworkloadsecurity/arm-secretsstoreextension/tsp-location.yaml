@@ -1,0 +1,4 @@
+directory: specification/ews/SecretSyncController.Management
+commit: 845a51816c81eb58df4ca74b47d8977febf1f8c7
+repo: ../azure-rest-api-specs
+additionalDirectories: 
