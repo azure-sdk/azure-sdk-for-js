@@ -6,40 +6,38 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { Capacities } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { PowerBIDedicated } from "../powerBIDedicated.js";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
-  DedicatedCapacity,
-  CapacitiesListByResourceGroupOptionalParams,
-  CapacitiesListByResourceGroupResponse,
   CapacitiesListOptionalParams,
   CapacitiesListResponse,
+  CheckCapacityNameAvailabilityParameters,
+  CapacitiesCheckNameAvailabilityOptionalParams,
+  CapacitiesCheckNameAvailabilityResponse,
+  CapacitiesListSkusOptionalParams,
+  CapacitiesListSkusResponse,
+  CapacitiesListByResourceGroupOptionalParams,
+  CapacitiesListByResourceGroupResponse,
   CapacitiesGetDetailsOptionalParams,
   CapacitiesGetDetailsResponse,
+  DedicatedCapacity,
   CapacitiesCreateOptionalParams,
   CapacitiesCreateResponse,
-  CapacitiesDeleteOptionalParams,
   DedicatedCapacityUpdateParameters,
   CapacitiesUpdateOptionalParams,
   CapacitiesUpdateResponse,
-  CapacitiesSuspendOptionalParams,
+  CapacitiesDeleteOptionalParams,
   CapacitiesResumeOptionalParams,
-  CapacitiesListSkusOptionalParams,
-  CapacitiesListSkusResponse,
   CapacitiesListSkusForCapacityOptionalParams,
   CapacitiesListSkusForCapacityResponse,
-  CheckCapacityNameAvailabilityParameters,
-  CapacitiesCheckNameAvailabilityOptionalParams,
-  CapacitiesCheckNameAvailabilityResponse
+  CapacitiesSuspendOptionalParams,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Class containing Capacities operations. */
 export class CapacitiesImpl implements Capacities {
   private readonly client: PowerBIDedicated;
@@ -53,103 +51,56 @@ export class CapacitiesImpl implements Capacities {
   }
 
   /**
-   * Gets all the Dedicated capacities for the given resource group.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param options The options parameters.
-   */
-  public listByResourceGroup(
-    resourceGroupName: string,
-    options?: CapacitiesListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<DedicatedCapacity> {
-    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listByResourceGroupPagingPage(
-    resourceGroupName: string,
-    options?: CapacitiesListByResourceGroupOptionalParams,
-    _settings?: PageSettings
-  ): AsyncIterableIterator<DedicatedCapacity[]> {
-    let result: CapacitiesListByResourceGroupResponse;
-    result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-  }
-
-  private async *listByResourceGroupPagingAll(
-    resourceGroupName: string,
-    options?: CapacitiesListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<DedicatedCapacity> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
    * Lists all the Dedicated capacities for the given subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: CapacitiesListOptionalParams
-  ): PagedAsyncIterableIterator<DedicatedCapacity> {
-    const iter = this.listPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
-      }
-    };
+  list(options?: CapacitiesListOptionalParams): Promise<CapacitiesListResponse> {
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
-  private async *listPagingPage(
-    options?: CapacitiesListOptionalParams,
-    _settings?: PageSettings
-  ): AsyncIterableIterator<DedicatedCapacity[]> {
-    let result: CapacitiesListResponse;
-    result = await this._list(options);
-    yield result.value || [];
+  /**
+   * Check the name availability in the target location.
+   * @param location The name of Azure region.
+   * @param capacityParameters The request body
+   * @param options The options parameters.
+   */
+  checkNameAvailability(
+    location: string,
+    capacityParameters: CheckCapacityNameAvailabilityParameters,
+    options?: CapacitiesCheckNameAvailabilityOptionalParams,
+  ): Promise<CapacitiesCheckNameAvailabilityResponse> {
+    return this.client.sendOperationRequest(
+      { location, capacityParameters, options },
+      checkNameAvailabilityOperationSpec,
+    );
   }
 
-  private async *listPagingAll(
-    options?: CapacitiesListOptionalParams
-  ): AsyncIterableIterator<DedicatedCapacity> {
-    for await (const page of this.listPagingPage(options)) {
-      yield* page;
-    }
+  /**
+   * Lists eligible SKUs for PowerBI Dedicated resource provider.
+   * @param options The options parameters.
+   */
+  listSkus(options?: CapacitiesListSkusOptionalParams): Promise<CapacitiesListSkusResponse> {
+    return this.client.sendOperationRequest({ options }, listSkusOperationSpec);
+  }
+
+  /**
+   * Gets all the Dedicated capacities for the given resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: CapacitiesListByResourceGroupOptionalParams,
+  ): Promise<CapacitiesListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
+    );
   }
 
   /**
    * Gets details about the specified dedicated capacity.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param dedicatedCapacityName The name of the dedicated capacity. It must be a minimum of 3
    *                              characters, and a maximum of 63.
    * @param options The options parameters.
@@ -157,19 +108,18 @@ export class CapacitiesImpl implements Capacities {
   getDetails(
     resourceGroupName: string,
     dedicatedCapacityName: string,
-    options?: CapacitiesGetDetailsOptionalParams
+    options?: CapacitiesGetDetailsOptionalParams,
   ): Promise<CapacitiesGetDetailsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dedicatedCapacityName, options },
-      getDetailsOperationSpec
+      getDetailsOperationSpec,
     );
   }
 
   /**
    * Provisions the specified Dedicated capacity based on the configuration specified in the request.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param dedicatedCapacityName The name of the Dedicated capacity. It must be a minimum of 3
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dedicatedCapacityName The name of the dedicated capacity. It must be a minimum of 3
    *                              characters, and a maximum of 63.
    * @param capacityParameters Contains the information used to provision the Dedicated capacity.
    * @param options The options parameters.
@@ -178,30 +128,23 @@ export class CapacitiesImpl implements Capacities {
     resourceGroupName: string,
     dedicatedCapacityName: string,
     capacityParameters: DedicatedCapacity,
-    options?: CapacitiesCreateOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<CapacitiesCreateResponse>,
-      CapacitiesCreateResponse
-    >
-  > {
+    options?: CapacitiesCreateOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<CapacitiesCreateResponse>, CapacitiesCreateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CapacitiesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -210,8 +153,8 @@ export class CapacitiesImpl implements Capacities {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -219,19 +162,28 @@ export class CapacitiesImpl implements Capacities {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, dedicatedCapacityName, capacityParameters, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        dedicatedCapacityName,
+        capacityParameters,
+        options,
+      },
+      spec: createOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      CapacitiesCreateResponse,
+      OperationState<CapacitiesCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -239,9 +191,8 @@ export class CapacitiesImpl implements Capacities {
 
   /**
    * Provisions the specified Dedicated capacity based on the configuration specified in the request.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param dedicatedCapacityName The name of the Dedicated capacity. It must be a minimum of 3
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dedicatedCapacityName The name of the dedicated capacity. It must be a minimum of 3
    *                              characters, and a maximum of 63.
    * @param capacityParameters Contains the information used to provision the Dedicated capacity.
    * @param options The options parameters.
@@ -250,109 +201,22 @@ export class CapacitiesImpl implements Capacities {
     resourceGroupName: string,
     dedicatedCapacityName: string,
     capacityParameters: DedicatedCapacity,
-    options?: CapacitiesCreateOptionalParams
+    options?: CapacitiesCreateOptionalParams,
   ): Promise<CapacitiesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       dedicatedCapacityName,
       capacityParameters,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Deletes the specified Dedicated capacity.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param dedicatedCapacityName The name of the Dedicated capacity. It must be at least 3 characters in
-   *                              length, and no more than 63.
-   * @param options The options parameters.
-   */
-  async beginDelete(
-    resourceGroupName: string,
-    dedicatedCapacityName: string,
-    options?: CapacitiesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, dedicatedCapacityName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Deletes the specified Dedicated capacity.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param dedicatedCapacityName The name of the Dedicated capacity. It must be at least 3 characters in
-   *                              length, and no more than 63.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    resourceGroupName: string,
-    dedicatedCapacityName: string,
-    options?: CapacitiesDeleteOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      dedicatedCapacityName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * Updates the current state of the specified Dedicated capacity.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param dedicatedCapacityName The name of the Dedicated capacity. It must be at least 3 characters in
-   *                              length, and no more than 63.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dedicatedCapacityName The name of the dedicated capacity. It must be a minimum of 3
+   *                              characters, and a maximum of 63.
    * @param capacityUpdateParameters Request object that contains the updated information for the
    *                                 capacity.
    * @param options The options parameters.
@@ -361,30 +225,23 @@ export class CapacitiesImpl implements Capacities {
     resourceGroupName: string,
     dedicatedCapacityName: string,
     capacityUpdateParameters: DedicatedCapacityUpdateParameters,
-    options?: CapacitiesUpdateOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<CapacitiesUpdateResponse>,
-      CapacitiesUpdateResponse
-    >
-  > {
+    options?: CapacitiesUpdateOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<CapacitiesUpdateResponse>, CapacitiesUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CapacitiesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -393,8 +250,8 @@ export class CapacitiesImpl implements Capacities {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -402,24 +259,28 @@ export class CapacitiesImpl implements Capacities {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         dedicatedCapacityName,
         capacityUpdateParameters,
-        options
+        options,
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      CapacitiesUpdateResponse,
+      OperationState<CapacitiesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -427,10 +288,9 @@ export class CapacitiesImpl implements Capacities {
 
   /**
    * Updates the current state of the specified Dedicated capacity.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param dedicatedCapacityName The name of the Dedicated capacity. It must be at least 3 characters in
-   *                              length, and no more than 63.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dedicatedCapacityName The name of the dedicated capacity. It must be a minimum of 3
+   *                              characters, and a maximum of 63.
    * @param capacityUpdateParameters Request object that contains the updated information for the
    *                                 capacity.
    * @param options The options parameters.
@@ -439,47 +299,44 @@ export class CapacitiesImpl implements Capacities {
     resourceGroupName: string,
     dedicatedCapacityName: string,
     capacityUpdateParameters: DedicatedCapacityUpdateParameters,
-    options?: CapacitiesUpdateOptionalParams
+    options?: CapacitiesUpdateOptionalParams,
   ): Promise<CapacitiesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       dedicatedCapacityName,
       capacityUpdateParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Suspends operation of the specified dedicated capacity instance.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param dedicatedCapacityName The name of the Dedicated capacity. It must be at least 3 characters in
-   *                              length, and no more than 63.
+   * Deletes the specified Dedicated capacity.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dedicatedCapacityName The name of the dedicated capacity. It must be a minimum of 3
+   *                              characters, and a maximum of 63.
    * @param options The options parameters.
    */
-  async beginSuspend(
+  async beginDelete(
     resourceGroupName: string,
     dedicatedCapacityName: string,
-    options?: CapacitiesSuspendOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: CapacitiesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -488,8 +345,8 @@ export class CapacitiesImpl implements Capacities {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -497,75 +354,68 @@ export class CapacitiesImpl implements Capacities {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, dedicatedCapacityName, options },
-      suspendOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, dedicatedCapacityName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Suspends operation of the specified dedicated capacity instance.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param dedicatedCapacityName The name of the Dedicated capacity. It must be at least 3 characters in
-   *                              length, and no more than 63.
+   * Deletes the specified Dedicated capacity.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dedicatedCapacityName The name of the dedicated capacity. It must be a minimum of 3
+   *                              characters, and a maximum of 63.
    * @param options The options parameters.
    */
-  async beginSuspendAndWait(
+  async beginDeleteAndWait(
     resourceGroupName: string,
     dedicatedCapacityName: string,
-    options?: CapacitiesSuspendOptionalParams
+    options?: CapacitiesDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginSuspend(
-      resourceGroupName,
-      dedicatedCapacityName,
-      options
-    );
+    const poller = await this.beginDelete(resourceGroupName, dedicatedCapacityName, options);
     return poller.pollUntilDone();
   }
 
   /**
    * Resumes operation of the specified Dedicated capacity instance.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param dedicatedCapacityName The name of the Dedicated capacity. It must be at least 3 characters in
-   *                              length, and no more than 63.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dedicatedCapacityName The name of the dedicated capacity. It must be a minimum of 3
+   *                              characters, and a maximum of 63.
    * @param options The options parameters.
    */
   async beginResume(
     resourceGroupName: string,
     dedicatedCapacityName: string,
-    options?: CapacitiesResumeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: CapacitiesResumeOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -574,8 +424,8 @@ export class CapacitiesImpl implements Capacities {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -583,19 +433,20 @@ export class CapacitiesImpl implements Capacities {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, dedicatedCapacityName, options },
-      resumeOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, dedicatedCapacityName, options },
+      spec: resumeOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -603,158 +454,273 @@ export class CapacitiesImpl implements Capacities {
 
   /**
    * Resumes operation of the specified Dedicated capacity instance.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param dedicatedCapacityName The name of the Dedicated capacity. It must be at least 3 characters in
-   *                              length, and no more than 63.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dedicatedCapacityName The name of the dedicated capacity. It must be a minimum of 3
+   *                              characters, and a maximum of 63.
    * @param options The options parameters.
    */
   async beginResumeAndWait(
     resourceGroupName: string,
     dedicatedCapacityName: string,
-    options?: CapacitiesResumeOptionalParams
+    options?: CapacitiesResumeOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginResume(
-      resourceGroupName,
-      dedicatedCapacityName,
-      options
-    );
+    const poller = await this.beginResume(resourceGroupName, dedicatedCapacityName, options);
     return poller.pollUntilDone();
   }
 
   /**
-   * Gets all the Dedicated capacities for the given resource group.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: CapacitiesListByResourceGroupOptionalParams
-  ): Promise<CapacitiesListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec
-    );
-  }
-
-  /**
-   * Lists all the Dedicated capacities for the given subscription.
-   * @param options The options parameters.
-   */
-  private _list(
-    options?: CapacitiesListOptionalParams
-  ): Promise<CapacitiesListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
-  }
-
-  /**
-   * Lists eligible SKUs for PowerBI Dedicated resource provider.
-   * @param options The options parameters.
-   */
-  listSkus(
-    options?: CapacitiesListSkusOptionalParams
-  ): Promise<CapacitiesListSkusResponse> {
-    return this.client.sendOperationRequest({ options }, listSkusOperationSpec);
-  }
-
-  /**
    * Lists eligible SKUs for a PowerBI Dedicated resource.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param dedicatedCapacityName The name of the Dedicated capacity. It must be at least 3 characters in
-   *                              length, and no more than 63.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dedicatedCapacityName The name of the dedicated capacity. It must be a minimum of 3
+   *                              characters, and a maximum of 63.
    * @param options The options parameters.
    */
   listSkusForCapacity(
     resourceGroupName: string,
     dedicatedCapacityName: string,
-    options?: CapacitiesListSkusForCapacityOptionalParams
+    options?: CapacitiesListSkusForCapacityOptionalParams,
   ): Promise<CapacitiesListSkusForCapacityResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dedicatedCapacityName, options },
-      listSkusForCapacityOperationSpec
+      listSkusForCapacityOperationSpec,
     );
   }
 
   /**
-   * Check the name availability in the target location.
-   * @param location The region name which the operation will lookup into.
-   * @param capacityParameters The name of the capacity.
+   * Suspends operation of the specified dedicated capacity instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dedicatedCapacityName The name of the dedicated capacity. It must be a minimum of 3
+   *                              characters, and a maximum of 63.
    * @param options The options parameters.
    */
-  checkNameAvailability(
-    location: string,
-    capacityParameters: CheckCapacityNameAvailabilityParameters,
-    options?: CapacitiesCheckNameAvailabilityOptionalParams
-  ): Promise<CapacitiesCheckNameAvailabilityResponse> {
-    return this.client.sendOperationRequest(
-      { location, capacityParameters, options },
-      checkNameAvailabilityOperationSpec
-    );
+  async beginSuspend(
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    options?: CapacitiesSuspendOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, dedicatedCapacityName, options },
+      spec: suspendOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Suspends operation of the specified dedicated capacity instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dedicatedCapacityName The name of the dedicated capacity. It must be a minimum of 3
+   *                              characters, and a maximum of 63.
+   * @param options The options parameters.
+   */
+  async beginSuspendAndWait(
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    options?: CapacitiesSuspendOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginSuspend(resourceGroupName, dedicatedCapacityName, options);
+    return poller.pollUntilDone();
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getDetailsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.PowerBIDedicated/capacities",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DedicatedCapacity
+      bodyMapper: Mappers.DedicatedCapacities,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.dedicatedCapacityName,
-    Parameters.subscriptionId
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}",
-  httpMethod: "PUT",
+const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.PowerBIDedicated/locations/{location}/checkNameAvailability",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DedicatedCapacity
-    },
-    201: {
-      bodyMapper: Mappers.DedicatedCapacity
-    },
-    202: {
-      bodyMapper: Mappers.DedicatedCapacity
-    },
-    204: {
-      bodyMapper: Mappers.DedicatedCapacity
+      bodyMapper: Mappers.CheckCapacityNameAvailabilityResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.capacityParameters,
   queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const listSkusOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.PowerBIDedicated/skus",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SkuEnumerationForNewResourceResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DedicatedCapacities,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getDetailsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DedicatedCapacity,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.dedicatedCapacityName,
-    Parameters.subscriptionId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DedicatedCapacity,
+    },
+    201: {
+      bodyMapper: Mappers.DedicatedCapacity,
+    },
+    202: {
+      bodyMapper: Mappers.DedicatedCapacity,
+    },
+    204: {
+      bodyMapper: Mappers.DedicatedCapacity,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.capacityParameters1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.dedicatedCapacityName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DedicatedCapacity,
+    },
+    201: {
+      bodyMapper: Mappers.DedicatedCapacity,
+    },
+    202: {
+      bodyMapper: Mappers.DedicatedCapacity,
+    },
+    204: {
+      bodyMapper: Mappers.DedicatedCapacity,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.capacityUpdateParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.dedicatedCapacityName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -762,195 +728,81 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.dedicatedCapacityName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DedicatedCapacity
+      bodyMapper: Mappers.ErrorResponse,
     },
-    201: {
-      bodyMapper: Mappers.DedicatedCapacity
-    },
-    202: {
-      bodyMapper: Mappers.DedicatedCapacity
-    },
-    204: {
-      bodyMapper: Mappers.DedicatedCapacity
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
-  requestBody: Parameters.capacityUpdateParameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.dedicatedCapacityName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const suspendOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}/suspend",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.dedicatedCapacityName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const resumeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}/resume",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.dedicatedCapacityName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DedicatedCapacities
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.PowerBIDedicated/capacities",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DedicatedCapacities
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listSkusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.PowerBIDedicated/skus",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SkuEnumerationForNewResourceResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listSkusForCapacityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}/skus",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SkuEnumerationForExistingResourceResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.dedicatedCapacityName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.PowerBIDedicated/locations/{location}/checkNameAvailability",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CheckCapacityNameAvailabilityResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.capacityParameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.resourceGroupName,
+    Parameters.dedicatedCapacityName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const resumeOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}/resume",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.dedicatedCapacityName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listSkusForCapacityOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}/skus",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SkuEnumerationForExistingResourceResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.dedicatedCapacityName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const suspendOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}/suspend",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.dedicatedCapacityName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

@@ -6,12 +6,12 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
-export interface AutoScaleVCore extends Resource {
+export interface AutoScaleVCore extends TrackedResource {
     capacityLimit?: number;
     capacityObjectId?: string;
     readonly provisioningState?: VCoreProvisioningState;
@@ -20,6 +20,8 @@ export interface AutoScaleVCore extends Resource {
 
 // @public
 export interface AutoScaleVCoreListResult {
+    // (undocumented)
+    nextLink?: string;
     value: AutoScaleVCore[];
 }
 
@@ -70,11 +72,25 @@ export interface AutoScaleVCoreSku {
 }
 
 // @public
+export interface AutoScaleVCoresListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AutoScaleVCoresListByResourceGroupNextResponse = AutoScaleVCoreListResult;
+
+// @public
 export interface AutoScaleVCoresListByResourceGroupOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
 export type AutoScaleVCoresListByResourceGroupResponse = AutoScaleVCoreListResult;
+
+// @public
+export interface AutoScaleVCoresListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AutoScaleVCoresListBySubscriptionNextResponse = AutoScaleVCoreListResult;
 
 // @public
 export interface AutoScaleVCoresListBySubscriptionOptionalParams extends coreClient.OperationOptions {
@@ -101,20 +117,20 @@ export interface AutoScaleVCoreUpdateParameters {
 
 // @public
 export interface Capacities {
-    beginCreate(resourceGroupName: string, dedicatedCapacityName: string, capacityParameters: DedicatedCapacity, options?: CapacitiesCreateOptionalParams): Promise<PollerLike<PollOperationState<CapacitiesCreateResponse>, CapacitiesCreateResponse>>;
+    beginCreate(resourceGroupName: string, dedicatedCapacityName: string, capacityParameters: DedicatedCapacity, options?: CapacitiesCreateOptionalParams): Promise<SimplePollerLike<OperationState<CapacitiesCreateResponse>, CapacitiesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, dedicatedCapacityName: string, capacityParameters: DedicatedCapacity, options?: CapacitiesCreateOptionalParams): Promise<CapacitiesCreateResponse>;
-    beginDelete(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesDeleteOptionalParams): Promise<void>;
-    beginResume(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesResumeOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginResume(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesResumeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginResumeAndWait(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesResumeOptionalParams): Promise<void>;
-    beginSuspend(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesSuspendOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginSuspend(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesSuspendOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginSuspendAndWait(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesSuspendOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, dedicatedCapacityName: string, capacityUpdateParameters: DedicatedCapacityUpdateParameters, options?: CapacitiesUpdateOptionalParams): Promise<PollerLike<PollOperationState<CapacitiesUpdateResponse>, CapacitiesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, dedicatedCapacityName: string, capacityUpdateParameters: DedicatedCapacityUpdateParameters, options?: CapacitiesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CapacitiesUpdateResponse>, CapacitiesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, dedicatedCapacityName: string, capacityUpdateParameters: DedicatedCapacityUpdateParameters, options?: CapacitiesUpdateOptionalParams): Promise<CapacitiesUpdateResponse>;
     checkNameAvailability(location: string, capacityParameters: CheckCapacityNameAvailabilityParameters, options?: CapacitiesCheckNameAvailabilityOptionalParams): Promise<CapacitiesCheckNameAvailabilityResponse>;
     getDetails(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesGetDetailsOptionalParams): Promise<CapacitiesGetDetailsResponse>;
-    list(options?: CapacitiesListOptionalParams): PagedAsyncIterableIterator<DedicatedCapacity>;
-    listByResourceGroup(resourceGroupName: string, options?: CapacitiesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DedicatedCapacity>;
+    list(options?: CapacitiesListOptionalParams): Promise<CapacitiesListResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: CapacitiesListByResourceGroupOptionalParams): Promise<CapacitiesListByResourceGroupResponse>;
     listSkus(options?: CapacitiesListSkusOptionalParams): Promise<CapacitiesListSkusResponse>;
     listSkusForCapacity(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesListSkusForCapacityOptionalParams): Promise<CapacitiesListSkusForCapacityResponse>;
 }
@@ -127,6 +143,12 @@ export interface CapacitiesCheckNameAvailabilityOptionalParams extends coreClien
 export type CapacitiesCheckNameAvailabilityResponse = CheckCapacityNameAvailabilityResult;
 
 // @public
+export interface CapacitiesCreateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface CapacitiesCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -134,6 +156,12 @@ export interface CapacitiesCreateOptionalParams extends coreClient.OperationOpti
 
 // @public
 export type CapacitiesCreateResponse = DedicatedCapacity;
+
+// @public
+export interface CapacitiesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface CapacitiesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -177,15 +205,33 @@ export interface CapacitiesListSkusOptionalParams extends coreClient.OperationOp
 export type CapacitiesListSkusResponse = SkuEnumerationForNewResourceResult;
 
 // @public
+export interface CapacitiesResumeHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface CapacitiesResumeOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
+export interface CapacitiesSuspendHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface CapacitiesSuspendOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface CapacitiesUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -202,6 +248,7 @@ export type CapacityProvisioningState = string;
 
 // @public
 export interface CapacitySku {
+    capacity?: number;
     name: string;
     tier?: CapacitySkuTier;
 }
@@ -223,17 +270,22 @@ export interface CheckCapacityNameAvailabilityResult {
 }
 
 // @public
+export type CreatedByType = string;
+
+// @public
 export interface DedicatedCapacities {
     value: DedicatedCapacity[];
 }
 
 // @public
-export interface DedicatedCapacity extends Resource {
+export interface DedicatedCapacity extends TrackedResource {
     administration?: DedicatedCapacityAdministrators;
+    readonly friendlyName?: string;
     mode?: Mode;
     readonly provisioningState?: CapacityProvisioningState;
     sku: CapacitySku;
     readonly state?: State;
+    readonly tenantId?: string;
 }
 
 // @public
@@ -244,7 +296,9 @@ export interface DedicatedCapacityAdministrators {
 // @public
 export interface DedicatedCapacityMutableProperties {
     administration?: DedicatedCapacityAdministrators;
+    readonly friendlyName?: string;
     mode?: Mode;
+    readonly tenantId?: string;
 }
 
 // @public
@@ -256,11 +310,13 @@ export interface DedicatedCapacityProperties extends DedicatedCapacityMutablePro
 // @public
 export interface DedicatedCapacityUpdateParameters {
     administration?: DedicatedCapacityAdministrators;
+    readonly friendlyName?: string;
     mode?: Mode;
     sku?: CapacitySku;
     tags?: {
         [propertyName: string]: string;
     };
+    readonly tenantId?: string;
 }
 
 // @public
@@ -276,9 +332,6 @@ export interface ErrorResponseError {
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
-export type IdentityType = string;
 
 // @public
 export enum KnownCapacityProvisioningState {
@@ -304,7 +357,7 @@ export enum KnownCapacitySkuTier {
 }
 
 // @public
-export enum KnownIdentityType {
+export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
@@ -344,16 +397,43 @@ export enum KnownVCoreSkuTier {
 }
 
 // @public
+export interface LogSpecification {
+    readonly blobDuration?: string;
+    displayName?: string;
+    readonly name?: string;
+}
+
+// @public
+export interface MetricSpecification {
+    readonly aggregationType?: string;
+    dimensions?: MetricSpecificationDimensionsItem[];
+    displayDescription?: string;
+    displayName?: string;
+    readonly metricFilterPattern?: string;
+    readonly name?: string;
+    readonly unit?: string;
+}
+
+// @public (undocumented)
+export interface MetricSpecificationDimensionsItem {
+    displayName?: string;
+    readonly name?: string;
+}
+
+// @public
 export type Mode = string;
 
 // @public
 export interface Operation {
     display?: OperationDisplay;
     readonly name?: string;
+    readonly origin?: string;
+    properties?: OperationProperties;
 }
 
 // @public
 export interface OperationDisplay {
+    description?: string;
     readonly operation?: string;
     readonly provider?: string;
     readonly resource?: string;
@@ -363,6 +443,11 @@ export interface OperationDisplay {
 export interface OperationListResult {
     readonly nextLink?: string;
     readonly value?: Operation[];
+}
+
+// @public
+export interface OperationProperties {
+    serviceSpecification?: ServiceSpecification;
 }
 
 // @public
@@ -411,17 +496,20 @@ export interface PowerBIDedicatedOptionalParams extends coreClient.ServiceClient
 // @public
 export interface Resource {
     readonly id?: string;
-    location: string;
     readonly name?: string;
-    systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
 // @public
+export interface ServiceSpecification {
+    logSpecifications?: LogSpecification[];
+    metricSpecifications?: MetricSpecification[];
+}
+
+// @public
 export interface SkuDetailsForExistingResource {
+    resourceType?: string;
     sku?: CapacitySku;
 }
 
@@ -442,10 +530,18 @@ export type State = string;
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
-    createdByType?: IdentityType;
+    createdByType?: CreatedByType;
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
-    lastModifiedByType?: IdentityType;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public

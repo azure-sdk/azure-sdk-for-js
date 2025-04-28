@@ -6,55 +6,67 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  DedicatedCapacity,
-  CapacitiesListByResourceGroupOptionalParams,
   CapacitiesListOptionalParams,
+  CapacitiesListResponse,
+  CheckCapacityNameAvailabilityParameters,
+  CapacitiesCheckNameAvailabilityOptionalParams,
+  CapacitiesCheckNameAvailabilityResponse,
+  CapacitiesListSkusOptionalParams,
+  CapacitiesListSkusResponse,
+  CapacitiesListByResourceGroupOptionalParams,
+  CapacitiesListByResourceGroupResponse,
   CapacitiesGetDetailsOptionalParams,
   CapacitiesGetDetailsResponse,
+  DedicatedCapacity,
   CapacitiesCreateOptionalParams,
   CapacitiesCreateResponse,
-  CapacitiesDeleteOptionalParams,
   DedicatedCapacityUpdateParameters,
   CapacitiesUpdateOptionalParams,
   CapacitiesUpdateResponse,
-  CapacitiesSuspendOptionalParams,
+  CapacitiesDeleteOptionalParams,
   CapacitiesResumeOptionalParams,
-  CapacitiesListSkusOptionalParams,
-  CapacitiesListSkusResponse,
   CapacitiesListSkusForCapacityOptionalParams,
   CapacitiesListSkusForCapacityResponse,
-  CheckCapacityNameAvailabilityParameters,
-  CapacitiesCheckNameAvailabilityOptionalParams,
-  CapacitiesCheckNameAvailabilityResponse
+  CapacitiesSuspendOptionalParams,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a Capacities. */
 export interface Capacities {
-  /**
-   * Gets all the Dedicated capacities for the given resource group.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param options The options parameters.
-   */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: CapacitiesListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<DedicatedCapacity>;
   /**
    * Lists all the Dedicated capacities for the given subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: CapacitiesListOptionalParams
-  ): PagedAsyncIterableIterator<DedicatedCapacity>;
+  list(options?: CapacitiesListOptionalParams): Promise<CapacitiesListResponse>;
+  /**
+   * Check the name availability in the target location.
+   * @param location The name of Azure region.
+   * @param capacityParameters The request body
+   * @param options The options parameters.
+   */
+  checkNameAvailability(
+    location: string,
+    capacityParameters: CheckCapacityNameAvailabilityParameters,
+    options?: CapacitiesCheckNameAvailabilityOptionalParams,
+  ): Promise<CapacitiesCheckNameAvailabilityResponse>;
+  /**
+   * Lists eligible SKUs for PowerBI Dedicated resource provider.
+   * @param options The options parameters.
+   */
+  listSkus(options?: CapacitiesListSkusOptionalParams): Promise<CapacitiesListSkusResponse>;
+  /**
+   * Gets all the Dedicated capacities for the given resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: CapacitiesListByResourceGroupOptionalParams,
+  ): Promise<CapacitiesListByResourceGroupResponse>;
   /**
    * Gets details about the specified dedicated capacity.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param dedicatedCapacityName The name of the dedicated capacity. It must be a minimum of 3
    *                              characters, and a maximum of 63.
    * @param options The options parameters.
@@ -62,13 +74,12 @@ export interface Capacities {
   getDetails(
     resourceGroupName: string,
     dedicatedCapacityName: string,
-    options?: CapacitiesGetDetailsOptionalParams
+    options?: CapacitiesGetDetailsOptionalParams,
   ): Promise<CapacitiesGetDetailsResponse>;
   /**
    * Provisions the specified Dedicated capacity based on the configuration specified in the request.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param dedicatedCapacityName The name of the Dedicated capacity. It must be a minimum of 3
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dedicatedCapacityName The name of the dedicated capacity. It must be a minimum of 3
    *                              characters, and a maximum of 63.
    * @param capacityParameters Contains the information used to provision the Dedicated capacity.
    * @param options The options parameters.
@@ -77,18 +88,12 @@ export interface Capacities {
     resourceGroupName: string,
     dedicatedCapacityName: string,
     capacityParameters: DedicatedCapacity,
-    options?: CapacitiesCreateOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<CapacitiesCreateResponse>,
-      CapacitiesCreateResponse
-    >
-  >;
+    options?: CapacitiesCreateOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<CapacitiesCreateResponse>, CapacitiesCreateResponse>>;
   /**
    * Provisions the specified Dedicated capacity based on the configuration specified in the request.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param dedicatedCapacityName The name of the Dedicated capacity. It must be a minimum of 3
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dedicatedCapacityName The name of the dedicated capacity. It must be a minimum of 3
    *                              characters, and a maximum of 63.
    * @param capacityParameters Contains the information used to provision the Dedicated capacity.
    * @param options The options parameters.
@@ -97,40 +102,13 @@ export interface Capacities {
     resourceGroupName: string,
     dedicatedCapacityName: string,
     capacityParameters: DedicatedCapacity,
-    options?: CapacitiesCreateOptionalParams
+    options?: CapacitiesCreateOptionalParams,
   ): Promise<CapacitiesCreateResponse>;
   /**
-   * Deletes the specified Dedicated capacity.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param dedicatedCapacityName The name of the Dedicated capacity. It must be at least 3 characters in
-   *                              length, and no more than 63.
-   * @param options The options parameters.
-   */
-  beginDelete(
-    resourceGroupName: string,
-    dedicatedCapacityName: string,
-    options?: CapacitiesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Deletes the specified Dedicated capacity.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param dedicatedCapacityName The name of the Dedicated capacity. It must be at least 3 characters in
-   *                              length, and no more than 63.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceGroupName: string,
-    dedicatedCapacityName: string,
-    options?: CapacitiesDeleteOptionalParams
-  ): Promise<void>;
-  /**
    * Updates the current state of the specified Dedicated capacity.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param dedicatedCapacityName The name of the Dedicated capacity. It must be at least 3 characters in
-   *                              length, and no more than 63.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dedicatedCapacityName The name of the dedicated capacity. It must be a minimum of 3
+   *                              characters, and a maximum of 63.
    * @param capacityUpdateParameters Request object that contains the updated information for the
    *                                 capacity.
    * @param options The options parameters.
@@ -139,19 +117,13 @@ export interface Capacities {
     resourceGroupName: string,
     dedicatedCapacityName: string,
     capacityUpdateParameters: DedicatedCapacityUpdateParameters,
-    options?: CapacitiesUpdateOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<CapacitiesUpdateResponse>,
-      CapacitiesUpdateResponse
-    >
-  >;
+    options?: CapacitiesUpdateOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<CapacitiesUpdateResponse>, CapacitiesUpdateResponse>>;
   /**
    * Updates the current state of the specified Dedicated capacity.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param dedicatedCapacityName The name of the Dedicated capacity. It must be at least 3 characters in
-   *                              length, and no more than 63.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dedicatedCapacityName The name of the dedicated capacity. It must be a minimum of 3
+   *                              characters, and a maximum of 63.
    * @param capacityUpdateParameters Request object that contains the updated information for the
    *                                 capacity.
    * @param options The options parameters.
@@ -160,89 +132,90 @@ export interface Capacities {
     resourceGroupName: string,
     dedicatedCapacityName: string,
     capacityUpdateParameters: DedicatedCapacityUpdateParameters,
-    options?: CapacitiesUpdateOptionalParams
+    options?: CapacitiesUpdateOptionalParams,
   ): Promise<CapacitiesUpdateResponse>;
   /**
-   * Suspends operation of the specified dedicated capacity instance.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param dedicatedCapacityName The name of the Dedicated capacity. It must be at least 3 characters in
-   *                              length, and no more than 63.
+   * Deletes the specified Dedicated capacity.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dedicatedCapacityName The name of the dedicated capacity. It must be a minimum of 3
+   *                              characters, and a maximum of 63.
    * @param options The options parameters.
    */
-  beginSuspend(
+  beginDelete(
     resourceGroupName: string,
     dedicatedCapacityName: string,
-    options?: CapacitiesSuspendOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: CapacitiesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Suspends operation of the specified dedicated capacity instance.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param dedicatedCapacityName The name of the Dedicated capacity. It must be at least 3 characters in
-   *                              length, and no more than 63.
+   * Deletes the specified Dedicated capacity.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dedicatedCapacityName The name of the dedicated capacity. It must be a minimum of 3
+   *                              characters, and a maximum of 63.
    * @param options The options parameters.
    */
-  beginSuspendAndWait(
+  beginDeleteAndWait(
     resourceGroupName: string,
     dedicatedCapacityName: string,
-    options?: CapacitiesSuspendOptionalParams
+    options?: CapacitiesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Resumes operation of the specified Dedicated capacity instance.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param dedicatedCapacityName The name of the Dedicated capacity. It must be at least 3 characters in
-   *                              length, and no more than 63.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dedicatedCapacityName The name of the dedicated capacity. It must be a minimum of 3
+   *                              characters, and a maximum of 63.
    * @param options The options parameters.
    */
   beginResume(
     resourceGroupName: string,
     dedicatedCapacityName: string,
-    options?: CapacitiesResumeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: CapacitiesResumeOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Resumes operation of the specified Dedicated capacity instance.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param dedicatedCapacityName The name of the Dedicated capacity. It must be at least 3 characters in
-   *                              length, and no more than 63.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dedicatedCapacityName The name of the dedicated capacity. It must be a minimum of 3
+   *                              characters, and a maximum of 63.
    * @param options The options parameters.
    */
   beginResumeAndWait(
     resourceGroupName: string,
     dedicatedCapacityName: string,
-    options?: CapacitiesResumeOptionalParams
+    options?: CapacitiesResumeOptionalParams,
   ): Promise<void>;
   /**
-   * Lists eligible SKUs for PowerBI Dedicated resource provider.
-   * @param options The options parameters.
-   */
-  listSkus(
-    options?: CapacitiesListSkusOptionalParams
-  ): Promise<CapacitiesListSkusResponse>;
-  /**
    * Lists eligible SKUs for a PowerBI Dedicated resource.
-   * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
-   *                          capacity is part. This name must be at least 1 character in length, and no more than 90.
-   * @param dedicatedCapacityName The name of the Dedicated capacity. It must be at least 3 characters in
-   *                              length, and no more than 63.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dedicatedCapacityName The name of the dedicated capacity. It must be a minimum of 3
+   *                              characters, and a maximum of 63.
    * @param options The options parameters.
    */
   listSkusForCapacity(
     resourceGroupName: string,
     dedicatedCapacityName: string,
-    options?: CapacitiesListSkusForCapacityOptionalParams
+    options?: CapacitiesListSkusForCapacityOptionalParams,
   ): Promise<CapacitiesListSkusForCapacityResponse>;
   /**
-   * Check the name availability in the target location.
-   * @param location The region name which the operation will lookup into.
-   * @param capacityParameters The name of the capacity.
+   * Suspends operation of the specified dedicated capacity instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dedicatedCapacityName The name of the dedicated capacity. It must be a minimum of 3
+   *                              characters, and a maximum of 63.
    * @param options The options parameters.
    */
-  checkNameAvailability(
-    location: string,
-    capacityParameters: CheckCapacityNameAvailabilityParameters,
-    options?: CapacitiesCheckNameAvailabilityOptionalParams
-  ): Promise<CapacitiesCheckNameAvailabilityResponse>;
+  beginSuspend(
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    options?: CapacitiesSuspendOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Suspends operation of the specified dedicated capacity instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dedicatedCapacityName The name of the dedicated capacity. It must be a minimum of 3
+   *                              characters, and a maximum of 63.
+   * @param options The options parameters.
+   */
+  beginSuspendAndWait(
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    options?: CapacitiesSuspendOptionalParams,
+  ): Promise<void>;
 }

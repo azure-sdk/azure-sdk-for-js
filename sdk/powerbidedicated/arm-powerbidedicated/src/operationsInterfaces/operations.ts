@@ -13,10 +13,8 @@ import { Operation, OperationsListOptionalParams } from "../models/index.js";
 /** Interface representing a Operations. */
 export interface Operations {
   /**
-   * Lists all of the available PowerBIDedicated REST API operations.
+   * List the operations for the provider
    * @param options The options parameters.
    */
-  list(
-    options?: OperationsListOptionalParams
-  ): PagedAsyncIterableIterator<Operation>;
+  list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
