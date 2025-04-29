@@ -274,7 +274,7 @@ export enum KnownEndpointStatus {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -302,7 +302,7 @@ export enum KnownEndpointMonitorStatus {
   /** Stopped */
   Stopped = "Stopped",
   /** Unmonitored */
-  Unmonitored = "Unmonitored"
+  Unmonitored = "Unmonitored",
 }
 
 /**
@@ -325,7 +325,7 @@ export enum KnownAlwaysServe {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -343,7 +343,7 @@ export enum KnownProfileStatus {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -369,7 +369,7 @@ export enum KnownTrafficRoutingMethod {
   /** MultiValue */
   MultiValue = "MultiValue",
   /** Subnet */
-  Subnet = "Subnet"
+  Subnet = "Subnet",
 }
 
 /**
@@ -397,7 +397,7 @@ export enum KnownProfileMonitorStatus {
   /** Disabled */
   Disabled = "Disabled",
   /** Inactive */
-  Inactive = "Inactive"
+  Inactive = "Inactive",
 }
 
 /**
@@ -420,7 +420,7 @@ export enum KnownMonitorProtocol {
   /** Https */
   Https = "HTTPS",
   /** TCP */
-  TCP = "TCP"
+  TCP = "TCP",
 }
 
 /**
@@ -439,7 +439,7 @@ export enum KnownTrafficViewEnrollmentStatus {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -461,7 +461,7 @@ export enum KnownAllowedEndpointRecordType {
   /** IPv6Address */
   IPv6Address = "IPv6Address",
   /** Any */
-  Any = "Any"
+  Any = "Any",
 }
 
 /**
@@ -476,35 +476,28 @@ export enum KnownAllowedEndpointRecordType {
  */
 export type AllowedEndpointRecordType = string;
 /** Defines values for EndpointType. */
-export type EndpointType =
-  | "AzureEndpoints"
-  | "ExternalEndpoints"
-  | "NestedEndpoints";
+export type EndpointType = "AzureEndpoints" | "ExternalEndpoints" | "NestedEndpoints";
 
 /** Optional parameters. */
-export interface EndpointsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface EndpointsUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type EndpointsUpdateResponse = Endpoint;
 
 /** Optional parameters. */
-export interface EndpointsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface EndpointsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type EndpointsGetResponse = Endpoint;
 
 /** Optional parameters. */
-export interface EndpointsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface EndpointsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type EndpointsCreateOrUpdateResponse = Endpoint;
 
 /** Optional parameters. */
-export interface EndpointsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface EndpointsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the delete operation. */
 export type EndpointsDeleteResponse = DeleteOperationResult;
@@ -514,7 +507,8 @@ export interface ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityOptionalP
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkTrafficManagerRelativeDnsNameAvailability operation. */
-export type ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityResponse = TrafficManagerNameAvailability;
+export type ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityResponse =
+  TrafficManagerNameAvailability;
 
 /** Optional parameters. */
 export interface ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams
@@ -524,43 +518,37 @@ export interface ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams
 export type ProfilesCheckTrafficManagerNameAvailabilityV2Response = TrafficManagerNameAvailability;
 
 /** Optional parameters. */
-export interface ProfilesListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProfilesListByResourceGroupOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type ProfilesListByResourceGroupResponse = ProfileListResult;
 
 /** Optional parameters. */
-export interface ProfilesListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProfilesListBySubscriptionOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
 export type ProfilesListBySubscriptionResponse = ProfileListResult;
 
 /** Optional parameters. */
-export interface ProfilesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProfilesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ProfilesGetResponse = Profile;
 
 /** Optional parameters. */
-export interface ProfilesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProfilesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type ProfilesCreateOrUpdateResponse = Profile;
 
 /** Optional parameters. */
-export interface ProfilesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProfilesDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the delete operation. */
 export type ProfilesDeleteResponse = DeleteOperationResult;
 
 /** Optional parameters. */
-export interface ProfilesUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProfilesUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type ProfilesUpdateResponse = Profile;
