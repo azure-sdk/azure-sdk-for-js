@@ -1,20 +1,19 @@
-# client library samples for JavaScript
+# @azure/arm-loadtesting client library samples for JavaScript
 
-These sample programs show how to use the JavaScript client libraries for in some common scenarios.
+These sample programs show how to use the JavaScript client libraries for @azure/arm-loadtesting in some common scenarios.
 
-| **File Name**                                                                                                         | **Description**                                                                                                                                                                                                                                   |
-| --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [loadTestsCreateOrUpdateSample.js][loadtestscreateorupdatesample]                                                     | Create or update LoadTest resource. x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/LoadTests_CreateOrUpdate.json                                                         |
-| [loadTestsDeleteSample.js][loadtestsdeletesample]                                                                     | Delete a LoadTest resource. x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/LoadTests_Delete.json                                                                         |
-| [loadTestsGetSample.js][loadtestsgetsample]                                                                           | Get a LoadTest resource. x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/LoadTests_Get.json                                                                               |
-| [loadTestsListByResourceGroupSample.js][loadtestslistbyresourcegroupsample]                                           | Lists loadtest resources in a resource group. x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/LoadTests_ListByResourceGroup.json                                          |
-| [loadTestsListBySubscriptionSample.js][loadtestslistbysubscriptionsample]                                             | Lists loadtests resources in a subscription. x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/LoadTests_ListBySubscription.json                                            |
-| [loadTestsListOutboundNetworkDependenciesEndpointsSample.js][loadtestslistoutboundnetworkdependenciesendpointssample] | Lists the endpoints that agents may call as part of load testing. x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/LoadTests_ListOutboundNetworkDependenciesEndpoints.json |
-| [loadTestsUpdateSample.js][loadtestsupdatesample]                                                                     | Update a loadtest resource. x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/LoadTests_Update.json                                                                         |
-| [operationsListSample.js][operationslistsample]                                                                       | Lists all the available API operations for Load Test Resource. x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/Operations_List.json                                       |
-| [quotasCheckAvailabilitySample.js][quotascheckavailabilitysample]                                                     | Check Quota Availability on quota bucket per region per subscription. x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/Quotas_CheckAvailability.json                       |
-| [quotasGetSample.js][quotasgetsample]                                                                                 | Get the available quota for a quota bucket per region per subscription. x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/Quotas_Get.json                                   |
-| [quotasListSample.js][quotaslistsample]                                                                               | Lists all the available quota per region per subscription. x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/Quotas_List.json                                               |
+| **File Name**                                                                               | **Description**                                                                                                                                                  |
+| ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [checkAvailabilityQuotaSample.js][checkavailabilityquotasample]                             | check Quota Availability on quota bucket per region per subscription. x-ms-original-file: 2024-12-01-preview/Quotas_CheckAvailability.json                       |
+| [createOrUpdateLoadtestSample.js][createorupdateloadtestsample]                             | create a LoadTestResource x-ms-original-file: 2024-12-01-preview/LoadTests_CreateOrUpdate.json                                                                   |
+| [deleteLoadtestSample.js][deleteloadtestsample]                                             | delete a LoadTestResource x-ms-original-file: 2024-12-01-preview/LoadTests_Delete.json                                                                           |
+| [getLoadtestSample.js][getloadtestsample]                                                   | get a LoadTestResource x-ms-original-file: 2024-12-01-preview/LoadTests_Get.json                                                                                 |
+| [getQuotaSample.js][getquotasample]                                                         | get the available quota for a quota bucket per region per subscription. x-ms-original-file: 2024-12-01-preview/Quotas_Get.json                                   |
+| [listByResourceGroupSample.js][listbyresourcegroupsample]                                   | list LoadTestResource resources by resource group x-ms-original-file: 2024-12-01-preview/LoadTests_ListByResourceGroup.json                                      |
+| [listBySubscriptionSample.js][listbysubscriptionsample]                                     | list LoadTestResource resources by subscription ID x-ms-original-file: 2024-12-01-preview/LoadTests_ListBySubscription.json                                      |
+| [listQuotaSample.js][listquotasample]                                                       | list quotas for a given subscription Id. x-ms-original-file: 2024-12-01-preview/Quotas_List.json                                                                 |
+| [outboundNetworkDependenciesEndpointsSample.js][outboundnetworkdependenciesendpointssample] | lists the endpoints that agents may call as part of load testing. x-ms-original-file: 2024-12-01-preview/LoadTests_ListOutboundNetworkDependenciesEndpoints.json |
+| [updateLoadtestSample.js][updateloadtestsample]                                             | update a LoadTestResource x-ms-original-file: 2024-12-01-preview/LoadTests_Update.json                                                                           |
 
 ## Prerequisites
 
@@ -41,30 +40,29 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node loadTestsCreateOrUpdateSample.js
+node checkAvailabilityQuotaSample.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env LOADTESTSERVICE_SUBSCRIPTION_ID="<loadtestservice subscription id>" LOADTESTSERVICE_RESOURCE_GROUP="<loadtestservice resource group>" node loadTestsCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env  node checkAvailabilityQuotaSample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[loadtestscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/arm-loadtesting/samples/v1/javascript/loadTestsCreateOrUpdateSample.js
-[loadtestsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/arm-loadtesting/samples/v1/javascript/loadTestsDeleteSample.js
-[loadtestsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/arm-loadtesting/samples/v1/javascript/loadTestsGetSample.js
-[loadtestslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/arm-loadtesting/samples/v1/javascript/loadTestsListByResourceGroupSample.js
-[loadtestslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/arm-loadtesting/samples/v1/javascript/loadTestsListBySubscriptionSample.js
-[loadtestslistoutboundnetworkdependenciesendpointssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/arm-loadtesting/samples/v1/javascript/loadTestsListOutboundNetworkDependenciesEndpointsSample.js
-[loadtestsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/arm-loadtesting/samples/v1/javascript/loadTestsUpdateSample.js
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/arm-loadtesting/samples/v1/javascript/operationsListSample.js
-[quotascheckavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/arm-loadtesting/samples/v1/javascript/quotasCheckAvailabilitySample.js
-[quotasgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/arm-loadtesting/samples/v1/javascript/quotasGetSample.js
-[quotaslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/arm-loadtesting/samples/v1/javascript/quotasListSample.js
+[checkavailabilityquotasample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/arm-loadtesting/samples/v1/javascript/checkAvailabilityQuotaSample.js
+[createorupdateloadtestsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/arm-loadtesting/samples/v1/javascript/createOrUpdateLoadtestSample.js
+[deleteloadtestsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/arm-loadtesting/samples/v1/javascript/deleteLoadtestSample.js
+[getloadtestsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/arm-loadtesting/samples/v1/javascript/getLoadtestSample.js
+[getquotasample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/arm-loadtesting/samples/v1/javascript/getQuotaSample.js
+[listbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/arm-loadtesting/samples/v1/javascript/listByResourceGroupSample.js
+[listbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/arm-loadtesting/samples/v1/javascript/listBySubscriptionSample.js
+[listquotasample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/arm-loadtesting/samples/v1/javascript/listQuotaSample.js
+[outboundnetworkdependenciesendpointssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/arm-loadtesting/samples/v1/javascript/outboundNetworkDependenciesEndpointsSample.js
+[updateloadtestsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/arm-loadtesting/samples/v1/javascript/updateLoadtestSample.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-loadtesting?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/arm-loadtesting/README.md
