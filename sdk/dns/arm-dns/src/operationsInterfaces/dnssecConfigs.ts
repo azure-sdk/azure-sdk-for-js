@@ -11,11 +11,11 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DnssecConfig,
   DnssecConfigsListByDnsZoneOptionalParams,
+  DnssecConfigsGetOptionalParams,
+  DnssecConfigsGetResponse,
   DnssecConfigsCreateOrUpdateOptionalParams,
   DnssecConfigsCreateOrUpdateResponse,
   DnssecConfigsDeleteOptionalParams,
-  DnssecConfigsGetOptionalParams,
-  DnssecConfigsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,14 +33,27 @@ export interface DnssecConfigs {
     options?: DnssecConfigsListByDnsZoneOptionalParams,
   ): PagedAsyncIterableIterator<DnssecConfig>;
   /**
+   * Gets the DNSSEC configuration.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param zoneName The name of the DNS zone (without a terminating dot).
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    zoneName: string,
+    options?: DnssecConfigsGetOptionalParams,
+  ): Promise<DnssecConfigsGetResponse>;
+  /**
    * Creates or updates the DNSSEC configuration on a DNS zone.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     zoneName: string,
+    resource: DnssecConfig,
     options?: DnssecConfigsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -52,11 +65,13 @@ export interface DnssecConfigs {
    * Creates or updates the DNSSEC configuration on a DNS zone.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     zoneName: string,
+    resource: DnssecConfig,
     options?: DnssecConfigsCreateOrUpdateOptionalParams,
   ): Promise<DnssecConfigsCreateOrUpdateResponse>;
   /**
@@ -81,15 +96,4 @@ export interface DnssecConfigs {
     zoneName: string,
     options?: DnssecConfigsDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * Gets the DNSSEC configuration.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param zoneName The name of the DNS zone (without a terminating dot).
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    zoneName: string,
-    options?: DnssecConfigsGetOptionalParams,
-  ): Promise<DnssecConfigsGetResponse>;
 }

@@ -28,19 +28,6 @@ export interface CaaRecord {
 }
 
 // @public
-export interface CloudError {
-    error?: CloudErrorBody;
-}
-
-// @public
-export interface CloudErrorBody {
-    code?: string;
-    details?: CloudErrorBody[];
-    message?: string;
-    target?: string;
-}
-
-// @public
 export interface CnameRecord {
     cname?: string;
 }
@@ -102,7 +89,7 @@ export type DnsResourceReferenceGetByTargetResourcesResponse = DnsResourceRefere
 
 // @public
 export interface DnsResourceReferenceOperations {
-    getByTargetResources(parameters: DnsResourceReferenceRequest, options?: DnsResourceReferenceGetByTargetResourcesOptionalParams): Promise<DnsResourceReferenceGetByTargetResourcesResponse>;
+    getByTargetResources(body: DnsResourceReferenceRequest, options?: DnsResourceReferenceGetByTargetResourcesOptionalParams): Promise<DnsResourceReferenceGetByTargetResourcesResponse>;
 }
 
 // @public
@@ -116,30 +103,32 @@ export interface DnsResourceReferenceResult {
 }
 
 // @public
-export interface DnssecConfig {
+export interface DnssecConfig extends ProxyResource {
     etag?: string;
-    readonly id?: string;
-    readonly name?: string;
     readonly provisioningState?: string;
     readonly signingKeys?: SigningKey[];
-    readonly systemData?: SystemData;
-    readonly type?: string;
 }
 
 // @public
 export interface DnssecConfigListResult {
-    readonly nextLink?: string;
-    value?: DnssecConfig[];
+    nextLink?: string;
+    value: DnssecConfig[];
 }
 
 // @public
 export interface DnssecConfigs {
-    beginCreateOrUpdate(resourceGroupName: string, zoneName: string, options?: DnssecConfigsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DnssecConfigsCreateOrUpdateResponse>, DnssecConfigsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, zoneName: string, options?: DnssecConfigsCreateOrUpdateOptionalParams): Promise<DnssecConfigsCreateOrUpdateResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, zoneName: string, resource: DnssecConfig, options?: DnssecConfigsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DnssecConfigsCreateOrUpdateResponse>, DnssecConfigsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, zoneName: string, resource: DnssecConfig, options?: DnssecConfigsCreateOrUpdateOptionalParams): Promise<DnssecConfigsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, zoneName: string, options?: DnssecConfigsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, zoneName: string, options?: DnssecConfigsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, zoneName: string, options?: DnssecConfigsGetOptionalParams): Promise<DnssecConfigsGetResponse>;
     listByDnsZone(resourceGroupName: string, zoneName: string, options?: DnssecConfigsListByDnsZoneOptionalParams): PagedAsyncIterableIterator<DnssecConfig>;
+}
+
+// @public
+export interface DnssecConfigsCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -156,6 +145,7 @@ export type DnssecConfigsCreateOrUpdateResponse = DnssecConfig;
 // @public
 export interface DnssecConfigsDeleteHeaders {
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -194,6 +184,26 @@ export interface DsRecord {
 }
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
@@ -226,12 +236,16 @@ export interface NsRecord {
 }
 
 // @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
 export interface PtrRecord {
     ptrdname?: string;
 }
 
 // @public
-export interface RecordSet {
+export interface RecordSet extends ProxyResource {
     aaaaRecords?: AaaaRecord[];
     aRecords?: ARecord[];
     caaRecords?: CaaRecord[];
@@ -239,12 +253,10 @@ export interface RecordSet {
     dsRecords?: DsRecord[];
     etag?: string;
     readonly fqdn?: string;
-    readonly id?: string;
     metadata?: {
         [propertyName: string]: string;
     };
     mxRecords?: MxRecord[];
-    readonly name?: string;
     naptrRecords?: NaptrRecord[];
     nsRecords?: NsRecord[];
     readonly provisioningState?: string;
@@ -256,13 +268,12 @@ export interface RecordSet {
     trafficManagementProfile?: SubResource;
     ttl?: number;
     txtRecords?: TxtRecord[];
-    readonly type?: string;
 }
 
 // @public
 export interface RecordSetListResult {
-    readonly nextLink?: string;
-    value?: RecordSet[];
+    nextLink?: string;
+    value: RecordSet[];
 }
 
 // @public
@@ -354,21 +365,13 @@ export interface RecordSetsUpdateOptionalParams extends coreClient.OperationOpti
 export type RecordSetsUpdateResponse = RecordSet;
 
 // @public
-export interface RecordSetUpdateParameters {
-    recordSet?: RecordSet;
-}
-
-// @public
 export type RecordType = "A" | "AAAA" | "CAA" | "CNAME" | "MX" | "NS" | "PTR" | "SOA" | "SRV" | "TXT" | "TLSA" | "DS" | "NAPTR";
 
 // @public
 export interface Resource {
     readonly id?: string;
-    location: string;
     readonly name?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -425,12 +428,20 @@ export interface TlsaRecord {
 }
 
 // @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
 export interface TxtRecord {
     value?: string[];
 }
 
 // @public
-export interface Zone extends Resource {
+export interface Zone extends TrackedResource {
     etag?: string;
     readonly maxNumberOfRecordSets?: number;
     readonly maxNumberOfRecordsPerRecordSet?: number;
@@ -439,14 +450,13 @@ export interface Zone extends Resource {
     registrationVirtualNetworks?: SubResource[];
     resolutionVirtualNetworks?: SubResource[];
     readonly signingKeys?: SigningKey[];
-    readonly systemData?: SystemData;
     zoneType?: ZoneType;
 }
 
 // @public
 export interface ZoneListResult {
-    readonly nextLink?: string;
-    value?: Zone[];
+    nextLink?: string;
+    value: Zone[];
 }
 
 // @public
@@ -472,6 +482,7 @@ export type ZonesCreateOrUpdateResponse = Zone;
 // @public
 export interface ZonesDeleteHeaders {
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
