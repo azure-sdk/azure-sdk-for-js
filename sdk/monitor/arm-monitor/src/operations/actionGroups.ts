@@ -12,11 +12,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { MonitorClient } from "../monitorClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ActionGroupResource,
@@ -116,11 +112,7 @@ export class ActionGroupsImpl implements ActionGroups {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -139,10 +131,7 @@ export class ActionGroupsImpl implements ActionGroups {
     resourceGroupName: string,
     options?: ActionGroupsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<ActionGroupResource> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -247,8 +236,7 @@ export class ActionGroupsImpl implements ActionGroups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -310,13 +298,12 @@ export class ActionGroupsImpl implements ActionGroups {
     notificationRequest: NotificationRequestBody,
     options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams,
   ): Promise<ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse> {
-    const poller =
-      await this.beginCreateNotificationsAtActionGroupResourceLevel(
-        resourceGroupName,
-        actionGroupName,
-        notificationRequest,
-        options,
-      );
+    const poller = await this.beginCreateNotificationsAtActionGroupResourceLevel(
+      resourceGroupName,
+      actionGroupName,
+      notificationRequest,
+      options,
+    );
     return poller.pollUntilDone();
   }
 
@@ -346,10 +333,7 @@ export class ActionGroupsImpl implements ActionGroups {
   private _listBySubscriptionId(
     options?: ActionGroupsListBySubscriptionIdOptionalParams,
   ): Promise<ActionGroupsListBySubscriptionIdResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionIdOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionIdOperationSpec);
   }
 
   /**
@@ -405,14 +389,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.actionGroup,
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.actionGroupName,
+    Parameters.subscriptionId,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -427,12 +411,12 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.actionGroupName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -447,12 +431,12 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.actionGroupName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -469,73 +453,71 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.actionGroupPatch,
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.actionGroupName,
+    Parameters.subscriptionId,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
-const createNotificationsAtActionGroupResourceLevelOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/actionGroups/{actionGroupName}/createNotifications",
-    httpMethod: "POST",
-    responses: {
-      200: {
-        bodyMapper: Mappers.TestNotificationDetailsResponse,
-      },
-      201: {
-        bodyMapper: Mappers.TestNotificationDetailsResponse,
-      },
-      202: {
-        bodyMapper: Mappers.TestNotificationDetailsResponse,
-      },
-      204: {
-        bodyMapper: Mappers.TestNotificationDetailsResponse,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
+const createNotificationsAtActionGroupResourceLevelOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/actionGroups/{actionGroupName}/createNotifications",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TestNotificationDetailsResponse,
     },
-    requestBody: Parameters.notificationRequest,
-    queryParameters: [Parameters.apiVersion6],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.actionGroupName,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
-const getTestNotificationsAtActionGroupResourceLevelOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/actionGroups/{actionGroupName}/notificationStatus/{notificationId}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.TestNotificationDetailsResponse,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
+    201: {
+      bodyMapper: Mappers.TestNotificationDetailsResponse,
     },
-    queryParameters: [Parameters.apiVersion6],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.actionGroupName,
-      Parameters.notificationId,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    202: {
+      bodyMapper: Mappers.TestNotificationDetailsResponse,
+    },
+    204: {
+      bodyMapper: Mappers.TestNotificationDetailsResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.notificationRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.actionGroupName,
+    Parameters.subscriptionId,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const getTestNotificationsAtActionGroupResourceLevelOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/actionGroups/{actionGroupName}/notificationStatus/{notificationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TestNotificationDetailsResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.actionGroupName,
+    Parameters.subscriptionId,
+    Parameters.notificationId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listBySubscriptionIdOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Insights/actionGroups",
   httpMethod: "GET",
@@ -547,7 +529,7 @@ const listBySubscriptionIdOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -563,12 +545,8 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion6],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.resourceGroupName, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -585,14 +563,14 @@ const enableReceiverOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.enableRequest,
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.actionGroupName,
+    Parameters.subscriptionId,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
