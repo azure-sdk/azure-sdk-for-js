@@ -1,15 +1,203 @@
 # Release History
-
-## 8.0.0-beta.6 (Unreleased)
-
+    
+## 8.0.0-beta.6 (2025-04-29)
+Compared with version 7.0.0
+    
 ### Features Added
+
+  - Added operation group AzureMonitorWorkspacesOperations
+  - Added operation group PipelineGroupsOperations
+  - Added Interface AzureMonitorWorkspace
+  - Added Interface AzureMonitorWorkspaceLogsApiConfig
+  - Added Interface AzureMonitorWorkspaceLogsExporter
+  - Added Interface AzureMonitorWorkspaceProperties
+  - Added Interface AzureMonitorWorkspacesCreateOrUpdateOptionalParams
+  - Added Interface AzureMonitorWorkspacesDeleteOptionalParams
+  - Added Interface AzureMonitorWorkspacesGetOptionalParams
+  - Added Interface AzureMonitorWorkspacesListByResourceGroupOptionalParams
+  - Added Interface AzureMonitorWorkspacesListBySubscriptionOptionalParams
+  - Added Interface AzureMonitorWorkspacesUpdateOptionalParams
+  - Added Interface AzureMonitorWorkspaceUpdate
+  - Added Interface AzureMonitorWorkspaceUpdateProperties
+  - Added Interface BatchProcessor
+  - Added Interface CacheConfiguration
+  - Added Interface ConcurrencyConfiguration
+  - Added Interface Exporter
+  - Added Interface ExtendedLocation
+  - Added Interface IngestionSettings
+  - Added Interface Metrics
+  - Added Interface NetworkingConfiguration
+  - Added Interface NetworkingRoute
+  - Added Interface OtlpReceiver
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PersistenceConfigurations
+  - Added Interface Pipeline
+  - Added Interface PipelineGroup
+  - Added Interface PipelineGroupProperties
+  - Added Interface PipelineGroupsCreateOrUpdateOptionalParams
+  - Added Interface PipelineGroupsDeleteOptionalParams
+  - Added Interface PipelineGroupsGetOptionalParams
+  - Added Interface PipelineGroupsListByResourceGroupOptionalParams
+  - Added Interface PipelineGroupsListBySubscriptionOptionalParams
+  - Added Interface PipelineGroupsUpdateOptionalParams
+  - Added Interface PipelineGroupUpdate
+  - Added Interface PipelineGroupUpdateProperties
+  - Added Interface PrivateEndpoint
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateLinkServiceConnectionState
+  - Added Interface Processor
+  - Added Interface Receiver
+  - Added Interface RecordMap
+  - Added Interface ResourceMap
+  - Added Interface RestorePollerOptions
+  - Added Interface SchemaMap
+  - Added Interface ScopeMap
+  - Added Interface Service
+  - Added Interface SyslogReceiver
+  - Added Interface TcpExporter
+  - Added Interface TrackedResource
+  - Added Interface UdpReceiver
+  - Added Type Alias ActionType
+  - Added Type Alias ContinuablePage
+  - Added Type Alias ExporterType
+  - Added Type Alias ExtendedLocationType
+  - Added Type Alias ExternalNetworkingMode
+  - Added Type Alias Origin
+  - Added Type Alias PipelineType
+  - Added Type Alias PrivateEndpointConnectionProvisioningState
+  - Added Type Alias PrivateEndpointServiceConnectionStatus
+  - Added Type Alias ProcessorType
+  - Added Type Alias PublicNetworkAccess
+  - Added Type Alias ReceiverType
+  - Added Type Alias StreamEncodingType
+  - Added Type Alias SyslogProtocol
+  - Interface ErrorResponse has a new optional parameter error
+  - Interface MonitorClientOptionalParams has a new optional parameter apiVersion
+  - Interface Operation has a new optional parameter actionType
+  - Interface Operation has a new optional parameter isDataAction
+  - Interface Operation has a new optional parameter origin
+  - Interface OperationDisplay has a new optional parameter description
+  - Interface Resource has a new optional parameter systemData
+  - Added Enum KnownActionType
+  - Added Enum KnownExporterType
+  - Added Enum KnownExtendedLocationType
+  - Added Enum KnownExternalNetworkingMode
+  - Added Enum KnownOrigin
+  - Added Enum KnownPipelineType
+  - Added Enum KnownPrivateEndpointConnectionProvisioningState
+  - Added Enum KnownPrivateEndpointServiceConnectionStatus
+  - Added Enum KnownProcessorType
+  - Added Enum KnownPublicNetworkAccess
+  - Added Enum KnownReceiverType
+  - Added Enum KnownStreamEncodingType
+  - Added Enum KnownSyslogProtocol
+  - Added Enum KnownVersions
+  - Enum KnownProvisioningState has a new value Creating
+  - Enum KnownProvisioningState has a new value Deleting
+  - Added function restorePoller
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group ActionGroups
+  - Removed operation group ActivityLogAlerts
+  - Removed operation group ActivityLogs
+  - Removed operation group AlertRuleIncidents
+  - Removed operation group AlertRules
+  - Removed operation group AutoscaleSettings
+  - Removed operation group Baselines
+  - Removed operation group DataCollectionEndpoints
+  - Removed operation group DataCollectionRuleAssociations
+  - Removed operation group DataCollectionRules
+  - Removed operation group DiagnosticSettings
+  - Removed operation group DiagnosticSettingsCategory
+  - Removed operation group EventCategories
+  - Removed operation group LogProfiles
+  - Removed operation group MetricAlerts
+  - Removed operation group MetricAlertsStatus
+  - Removed operation group MetricDefinitions
+  - Removed operation group MetricNamespaces
+  - Removed operation group Metrics
+  - Removed operation group PrivateEndpointConnections
+  - Removed operation group PrivateLinkResources
+  - Removed operation group PrivateLinkScopedResources
+  - Removed operation group PrivateLinkScopeOperationStatus
+  - Removed operation group PrivateLinkScopes
+  - Removed operation group ScheduledQueryRules
+  - Removed operation group TenantActivityLogs
+  - Removed operation group VMInsights
+  - Class MonitorClient has a new signature
+  - Interface ErrorResponse no longer has parameter code
+  - Interface ErrorResponse no longer has parameter message
+  - Interface MonitorClientOptionalParams no longer has parameter $host
+  - Interface MonitorClientOptionalParams no longer has parameter endpoint
+  - Interface Resource no longer has parameter location
+  - Interface Resource no longer has parameter tags
+  - Type of parameter info of interface ErrorAdditionalInfo is changed from Record<string, unknown> to Record<string, any>
+  - Class MonitorClient no longer has parameter $host
+  - Class MonitorClient no longer has parameter actionGroups
+  - Class MonitorClient no longer has parameter activityLogAlerts
+  - Class MonitorClient no longer has parameter activityLogs
+  - Class MonitorClient no longer has parameter alertRuleIncidents
+  - Class MonitorClient no longer has parameter alertRules
+  - Class MonitorClient no longer has parameter autoscaleSettings
+  - Class MonitorClient no longer has parameter baselines
+  - Class MonitorClient no longer has parameter dataCollectionEndpoints
+  - Class MonitorClient no longer has parameter dataCollectionRuleAssociations
+  - Class MonitorClient no longer has parameter dataCollectionRules
+  - Class MonitorClient no longer has parameter diagnosticSettings
+  - Class MonitorClient no longer has parameter diagnosticSettingsCategory
+  - Class MonitorClient no longer has parameter eventCategories
+  - Class MonitorClient no longer has parameter logProfiles
+  - Class MonitorClient no longer has parameter metricAlerts
+  - Class MonitorClient no longer has parameter metricAlertsStatus
+  - Class MonitorClient no longer has parameter metricDefinitions
+  - Class MonitorClient no longer has parameter metricNamespaces
+  - Class MonitorClient no longer has parameter metrics
+  - Class MonitorClient no longer has parameter privateEndpointConnections
+  - Class MonitorClient no longer has parameter privateLinkResources
+  - Class MonitorClient no longer has parameter privateLinkScopedResources
+  - Class MonitorClient no longer has parameter privateLinkScopeOperationStatus
+  - Class MonitorClient no longer has parameter privateLinkScopes
+  - Class MonitorClient no longer has parameter scheduledQueryRules
+  - Class MonitorClient no longer has parameter subscriptionId
+  - Class MonitorClient no longer has parameter tenantActivityLogs
+  - Class MonitorClient no longer has parameter vMInsights
+  - Removed Enum KnownAggregationTypeEnum
+  - Removed Enum KnownAlertSeverity
+  - Removed Enum KnownBaselineSensitivity
+  - Removed Enum KnownConditionalOperator
+  - Removed Enum KnownCriterionType
+  - Removed Enum KnownDataStatus
+  - Removed Enum KnownDynamicThresholdOperator
+  - Removed Enum KnownDynamicThresholdSensitivity
+  - Removed Enum KnownEnabled
+  - Removed Enum KnownKnownDataCollectionEndpointProvisioningState
+  - Removed Enum KnownKnownDataCollectionEndpointResourceKind
+  - Removed Enum KnownKnownDataCollectionRuleAssociationProvisioningState
+  - Removed Enum KnownKnownDataCollectionRuleProvisioningState
+  - Removed Enum KnownKnownDataCollectionRuleResourceKind
+  - Removed Enum KnownKnownDataFlowStreams
+  - Removed Enum KnownKnownExtensionDataSourceStreams
+  - Removed Enum KnownKnownPerfCounterDataSourceStreams
+  - Removed Enum KnownKnownPublicNetworkAccessOptions
+  - Removed Enum KnownKnownSyslogDataSourceFacilityNames
+  - Removed Enum KnownKnownSyslogDataSourceLogLevels
+  - Removed Enum KnownKnownSyslogDataSourceStreams
+  - Removed Enum KnownKnownWindowsEventLogDataSourceStreams
+  - Removed Enum KnownMetricClass
+  - Removed Enum KnownMetricTriggerType
+  - Removed Enum KnownMetricUnit
+  - Removed Enum KnownNamespaceClassification
+  - Removed Enum KnownOdatatype
+  - Removed Enum KnownOnboardingStatus
+  - Removed Enum KnownOperator
+  - Removed Enum KnownQueryType
+  - Removed Enum KnownScaleRuleMetricDimensionOperationType
+  - Enum KnownProvisioningState no longer has value Deploying
+    
+    
 ## 8.0.0-beta.5 (2024-03-28)
     
 ### Features Added
