@@ -13,22 +13,18 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { DnsManagementClient } from "../dnsManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   DnssecConfig,
   DnssecConfigsListByDnsZoneNextOptionalParams,
   DnssecConfigsListByDnsZoneOptionalParams,
   DnssecConfigsListByDnsZoneResponse,
+  DnssecConfigsGetOptionalParams,
+  DnssecConfigsGetResponse,
   DnssecConfigsCreateOrUpdateOptionalParams,
   DnssecConfigsCreateOrUpdateResponse,
   DnssecConfigsDeleteOptionalParams,
-  DnssecConfigsGetOptionalParams,
-  DnssecConfigsGetResponse,
   DnssecConfigsListByDnsZoneNextResponse,
 } from "../models/index.js";
 
@@ -56,11 +52,7 @@ export class DnssecConfigsImpl implements DnssecConfigs {
     zoneName: string,
     options?: DnssecConfigsListByDnsZoneOptionalParams,
   ): PagedAsyncIterableIterator<DnssecConfig> {
-    const iter = this.listByDnsZonePagingAll(
-      resourceGroupName,
-      zoneName,
-      options,
-    );
+    const iter = this.listByDnsZonePagingAll(resourceGroupName, zoneName, options);
     return {
       next() {
         return iter.next();
@@ -72,12 +64,7 @@ export class DnssecConfigsImpl implements DnssecConfigs {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByDnsZonePagingPage(
-          resourceGroupName,
-          zoneName,
-          options,
-          settings,
-        );
+        return this.listByDnsZonePagingPage(resourceGroupName, zoneName, options, settings);
       },
     };
   }
@@ -116,24 +103,56 @@ export class DnssecConfigsImpl implements DnssecConfigs {
     zoneName: string,
     options?: DnssecConfigsListByDnsZoneOptionalParams,
   ): AsyncIterableIterator<DnssecConfig> {
-    for await (const page of this.listByDnsZonePagingPage(
-      resourceGroupName,
-      zoneName,
-      options,
-    )) {
+    for await (const page of this.listByDnsZonePagingPage(resourceGroupName, zoneName, options)) {
       yield* page;
     }
+  }
+
+  /**
+   * Lists the DNSSEC configurations in a DNS zone.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param zoneName The name of the DNS zone (without a terminating dot).
+   * @param options The options parameters.
+   */
+  private _listByDnsZone(
+    resourceGroupName: string,
+    zoneName: string,
+    options?: DnssecConfigsListByDnsZoneOptionalParams,
+  ): Promise<DnssecConfigsListByDnsZoneResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, zoneName, options },
+      listByDnsZoneOperationSpec,
+    );
+  }
+
+  /**
+   * Gets the DNSSEC configuration.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param zoneName The name of the DNS zone (without a terminating dot).
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    zoneName: string,
+    options?: DnssecConfigsGetOptionalParams,
+  ): Promise<DnssecConfigsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, zoneName, options },
+      getOperationSpec,
+    );
   }
 
   /**
    * Creates or updates the DNSSEC configuration on a DNS zone.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     zoneName: string,
+    resource: DnssecConfig,
     options?: DnssecConfigsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -151,8 +170,7 @@ export class DnssecConfigsImpl implements DnssecConfigs {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -181,7 +199,7 @@ export class DnssecConfigsImpl implements DnssecConfigs {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, zoneName, options },
+      args: { resourceGroupName, zoneName, resource, options },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -190,6 +208,7 @@ export class DnssecConfigsImpl implements DnssecConfigs {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -199,18 +218,16 @@ export class DnssecConfigsImpl implements DnssecConfigs {
    * Creates or updates the DNSSEC configuration on a DNS zone.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     zoneName: string,
+    resource: DnssecConfig,
     options?: DnssecConfigsCreateOrUpdateOptionalParams,
   ): Promise<DnssecConfigsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      zoneName,
-      options,
-    );
+    const poller = await this.beginCreateOrUpdate(resourceGroupName, zoneName, resource, options);
     return poller.pollUntilDone();
   }
 
@@ -235,8 +252,7 @@ export class DnssecConfigsImpl implements DnssecConfigs {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -271,6 +287,7 @@ export class DnssecConfigsImpl implements DnssecConfigs {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -289,40 +306,6 @@ export class DnssecConfigsImpl implements DnssecConfigs {
   ): Promise<void> {
     const poller = await this.beginDelete(resourceGroupName, zoneName, options);
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Gets the DNSSEC configuration.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param zoneName The name of the DNS zone (without a terminating dot).
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    zoneName: string,
-    options?: DnssecConfigsGetOptionalParams,
-  ): Promise<DnssecConfigsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, zoneName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * Lists the DNSSEC configurations in a DNS zone.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param zoneName The name of the DNS zone (without a terminating dot).
-   * @param options The options parameters.
-   */
-  private _listByDnsZone(
-    resourceGroupName: string,
-    zoneName: string,
-    options?: DnssecConfigsListByDnsZoneOptionalParams,
-  ): Promise<DnssecConfigsListByDnsZoneResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, zoneName, options },
-      listByDnsZoneOperationSpec,
-    );
   }
 
   /**
@@ -347,6 +330,48 @@ export class DnssecConfigsImpl implements DnssecConfigs {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByDnsZoneOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/dnssecConfigs",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DnssecConfigListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.zoneName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/dnssecConfigs/default",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DnssecConfig,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.zoneName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/dnssecConfigs/default",
   httpMethod: "PUT",
@@ -364,21 +389,24 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DnssecConfig,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
+  requestBody: Parameters.resource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.zoneName,
-    Parameters.subscriptionId,
   ],
   headerParameters: [
     Parameters.accept,
+    Parameters.contentType,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
   ],
+  mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
@@ -390,59 +418,17 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.zoneName,
-    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch],
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/dnssecConfigs/default",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DnssecConfig,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.zoneName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByDnsZoneOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/dnssecConfigs",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DnssecConfigListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.zoneName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept],
   serializer,
 };
 const listByDnsZoneNextOperationSpec: coreClient.OperationSpec = {
@@ -453,14 +439,14 @@ const listByDnsZoneNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DnssecConfigListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.zoneName,
-    Parameters.subscriptionId,
     Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],

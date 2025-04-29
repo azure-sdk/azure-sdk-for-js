@@ -16,11 +16,11 @@ import {
 export interface DnsResourceReferenceOperations {
   /**
    * Returns the DNS records specified by the referencing targetResourceIds.
-   * @param parameters Properties for dns resource reference request.
+   * @param body The request body
    * @param options The options parameters.
    */
   getByTargetResources(
-    parameters: DnsResourceReferenceRequest,
+    body: DnsResourceReferenceRequest,
     options?: DnsResourceReferenceGetByTargetResourcesOptionalParams,
   ): Promise<DnsResourceReferenceGetByTargetResourcesResponse>;
 }

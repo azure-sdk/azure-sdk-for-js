@@ -18,9 +18,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing DnsResourceReferenceOperations operations. */
-export class DnsResourceReferenceOperationsImpl
-  implements DnsResourceReferenceOperations
-{
+export class DnsResourceReferenceOperationsImpl implements DnsResourceReferenceOperations {
   private readonly client: DnsManagementClient;
 
   /**
@@ -33,17 +31,14 @@ export class DnsResourceReferenceOperationsImpl
 
   /**
    * Returns the DNS records specified by the referencing targetResourceIds.
-   * @param parameters Properties for dns resource reference request.
+   * @param body The request body
    * @param options The options parameters.
    */
   getByTargetResources(
-    parameters: DnsResourceReferenceRequest,
+    body: DnsResourceReferenceRequest,
     options?: DnsResourceReferenceGetByTargetResourcesOptionalParams,
   ): Promise<DnsResourceReferenceGetByTargetResourcesResponse> {
-    return this.client.sendOperationRequest(
-      { parameters, options },
-      getByTargetResourcesOperationSpec,
-    );
+    return this.client.sendOperationRequest({ body, options }, getByTargetResourcesOperationSpec);
   }
 }
 // Operation Specifications
@@ -57,10 +52,10 @@ const getByTargetResourcesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DnsResourceReferenceResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters3,
+  requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],

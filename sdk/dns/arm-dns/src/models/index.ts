@@ -8,40 +8,18 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** Represents the DNSSEC configuration. */
-export interface DnssecConfig {
-  /**
-   * The ID of the DNSSEC configuration.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the DNSSEC configuration.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the DNSSEC configuration.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** The etag of the DNSSEC configuration. */
-  etag?: string;
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
-   * Provisioning State of the DNSSEC configuration.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /**
-   * The list of signing keys.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly signingKeys?: SigningKey[];
+/** The response of a Zone list operation. */
+export interface ZoneListResult {
+  /** The Zone items on this page */
+  value: Zone[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** A reference to a another resource */
+export interface SubResource {
+  /** Resource Id. */
+  id?: string;
 }
 
 /** Represents the signing key. */
@@ -97,6 +75,30 @@ export interface DelegationSignerInfo {
   readonly record?: string;
 }
 
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
@@ -113,104 +115,87 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
-/** An error response from the service. */
-export interface CloudError {
-  /** Cloud error body. */
-  error?: CloudErrorBody;
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
 }
 
-/** An error response from the service. */
-export interface CloudErrorBody {
-  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
-  code?: string;
-  /** A message describing the error, intended to be suitable for display in a user interface. */
-  message?: string;
-  /** The target of the particular error. For example, the name of the property in error. */
-  target?: string;
-  /** A list of additional details about the error. */
-  details?: CloudErrorBody[];
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
 }
 
-/** The response to a List DNSSEC configurations operation. */
-export interface DnssecConfigListResult {
-  /** Information about the DNSSEC configurations in the response. */
-  value?: DnssecConfig[];
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
   /**
-   * The continuation token for the next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Describes a DNS record set (a collection of DNS records with the same name and type). */
-export interface RecordSet {
-  /**
-   * The ID of the record set.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the record set.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the record set.
+   * The additional info type.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-  /** The etag of the record set. */
-  etag?: string;
-  /** The metadata attached to the record set. */
-  metadata?: { [propertyName: string]: string };
-  /** The TTL (time-to-live) of the records in the record set. */
-  ttl?: number;
   /**
-   * Fully qualified domain name of the record set.
+   * The additional info.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly fqdn?: string;
-  /**
-   * provisioning State of the record set.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /** A reference to an azure resource from where the dns resource value is taken. */
-  targetResource?: SubResource;
-  /** A reference to an azure traffic manager profile resource from where the dns resource value is taken. */
-  trafficManagementProfile?: SubResource;
-  /** The list of A records in the record set. */
-  aRecords?: ARecord[];
-  /** The list of AAAA records in the record set. */
-  aaaaRecords?: AaaaRecord[];
-  /** The list of MX records in the record set. */
-  mxRecords?: MxRecord[];
-  /** The list of NS records in the record set. */
-  nsRecords?: NsRecord[];
-  /** The list of PTR records in the record set. */
-  ptrRecords?: PtrRecord[];
-  /** The list of SRV records in the record set. */
-  srvRecords?: SrvRecord[];
-  /** The list of TXT records in the record set. */
-  txtRecords?: TxtRecord[];
-  /** The CNAME record in the  record set. */
-  cnameRecord?: CnameRecord;
-  /** The SOA record in the record set. */
-  soaRecord?: SoaRecord;
-  /** The list of CAA records in the record set. */
-  caaRecords?: CaaRecord[];
-  /** The list of DS records in the record set. */
-  dsRecords?: DsRecord[];
-  /** The list of TLSA records in the record set. */
-  tlsaRecords?: TlsaRecord[];
-  /** The list of NAPTR records in the record set. */
-  naptrRecords?: NaptrRecord[];
+  readonly info?: Record<string, unknown>;
 }
 
-/** A reference to a another resource */
-export interface SubResource {
-  /** Resource Id. */
-  id?: string;
+/** Represents the properties of the Dns Resource Reference Request. */
+export interface DnsResourceReferenceRequest {
+  /** A list of references to azure resources for which referencing dns records need to be queried. */
+  targetResources?: SubResource[];
+}
+
+/** Represents the properties of the Dns Resource Reference Result. */
+export interface DnsResourceReferenceResult {
+  /** The result of dns resource reference request. A list of dns resource references for each of the azure resource in the request */
+  dnsResourceReferences?: DnsResourceReference[];
+}
+
+/** Represents a single Azure resource and its referencing DNS records. */
+export interface DnsResourceReference {
+  /** A list of dns Records */
+  dnsResources?: SubResource[];
+  /** A reference to an azure resource from where the dns resource value is taken. */
+  targetResource?: SubResource;
+}
+
+/** Describes a request to update a DNS zone. */
+export interface ZoneUpdate {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** The response of a RecordSet list operation. */
+export interface RecordSetListResult {
+  /** The RecordSet items on this page */
+  value: RecordSet[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** An A record. */
@@ -343,92 +328,29 @@ export interface NaptrRecord {
   replacement?: string;
 }
 
-/** The response to a record set List operation. */
-export interface RecordSetListResult {
-  /** Information about the record sets in the response. */
-  value?: RecordSet[];
-  /**
-   * The continuation token for the next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+/** The response of a DnssecConfig list operation. */
+export interface DnssecConfigListResult {
+  /** The DnssecConfig items on this page */
+  value: DnssecConfig[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
-/** Common properties of an Azure Resource Manager resource */
-export interface Resource {
-  /**
-   * Resource ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Resource name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Resource location. */
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
   location: string;
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
 }
 
-/** Describes a request to update a DNS zone. */
-export interface ZoneUpdate {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-}
-
-/** The response to a Zone List or ListAll operation. */
-export interface ZoneListResult {
-  /** Information about the DNS zones. */
-  value?: Zone[];
-  /**
-   * The continuation token for the next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Represents the properties of the Dns Resource Reference Request. */
-export interface DnsResourceReferenceRequest {
-  /** A list of references to azure resources for which referencing dns records need to be queried. */
-  targetResources?: SubResource[];
-}
-
-/** Represents the properties of the Dns Resource Reference Result. */
-export interface DnsResourceReferenceResult {
-  /** The result of dns resource reference request. A list of dns resource references for each of the azure resource in the request */
-  dnsResourceReferences?: DnsResourceReference[];
-}
-
-/** Represents a single Azure resource and its referencing DNS records. */
-export interface DnsResourceReference {
-  /** A list of dns Records */
-  dnsResources?: SubResource[];
-  /** A reference to an azure resource from where the dns resource value is taken. */
-  targetResource?: SubResource;
-}
-
-/** Parameters supplied to update a record set. */
-export interface RecordSetUpdateParameters {
-  /** Specifies information about the record set being updated. */
-  recordSet?: RecordSet;
-}
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
 
 /** Describes a DNS zone. */
-export interface Zone extends Resource {
+export interface Zone extends TrackedResource {
   /** The etag of the zone. */
   etag?: string;
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /**
    * The maximum number of record sets that can be created in this DNS zone.  This is a read-only property and any attempt to set this value will be ignored.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -462,16 +384,94 @@ export interface Zone extends Resource {
   readonly signingKeys?: SigningKey[];
 }
 
-/** Defines headers for DnssecConfigs_delete operation. */
-export interface DnssecConfigsDeleteHeaders {
-  /** Location URI to poll for result */
-  location?: string;
+/** Describes a DNS record set (a collection of DNS records with the same name and type). */
+export interface RecordSet extends ProxyResource {
+  /** The etag of the record set. */
+  etag?: string;
+  /** The metadata attached to the record set. */
+  metadata?: { [propertyName: string]: string };
+  /** The TTL (time-to-live) of the records in the record set. */
+  ttl?: number;
+  /**
+   * Fully qualified domain name of the record set.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fqdn?: string;
+  /**
+   * provisioning State of the record set.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /** A reference to an azure resource from where the dns resource value is taken. */
+  targetResource?: SubResource;
+  /** A reference to an azure traffic manager profile resource from where the dns resource value is taken. */
+  trafficManagementProfile?: SubResource;
+  /** The list of A records in the record set. */
+  aRecords?: ARecord[];
+  /** The list of AAAA records in the record set. */
+  aaaaRecords?: AaaaRecord[];
+  /** The list of MX records in the record set. */
+  mxRecords?: MxRecord[];
+  /** The list of NS records in the record set. */
+  nsRecords?: NsRecord[];
+  /** The list of PTR records in the record set. */
+  ptrRecords?: PtrRecord[];
+  /** The list of SRV records in the record set. */
+  srvRecords?: SrvRecord[];
+  /** The list of TXT records in the record set. */
+  txtRecords?: TxtRecord[];
+  /** The CNAME record in the  record set. */
+  cnameRecord?: CnameRecord;
+  /** The SOA record in the record set. */
+  soaRecord?: SoaRecord;
+  /** The list of CAA records in the record set. */
+  caaRecords?: CaaRecord[];
+  /** The list of DS records in the record set. */
+  dsRecords?: DsRecord[];
+  /** The list of TLSA records in the record set. */
+  tlsaRecords?: TlsaRecord[];
+  /** The list of NAPTR records in the record set. */
+  naptrRecords?: NaptrRecord[];
+}
+
+/** Represents the DNSSEC configuration. */
+export interface DnssecConfig extends ProxyResource {
+  /** The etag of the DNSSEC configuration. */
+  etag?: string;
+  /**
+   * Provisioning State of the DNSSEC configuration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * The list of signing keys.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly signingKeys?: SigningKey[];
 }
 
 /** Defines headers for Zones_delete operation. */
 export interface ZonesDeleteHeaders {
-  /** Location URI to poll for result */
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for DnssecConfigs_createOrUpdate operation. */
+export interface DnssecConfigsCreateOrUpdateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for DnssecConfigs_delete operation. */
+export interface DnssecConfigsDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Known values of {@link CreatedByType} that the service accepts. */
@@ -497,6 +497,8 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
+/** Defines values for ZoneType. */
+export type ZoneType = "Public" | "Private";
 /** Defines values for RecordType. */
 export type RecordType =
   | "A"
@@ -512,12 +514,177 @@ export type RecordType =
   | "TLSA"
   | "DS"
   | "NAPTR";
-/** Defines values for ZoneType. */
-export type ZoneType = "Public" | "Private";
 
 /** Optional parameters. */
-export interface DnssecConfigsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ZonesListOptionalParams extends coreClient.OperationOptions {
+  /** The maximum number of DNS zones to return. If not specified, returns up to 100 zones. */
+  top?: number;
+}
+
+/** Contains response data for the list operation. */
+export type ZonesListResponse = ZoneListResult;
+
+/** Optional parameters. */
+export interface ZonesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+  /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
+  top?: number;
+}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type ZonesListByResourceGroupResponse = ZoneListResult;
+
+/** Optional parameters. */
+export interface ZonesGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ZonesGetResponse = Zone;
+
+/** Optional parameters. */
+export interface ZonesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+  /** The etag of the DNS zone. Omit this value to always overwrite the current zone. Specify the last-seen etag value to prevent accidentally overwriting any concurrent changes. */
+  ifMatch?: string;
+  /** Set to '*' to allow a new DNS zone to be created, but to prevent updating an existing zone. Other values will be ignored. */
+  ifNoneMatch?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ZonesCreateOrUpdateResponse = Zone;
+
+/** Optional parameters. */
+export interface ZonesUpdateOptionalParams extends coreClient.OperationOptions {
+  /** The etag of the DNS zone. Omit this value to always overwrite the current zone. Specify the last-seen etag value to prevent accidentally overwriting any concurrent changes. */
+  ifMatch?: string;
+}
+
+/** Contains response data for the update operation. */
+export type ZonesUpdateResponse = Zone;
+
+/** Optional parameters. */
+export interface ZonesDeleteOptionalParams extends coreClient.OperationOptions {
+  /** The etag of the DNS zone. Omit this value to always delete the current zone. Specify the last-seen etag value to prevent accidentally deleting any concurrent changes. */
+  ifMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ZonesListNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ZonesListNextResponse = ZoneListResult;
+
+/** Optional parameters. */
+export interface ZonesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type ZonesListByResourceGroupNextResponse = ZoneListResult;
+
+/** Optional parameters. */
+export interface DnsResourceReferenceGetByTargetResourcesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByTargetResources operation. */
+export type DnsResourceReferenceGetByTargetResourcesResponse = DnsResourceReferenceResult;
+
+/** Optional parameters. */
+export interface RecordSetsListByTypeOptionalParams extends coreClient.OperationOptions {
+  /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
+  top?: number;
+  /** The suffix label of the record set name that has to be used to filter the record set enumerations. If this parameter is specified, Enumeration will return only records that end with .<recordSetNameSuffix> */
+  recordsetnamesuffix?: string;
+}
+
+/** Contains response data for the listByType operation. */
+export type RecordSetsListByTypeResponse = RecordSetListResult;
+
+/** Optional parameters. */
+export interface RecordSetsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RecordSetsGetResponse = RecordSet;
+
+/** Optional parameters. */
+export interface RecordSetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+  /** The etag of the record set. Omit this value to always overwrite the current record set. Specify the last-seen etag value to prevent accidentally overwriting any concurrent changes. */
+  ifMatch?: string;
+  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing record set. Other values will be ignored. */
+  ifNoneMatch?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type RecordSetsCreateOrUpdateResponse = RecordSet;
+
+/** Optional parameters. */
+export interface RecordSetsUpdateOptionalParams extends coreClient.OperationOptions {
+  /** The etag of the record set. Omit this value to always overwrite the current record set. Specify the last-seen etag value to prevent accidentally overwriting concurrent changes. */
+  ifMatch?: string;
+}
+
+/** Contains response data for the update operation. */
+export type RecordSetsUpdateResponse = RecordSet;
+
+/** Optional parameters. */
+export interface RecordSetsDeleteOptionalParams extends coreClient.OperationOptions {
+  /** The etag of the record set. Omit this value to always delete the current record set. Specify the last-seen etag value to prevent accidentally deleting any concurrent changes. */
+  ifMatch?: string;
+}
+
+/** Optional parameters. */
+export interface RecordSetsListAllByDnsZoneOptionalParams extends coreClient.OperationOptions {
+  /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
+  top?: number;
+  /** The suffix label of the record set name that has to be used to filter the record set enumerations. If this parameter is specified, Enumeration will return only records that end with .<recordSetNameSuffix> */
+  recordSetNameSuffix?: string;
+}
+
+/** Contains response data for the listAllByDnsZone operation. */
+export type RecordSetsListAllByDnsZoneResponse = RecordSetListResult;
+
+/** Optional parameters. */
+export interface RecordSetsListByDnsZoneOptionalParams extends coreClient.OperationOptions {
+  /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
+  top?: number;
+  /** The suffix label of the record set name that has to be used to filter the record set enumerations. If this parameter is specified, Enumeration will return only records that end with .<recordSetNameSuffix> */
+  recordsetnamesuffix?: string;
+}
+
+/** Contains response data for the listByDnsZone operation. */
+export type RecordSetsListByDnsZoneResponse = RecordSetListResult;
+
+/** Optional parameters. */
+export interface RecordSetsListByTypeNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByTypeNext operation. */
+export type RecordSetsListByTypeNextResponse = RecordSetListResult;
+
+/** Optional parameters. */
+export interface RecordSetsListAllByDnsZoneNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAllByDnsZoneNext operation. */
+export type RecordSetsListAllByDnsZoneNextResponse = RecordSetListResult;
+
+/** Optional parameters. */
+export interface RecordSetsListByDnsZoneNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByDnsZoneNext operation. */
+export type RecordSetsListByDnsZoneNextResponse = RecordSetListResult;
+
+/** Optional parameters. */
+export interface DnssecConfigsListByDnsZoneOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByDnsZone operation. */
+export type DnssecConfigsListByDnsZoneResponse = DnssecConfigListResult;
+
+/** Optional parameters. */
+export interface DnssecConfigsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DnssecConfigsGetResponse = DnssecConfig;
+
+/** Optional parameters. */
+export interface DnssecConfigsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** The etag of the DNSSEC configuration. Omit this value to always overwrite the DNSSEC configuration. Specify the last-seen etag value to prevent accidentally overwriting any concurrent changes. */
   ifMatch?: string;
   /** Set to '*' to allow this DNSSEC configuration to be created, but to prevent updating existing DNSSEC configuration. Other values will be ignored. */
@@ -532,8 +699,7 @@ export interface DnssecConfigsCreateOrUpdateOptionalParams
 export type DnssecConfigsCreateOrUpdateResponse = DnssecConfig;
 
 /** Optional parameters. */
-export interface DnssecConfigsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface DnssecConfigsDeleteOptionalParams extends coreClient.OperationOptions {
   /** The etag of this DNSSEC configuration. Omit this value to always delete the DNSSEC configuration. Specify the last-seen etag value to prevent accidentally deleting any concurrent changes. */
   ifMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
@@ -543,200 +709,13 @@ export interface DnssecConfigsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface DnssecConfigsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type DnssecConfigsGetResponse = DnssecConfig;
-
-/** Optional parameters. */
-export interface DnssecConfigsListByDnsZoneOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByDnsZone operation. */
-export type DnssecConfigsListByDnsZoneResponse = DnssecConfigListResult;
-
-/** Optional parameters. */
-export interface DnssecConfigsListByDnsZoneNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DnssecConfigsListByDnsZoneNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDnsZoneNext operation. */
 export type DnssecConfigsListByDnsZoneNextResponse = DnssecConfigListResult;
 
 /** Optional parameters. */
-export interface RecordSetsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The etag of the record set. Omit this value to always overwrite the current record set. Specify the last-seen etag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-}
-
-/** Contains response data for the update operation. */
-export type RecordSetsUpdateResponse = RecordSet;
-
-/** Optional parameters. */
-export interface RecordSetsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The etag of the record set. Omit this value to always overwrite the current record set. Specify the last-seen etag value to prevent accidentally overwriting any concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing record set. Other values will be ignored. */
-  ifNoneMatch?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type RecordSetsCreateOrUpdateResponse = RecordSet;
-
-/** Optional parameters. */
-export interface RecordSetsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** The etag of the record set. Omit this value to always delete the current record set. Specify the last-seen etag value to prevent accidentally deleting any concurrent changes. */
-  ifMatch?: string;
-}
-
-/** Optional parameters. */
-export interface RecordSetsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type RecordSetsGetResponse = RecordSet;
-
-/** Optional parameters. */
-export interface RecordSetsListByTypeOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
-  top?: number;
-  /** The suffix label of the record set name that has to be used to filter the record set enumerations. If this parameter is specified, Enumeration will return only records that end with .<recordSetNameSuffix> */
-  recordsetnamesuffix?: string;
-}
-
-/** Contains response data for the listByType operation. */
-export type RecordSetsListByTypeResponse = RecordSetListResult;
-
-/** Optional parameters. */
-export interface RecordSetsListByDnsZoneOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
-  top?: number;
-  /** The suffix label of the record set name that has to be used to filter the record set enumerations. If this parameter is specified, Enumeration will return only records that end with .<recordSetNameSuffix> */
-  recordsetnamesuffix?: string;
-}
-
-/** Contains response data for the listByDnsZone operation. */
-export type RecordSetsListByDnsZoneResponse = RecordSetListResult;
-
-/** Optional parameters. */
-export interface RecordSetsListAllByDnsZoneOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
-  top?: number;
-  /** The suffix label of the record set name that has to be used to filter the record set enumerations. If this parameter is specified, Enumeration will return only records that end with .<recordSetNameSuffix> */
-  recordSetNameSuffix?: string;
-}
-
-/** Contains response data for the listAllByDnsZone operation. */
-export type RecordSetsListAllByDnsZoneResponse = RecordSetListResult;
-
-/** Optional parameters. */
-export interface RecordSetsListByTypeNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByTypeNext operation. */
-export type RecordSetsListByTypeNextResponse = RecordSetListResult;
-
-/** Optional parameters. */
-export interface RecordSetsListByDnsZoneNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByDnsZoneNext operation. */
-export type RecordSetsListByDnsZoneNextResponse = RecordSetListResult;
-
-/** Optional parameters. */
-export interface RecordSetsListAllByDnsZoneNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAllByDnsZoneNext operation. */
-export type RecordSetsListAllByDnsZoneNextResponse = RecordSetListResult;
-
-/** Optional parameters. */
-export interface ZonesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The etag of the DNS zone. Omit this value to always overwrite the current zone. Specify the last-seen etag value to prevent accidentally overwriting any concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new DNS zone to be created, but to prevent updating an existing zone. Other values will be ignored. */
-  ifNoneMatch?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type ZonesCreateOrUpdateResponse = Zone;
-
-/** Optional parameters. */
-export interface ZonesDeleteOptionalParams extends coreClient.OperationOptions {
-  /** The etag of the DNS zone. Omit this value to always delete the current zone. Specify the last-seen etag value to prevent accidentally deleting any concurrent changes. */
-  ifMatch?: string;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface ZonesGetOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ZonesGetResponse = Zone;
-
-/** Optional parameters. */
-export interface ZonesUpdateOptionalParams extends coreClient.OperationOptions {
-  /** The etag of the DNS zone. Omit this value to always overwrite the current zone. Specify the last-seen etag value to prevent accidentally overwriting any concurrent changes. */
-  ifMatch?: string;
-}
-
-/** Contains response data for the update operation. */
-export type ZonesUpdateResponse = Zone;
-
-/** Optional parameters. */
-export interface ZonesListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
-  top?: number;
-}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type ZonesListByResourceGroupResponse = ZoneListResult;
-
-/** Optional parameters. */
-export interface ZonesListOptionalParams extends coreClient.OperationOptions {
-  /** The maximum number of DNS zones to return. If not specified, returns up to 100 zones. */
-  top?: number;
-}
-
-/** Contains response data for the list operation. */
-export type ZonesListResponse = ZoneListResult;
-
-/** Optional parameters. */
-export interface ZonesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type ZonesListByResourceGroupNextResponse = ZoneListResult;
-
-/** Optional parameters. */
-export interface ZonesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ZonesListNextResponse = ZoneListResult;
-
-/** Optional parameters. */
-export interface DnsResourceReferenceGetByTargetResourcesOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getByTargetResources operation. */
-export type DnsResourceReferenceGetByTargetResourcesResponse =
-  DnsResourceReferenceResult;
-
-/** Optional parameters. */
-export interface DnsManagementClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface DnsManagementClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

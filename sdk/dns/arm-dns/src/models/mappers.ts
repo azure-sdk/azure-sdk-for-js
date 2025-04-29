@@ -8,63 +8,43 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const DnssecConfig: coreClient.CompositeMapper = {
+export const ZoneListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DnssecConfig",
+    className: "ZoneListResult",
     modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      etag: {
-        serializedName: "etag",
-        type: {
-          name: "String",
-        },
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData",
-        },
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      signingKeys: {
-        serializedName: "properties.signingKeys",
-        readOnly: true,
+      value: {
+        serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "SigningKey",
+              className: "Zone",
             },
           },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const SubResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SubResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String",
         },
       },
     },
@@ -158,6 +138,43 @@ export const DelegationSignerInfo: coreClient.CompositeMapper = {
   },
 };
 
+export const Resource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData",
+        },
+      },
+    },
+  },
+};
+
 export const SystemData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -203,53 +220,70 @@ export const SystemData: coreClient.CompositeMapper = {
   },
 };
 
-export const CloudError: coreClient.CompositeMapper = {
+export const ErrorResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CloudError",
+    className: "ErrorResponse",
     modelProperties: {
       error: {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "CloudErrorBody",
+          className: "ErrorDetail",
         },
       },
     },
   },
 };
 
-export const CloudErrorBody: coreClient.CompositeMapper = {
+export const ErrorDetail: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CloudErrorBody",
+    className: "ErrorDetail",
     modelProperties: {
       code: {
         serializedName: "code",
+        readOnly: true,
         type: {
           name: "String",
         },
       },
       message: {
         serializedName: "message",
+        readOnly: true,
         type: {
           name: "String",
         },
       },
       target: {
         serializedName: "target",
+        readOnly: true,
         type: {
           name: "String",
         },
       },
       details: {
         serializedName: "details",
+        readOnly: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "CloudErrorBody",
+              className: "ErrorDetail",
+            },
+          },
+        },
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo",
             },
           },
         },
@@ -258,53 +292,11 @@ export const CloudErrorBody: coreClient.CompositeMapper = {
   },
 };
 
-export const DnssecConfigListResult: coreClient.CompositeMapper = {
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DnssecConfigListResult",
+    className: "ErrorAdditionalInfo",
     modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DnssecConfig",
-            },
-          },
-        },
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const RecordSet: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RecordSet",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
       type: {
         serializedName: "type",
         readOnly: true,
@@ -312,195 +304,31 @@ export const RecordSet: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      etag: {
-        serializedName: "etag",
-        type: {
-          name: "String",
-        },
-      },
-      metadata: {
-        serializedName: "properties.metadata",
+      info: {
+        serializedName: "info",
+        readOnly: true,
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } },
+          value: { type: { name: "any" } },
         },
       },
-      ttl: {
-        serializedName: "properties.TTL",
-        type: {
-          name: "Number",
-        },
-      },
-      fqdn: {
-        serializedName: "properties.fqdn",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      targetResource: {
-        serializedName: "properties.targetResource",
-        type: {
-          name: "Composite",
-          className: "SubResource",
-        },
-      },
-      trafficManagementProfile: {
-        serializedName: "properties.trafficManagementProfile",
-        type: {
-          name: "Composite",
-          className: "SubResource",
-        },
-      },
-      aRecords: {
-        serializedName: "properties.ARecords",
+    },
+  },
+};
+
+export const DnsResourceReferenceRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DnsResourceReferenceRequest",
+    modelProperties: {
+      targetResources: {
+        serializedName: "properties.targetResources",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "ARecord",
-            },
-          },
-        },
-      },
-      aaaaRecords: {
-        serializedName: "properties.AAAARecords",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AaaaRecord",
-            },
-          },
-        },
-      },
-      mxRecords: {
-        serializedName: "properties.MXRecords",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MxRecord",
-            },
-          },
-        },
-      },
-      nsRecords: {
-        serializedName: "properties.NSRecords",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "NsRecord",
-            },
-          },
-        },
-      },
-      ptrRecords: {
-        serializedName: "properties.PTRRecords",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PtrRecord",
-            },
-          },
-        },
-      },
-      srvRecords: {
-        serializedName: "properties.SRVRecords",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SrvRecord",
-            },
-          },
-        },
-      },
-      txtRecords: {
-        serializedName: "properties.TXTRecords",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "TxtRecord",
-            },
-          },
-        },
-      },
-      cnameRecord: {
-        serializedName: "properties.CNAMERecord",
-        type: {
-          name: "Composite",
-          className: "CnameRecord",
-        },
-      },
-      soaRecord: {
-        serializedName: "properties.SOARecord",
-        type: {
-          name: "Composite",
-          className: "SoaRecord",
-        },
-      },
-      caaRecords: {
-        serializedName: "properties.caaRecords",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CaaRecord",
-            },
-          },
-        },
-      },
-      dsRecords: {
-        serializedName: "properties.DSRecords",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DsRecord",
-            },
-          },
-        },
-      },
-      tlsaRecords: {
-        serializedName: "properties.TLSARecords",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "TlsaRecord",
-            },
-          },
-        },
-      },
-      naptrRecords: {
-        serializedName: "properties.NAPTRRecords",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "NaptrRecord",
+              className: "SubResource",
             },
           },
         },
@@ -509,13 +337,91 @@ export const RecordSet: coreClient.CompositeMapper = {
   },
 };
 
-export const SubResource: coreClient.CompositeMapper = {
+export const DnsResourceReferenceResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SubResource",
+    className: "DnsResourceReferenceResult",
     modelProperties: {
-      id: {
-        serializedName: "id",
+      dnsResourceReferences: {
+        serializedName: "properties.dnsResourceReferences",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DnsResourceReference",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const DnsResourceReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DnsResourceReference",
+    modelProperties: {
+      dnsResources: {
+        serializedName: "dnsResources",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResource",
+            },
+          },
+        },
+      },
+      targetResource: {
+        serializedName: "targetResource",
+        type: {
+          name: "Composite",
+          className: "SubResource",
+        },
+      },
+    },
+  },
+};
+
+export const ZoneUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ZoneUpdate",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
+};
+
+export const RecordSetListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RecordSetListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RecordSet",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
         type: {
           name: "String",
         },
@@ -878,26 +784,26 @@ export const NaptrRecord: coreClient.CompositeMapper = {
   },
 };
 
-export const RecordSetListResult: coreClient.CompositeMapper = {
+export const DnssecConfigListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "RecordSetListResult",
+    className: "DnssecConfigListResult",
     modelProperties: {
       value: {
         serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "RecordSet",
+              className: "DnssecConfig",
             },
           },
         },
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -906,30 +812,17 @@ export const RecordSetListResult: coreClient.CompositeMapper = {
   },
 };
 
-export const Resource: coreClient.CompositeMapper = {
+export const TrackedResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Resource",
+    className: "TrackedResource",
     modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
+      ...Resource.type.modelProperties,
+      tags: {
+        serializedName: "tags",
         type: {
-          name: "String",
-        },
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String",
+          name: "Dictionary",
+          value: { type: { name: "String" } },
         },
       },
       location: {
@@ -939,143 +832,16 @@ export const Resource: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } },
-        },
-      },
     },
   },
 };
 
-export const ZoneUpdate: coreClient.CompositeMapper = {
+export const ProxyResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ZoneUpdate",
+    className: "ProxyResource",
     modelProperties: {
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } },
-        },
-      },
-    },
-  },
-};
-
-export const ZoneListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ZoneListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Zone",
-            },
-          },
-        },
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const DnsResourceReferenceRequest: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DnsResourceReferenceRequest",
-    modelProperties: {
-      targetResources: {
-        serializedName: "properties.targetResources",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SubResource",
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
-export const DnsResourceReferenceResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DnsResourceReferenceResult",
-    modelProperties: {
-      dnsResourceReferences: {
-        serializedName: "properties.dnsResourceReferences",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DnsResourceReference",
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
-export const DnsResourceReference: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DnsResourceReference",
-    modelProperties: {
-      dnsResources: {
-        serializedName: "dnsResources",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SubResource",
-            },
-          },
-        },
-      },
-      targetResource: {
-        serializedName: "targetResource",
-        type: {
-          name: "Composite",
-          className: "SubResource",
-        },
-      },
-    },
-  },
-};
-
-export const RecordSetUpdateParameters: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RecordSetUpdateParameters",
-    modelProperties: {
-      recordSet: {
-        serializedName: "RecordSet",
-        type: {
-          name: "Composite",
-          className: "RecordSet",
-        },
-      },
+      ...Resource.type.modelProperties,
     },
   },
 };
@@ -1085,18 +851,11 @@ export const Zone: coreClient.CompositeMapper = {
     name: "Composite",
     className: "Zone",
     modelProperties: {
-      ...Resource.type.modelProperties,
+      ...TrackedResource.type.modelProperties,
       etag: {
         serializedName: "etag",
         type: {
           name: "String",
-        },
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData",
         },
       },
       maxNumberOfRecordSets: {
@@ -1181,15 +940,239 @@ export const Zone: coreClient.CompositeMapper = {
   },
 };
 
-export const DnssecConfigsDeleteHeaders: coreClient.CompositeMapper = {
+export const RecordSet: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DnssecConfigsDeleteHeaders",
+    className: "RecordSet",
     modelProperties: {
-      location: {
-        serializedName: "location",
+      ...ProxyResource.type.modelProperties,
+      etag: {
+        serializedName: "etag",
         type: {
           name: "String",
+        },
+      },
+      metadata: {
+        serializedName: "properties.metadata",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      ttl: {
+        serializedName: "properties.TTL",
+        type: {
+          name: "Number",
+        },
+      },
+      fqdn: {
+        serializedName: "properties.fqdn",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      targetResource: {
+        serializedName: "properties.targetResource",
+        type: {
+          name: "Composite",
+          className: "SubResource",
+        },
+      },
+      trafficManagementProfile: {
+        serializedName: "properties.trafficManagementProfile",
+        type: {
+          name: "Composite",
+          className: "SubResource",
+        },
+      },
+      aRecords: {
+        serializedName: "properties.ARecords",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ARecord",
+            },
+          },
+        },
+      },
+      aaaaRecords: {
+        serializedName: "properties.AAAARecords",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AaaaRecord",
+            },
+          },
+        },
+      },
+      mxRecords: {
+        serializedName: "properties.MXRecords",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MxRecord",
+            },
+          },
+        },
+      },
+      nsRecords: {
+        serializedName: "properties.NSRecords",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NsRecord",
+            },
+          },
+        },
+      },
+      ptrRecords: {
+        serializedName: "properties.PTRRecords",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PtrRecord",
+            },
+          },
+        },
+      },
+      srvRecords: {
+        serializedName: "properties.SRVRecords",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SrvRecord",
+            },
+          },
+        },
+      },
+      txtRecords: {
+        serializedName: "properties.TXTRecords",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TxtRecord",
+            },
+          },
+        },
+      },
+      cnameRecord: {
+        serializedName: "properties.CNAMERecord",
+        type: {
+          name: "Composite",
+          className: "CnameRecord",
+        },
+      },
+      soaRecord: {
+        serializedName: "properties.SOARecord",
+        type: {
+          name: "Composite",
+          className: "SoaRecord",
+        },
+      },
+      caaRecords: {
+        serializedName: "properties.caaRecords",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CaaRecord",
+            },
+          },
+        },
+      },
+      dsRecords: {
+        serializedName: "properties.DSRecords",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DsRecord",
+            },
+          },
+        },
+      },
+      tlsaRecords: {
+        serializedName: "properties.TLSARecords",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TlsaRecord",
+            },
+          },
+        },
+      },
+      naptrRecords: {
+        serializedName: "properties.NAPTRRecords",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NaptrRecord",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const DnssecConfig: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DnssecConfig",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String",
+        },
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      signingKeys: {
+        serializedName: "properties.signingKeys",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SigningKey",
+            },
+          },
         },
       },
     },
@@ -1205,6 +1188,54 @@ export const ZonesDeleteHeaders: coreClient.CompositeMapper = {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const DnssecConfigsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DnssecConfigsCreateOrUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const DnssecConfigsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DnssecConfigsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },

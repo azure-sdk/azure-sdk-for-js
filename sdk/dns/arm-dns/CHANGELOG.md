@@ -1,15 +1,65 @@
 # Release History
-
-## 5.2.0-beta.2 (Unreleased)
-
+    
+## 6.0.0-beta.1 (2025-04-29)
+Compared with version 5.1.0
+    
 ### Features Added
+
+  - Added operation group DnssecConfigs
+  - Added Interface DelegationSignerInfo
+  - Added Interface Digest
+  - Added Interface DnssecConfig
+  - Added Interface DnssecConfigListResult
+  - Added Interface DnssecConfigsCreateOrUpdateHeaders
+  - Added Interface DnssecConfigsCreateOrUpdateOptionalParams
+  - Added Interface DnssecConfigsDeleteHeaders
+  - Added Interface DnssecConfigsDeleteOptionalParams
+  - Added Interface DnssecConfigsGetOptionalParams
+  - Added Interface DnssecConfigsListByDnsZoneNextOptionalParams
+  - Added Interface DnssecConfigsListByDnsZoneOptionalParams
+  - Added Interface DsRecord
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface NaptrRecord
+  - Added Interface ProxyResource
+  - Added Interface SigningKey
+  - Added Interface SystemData
+  - Added Interface TlsaRecord
+  - Added Interface TrackedResource
+  - Added Interface ZonesDeleteHeaders
+  - Added Type Alias CreatedByType
+  - Added Type Alias DnssecConfigsCreateOrUpdateResponse
+  - Added Type Alias DnssecConfigsGetResponse
+  - Added Type Alias DnssecConfigsListByDnsZoneNextResponse
+  - Added Type Alias DnssecConfigsListByDnsZoneResponse
+  - Interface RecordSet has a new optional parameter dsRecords
+  - Interface RecordSet has a new optional parameter naptrRecords
+  - Interface RecordSet has a new optional parameter tlsaRecords
+  - Interface RecordSet has a new optional parameter trafficManagementProfile
+  - Interface Resource has a new optional parameter systemData
+  - Interface Zone has a new optional parameter signingKeys
+  - Added Enum KnownCreatedByType
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface RecordSet no longer has parameter id
+  - Interface RecordSet no longer has parameter name
+  - Interface RecordSet no longer has parameter type
+  - Interface RecordSetsListAllByDnsZoneNextOptionalParams no longer has parameter recordSetNameSuffix
+  - Interface RecordSetsListAllByDnsZoneNextOptionalParams no longer has parameter top
+  - Interface RecordSetsListByDnsZoneNextOptionalParams no longer has parameter recordsetnamesuffix
+  - Interface RecordSetsListByDnsZoneNextOptionalParams no longer has parameter top
+  - Interface RecordSetsListByTypeNextOptionalParams no longer has parameter recordsetnamesuffix
+  - Interface RecordSetsListByTypeNextOptionalParams no longer has parameter top
+  - Interface Resource no longer has parameter location
+  - Interface Resource no longer has parameter tags
+  - Interface ZonesListByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface ZonesListNextOptionalParams no longer has parameter top
+  - Parameter value of interface RecordSetListResult is now required
+  - Parameter value of interface ZoneListResult is now required
+    
+    
 ## 5.2.0-beta.1 (2024-10-15)
 Compared with version 5.1.0
     

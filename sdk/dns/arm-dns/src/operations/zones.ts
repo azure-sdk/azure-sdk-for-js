@@ -13,30 +13,26 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { DnsManagementClient } from "../dnsManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Zone,
-  ZonesListByResourceGroupNextOptionalParams,
-  ZonesListByResourceGroupOptionalParams,
-  ZonesListByResourceGroupResponse,
   ZonesListNextOptionalParams,
   ZonesListOptionalParams,
   ZonesListResponse,
-  ZonesCreateOrUpdateOptionalParams,
-  ZonesCreateOrUpdateResponse,
-  ZonesDeleteOptionalParams,
+  ZonesListByResourceGroupNextOptionalParams,
+  ZonesListByResourceGroupOptionalParams,
+  ZonesListByResourceGroupResponse,
   ZonesGetOptionalParams,
   ZonesGetResponse,
+  ZonesCreateOrUpdateOptionalParams,
+  ZonesCreateOrUpdateResponse,
   ZoneUpdate,
   ZonesUpdateOptionalParams,
   ZonesUpdateResponse,
-  ZonesListByResourceGroupNextResponse,
+  ZonesDeleteOptionalParams,
   ZonesListNextResponse,
+  ZonesListByResourceGroupNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,81 +49,10 @@ export class ZonesImpl implements Zones {
   }
 
   /**
-   * Lists the DNS zones within a resource group.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  public listByResourceGroup(
-    resourceGroupName: string,
-    options?: ZonesListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<Zone> {
-    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
-      },
-    };
-  }
-
-  private async *listByResourceGroupPagingPage(
-    resourceGroupName: string,
-    options?: ZonesListByResourceGroupOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<Zone[]> {
-    let result: ZonesListByResourceGroupResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listByResourceGroupPagingAll(
-    resourceGroupName: string,
-    options?: ZonesListByResourceGroupOptionalParams,
-  ): AsyncIterableIterator<Zone> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
    * Lists the DNS zones in all resource groups in a subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: ZonesListOptionalParams,
-  ): PagedAsyncIterableIterator<Zone> {
+  public list(options?: ZonesListOptionalParams): PagedAsyncIterableIterator<Zone> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -167,12 +92,108 @@ export class ZonesImpl implements Zones {
     }
   }
 
-  private async *listPagingAll(
-    options?: ZonesListOptionalParams,
-  ): AsyncIterableIterator<Zone> {
+  private async *listPagingAll(options?: ZonesListOptionalParams): AsyncIterableIterator<Zone> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
+  }
+
+  /**
+   * Lists the DNS zones within a resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  public listByResourceGroup(
+    resourceGroupName: string,
+    options?: ZonesListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<Zone> {
+    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
+      },
+    };
+  }
+
+  private async *listByResourceGroupPagingPage(
+    resourceGroupName: string,
+    options?: ZonesListByResourceGroupOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<Zone[]> {
+    let result: ZonesListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByResourceGroupPagingAll(
+    resourceGroupName: string,
+    options?: ZonesListByResourceGroupOptionalParams,
+  ): AsyncIterableIterator<Zone> {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists the DNS zones in all resource groups in a subscription.
+   * @param options The options parameters.
+   */
+  private _list(options?: ZonesListOptionalParams): Promise<ZonesListResponse> {
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
+  }
+
+  /**
+   * Lists the DNS zones within a resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: ZonesListByResourceGroupOptionalParams,
+  ): Promise<ZonesListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
+    );
+  }
+
+  /**
+   * Gets a DNS zone. Retrieves the zone properties, but not the record sets within the zone.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param zoneName The name of the DNS zone (without a terminating dot).
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    zoneName: string,
+    options?: ZonesGetOptionalParams,
+  ): Promise<ZonesGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, zoneName, options },
+      getOperationSpec,
+    );
   }
 
   /**
@@ -191,6 +212,25 @@ export class ZonesImpl implements Zones {
     return this.client.sendOperationRequest(
       { resourceGroupName, zoneName, parameters, options },
       createOrUpdateOperationSpec,
+    );
+  }
+
+  /**
+   * Updates a DNS zone. Does not modify DNS records within the zone.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param zoneName The name of the DNS zone (without a terminating dot).
+   * @param parameters Parameters supplied to the Update operation.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    zoneName: string,
+    parameters: ZoneUpdate,
+    options?: ZonesUpdateOptionalParams,
+  ): Promise<ZonesUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, zoneName, parameters, options },
+      updateOperationSpec,
     );
   }
 
@@ -216,8 +256,7 @@ export class ZonesImpl implements Zones {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -252,6 +291,7 @@ export class ZonesImpl implements Zones {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -274,62 +314,15 @@ export class ZonesImpl implements Zones {
   }
 
   /**
-   * Gets a DNS zone. Retrieves the zone properties, but not the record sets within the zone.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param zoneName The name of the DNS zone (without a terminating dot).
+   * ListNext
+   * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  get(
-    resourceGroupName: string,
-    zoneName: string,
-    options?: ZonesGetOptionalParams,
-  ): Promise<ZonesGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, zoneName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * Updates a DNS zone. Does not modify DNS records within the zone.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param zoneName The name of the DNS zone (without a terminating dot).
-   * @param parameters Parameters supplied to the Update operation.
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    zoneName: string,
-    parameters: ZoneUpdate,
-    options?: ZonesUpdateOptionalParams,
-  ): Promise<ZonesUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, zoneName, parameters, options },
-      updateOperationSpec,
-    );
-  }
-
-  /**
-   * Lists the DNS zones within a resource group.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: ZonesListByResourceGroupOptionalParams,
-  ): Promise<ZonesListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec,
-    );
-  }
-
-  /**
-   * Lists the DNS zones in all resource groups in a subscription.
-   * @param options The options parameters.
-   */
-  private _list(options?: ZonesListOptionalParams): Promise<ZonesListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
+  private _listNext(
+    nextLink: string,
+    options?: ZonesListNextOptionalParams,
+  ): Promise<ZonesListNextResponse> {
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -348,25 +341,63 @@ export class ZonesImpl implements Zones {
       listByResourceGroupNextOperationSpec,
     );
   }
-
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
-    nextLink: string,
-    options?: ZonesListNextOptionalParams,
-  ): Promise<ZonesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/dnsZones",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ZoneListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.top],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ZoneListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.top],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Zone,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.zoneName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}",
   httpMethod: "PUT",
@@ -378,23 +409,46 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Zone,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.zoneName,
+  ],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
+  ],
+  mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Zone,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.zoneName,
-    Parameters.subscriptionId,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
-    Parameters.contentType,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };
@@ -407,100 +461,31 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.zoneName,
-    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch],
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Zone,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.zoneName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Zone,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  requestBody: Parameters.parameters2,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.zoneName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.ifMatch,
-    Parameters.contentType,
-  ],
-  mediaType: "json",
-  serializer,
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones",
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.ZoneListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/dnszones",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ZoneListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -512,32 +497,13 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ZoneListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ZoneListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],

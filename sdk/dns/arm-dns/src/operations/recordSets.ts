@@ -19,22 +19,22 @@ import {
   RecordSetsListByTypeNextOptionalParams,
   RecordSetsListByTypeOptionalParams,
   RecordSetsListByTypeResponse,
-  RecordSetsListByDnsZoneNextOptionalParams,
-  RecordSetsListByDnsZoneOptionalParams,
-  RecordSetsListByDnsZoneResponse,
   RecordSetsListAllByDnsZoneNextOptionalParams,
   RecordSetsListAllByDnsZoneOptionalParams,
   RecordSetsListAllByDnsZoneResponse,
-  RecordSetsUpdateOptionalParams,
-  RecordSetsUpdateResponse,
-  RecordSetsCreateOrUpdateOptionalParams,
-  RecordSetsCreateOrUpdateResponse,
-  RecordSetsDeleteOptionalParams,
+  RecordSetsListByDnsZoneNextOptionalParams,
+  RecordSetsListByDnsZoneOptionalParams,
+  RecordSetsListByDnsZoneResponse,
   RecordSetsGetOptionalParams,
   RecordSetsGetResponse,
+  RecordSetsCreateOrUpdateOptionalParams,
+  RecordSetsCreateOrUpdateResponse,
+  RecordSetsUpdateOptionalParams,
+  RecordSetsUpdateResponse,
+  RecordSetsDeleteOptionalParams,
   RecordSetsListByTypeNextResponse,
-  RecordSetsListByDnsZoneNextResponse,
   RecordSetsListAllByDnsZoneNextResponse,
+  RecordSetsListByDnsZoneNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -63,12 +63,7 @@ export class RecordSetsImpl implements RecordSets {
     recordType: RecordType,
     options?: RecordSetsListByTypeOptionalParams,
   ): PagedAsyncIterableIterator<RecordSet> {
-    const iter = this.listByTypePagingAll(
-      resourceGroupName,
-      zoneName,
-      recordType,
-      options,
-    );
+    const iter = this.listByTypePagingAll(resourceGroupName, zoneName, recordType, options);
     return {
       next() {
         return iter.next();
@@ -101,12 +96,7 @@ export class RecordSetsImpl implements RecordSets {
     let result: RecordSetsListByTypeResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByType(
-        resourceGroupName,
-        zoneName,
-        recordType,
-        options,
-      );
+      result = await this._listByType(resourceGroupName, zoneName, recordType, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -149,16 +139,12 @@ export class RecordSetsImpl implements RecordSets {
    * @param zoneName The name of the DNS zone (without a terminating dot).
    * @param options The options parameters.
    */
-  public listByDnsZone(
+  public listAllByDnsZone(
     resourceGroupName: string,
     zoneName: string,
-    options?: RecordSetsListByDnsZoneOptionalParams,
+    options?: RecordSetsListAllByDnsZoneOptionalParams,
   ): PagedAsyncIterableIterator<RecordSet> {
-    const iter = this.listByDnsZonePagingAll(
-      resourceGroupName,
-      zoneName,
-      options,
-    );
+    const iter = this.listAllByDnsZonePagingAll(resourceGroupName, zoneName, options);
     return {
       next() {
         return iter.next();
@@ -170,12 +156,78 @@ export class RecordSetsImpl implements RecordSets {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByDnsZonePagingPage(
-          resourceGroupName,
-          zoneName,
-          options,
-          settings,
-        );
+        return this.listAllByDnsZonePagingPage(resourceGroupName, zoneName, options, settings);
+      },
+    };
+  }
+
+  private async *listAllByDnsZonePagingPage(
+    resourceGroupName: string,
+    zoneName: string,
+    options?: RecordSetsListAllByDnsZoneOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<RecordSet[]> {
+    let result: RecordSetsListAllByDnsZoneResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAllByDnsZone(resourceGroupName, zoneName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listAllByDnsZoneNext(
+        resourceGroupName,
+        zoneName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listAllByDnsZonePagingAll(
+    resourceGroupName: string,
+    zoneName: string,
+    options?: RecordSetsListAllByDnsZoneOptionalParams,
+  ): AsyncIterableIterator<RecordSet> {
+    for await (const page of this.listAllByDnsZonePagingPage(
+      resourceGroupName,
+      zoneName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists all record sets in a DNS zone.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param zoneName The name of the DNS zone (without a terminating dot).
+   * @param options The options parameters.
+   */
+  public listByDnsZone(
+    resourceGroupName: string,
+    zoneName: string,
+    options?: RecordSetsListByDnsZoneOptionalParams,
+  ): PagedAsyncIterableIterator<RecordSet> {
+    const iter = this.listByDnsZonePagingAll(resourceGroupName, zoneName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByDnsZonePagingPage(resourceGroupName, zoneName, options, settings);
       },
     };
   }
@@ -214,126 +266,54 @@ export class RecordSetsImpl implements RecordSets {
     zoneName: string,
     options?: RecordSetsListByDnsZoneOptionalParams,
   ): AsyncIterableIterator<RecordSet> {
-    for await (const page of this.listByDnsZonePagingPage(
-      resourceGroupName,
-      zoneName,
-      options,
-    )) {
+    for await (const page of this.listByDnsZonePagingPage(resourceGroupName, zoneName, options)) {
       yield* page;
     }
   }
 
   /**
-   * Lists all record sets in a DNS zone.
+   * Lists the record sets of a specified type in a DNS zone.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
+   * @param recordType The type of DNS record in this record set.
    * @param options The options parameters.
    */
-  public listAllByDnsZone(
+  private _listByType(
     resourceGroupName: string,
     zoneName: string,
-    options?: RecordSetsListAllByDnsZoneOptionalParams,
-  ): PagedAsyncIterableIterator<RecordSet> {
-    const iter = this.listAllByDnsZonePagingAll(
-      resourceGroupName,
-      zoneName,
-      options,
+    recordType: RecordType,
+    options?: RecordSetsListByTypeOptionalParams,
+  ): Promise<RecordSetsListByTypeResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, zoneName, recordType, options },
+      listByTypeOperationSpec,
     );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listAllByDnsZonePagingPage(
-          resourceGroupName,
-          zoneName,
-          options,
-          settings,
-        );
-      },
-    };
-  }
-
-  private async *listAllByDnsZonePagingPage(
-    resourceGroupName: string,
-    zoneName: string,
-    options?: RecordSetsListAllByDnsZoneOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<RecordSet[]> {
-    let result: RecordSetsListAllByDnsZoneResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listAllByDnsZone(
-        resourceGroupName,
-        zoneName,
-        options,
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listAllByDnsZoneNext(
-        resourceGroupName,
-        zoneName,
-        continuationToken,
-        options,
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listAllByDnsZonePagingAll(
-    resourceGroupName: string,
-    zoneName: string,
-    options?: RecordSetsListAllByDnsZoneOptionalParams,
-  ): AsyncIterableIterator<RecordSet> {
-    for await (const page of this.listAllByDnsZonePagingPage(
-      resourceGroupName,
-      zoneName,
-      options,
-    )) {
-      yield* page;
-    }
   }
 
   /**
-   * Updates a record set within a DNS zone.
+   * Gets a record set.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
    * @param relativeRecordSetName The name of the record set, relative to the name of the zone.
    * @param recordType The type of DNS record in this record set.
-   * @param parameters Parameters supplied to the Update operation.
    * @param options The options parameters.
    */
-  update(
+  get(
     resourceGroupName: string,
     zoneName: string,
     relativeRecordSetName: string,
     recordType: RecordType,
-    parameters: RecordSet,
-    options?: RecordSetsUpdateOptionalParams,
-  ): Promise<RecordSetsUpdateResponse> {
+    options?: RecordSetsGetOptionalParams,
+  ): Promise<RecordSetsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         zoneName,
         relativeRecordSetName,
         recordType,
-        parameters,
         options,
       },
-      updateOperationSpec,
+      getOperationSpec,
     );
   }
 
@@ -369,6 +349,36 @@ export class RecordSetsImpl implements RecordSets {
   }
 
   /**
+   * Updates a record set within a DNS zone.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param zoneName The name of the DNS zone (without a terminating dot).
+   * @param relativeRecordSetName The name of the record set, relative to the name of the zone.
+   * @param recordType The type of DNS record in this record set.
+   * @param parameters Parameters supplied to the Update operation.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    zoneName: string,
+    relativeRecordSetName: string,
+    recordType: RecordType,
+    parameters: RecordSet,
+    options?: RecordSetsUpdateOptionalParams,
+  ): Promise<RecordSetsUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        zoneName,
+        relativeRecordSetName,
+        recordType,
+        parameters,
+        options,
+      },
+      updateOperationSpec,
+    );
+  }
+
+  /**
    * Deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA
    * cannot be deleted (they are deleted when the DNS zone is deleted).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -397,48 +407,19 @@ export class RecordSetsImpl implements RecordSets {
   }
 
   /**
-   * Gets a record set.
+   * Lists all record sets in a DNS zone.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
-   * @param relativeRecordSetName The name of the record set, relative to the name of the zone.
-   * @param recordType The type of DNS record in this record set.
    * @param options The options parameters.
    */
-  get(
+  private _listAllByDnsZone(
     resourceGroupName: string,
     zoneName: string,
-    relativeRecordSetName: string,
-    recordType: RecordType,
-    options?: RecordSetsGetOptionalParams,
-  ): Promise<RecordSetsGetResponse> {
+    options?: RecordSetsListAllByDnsZoneOptionalParams,
+  ): Promise<RecordSetsListAllByDnsZoneResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        zoneName,
-        relativeRecordSetName,
-        recordType,
-        options,
-      },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * Lists the record sets of a specified type in a DNS zone.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param zoneName The name of the DNS zone (without a terminating dot).
-   * @param recordType The type of DNS record in this record set.
-   * @param options The options parameters.
-   */
-  private _listByType(
-    resourceGroupName: string,
-    zoneName: string,
-    recordType: RecordType,
-    options?: RecordSetsListByTypeOptionalParams,
-  ): Promise<RecordSetsListByTypeResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, zoneName, recordType, options },
-      listByTypeOperationSpec,
+      { resourceGroupName, zoneName, options },
+      listAllByDnsZoneOperationSpec,
     );
   }
 
@@ -456,23 +437,6 @@ export class RecordSetsImpl implements RecordSets {
     return this.client.sendOperationRequest(
       { resourceGroupName, zoneName, options },
       listByDnsZoneOperationSpec,
-    );
-  }
-
-  /**
-   * Lists all record sets in a DNS zone.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param zoneName The name of the DNS zone (without a terminating dot).
-   * @param options The options parameters.
-   */
-  private _listAllByDnsZone(
-    resourceGroupName: string,
-    zoneName: string,
-    options?: RecordSetsListAllByDnsZoneOptionalParams,
-  ): Promise<RecordSetsListAllByDnsZoneResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, zoneName, options },
-      listAllByDnsZoneOperationSpec,
     );
   }
 
@@ -498,25 +462,6 @@ export class RecordSetsImpl implements RecordSets {
   }
 
   /**
-   * ListByDnsZoneNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param zoneName The name of the DNS zone (without a terminating dot).
-   * @param nextLink The nextLink from the previous successful call to the ListByDnsZone method.
-   * @param options The options parameters.
-   */
-  private _listByDnsZoneNext(
-    resourceGroupName: string,
-    zoneName: string,
-    nextLink: string,
-    options?: RecordSetsListByDnsZoneNextOptionalParams,
-  ): Promise<RecordSetsListByDnsZoneNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, zoneName, nextLink, options },
-      listByDnsZoneNextOperationSpec,
-    );
-  }
-
-  /**
    * ListAllByDnsZoneNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
@@ -534,41 +479,76 @@ export class RecordSetsImpl implements RecordSets {
       listAllByDnsZoneNextOperationSpec,
     );
   }
+
+  /**
+   * ListByDnsZoneNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param zoneName The name of the DNS zone (without a terminating dot).
+   * @param nextLink The nextLink from the previous successful call to the ListByDnsZone method.
+   * @param options The options parameters.
+   */
+  private _listByDnsZoneNext(
+    resourceGroupName: string,
+    zoneName: string,
+    nextLink: string,
+    options?: RecordSetsListByDnsZoneNextOptionalParams,
+  ): Promise<RecordSetsListByDnsZoneNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, zoneName, nextLink, options },
+      listByDnsZoneNextOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/{recordType}/{relativeRecordSetName}",
-  httpMethod: "PATCH",
+const listByTypeOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/{recordType}/{recordType}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RecordSetListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.recordsetnamesuffix],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.zoneName,
+    Parameters.recordType,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/{recordType}/{relativeRecordSetName}/{recordType}",
+  httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.RecordSet,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.zoneName,
-    Parameters.subscriptionId,
-    Parameters.relativeRecordSetName,
     Parameters.recordType,
+    Parameters.relativeRecordSetName,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.ifMatch,
-    Parameters.contentType,
-  ],
-  mediaType: "json",
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/{recordType}/{relativeRecordSetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/{recordType}/{relativeRecordSetName}/{recordType}",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -578,95 +558,92 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RecordSet,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.zoneName,
-    Parameters.subscriptionId,
-    Parameters.relativeRecordSetName,
     Parameters.recordType,
+    Parameters.relativeRecordSetName,
   ],
   headerParameters: [
     Parameters.accept,
+    Parameters.contentType,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
-    Parameters.contentType,
   ],
   mediaType: "json",
   serializer,
 };
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/{recordType}/{relativeRecordSetName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.zoneName,
-    Parameters.subscriptionId,
-    Parameters.relativeRecordSetName,
-    Parameters.recordType,
-  ],
-  headerParameters: [Parameters.accept, Parameters.ifMatch],
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/{recordType}/{relativeRecordSetName}",
-  httpMethod: "GET",
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/{recordType}/{relativeRecordSetName}/{recordType}",
+  httpMethod: "PATCH",
   responses: {
     200: {
       bodyMapper: Mappers.RecordSet,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.zoneName,
+    Parameters.recordType,
+    Parameters.relativeRecordSetName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
+  mediaType: "json",
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/{recordType}/{relativeRecordSetName}/{recordType}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.zoneName,
-    Parameters.subscriptionId,
-    Parameters.relativeRecordSetName,
     Parameters.recordType,
+    Parameters.relativeRecordSetName,
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.ifMatch],
   serializer,
 };
-const listByTypeOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/{recordType}",
+const listAllByDnsZoneOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/all",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.RecordSetListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.recordsetnamesuffix,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.recordSetNameSuffix],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.zoneName,
-    Parameters.subscriptionId,
-    Parameters.recordType,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -679,44 +656,15 @@ const listByDnsZoneOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RecordSetListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.recordsetnamesuffix,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.recordsetnamesuffix],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.zoneName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listAllByDnsZoneOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}/all",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RecordSetListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.recordSetNameSuffix,
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.zoneName,
-    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -729,37 +677,16 @@ const listByTypeNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RecordSetListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.zoneName,
-    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.recordType,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByDnsZoneNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RecordSetListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.zoneName,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -772,14 +699,35 @@ const listAllByDnsZoneNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RecordSetListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.zoneName,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByDnsZoneNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RecordSetListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.zoneName,
     Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],

@@ -10,21 +10,26 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Zone,
-  ZonesListByResourceGroupOptionalParams,
   ZonesListOptionalParams,
-  ZonesCreateOrUpdateOptionalParams,
-  ZonesCreateOrUpdateResponse,
-  ZonesDeleteOptionalParams,
+  ZonesListByResourceGroupOptionalParams,
   ZonesGetOptionalParams,
   ZonesGetResponse,
+  ZonesCreateOrUpdateOptionalParams,
+  ZonesCreateOrUpdateResponse,
   ZoneUpdate,
   ZonesUpdateOptionalParams,
   ZonesUpdateResponse,
+  ZonesDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Zones. */
 export interface Zones {
+  /**
+   * Lists the DNS zones in all resource groups in a subscription.
+   * @param options The options parameters.
+   */
+  list(options?: ZonesListOptionalParams): PagedAsyncIterableIterator<Zone>;
   /**
    * Lists the DNS zones within a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -35,10 +40,16 @@ export interface Zones {
     options?: ZonesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Zone>;
   /**
-   * Lists the DNS zones in all resource groups in a subscription.
+   * Gets a DNS zone. Retrieves the zone properties, but not the record sets within the zone.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param zoneName The name of the DNS zone (without a terminating dot).
    * @param options The options parameters.
    */
-  list(options?: ZonesListOptionalParams): PagedAsyncIterableIterator<Zone>;
+  get(
+    resourceGroupName: string,
+    zoneName: string,
+    options?: ZonesGetOptionalParams,
+  ): Promise<ZonesGetResponse>;
   /**
    * Creates or updates a DNS zone. Does not modify DNS records within the zone.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -52,6 +63,19 @@ export interface Zones {
     parameters: Zone,
     options?: ZonesCreateOrUpdateOptionalParams,
   ): Promise<ZonesCreateOrUpdateResponse>;
+  /**
+   * Updates a DNS zone. Does not modify DNS records within the zone.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param zoneName The name of the DNS zone (without a terminating dot).
+   * @param parameters Parameters supplied to the Update operation.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    zoneName: string,
+    parameters: ZoneUpdate,
+    options?: ZonesUpdateOptionalParams,
+  ): Promise<ZonesUpdateResponse>;
   /**
    * Deletes a DNS zone. WARNING: All DNS records in the zone will also be deleted. This operation cannot
    * be undone.
@@ -76,28 +100,4 @@ export interface Zones {
     zoneName: string,
     options?: ZonesDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * Gets a DNS zone. Retrieves the zone properties, but not the record sets within the zone.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param zoneName The name of the DNS zone (without a terminating dot).
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    zoneName: string,
-    options?: ZonesGetOptionalParams,
-  ): Promise<ZonesGetResponse>;
-  /**
-   * Updates a DNS zone. Does not modify DNS records within the zone.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param zoneName The name of the DNS zone (without a terminating dot).
-   * @param parameters Parameters supplied to the Update operation.
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    zoneName: string,
-    parameters: ZoneUpdate,
-    options?: ZonesUpdateOptionalParams,
-  ): Promise<ZonesUpdateResponse>;
 }
