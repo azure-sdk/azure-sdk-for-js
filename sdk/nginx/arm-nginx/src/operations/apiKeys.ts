@@ -18,11 +18,11 @@ import {
   ApiKeysListNextOptionalParams,
   ApiKeysListOptionalParams,
   ApiKeysListResponse,
+  ApiKeysGetOptionalParams,
+  ApiKeysGetResponse,
   ApiKeysCreateOrUpdateOptionalParams,
   ApiKeysCreateOrUpdateResponse,
   ApiKeysDeleteOptionalParams,
-  ApiKeysGetOptionalParams,
-  ApiKeysGetResponse,
   ApiKeysListNextResponse,
 } from "../models/index.js";
 
@@ -62,12 +62,7 @@ export class ApiKeysImpl implements ApiKeys {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          deploymentName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, deploymentName, options, settings);
       },
     };
   }
@@ -88,12 +83,7 @@ export class ApiKeysImpl implements ApiKeys {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        deploymentName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, deploymentName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -106,50 +96,25 @@ export class ApiKeysImpl implements ApiKeys {
     deploymentName: string,
     options?: ApiKeysListOptionalParams,
   ): AsyncIterableIterator<NginxDeploymentApiKeyResponse> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      deploymentName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, deploymentName, options)) {
       yield* page;
     }
   }
 
   /**
-   * Create or update an API Key for the Nginx deployment in order to access the dataplane API endpoint
+   * List all API Keys of the given Nginx deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of targeted NGINX deployment
-   * @param apiKeyName The resource name of the API key
    * @param options The options parameters.
    */
-  createOrUpdate(
+  private _list(
     resourceGroupName: string,
     deploymentName: string,
-    apiKeyName: string,
-    options?: ApiKeysCreateOrUpdateOptionalParams,
-  ): Promise<ApiKeysCreateOrUpdateResponse> {
+    options?: ApiKeysListOptionalParams,
+  ): Promise<ApiKeysListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, deploymentName, apiKeyName, options },
-      createOrUpdateOperationSpec,
-    );
-  }
-
-  /**
-   * Delete API key for Nginx deployment
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted NGINX deployment
-   * @param apiKeyName The resource name of the API key
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    deploymentName: string,
-    apiKeyName: string,
-    options?: ApiKeysDeleteOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, deploymentName, apiKeyName, options },
-      deleteOperationSpec,
+      { resourceGroupName, deploymentName, options },
+      listOperationSpec,
     );
   }
 
@@ -173,19 +138,43 @@ export class ApiKeysImpl implements ApiKeys {
   }
 
   /**
-   * List all API Keys of the given Nginx deployment
+   * Create or update an API Key for the Nginx deployment in order to access the dataplane API endpoint
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of targeted NGINX deployment
+   * @param apiKeyName The resource name of the API key
+   * @param body The API Key object containing fields (e.g. secret text, expiration date) to upsert the
+   *             key.
    * @param options The options parameters.
    */
-  private _list(
+  createOrUpdate(
     resourceGroupName: string,
     deploymentName: string,
-    options?: ApiKeysListOptionalParams,
-  ): Promise<ApiKeysListResponse> {
+    apiKeyName: string,
+    body: NginxDeploymentApiKeyResponse,
+    options?: ApiKeysCreateOrUpdateOptionalParams,
+  ): Promise<ApiKeysCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, deploymentName, options },
-      listOperationSpec,
+      { resourceGroupName, deploymentName, apiKeyName, body, options },
+      createOrUpdateOperationSpec,
+    );
+  }
+
+  /**
+   * Delete API key for Nginx deployment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param deploymentName The name of targeted NGINX deployment
+   * @param apiKeyName The resource name of the API key
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    deploymentName: string,
+    apiKeyName: string,
+    options?: ApiKeysDeleteOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, deploymentName, apiKeyName, options },
+      deleteOperationSpec,
     );
   }
 
@@ -211,39 +200,13 @@ export class ApiKeysImpl implements ApiKeys {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/apiKeys/{apiKeyName}",
-  httpMethod: "PUT",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/apiKeys",
+  httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NginxDeploymentApiKeyResponse,
+      bodyMapper: Mappers.NginxDeploymentApiKeyListResponse,
     },
-    201: {
-      bodyMapper: Mappers.NginxDeploymentApiKeyResponse,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.body,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deploymentName,
-    Parameters.apiKeyName,
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer,
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/apiKeys/{apiKeyName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
@@ -254,7 +217,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deploymentName,
-    Parameters.apiKeyName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -281,13 +243,39 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/apiKeys",
-  httpMethod: "GET",
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/apiKeys/{apiKeyName}",
+  httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NginxDeploymentApiKeyListResponse,
+      bodyMapper: Mappers.NginxDeploymentApiKeyResponse,
     },
+    201: {
+      bodyMapper: Mappers.NginxDeploymentApiKeyResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.deploymentName,
+    Parameters.apiKeyName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/apiKeys/{apiKeyName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
@@ -298,6 +286,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deploymentName,
+    Parameters.apiKeyName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -315,10 +304,10 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deploymentName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

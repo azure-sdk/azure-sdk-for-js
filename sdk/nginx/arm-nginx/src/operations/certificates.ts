@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NginxManagementClient } from "../nginxManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   NginxCertificate,
@@ -68,12 +64,7 @@ export class CertificatesImpl implements Certificates {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          deploymentName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, deploymentName, options, settings);
       },
     };
   }
@@ -94,12 +85,7 @@ export class CertificatesImpl implements Certificates {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        deploymentName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, deploymentName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -112,13 +98,26 @@ export class CertificatesImpl implements Certificates {
     deploymentName: string,
     options?: CertificatesListOptionalParams,
   ): AsyncIterableIterator<NginxCertificate> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      deploymentName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, deploymentName, options)) {
       yield* page;
     }
+  }
+
+  /**
+   * List all certificates of given NGINX deployment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param deploymentName The name of targeted NGINX deployment
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    deploymentName: string,
+    options?: CertificatesListOptionalParams,
+  ): Promise<CertificatesListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, deploymentName, options },
+      listOperationSpec,
+    );
   }
 
   /**
@@ -145,12 +144,14 @@ export class CertificatesImpl implements Certificates {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of targeted NGINX deployment
    * @param certificateName The name of certificate
+   * @param body The certificate
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     deploymentName: string,
     certificateName: string,
+    body: NginxCertificate,
     options?: CertificatesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -168,8 +169,7 @@ export class CertificatesImpl implements Certificates {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -198,7 +198,13 @@ export class CertificatesImpl implements Certificates {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, deploymentName, certificateName, options },
+      args: {
+        resourceGroupName,
+        deploymentName,
+        certificateName,
+        body,
+        options,
+      },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -218,18 +224,21 @@ export class CertificatesImpl implements Certificates {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of targeted NGINX deployment
    * @param certificateName The name of certificate
+   * @param body The certificate
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     deploymentName: string,
     certificateName: string,
+    body: NginxCertificate,
     options?: CertificatesCreateOrUpdateOptionalParams,
   ): Promise<CertificatesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       deploymentName,
       certificateName,
+      body,
       options,
     );
     return poller.pollUntilDone();
@@ -258,8 +267,7 @@ export class CertificatesImpl implements Certificates {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -294,6 +302,7 @@ export class CertificatesImpl implements Certificates {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -322,23 +331,6 @@ export class CertificatesImpl implements Certificates {
   }
 
   /**
-   * List all certificates of given NGINX deployment
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted NGINX deployment
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    deploymentName: string,
-    options?: CertificatesListOptionalParams,
-  ): Promise<CertificatesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, deploymentName, options },
-      listOperationSpec,
-    );
-  }
-
-  /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of targeted NGINX deployment
@@ -360,6 +352,27 @@ export class CertificatesImpl implements Certificates {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/certificates",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NginxCertificateListResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.deploymentName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/certificates/{certificateName}",
   httpMethod: "GET",
@@ -402,7 +415,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body1,
+  requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -411,7 +424,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.deploymentName,
     Parameters.certificateName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -438,27 +451,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/certificates",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NginxCertificateListResponse,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deploymentName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -472,10 +464,10 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deploymentName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

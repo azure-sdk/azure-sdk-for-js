@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NginxManagementClient } from "../nginxManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   NginxDeployment,
@@ -31,6 +27,7 @@ import {
   DeploymentsGetResponse,
   DeploymentsCreateOrUpdateOptionalParams,
   DeploymentsCreateOrUpdateResponse,
+  NginxDeploymentUpdateParameters,
   DeploymentsUpdateOptionalParams,
   DeploymentsUpdateResponse,
   DeploymentsDeleteOptionalParams,
@@ -126,11 +123,7 @@ export class DeploymentsImpl implements Deployments {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -150,11 +143,7 @@ export class DeploymentsImpl implements Deployments {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -166,12 +155,32 @@ export class DeploymentsImpl implements Deployments {
     resourceGroupName: string,
     options?: DeploymentsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<NginxDeployment> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
+  }
+
+  /**
+   * List the NGINX deployments resources
+   * @param options The options parameters.
+   */
+  private _list(options?: DeploymentsListOptionalParams): Promise<DeploymentsListResponse> {
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
+  }
+
+  /**
+   * List all NGINX deployments under the specified resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: DeploymentsListByResourceGroupOptionalParams,
+  ): Promise<DeploymentsListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
+    );
   }
 
   /**
@@ -195,11 +204,14 @@ export class DeploymentsImpl implements Deployments {
    * Create or update the NGINX deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of targeted NGINX deployment
+   * @param body Concrete tracked resource types can be created by aliasing this type using a specific
+   *             property type.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     deploymentName: string,
+    body: NginxDeployment,
     options?: DeploymentsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -217,8 +229,7 @@ export class DeploymentsImpl implements Deployments {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -247,7 +258,7 @@ export class DeploymentsImpl implements Deployments {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, deploymentName, options },
+      args: { resourceGroupName, deploymentName, body, options },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -266,18 +277,17 @@ export class DeploymentsImpl implements Deployments {
    * Create or update the NGINX deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of targeted NGINX deployment
+   * @param body Concrete tracked resource types can be created by aliasing this type using a specific
+   *             property type.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     deploymentName: string,
+    body: NginxDeployment,
     options?: DeploymentsCreateOrUpdateOptionalParams,
   ): Promise<DeploymentsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      deploymentName,
-      options,
-    );
+    const poller = await this.beginCreateOrUpdate(resourceGroupName, deploymentName, body, options);
     return poller.pollUntilDone();
   }
 
@@ -285,17 +295,16 @@ export class DeploymentsImpl implements Deployments {
    * Update the NGINX deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of targeted NGINX deployment
+   * @param body
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
     deploymentName: string,
+    body: NginxDeploymentUpdateParameters,
     options?: DeploymentsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<DeploymentsUpdateResponse>,
-      DeploymentsUpdateResponse
-    >
+    SimplePollerLike<OperationState<DeploymentsUpdateResponse>, DeploymentsUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -307,8 +316,7 @@ export class DeploymentsImpl implements Deployments {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -337,7 +345,7 @@ export class DeploymentsImpl implements Deployments {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, deploymentName, options },
+      args: { resourceGroupName, deploymentName, body, options },
       spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -346,6 +354,7 @@ export class DeploymentsImpl implements Deployments {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri",
     });
     await poller.poll();
     return poller;
@@ -355,18 +364,16 @@ export class DeploymentsImpl implements Deployments {
    * Update the NGINX deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of targeted NGINX deployment
+   * @param body
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
     deploymentName: string,
+    body: NginxDeploymentUpdateParameters,
     options?: DeploymentsUpdateOptionalParams,
   ): Promise<DeploymentsUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      deploymentName,
-      options,
-    );
+    const poller = await this.beginUpdate(resourceGroupName, deploymentName, body, options);
     return poller.pollUntilDone();
   }
 
@@ -391,8 +398,7 @@ export class DeploymentsImpl implements Deployments {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -427,6 +433,7 @@ export class DeploymentsImpl implements Deployments {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -443,37 +450,8 @@ export class DeploymentsImpl implements Deployments {
     deploymentName: string,
     options?: DeploymentsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      deploymentName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, deploymentName, options);
     return poller.pollUntilDone();
-  }
-
-  /**
-   * List the NGINX deployments resources
-   * @param options The options parameters.
-   */
-  private _list(
-    options?: DeploymentsListOptionalParams,
-  ): Promise<DeploymentsListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
-  }
-
-  /**
-   * List all NGINX deployments under the specified resource group.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: DeploymentsListByResourceGroupOptionalParams,
-  ): Promise<DeploymentsListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec,
-    );
   }
 
   /**
@@ -485,10 +463,7 @@ export class DeploymentsImpl implements Deployments {
     nextLink: string,
     options?: DeploymentsListNextOptionalParams,
   ): Promise<DeploymentsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -511,6 +486,38 @@ export class DeploymentsImpl implements Deployments {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Nginx.NginxPlus/nginxDeployments",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NginxDeploymentListResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NginxDeploymentListResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}",
   httpMethod: "GET",
@@ -552,7 +559,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body4,
+  requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -560,7 +567,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.deploymentName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -584,7 +591,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body5,
+  requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -592,7 +599,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.deploymentName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -618,42 +625,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Nginx.NginxPlus/nginxDeployments",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NginxDeploymentListResponse,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NginxDeploymentListResponse,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -665,11 +636,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -686,9 +653,9 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

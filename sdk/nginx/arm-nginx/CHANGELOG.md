@@ -1,5 +1,127 @@
 # Release History
     
+## 4.0.0-beta.3 (2025-04-29)
+Compared with version 3.0.0
+    
+### Features Added
+
+  - Added operation group ApiKeys
+  - Added operation Configurations.analysis
+  - Added Interface AnalysisCreate
+  - Added Interface AnalysisCreateConfig
+  - Added Interface AnalysisDiagnostic
+  - Added Interface AnalysisResult
+  - Added Interface AnalysisResultData
+  - Added Interface ApiKeysCreateOrUpdateOptionalParams
+  - Added Interface ApiKeysDeleteOptionalParams
+  - Added Interface ApiKeysGetOptionalParams
+  - Added Interface ApiKeysListNextOptionalParams
+  - Added Interface ApiKeysListOptionalParams
+  - Added Interface AutoUpgradeProfile
+  - Added Interface AzureResourceManagerArmResponseNginxDeployment
+  - Added Interface AzureResourceManagerResourceSkuProperty
+  - Added Interface CertificatesCreateOrUpdateHeaders
+  - Added Interface CertificatesDeleteHeaders
+  - Added Interface ConfigurationsAnalysisOptionalParams
+  - Added Interface ConfigurationsCreateOrUpdateHeaders
+  - Added Interface ConfigurationsDeleteHeaders
+  - Added Interface DeploymentsCreateOrUpdateHeaders
+  - Added Interface DeploymentsDeleteHeaders
+  - Added Interface DeploymentsUpdateHeaders
+  - Added Interface DiagnosticItem
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface NginxCertificateErrorResponseBody
+  - Added Interface NginxConfigurationProtectedFileRequest
+  - Added Interface NginxConfigurationProtectedFileResponse
+  - Added Interface NginxConfigurationResponse
+  - Added Interface NginxDeploymentApiKeyListResponse
+  - Added Interface NginxDeploymentApiKeyResponse
+  - Added Interface NginxDeploymentPropertiesNginxAppProtect
+  - Added Interface NginxDeploymentUpdatePropertiesNginxAppProtect
+  - Added Interface Operation
+  - Added Interface ProxyResource
+  - Added Interface Resource
+  - Added Interface ScaleProfile
+  - Added Interface ScaleProfileCapacity
+  - Added Interface Sku
+  - Added Interface TrackedResource
+  - Added Interface WebApplicationFirewallComponentVersions
+  - Added Interface WebApplicationFirewallPackage
+  - Added Interface WebApplicationFirewallSettings
+  - Added Interface WebApplicationFirewallStatus
+  - Added Type Alias ActionType
+  - Added Type Alias ActivationState
+  - Added Type Alias ApiKeysCreateOrUpdateResponse
+  - Added Type Alias ApiKeysGetResponse
+  - Added Type Alias ApiKeysListNextResponse
+  - Added Type Alias ApiKeysListResponse
+  - Added Type Alias ConfigurationsAnalysisResponse
+  - Added Type Alias Level
+  - Added Type Alias Origin
+  - Added Type Alias SkuTier
+  - Interface NginxCertificate has a new optional parameter certificateError
+  - Interface NginxCertificate has a new optional parameter certificateVirtualPath
+  - Interface NginxCertificate has a new optional parameter keyVaultSecretCreated
+  - Interface NginxCertificate has a new optional parameter keyVaultSecretId
+  - Interface NginxCertificate has a new optional parameter keyVaultSecretVersion
+  - Interface NginxCertificate has a new optional parameter keyVirtualPath
+  - Interface NginxCertificate has a new optional parameter provisioningState
+  - Interface NginxCertificate has a new optional parameter sha1Thumbprint
+  - Interface NginxDeployment has a new optional parameter autoUpgradeProfile
+  - Interface NginxDeployment has a new optional parameter dataplaneApiEndpoint
+  - Interface NginxDeployment has a new optional parameter enableDiagnosticsSupport
+  - Interface NginxDeployment has a new optional parameter ipAddress
+  - Interface NginxDeployment has a new optional parameter logging
+  - Interface NginxDeployment has a new optional parameter networkProfile
+  - Interface NginxDeployment has a new optional parameter nginxAppProtect
+  - Interface NginxDeployment has a new optional parameter nginxVersion
+  - Interface NginxDeployment has a new optional parameter provisioningState
+  - Interface NginxDeployment has a new optional parameter scalingProperties
+  - Interface NginxDeployment has a new optional parameter userProfile
+  - Interface NginxDeploymentScalingProperties has a new optional parameter profiles
+  - Interface NginxDeploymentUpdateProperties has a new optional parameter autoUpgradeProfile
+  - Interface NginxDeploymentUpdateProperties has a new optional parameter networkProfile
+  - Interface NginxDeploymentUpdateProperties has a new optional parameter nginxAppProtect
+  - Added Enum KnownActionType
+  - Added Enum KnownActivationState
+  - Added Enum KnownLevel
+  - Added Enum KnownOrigin
+
+### Breaking Changes
+
+  - Operation Certificates.beginCreateOrUpdate has a new signature
+  - Operation Certificates.beginCreateOrUpdateAndWait has a new signature
+  - Operation Configurations.beginCreateOrUpdate has a new signature
+  - Operation Configurations.beginCreateOrUpdateAndWait has a new signature
+  - Operation Deployments.beginCreateOrUpdate has a new signature
+  - Operation Deployments.beginCreateOrUpdateAndWait has a new signature
+  - Operation Deployments.beginUpdate has a new signature
+  - Operation Deployments.beginUpdateAndWait has a new signature
+  - Interface CertificatesCreateOrUpdateOptionalParams no longer has parameter body
+  - Interface ConfigurationsCreateOrUpdateOptionalParams no longer has parameter body
+  - Interface DeploymentsCreateOrUpdateOptionalParams no longer has parameter body
+  - Interface DeploymentsUpdateOptionalParams no longer has parameter body
+  - Interface NginxCertificate no longer has parameter id
+  - Interface NginxCertificate no longer has parameter name
+  - Interface NginxCertificate no longer has parameter properties
+  - Interface NginxCertificate no longer has parameter systemData
+  - Interface NginxCertificate no longer has parameter type
+  - Interface NginxDeployment no longer has parameter id
+  - Interface NginxDeployment no longer has parameter name
+  - Interface NginxDeployment no longer has parameter properties
+  - Interface NginxDeployment no longer has parameter systemData
+  - Interface NginxDeployment no longer has parameter type
+  - Parameter value of interface NginxCertificateListResponse is now required
+  - Parameter value of interface NginxConfigurationListResponse is now required
+  - Parameter value of interface NginxDeploymentListResponse is now required
+  - Type of parameter value of interface NginxConfigurationListResponse is changed from NginxConfiguration[] to NginxConfigurationResponse[]
+  - Type of parameter sku of interface NginxDeployment is changed from ResourceSku to AzureResourceManagerResourceSkuProperty
+  - Type of parameter sku of interface NginxDeploymentUpdateParameters is changed from ResourceSku to AzureResourceManagerResourceSkuProperty
+  - Type of parameter value of interface OperationListResult is changed from OperationResult[] to Operation[]
+    
+    
 ## 4.0.0-beta.2 (2025-02-20)
 Compared with version 3.0.0
     

@@ -14,7 +14,7 @@ import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NginxManagementClient } from "../nginxManagementClient.js";
 import {
-  OperationResult,
+  Operation,
   OperationsListNextOptionalParams,
   OperationsListOptionalParams,
   OperationsListResponse,
@@ -35,12 +35,10 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * List all operations provided by Nginx.NginxPlus for the 2024-11-01-preview api version.
+   * List the operations for the provider
    * @param options The options parameters.
    */
-  public list(
-    options?: OperationsListOptionalParams,
-  ): PagedAsyncIterableIterator<OperationResult> {
+  public list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -61,7 +59,7 @@ export class OperationsImpl implements Operations {
   private async *listPagingPage(
     options?: OperationsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<OperationResult[]> {
+  ): AsyncIterableIterator<Operation[]> {
     let result: OperationsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
@@ -82,19 +80,17 @@ export class OperationsImpl implements Operations {
 
   private async *listPagingAll(
     options?: OperationsListOptionalParams,
-  ): AsyncIterableIterator<OperationResult> {
+  ): AsyncIterableIterator<Operation> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * List all operations provided by Nginx.NginxPlus for the 2024-11-01-preview api version.
+   * List the operations for the provider
    * @param options The options parameters.
    */
-  private _list(
-    options?: OperationsListOptionalParams,
-  ): Promise<OperationsListResponse> {
+  private _list(options?: OperationsListOptionalParams): Promise<OperationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -107,10 +103,7 @@ export class OperationsImpl implements Operations {
     nextLink: string,
     options?: OperationsListNextOptionalParams,
   ): Promise<OperationsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications

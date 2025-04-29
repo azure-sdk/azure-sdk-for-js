@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure NginxManagement client.
 
-
+// FIXME: (missing-service-description) Add service description
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/nginx/arm-nginx) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-nginx) |
@@ -63,16 +63,14 @@ For browser environments, use the `InteractiveBrowserCredential` from the `@azur
 import { InteractiveBrowserCredential } from "@azure/identity";
 import { NginxManagementClient } from "@azure/arm-nginx";
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
-  clientId: "<YOUR_CLIENT_ID>",
-});
+  clientId: "<YOUR_CLIENT_ID>"
+ });
 const client = new NginxManagementClient(credential, subscriptionId);
 ```
 
 ### JavaScript Bundle
-
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts

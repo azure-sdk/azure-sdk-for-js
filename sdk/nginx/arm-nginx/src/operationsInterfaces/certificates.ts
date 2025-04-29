@@ -50,12 +50,14 @@ export interface Certificates {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of targeted NGINX deployment
    * @param certificateName The name of certificate
+   * @param body The certificate
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     deploymentName: string,
     certificateName: string,
+    body: NginxCertificate,
     options?: CertificatesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -68,12 +70,14 @@ export interface Certificates {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of targeted NGINX deployment
    * @param certificateName The name of certificate
+   * @param body The certificate
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     deploymentName: string,
     certificateName: string,
+    body: NginxCertificate,
     options?: CertificatesCreateOrUpdateOptionalParams,
   ): Promise<CertificatesCreateOrUpdateResponse>;
   /**
