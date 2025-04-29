@@ -6,88 +6,80 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  GuestConfigurationAssignment,
-  GuestConfigurationAssignmentsSubscriptionListOptionalParams,
   GuestConfigurationAssignmentsRGListOptionalParams,
+  GuestConfigurationAssignmentsRGListResponse,
   GuestConfigurationAssignmentsListOptionalParams,
-  GuestConfigurationAssignmentsCreateOrUpdateOptionalParams,
-  GuestConfigurationAssignmentsCreateOrUpdateResponse,
+  GuestConfigurationAssignmentsListResponse,
   GuestConfigurationAssignmentsGetOptionalParams,
   GuestConfigurationAssignmentsGetResponse,
+  GuestConfigurationAssignment,
+  GuestConfigurationAssignmentsCreateOrUpdateOptionalParams,
+  GuestConfigurationAssignmentsCreateOrUpdateResponse,
   GuestConfigurationAssignmentsDeleteOptionalParams,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a GuestConfigurationAssignments. */
 export interface GuestConfigurationAssignments {
   /**
-   * List all guest configuration assignments for a subscription.
-   * @param options The options parameters.
-   */
-  listSubscriptionList(
-    options?: GuestConfigurationAssignmentsSubscriptionListOptionalParams,
-  ): PagedAsyncIterableIterator<GuestConfigurationAssignment>;
-  /**
    * List all guest configuration assignments for a resource group.
-   * @param resourceGroupName The resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
-  listRGList(
+  rGList(
     resourceGroupName: string,
     options?: GuestConfigurationAssignmentsRGListOptionalParams,
-  ): PagedAsyncIterableIterator<GuestConfigurationAssignment>;
+  ): Promise<GuestConfigurationAssignmentsRGListResponse>;
   /**
    * List all guest configuration assignments for a virtual machine.
-   * @param resourceGroupName The resource group name.
-   * @param vmName The name of the virtual machine.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName virtualMachines
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     vmName: string,
     options?: GuestConfigurationAssignmentsListOptionalParams,
-  ): PagedAsyncIterableIterator<GuestConfigurationAssignment>;
-  /**
-   * Creates an association between a VM and guest configuration
-   * @param guestConfigurationAssignmentName Name of the guest configuration assignment.
-   * @param resourceGroupName The resource group name.
-   * @param vmName The name of the virtual machine.
-   * @param parameters Parameters supplied to the create or update guest configuration assignment.
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    guestConfigurationAssignmentName: string,
-    resourceGroupName: string,
-    vmName: string,
-    parameters: GuestConfigurationAssignment,
-    options?: GuestConfigurationAssignmentsCreateOrUpdateOptionalParams,
-  ): Promise<GuestConfigurationAssignmentsCreateOrUpdateResponse>;
+  ): Promise<GuestConfigurationAssignmentsListResponse>;
   /**
    * Get information about a guest configuration assignment
-   * @param resourceGroupName The resource group name.
-   * @param guestConfigurationAssignmentName The guest configuration assignment name.
-   * @param vmName The name of the virtual machine.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName virtualMachines
+   * @param guestConfigurationAssignmentName The name of the GuestConfigurationAssignment
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    guestConfigurationAssignmentName: string,
     vmName: string,
+    guestConfigurationAssignmentName: string,
     options?: GuestConfigurationAssignmentsGetOptionalParams,
   ): Promise<GuestConfigurationAssignmentsGetResponse>;
   /**
+   * Creates an association between a VM and guest configuration
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName virtualMachines
+   * @param guestConfigurationAssignmentName The name of the GuestConfigurationAssignment
+   * @param parameters Parameters supplied to the create or update guest configuration assignment.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    vmName: string,
+    guestConfigurationAssignmentName: string,
+    parameters: GuestConfigurationAssignment,
+    options?: GuestConfigurationAssignmentsCreateOrUpdateOptionalParams,
+  ): Promise<GuestConfigurationAssignmentsCreateOrUpdateResponse>;
+  /**
    * Delete a guest configuration assignment
-   * @param resourceGroupName The resource group name.
-   * @param guestConfigurationAssignmentName Name of the guest configuration assignment
-   * @param vmName The name of the virtual machine.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName virtualMachines
+   * @param guestConfigurationAssignmentName The name of the GuestConfigurationAssignment
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
-    guestConfigurationAssignmentName: string,
     vmName: string,
+    guestConfigurationAssignmentName: string,
     options?: GuestConfigurationAssignmentsDeleteOptionalParams,
   ): Promise<void>;
 }

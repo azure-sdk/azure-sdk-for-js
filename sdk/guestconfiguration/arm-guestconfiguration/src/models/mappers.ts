@@ -8,110 +8,329 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const GuestConfigurationAssignmentProperties: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "GuestConfigurationAssignmentProperties",
-      modelProperties: {
-        targetResourceId: {
-          serializedName: "targetResourceId",
-          readOnly: true,
-          nullable: true,
-          type: {
-            name: "String",
+export const OperationListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Operation",
+            },
           },
         },
-        guestConfiguration: {
-          serializedName: "guestConfiguration",
-          type: {
-            name: "Composite",
-            className: "GuestConfigurationNavigation",
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const Operation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Operation",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      isDataAction: {
+        serializedName: "isDataAction",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      display: {
+        serializedName: "display",
+        type: {
+          name: "Composite",
+          className: "OperationDisplay",
+        },
+      },
+      origin: {
+        serializedName: "origin",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      actionType: {
+        serializedName: "actionType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const OperationDisplay: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationDisplay",
+    modelProperties: {
+      provider: {
+        serializedName: "provider",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resource: {
+        serializedName: "resource",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      operation: {
+        serializedName: "operation",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      description: {
+        serializedName: "description",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail",
+            },
           },
         },
-        complianceStatus: {
-          serializedName: "complianceStatus",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
-        },
-        lastComplianceStatusChecked: {
-          serializedName: "lastComplianceStatusChecked",
-          readOnly: true,
-          nullable: true,
-          type: {
-            name: "DateTime",
-          },
-        },
-        latestReportId: {
-          serializedName: "latestReportId",
-          readOnly: true,
-          nullable: true,
-          type: {
-            name: "String",
-          },
-        },
-        parameterHash: {
-          serializedName: "parameterHash",
-          readOnly: true,
-          nullable: true,
-          type: {
-            name: "String",
-          },
-        },
-        latestAssignmentReport: {
-          serializedName: "latestAssignmentReport",
-          type: {
-            name: "Composite",
-            className: "AssignmentReport",
-          },
-        },
-        context: {
-          serializedName: "context",
-          type: {
-            name: "String",
-          },
-        },
-        assignmentHash: {
-          serializedName: "assignmentHash",
-          readOnly: true,
-          nullable: true,
-          type: {
-            name: "String",
-          },
-        },
-        provisioningState: {
-          serializedName: "provisioningState",
-          readOnly: true,
-          nullable: true,
-          type: {
-            name: "String",
-          },
-        },
-        resourceType: {
-          serializedName: "resourceType",
-          readOnly: true,
-          nullable: true,
-          type: {
-            name: "String",
-          },
-        },
-        vmssVMList: {
-          serializedName: "vmssVMList",
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "VmssvmInfo",
-              },
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo",
             },
           },
         },
       },
     },
-  };
+  },
+};
+
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      info: {
+        serializedName: "info",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
+};
+
+export const GuestConfigurationAssignmentList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GuestConfigurationAssignmentList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GuestConfigurationAssignment",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const GuestConfigurationAssignmentProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GuestConfigurationAssignmentProperties",
+    modelProperties: {
+      targetResourceId: {
+        serializedName: "targetResourceId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      guestConfiguration: {
+        serializedName: "guestConfiguration",
+        type: {
+          name: "Composite",
+          className: "GuestConfigurationNavigation",
+        },
+      },
+      complianceStatus: {
+        serializedName: "complianceStatus",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      lastComplianceStatusChecked: {
+        serializedName: "lastComplianceStatusChecked",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      latestReportId: {
+        serializedName: "latestReportId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      parameterHash: {
+        serializedName: "parameterHash",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      latestAssignmentReport: {
+        serializedName: "latestAssignmentReport",
+        type: {
+          name: "Composite",
+          className: "AssignmentReport",
+        },
+      },
+      context: {
+        serializedName: "context",
+        type: {
+          name: "String",
+        },
+      },
+      assignmentHash: {
+        serializedName: "assignmentHash",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resourceType: {
+        serializedName: "resourceType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      vmssVMList: {
+        serializedName: "vmssVMList",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VmssvmInfo",
+            },
+          },
+        },
+      },
+    },
+  },
+};
 
 export const GuestConfigurationNavigation: coreClient.CompositeMapper = {
   type: {
@@ -148,6 +367,12 @@ export const GuestConfigurationNavigation: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      contentManagedIdentity: {
+        serializedName: "contentManagedIdentity",
+        type: {
+          name: "String",
+        },
+      },
       assignmentType: {
         serializedName: "assignmentType",
         type: {
@@ -157,7 +382,6 @@ export const GuestConfigurationNavigation: coreClient.CompositeMapper = {
       assignmentSource: {
         serializedName: "assignmentSource",
         readOnly: true,
-        nullable: true,
         type: {
           name: "String",
         },
@@ -165,7 +389,6 @@ export const GuestConfigurationNavigation: coreClient.CompositeMapper = {
       contentType: {
         serializedName: "contentType",
         readOnly: true,
-        nullable: true,
         type: {
           name: "String",
         },
@@ -468,29 +691,28 @@ export const AssignmentReportResource: coreClient.CompositeMapper = {
   },
 };
 
-export const AssignmentReportResourceComplianceReason: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "AssignmentReportResourceComplianceReason",
-      modelProperties: {
-        phrase: {
-          serializedName: "phrase",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+export const AssignmentReportResourceComplianceReason: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AssignmentReportResourceComplianceReason",
+    modelProperties: {
+      phrase: {
+        serializedName: "phrase",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        code: {
-          serializedName: "code",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const VmssvmInfo: coreClient.CompositeMapper = {
   type: {
@@ -521,7 +743,6 @@ export const VmssvmInfo: coreClient.CompositeMapper = {
       latestReportId: {
         serializedName: "latestReportId",
         readOnly: true,
-        nullable: true,
         type: {
           name: "String",
         },
@@ -529,9 +750,45 @@ export const VmssvmInfo: coreClient.CompositeMapper = {
       lastComplianceChecked: {
         serializedName: "lastComplianceChecked",
         readOnly: true,
-        nullable: true,
         type: {
           name: "DateTime",
+        },
+      },
+    },
+  },
+};
+
+export const Resource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData",
         },
       },
     },
@@ -583,121 +840,6 @@ export const SystemData: coreClient.CompositeMapper = {
   },
 };
 
-export const Resource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Resource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String",
-        },
-      },
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
-        },
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const ErrorResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorResponse",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ErrorResponseError",
-        },
-      },
-    },
-  },
-};
-
-export const ErrorResponseError: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorResponseError",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        type: {
-          name: "String",
-        },
-      },
-      message: {
-        serializedName: "message",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const GuestConfigurationAssignmentList: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "GuestConfigurationAssignmentList",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "GuestConfigurationAssignment",
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
-export const GuestConfigurationAssignmentReportList: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "GuestConfigurationAssignmentReportList",
-      modelProperties: {
-        value: {
-          serializedName: "value",
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "GuestConfigurationAssignmentReport",
-              },
-            },
-          },
-        },
-      },
-    },
-  };
-
 export const GuestConfigurationAssignmentReport: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -728,71 +870,70 @@ export const GuestConfigurationAssignmentReport: coreClient.CompositeMapper = {
   },
 };
 
-export const GuestConfigurationAssignmentReportProperties: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "GuestConfigurationAssignmentReportProperties",
-      modelProperties: {
-        complianceStatus: {
-          serializedName: "complianceStatus",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+export const GuestConfigurationAssignmentReportProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GuestConfigurationAssignmentReportProperties",
+    modelProperties: {
+      complianceStatus: {
+        serializedName: "complianceStatus",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        reportId: {
-          serializedName: "reportId",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      reportId: {
+        serializedName: "reportId",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        assignment: {
-          serializedName: "assignment",
-          type: {
-            name: "Composite",
-            className: "AssignmentInfo",
-          },
+      },
+      assignment: {
+        serializedName: "assignment",
+        type: {
+          name: "Composite",
+          className: "AssignmentInfo",
         },
-        vm: {
-          serializedName: "vm",
-          type: {
-            name: "Composite",
-            className: "VMInfo",
-          },
+      },
+      vm: {
+        serializedName: "vm",
+        type: {
+          name: "Composite",
+          className: "VMInfo",
         },
-        startTime: {
-          serializedName: "startTime",
-          readOnly: true,
-          type: {
-            name: "DateTime",
-          },
+      },
+      startTime: {
+        serializedName: "startTime",
+        readOnly: true,
+        type: {
+          name: "DateTime",
         },
-        endTime: {
-          serializedName: "endTime",
-          readOnly: true,
-          type: {
-            name: "DateTime",
-          },
+      },
+      endTime: {
+        serializedName: "endTime",
+        readOnly: true,
+        type: {
+          name: "DateTime",
         },
-        details: {
-          serializedName: "details",
-          type: {
-            name: "Composite",
-            className: "AssignmentReportDetails",
-          },
+      },
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Composite",
+          className: "AssignmentReportDetails",
         },
-        vmssResourceId: {
-          serializedName: "vmssResourceId",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      vmssResourceId: {
+        serializedName: "vmssResourceId",
+        readOnly: true,
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const AssignmentReportDetails: coreClient.CompositeMapper = {
   type: {
@@ -850,10 +991,10 @@ export const AssignmentReportDetails: coreClient.CompositeMapper = {
   },
 };
 
-export const OperationList: coreClient.CompositeMapper = {
+export const GuestConfigurationAssignmentReportList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "OperationList",
+    className: "GuestConfigurationAssignmentReportList",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -862,86 +1003,9 @@ export const OperationList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Operation",
+              className: "GuestConfigurationAssignmentReport",
             },
           },
-        },
-      },
-    },
-  },
-};
-
-export const Operation: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Operation",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String",
-        },
-      },
-      display: {
-        serializedName: "display",
-        type: {
-          name: "Composite",
-          className: "OperationDisplay",
-        },
-      },
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "OperationProperties",
-        },
-      },
-    },
-  },
-};
-
-export const OperationDisplay: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "OperationDisplay",
-    modelProperties: {
-      provider: {
-        serializedName: "provider",
-        type: {
-          name: "String",
-        },
-      },
-      resource: {
-        serializedName: "resource",
-        type: {
-          name: "String",
-        },
-      },
-      operation: {
-        serializedName: "operation",
-        type: {
-          name: "String",
-        },
-      },
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const OperationProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "OperationProperties",
-    modelProperties: {
-      statusCode: {
-        serializedName: "statusCode",
-        type: {
-          name: "String",
         },
       },
     },
@@ -969,13 +1033,6 @@ export const GuestConfigurationAssignment: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "GuestConfigurationAssignmentProperties",
-        },
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData",
         },
       },
     },

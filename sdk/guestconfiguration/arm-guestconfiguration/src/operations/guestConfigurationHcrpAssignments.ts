@@ -6,28 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { GuestConfigurationHcrpAssignments } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { GuestConfigurationClient } from "../guestConfigurationClient.js";
 import {
-  GuestConfigurationAssignment,
   GuestConfigurationHcrpAssignmentsListOptionalParams,
   GuestConfigurationHcrpAssignmentsListResponse,
-  GuestConfigurationHcrpAssignmentsCreateOrUpdateOptionalParams,
-  GuestConfigurationHcrpAssignmentsCreateOrUpdateResponse,
   GuestConfigurationHcrpAssignmentsGetOptionalParams,
   GuestConfigurationHcrpAssignmentsGetResponse,
+  GuestConfigurationAssignment,
+  GuestConfigurationHcrpAssignmentsCreateOrUpdateOptionalParams,
+  GuestConfigurationHcrpAssignmentsCreateOrUpdateResponse,
   GuestConfigurationHcrpAssignmentsDeleteOptionalParams,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Class containing GuestConfigurationHcrpAssignments operations. */
-export class GuestConfigurationHcrpAssignmentsImpl
-  implements GuestConfigurationHcrpAssignments
-{
+export class GuestConfigurationHcrpAssignmentsImpl implements GuestConfigurationHcrpAssignments {
   private readonly client: GuestConfigurationClient;
 
   /**
@@ -40,144 +36,11 @@ export class GuestConfigurationHcrpAssignmentsImpl
 
   /**
    * List all guest configuration assignments for an ARC machine.
-   * @param resourceGroupName The resource group name.
-   * @param machineName The name of the ARC machine.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param machineName machines
    * @param options The options parameters.
    */
-  public list(
-    resourceGroupName: string,
-    machineName: string,
-    options?: GuestConfigurationHcrpAssignmentsListOptionalParams,
-  ): PagedAsyncIterableIterator<GuestConfigurationAssignment> {
-    const iter = this.listPagingAll(resourceGroupName, machineName, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(
-          resourceGroupName,
-          machineName,
-          options,
-          settings,
-        );
-      },
-    };
-  }
-
-  private async *listPagingPage(
-    resourceGroupName: string,
-    machineName: string,
-    options?: GuestConfigurationHcrpAssignmentsListOptionalParams,
-    _settings?: PageSettings,
-  ): AsyncIterableIterator<GuestConfigurationAssignment[]> {
-    let result: GuestConfigurationHcrpAssignmentsListResponse;
-    result = await this._list(resourceGroupName, machineName, options);
-    yield result.value || [];
-  }
-
-  private async *listPagingAll(
-    resourceGroupName: string,
-    machineName: string,
-    options?: GuestConfigurationHcrpAssignmentsListOptionalParams,
-  ): AsyncIterableIterator<GuestConfigurationAssignment> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      machineName,
-      options,
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Creates an association between a ARC machine and guest configuration
-   * @param guestConfigurationAssignmentName Name of the guest configuration assignment.
-   * @param resourceGroupName The resource group name.
-   * @param machineName The name of the ARC machine.
-   * @param parameters Parameters supplied to the create or update guest configuration assignment.
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    guestConfigurationAssignmentName: string,
-    resourceGroupName: string,
-    machineName: string,
-    parameters: GuestConfigurationAssignment,
-    options?: GuestConfigurationHcrpAssignmentsCreateOrUpdateOptionalParams,
-  ): Promise<GuestConfigurationHcrpAssignmentsCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        guestConfigurationAssignmentName,
-        resourceGroupName,
-        machineName,
-        parameters,
-        options,
-      },
-      createOrUpdateOperationSpec,
-    );
-  }
-
-  /**
-   * Get information about a guest configuration assignment
-   * @param resourceGroupName The resource group name.
-   * @param guestConfigurationAssignmentName The guest configuration assignment name.
-   * @param machineName The name of the ARC machine.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    guestConfigurationAssignmentName: string,
-    machineName: string,
-    options?: GuestConfigurationHcrpAssignmentsGetOptionalParams,
-  ): Promise<GuestConfigurationHcrpAssignmentsGetResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        guestConfigurationAssignmentName,
-        machineName,
-        options,
-      },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * Delete a guest configuration assignment
-   * @param resourceGroupName The resource group name.
-   * @param guestConfigurationAssignmentName Name of the guest configuration assignment
-   * @param machineName The name of the ARC machine.
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    guestConfigurationAssignmentName: string,
-    machineName: string,
-    options?: GuestConfigurationHcrpAssignmentsDeleteOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        guestConfigurationAssignmentName,
-        machineName,
-        options,
-      },
-      deleteOperationSpec,
-    );
-  }
-
-  /**
-   * List all guest configuration assignments for an ARC machine.
-   * @param resourceGroupName The resource group name.
-   * @param machineName The name of the ARC machine.
-   * @param options The options parameters.
-   */
-  private _list(
+  list(
     resourceGroupName: string,
     machineName: string,
     options?: GuestConfigurationHcrpAssignmentsListOptionalParams,
@@ -187,12 +50,130 @@ export class GuestConfigurationHcrpAssignmentsImpl
       listOperationSpec,
     );
   }
+
+  /**
+   * Get information about a guest configuration assignment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param machineName machines
+   * @param guestConfigurationAssignmentName The name of the GuestConfigurationAssignment
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    machineName: string,
+    guestConfigurationAssignmentName: string,
+    options?: GuestConfigurationHcrpAssignmentsGetOptionalParams,
+  ): Promise<GuestConfigurationHcrpAssignmentsGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        machineName,
+        guestConfigurationAssignmentName,
+        options,
+      },
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * Creates an association between a ARC machine and guest configuration
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param machineName machines
+   * @param guestConfigurationAssignmentName The name of the GuestConfigurationAssignment
+   * @param parameters Parameters supplied to the create or update guest configuration assignment.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    machineName: string,
+    guestConfigurationAssignmentName: string,
+    parameters: GuestConfigurationAssignment,
+    options?: GuestConfigurationHcrpAssignmentsCreateOrUpdateOptionalParams,
+  ): Promise<GuestConfigurationHcrpAssignmentsCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        machineName,
+        guestConfigurationAssignmentName,
+        parameters,
+        options,
+      },
+      createOrUpdateOperationSpec,
+    );
+  }
+
+  /**
+   * Delete a guest configuration assignment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param machineName machines
+   * @param guestConfigurationAssignmentName The name of the GuestConfigurationAssignment
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    machineName: string,
+    guestConfigurationAssignmentName: string,
+    options?: GuestConfigurationHcrpAssignmentsDeleteOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        machineName,
+        guestConfigurationAssignmentName,
+        options,
+      },
+      deleteOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.GuestConfiguration/machines/{machineName}/guestConfigurationAssignments",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GuestConfigurationAssignmentList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.machineName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.GuestConfiguration/machines/{machineName}/guestConfigurationAssignments/{guestConfigurationAssignmentName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GuestConfigurationAssignment,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.guestConfigurationAssignmentName,
+    Parameters.machineName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.GuestConfiguration/machines/{machineName}/guestConfigurationAssignments/{guestConfigurationAssignmentName}",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -209,39 +190,17 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.guestConfigurationAssignmentName,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.guestConfigurationAssignmentName,
     Parameters.machineName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GuestConfigurationAssignment,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.guestConfigurationAssignmentName,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.machineName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.GuestConfiguration/machines/{machineName}/guestConfigurationAssignments/{guestConfigurationAssignmentName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -252,30 +211,9 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.guestConfigurationAssignmentName,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.machineName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GuestConfigurationAssignmentList,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.machineName,
   ],
   headerParameters: [Parameters.accept],

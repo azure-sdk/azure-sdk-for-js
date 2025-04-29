@@ -7,40 +7,40 @@
  */
 
 import {
-  GuestConfigurationAssignmentReportsListOptionalParams,
-  GuestConfigurationAssignmentReportsListResponse,
   GuestConfigurationAssignmentReportsGetOptionalParams,
   GuestConfigurationAssignmentReportsGetResponse,
+  GuestConfigurationAssignmentReportsListOptionalParams,
+  GuestConfigurationAssignmentReportsListResponse,
 } from "../models/index.js";
 
 /** Interface representing a GuestConfigurationAssignmentReports. */
 export interface GuestConfigurationAssignmentReports {
   /**
-   * List all reports for the guest configuration assignment, latest report first.
-   * @param resourceGroupName The resource group name.
-   * @param guestConfigurationAssignmentName The guest configuration assignment name.
-   * @param vmName The name of the virtual machine.
-   * @param options The options parameters.
-   */
-  list(
-    resourceGroupName: string,
-    guestConfigurationAssignmentName: string,
-    vmName: string,
-    options?: GuestConfigurationAssignmentReportsListOptionalParams,
-  ): Promise<GuestConfigurationAssignmentReportsListResponse>;
-  /**
    * Get a report for the guest configuration assignment, by reportId.
-   * @param resourceGroupName The resource group name.
-   * @param guestConfigurationAssignmentName The guest configuration assignment name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName virtualMachines
+   * @param guestConfigurationAssignmentName The name of the GuestConfigurationAssignment
    * @param reportId The GUID for the guest configuration assignment report.
-   * @param vmName The name of the virtual machine.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
+    vmName: string,
     guestConfigurationAssignmentName: string,
     reportId: string,
-    vmName: string,
     options?: GuestConfigurationAssignmentReportsGetOptionalParams,
   ): Promise<GuestConfigurationAssignmentReportsGetResponse>;
+  /**
+   * List all reports for the guest configuration assignment, latest report first.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName virtualMachines
+   * @param guestConfigurationAssignmentName The name of the GuestConfigurationAssignment
+   * @param options The options parameters.
+   */
+  list(
+    resourceGroupName: string,
+    vmName: string,
+    guestConfigurationAssignmentName: string,
+    options?: GuestConfigurationAssignmentReportsListOptionalParams,
+  ): Promise<GuestConfigurationAssignmentReportsListResponse>;
 }

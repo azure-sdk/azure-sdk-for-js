@@ -7,32 +7,19 @@
  */
 
 import {
-  GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListOptionalParams,
-  GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListResponse,
   GuestConfigurationConnectedVMwarevSphereAssignmentsReportsGetOptionalParams,
   GuestConfigurationConnectedVMwarevSphereAssignmentsReportsGetResponse,
+  GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListOptionalParams,
+  GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListResponse,
 } from "../models/index.js";
 
 /** Interface representing a GuestConfigurationConnectedVMwarevSphereAssignmentsReports. */
 export interface GuestConfigurationConnectedVMwarevSphereAssignmentsReports {
   /**
-   * List all reports for the guest configuration assignment, latest report first.
-   * @param resourceGroupName The resource group name.
-   * @param vmName The name of the virtual machine.
-   * @param guestConfigurationAssignmentName The guest configuration assignment name.
-   * @param options The options parameters.
-   */
-  list(
-    resourceGroupName: string,
-    vmName: string,
-    guestConfigurationAssignmentName: string,
-    options?: GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListOptionalParams,
-  ): Promise<GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListResponse>;
-  /**
    * Get a report for the guest configuration assignment, by reportId.
-   * @param resourceGroupName The resource group name.
-   * @param vmName The name of the virtual machine.
-   * @param guestConfigurationAssignmentName The guest configuration assignment name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName virtualmachines
+   * @param guestConfigurationAssignmentName The name of the GuestConfigurationAssignment
    * @param reportId The GUID for the guest configuration assignment report.
    * @param options The options parameters.
    */
@@ -43,4 +30,17 @@ export interface GuestConfigurationConnectedVMwarevSphereAssignmentsReports {
     reportId: string,
     options?: GuestConfigurationConnectedVMwarevSphereAssignmentsReportsGetOptionalParams,
   ): Promise<GuestConfigurationConnectedVMwarevSphereAssignmentsReportsGetResponse>;
+  /**
+   * List all reports for the guest configuration assignment, latest report first.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName virtualmachines
+   * @param guestConfigurationAssignmentName The name of the GuestConfigurationAssignment
+   * @param options The options parameters.
+   */
+  list(
+    resourceGroupName: string,
+    vmName: string,
+    guestConfigurationAssignmentName: string,
+    options?: GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListOptionalParams,
+  ): Promise<GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListResponse>;
 }

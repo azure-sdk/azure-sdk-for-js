@@ -12,6 +12,9 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 export type ActionAfterReboot = string;
 
 // @public
+export type ActionType = string;
+
+// @public
 export interface AssignmentInfo {
     configuration?: ConfigurationInfo;
     readonly name?: string;
@@ -43,7 +46,9 @@ export interface AssignmentReportDetails {
 // @public
 export interface AssignmentReportResource {
     readonly complianceStatus?: ComplianceStatus;
-    readonly properties?: Record<string, unknown>;
+    readonly properties?: {
+        [propertyName: string]: any;
+    };
     reasons?: AssignmentReportResourceComplianceReason[];
     readonly resourceId?: string;
 }
@@ -89,15 +94,23 @@ export interface ConfigurationSetting {
 export type CreatedByType = string;
 
 // @public
-export interface ErrorResponse {
-    // (undocumented)
-    error?: ErrorResponseError;
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
 }
 
-// @public (undocumented)
-export interface ErrorResponseError {
-    code?: string;
-    message?: string;
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -106,7 +119,6 @@ export function getContinuationToken(page: unknown): string | undefined;
 // @public
 export interface GuestConfigurationAssignment extends ProxyResource {
     properties?: GuestConfigurationAssignmentProperties;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -156,8 +168,8 @@ export interface GuestConfigurationAssignmentReportProperties {
 
 // @public
 export interface GuestConfigurationAssignmentReports {
-    get(resourceGroupName: string, guestConfigurationAssignmentName: string, reportId: string, vmName: string, options?: GuestConfigurationAssignmentReportsGetOptionalParams): Promise<GuestConfigurationAssignmentReportsGetResponse>;
-    list(resourceGroupName: string, guestConfigurationAssignmentName: string, vmName: string, options?: GuestConfigurationAssignmentReportsListOptionalParams): Promise<GuestConfigurationAssignmentReportsListResponse>;
+    get(resourceGroupName: string, vmName: string, guestConfigurationAssignmentName: string, reportId: string, options?: GuestConfigurationAssignmentReportsGetOptionalParams): Promise<GuestConfigurationAssignmentReportsGetResponse>;
+    list(resourceGroupName: string, vmName: string, guestConfigurationAssignmentName: string, options?: GuestConfigurationAssignmentReportsListOptionalParams): Promise<GuestConfigurationAssignmentReportsListResponse>;
 }
 
 // @public
@@ -177,7 +189,7 @@ export type GuestConfigurationAssignmentReportsListResponse = GuestConfiguration
 // @public
 export interface GuestConfigurationAssignmentReportsVmss {
     get(resourceGroupName: string, vmssName: string, name: string, id: string, options?: GuestConfigurationAssignmentReportsVmssGetOptionalParams): Promise<GuestConfigurationAssignmentReportsVmssGetResponse>;
-    list(resourceGroupName: string, vmssName: string, name: string, options?: GuestConfigurationAssignmentReportsVmssListOptionalParams): PagedAsyncIterableIterator<GuestConfigurationAssignmentReport>;
+    list(resourceGroupName: string, vmssName: string, name: string, options?: GuestConfigurationAssignmentReportsVmssListOptionalParams): Promise<GuestConfigurationAssignmentReportsVmssListResponse>;
 }
 
 // @public
@@ -196,12 +208,11 @@ export type GuestConfigurationAssignmentReportsVmssListResponse = GuestConfigura
 
 // @public
 export interface GuestConfigurationAssignments {
-    createOrUpdate(guestConfigurationAssignmentName: string, resourceGroupName: string, vmName: string, parameters: GuestConfigurationAssignment, options?: GuestConfigurationAssignmentsCreateOrUpdateOptionalParams): Promise<GuestConfigurationAssignmentsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, guestConfigurationAssignmentName: string, vmName: string, options?: GuestConfigurationAssignmentsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, guestConfigurationAssignmentName: string, vmName: string, options?: GuestConfigurationAssignmentsGetOptionalParams): Promise<GuestConfigurationAssignmentsGetResponse>;
-    list(resourceGroupName: string, vmName: string, options?: GuestConfigurationAssignmentsListOptionalParams): PagedAsyncIterableIterator<GuestConfigurationAssignment>;
-    listRGList(resourceGroupName: string, options?: GuestConfigurationAssignmentsRGListOptionalParams): PagedAsyncIterableIterator<GuestConfigurationAssignment>;
-    listSubscriptionList(options?: GuestConfigurationAssignmentsSubscriptionListOptionalParams): PagedAsyncIterableIterator<GuestConfigurationAssignment>;
+    createOrUpdate(resourceGroupName: string, vmName: string, guestConfigurationAssignmentName: string, parameters: GuestConfigurationAssignment, options?: GuestConfigurationAssignmentsCreateOrUpdateOptionalParams): Promise<GuestConfigurationAssignmentsCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, vmName: string, guestConfigurationAssignmentName: string, options?: GuestConfigurationAssignmentsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, vmName: string, guestConfigurationAssignmentName: string, options?: GuestConfigurationAssignmentsGetOptionalParams): Promise<GuestConfigurationAssignmentsGetResponse>;
+    list(resourceGroupName: string, vmName: string, options?: GuestConfigurationAssignmentsListOptionalParams): Promise<GuestConfigurationAssignmentsListResponse>;
+    rGList(resourceGroupName: string, options?: GuestConfigurationAssignmentsRGListOptionalParams): Promise<GuestConfigurationAssignmentsRGListResponse>;
 }
 
 // @public
@@ -237,18 +248,11 @@ export interface GuestConfigurationAssignmentsRGListOptionalParams extends coreC
 export type GuestConfigurationAssignmentsRGListResponse = GuestConfigurationAssignmentList;
 
 // @public
-export interface GuestConfigurationAssignmentsSubscriptionListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GuestConfigurationAssignmentsSubscriptionListResponse = GuestConfigurationAssignmentList;
-
-// @public
 export interface GuestConfigurationAssignmentsVmss {
     createOrUpdate(resourceGroupName: string, vmssName: string, name: string, parameters: GuestConfigurationAssignment, options?: GuestConfigurationAssignmentsVmssCreateOrUpdateOptionalParams): Promise<GuestConfigurationAssignmentsVmssCreateOrUpdateResponse>;
     delete(resourceGroupName: string, vmssName: string, name: string, options?: GuestConfigurationAssignmentsVmssDeleteOptionalParams): Promise<GuestConfigurationAssignmentsVmssDeleteResponse>;
     get(resourceGroupName: string, vmssName: string, name: string, options?: GuestConfigurationAssignmentsVmssGetOptionalParams): Promise<GuestConfigurationAssignmentsVmssGetResponse>;
-    list(resourceGroupName: string, vmssName: string, options?: GuestConfigurationAssignmentsVmssListOptionalParams): PagedAsyncIterableIterator<GuestConfigurationAssignment>;
+    list(resourceGroupName: string, vmssName: string, options?: GuestConfigurationAssignmentsVmssListOptionalParams): Promise<GuestConfigurationAssignmentsVmssListResponse>;
 }
 
 // @public
@@ -320,7 +324,7 @@ export interface GuestConfigurationConnectedVMwarevSphereAssignments {
     createOrUpdate(resourceGroupName: string, vmName: string, guestConfigurationAssignmentName: string, parameters: GuestConfigurationAssignment, options?: GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateOptionalParams): Promise<GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, vmName: string, guestConfigurationAssignmentName: string, options?: GuestConfigurationConnectedVMwarevSphereAssignmentsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, vmName: string, guestConfigurationAssignmentName: string, options?: GuestConfigurationConnectedVMwarevSphereAssignmentsGetOptionalParams): Promise<GuestConfigurationConnectedVMwarevSphereAssignmentsGetResponse>;
-    list(resourceGroupName: string, vmName: string, options?: GuestConfigurationConnectedVMwarevSphereAssignmentsListOptionalParams): PagedAsyncIterableIterator<GuestConfigurationAssignment>;
+    list(resourceGroupName: string, vmName: string, options?: GuestConfigurationConnectedVMwarevSphereAssignmentsListOptionalParams): Promise<GuestConfigurationConnectedVMwarevSphereAssignmentsListResponse>;
 }
 
 // @public
@@ -370,8 +374,8 @@ export type GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListRespon
 
 // @public
 export interface GuestConfigurationHcrpAssignmentReports {
-    get(resourceGroupName: string, guestConfigurationAssignmentName: string, reportId: string, machineName: string, options?: GuestConfigurationHcrpAssignmentReportsGetOptionalParams): Promise<GuestConfigurationHcrpAssignmentReportsGetResponse>;
-    list(resourceGroupName: string, guestConfigurationAssignmentName: string, machineName: string, options?: GuestConfigurationHcrpAssignmentReportsListOptionalParams): Promise<GuestConfigurationHcrpAssignmentReportsListResponse>;
+    get(resourceGroupName: string, machineName: string, guestConfigurationAssignmentName: string, reportId: string, options?: GuestConfigurationHcrpAssignmentReportsGetOptionalParams): Promise<GuestConfigurationHcrpAssignmentReportsGetResponse>;
+    list(resourceGroupName: string, machineName: string, guestConfigurationAssignmentName: string, options?: GuestConfigurationHcrpAssignmentReportsListOptionalParams): Promise<GuestConfigurationHcrpAssignmentReportsListResponse>;
 }
 
 // @public
@@ -390,10 +394,10 @@ export type GuestConfigurationHcrpAssignmentReportsListResponse = GuestConfigura
 
 // @public
 export interface GuestConfigurationHcrpAssignments {
-    createOrUpdate(guestConfigurationAssignmentName: string, resourceGroupName: string, machineName: string, parameters: GuestConfigurationAssignment, options?: GuestConfigurationHcrpAssignmentsCreateOrUpdateOptionalParams): Promise<GuestConfigurationHcrpAssignmentsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, guestConfigurationAssignmentName: string, machineName: string, options?: GuestConfigurationHcrpAssignmentsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, guestConfigurationAssignmentName: string, machineName: string, options?: GuestConfigurationHcrpAssignmentsGetOptionalParams): Promise<GuestConfigurationHcrpAssignmentsGetResponse>;
-    list(resourceGroupName: string, machineName: string, options?: GuestConfigurationHcrpAssignmentsListOptionalParams): PagedAsyncIterableIterator<GuestConfigurationAssignment>;
+    createOrUpdate(resourceGroupName: string, machineName: string, guestConfigurationAssignmentName: string, parameters: GuestConfigurationAssignment, options?: GuestConfigurationHcrpAssignmentsCreateOrUpdateOptionalParams): Promise<GuestConfigurationHcrpAssignmentsCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, machineName: string, guestConfigurationAssignmentName: string, options?: GuestConfigurationHcrpAssignmentsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, machineName: string, guestConfigurationAssignmentName: string, options?: GuestConfigurationHcrpAssignmentsGetOptionalParams): Promise<GuestConfigurationHcrpAssignmentsGetResponse>;
+    list(resourceGroupName: string, machineName: string, options?: GuestConfigurationHcrpAssignmentsListOptionalParams): Promise<GuestConfigurationHcrpAssignmentsListResponse>;
 }
 
 // @public
@@ -429,6 +433,7 @@ export interface GuestConfigurationNavigation {
     configurationProtectedParameter?: ConfigurationParameter[];
     readonly configurationSetting?: ConfigurationSetting;
     contentHash?: string;
+    contentManagedIdentity?: string;
     readonly contentType?: string;
     contentUri?: string;
     kind?: Kind;
@@ -443,6 +448,11 @@ export type Kind = string;
 export enum KnownActionAfterReboot {
     ContinueConfiguration = "ContinueConfiguration",
     StopConfiguration = "StopConfiguration"
+}
+
+// @public
+export enum KnownActionType {
+    Internal = "Internal"
 }
 
 // @public
@@ -481,6 +491,13 @@ export enum KnownKind {
 }
 
 // @public
+export enum KnownOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
+}
+
+// @public
 export enum KnownProvisioningState {
     Canceled = "Canceled",
     Created = "Created",
@@ -496,27 +513,25 @@ export enum KnownType {
 
 // @public
 export interface Operation {
+    readonly actionType?: ActionType;
     display?: OperationDisplay;
-    name?: string;
-    properties?: OperationProperties;
+    readonly isDataAction?: boolean;
+    readonly name?: string;
+    readonly origin?: Origin;
 }
 
 // @public
 export interface OperationDisplay {
-    description?: string;
-    operation?: string;
-    provider?: string;
-    resource?: string;
+    readonly description?: string;
+    readonly operation?: string;
+    readonly provider?: string;
+    readonly resource?: string;
 }
 
 // @public
-export interface OperationList {
-    value?: Operation[];
-}
-
-// @public
-export interface OperationProperties {
-    statusCode?: string;
+export interface OperationListResult {
+    readonly nextLink?: string;
+    readonly value?: Operation[];
 }
 
 // @public
@@ -525,11 +540,21 @@ export interface Operations {
 }
 
 // @public
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListNextResponse = OperationListResult;
+
+// @public
 export interface OperationsListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type OperationsListResponse = OperationList;
+export type OperationsListResponse = OperationListResult;
+
+// @public
+export type Origin = string;
 
 // @public
 export type ProvisioningState = string;
@@ -541,8 +566,8 @@ export interface ProxyResource extends Resource {
 // @public
 export interface Resource {
     readonly id?: string;
-    location?: string;
-    name?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
