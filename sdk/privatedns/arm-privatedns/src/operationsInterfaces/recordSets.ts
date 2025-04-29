@@ -12,13 +12,13 @@ import {
   RecordType,
   RecordSetsListByTypeOptionalParams,
   RecordSetsListOptionalParams,
+  RecordSetsGetOptionalParams,
+  RecordSetsGetResponse,
   RecordSetsCreateOrUpdateOptionalParams,
   RecordSetsCreateOrUpdateResponse,
   RecordSetsUpdateOptionalParams,
   RecordSetsUpdateResponse,
   RecordSetsDeleteOptionalParams,
-  RecordSetsGetOptionalParams,
-  RecordSetsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ import {
 export interface RecordSets {
   /**
    * Lists the record sets of a specified type in a Private DNS zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param recordType The type of record sets to enumerate.
    * @param options The options parameters.
@@ -39,7 +39,7 @@ export interface RecordSets {
   ): PagedAsyncIterableIterator<RecordSet>;
   /**
    * Lists all record sets in a Private DNS zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param options The options parameters.
    */
@@ -49,69 +49,69 @@ export interface RecordSets {
     options?: RecordSetsListOptionalParams,
   ): PagedAsyncIterableIterator<RecordSet>;
   /**
-   * Creates or updates a record set within a Private DNS zone.
-   * @param resourceGroupName The name of the resource group.
+   * Gets a record set.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
+   * @param relativeRecordSetName The name of the record set, relative to the name of the zone.
+   * @param recordType The type of DNS record in this record set.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    privateZoneName: string,
+    relativeRecordSetName: string,
+    recordType: RecordType,
+    options?: RecordSetsGetOptionalParams,
+  ): Promise<RecordSetsGetResponse>;
+  /**
+   * Creates or updates a record set within a Private DNS zone.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
+   * @param relativeRecordSetName The name of the record set, relative to the name of the zone.
    * @param recordType The type of DNS record in this record set. Record sets of type SOA can be updated
    *                   but not created (they are created when the Private DNS zone is created).
-   * @param relativeRecordSetName The name of the record set, relative to the name of the zone.
    * @param parameters Parameters supplied to the CreateOrUpdate operation.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     privateZoneName: string,
-    recordType: RecordType,
     relativeRecordSetName: string,
+    recordType: RecordType,
     parameters: RecordSet,
     options?: RecordSetsCreateOrUpdateOptionalParams,
   ): Promise<RecordSetsCreateOrUpdateResponse>;
   /**
    * Updates a record set within a Private DNS zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
-   * @param recordType The type of DNS record in this record set.
    * @param relativeRecordSetName The name of the record set, relative to the name of the zone.
+   * @param recordType The type of DNS record in this record set.
    * @param parameters Parameters supplied to the Update operation.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     privateZoneName: string,
-    recordType: RecordType,
     relativeRecordSetName: string,
+    recordType: RecordType,
     parameters: RecordSet,
     options?: RecordSetsUpdateOptionalParams,
   ): Promise<RecordSetsUpdateResponse>;
   /**
    * Deletes a record set from a Private DNS zone. This operation cannot be undone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
+   * @param relativeRecordSetName The name of the record set, relative to the name of the zone.
    * @param recordType The type of DNS record in this record set. Record sets of type SOA cannot be
    *                   deleted (they are deleted when the Private DNS zone is deleted).
-   * @param relativeRecordSetName The name of the record set, relative to the name of the zone.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     privateZoneName: string,
-    recordType: RecordType,
     relativeRecordSetName: string,
+    recordType: RecordType,
     options?: RecordSetsDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * Gets a record set.
-   * @param resourceGroupName The name of the resource group.
-   * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
-   * @param recordType The type of DNS record in this record set.
-   * @param relativeRecordSetName The name of the record set, relative to the name of the zone.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    privateZoneName: string,
-    recordType: RecordType,
-    relativeRecordSetName: string,
-    options?: RecordSetsGetOptionalParams,
-  ): Promise<RecordSetsGetResponse>;
 }

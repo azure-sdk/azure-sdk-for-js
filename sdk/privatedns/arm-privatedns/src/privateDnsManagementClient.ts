@@ -8,22 +8,10 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest,
-} from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import {
-  PrivateZonesImpl,
-  VirtualNetworkLinksImpl,
-  RecordSetsImpl,
-} from "./operations/index.js";
-import {
-  PrivateZones,
-  VirtualNetworkLinks,
-  RecordSets,
-} from "./operationsInterfaces/index.js";
+import { PrivateZonesImpl, RecordSetsImpl, VirtualNetworkLinksImpl } from "./operations/index.js";
+import { PrivateZones, RecordSets, VirtualNetworkLinks } from "./operationsInterfaces/index.js";
 import { PrivateDnsManagementClientOptionalParams } from "./models/index.js";
 
 export class PrivateDnsManagementClient extends coreClient.ServiceClient {
@@ -34,8 +22,7 @@ export class PrivateDnsManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the PrivateDnsManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Gets subscription credentials which uniquely identify Microsoft Azure
-   *                       subscription. The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
@@ -59,7 +46,7 @@ export class PrivateDnsManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-privatedns/3.3.1`;
+    const packageDetails = `azsdk-js-arm-privatedns/4.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -71,8 +58,7 @@ export class PrivateDnsManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
@@ -82,8 +68,7 @@ export class PrivateDnsManagementClient extends coreClient.ServiceClient {
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -99,11 +84,9 @@ export class PrivateDnsManagementClient extends coreClient.ServiceClient {
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
@@ -115,8 +98,8 @@ export class PrivateDnsManagementClient extends coreClient.ServiceClient {
     this.$host = options.$host || "https://management.azure.com";
     this.apiVersion = options.apiVersion || "2024-06-01";
     this.privateZones = new PrivateZonesImpl(this);
-    this.virtualNetworkLinks = new VirtualNetworkLinksImpl(this);
     this.recordSets = new RecordSetsImpl(this);
+    this.virtualNetworkLinks = new VirtualNetworkLinksImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -127,10 +110,7 @@ export class PrivateDnsManagementClient extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest,
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
@@ -149,6 +129,6 @@ export class PrivateDnsManagementClient extends coreClient.ServiceClient {
   }
 
   privateZones: PrivateZones;
-  virtualNetworkLinks: VirtualNetworkLinks;
   recordSets: RecordSets;
+  virtualNetworkLinks: VirtualNetworkLinks;
 }

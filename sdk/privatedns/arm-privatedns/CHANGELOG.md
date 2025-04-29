@@ -1,15 +1,35 @@
 # Release History
-
-## 3.3.1 (Unreleased)
-
+    
+## 4.0.0 (2025-04-29)
+    
 ### Features Added
+
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface PrivateZonesCreateOrUpdateHeaders
+  - Added Interface PrivateZonesDeleteHeaders
+  - Added Interface PrivateZonesUpdateHeaders
+  - Added Interface SystemData
+  - Added Interface VirtualNetworkLinksCreateOrUpdateHeaders
+  - Added Interface VirtualNetworkLinksDeleteHeaders
+  - Added Interface VirtualNetworkLinksUpdateHeaders
+  - Added Type Alias CreatedByType
+  - Interface Resource has a new optional parameter systemData
+  - Added Enum KnownCreatedByType
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Operation RecordSets.createOrUpdate has a new signature
+  - Operation RecordSets.delete has a new signature
+  - Operation RecordSets.get has a new signature
+  - Operation RecordSets.update has a new signature
+  - Parameter value of interface PrivateZoneListResult is now required
+  - Parameter value of interface RecordSetListResult is now required
+  - Parameter location of interface TrackedResource is now required
+  - Parameter value of interface VirtualNetworkLinkListResult is now required
+    
+    
 ## 3.3.0 (2024-09-12)
     
 ### Features Added
