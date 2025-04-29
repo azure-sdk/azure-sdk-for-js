@@ -8,28 +8,28 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { RecommendationMetadata } from "../operationsInterfaces/index.js";
+import { ResiliencyReviews } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AdvisorManagementClient } from "../advisorManagementClient.js";
 import {
-  MetadataEntity,
-  RecommendationMetadataListNextOptionalParams,
-  RecommendationMetadataListOptionalParams,
-  RecommendationMetadataListResponse,
-  RecommendationMetadataGetOptionalParams,
-  RecommendationMetadataGetResponse,
-  RecommendationMetadataListNextResponse,
+  ResiliencyReview,
+  ResiliencyReviewsListNextOptionalParams,
+  ResiliencyReviewsListOptionalParams,
+  ResiliencyReviewsListResponse,
+  ResiliencyReviewsGetOptionalParams,
+  ResiliencyReviewsGetResponse,
+  ResiliencyReviewsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing RecommendationMetadata operations. */
-export class RecommendationMetadataImpl implements RecommendationMetadata {
+/** Class containing ResiliencyReviews operations. */
+export class ResiliencyReviewsImpl implements ResiliencyReviews {
   private readonly client: AdvisorManagementClient;
 
   /**
-   * Initialize a new instance of the class RecommendationMetadata class.
+   * Initialize a new instance of the class ResiliencyReviews class.
    * @param client Reference to the service client
    */
   constructor(client: AdvisorManagementClient) {
@@ -37,12 +37,12 @@ export class RecommendationMetadataImpl implements RecommendationMetadata {
   }
 
   /**
-   * Gets the list of metadata entities.
+   * Get list of Azure Advisor resiliency reviews.
    * @param options The options parameters.
    */
   public list(
-    options?: RecommendationMetadataListOptionalParams,
-  ): PagedAsyncIterableIterator<MetadataEntity> {
+    options?: ResiliencyReviewsListOptionalParams,
+  ): PagedAsyncIterableIterator<ResiliencyReview> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -61,10 +61,10 @@ export class RecommendationMetadataImpl implements RecommendationMetadata {
   }
 
   private async *listPagingPage(
-    options?: RecommendationMetadataListOptionalParams,
+    options?: ResiliencyReviewsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<MetadataEntity[]> {
-    let result: RecommendationMetadataListResponse;
+  ): AsyncIterableIterator<ResiliencyReview[]> {
+    let result: ResiliencyReviewsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(options);
@@ -83,33 +83,34 @@ export class RecommendationMetadataImpl implements RecommendationMetadata {
   }
 
   private async *listPagingAll(
-    options?: RecommendationMetadataListOptionalParams,
-  ): AsyncIterableIterator<MetadataEntity> {
+    options?: ResiliencyReviewsListOptionalParams,
+  ): AsyncIterableIterator<ResiliencyReview> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Gets the list of metadata entities.
+   * Get list of Azure Advisor resiliency reviews.
    * @param options The options parameters.
    */
   private _list(
-    options?: RecommendationMetadataListOptionalParams,
-  ): Promise<RecommendationMetadataListResponse> {
+    options?: ResiliencyReviewsListOptionalParams,
+  ): Promise<ResiliencyReviewsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
-   * Gets the metadata entity.
-   * @param name Name of metadata entity.
+   * Get existing Azure Advisor resiliency review by id.
+   * @param reviewId Existing review id. This is a GUID-formatted string (e.g.
+   *                 00000000-0000-0000-0000-000000000000).
    * @param options The options parameters.
    */
   get(
-    name: string,
-    options?: RecommendationMetadataGetOptionalParams,
-  ): Promise<RecommendationMetadataGetResponse> {
-    return this.client.sendOperationRequest({ name, options }, getOperationSpec);
+    reviewId: string,
+    options?: ResiliencyReviewsGetOptionalParams,
+  ): Promise<ResiliencyReviewsGetResponse> {
+    return this.client.sendOperationRequest({ reviewId, options }, getOperationSpec);
   }
 
   /**
@@ -119,8 +120,8 @@ export class RecommendationMetadataImpl implements RecommendationMetadata {
    */
   private _listNext(
     nextLink: string,
-    options?: RecommendationMetadataListNextOptionalParams,
-  ): Promise<RecommendationMetadataListNextResponse> {
+    options?: ResiliencyReviewsListNextOptionalParams,
+  ): Promise<ResiliencyReviewsListNextResponse> {
     return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
@@ -128,34 +129,34 @@ export class RecommendationMetadataImpl implements RecommendationMetadata {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Advisor/metadata",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/resiliencyReviews",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetadataEntityListResult,
+      bodyMapper: Mappers.ResiliencyReviewCollection,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skip],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Advisor/metadata/{name}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/resiliencyReviews/{reviewId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetadataEntity,
+      bodyMapper: Mappers.ResiliencyReview,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.name],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.reviewId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -164,13 +165,13 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetadataEntityListResult,
+      bodyMapper: Mappers.ResiliencyReviewCollection,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [Parameters.$host, Parameters.nextLink],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
