@@ -4,11 +4,14 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -79,11 +82,30 @@ export interface ComputeUnitsMetadata {
 }
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export type CreatedByType = string;
+
+// @public (undocumented)
+export class DataManagementClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: DataManagementClientOptionalParams);
+    readonly operations: OperationsOperations;
+    readonly organizations: OrganizationsOperations;
+    readonly pipeline: Pipeline;
+    readonly serverlessRuntimes: ServerlessRuntimesOperations;
+}
+
+// @public
+export interface DataManagementClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
+}
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: Record<string, any>;
     readonly type?: string;
 }
 
@@ -100,9 +122,6 @@ export interface ErrorDetail {
 export interface ErrorResponse {
     error?: ErrorDetail;
 }
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface InfaRuntimeResourceFetchMetaData {
@@ -138,47 +157,15 @@ export interface InfaServerlessFetchConfigProperties {
     vnet?: string;
 }
 
-// @public (undocumented)
-export class InformaticaDataManagement extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: InformaticaDataManagementOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    organizations: Organizations;
-    // (undocumented)
-    serverlessRuntimes: ServerlessRuntimes;
-    // (undocumented)
-    subscriptionId: string;
-}
-
-// @public
-export interface InformaticaDataManagementOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
-    apiVersion?: string;
-    endpoint?: string;
-}
-
 // @public
 export interface InformaticaOrganizationResource extends TrackedResource {
     properties?: OrganizationProperties;
 }
 
 // @public
-export interface InformaticaOrganizationResourceListResult {
-    nextLink?: string;
-    value: InformaticaOrganizationResource[];
-}
-
-// @public
 export interface InformaticaOrganizationResourceUpdate {
     properties?: OrganizationPropertiesCustomUpdate;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -214,12 +201,6 @@ export interface InformaticaServerlessRuntimeResource extends ProxyResource {
 // @public
 export interface InformaticaServerlessRuntimeResourceList {
     informaticaRuntimeResources: InfaRuntimeResourceFetchMetaData[];
-}
-
-// @public
-export interface InformaticaServerlessRuntimeResourceListResult {
-    nextLink?: string;
-    value: InformaticaServerlessRuntimeResource[];
 }
 
 // @public
@@ -274,6 +255,11 @@ export enum KnownProvisioningState {
 // @public
 export enum KnownRuntimeType {
     Serverless = "SERVERLESS"
+}
+
+// @public
+export enum KnownVersions {
+    V20240508 = "2024-05-08"
 }
 
 // @public
@@ -345,29 +331,13 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export interface OrganizationProperties {
@@ -389,106 +359,65 @@ export interface OrganizationPropertiesCustomUpdate {
 }
 
 // @public
-export interface Organizations {
-    beginCreateOrUpdate(resourceGroupName: string, organizationName: string, resource: InformaticaOrganizationResource, options?: OrganizationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<OrganizationsCreateOrUpdateResponse>, OrganizationsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, organizationName: string, resource: InformaticaOrganizationResource, options?: OrganizationsCreateOrUpdateOptionalParams): Promise<OrganizationsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, organizationName: string, options?: OrganizationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<OrganizationsDeleteResponse>, OrganizationsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, organizationName: string, options?: OrganizationsDeleteOptionalParams): Promise<OrganizationsDeleteResponse>;
-    get(resourceGroupName: string, organizationName: string, options?: OrganizationsGetOptionalParams): Promise<OrganizationsGetResponse>;
-    getAllServerlessRuntimes(resourceGroupName: string, organizationName: string, options?: OrganizationsGetAllServerlessRuntimesOptionalParams): Promise<OrganizationsGetAllServerlessRuntimesResponse>;
-    getServerlessMetadata(resourceGroupName: string, organizationName: string, options?: OrganizationsGetServerlessMetadataOptionalParams): Promise<OrganizationsGetServerlessMetadataResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: OrganizationsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<InformaticaOrganizationResource>;
-    listBySubscription(options?: OrganizationsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<InformaticaOrganizationResource>;
-    update(resourceGroupName: string, organizationName: string, properties: InformaticaOrganizationResourceUpdate, options?: OrganizationsUpdateOptionalParams): Promise<OrganizationsUpdateResponse>;
-}
-
-// @public
-export interface OrganizationsCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface OrganizationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface OrganizationsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type OrganizationsCreateOrUpdateResponse = InformaticaOrganizationResource;
-
-// @public
-export interface OrganizationsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface OrganizationsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface OrganizationsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type OrganizationsDeleteResponse = OrganizationsDeleteHeaders;
-
-// @public
-export interface OrganizationsGetAllServerlessRuntimesOptionalParams extends coreClient.OperationOptions {
+export interface OrganizationsGetAllServerlessRuntimesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type OrganizationsGetAllServerlessRuntimesResponse = InformaticaServerlessRuntimeResourceList;
-
-// @public
-export interface OrganizationsGetOptionalParams extends coreClient.OperationOptions {
+export interface OrganizationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type OrganizationsGetResponse = InformaticaOrganizationResource;
-
-// @public
-export interface OrganizationsGetServerlessMetadataOptionalParams extends coreClient.OperationOptions {
+export interface OrganizationsGetServerlessMetadataOptionalParams extends OperationOptions {
 }
 
 // @public
-export type OrganizationsGetServerlessMetadataResponse = ServerlessMetadataResponse;
-
-// @public
-export interface OrganizationsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface OrganizationsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type OrganizationsListByResourceGroupNextResponse = InformaticaOrganizationResourceListResult;
-
-// @public
-export interface OrganizationsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface OrganizationsListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type OrganizationsListByResourceGroupResponse = InformaticaOrganizationResourceListResult;
-
-// @public
-export interface OrganizationsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface OrganizationsOperations {
+    createOrUpdate: (resourceGroupName: string, organizationName: string, resource: InformaticaOrganizationResource, options?: OrganizationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<InformaticaOrganizationResource>, InformaticaOrganizationResource>;
+    delete: (resourceGroupName: string, organizationName: string, options?: OrganizationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, organizationName: string, options?: OrganizationsGetOptionalParams) => Promise<InformaticaOrganizationResource>;
+    getAllServerlessRuntimes: (resourceGroupName: string, organizationName: string, options?: OrganizationsGetAllServerlessRuntimesOptionalParams) => Promise<InformaticaServerlessRuntimeResourceList>;
+    getServerlessMetadata: (resourceGroupName: string, organizationName: string, options?: OrganizationsGetServerlessMetadataOptionalParams) => Promise<ServerlessMetadataResponse>;
+    listByResourceGroup: (resourceGroupName: string, options?: OrganizationsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<InformaticaOrganizationResource>;
+    listBySubscription: (options?: OrganizationsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<InformaticaOrganizationResource>;
+    update: (resourceGroupName: string, organizationName: string, properties: InformaticaOrganizationResourceUpdate, options?: OrganizationsUpdateOptionalParams) => Promise<InformaticaOrganizationResource>;
 }
 
 // @public
-export type OrganizationsListBySubscriptionNextResponse = InformaticaOrganizationResourceListResult;
-
-// @public
-export interface OrganizationsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface OrganizationsUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type OrganizationsListBySubscriptionResponse = InformaticaOrganizationResourceListResult;
-
-// @public
-export interface OrganizationsUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OrganizationsUpdateResponse = InformaticaOrganizationResource;
 
 // @public
 export type Origin = string;
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export type PlatformType = string;
@@ -512,6 +441,16 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DataManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -562,7 +501,7 @@ export interface ServerlessRuntimeNetworkProfile {
 
 // @public
 export interface ServerlessRuntimeNetworkProfileUpdate {
-    networkInterfaceConfiguration?: NetworkInterfaceConfigurationUpdate;
+    networkInterfaceConfiguration: NetworkInterfaceConfigurationUpdate;
 }
 
 // @public
@@ -582,93 +521,50 @@ export interface ServerlessRuntimePropertiesCustomUpdate {
 }
 
 // @public
-export interface ServerlessRuntimes {
-    beginCreateOrUpdate(resourceGroupName: string, organizationName: string, serverlessRuntimeName: string, resource: InformaticaServerlessRuntimeResource, options?: ServerlessRuntimesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ServerlessRuntimesCreateOrUpdateResponse>, ServerlessRuntimesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, organizationName: string, serverlessRuntimeName: string, resource: InformaticaServerlessRuntimeResource, options?: ServerlessRuntimesCreateOrUpdateOptionalParams): Promise<ServerlessRuntimesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, organizationName: string, serverlessRuntimeName: string, options?: ServerlessRuntimesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ServerlessRuntimesDeleteResponse>, ServerlessRuntimesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, organizationName: string, serverlessRuntimeName: string, options?: ServerlessRuntimesDeleteOptionalParams): Promise<ServerlessRuntimesDeleteResponse>;
-    checkDependencies(resourceGroupName: string, organizationName: string, serverlessRuntimeName: string, options?: ServerlessRuntimesCheckDependenciesOptionalParams): Promise<ServerlessRuntimesCheckDependenciesResponse>;
-    get(resourceGroupName: string, organizationName: string, serverlessRuntimeName: string, options?: ServerlessRuntimesGetOptionalParams): Promise<ServerlessRuntimesGetResponse>;
-    listByInformaticaOrganizationResource(resourceGroupName: string, organizationName: string, options?: ServerlessRuntimesListByInformaticaOrganizationResourceOptionalParams): PagedAsyncIterableIterator<InformaticaServerlessRuntimeResource>;
-    serverlessResourceById(resourceGroupName: string, organizationName: string, serverlessRuntimeName: string, options?: ServerlessRuntimesServerlessResourceByIdOptionalParams): Promise<ServerlessRuntimesServerlessResourceByIdResponse>;
-    startFailedServerlessRuntime(resourceGroupName: string, organizationName: string, serverlessRuntimeName: string, options?: ServerlessRuntimesStartFailedServerlessRuntimeOptionalParams): Promise<void>;
-    update(resourceGroupName: string, organizationName: string, serverlessRuntimeName: string, properties: InformaticaServerlessRuntimeResourceUpdate, options?: ServerlessRuntimesUpdateOptionalParams): Promise<ServerlessRuntimesUpdateResponse>;
+export interface ServerlessRuntimesCheckDependenciesOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ServerlessRuntimesCheckDependenciesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ServerlessRuntimesCheckDependenciesResponse = CheckDependenciesResponse;
-
-// @public
-export interface ServerlessRuntimesCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface ServerlessRuntimesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ServerlessRuntimesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ServerlessRuntimesCreateOrUpdateResponse = InformaticaServerlessRuntimeResource;
-
-// @public
-export interface ServerlessRuntimesDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface ServerlessRuntimesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ServerlessRuntimesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ServerlessRuntimesDeleteResponse = ServerlessRuntimesDeleteHeaders;
-
-// @public
-export interface ServerlessRuntimesGetOptionalParams extends coreClient.OperationOptions {
+export interface ServerlessRuntimesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ServerlessRuntimesGetResponse = InformaticaServerlessRuntimeResource;
-
-// @public
-export interface ServerlessRuntimesListByInformaticaOrganizationResourceNextOptionalParams extends coreClient.OperationOptions {
+export interface ServerlessRuntimesListByInformaticaOrganizationResourceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ServerlessRuntimesListByInformaticaOrganizationResourceNextResponse = InformaticaServerlessRuntimeResourceListResult;
-
-// @public
-export interface ServerlessRuntimesListByInformaticaOrganizationResourceOptionalParams extends coreClient.OperationOptions {
+export interface ServerlessRuntimesOperations {
+    checkDependencies: (resourceGroupName: string, organizationName: string, serverlessRuntimeName: string, options?: ServerlessRuntimesCheckDependenciesOptionalParams) => Promise<CheckDependenciesResponse>;
+    createOrUpdate: (resourceGroupName: string, organizationName: string, serverlessRuntimeName: string, resource: InformaticaServerlessRuntimeResource, options?: ServerlessRuntimesCreateOrUpdateOptionalParams) => PollerLike<OperationState<InformaticaServerlessRuntimeResource>, InformaticaServerlessRuntimeResource>;
+    delete: (resourceGroupName: string, organizationName: string, serverlessRuntimeName: string, options?: ServerlessRuntimesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, organizationName: string, serverlessRuntimeName: string, options?: ServerlessRuntimesGetOptionalParams) => Promise<InformaticaServerlessRuntimeResource>;
+    listByInformaticaOrganizationResource: (resourceGroupName: string, organizationName: string, options?: ServerlessRuntimesListByInformaticaOrganizationResourceOptionalParams) => PagedAsyncIterableIterator<InformaticaServerlessRuntimeResource>;
+    serverlessResourceById: (resourceGroupName: string, organizationName: string, serverlessRuntimeName: string, options?: ServerlessRuntimesServerlessResourceByIdOptionalParams) => Promise<InformaticaServerlessRuntimeResource>;
+    startFailedServerlessRuntime: (resourceGroupName: string, organizationName: string, serverlessRuntimeName: string, options?: ServerlessRuntimesStartFailedServerlessRuntimeOptionalParams) => Promise<void>;
+    update: (resourceGroupName: string, organizationName: string, serverlessRuntimeName: string, properties: InformaticaServerlessRuntimeResourceUpdate, options?: ServerlessRuntimesUpdateOptionalParams) => Promise<InformaticaServerlessRuntimeResource>;
 }
 
 // @public
-export type ServerlessRuntimesListByInformaticaOrganizationResourceResponse = InformaticaServerlessRuntimeResourceListResult;
-
-// @public
-export interface ServerlessRuntimesServerlessResourceByIdOptionalParams extends coreClient.OperationOptions {
+export interface ServerlessRuntimesServerlessResourceByIdOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ServerlessRuntimesServerlessResourceByIdResponse = InformaticaServerlessRuntimeResource;
-
-// @public
-export interface ServerlessRuntimesStartFailedServerlessRuntimeOptionalParams extends coreClient.OperationOptions {
+export interface ServerlessRuntimesStartFailedServerlessRuntimeOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ServerlessRuntimesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ServerlessRuntimesUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ServerlessRuntimesUpdateResponse = InformaticaServerlessRuntimeResource;
 
 // @public
 export interface ServerlessRuntimeTag {
@@ -699,9 +595,7 @@ export interface SystemData {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
