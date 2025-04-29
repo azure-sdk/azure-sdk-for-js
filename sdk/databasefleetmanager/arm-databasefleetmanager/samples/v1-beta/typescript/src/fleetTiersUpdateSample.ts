@@ -1,0 +1,44 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { DatabaseFleetManagerClient } from "@azure/arm-databasefleetmanager";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to updates a tier.
+ *
+ * @summary updates a tier.
+ * x-ms-original-file: 2025-02-01-preview/FleetTiers_Update_MaximumSet_Gen.json
+ */
+async function fleetTiersUpdateMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "C3897315-3847-4D8A-B2FC-7307B066AD63";
+  const client = new DatabaseFleetManagerClient(credential, subscriptionId);
+  const result = await client.fleetTiers.update(
+    "rg-database-fleet-manager",
+    "critical-production-fleet",
+    "general-purpose-tier",
+    {
+      properties: {
+        serverless: false,
+        pooled: true,
+        serviceTier: "GeneralPurpose",
+        family: "Gen5",
+        capacity: 4,
+        poolNumOfDatabasesMax: 10,
+        highAvailabilityReplicaCount: 5,
+        zoneRedundancy: "Disabled",
+        databaseCapacityMin: 0,
+        databaseCapacityMax: 4,
+        databaseSizeGbMax: 50,
+      },
+    },
+  );
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await fleetTiersUpdateMaximumSetGenGeneratedByMaximumSetRule();
+}
+
+main().catch(console.error);
