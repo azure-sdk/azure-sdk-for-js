@@ -3,28 +3,6 @@
 
 import { ComputeScheduleContext } from "../../api/computeScheduleContext.js";
 import {
-  ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams,
-  ScheduledActionsVirtualMachinesCancelOperationsOptionalParams,
-  ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams,
-  ScheduledActionsVirtualMachinesExecuteStartOptionalParams,
-  ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams,
-  ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams,
-  ScheduledActionsVirtualMachinesSubmitStartOptionalParams,
-  ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams,
-  ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams,
-} from "../../api/options.js";
-import {
-  virtualMachinesGetOperationErrors,
-  virtualMachinesCancelOperations,
-  virtualMachinesGetOperationStatus,
-  virtualMachinesExecuteStart,
-  virtualMachinesExecuteHibernate,
-  virtualMachinesExecuteDeallocate,
-  virtualMachinesSubmitStart,
-  virtualMachinesSubmitHibernate,
-  virtualMachinesSubmitDeallocate,
-} from "../../api/scheduledActions/index.js";
-import {
   SubmitDeallocateRequest,
   DeallocateResourceOperationResponse,
   SubmitHibernateRequest,
@@ -41,6 +19,28 @@ import {
   GetOperationErrorsRequest,
   GetOperationErrorsResponse,
 } from "../../models/models.js";
+import {
+  ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams,
+  ScheduledActionsVirtualMachinesCancelOperationsOptionalParams,
+  ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams,
+  ScheduledActionsVirtualMachinesExecuteStartOptionalParams,
+  ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams,
+  ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams,
+  ScheduledActionsVirtualMachinesSubmitStartOptionalParams,
+  ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams,
+  ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams,
+} from "../../api/scheduledActions/options.js";
+import {
+  virtualMachinesGetOperationErrors,
+  virtualMachinesCancelOperations,
+  virtualMachinesGetOperationStatus,
+  virtualMachinesExecuteStart,
+  virtualMachinesExecuteHibernate,
+  virtualMachinesExecuteDeallocate,
+  virtualMachinesSubmitStart,
+  virtualMachinesSubmitHibernate,
+  virtualMachinesSubmitDeallocate,
+} from "../../api/scheduledActions/operations.js";
 
 /** Interface representing a ScheduledActions operations. */
 export interface ScheduledActionsOperations {
@@ -100,7 +100,7 @@ export interface ScheduledActionsOperations {
   ) => Promise<DeallocateResourceOperationResponse>;
 }
 
-export function getScheduledActions(context: ComputeScheduleContext) {
+function _getScheduledActions(context: ComputeScheduleContext) {
   return {
     virtualMachinesGetOperationErrors: (
       locationparameter: string,
@@ -150,10 +150,10 @@ export function getScheduledActions(context: ComputeScheduleContext) {
   };
 }
 
-export function getScheduledActionsOperations(
+export function _getScheduledActionsOperations(
   context: ComputeScheduleContext,
 ): ScheduledActionsOperations {
   return {
-    ...getScheduledActions(context),
+    ..._getScheduledActions(context),
   };
 }
