@@ -21,25 +21,43 @@ export interface ARecord {
 }
 
 // @public
-export interface CloudError {
-    error?: CloudErrorBody;
-}
-
-// @public
-export interface CloudErrorBody {
-    code?: string;
-    details?: CloudErrorBody[];
-    message?: string;
-    target?: string;
-}
-
-// @public
 export interface CnameRecord {
     cname?: string;
 }
 
 // @public
+export type CreatedByType = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
 
 // @public
 export enum KnownProvisioningState {
@@ -108,8 +126,8 @@ export interface PrivateZone extends TrackedResource {
 
 // @public
 export interface PrivateZoneListResult {
-    readonly nextLink?: string;
-    value?: PrivateZone[];
+    nextLink?: string;
+    value: PrivateZone[];
 }
 
 // @public
@@ -126,6 +144,12 @@ export interface PrivateZones {
 }
 
 // @public
+export interface PrivateZonesCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface PrivateZonesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -135,6 +159,12 @@ export interface PrivateZonesCreateOrUpdateOptionalParams extends coreClient.Ope
 
 // @public
 export type PrivateZonesCreateOrUpdateResponse = PrivateZone;
+
+// @public
+export interface PrivateZonesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface PrivateZonesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -181,6 +211,12 @@ export interface PrivateZonesListOptionalParams extends coreClient.OperationOpti
 export type PrivateZonesListResponse = PrivateZoneListResult;
 
 // @public
+export interface PrivateZonesUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface PrivateZonesUpdateOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
     resumeFrom?: string;
@@ -223,18 +259,18 @@ export interface RecordSet extends ProxyResource {
 
 // @public
 export interface RecordSetListResult {
-    readonly nextLink?: string;
-    value?: RecordSet[];
+    nextLink?: string;
+    value: RecordSet[];
 }
 
 // @public
 export interface RecordSets {
-    createOrUpdate(resourceGroupName: string, privateZoneName: string, recordType: RecordType, relativeRecordSetName: string, parameters: RecordSet, options?: RecordSetsCreateOrUpdateOptionalParams): Promise<RecordSetsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, privateZoneName: string, recordType: RecordType, relativeRecordSetName: string, options?: RecordSetsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, privateZoneName: string, recordType: RecordType, relativeRecordSetName: string, options?: RecordSetsGetOptionalParams): Promise<RecordSetsGetResponse>;
+    createOrUpdate(resourceGroupName: string, privateZoneName: string, relativeRecordSetName: string, recordType: RecordType, parameters: RecordSet, options?: RecordSetsCreateOrUpdateOptionalParams): Promise<RecordSetsCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, privateZoneName: string, relativeRecordSetName: string, recordType: RecordType, options?: RecordSetsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, privateZoneName: string, relativeRecordSetName: string, recordType: RecordType, options?: RecordSetsGetOptionalParams): Promise<RecordSetsGetResponse>;
     list(resourceGroupName: string, privateZoneName: string, options?: RecordSetsListOptionalParams): PagedAsyncIterableIterator<RecordSet>;
     listByType(resourceGroupName: string, privateZoneName: string, recordType: RecordType, options?: RecordSetsListByTypeOptionalParams): PagedAsyncIterableIterator<RecordSet>;
-    update(resourceGroupName: string, privateZoneName: string, recordType: RecordType, relativeRecordSetName: string, parameters: RecordSet, options?: RecordSetsUpdateOptionalParams): Promise<RecordSetsUpdateResponse>;
+    update(resourceGroupName: string, privateZoneName: string, relativeRecordSetName: string, recordType: RecordType, parameters: RecordSet, options?: RecordSetsUpdateOptionalParams): Promise<RecordSetsUpdateResponse>;
 }
 
 // @public
@@ -308,6 +344,7 @@ export type ResolutionPolicy = string;
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -336,8 +373,18 @@ export interface SubResource {
 }
 
 // @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
 export interface TrackedResource extends Resource {
-    location?: string;
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
@@ -360,8 +407,8 @@ export interface VirtualNetworkLink extends TrackedResource {
 
 // @public
 export interface VirtualNetworkLinkListResult {
-    readonly nextLink?: string;
-    value?: VirtualNetworkLink[];
+    nextLink?: string;
+    value: VirtualNetworkLink[];
 }
 
 // @public
@@ -377,6 +424,12 @@ export interface VirtualNetworkLinks {
 }
 
 // @public
+export interface VirtualNetworkLinksCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualNetworkLinksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -386,6 +439,12 @@ export interface VirtualNetworkLinksCreateOrUpdateOptionalParams extends coreCli
 
 // @public
 export type VirtualNetworkLinksCreateOrUpdateResponse = VirtualNetworkLink;
+
+// @public
+export interface VirtualNetworkLinksDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface VirtualNetworkLinksDeleteOptionalParams extends coreClient.OperationOptions {
@@ -418,6 +477,12 @@ export type VirtualNetworkLinksListResponse = VirtualNetworkLinkListResult;
 
 // @public
 export type VirtualNetworkLinkState = string;
+
+// @public
+export interface VirtualNetworkLinksUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface VirtualNetworkLinksUpdateOptionalParams extends coreClient.OperationOptions {

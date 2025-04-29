@@ -22,13 +22,13 @@ import {
   RecordSetsListNextOptionalParams,
   RecordSetsListOptionalParams,
   RecordSetsListResponse,
+  RecordSetsGetOptionalParams,
+  RecordSetsGetResponse,
   RecordSetsCreateOrUpdateOptionalParams,
   RecordSetsCreateOrUpdateResponse,
   RecordSetsUpdateOptionalParams,
   RecordSetsUpdateResponse,
   RecordSetsDeleteOptionalParams,
-  RecordSetsGetOptionalParams,
-  RecordSetsGetResponse,
   RecordSetsListByTypeNextResponse,
   RecordSetsListNextResponse,
 } from "../models/index.js";
@@ -48,7 +48,7 @@ export class RecordSetsImpl implements RecordSets {
 
   /**
    * Lists the record sets of a specified type in a Private DNS zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param recordType The type of record sets to enumerate.
    * @param options The options parameters.
@@ -59,12 +59,7 @@ export class RecordSetsImpl implements RecordSets {
     recordType: RecordType,
     options?: RecordSetsListByTypeOptionalParams,
   ): PagedAsyncIterableIterator<RecordSet> {
-    const iter = this.listByTypePagingAll(
-      resourceGroupName,
-      privateZoneName,
-      recordType,
-      options,
-    );
+    const iter = this.listByTypePagingAll(resourceGroupName, privateZoneName, recordType, options);
     return {
       next() {
         return iter.next();
@@ -97,12 +92,7 @@ export class RecordSetsImpl implements RecordSets {
     let result: RecordSetsListByTypeResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByType(
-        resourceGroupName,
-        privateZoneName,
-        recordType,
-        options,
-      );
+      result = await this._listByType(resourceGroupName, privateZoneName, recordType, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -141,7 +131,7 @@ export class RecordSetsImpl implements RecordSets {
 
   /**
    * Lists all record sets in a Private DNS zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param options The options parameters.
    */
@@ -150,11 +140,7 @@ export class RecordSetsImpl implements RecordSets {
     privateZoneName: string,
     options?: RecordSetsListOptionalParams,
   ): PagedAsyncIterableIterator<RecordSet> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      privateZoneName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, privateZoneName, options);
     return {
       next() {
         return iter.next();
@@ -166,12 +152,7 @@ export class RecordSetsImpl implements RecordSets {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          privateZoneName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, privateZoneName, options, settings);
       },
     };
   }
@@ -192,12 +173,7 @@ export class RecordSetsImpl implements RecordSets {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        privateZoneName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, privateZoneName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -210,134 +186,14 @@ export class RecordSetsImpl implements RecordSets {
     privateZoneName: string,
     options?: RecordSetsListOptionalParams,
   ): AsyncIterableIterator<RecordSet> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      privateZoneName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, privateZoneName, options)) {
       yield* page;
     }
   }
 
   /**
-   * Creates or updates a record set within a Private DNS zone.
-   * @param resourceGroupName The name of the resource group.
-   * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
-   * @param recordType The type of DNS record in this record set. Record sets of type SOA can be updated
-   *                   but not created (they are created when the Private DNS zone is created).
-   * @param relativeRecordSetName The name of the record set, relative to the name of the zone.
-   * @param parameters Parameters supplied to the CreateOrUpdate operation.
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    privateZoneName: string,
-    recordType: RecordType,
-    relativeRecordSetName: string,
-    parameters: RecordSet,
-    options?: RecordSetsCreateOrUpdateOptionalParams,
-  ): Promise<RecordSetsCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        privateZoneName,
-        recordType,
-        relativeRecordSetName,
-        parameters,
-        options,
-      },
-      createOrUpdateOperationSpec,
-    );
-  }
-
-  /**
-   * Updates a record set within a Private DNS zone.
-   * @param resourceGroupName The name of the resource group.
-   * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
-   * @param recordType The type of DNS record in this record set.
-   * @param relativeRecordSetName The name of the record set, relative to the name of the zone.
-   * @param parameters Parameters supplied to the Update operation.
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    privateZoneName: string,
-    recordType: RecordType,
-    relativeRecordSetName: string,
-    parameters: RecordSet,
-    options?: RecordSetsUpdateOptionalParams,
-  ): Promise<RecordSetsUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        privateZoneName,
-        recordType,
-        relativeRecordSetName,
-        parameters,
-        options,
-      },
-      updateOperationSpec,
-    );
-  }
-
-  /**
-   * Deletes a record set from a Private DNS zone. This operation cannot be undone.
-   * @param resourceGroupName The name of the resource group.
-   * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
-   * @param recordType The type of DNS record in this record set. Record sets of type SOA cannot be
-   *                   deleted (they are deleted when the Private DNS zone is deleted).
-   * @param relativeRecordSetName The name of the record set, relative to the name of the zone.
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    privateZoneName: string,
-    recordType: RecordType,
-    relativeRecordSetName: string,
-    options?: RecordSetsDeleteOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        privateZoneName,
-        recordType,
-        relativeRecordSetName,
-        options,
-      },
-      deleteOperationSpec,
-    );
-  }
-
-  /**
-   * Gets a record set.
-   * @param resourceGroupName The name of the resource group.
-   * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
-   * @param recordType The type of DNS record in this record set.
-   * @param relativeRecordSetName The name of the record set, relative to the name of the zone.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    privateZoneName: string,
-    recordType: RecordType,
-    relativeRecordSetName: string,
-    options?: RecordSetsGetOptionalParams,
-  ): Promise<RecordSetsGetResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        privateZoneName,
-        recordType,
-        relativeRecordSetName,
-        options,
-      },
-      getOperationSpec,
-    );
-  }
-
-  /**
    * Lists the record sets of a specified type in a Private DNS zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param recordType The type of record sets to enumerate.
    * @param options The options parameters.
@@ -355,8 +211,124 @@ export class RecordSetsImpl implements RecordSets {
   }
 
   /**
+   * Gets a record set.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
+   * @param relativeRecordSetName The name of the record set, relative to the name of the zone.
+   * @param recordType The type of DNS record in this record set.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    privateZoneName: string,
+    relativeRecordSetName: string,
+    recordType: RecordType,
+    options?: RecordSetsGetOptionalParams,
+  ): Promise<RecordSetsGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        privateZoneName,
+        relativeRecordSetName,
+        recordType,
+        options,
+      },
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * Creates or updates a record set within a Private DNS zone.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
+   * @param relativeRecordSetName The name of the record set, relative to the name of the zone.
+   * @param recordType The type of DNS record in this record set. Record sets of type SOA can be updated
+   *                   but not created (they are created when the Private DNS zone is created).
+   * @param parameters Parameters supplied to the CreateOrUpdate operation.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    privateZoneName: string,
+    relativeRecordSetName: string,
+    recordType: RecordType,
+    parameters: RecordSet,
+    options?: RecordSetsCreateOrUpdateOptionalParams,
+  ): Promise<RecordSetsCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        privateZoneName,
+        relativeRecordSetName,
+        recordType,
+        parameters,
+        options,
+      },
+      createOrUpdateOperationSpec,
+    );
+  }
+
+  /**
+   * Updates a record set within a Private DNS zone.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
+   * @param relativeRecordSetName The name of the record set, relative to the name of the zone.
+   * @param recordType The type of DNS record in this record set.
+   * @param parameters Parameters supplied to the Update operation.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    privateZoneName: string,
+    relativeRecordSetName: string,
+    recordType: RecordType,
+    parameters: RecordSet,
+    options?: RecordSetsUpdateOptionalParams,
+  ): Promise<RecordSetsUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        privateZoneName,
+        relativeRecordSetName,
+        recordType,
+        parameters,
+        options,
+      },
+      updateOperationSpec,
+    );
+  }
+
+  /**
+   * Deletes a record set from a Private DNS zone. This operation cannot be undone.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
+   * @param relativeRecordSetName The name of the record set, relative to the name of the zone.
+   * @param recordType The type of DNS record in this record set. Record sets of type SOA cannot be
+   *                   deleted (they are deleted when the Private DNS zone is deleted).
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    privateZoneName: string,
+    relativeRecordSetName: string,
+    recordType: RecordType,
+    options?: RecordSetsDeleteOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        privateZoneName,
+        relativeRecordSetName,
+        recordType,
+        options,
+      },
+      deleteOperationSpec,
+    );
+  }
+
+  /**
    * Lists all record sets in a Private DNS zone.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param options The options parameters.
    */
@@ -373,7 +345,7 @@ export class RecordSetsImpl implements RecordSets {
 
   /**
    * ListByTypeNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param recordType The type of record sets to enumerate.
    * @param nextLink The nextLink from the previous successful call to the ListByType method.
@@ -394,7 +366,7 @@ export class RecordSetsImpl implements RecordSets {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -414,8 +386,53 @@ export class RecordSetsImpl implements RecordSets {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByTypeOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}/{recordType}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RecordSetListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.recordsetnamesuffix],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateZoneName,
+    Parameters.recordType,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}/{relativeRecordSetName}/{recordType}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RecordSet,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateZoneName,
+    Parameters.recordType,
+    Parameters.relativeRecordSetName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}/{relativeRecordSetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}/{relativeRecordSetName}/{recordType}",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -425,22 +442,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RecordSet,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateZoneName,
-    Parameters.subscriptionId,
     Parameters.recordType,
     Parameters.relativeRecordSetName,
   ],
   headerParameters: [
-    Parameters.contentType,
     Parameters.accept,
+    Parameters.contentType,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
   ],
@@ -448,126 +465,69 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}/{relativeRecordSetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}/{relativeRecordSetName}/{recordType}",
   httpMethod: "PATCH",
   responses: {
     200: {
       bodyMapper: Mappers.RecordSet,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateZoneName,
-    Parameters.subscriptionId,
     Parameters.recordType,
     Parameters.relativeRecordSetName,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}/{relativeRecordSetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}/{relativeRecordSetName}/{recordType}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateZoneName,
-    Parameters.subscriptionId,
     Parameters.recordType,
     Parameters.relativeRecordSetName,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch],
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}/{relativeRecordSetName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RecordSet,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.privateZoneName,
-    Parameters.subscriptionId,
-    Parameters.recordType,
-    Parameters.relativeRecordSetName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByTypeOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RecordSetListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.recordsetnamesuffix,
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.privateZoneName,
-    Parameters.subscriptionId,
-    Parameters.recordType,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/ALL",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/aLL",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.RecordSetListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.recordsetnamesuffix,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.recordsetnamesuffix],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateZoneName,
-    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -580,14 +540,14 @@ const listByTypeNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RecordSetListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateZoneName,
-    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.recordType,
   ],
@@ -602,14 +562,14 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RecordSetListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateZoneName,
-    Parameters.subscriptionId,
     Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],

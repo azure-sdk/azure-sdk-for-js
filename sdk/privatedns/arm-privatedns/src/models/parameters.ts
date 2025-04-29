@@ -13,26 +13,9 @@ import {
 } from "@azure/core-client";
 import {
   PrivateZone as PrivateZoneMapper,
-  VirtualNetworkLink as VirtualNetworkLinkMapper,
   RecordSet as RecordSetMapper,
+  VirtualNetworkLink as VirtualNetworkLinkMapper,
 } from "../models/mappers.js";
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const parameters: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: PrivateZoneMapper,
-};
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -58,9 +41,49 @@ export const $host: OperationURLParameter = {
   skipEncoding: true,
 };
 
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2024-06-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    constraints: {
+      MinLength: 1,
+    },
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const top: OperationQueryParameter = {
+  parameterPath: ["options", "top"],
+  mapper: {
+    serializedName: "$top",
+    type: {
+      name: "Number",
+    },
+  },
+};
+
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+    },
     serializedName: "resourceGroupName",
     required: true,
     type: {
@@ -80,10 +103,27 @@ export const privateZoneName: OperationURLParameter = {
   },
 };
 
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: PrivateZoneMapper,
+};
+
 export const ifMatch: OperationParameter = {
   parameterPath: ["options", "ifMatch"],
   mapper: {
-    serializedName: "If-Match",
+    serializedName: "if-match",
     type: {
       name: "String",
     },
@@ -93,42 +133,9 @@ export const ifMatch: OperationParameter = {
 export const ifNoneMatch: OperationParameter = {
   parameterPath: ["options", "ifNoneMatch"],
   mapper: {
-    serializedName: "If-None-Match",
+    serializedName: "if-none-match",
     type: {
       name: "String",
-    },
-  },
-};
-
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2024-06-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const top: OperationQueryParameter = {
-  parameterPath: ["options", "top"],
-  mapper: {
-    serializedName: "$top",
-    type: {
-      name: "Number",
     },
   },
 };
@@ -145,9 +152,42 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true,
 };
 
+export const recordType: OperationURLParameter = {
+  parameterPath: "recordType",
+  mapper: {
+    serializedName: "recordType",
+    required: true,
+    type: {
+      name: "Enum",
+      allowedValues: ["A", "AAAA", "CNAME", "MX", "PTR", "SOA", "SRV", "TXT"],
+    },
+  },
+};
+
+export const recordsetnamesuffix: OperationQueryParameter = {
+  parameterPath: ["options", "recordsetnamesuffix"],
+  mapper: {
+    serializedName: "$recordsetnamesuffix",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const relativeRecordSetName: OperationURLParameter = {
+  parameterPath: "relativeRecordSetName",
+  mapper: {
+    serializedName: "relativeRecordSetName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: VirtualNetworkLinkMapper,
+  mapper: RecordSetMapper,
 };
 
 export const virtualNetworkLinkName: OperationURLParameter = {
@@ -163,39 +203,5 @@ export const virtualNetworkLinkName: OperationURLParameter = {
 
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RecordSetMapper,
-};
-
-export const recordType: OperationURLParameter = {
-  parameterPath: "recordType",
-  mapper: {
-    serializedName: "recordType",
-    required: true,
-    type: {
-      name: "Enum",
-      allowedValues: ["A", "AAAA", "CNAME", "MX", "PTR", "SOA", "SRV", "TXT"],
-    },
-  },
-};
-
-export const relativeRecordSetName: OperationURLParameter = {
-  parameterPath: "relativeRecordSetName",
-  mapper: {
-    serializedName: "relativeRecordSetName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-  skipEncoding: true,
-};
-
-export const recordsetnamesuffix: OperationQueryParameter = {
-  parameterPath: ["options", "recordsetnamesuffix"],
-  mapper: {
-    serializedName: "$recordsetnamesuffix",
-    type: {
-      name: "String",
-    },
-  },
+  mapper: VirtualNetworkLinkMapper,
 };
