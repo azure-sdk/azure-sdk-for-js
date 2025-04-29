@@ -14,7 +14,7 @@ import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AdvisorManagementClient } from "../advisorManagementClient.js";
 import {
-  OperationEntity,
+  Operation,
   OperationsListNextOptionalParams,
   OperationsListOptionalParams,
   OperationsListResponse,
@@ -35,10 +35,10 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Lists all the available Advisor REST API operations.
+   * List the operations for the provider
    * @param options The options parameters.
    */
-  public list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<OperationEntity> {
+  public list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -59,7 +59,7 @@ export class OperationsImpl implements Operations {
   private async *listPagingPage(
     options?: OperationsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<OperationEntity[]> {
+  ): AsyncIterableIterator<Operation[]> {
     let result: OperationsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
@@ -80,14 +80,14 @@ export class OperationsImpl implements Operations {
 
   private async *listPagingAll(
     options?: OperationsListOptionalParams,
-  ): AsyncIterableIterator<OperationEntity> {
+  ): AsyncIterableIterator<Operation> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Lists all the available Advisor REST API operations.
+   * List the operations for the provider
    * @param options The options parameters.
    */
   private _list(options?: OperationsListOptionalParams): Promise<OperationsListResponse> {
@@ -114,10 +114,10 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationEntityListResult,
+      bodyMapper: Mappers.OperationListResult,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -130,10 +130,10 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationEntityListResult,
+      bodyMapper: Mappers.OperationListResult,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
