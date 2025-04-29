@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import type { SimplePollerLike, OperationState } from "@azure/core-lro";
-import type {
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import {
   LoadBalancer,
   LoadBalancersListByManagedClusterOptionalParams,
   LoadBalancersGetOptionalParams,
@@ -74,10 +74,7 @@ export interface LoadBalancers {
     loadBalancerName: string,
     options?: LoadBalancersDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<LoadBalancersDeleteResponse>,
-      LoadBalancersDeleteResponse
-    >
+    SimplePollerLike<OperationState<LoadBalancersDeleteResponse>, LoadBalancersDeleteResponse>
   >;
   /**
    * Deletes a load balancer in the specified managed cluster.
