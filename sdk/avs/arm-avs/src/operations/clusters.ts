@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Cluster,
@@ -61,11 +57,7 @@ export class ClustersImpl implements Clusters {
     privateCloudName: string,
     options?: ClustersListOptionalParams,
   ): PagedAsyncIterableIterator<Cluster> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      privateCloudName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, privateCloudName, options);
     return {
       next() {
         return iter.next();
@@ -77,12 +69,7 @@ export class ClustersImpl implements Clusters {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          privateCloudName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, privateCloudName, options, settings);
       },
     };
   }
@@ -121,11 +108,7 @@ export class ClustersImpl implements Clusters {
     privateCloudName: string,
     options?: ClustersListOptionalParams,
   ): AsyncIterableIterator<Cluster> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      privateCloudName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, privateCloudName, options)) {
       yield* page;
     }
   }
@@ -181,10 +164,7 @@ export class ClustersImpl implements Clusters {
     cluster: Cluster,
     options?: ClustersCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ClustersCreateOrUpdateResponse>,
-      ClustersCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<ClustersCreateOrUpdateResponse>, ClustersCreateOrUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -196,8 +176,7 @@ export class ClustersImpl implements Clusters {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -277,7 +256,7 @@ export class ClustersImpl implements Clusters {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param clusterName Name of the cluster
-   * @param clusterUpdate The cluster properties to be updated.
+   * @param clusterUpdate The resource properties to be updated.
    * @param options The options parameters.
    */
   async beginUpdate(
@@ -286,12 +265,7 @@ export class ClustersImpl implements Clusters {
     clusterName: string,
     clusterUpdate: ClusterUpdate,
     options?: ClustersUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ClustersUpdateResponse>,
-      ClustersUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<ClustersUpdateResponse>, ClustersUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -302,8 +276,7 @@ export class ClustersImpl implements Clusters {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -358,7 +331,7 @@ export class ClustersImpl implements Clusters {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param clusterName Name of the cluster
-   * @param clusterUpdate The cluster properties to be updated.
+   * @param clusterUpdate The resource properties to be updated.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
@@ -401,8 +374,7 @@ export class ClustersImpl implements Clusters {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

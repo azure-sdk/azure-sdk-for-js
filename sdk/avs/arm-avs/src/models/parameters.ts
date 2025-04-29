@@ -27,6 +27,7 @@ import {
   GlobalReachConnection as GlobalReachConnectionMapper,
   HcxEnterpriseSite as HcxEnterpriseSiteMapper,
   IscsiPath as IscsiPathMapper,
+  PureStoragePolicy as PureStoragePolicyMapper,
   ScriptExecution as ScriptExecutionMapper,
   WorkloadNetworkDhcp as WorkloadNetworkDhcpMapper,
   WorkloadNetworkDnsService as WorkloadNetworkDnsServiceMapper,
@@ -64,7 +65,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-09-01",
+    defaultValue: "2024-09-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -266,6 +267,20 @@ export const datastore: OperationParameter = {
   mapper: DatastoreMapper,
 };
 
+export const hostId: OperationURLParameter = {
+  parameterPath: "hostId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$"),
+    },
+    serializedName: "hostId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const placementPolicyName: OperationURLParameter = {
   parameterPath: "placementPolicyName",
   mapper: {
@@ -350,6 +365,39 @@ export const hcxEnterpriseSite: OperationParameter = {
 export const resource: OperationParameter = {
   parameterPath: "resource",
   mapper: IscsiPathMapper,
+};
+
+export const provisionedNetworkName: OperationURLParameter = {
+  parameterPath: "provisionedNetworkName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$"),
+    },
+    serializedName: "provisionedNetworkName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const storagePolicyName: OperationURLParameter = {
+  parameterPath: "storagePolicyName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$"),
+    },
+    serializedName: "storagePolicyName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource1: OperationParameter = {
+  parameterPath: "resource",
+  mapper: PureStoragePolicyMapper,
 };
 
 export const scriptExecutionName: OperationURLParameter = {
