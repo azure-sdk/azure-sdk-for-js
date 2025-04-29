@@ -17,12 +17,11 @@ import {
   TrafficManagerUserMetricsKeysCreateOrUpdateOptionalParams,
   TrafficManagerUserMetricsKeysCreateOrUpdateResponse,
   TrafficManagerUserMetricsKeysDeleteOptionalParams,
-  TrafficManagerUserMetricsKeysDeleteResponse
+  TrafficManagerUserMetricsKeysDeleteResponse,
 } from "../models/index.js";
 
 /** Class containing TrafficManagerUserMetricsKeys operations. */
-export class TrafficManagerUserMetricsKeysImpl
-  implements TrafficManagerUserMetricsKeys {
+export class TrafficManagerUserMetricsKeysImpl implements TrafficManagerUserMetricsKeys {
   private readonly client: TrafficManagerManagementClient;
 
   /**
@@ -38,7 +37,7 @@ export class TrafficManagerUserMetricsKeysImpl
    * @param options The options parameters.
    */
   get(
-    options?: TrafficManagerUserMetricsKeysGetOptionalParams
+    options?: TrafficManagerUserMetricsKeysGetOptionalParams,
   ): Promise<TrafficManagerUserMetricsKeysGetResponse> {
     return this.client.sendOperationRequest({ options }, getOperationSpec);
   }
@@ -48,12 +47,9 @@ export class TrafficManagerUserMetricsKeysImpl
    * @param options The options parameters.
    */
   createOrUpdate(
-    options?: TrafficManagerUserMetricsKeysCreateOrUpdateOptionalParams
+    options?: TrafficManagerUserMetricsKeysCreateOrUpdateOptionalParams,
   ): Promise<TrafficManagerUserMetricsKeysCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      createOrUpdateOperationSpec
-    );
+    return this.client.sendOperationRequest({ options }, createOrUpdateOperationSpec);
   }
 
   /**
@@ -61,7 +57,7 @@ export class TrafficManagerUserMetricsKeysImpl
    * @param options The options parameters.
    */
   delete(
-    options?: TrafficManagerUserMetricsKeysDeleteOptionalParams
+    options?: TrafficManagerUserMetricsKeysDeleteOptionalParams,
   ): Promise<TrafficManagerUserMetricsKeysDeleteResponse> {
     return this.client.sendOperationRequest({ options }, deleteOperationSpec);
   }
@@ -70,53 +66,50 @@ export class TrafficManagerUserMetricsKeysImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficManagerUserMetricsKeys/default",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficManagerUserMetricsKeys/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UserMetricsModel
+      bodyMapper: Mappers.UserMetricsModel,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficManagerUserMetricsKeys/default",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficManagerUserMetricsKeys/default",
   httpMethod: "PUT",
   responses: {
     201: {
-      bodyMapper: Mappers.UserMetricsModel
+      bodyMapper: Mappers.UserMetricsModel,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficManagerUserMetricsKeys/default",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficManagerUserMetricsKeys/default",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.DeleteOperationResult
+      bodyMapper: Mappers.DeleteOperationResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

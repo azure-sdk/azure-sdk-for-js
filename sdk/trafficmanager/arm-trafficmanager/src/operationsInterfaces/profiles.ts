@@ -23,7 +23,7 @@ import {
   ProfilesDeleteOptionalParams,
   ProfilesDeleteResponse,
   ProfilesUpdateOptionalParams,
-  ProfilesUpdateResponse
+  ProfilesUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,14 +36,14 @@ export interface Profiles {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ProfilesListByResourceGroupOptionalParams
+    options?: ProfilesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Profile>;
   /**
    * Lists all Traffic Manager profiles within a subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ProfilesListBySubscriptionOptionalParams
+    options?: ProfilesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Profile>;
   /**
    * Checks the availability of a Traffic Manager Relative DNS name.
@@ -53,7 +53,7 @@ export interface Profiles {
    */
   checkTrafficManagerRelativeDnsNameAvailability(
     parameters: CheckTrafficManagerRelativeDnsNameAvailabilityParameters,
-    options?: ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityOptionalParams
+    options?: ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityOptionalParams,
   ): Promise<ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityResponse>;
   /**
    * Checks the availability of a Traffic Manager Relative DNS name.
@@ -63,7 +63,7 @@ export interface Profiles {
    */
   checkTrafficManagerNameAvailabilityV2(
     parameters: CheckTrafficManagerRelativeDnsNameAvailabilityParameters,
-    options?: ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams
+    options?: ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams,
   ): Promise<ProfilesCheckTrafficManagerNameAvailabilityV2Response>;
   /**
    * Gets a Traffic Manager profile.
@@ -74,7 +74,7 @@ export interface Profiles {
   get(
     resourceGroupName: string,
     profileName: string,
-    options?: ProfilesGetOptionalParams
+    options?: ProfilesGetOptionalParams,
   ): Promise<ProfilesGetResponse>;
   /**
    * Create or update a Traffic Manager profile.
@@ -87,7 +87,7 @@ export interface Profiles {
     resourceGroupName: string,
     profileName: string,
     parameters: Profile,
-    options?: ProfilesCreateOrUpdateOptionalParams
+    options?: ProfilesCreateOrUpdateOptionalParams,
   ): Promise<ProfilesCreateOrUpdateResponse>;
   /**
    * Deletes a Traffic Manager profile.
@@ -98,7 +98,7 @@ export interface Profiles {
   delete(
     resourceGroupName: string,
     profileName: string,
-    options?: ProfilesDeleteOptionalParams
+    options?: ProfilesDeleteOptionalParams,
   ): Promise<ProfilesDeleteResponse>;
   /**
    * Update a Traffic Manager profile.
@@ -111,6 +111,6 @@ export interface Profiles {
     resourceGroupName: string,
     profileName: string,
     parameters: Profile,
-    options?: ProfilesUpdateOptionalParams
+    options?: ProfilesUpdateOptionalParams,
   ): Promise<ProfilesUpdateResponse>;
 }

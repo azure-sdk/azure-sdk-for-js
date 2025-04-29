@@ -8,7 +8,7 @@
 
 import {
   GeographicHierarchiesGetDefaultOptionalParams,
-  GeographicHierarchiesGetDefaultResponse
+  GeographicHierarchiesGetDefaultResponse,
 } from "../models/index.js";
 
 /** Interface representing a GeographicHierarchies. */
@@ -18,6 +18,6 @@ export interface GeographicHierarchies {
    * @param options The options parameters.
    */
   getDefault(
-    options?: GeographicHierarchiesGetDefaultOptionalParams
+    options?: GeographicHierarchiesGetDefaultOptionalParams,
   ): Promise<GeographicHierarchiesGetDefaultResponse>;
 }

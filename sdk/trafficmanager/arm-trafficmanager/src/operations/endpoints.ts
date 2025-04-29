@@ -21,7 +21,7 @@ import {
   EndpointsCreateOrUpdateOptionalParams,
   EndpointsCreateOrUpdateResponse,
   EndpointsDeleteOptionalParams,
-  EndpointsDeleteResponse
+  EndpointsDeleteResponse,
 } from "../models/index.js";
 
 /** Class containing Endpoints operations. */
@@ -51,7 +51,7 @@ export class EndpointsImpl implements Endpoints {
     endpointType: EndpointType,
     endpointName: string,
     parameters: Endpoint,
-    options?: EndpointsUpdateOptionalParams
+    options?: EndpointsUpdateOptionalParams,
   ): Promise<EndpointsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -60,9 +60,9 @@ export class EndpointsImpl implements Endpoints {
         endpointType,
         endpointName,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -79,11 +79,11 @@ export class EndpointsImpl implements Endpoints {
     profileName: string,
     endpointType: EndpointType,
     endpointName: string,
-    options?: EndpointsGetOptionalParams
+    options?: EndpointsGetOptionalParams,
   ): Promise<EndpointsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, endpointType, endpointName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -102,7 +102,7 @@ export class EndpointsImpl implements Endpoints {
     endpointType: EndpointType,
     endpointName: string,
     parameters: Endpoint,
-    options?: EndpointsCreateOrUpdateOptionalParams
+    options?: EndpointsCreateOrUpdateOptionalParams,
   ): Promise<EndpointsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -111,9 +111,9 @@ export class EndpointsImpl implements Endpoints {
         endpointType,
         endpointName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -130,11 +130,11 @@ export class EndpointsImpl implements Endpoints {
     profileName: string,
     endpointType: EndpointType,
     endpointName: string,
-    options?: EndpointsDeleteOptionalParams
+    options?: EndpointsDeleteOptionalParams,
   ): Promise<EndpointsDeleteResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, endpointType, endpointName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 }
@@ -142,16 +142,15 @@ export class EndpointsImpl implements Endpoints {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Endpoint
+      bodyMapper: Mappers.Endpoint,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
@@ -161,23 +160,22 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.profileName,
     Parameters.endpointType,
     Parameters.endpointName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Endpoint
+      bodyMapper: Mappers.Endpoint,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -186,25 +184,24 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.profileName,
     Parameters.endpointType,
     Parameters.endpointName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Endpoint
+      bodyMapper: Mappers.Endpoint,
     },
     201: {
-      bodyMapper: Mappers.Endpoint
+      bodyMapper: Mappers.Endpoint,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
@@ -214,24 +211,23 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.profileName,
     Parameters.endpointType,
     Parameters.endpointName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.DeleteOperationResult
+      bodyMapper: Mappers.DeleteOperationResult,
     },
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -240,8 +236,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.profileName,
     Parameters.endpointType,
     Parameters.endpointName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

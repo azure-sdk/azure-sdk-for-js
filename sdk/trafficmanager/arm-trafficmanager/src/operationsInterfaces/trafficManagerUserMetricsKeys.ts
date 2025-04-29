@@ -12,7 +12,7 @@ import {
   TrafficManagerUserMetricsKeysCreateOrUpdateOptionalParams,
   TrafficManagerUserMetricsKeysCreateOrUpdateResponse,
   TrafficManagerUserMetricsKeysDeleteOptionalParams,
-  TrafficManagerUserMetricsKeysDeleteResponse
+  TrafficManagerUserMetricsKeysDeleteResponse,
 } from "../models/index.js";
 
 /** Interface representing a TrafficManagerUserMetricsKeys. */
@@ -22,20 +22,20 @@ export interface TrafficManagerUserMetricsKeys {
    * @param options The options parameters.
    */
   get(
-    options?: TrafficManagerUserMetricsKeysGetOptionalParams
+    options?: TrafficManagerUserMetricsKeysGetOptionalParams,
   ): Promise<TrafficManagerUserMetricsKeysGetResponse>;
   /**
    * Create or update a subscription-level key used for Real User Metrics collection.
    * @param options The options parameters.
    */
   createOrUpdate(
-    options?: TrafficManagerUserMetricsKeysCreateOrUpdateOptionalParams
+    options?: TrafficManagerUserMetricsKeysCreateOrUpdateOptionalParams,
   ): Promise<TrafficManagerUserMetricsKeysCreateOrUpdateResponse>;
   /**
    * Delete a subscription-level key used for Real User Metrics collection.
    * @param options The options parameters.
    */
   delete(
-    options?: TrafficManagerUserMetricsKeysDeleteOptionalParams
+    options?: TrafficManagerUserMetricsKeysDeleteOptionalParams,
   ): Promise<TrafficManagerUserMetricsKeysDeleteResponse>;
 }

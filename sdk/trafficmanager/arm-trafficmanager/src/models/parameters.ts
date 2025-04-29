@@ -9,12 +9,12 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   Endpoint as EndpointMapper,
   CheckTrafficManagerRelativeDnsNameAvailabilityParameters as CheckTrafficManagerRelativeDnsNameAvailabilityParametersMapper,
-  Profile as ProfileMapper
+  Profile as ProfileMapper,
 } from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
@@ -24,14 +24,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: EndpointMapper
+  mapper: EndpointMapper,
 };
 
 export const accept: OperationParameter = {
@@ -41,9 +41,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -52,10 +52,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -63,14 +63,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const profileName: OperationURLParameter = {
@@ -79,9 +79,9 @@ export const profileName: OperationURLParameter = {
     serializedName: "profileName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const endpointType: OperationURLParameter = {
@@ -91,9 +91,9 @@ export const endpointType: OperationURLParameter = {
     required: true,
     type: {
       name: "Enum",
-      allowedValues: ["AzureEndpoints", "ExternalEndpoints", "NestedEndpoints"]
-    }
-  }
+      allowedValues: ["AzureEndpoints", "ExternalEndpoints", "NestedEndpoints"],
+    },
+  },
 };
 
 export const endpointName: OperationURLParameter = {
@@ -102,9 +102,9 @@ export const endpointName: OperationURLParameter = {
     serializedName: "endpointName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -114,33 +114,33 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: CheckTrafficManagerRelativeDnsNameAvailabilityParametersMapper
+  mapper: CheckTrafficManagerRelativeDnsNameAvailabilityParametersMapper,
 };
 
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ProfileMapper
+  mapper: ProfileMapper,
 };
 
 export const heatMapType: OperationURLParameter = {
@@ -150,9 +150,9 @@ export const heatMapType: OperationURLParameter = {
     isConstant: true,
     serializedName: "heatMapType",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const topLeft: OperationQueryParameter = {
@@ -160,19 +160,19 @@ export const topLeft: OperationQueryParameter = {
   mapper: {
     constraints: {
       MinItems: 2,
-      MaxItems: 2
+      MaxItems: 2,
     },
     serializedName: "topLeft",
     type: {
       name: "Sequence",
       element: {
         type: {
-          name: "Number"
-        }
-      }
-    }
+          name: "Number",
+        },
+      },
+    },
   },
-  collectionFormat: "CSV"
+  collectionFormat: "CSV",
 };
 
 export const botRight: OperationQueryParameter = {
@@ -180,17 +180,17 @@ export const botRight: OperationQueryParameter = {
   mapper: {
     constraints: {
       MinItems: 2,
-      MaxItems: 2
+      MaxItems: 2,
     },
     serializedName: "botRight",
     type: {
       name: "Sequence",
       element: {
         type: {
-          name: "Number"
-        }
-      }
-    }
+          name: "Number",
+        },
+      },
+    },
   },
-  collectionFormat: "CSV"
+  collectionFormat: "CSV",
 };

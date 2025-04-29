@@ -403,6 +403,7 @@ export class TrafficManagerManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: TrafficManagerManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: TrafficManagerManagementClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -414,7 +415,7 @@ export class TrafficManagerManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     profiles: Profiles;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
     // (undocumented)
     trafficManagerUserMetricsKeys: TrafficManagerUserMetricsKeys;
 }

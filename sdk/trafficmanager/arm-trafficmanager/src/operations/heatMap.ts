@@ -34,11 +34,11 @@ export class HeatMapImpl implements HeatMap {
   get(
     resourceGroupName: string,
     profileName: string,
-    options?: HeatMapGetOptionalParams
+    options?: HeatMapGetOptionalParams,
   ): Promise<HeatMapGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -46,29 +46,24 @@ export class HeatMapImpl implements HeatMap {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/heatMaps/{heatMapType}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/heatMaps/{heatMapType}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HeatMapModel
+      bodyMapper: Mappers.HeatMapModel,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.topLeft,
-    Parameters.botRight
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.topLeft, Parameters.botRight],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.profileName,
     Parameters.subscriptionId,
-    Parameters.heatMapType
+    Parameters.heatMapType,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
