@@ -1,33 +1,34 @@
-# client library samples for TypeScript
+# @azure/arm-chaos client library samples for TypeScript
 
-These sample programs show how to use the TypeScript client libraries for in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for @azure/arm-chaos in some common scenarios.
 
-| **File Name**                                                               | **Description**                                                                                                                                                                                          |
-| --------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [capabilitiesCreateOrUpdateSample.ts][capabilitiescreateorupdatesample]     | Create or update a Capability resource that extends a Target resource. x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/CreateUpdateCapability.json   |
-| [capabilitiesDeleteSample.ts][capabilitiesdeletesample]                     | Delete a Capability that extends a Target resource. x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/DeleteCapability.json                            |
-| [capabilitiesGetSample.ts][capabilitiesgetsample]                           | Get a Capability resource that extends a Target resource. x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/GetCapability.json                         |
-| [capabilitiesListSample.ts][capabilitieslistsample]                         | Get a list of Capability resources that extend a Target resource.. x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/ListCapabilities.json             |
-| [capabilityTypesGetSample.ts][capabilitytypesgetsample]                     | Get a Capability Type resource for given Target Type and location. x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/GetCapabilityType.json            |
-| [capabilityTypesListSample.ts][capabilitytypeslistsample]                   | Get a list of Capability Type resources for given Target Type and location. x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/ListCapabilityTypes.json |
-| [experimentsCancelSample.ts][experimentscancelsample]                       | Cancel a running Experiment resource. x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/CancelExperiment.json                                          |
-| [experimentsCreateOrUpdateSample.ts][experimentscreateorupdatesample]       | Create or update a Experiment resource. x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/CreateUpdateExperiment.json                                  |
-| [experimentsDeleteSample.ts][experimentsdeletesample]                       | Delete a Experiment resource. x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/DeleteExperiment.json                                                  |
-| [experimentsExecutionDetailsSample.ts][experimentsexecutiondetailssample]   | Execution details of an experiment resource. x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/DetailsExperiment.json                                  |
-| [experimentsGetExecutionSample.ts][experimentsgetexecutionsample]           | Get an execution of an Experiment resource. x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/GetExperimentExecution.json                              |
-| [experimentsGetSample.ts][experimentsgetsample]                             | Get a Experiment resource. x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/GetExperiment.json                                                        |
-| [experimentsListAllExecutionsSample.ts][experimentslistallexecutionssample] | Get a list of executions of an Experiment resource. x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/ListExperimentExecutions.json                    |
-| [experimentsListAllSample.ts][experimentslistallsample]                     | Get a list of Experiment resources in a subscription. x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/ListExperimentsInASubscription.json            |
-| [experimentsListSample.ts][experimentslistsample]                           | Get a list of Experiment resources in a resource group. x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/ListExperimentsInAResourceGroup.json         |
-| [experimentsStartSample.ts][experimentsstartsample]                         | Start a Experiment resource. x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/StartExperiment.json                                                    |
-| [experimentsUpdateSample.ts][experimentsupdatesample]                       | The operation to update an experiment. x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/UpdateExperiment.json                                         |
-| [operationStatusesGetSample.ts][operationstatusesgetsample]                 | Get the status of a long running azure asynchronous operation. x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/GetOperationStatus.json               |
-| [targetTypesGetSample.ts][targettypesgetsample]                             | Get a Target Type resources for given location. x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/GetTargetType.json                                   |
-| [targetTypesListSample.ts][targettypeslistsample]                           | Get a list of Target Type resources for given location. x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/ListTargetTypes.json                         |
-| [targetsCreateOrUpdateSample.ts][targetscreateorupdatesample]               | Create or update a Target resource that extends a tracked regional resource. x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/CreateUpdateTarget.json |
-| [targetsDeleteSample.ts][targetsdeletesample]                               | Delete a Target resource that extends a tracked regional resource. x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/DeleteTarget.json                 |
-| [targetsGetSample.ts][targetsgetsample]                                     | Get a Target resource that extends a tracked regional resource. x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/GetTarget.json                       |
-| [targetsListSample.ts][targetslistsample]                                   | Get a list of Target resources that extend a tracked regional resource. x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/ListTargets.json             |
+| **File Name**                                                                                     | **Description**                                                                                                                         |
+| ------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| [capabilitiesCreateOrUpdateSample.ts][capabilitiescreateorupdatesample]                           | create or update a Capability resource that extends a Target resource. x-ms-original-file: 2025-01-01/Capabilities_CreateOrUpdate.json  |
+| [capabilitiesDeleteSample.ts][capabilitiesdeletesample]                                           | delete a Capability that extends a Target resource. x-ms-original-file: 2025-01-01/Capabilities_Delete.json                             |
+| [capabilitiesGetSample.ts][capabilitiesgetsample]                                                 | get a Capability resource that extends a Target resource. x-ms-original-file: 2025-01-01/Capabilities_Get.json                          |
+| [capabilitiesListSample.ts][capabilitieslistsample]                                               | get a list of Capability resources that extend a Target resource. x-ms-original-file: 2025-01-01/Capabilities_List.json                 |
+| [capabilityTypesGetSample.ts][capabilitytypesgetsample]                                           | get a Capability Type resource for given Target Type and location. x-ms-original-file: 2025-01-01/CapabilityTypes_Get.json              |
+| [capabilityTypesListSample.ts][capabilitytypeslistsample]                                         | get a list of Capability Type resources for given Target Type and location. x-ms-original-file: 2025-01-01/CapabilityTypes_List.json    |
+| [experimentExecutionsGetExecutionDetailsSample.ts][experimentexecutionsgetexecutiondetailssample] | execution details of an experiment resource. x-ms-original-file: 2025-01-01/Experiments_ExecutionDetails.json                           |
+| [experimentExecutionsGetExecutionSample.ts][experimentexecutionsgetexecutionsample]               | get an execution of an Experiment resource. x-ms-original-file: 2025-01-01/Experiments_GetExecution.json                                |
+| [experimentExecutionsListAllExecutionsSample.ts][experimentexecutionslistallexecutionssample]     | get a list of executions of an Experiment resource. x-ms-original-file: 2025-01-01/Experiments_ListAllExecutions.json                   |
+| [experimentsCancelSample.ts][experimentscancelsample]                                             | cancel a running Experiment resource. x-ms-original-file: 2025-01-01/Experiments_Cancel.json                                            |
+| [experimentsCreateOrUpdateSample.ts][experimentscreateorupdatesample]                             | create or update a Experiment resource. x-ms-original-file: 2025-01-01/Experiments_CreateOrUpdate.json                                  |
+| [experimentsDeleteSample.ts][experimentsdeletesample]                                             | delete a Experiment resource. x-ms-original-file: 2025-01-01/Experiments_Delete.json                                                    |
+| [experimentsGetSample.ts][experimentsgetsample]                                                   | get a Experiment resource. x-ms-original-file: 2025-01-01/Experiments_Get.json                                                          |
+| [experimentsListAllSample.ts][experimentslistallsample]                                           | get a list of Experiment resources in a subscription. x-ms-original-file: 2025-01-01/Experiments_ListAll.json                           |
+| [experimentsListSample.ts][experimentslistsample]                                                 | get a list of Experiment resources in a resource group. x-ms-original-file: 2025-01-01/Experiments_List.json                            |
+| [experimentsStartSample.ts][experimentsstartsample]                                               | start a Experiment resource. x-ms-original-file: 2025-01-01/Experiments_Start.json                                                      |
+| [experimentsUpdateSample.ts][experimentsupdatesample]                                             | the operation to update an experiment. x-ms-original-file: 2025-01-01/Experiments_Update.json                                           |
+| [operationStatusesGetSample.ts][operationstatusesgetsample]                                       | returns the current status of an async operation. x-ms-original-file: 2025-01-01/OperationStatuses_Get.json                             |
+| [operationsListSample.ts][operationslistsample]                                                   | list the operations for the provider x-ms-original-file: 2025-01-01/Operations_List.json                                                |
+| [targetTypesGetSample.ts][targettypesgetsample]                                                   | get a Target Type resources for given location. x-ms-original-file: 2025-01-01/TargetTypes_Get.json                                     |
+| [targetTypesListSample.ts][targettypeslistsample]                                                 | get a list of Target Type resources for given location. x-ms-original-file: 2025-01-01/TargetTypes_List.json                            |
+| [targetsCreateOrUpdateSample.ts][targetscreateorupdatesample]                                     | create or update a Target resource that extends a tracked regional resource. x-ms-original-file: 2025-01-01/Targets_CreateOrUpdate.json |
+| [targetsDeleteSample.ts][targetsdeletesample]                                                     | delete a Target resource that extends a tracked regional resource. x-ms-original-file: 2025-01-01/Targets_Delete.json                   |
+| [targetsGetSample.ts][targetsgetsample]                                                           | get a Target resource that extends a tracked regional resource. x-ms-original-file: 2025-01-01/Targets_Get.json                         |
+| [targetsListSample.ts][targetslistsample]                                                         | get a list of Target resources that extend a tracked regional resource. x-ms-original-file: 2025-01-01/Targets_List.json                |
 
 ## Prerequisites
 
@@ -72,7 +73,7 @@ node dist/capabilitiesCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env CHAOS_SUBSCRIPTION_ID="<chaos subscription id>" CHAOS_RESOURCE_GROUP="<chaos resource group>" node dist/capabilitiesCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env  node dist/capabilitiesCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -85,18 +86,19 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [capabilitieslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/chaos/arm-chaos/samples/v1/typescript/src/capabilitiesListSample.ts
 [capabilitytypesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/chaos/arm-chaos/samples/v1/typescript/src/capabilityTypesGetSample.ts
 [capabilitytypeslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/chaos/arm-chaos/samples/v1/typescript/src/capabilityTypesListSample.ts
+[experimentexecutionsgetexecutiondetailssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/chaos/arm-chaos/samples/v1/typescript/src/experimentExecutionsGetExecutionDetailsSample.ts
+[experimentexecutionsgetexecutionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/chaos/arm-chaos/samples/v1/typescript/src/experimentExecutionsGetExecutionSample.ts
+[experimentexecutionslistallexecutionssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/chaos/arm-chaos/samples/v1/typescript/src/experimentExecutionsListAllExecutionsSample.ts
 [experimentscancelsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/chaos/arm-chaos/samples/v1/typescript/src/experimentsCancelSample.ts
 [experimentscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/chaos/arm-chaos/samples/v1/typescript/src/experimentsCreateOrUpdateSample.ts
 [experimentsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/chaos/arm-chaos/samples/v1/typescript/src/experimentsDeleteSample.ts
-[experimentsexecutiondetailssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/chaos/arm-chaos/samples/v1/typescript/src/experimentsExecutionDetailsSample.ts
-[experimentsgetexecutionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/chaos/arm-chaos/samples/v1/typescript/src/experimentsGetExecutionSample.ts
 [experimentsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/chaos/arm-chaos/samples/v1/typescript/src/experimentsGetSample.ts
-[experimentslistallexecutionssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/chaos/arm-chaos/samples/v1/typescript/src/experimentsListAllExecutionsSample.ts
 [experimentslistallsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/chaos/arm-chaos/samples/v1/typescript/src/experimentsListAllSample.ts
 [experimentslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/chaos/arm-chaos/samples/v1/typescript/src/experimentsListSample.ts
 [experimentsstartsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/chaos/arm-chaos/samples/v1/typescript/src/experimentsStartSample.ts
 [experimentsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/chaos/arm-chaos/samples/v1/typescript/src/experimentsUpdateSample.ts
 [operationstatusesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/chaos/arm-chaos/samples/v1/typescript/src/operationStatusesGetSample.ts
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/chaos/arm-chaos/samples/v1/typescript/src/operationsListSample.ts
 [targettypesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/chaos/arm-chaos/samples/v1/typescript/src/targetTypesGetSample.ts
 [targettypeslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/chaos/arm-chaos/samples/v1/typescript/src/targetTypesListSample.ts
 [targetscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/chaos/arm-chaos/samples/v1/typescript/src/targetsCreateOrUpdateSample.ts
