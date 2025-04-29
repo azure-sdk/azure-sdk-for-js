@@ -1,0 +1,4 @@
+directory: specification/loadtestservice/Playwright.Management
+commit: f4a41baae3465b12876809e8b5cfbab708303aa0
+repo: ../azure-rest-api-specs
+additionalDirectories: 
