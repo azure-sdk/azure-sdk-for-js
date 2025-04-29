@@ -8,44 +8,68 @@
 
 import * as coreClient from "@azure/core-client";
 
-export interface NginxDeploymentApiKeyRequest {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly id?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly name?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly type?: string;
-  properties?: NginxDeploymentApiKeyRequestProperties;
-}
-
-export interface NginxDeploymentApiKeyRequestProperties {
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface OperationListResult {
   /**
-   * Secret text to be used as a Dataplane API Key. This is a write only property that can never be read back, but the first three characters will be returned in the 'hint' property.
-   * This value contains a credential. Consider obscuring before showing to users
-   */
-  secretText?: string;
-  /** The time after which this Dataplane API Key is no longer valid. */
-  endDateTime?: Date;
-}
-
-export interface NginxDeploymentApiKeyResponse {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly id?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly name?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly type?: string;
-  properties?: NginxDeploymentApiKeyResponseProperties;
-}
-
-export interface NginxDeploymentApiKeyResponseProperties {
-  /**
-   * The first three characters of the secret text to help identify it in use. This property is read-only.
+   * List of operations supported by the resource provider
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly hint?: string;
-  /** The time after which this Dataplane API Key is no longer valid. */
-  endDateTime?: Date;
+  readonly value?: Operation[];
+  /**
+   * URL to get the next set of operation list results (if there are any).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
+  /**
+   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+  /**
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: Origin;
+  /**
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionType?: ActionType;
+}
+
+/** Localized display information for this particular operation. */
+export interface OperationDisplay {
+  /**
+   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provider?: string;
+  /**
+   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resource?: string;
+  /**
+   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
@@ -97,267 +121,12 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-export interface NginxDeploymentApiKeyListResponse {
-  value?: NginxDeploymentApiKeyResponse[];
+/** Paged collection of NginxDeployment items */
+export interface NginxDeploymentListResponse {
+  /** The NginxDeployment items on this page */
+  value: NginxDeployment[];
+  /** The link to the next page of items */
   nextLink?: string;
-}
-
-export interface NginxCertificate {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly id?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly name?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly type?: string;
-  properties?: NginxCertificateProperties;
-  location?: string;
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-export interface NginxCertificateProperties {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly provisioningState?: ProvisioningState;
-  keyVirtualPath?: string;
-  certificateVirtualPath?: string;
-  keyVaultSecretId?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly sha1Thumbprint?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly keyVaultSecretVersion?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly keyVaultSecretCreated?: Date;
-  certificateError?: NginxCertificateErrorResponseBody;
-}
-
-export interface NginxCertificateErrorResponseBody {
-  code?: string;
-  message?: string;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-export interface NginxCertificateListResponse {
-  value?: NginxCertificate[];
-  nextLink?: string;
-}
-
-/** Response of a list operation. */
-export interface NginxConfigurationListResponse {
-  /** Results of a list operation. */
-  value?: NginxConfigurationResponse[];
-  /** Link to the next set of results, if any. */
-  nextLink?: string;
-}
-
-export interface NginxConfigurationResponse {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly id?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly name?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly type?: string;
-  properties?: NginxConfigurationResponseProperties;
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-export interface NginxConfigurationResponseProperties {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly provisioningState?: ProvisioningState;
-  files?: NginxConfigurationFile[];
-  protectedFiles?: NginxConfigurationProtectedFileResponse[];
-  package?: NginxConfigurationPackage;
-  rootFile?: string;
-}
-
-export interface NginxConfigurationFile {
-  content?: string;
-  virtualPath?: string;
-}
-
-export interface NginxConfigurationProtectedFileResponse {
-  /** The virtual path of the protected file. */
-  virtualPath?: string;
-  /** The hash of the content of the file. This value is used to determine if the file has changed. */
-  contentHash?: string;
-}
-
-export interface NginxConfigurationPackage {
-  data?: string;
-  protectedFiles?: string[];
-}
-
-export interface NginxConfigurationRequest {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly id?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly name?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly type?: string;
-  properties?: NginxConfigurationRequestProperties;
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-export interface NginxConfigurationRequestProperties {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly provisioningState?: ProvisioningState;
-  files?: NginxConfigurationFile[];
-  protectedFiles?: NginxConfigurationProtectedFileRequest[];
-  package?: NginxConfigurationPackage;
-  rootFile?: string;
-}
-
-export interface NginxConfigurationProtectedFileRequest {
-  /** The content of the protected file. This value is a PUT only value. If you perform a GET request on this value, it will be empty because it is a protected file. */
-  content?: string;
-  /** The virtual path of the protected file. */
-  virtualPath?: string;
-  /** The hash of the content of the file. This value is used to determine if the file has changed. */
-  contentHash?: string;
-}
-
-/** The request body for creating an analysis for an NGINX configuration. */
-export interface AnalysisCreate {
-  config: AnalysisCreateConfig;
-}
-
-export interface AnalysisCreateConfig {
-  /** The root file of the NGINX config file(s). It must match one of the files' filepath. */
-  rootFile?: string;
-  files?: NginxConfigurationFile[];
-  protectedFiles?: NginxConfigurationProtectedFileRequest[];
-  package?: NginxConfigurationPackage;
-}
-
-/** The response body for an analysis request. Contains the status of the analysis and any errors. */
-export interface AnalysisResult {
-  /** The status of the analysis. */
-  status: string;
-  data?: AnalysisResultData;
-}
-
-export interface AnalysisResultData {
-  errors?: AnalysisDiagnostic[];
-  diagnostics?: DiagnosticItem[];
-}
-
-/** An error object found during the analysis of an NGINX configuration. */
-export interface AnalysisDiagnostic {
-  /** Unique identifier for the error */
-  id?: string;
-  directive: string;
-  description: string;
-  /** the filepath of the most relevant config file */
-  file: string;
-  line: number;
-  message: string;
-  rule: string;
-}
-
-/** A diagnostic is a message associated with an NGINX config. The Analyzer returns diagnostics with a level indicating the importance of the diagnostic with optional category. */
-export interface DiagnosticItem {
-  /** Unique identifier for the diagnostic. */
-  id?: string;
-  directive: string;
-  description: string;
-  /** The filepath of the most relevant config file. */
-  file: string;
-  line: number;
-  message: string;
-  rule: string;
-  /** Warning or Info */
-  level: Level;
-  /** Category of warning like Best-practices, Recommendation, Security etc. */
-  category?: string;
-}
-
-export interface NginxDeployment {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly id?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly name?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly type?: string;
-  identity?: IdentityProperties;
-  properties?: NginxDeploymentProperties;
-  /** Dictionary of <string> */
-  tags?: { [propertyName: string]: string };
-  sku?: ResourceSku;
-  location?: string;
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-export interface IdentityProperties {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly principalId?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly tenantId?: string;
-  type?: IdentityType;
-  /** Dictionary of <UserIdentityProperties> */
-  userAssignedIdentities?: { [propertyName: string]: UserIdentityProperties };
-}
-
-export interface UserIdentityProperties {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly principalId?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly clientId?: string;
-}
-
-export interface NginxDeploymentProperties {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly provisioningState?: ProvisioningState;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly nginxVersion?: string;
-  networkProfile?: NginxNetworkProfile;
-  /**
-   * The IP address of the deployment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ipAddress?: string;
-  enableDiagnosticsSupport?: boolean;
-  logging?: NginxLogging;
-  /** Information on how the deployment will be scaled. */
-  scalingProperties?: NginxDeploymentScalingProperties;
-  /** Autoupgrade settings of a deployment. */
-  autoUpgradeProfile?: AutoUpgradeProfile;
-  userProfile?: NginxDeploymentUserProfile;
-  /** Settings for NGINX App Protect (NAP) */
-  nginxAppProtect?: NginxDeploymentPropertiesNginxAppProtect;
-  /**
-   * Dataplane API endpoint for the caller to update the NGINX state of the deployment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dataplaneApiEndpoint?: string;
 }
 
 export interface NginxNetworkProfile {
@@ -482,16 +251,89 @@ export interface WebApplicationFirewallComponentVersions {
   wafNginxVersion: string;
 }
 
-export interface ResourceSku {
-  /** Name of the SKU. */
+export interface IdentityProperties {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly principalId?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly tenantId?: string;
+  type?: IdentityType;
+  /** Dictionary of <UserIdentityProperties> */
+  userAssignedIdentities?: { [propertyName: string]: UserIdentityProperties };
+}
+
+export interface UserIdentityProperties {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly principalId?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly clientId?: string;
+}
+
+/** The SKU (Stock Keeping Unit) assigned to this resource. */
+export interface AzureResourceManagerResourceSkuProperty {
+  /** The SKU (Stock Keeping Unit) assigned to this resource. */
+  sku?: Sku;
+}
+
+/** The resource model definition representing SKU */
+export interface Sku {
+  /** The name of the SKU. E.g. P3. It is typically a letter+number code */
   name: string;
+  /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
+  tier?: SkuTier;
+  /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
+  size?: string;
+  /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
+  family?: string;
+  /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
+  capacity?: number;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 export interface NginxDeploymentUpdateParameters {
   identity?: IdentityProperties;
   /** Dictionary of <string> */
   tags?: { [propertyName: string]: string };
-  sku?: ResourceSku;
+  /** The SKU (Stock Keeping Unit) assigned to this resource. */
+  sku?: AzureResourceManagerResourceSkuProperty;
   location?: string;
   properties?: NginxDeploymentUpdateProperties;
 }
@@ -515,40 +357,291 @@ export interface NginxDeploymentUpdatePropertiesNginxAppProtect {
   webApplicationFirewallSettings?: WebApplicationFirewallSettings;
 }
 
-export interface NginxDeploymentListResponse {
-  value?: NginxDeployment[];
+/** Paged collection of NginxDeploymentApiKeyResponse items */
+export interface NginxDeploymentApiKeyListResponse {
+  /** The NginxDeploymentApiKeyResponse items on this page */
+  value: NginxDeploymentApiKeyResponse[];
+  /** The link to the next page of items */
   nextLink?: string;
 }
 
-/** Result of GET request to list Nginx.NginxPlus operations. */
-export interface OperationListResult {
-  /** List of operations supported by the Nginx.NginxPlus provider. */
-  value?: OperationResult[];
-  /** URL to get the next set of operation list results if there are any. */
+/** Paged collection of NginxCertificate items */
+export interface NginxCertificateListResponse {
+  /** The NginxCertificate items on this page */
+  value: NginxCertificate[];
+  /** The link to the next page of items */
   nextLink?: string;
 }
 
-/** A Nginx.NginxPlus REST API operation. */
-export interface OperationResult {
-  /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
-  /** The object that represents the operation. */
-  display?: OperationDisplay;
-  /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+export interface NginxCertificateErrorResponseBody {
+  code?: string;
+  message?: string;
 }
 
-/** The object that represents the operation. */
-export interface OperationDisplay {
-  /** Service provider: Nginx.NginxPlus */
-  provider?: string;
-  /** Type on which the operation is performed, e.g., 'deployments'. */
-  resource?: string;
-  /** Operation type, e.g., read, write, delete, etc. */
-  operation?: string;
-  /** Description of the operation, e.g., 'Write deployments'. */
-  description?: string;
+/** Response of a list operation. */
+export interface NginxConfigurationListResponse {
+  /** The NginxConfigurationResponse items on this page */
+  value: NginxConfigurationResponse[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
+
+export interface NginxConfigurationFile {
+  content?: string;
+  virtualPath?: string;
+}
+
+export interface NginxConfigurationProtectedFileResponse {
+  /** The virtual path of the protected file. */
+  virtualPath?: string;
+  /** The hash of the content of the file. This value is used to determine if the file has changed. */
+  contentHash?: string;
+}
+
+export interface NginxConfigurationPackage {
+  data?: string;
+  protectedFiles?: string[];
+}
+
+/** The request body for creating an analysis for an NGINX configuration. */
+export interface AnalysisCreate {
+  config: AnalysisCreateConfig;
+}
+
+export interface AnalysisCreateConfig {
+  /** The root file of the NGINX config file(s). It must match one of the files' filepath. */
+  rootFile?: string;
+  files?: NginxConfigurationFile[];
+  protectedFiles?: NginxConfigurationProtectedFileRequest[];
+  package?: NginxConfigurationPackage;
+}
+
+export interface NginxConfigurationProtectedFileRequest {
+  /** The content of the protected file. This value is a PUT only value. If you perform a GET request on this value, it will be empty because it is a protected file. */
+  content?: string;
+  /** The virtual path of the protected file. */
+  virtualPath?: string;
+  /** The hash of the content of the file. This value is used to determine if the file has changed. */
+  contentHash?: string;
+}
+
+/** The response body for an analysis request. Contains the status of the analysis and any errors. */
+export interface AnalysisResult {
+  /** The status of the analysis. */
+  status: string;
+  data?: AnalysisResultData;
+}
+
+export interface AnalysisResultData {
+  errors?: AnalysisDiagnostic[];
+  diagnostics?: DiagnosticItem[];
+}
+
+/** An error object found during the analysis of an NGINX configuration. */
+export interface AnalysisDiagnostic {
+  /** Unique identifier for the error */
+  id?: string;
+  directive: string;
+  description: string;
+  /** the filepath of the most relevant config file */
+  file: string;
+  line: number;
+  message: string;
+  rule: string;
+}
+
+/** A diagnostic is a message associated with an NGINX config. The Analyzer returns diagnostics with a level indicating the importance of the diagnostic with optional category. */
+export interface DiagnosticItem {
+  /** Unique identifier for the diagnostic. */
+  id?: string;
+  directive: string;
+  description: string;
+  /** The filepath of the most relevant config file. */
+  file: string;
+  line: number;
+  message: string;
+  rule: string;
+  /** Warning or Info */
+  level: Level;
+  /** Category of warning like Best-practices, Recommendation, Security etc. */
+  category?: string;
+}
+
+/** Azure operation completed successfully. */
+export interface AzureResourceManagerArmResponseNginxDeployment {
+  /** The body type of the operation request or response. */
+  body: NginxDeployment;
+}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+/** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
+export interface NginxDeployment extends TrackedResource {
+  identity?: IdentityProperties;
+  /** The SKU (Stock Keeping Unit) assigned to this resource. */
+  sku?: AzureResourceManagerResourceSkuProperty;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly provisioningState?: ProvisioningState;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly nginxVersion?: string;
+  networkProfile?: NginxNetworkProfile;
+  /**
+   * The IP address of the deployment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ipAddress?: string;
+  enableDiagnosticsSupport?: boolean;
+  logging?: NginxLogging;
+  /** Information on how the deployment will be scaled. */
+  scalingProperties?: NginxDeploymentScalingProperties;
+  /** Autoupgrade settings of a deployment. */
+  autoUpgradeProfile?: AutoUpgradeProfile;
+  userProfile?: NginxDeploymentUserProfile;
+  /** Settings for NGINX App Protect (NAP) */
+  nginxAppProtect?: NginxDeploymentPropertiesNginxAppProtect;
+  /**
+   * Dataplane API endpoint for the caller to update the NGINX state of the deployment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataplaneApiEndpoint?: string;
+}
+
+/** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
+export interface NginxDeploymentApiKeyResponse extends ProxyResource {
+  /**
+   * The first three characters of the secret text to help identify it in use. This property is read-only.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hint?: string;
+  /** The time after which this Dataplane API Key is no longer valid. */
+  endDateTime?: Date;
+}
+
+/** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
+export interface NginxCertificate extends ProxyResource {
+  location?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly provisioningState?: ProvisioningState;
+  keyVirtualPath?: string;
+  certificateVirtualPath?: string;
+  keyVaultSecretId?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly sha1Thumbprint?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly keyVaultSecretVersion?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly keyVaultSecretCreated?: Date;
+  certificateError?: NginxCertificateErrorResponseBody;
+}
+
+/** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
+export interface NginxConfigurationResponse extends ProxyResource {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly provisioningState?: ProvisioningState;
+  files?: NginxConfigurationFile[];
+  protectedFiles?: NginxConfigurationProtectedFileResponse[];
+  package?: NginxConfigurationPackage;
+  rootFile?: string;
+}
+
+/** Defines headers for Deployments_createOrUpdate operation. */
+export interface DeploymentsCreateOrUpdateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Deployments_update operation. */
+export interface DeploymentsUpdateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Deployments_delete operation. */
+export interface DeploymentsDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Certificates_createOrUpdate operation. */
+export interface CertificatesCreateOrUpdateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Certificates_delete operation. */
+export interface CertificatesDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Configurations_createOrUpdate operation. */
+export interface ConfigurationsCreateOrUpdateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Configurations_delete operation. */
+export interface ConfigurationsDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Known values of {@link Origin} that the service accepts. */
+export enum KnownOrigin {
+  /** User */
+  User = "user",
+  /** System */
+  System = "system",
+  /** UserSystem */
+  UserSystem = "user,system",
+}
+
+/**
+ * Defines values for Origin. \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user** \
+ * **system** \
+ * **user,system**
+ */
+export type Origin = string;
+
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  /** Internal */
+  Internal = "Internal",
+}
+
+/**
+ * Defines values for ActionType. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**
+ */
+export type ActionType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
@@ -588,6 +681,66 @@ export enum KnownProvisioningState {
  * **NotSpecified**
  */
 export type ProvisioningState = string;
+
+/** Known values of {@link NginxPrivateIPAllocationMethod} that the service accepts. */
+export enum KnownNginxPrivateIPAllocationMethod {
+  /** Static */
+  Static = "Static",
+  /** Dynamic */
+  Dynamic = "Dynamic",
+}
+
+/**
+ * Defines values for NginxPrivateIPAllocationMethod. \
+ * {@link KnownNginxPrivateIPAllocationMethod} can be used interchangeably with NginxPrivateIPAllocationMethod,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Static** \
+ * **Dynamic**
+ */
+export type NginxPrivateIPAllocationMethod = string;
+
+/** Known values of {@link ActivationState} that the service accepts. */
+export enum KnownActivationState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for ActivationState. \
+ * {@link KnownActivationState} can be used interchangeably with ActivationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type ActivationState = string;
+
+/** Known values of {@link IdentityType} that the service accepts. */
+export enum KnownIdentityType {
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
+  /** None */
+  None = "None",
+}
+
+/**
+ * Defines values for IdentityType. \
+ * {@link KnownIdentityType} can be used interchangeably with IdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned, UserAssigned** \
+ * **None**
+ */
+export type IdentityType = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
@@ -630,210 +783,41 @@ export enum KnownLevel {
  * **Warning**
  */
 export type Level = string;
-
-/** Known values of {@link IdentityType} that the service accepts. */
-export enum KnownIdentityType {
-  /** SystemAssigned */
-  SystemAssigned = "SystemAssigned",
-  /** UserAssigned */
-  UserAssigned = "UserAssigned",
-  /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
-  /** None */
-  None = "None",
-}
-
-/**
- * Defines values for IdentityType. \
- * {@link KnownIdentityType} can be used interchangeably with IdentityType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **SystemAssigned** \
- * **UserAssigned** \
- * **SystemAssigned, UserAssigned** \
- * **None**
- */
-export type IdentityType = string;
-
-/** Known values of {@link NginxPrivateIPAllocationMethod} that the service accepts. */
-export enum KnownNginxPrivateIPAllocationMethod {
-  /** Static */
-  Static = "Static",
-  /** Dynamic */
-  Dynamic = "Dynamic",
-}
-
-/**
- * Defines values for NginxPrivateIPAllocationMethod. \
- * {@link KnownNginxPrivateIPAllocationMethod} can be used interchangeably with NginxPrivateIPAllocationMethod,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Static** \
- * **Dynamic**
- */
-export type NginxPrivateIPAllocationMethod = string;
-
-/** Known values of {@link ActivationState} that the service accepts. */
-export enum KnownActivationState {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled",
-}
-
-/**
- * Defines values for ActivationState. \
- * {@link KnownActivationState} can be used interchangeably with ActivationState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
- */
-export type ActivationState = string;
+/** Defines values for SkuTier. */
+export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 
 /** Optional parameters. */
-export interface ApiKeysCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The API Key object containing fields (e.g. secret text, expiration date) to upsert the key. */
-  body?: NginxDeploymentApiKeyRequest;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type ApiKeysCreateOrUpdateResponse = NginxDeploymentApiKeyResponse;
-
-/** Optional parameters. */
-export interface ApiKeysDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface ApiKeysGetOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ApiKeysGetResponse = NginxDeploymentApiKeyResponse;
-
-/** Optional parameters. */
-export interface ApiKeysListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ApiKeysListResponse = NginxDeploymentApiKeyListResponse;
+export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface ApiKeysListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ApiKeysListNextResponse = NginxDeploymentApiKeyListResponse;
+export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface CertificatesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type CertificatesGetResponse = NginxCertificate;
-
-/** Optional parameters. */
-export interface CertificatesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The certificate */
-  body?: NginxCertificate;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type CertificatesCreateOrUpdateResponse = NginxCertificate;
-
-/** Optional parameters. */
-export interface CertificatesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface CertificatesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DeploymentsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type CertificatesListResponse = NginxCertificateListResponse;
+export type DeploymentsListResponse = NginxDeploymentListResponse;
 
 /** Optional parameters. */
-export interface CertificatesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DeploymentsListByResourceGroupOptionalParams extends coreClient.OperationOptions {}
 
-/** Contains response data for the listNext operation. */
-export type CertificatesListNextResponse = NginxCertificateListResponse;
-
-/** Optional parameters. */
-export interface ConfigurationsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ConfigurationsListResponse = NginxConfigurationListResponse;
+/** Contains response data for the listByResourceGroup operation. */
+export type DeploymentsListByResourceGroupResponse = NginxDeploymentListResponse;
 
 /** Optional parameters. */
-export interface ConfigurationsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ConfigurationsGetResponse = NginxConfigurationResponse;
-
-/** Optional parameters. */
-export interface ConfigurationsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The NGINX configuration */
-  body?: NginxConfigurationRequest;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type ConfigurationsCreateOrUpdateResponse = NginxConfigurationResponse;
-
-/** Optional parameters. */
-export interface ConfigurationsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface ConfigurationsAnalysisOptionalParams
-  extends coreClient.OperationOptions {
-  /** The NGINX configuration to analyze */
-  body?: AnalysisCreate;
-}
-
-/** Contains response data for the analysis operation. */
-export type ConfigurationsAnalysisResponse = AnalysisResult;
-
-/** Optional parameters. */
-export interface ConfigurationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ConfigurationsListNextResponse = NginxConfigurationListResponse;
-
-/** Optional parameters. */
-export interface DeploymentsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DeploymentsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type DeploymentsGetResponse = NginxDeployment;
 
 /** Optional parameters. */
-export interface DeploymentsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  body?: NginxDeployment;
+export interface DeploymentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -844,9 +828,7 @@ export interface DeploymentsCreateOrUpdateOptionalParams
 export type DeploymentsCreateOrUpdateResponse = NginxDeployment;
 
 /** Optional parameters. */
-export interface DeploymentsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  body?: NginxDeploymentUpdateParameters;
+export interface DeploymentsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -857,8 +839,7 @@ export interface DeploymentsUpdateOptionalParams
 export type DeploymentsUpdateResponse = NginxDeployment;
 
 /** Optional parameters. */
-export interface DeploymentsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface DeploymentsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -866,23 +847,7 @@ export interface DeploymentsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface DeploymentsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type DeploymentsListResponse = NginxDeploymentListResponse;
-
-/** Optional parameters. */
-export interface DeploymentsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type DeploymentsListByResourceGroupResponse =
-  NginxDeploymentListResponse;
-
-/** Optional parameters. */
-export interface DeploymentsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DeploymentsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type DeploymentsListNextResponse = NginxDeploymentListResponse;
@@ -892,26 +857,120 @@ export interface DeploymentsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type DeploymentsListByResourceGroupNextResponse =
-  NginxDeploymentListResponse;
+export type DeploymentsListByResourceGroupNextResponse = NginxDeploymentListResponse;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiKeysListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type OperationsListResponse = OperationListResult;
+export type ApiKeysListResponse = NginxDeploymentApiKeyListResponse;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiKeysGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ApiKeysGetResponse = NginxDeploymentApiKeyResponse;
+
+/** Optional parameters. */
+export interface ApiKeysCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ApiKeysCreateOrUpdateResponse = NginxDeploymentApiKeyResponse;
+
+/** Optional parameters. */
+export interface ApiKeysDeleteOptionalParams extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ApiKeysListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type OperationsListNextResponse = OperationListResult;
+export type ApiKeysListNextResponse = NginxDeploymentApiKeyListResponse;
 
 /** Optional parameters. */
-export interface NginxManagementClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface CertificatesListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type CertificatesListResponse = NginxCertificateListResponse;
+
+/** Optional parameters. */
+export interface CertificatesGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type CertificatesGetResponse = NginxCertificate;
+
+/** Optional parameters. */
+export interface CertificatesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type CertificatesCreateOrUpdateResponse = NginxCertificate;
+
+/** Optional parameters. */
+export interface CertificatesDeleteOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface CertificatesListNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type CertificatesListNextResponse = NginxCertificateListResponse;
+
+/** Optional parameters. */
+export interface ConfigurationsListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ConfigurationsListResponse = NginxConfigurationListResponse;
+
+/** Optional parameters. */
+export interface ConfigurationsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ConfigurationsGetResponse = NginxConfigurationResponse;
+
+/** Optional parameters. */
+export interface ConfigurationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ConfigurationsCreateOrUpdateResponse = NginxConfigurationResponse;
+
+/** Optional parameters. */
+export interface ConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ConfigurationsAnalysisOptionalParams extends coreClient.OperationOptions {
+  /** The NGINX configuration to analyze */
+  body?: AnalysisCreate;
+}
+
+/** Contains response data for the analysis operation. */
+export type ConfigurationsAnalysisResponse = AnalysisResult;
+
+/** Optional parameters. */
+export interface ConfigurationsListNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ConfigurationsListNextResponse = NginxConfigurationListResponse;
+
+/** Optional parameters. */
+export interface NginxManagementClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

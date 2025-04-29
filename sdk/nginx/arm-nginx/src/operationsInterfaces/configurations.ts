@@ -54,12 +54,14 @@ export interface Configurations {
    * @param deploymentName The name of targeted NGINX deployment
    * @param configurationName The name of configuration, only 'default' is supported value due to the
    *                          singleton of NGINX conf
+   * @param body The NGINX configuration
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     deploymentName: string,
     configurationName: string,
+    body: NginxConfigurationResponse,
     options?: ConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -73,12 +75,14 @@ export interface Configurations {
    * @param deploymentName The name of targeted NGINX deployment
    * @param configurationName The name of configuration, only 'default' is supported value due to the
    *                          singleton of NGINX conf
+   * @param body The NGINX configuration
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     deploymentName: string,
     configurationName: string,
+    body: NginxConfigurationResponse,
     options?: ConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<ConfigurationsCreateOrUpdateResponse>;
   /**

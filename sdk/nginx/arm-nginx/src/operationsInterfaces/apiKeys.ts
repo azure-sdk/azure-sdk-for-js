@@ -10,11 +10,11 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   NginxDeploymentApiKeyResponse,
   ApiKeysListOptionalParams,
+  ApiKeysGetOptionalParams,
+  ApiKeysGetResponse,
   ApiKeysCreateOrUpdateOptionalParams,
   ApiKeysCreateOrUpdateResponse,
   ApiKeysDeleteOptionalParams,
-  ApiKeysGetOptionalParams,
-  ApiKeysGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,16 +32,32 @@ export interface ApiKeys {
     options?: ApiKeysListOptionalParams,
   ): PagedAsyncIterableIterator<NginxDeploymentApiKeyResponse>;
   /**
+   * Get the specified API Key of the given Nginx deployment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param deploymentName The name of targeted NGINX deployment
+   * @param apiKeyName The resource name of the API key
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    deploymentName: string,
+    apiKeyName: string,
+    options?: ApiKeysGetOptionalParams,
+  ): Promise<ApiKeysGetResponse>;
+  /**
    * Create or update an API Key for the Nginx deployment in order to access the dataplane API endpoint
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of targeted NGINX deployment
    * @param apiKeyName The resource name of the API key
+   * @param body The API Key object containing fields (e.g. secret text, expiration date) to upsert the
+   *             key.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     deploymentName: string,
     apiKeyName: string,
+    body: NginxDeploymentApiKeyResponse,
     options?: ApiKeysCreateOrUpdateOptionalParams,
   ): Promise<ApiKeysCreateOrUpdateResponse>;
   /**
@@ -57,17 +73,4 @@ export interface ApiKeys {
     apiKeyName: string,
     options?: ApiKeysDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * Get the specified API Key of the given Nginx deployment
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted NGINX deployment
-   * @param apiKeyName The resource name of the API key
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    deploymentName: string,
-    apiKeyName: string,
-    options?: ApiKeysGetOptionalParams,
-  ): Promise<ApiKeysGetResponse>;
 }
