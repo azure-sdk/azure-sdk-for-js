@@ -55,7 +55,7 @@ export interface VirtualMachines {
    * @param privateCloudName Name of the private cloud
    * @param clusterName Name of the cluster
    * @param virtualMachineId ID of the virtual machine.
-   * @param restrictMovement The body type of the operation request.
+   * @param restrictMovement The content of the action request
    * @param options The options parameters.
    */
   beginRestrictMovement(
@@ -77,7 +77,7 @@ export interface VirtualMachines {
    * @param privateCloudName Name of the private cloud
    * @param clusterName Name of the cluster
    * @param virtualMachineId ID of the virtual machine.
-   * @param restrictMovement The body type of the operation request.
+   * @param restrictMovement The content of the action request
    * @param options The options parameters.
    */
   beginRestrictMovementAndWait(

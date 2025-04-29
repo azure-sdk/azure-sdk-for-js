@@ -87,12 +87,7 @@ export class ScriptCmdletsImpl implements ScriptCmdlets {
     let result: ScriptCmdletsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        privateCloudName,
-        scriptPackageName,
-        options,
-      );
+      result = await this._list(resourceGroupName, privateCloudName, scriptPackageName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

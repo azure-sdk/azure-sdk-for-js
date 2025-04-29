@@ -97,7 +97,7 @@ export interface PlacementPolicies {
    * @param privateCloudName Name of the private cloud
    * @param clusterName Name of the cluster
    * @param placementPolicyName Name of the placement policy.
-   * @param placementPolicyUpdate The placement policy properties to be updated.
+   * @param placementPolicyUpdate The resource properties to be updated.
    * @param options The options parameters.
    */
   beginUpdate(
@@ -119,7 +119,7 @@ export interface PlacementPolicies {
    * @param privateCloudName Name of the private cloud
    * @param clusterName Name of the cluster
    * @param placementPolicyName Name of the placement policy.
-   * @param placementPolicyUpdate The placement policy properties to be updated.
+   * @param placementPolicyUpdate The resource properties to be updated.
    * @param options The options parameters.
    */
   beginUpdateAndWait(

@@ -8,26 +8,26 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest,
-} from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   LocationsImpl,
   PrivateCloudsImpl,
+  SkusImpl,
   AddonsImpl,
   AuthorizationsImpl,
   CloudLinksImpl,
   ClustersImpl,
   DatastoresImpl,
+  HostsImpl,
   PlacementPoliciesImpl,
   VirtualMachinesImpl,
   GlobalReachConnectionsImpl,
   HcxEnterpriseSitesImpl,
   IscsiPathsImpl,
+  ProvisionedNetworksImpl,
+  PureStoragePoliciesImpl,
   ScriptExecutionsImpl,
   ScriptPackagesImpl,
   ScriptCmdletsImpl,
@@ -37,16 +37,20 @@ import {
   Operations,
   Locations,
   PrivateClouds,
+  Skus,
   Addons,
   Authorizations,
   CloudLinks,
   Clusters,
   Datastores,
+  Hosts,
   PlacementPolicies,
   VirtualMachines,
   GlobalReachConnections,
   HcxEnterpriseSites,
   IscsiPaths,
+  ProvisionedNetworks,
+  PureStoragePolicies,
   ScriptExecutions,
   ScriptPackages,
   ScriptCmdlets,
@@ -86,7 +90,7 @@ export class AzureVMwareSolutionAPI extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-avs/6.0.1`;
+    const packageDetails = `azsdk-js-arm-avs/6.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -98,8 +102,7 @@ export class AzureVMwareSolutionAPI extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
@@ -109,8 +112,7 @@ export class AzureVMwareSolutionAPI extends coreClient.ServiceClient {
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -126,11 +128,9 @@ export class AzureVMwareSolutionAPI extends coreClient.ServiceClient {
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
@@ -140,20 +140,24 @@ export class AzureVMwareSolutionAPI extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-09-01";
+    this.apiVersion = options.apiVersion || "2024-09-01";
     this.operations = new OperationsImpl(this);
     this.locations = new LocationsImpl(this);
     this.privateClouds = new PrivateCloudsImpl(this);
+    this.skus = new SkusImpl(this);
     this.addons = new AddonsImpl(this);
     this.authorizations = new AuthorizationsImpl(this);
     this.cloudLinks = new CloudLinksImpl(this);
     this.clusters = new ClustersImpl(this);
     this.datastores = new DatastoresImpl(this);
+    this.hosts = new HostsImpl(this);
     this.placementPolicies = new PlacementPoliciesImpl(this);
     this.virtualMachines = new VirtualMachinesImpl(this);
     this.globalReachConnections = new GlobalReachConnectionsImpl(this);
     this.hcxEnterpriseSites = new HcxEnterpriseSitesImpl(this);
     this.iscsiPaths = new IscsiPathsImpl(this);
+    this.provisionedNetworks = new ProvisionedNetworksImpl(this);
+    this.pureStoragePolicies = new PureStoragePoliciesImpl(this);
     this.scriptExecutions = new ScriptExecutionsImpl(this);
     this.scriptPackages = new ScriptPackagesImpl(this);
     this.scriptCmdlets = new ScriptCmdletsImpl(this);
@@ -168,10 +172,7 @@ export class AzureVMwareSolutionAPI extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest,
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
@@ -192,16 +193,20 @@ export class AzureVMwareSolutionAPI extends coreClient.ServiceClient {
   operations: Operations;
   locations: Locations;
   privateClouds: PrivateClouds;
+  skus: Skus;
   addons: Addons;
   authorizations: Authorizations;
   cloudLinks: CloudLinks;
   clusters: Clusters;
   datastores: Datastores;
+  hosts: Hosts;
   placementPolicies: PlacementPolicies;
   virtualMachines: VirtualMachines;
   globalReachConnections: GlobalReachConnections;
   hcxEnterpriseSites: HcxEnterpriseSites;
   iscsiPaths: IscsiPaths;
+  provisionedNetworks: ProvisionedNetworks;
+  pureStoragePolicies: PureStoragePolicies;
   scriptExecutions: ScriptExecutions;
   scriptPackages: ScriptPackages;
   scriptCmdlets: ScriptCmdlets;

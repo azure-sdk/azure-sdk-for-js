@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Addon,
@@ -56,11 +52,7 @@ export class AddonsImpl implements Addons {
     privateCloudName: string,
     options?: AddonsListOptionalParams,
   ): PagedAsyncIterableIterator<Addon> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      privateCloudName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, privateCloudName, options);
     return {
       next() {
         return iter.next();
@@ -72,12 +64,7 @@ export class AddonsImpl implements Addons {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          privateCloudName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, privateCloudName, options, settings);
       },
     };
   }
@@ -116,11 +103,7 @@ export class AddonsImpl implements Addons {
     privateCloudName: string,
     options?: AddonsListOptionalParams,
   ): AsyncIterableIterator<Addon> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      privateCloudName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, privateCloudName, options)) {
       yield* page;
     }
   }
@@ -176,10 +159,7 @@ export class AddonsImpl implements Addons {
     addon: Addon,
     options?: AddonsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<AddonsCreateOrUpdateResponse>,
-      AddonsCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<AddonsCreateOrUpdateResponse>, AddonsCreateOrUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -191,8 +171,7 @@ export class AddonsImpl implements Addons {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -284,8 +263,7 @@ export class AddonsImpl implements Addons {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -339,12 +317,7 @@ export class AddonsImpl implements Addons {
     addonName: string,
     options?: AddonsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      privateCloudName,
-      addonName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, privateCloudName, addonName, options);
     return poller.pollUntilDone();
   }
 

@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   PrivateCloud,
@@ -153,11 +149,7 @@ export class PrivateCloudsImpl implements PrivateClouds {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -181,10 +173,7 @@ export class PrivateCloudsImpl implements PrivateClouds {
   private _listInSubscription(
     options?: PrivateCloudsListInSubscriptionOptionalParams,
   ): Promise<PrivateCloudsListInSubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listInSubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listInSubscriptionOperationSpec);
   }
 
   /**
@@ -196,10 +185,7 @@ export class PrivateCloudsImpl implements PrivateClouds {
     resourceGroupName: string,
     options?: PrivateCloudsListOptionalParams,
   ): Promise<PrivateCloudsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ resourceGroupName, options }, listOperationSpec);
   }
 
   /**
@@ -247,8 +233,7 @@ export class PrivateCloudsImpl implements PrivateClouds {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -318,7 +303,7 @@ export class PrivateCloudsImpl implements PrivateClouds {
    * Update a PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param privateCloudUpdate The private cloud properties to be updated.
+   * @param privateCloudUpdate The resource properties to be updated.
    * @param options The options parameters.
    */
   async beginUpdate(
@@ -327,10 +312,7 @@ export class PrivateCloudsImpl implements PrivateClouds {
     privateCloudUpdate: PrivateCloudUpdate,
     options?: PrivateCloudsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<PrivateCloudsUpdateResponse>,
-      PrivateCloudsUpdateResponse
-    >
+    SimplePollerLike<OperationState<PrivateCloudsUpdateResponse>, PrivateCloudsUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -342,8 +324,7 @@ export class PrivateCloudsImpl implements PrivateClouds {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -396,7 +377,7 @@ export class PrivateCloudsImpl implements PrivateClouds {
    * Update a PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param privateCloudUpdate The private cloud properties to be updated.
+   * @param privateCloudUpdate The resource properties to be updated.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
@@ -435,8 +416,7 @@ export class PrivateCloudsImpl implements PrivateClouds {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -488,11 +468,7 @@ export class PrivateCloudsImpl implements PrivateClouds {
     privateCloudName: string,
     options?: PrivateCloudsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      privateCloudName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, privateCloudName, options);
     return poller.pollUntilDone();
   }
 
@@ -539,8 +515,7 @@ export class PrivateCloudsImpl implements PrivateClouds {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -595,11 +570,7 @@ export class PrivateCloudsImpl implements PrivateClouds {
     privateCloudName: string,
     options?: PrivateCloudsRotateNsxtPasswordOptionalParams,
   ): Promise<PrivateCloudsRotateNsxtPasswordResponse> {
-    const poller = await this.beginRotateNsxtPassword(
-      resourceGroupName,
-      privateCloudName,
-      options,
-    );
+    const poller = await this.beginRotateNsxtPassword(resourceGroupName, privateCloudName, options);
     return poller.pollUntilDone();
   }
 
@@ -629,8 +600,7 @@ export class PrivateCloudsImpl implements PrivateClouds {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -756,11 +726,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -963,11 +929,7 @@ const listInSubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
