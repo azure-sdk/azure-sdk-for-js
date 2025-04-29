@@ -8,6 +8,125 @@
 
 import * as coreClient from "@azure/core-client";
 
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface OperationListResult {
+  /**
+   * List of operations supported by the resource provider
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Operation[];
+  /**
+   * URL to get the next set of operation list results (if there are any).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
+  /**
+   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+  /**
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: Origin;
+  /**
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionType?: ActionType;
+}
+
+/** Localized display information for this particular operation. */
+export interface OperationDisplay {
+  /**
+   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provider?: string;
+  /**
+   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resource?: string;
+  /**
+   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** The response of the list guest configuration assignment operation. */
+export interface GuestConfigurationAssignmentList {
+  /** Result of the list guest configuration assignment operation. */
+  value?: GuestConfigurationAssignment[];
+}
+
 /** Guest configuration assignment properties. */
 export interface GuestConfigurationAssignmentProperties {
   /**
@@ -72,6 +191,8 @@ export interface GuestConfigurationNavigation {
   contentUri?: string;
   /** Combined hash of the guest configuration package and configuration parameters. */
   contentHash?: string;
+  /** Managed identity with storage access of the guest configuration package and configuration parameters. */
+  contentManagedIdentity?: string;
   /** Specifies the assignment type and execution of the configuration. Possible values are Audit, DeployAndAutoCorrect, ApplyAndAutoCorrect and ApplyAndMonitor. */
   assignmentType?: AssignmentType;
   /**
@@ -233,7 +354,7 @@ export interface AssignmentReportResource {
    * Properties of a guest configuration assignment resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly properties?: Record<string, unknown>;
+  readonly properties?: { [propertyName: string]: any };
 }
 
 /** Reason and code for the compliance of the guest configuration assignment resource. */
@@ -279,6 +400,30 @@ export interface VmssvmInfo {
   readonly lastComplianceChecked?: Date;
 }
 
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
@@ -293,48 +438,6 @@ export interface SystemData {
   lastModifiedByType?: CreatedByType;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: Date;
-}
-
-/** The core properties of ARM resources */
-export interface Resource {
-  /**
-   * ARM resource id of the guest configuration assignment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /** Name of the guest configuration assignment. */
-  name?: string;
-  /** Region where the VM is located. */
-  location?: string;
-  /**
-   * The type of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-}
-
-/** Error response of an operation failure */
-export interface ErrorResponse {
-  error?: ErrorResponseError;
-}
-
-export interface ErrorResponseError {
-  /** Error code. */
-  code?: string;
-  /** Detail error message indicating why the operation failed. */
-  message?: string;
-}
-
-/** The response of the list guest configuration assignment operation. */
-export interface GuestConfigurationAssignmentList {
-  /** Result of the list guest configuration assignment operation. */
-  value?: GuestConfigurationAssignment[];
-}
-
-/** List of guest configuration assignment reports. */
-export interface GuestConfigurationAssignmentReportList {
-  /** List of reports for the guest configuration. Report contains information such as compliance status, reason and more. */
-  value?: GuestConfigurationAssignmentReport[];
 }
 
 /** Report for the guest configuration assignment. Report contains information such as compliance status, reason, and more. */
@@ -419,53 +522,56 @@ export interface AssignmentReportDetails {
   resources?: AssignmentReportResource[];
 }
 
-/** The response model for the list of Automation operations */
-export interface OperationList {
-  /** List of Automation operations supported by the Automation resource provider. */
-  value?: Operation[];
+/** List of guest configuration assignment reports. */
+export interface GuestConfigurationAssignmentReportList {
+  /** List of reports for the guest configuration. Report contains information such as compliance status, reason and more. */
+  value?: GuestConfigurationAssignmentReport[];
 }
 
-/** GuestConfiguration REST API operation */
-export interface Operation {
-  /** Operation name: For ex. providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/write or read */
-  name?: string;
-  /** Provider, Resource, Operation and description values. */
-  display?: OperationDisplay;
-  /** Provider, Resource, Operation and description values. */
-  properties?: OperationProperties;
-}
-
-/** Provider, Resource, Operation and description values. */
-export interface OperationDisplay {
-  /** Service provider: Microsoft.GuestConfiguration */
-  provider?: string;
-  /** Resource on which the operation is performed:  For ex. */
-  resource?: string;
-  /** Operation type: Read, write, delete, etc. */
-  operation?: string;
-  /** Description about operation. */
-  description?: string;
-}
-
-/** Provider, Resource, Operation and description values. */
-export interface OperationProperties {
-  /** Service provider: Microsoft.GuestConfiguration */
-  statusCode?: string;
-}
-
-/** ARM proxy resource. */
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
 /** Guest configuration assignment is an association between a machine and guest configuration. */
 export interface GuestConfigurationAssignment extends ProxyResource {
   /** Properties of the Guest configuration assignment. */
   properties?: GuestConfigurationAssignmentProperties;
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
 }
+
+/** Known values of {@link Origin} that the service accepts. */
+export enum KnownOrigin {
+  /** User */
+  User = "user",
+  /** System */
+  System = "system",
+  /** UserSystem */
+  UserSystem = "user,system",
+}
+
+/**
+ * Defines values for Origin. \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user** \
+ * **system** \
+ * **user,system**
+ */
+export type Origin = string;
+
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  /** Internal */
+  Internal = "Internal",
+}
+
+/**
+ * Defines values for ActionType. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**
+ */
+export type ActionType = string;
 
 /** Known values of {@link Kind} that the service accepts. */
 export enum KnownKind {
@@ -633,83 +739,47 @@ export enum KnownCreatedByType {
 export type CreatedByType = string;
 
 /** Optional parameters. */
-export interface GuestConfigurationAssignmentsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
-/** Contains response data for the createOrUpdate operation. */
-export type GuestConfigurationAssignmentsCreateOrUpdateResponse =
-  GuestConfigurationAssignment;
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface GuestConfigurationAssignmentsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
-/** Contains response data for the get operation. */
-export type GuestConfigurationAssignmentsGetResponse =
-  GuestConfigurationAssignment;
-
-/** Optional parameters. */
-export interface GuestConfigurationAssignmentsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface GuestConfigurationAssignmentsSubscriptionListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the subscriptionList operation. */
-export type GuestConfigurationAssignmentsSubscriptionListResponse =
-  GuestConfigurationAssignmentList;
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface GuestConfigurationAssignmentsRGListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the rGList operation. */
-export type GuestConfigurationAssignmentsRGListResponse =
-  GuestConfigurationAssignmentList;
+export type GuestConfigurationAssignmentsRGListResponse = GuestConfigurationAssignmentList;
 
 /** Optional parameters. */
 export interface GuestConfigurationAssignmentsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type GuestConfigurationAssignmentsListResponse =
-  GuestConfigurationAssignmentList;
+export type GuestConfigurationAssignmentsListResponse = GuestConfigurationAssignmentList;
 
 /** Optional parameters. */
-export interface GuestConfigurationAssignmentReportsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type GuestConfigurationAssignmentReportsListResponse =
-  GuestConfigurationAssignmentReportList;
-
-/** Optional parameters. */
-export interface GuestConfigurationAssignmentReportsGetOptionalParams
+export interface GuestConfigurationAssignmentsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type GuestConfigurationAssignmentReportsGetResponse =
-  GuestConfigurationAssignmentReport;
+export type GuestConfigurationAssignmentsGetResponse = GuestConfigurationAssignment;
 
 /** Optional parameters. */
-export interface GuestConfigurationHcrpAssignmentsCreateOrUpdateOptionalParams
+export interface GuestConfigurationAssignmentsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type GuestConfigurationHcrpAssignmentsCreateOrUpdateResponse =
-  GuestConfigurationAssignment;
+export type GuestConfigurationAssignmentsCreateOrUpdateResponse = GuestConfigurationAssignment;
 
 /** Optional parameters. */
-export interface GuestConfigurationHcrpAssignmentsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type GuestConfigurationHcrpAssignmentsGetResponse =
-  GuestConfigurationAssignment;
-
-/** Optional parameters. */
-export interface GuestConfigurationHcrpAssignmentsDeleteOptionalParams
+export interface GuestConfigurationAssignmentsDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
@@ -717,8 +787,32 @@ export interface GuestConfigurationHcrpAssignmentsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type GuestConfigurationHcrpAssignmentsListResponse =
-  GuestConfigurationAssignmentList;
+export type GuestConfigurationHcrpAssignmentsListResponse = GuestConfigurationAssignmentList;
+
+/** Optional parameters. */
+export interface GuestConfigurationHcrpAssignmentsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GuestConfigurationHcrpAssignmentsGetResponse = GuestConfigurationAssignment;
+
+/** Optional parameters. */
+export interface GuestConfigurationHcrpAssignmentsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type GuestConfigurationHcrpAssignmentsCreateOrUpdateResponse = GuestConfigurationAssignment;
+
+/** Optional parameters. */
+export interface GuestConfigurationHcrpAssignmentsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface GuestConfigurationHcrpAssignmentReportsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GuestConfigurationHcrpAssignmentReportsGetResponse = GuestConfigurationAssignmentReport;
 
 /** Optional parameters. */
 export interface GuestConfigurationHcrpAssignmentReportsListOptionalParams
@@ -729,44 +823,39 @@ export type GuestConfigurationHcrpAssignmentReportsListResponse =
   GuestConfigurationAssignmentReportList;
 
 /** Optional parameters. */
-export interface GuestConfigurationHcrpAssignmentReportsGetOptionalParams
+export interface GuestConfigurationAssignmentsVmssListOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the get operation. */
-export type GuestConfigurationHcrpAssignmentReportsGetResponse =
-  GuestConfigurationAssignmentReport;
-
-/** Optional parameters. */
-export interface GuestConfigurationAssignmentsVmssCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type GuestConfigurationAssignmentsVmssCreateOrUpdateResponse =
-  GuestConfigurationAssignment;
+/** Contains response data for the list operation. */
+export type GuestConfigurationAssignmentsVmssListResponse = GuestConfigurationAssignmentList;
 
 /** Optional parameters. */
 export interface GuestConfigurationAssignmentsVmssGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type GuestConfigurationAssignmentsVmssGetResponse =
-  GuestConfigurationAssignment;
+export type GuestConfigurationAssignmentsVmssGetResponse = GuestConfigurationAssignment;
+
+/** Optional parameters. */
+export interface GuestConfigurationAssignmentsVmssCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type GuestConfigurationAssignmentsVmssCreateOrUpdateResponse = GuestConfigurationAssignment;
 
 /** Optional parameters. */
 export interface GuestConfigurationAssignmentsVmssDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the delete operation. */
-export type GuestConfigurationAssignmentsVmssDeleteResponse =
-  GuestConfigurationAssignment;
+export type GuestConfigurationAssignmentsVmssDeleteResponse = GuestConfigurationAssignment;
 
 /** Optional parameters. */
-export interface GuestConfigurationAssignmentsVmssListOptionalParams
+export interface GuestConfigurationAssignmentReportsVmssGetOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the list operation. */
-export type GuestConfigurationAssignmentsVmssListResponse =
-  GuestConfigurationAssignmentList;
+/** Contains response data for the get operation. */
+export type GuestConfigurationAssignmentReportsVmssGetResponse = GuestConfigurationAssignmentReport;
 
 /** Optional parameters. */
 export interface GuestConfigurationAssignmentReportsVmssListOptionalParams
@@ -777,32 +866,19 @@ export type GuestConfigurationAssignmentReportsVmssListResponse =
   GuestConfigurationAssignmentReportList;
 
 /** Optional parameters. */
-export interface GuestConfigurationAssignmentReportsVmssGetOptionalParams
+export interface GuestConfigurationAssignmentReportsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type GuestConfigurationAssignmentReportsVmssGetResponse =
-  GuestConfigurationAssignmentReport;
+export type GuestConfigurationAssignmentReportsGetResponse = GuestConfigurationAssignmentReport;
 
 /** Optional parameters. */
-export interface GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateOptionalParams
+export interface GuestConfigurationAssignmentReportsListOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the createOrUpdate operation. */
-export type GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponse =
-  GuestConfigurationAssignment;
-
-/** Optional parameters. */
-export interface GuestConfigurationConnectedVMwarevSphereAssignmentsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type GuestConfigurationConnectedVMwarevSphereAssignmentsGetResponse =
-  GuestConfigurationAssignment;
-
-/** Optional parameters. */
-export interface GuestConfigurationConnectedVMwarevSphereAssignmentsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+/** Contains response data for the list operation. */
+export type GuestConfigurationAssignmentReportsListResponse =
+  GuestConfigurationAssignmentReportList;
 
 /** Optional parameters. */
 export interface GuestConfigurationConnectedVMwarevSphereAssignmentsListOptionalParams
@@ -813,12 +889,24 @@ export type GuestConfigurationConnectedVMwarevSphereAssignmentsListResponse =
   GuestConfigurationAssignmentList;
 
 /** Optional parameters. */
-export interface GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListOptionalParams
+export interface GuestConfigurationConnectedVMwarevSphereAssignmentsGetOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the list operation. */
-export type GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListResponse =
-  GuestConfigurationAssignmentReportList;
+/** Contains response data for the get operation. */
+export type GuestConfigurationConnectedVMwarevSphereAssignmentsGetResponse =
+  GuestConfigurationAssignment;
+
+/** Optional parameters. */
+export interface GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponse =
+  GuestConfigurationAssignment;
+
+/** Optional parameters. */
+export interface GuestConfigurationConnectedVMwarevSphereAssignmentsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface GuestConfigurationConnectedVMwarevSphereAssignmentsReportsGetOptionalParams
@@ -829,15 +917,15 @@ export type GuestConfigurationConnectedVMwarevSphereAssignmentsReportsGetRespons
   GuestConfigurationAssignmentReport;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
+export interface GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type OperationsListResponse = OperationList;
+export type GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListResponse =
+  GuestConfigurationAssignmentReportList;
 
 /** Optional parameters. */
-export interface GuestConfigurationClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface GuestConfigurationClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */
