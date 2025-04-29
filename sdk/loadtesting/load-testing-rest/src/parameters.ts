@@ -232,6 +232,16 @@ export type LoadTestRunCreateOrUpdateTestRunParameters =
     RequestParameters;
 export type LoadTestRunDeleteTestRunParameters = RequestParameters;
 
+/** This is the wrapper object for the parameter `createdByTypes` with explode set to false and style set to form. */
+export interface LoadTestRunListTestRunsCreatedByTypesQueryParam {
+  /** Value of the parameter */
+  value: string[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
 export interface LoadTestRunListTestRunsQueryParamProperties {
   /**
    * Sort on the supported fields in (field asc/desc) format. eg: executedDateTime
@@ -254,6 +264,8 @@ export interface LoadTestRunListTestRunsQueryParamProperties {
   status?: string;
   /** Number of results in response. */
   maxpagesize?: number;
+  /** Comma separated list of type of entities that have created the test run. */
+  createdByTypes?: string[] | LoadTestRunListTestRunsCreatedByTypesQueryParam;
 }
 
 export interface LoadTestRunListTestRunsQueryParam {
