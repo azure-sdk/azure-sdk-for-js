@@ -4,18 +4,8 @@
 
 ```ts
 
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
-
 // @public
 export type ActionType = string;
-
-// @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -54,18 +44,6 @@ export enum KnownOrigin {
     UserSystem = "user,system"
 }
 
-// @public (undocumented)
-export class MigrateClient {
-    constructor(credential: TokenCredential, options?: MigrateClientOptionalParams);
-    readonly operations: OperationsOperations;
-    readonly pipeline: Pipeline;
-}
-
-// @public
-export interface MigrateClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-}
-
 // @public
 export interface Operation {
     readonly actionType?: ActionType;
@@ -84,28 +62,7 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationsListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
 export type Origin = string;
-
-// @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
 
 // (No @packageDocumentation comment for this package)
 
