@@ -91,16 +91,12 @@ export interface Clusters {
    * Lists all Kusto clusters within a subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: ClustersListOptionalParams,
-  ): PagedAsyncIterableIterator<Cluster>;
+  list(options?: ClustersListOptionalParams): PagedAsyncIterableIterator<Cluster>;
   /**
    * Lists eligible SKUs for Kusto resource provider.
    * @param options The options parameters.
    */
-  listSkus(
-    options?: ClustersListSkusOptionalParams,
-  ): PagedAsyncIterableIterator<SkuDescription>;
+  listSkus(options?: ClustersListSkusOptionalParams): PagedAsyncIterableIterator<SkuDescription>;
   /**
    * Returns the SKUs available for the provided resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -169,10 +165,7 @@ export interface Clusters {
     parameters: Cluster,
     options?: ClustersCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ClustersCreateOrUpdateResponse>,
-      ClustersCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<ClustersCreateOrUpdateResponse>, ClustersCreateOrUpdateResponse>
   >;
   /**
    * Create or update a Kusto cluster.
@@ -199,12 +192,7 @@ export interface Clusters {
     clusterName: string,
     parameters: ClusterUpdate,
     options?: ClustersUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ClustersUpdateResponse>,
-      ClustersUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<ClustersUpdateResponse>, ClustersUpdateResponse>>;
   /**
    * Update a Kusto cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

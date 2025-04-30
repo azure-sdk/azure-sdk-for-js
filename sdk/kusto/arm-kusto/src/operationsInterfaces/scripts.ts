@@ -71,10 +71,7 @@ export interface Scripts {
     parameters: Script,
     options?: ScriptsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ScriptsCreateOrUpdateResponse>,
-      ScriptsCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<ScriptsCreateOrUpdateResponse>, ScriptsCreateOrUpdateResponse>
   >;
   /**
    * Creates a Kusto database script.
@@ -109,12 +106,7 @@ export interface Scripts {
     scriptName: string,
     parameters: Script,
     options?: ScriptsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ScriptsUpdateResponse>,
-      ScriptsUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<ScriptsUpdateResponse>, ScriptsUpdateResponse>>;
   /**
    * Updates a database script.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

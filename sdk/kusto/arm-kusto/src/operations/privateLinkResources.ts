@@ -56,12 +56,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          clusterName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, clusterName, options, settings);
       },
     };
   }
@@ -82,11 +77,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     clusterName: string,
     options?: PrivateLinkResourcesListOptionalParams,
   ): AsyncIterableIterator<PrivateLinkResource> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      clusterName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, clusterName, options)) {
       yield* page;
     }
   }

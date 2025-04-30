@@ -8,11 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest,
-} from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   ClustersImpl,
@@ -84,7 +80,7 @@ export class KustoManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-kusto/8.2.1`;
+    const packageDetails = `azsdk-js-arm-kusto/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -96,8 +92,7 @@ export class KustoManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
@@ -107,8 +102,7 @@ export class KustoManagementClient extends coreClient.ServiceClient {
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -124,11 +118,9 @@ export class KustoManagementClient extends coreClient.ServiceClient {
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
@@ -140,18 +132,13 @@ export class KustoManagementClient extends coreClient.ServiceClient {
     this.$host = options.$host || "https://management.azure.com";
     this.apiVersion = options.apiVersion || "2024-04-13";
     this.clusters = new ClustersImpl(this);
-    this.clusterPrincipalAssignments = new ClusterPrincipalAssignmentsImpl(
-      this,
-    );
+    this.clusterPrincipalAssignments = new ClusterPrincipalAssignmentsImpl(this);
     this.skus = new SkusImpl(this);
     this.databases = new DatabasesImpl(this);
-    this.attachedDatabaseConfigurations =
-      new AttachedDatabaseConfigurationsImpl(this);
+    this.attachedDatabaseConfigurations = new AttachedDatabaseConfigurationsImpl(this);
     this.managedPrivateEndpoints = new ManagedPrivateEndpointsImpl(this);
     this.databaseOperations = new DatabaseOperationsImpl(this);
-    this.databasePrincipalAssignments = new DatabasePrincipalAssignmentsImpl(
-      this,
-    );
+    this.databasePrincipalAssignments = new DatabasePrincipalAssignmentsImpl(this);
     this.scripts = new ScriptsImpl(this);
     this.sandboxCustomImages = new SandboxCustomImagesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
@@ -170,10 +157,7 @@ export class KustoManagementClient extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest,
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {

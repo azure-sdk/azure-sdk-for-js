@@ -132,12 +132,7 @@ export interface Databases {
     databaseName: string,
     parameters: DatabaseUnion,
     options?: DatabasesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<DatabasesUpdateResponse>,
-      DatabasesUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<DatabasesUpdateResponse>, DatabasesUpdateResponse>>;
   /**
    * Updates a database.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

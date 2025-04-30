@@ -12,11 +12,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { KustoManagementClient } from "../kustoManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   DataConnectionUnion,
@@ -99,12 +95,7 @@ export class DataConnectionsImpl implements DataConnections {
     _settings?: PageSettings,
   ): AsyncIterableIterator<DataConnectionUnion[]> {
     let result: DataConnectionsListByDatabaseResponse;
-    result = await this._listByDatabase(
-      resourceGroupName,
-      clusterName,
-      databaseName,
-      options,
-    );
+    result = await this._listByDatabase(resourceGroupName, clusterName, databaseName, options);
     yield result.value || [];
   }
 
@@ -173,8 +164,7 @@ export class DataConnectionsImpl implements DataConnections {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -334,8 +324,7 @@ export class DataConnectionsImpl implements DataConnections {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -430,10 +419,7 @@ export class DataConnectionsImpl implements DataConnections {
     parameters: DataConnectionUnion,
     options?: DataConnectionsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<DataConnectionsUpdateResponse>,
-      DataConnectionsUpdateResponse
-    >
+    SimplePollerLike<OperationState<DataConnectionsUpdateResponse>, DataConnectionsUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -445,8 +431,7 @@ export class DataConnectionsImpl implements DataConnections {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -549,8 +534,7 @@ export class DataConnectionsImpl implements DataConnections {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

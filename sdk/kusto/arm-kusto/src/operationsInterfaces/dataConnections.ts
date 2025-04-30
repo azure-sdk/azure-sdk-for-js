@@ -163,10 +163,7 @@ export interface DataConnections {
     parameters: DataConnectionUnion,
     options?: DataConnectionsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<DataConnectionsUpdateResponse>,
-      DataConnectionsUpdateResponse
-    >
+    SimplePollerLike<OperationState<DataConnectionsUpdateResponse>, DataConnectionsUpdateResponse>
   >;
   /**
    * Updates a data connection.

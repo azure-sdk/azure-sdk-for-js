@@ -12,11 +12,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { KustoManagementClient } from "../kustoManagementClient.js";
-import {
-  SkuDescription,
-  SkusListOptionalParams,
-  SkusListResponse,
-} from "../models/index.js";
+import { SkuDescription, SkusListOptionalParams, SkusListResponse } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Skus operations. */
@@ -81,14 +77,8 @@ export class SkusImpl implements Skus {
    * @param location The name of Azure region.
    * @param options The options parameters.
    */
-  private _list(
-    location: string,
-    options?: SkusListOptionalParams,
-  ): Promise<SkusListResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listOperationSpec,
-    );
+  private _list(location: string, options?: SkusListOptionalParams): Promise<SkusListResponse> {
+    return this.client.sendOperationRequest({ location, options }, listOperationSpec);
   }
 }
 // Operation Specifications
@@ -106,11 +96,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer,
 };
