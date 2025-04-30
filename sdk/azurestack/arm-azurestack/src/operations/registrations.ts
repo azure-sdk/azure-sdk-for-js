@@ -33,7 +33,7 @@ import {
   RegistrationsGetActivationKeyResponse,
   RegistrationsEnableRemoteManagementOptionalParams,
   RegistrationsListNextResponse,
-  RegistrationsListBySubscriptionNextResponse
+  RegistrationsListBySubscriptionNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,7 +56,7 @@ export class RegistrationsImpl implements Registrations {
    */
   public list(
     resourceGroup: string,
-    options?: RegistrationsListOptionalParams
+    options?: RegistrationsListOptionalParams,
   ): PagedAsyncIterableIterator<Registration> {
     const iter = this.listPagingAll(resourceGroup, options);
     return {
@@ -71,14 +71,14 @@ export class RegistrationsImpl implements Registrations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceGroup, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceGroup: string,
     options?: RegistrationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Registration[]> {
     let result: RegistrationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +100,7 @@ export class RegistrationsImpl implements Registrations {
 
   private async *listPagingAll(
     resourceGroup: string,
-    options?: RegistrationsListOptionalParams
+    options?: RegistrationsListOptionalParams,
   ): AsyncIterableIterator<Registration> {
     for await (const page of this.listPagingPage(resourceGroup, options)) {
       yield* page;
@@ -112,7 +112,7 @@ export class RegistrationsImpl implements Registrations {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: RegistrationsListBySubscriptionOptionalParams
+    options?: RegistrationsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Registration> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -127,13 +127,13 @@ export class RegistrationsImpl implements Registrations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: RegistrationsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Registration[]> {
     let result: RegistrationsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -154,7 +154,7 @@ export class RegistrationsImpl implements Registrations {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: RegistrationsListBySubscriptionOptionalParams
+    options?: RegistrationsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<Registration> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -168,12 +168,9 @@ export class RegistrationsImpl implements Registrations {
    */
   private _list(
     resourceGroup: string,
-    options?: RegistrationsListOptionalParams
+    options?: RegistrationsListOptionalParams,
   ): Promise<RegistrationsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroup, options },
-      listOperationSpec
-    );
+    return this.client.sendOperationRequest({ resourceGroup, options }, listOperationSpec);
   }
 
   /**
@@ -181,12 +178,9 @@ export class RegistrationsImpl implements Registrations {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: RegistrationsListBySubscriptionOptionalParams
+    options?: RegistrationsListBySubscriptionOptionalParams,
   ): Promise<RegistrationsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -198,11 +192,11 @@ export class RegistrationsImpl implements Registrations {
   get(
     resourceGroup: string,
     registrationName: string,
-    options?: RegistrationsGetOptionalParams
+    options?: RegistrationsGetOptionalParams,
   ): Promise<RegistrationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroup, registrationName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -215,11 +209,11 @@ export class RegistrationsImpl implements Registrations {
   delete(
     resourceGroup: string,
     registrationName: string,
-    options?: RegistrationsDeleteOptionalParams
+    options?: RegistrationsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroup, registrationName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -234,11 +228,11 @@ export class RegistrationsImpl implements Registrations {
     resourceGroup: string,
     registrationName: string,
     token: RegistrationParameter,
-    options?: RegistrationsCreateOrUpdateOptionalParams
+    options?: RegistrationsCreateOrUpdateOptionalParams,
   ): Promise<RegistrationsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroup, registrationName, token, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -253,11 +247,11 @@ export class RegistrationsImpl implements Registrations {
     resourceGroup: string,
     registrationName: string,
     token: RegistrationParameter,
-    options?: RegistrationsUpdateOptionalParams
+    options?: RegistrationsUpdateOptionalParams,
   ): Promise<RegistrationsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroup, registrationName, token, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -270,11 +264,11 @@ export class RegistrationsImpl implements Registrations {
   getActivationKey(
     resourceGroup: string,
     registrationName: string,
-    options?: RegistrationsGetActivationKeyOptionalParams
+    options?: RegistrationsGetActivationKeyOptionalParams,
   ): Promise<RegistrationsGetActivationKeyResponse> {
     return this.client.sendOperationRequest(
       { resourceGroup, registrationName, options },
-      getActivationKeyOperationSpec
+      getActivationKeyOperationSpec,
     );
   }
 
@@ -287,11 +281,11 @@ export class RegistrationsImpl implements Registrations {
   enableRemoteManagement(
     resourceGroup: string,
     registrationName: string,
-    options?: RegistrationsEnableRemoteManagementOptionalParams
+    options?: RegistrationsEnableRemoteManagementOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroup, registrationName, options },
-      enableRemoteManagementOperationSpec
+      enableRemoteManagementOperationSpec,
     );
   }
 
@@ -304,11 +298,11 @@ export class RegistrationsImpl implements Registrations {
   private _listNext(
     resourceGroup: string,
     nextLink: string,
-    options?: RegistrationsListNextOptionalParams
+    options?: RegistrationsListNextOptionalParams,
   ): Promise<RegistrationsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroup, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -319,11 +313,11 @@ export class RegistrationsImpl implements Registrations {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: RegistrationsListBySubscriptionNextOptionalParams
+    options?: RegistrationsListBySubscriptionNextOptionalParams,
   ): Promise<RegistrationsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -331,100 +325,91 @@ export class RegistrationsImpl implements Registrations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RegistrationList
+      bodyMapper: Mappers.RegistrationList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroup
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroup],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.AzureStack/registrations",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.AzureStack/registrations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RegistrationList
+      bodyMapper: Mappers.RegistrationList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Registration
+      bodyMapper: Mappers.Registration,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroup,
-    Parameters.registrationName
+    Parameters.registrationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroup,
-    Parameters.registrationName
+    Parameters.registrationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Registration
+      bodyMapper: Mappers.Registration,
     },
     201: {
-      bodyMapper: Mappers.Registration
+      bodyMapper: Mappers.Registration,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.token,
   queryParameters: [Parameters.apiVersion],
@@ -432,23 +417,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroup,
-    Parameters.registrationName
+    Parameters.registrationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Registration
+      bodyMapper: Mappers.Registration,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.token,
   queryParameters: [Parameters.apiVersion],
@@ -456,91 +440,83 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroup,
-    Parameters.registrationName
+    Parameters.registrationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getActivationKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/getactivationkey",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/getactivationkey",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ActivationKeyResult
+      bodyMapper: Mappers.ActivationKeyResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroup,
-    Parameters.registrationName
+    Parameters.registrationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const enableRemoteManagementOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/enableRemoteManagement",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/enableRemoteManagement",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroup,
-    Parameters.registrationName
+    Parameters.registrationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RegistrationList
+      bodyMapper: Mappers.RegistrationList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroup
+    Parameters.resourceGroup,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RegistrationList
+      bodyMapper: Mappers.RegistrationList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

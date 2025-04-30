@@ -16,7 +16,5 @@ export interface Operations {
    * Returns the list of supported REST operations.
    * @param options The options parameters.
    */
-  list(
-    options?: OperationsListOptionalParams
-  ): PagedAsyncIterableIterator<Operation>;
+  list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }

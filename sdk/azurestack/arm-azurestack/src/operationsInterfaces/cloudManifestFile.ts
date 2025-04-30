@@ -10,7 +10,7 @@ import {
   CloudManifestFileListOptionalParams,
   CloudManifestFileListResponse,
   CloudManifestFileGetOptionalParams,
-  CloudManifestFileGetResponse
+  CloudManifestFileGetResponse,
 } from "../models/index.js";
 
 /** Interface representing a CloudManifestFile. */
@@ -19,9 +19,7 @@ export interface CloudManifestFile {
    * Returns a cloud specific manifest JSON file with latest version.
    * @param options The options parameters.
    */
-  list(
-    options?: CloudManifestFileListOptionalParams
-  ): Promise<CloudManifestFileListResponse>;
+  list(options?: CloudManifestFileListOptionalParams): Promise<CloudManifestFileListResponse>;
   /**
    * Returns a cloud specific manifest JSON file.
    * @param verificationVersion Signing verification key version.
@@ -29,6 +27,6 @@ export interface CloudManifestFile {
    */
   get(
     verificationVersion: string,
-    options?: CloudManifestFileGetOptionalParams
+    options?: CloudManifestFileGetOptionalParams,
   ): Promise<CloudManifestFileGetResponse>;
 }

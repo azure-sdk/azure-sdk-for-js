@@ -22,13 +22,15 @@ import {
   ProductsGetResponse,
   ProductsListDetailsOptionalParams,
   ProductsListDetailsResponse,
+  ProductsListProductsOptionalParams,
+  ProductsListProductsResponse,
   ProductsGetProductsOptionalParams,
   ProductsGetProductsResponse,
   ProductsGetProductOptionalParams,
   ProductsGetProductResponse,
   ProductsUploadLogOptionalParams,
   ProductsUploadLogResponse,
-  ProductsListNextResponse
+  ProductsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,7 +55,7 @@ export class ProductsImpl implements Products {
   public list(
     resourceGroup: string,
     registrationName: string,
-    options?: ProductsListOptionalParams
+    options?: ProductsListOptionalParams,
   ): PagedAsyncIterableIterator<Product> {
     const iter = this.listPagingAll(resourceGroup, registrationName, options);
     return {
@@ -67,13 +69,8 @@ export class ProductsImpl implements Products {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroup,
-          registrationName,
-          options,
-          settings
-        );
-      }
+        return this.listPagingPage(resourceGroup, registrationName, options, settings);
+      },
     };
   }
 
@@ -81,7 +78,7 @@ export class ProductsImpl implements Products {
     resourceGroup: string,
     registrationName: string,
     options?: ProductsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Product[]> {
     let result: ProductsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,12 +90,7 @@ export class ProductsImpl implements Products {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroup,
-        registrationName,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(resourceGroup, registrationName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -109,13 +101,9 @@ export class ProductsImpl implements Products {
   private async *listPagingAll(
     resourceGroup: string,
     registrationName: string,
-    options?: ProductsListOptionalParams
+    options?: ProductsListOptionalParams,
   ): AsyncIterableIterator<Product> {
-    for await (const page of this.listPagingPage(
-      resourceGroup,
-      registrationName,
-      options
-    )) {
+    for await (const page of this.listPagingPage(resourceGroup, registrationName, options)) {
       yield* page;
     }
   }
@@ -129,11 +117,11 @@ export class ProductsImpl implements Products {
   private _list(
     resourceGroup: string,
     registrationName: string,
-    options?: ProductsListOptionalParams
+    options?: ProductsListOptionalParams,
   ): Promise<ProductsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroup, registrationName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -148,11 +136,11 @@ export class ProductsImpl implements Products {
     resourceGroup: string,
     registrationName: string,
     productName: string,
-    options?: ProductsGetOptionalParams
+    options?: ProductsGetOptionalParams,
   ): Promise<ProductsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroup, registrationName, productName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -167,11 +155,30 @@ export class ProductsImpl implements Products {
     resourceGroup: string,
     registrationName: string,
     productName: string,
-    options?: ProductsListDetailsOptionalParams
+    options?: ProductsListDetailsOptionalParams,
   ): Promise<ProductsListDetailsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroup, registrationName, productName, options },
-      listDetailsOperationSpec
+      listDetailsOperationSpec,
+    );
+  }
+
+  /**
+   * Returns a list of products.
+   * @param resourceGroup Name of the resource group.
+   * @param registrationName Name of the Azure Stack registration.
+   * @param productName Name of the product.
+   * @param options The options parameters.
+   */
+  listProducts(
+    resourceGroup: string,
+    registrationName: string,
+    productName: string,
+    options?: ProductsListProductsOptionalParams,
+  ): Promise<ProductsListProductsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroup, registrationName, productName, options },
+      listProductsOperationSpec,
     );
   }
 
@@ -186,11 +193,11 @@ export class ProductsImpl implements Products {
     resourceGroup: string,
     registrationName: string,
     productName: string,
-    options?: ProductsGetProductsOptionalParams
+    options?: ProductsGetProductsOptionalParams,
   ): Promise<ProductsGetProductsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroup, registrationName, productName, options },
-      getProductsOperationSpec
+      getProductsOperationSpec,
     );
   }
 
@@ -205,11 +212,11 @@ export class ProductsImpl implements Products {
     resourceGroup: string,
     registrationName: string,
     productName: string,
-    options?: ProductsGetProductOptionalParams
+    options?: ProductsGetProductOptionalParams,
   ): Promise<ProductsGetProductResponse> {
     return this.client.sendOperationRequest(
       { resourceGroup, registrationName, productName, options },
-      getProductOperationSpec
+      getProductOperationSpec,
     );
   }
 
@@ -224,11 +231,11 @@ export class ProductsImpl implements Products {
     resourceGroup: string,
     registrationName: string,
     productName: string,
-    options?: ProductsUploadLogOptionalParams
+    options?: ProductsUploadLogOptionalParams,
   ): Promise<ProductsUploadLogResponse> {
     return this.client.sendOperationRequest(
       { resourceGroup, registrationName, productName, options },
-      uploadLogOperationSpec
+      uploadLogOperationSpec,
     );
   }
 
@@ -243,11 +250,11 @@ export class ProductsImpl implements Products {
     resourceGroup: string,
     registrationName: string,
     nextLink: string,
-    options?: ProductsListNextOptionalParams
+    options?: ProductsListNextOptionalParams,
   ): Promise<ProductsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroup, registrationName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -255,38 +262,36 @@ export class ProductsImpl implements Products {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/products",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/products",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProductList
+      bodyMapper: Mappers.ProductList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroup,
-    Parameters.registrationName
+    Parameters.registrationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/products/{productName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/products/{productName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Product
+      bodyMapper: Mappers.Product,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -294,22 +299,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroup,
     Parameters.registrationName,
-    Parameters.productName
+    Parameters.productName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listDetailsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/products/{productName}/listDetails",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/products/{productName}/listDetails",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ExtendedProduct
+      bodyMapper: Mappers.ExtendedProduct,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -317,22 +321,45 @@ const listDetailsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroup,
     Parameters.registrationName,
-    Parameters.productName
+    Parameters.productName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listProductsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/products/{productName}/listProducts",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProductList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.deviceConfiguration,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroup,
+    Parameters.registrationName,
+    Parameters.productName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
 };
 const getProductsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/products/{productName}/getProducts",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/products/{productName}/getProducts",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ProductList
+      bodyMapper: Mappers.ProductList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.deviceConfiguration,
   queryParameters: [Parameters.apiVersion],
@@ -341,23 +368,22 @@ const getProductsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroup,
     Parameters.registrationName,
-    Parameters.productName
+    Parameters.productName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getProductOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/products/{productName}/getProduct",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/products/{productName}/getProduct",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Product
+      bodyMapper: Mappers.Product,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.deviceConfiguration,
   queryParameters: [Parameters.apiVersion],
@@ -366,23 +392,22 @@ const getProductOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroup,
     Parameters.registrationName,
-    Parameters.productName
+    Parameters.productName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const uploadLogOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/products/{productName}/uploadProductLog",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/products/{productName}/uploadProductLog",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ProductLog
+      bodyMapper: Mappers.ProductLog,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.marketplaceProductLogUpdate,
   queryParameters: [Parameters.apiVersion],
@@ -391,31 +416,30 @@ const uploadLogOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroup,
     Parameters.registrationName,
-    Parameters.productName
+    Parameters.productName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProductList
+      bodyMapper: Mappers.ProductList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroup,
-    Parameters.registrationName
+    Parameters.registrationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
