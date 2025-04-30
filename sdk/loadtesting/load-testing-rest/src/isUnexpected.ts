@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 import type {
+  OperationsGetStatus200Response,
+  OperationsGetStatusDefaultResponse,
   LoadTestAdministrationCreateOrUpdateTest200Response,
   LoadTestAdministrationCreateOrUpdateTest201Response,
   LoadTestAdministrationCreateOrUpdateTestDefaultResponse,
@@ -11,6 +13,9 @@ import type {
   LoadTestAdministrationGetTestDefaultResponse,
   LoadTestAdministrationListTests200Response,
   LoadTestAdministrationListTestsDefaultResponse,
+  LoadTestAdministrationCloneTest202Response,
+  LoadTestAdministrationCloneTestLogicalResponse,
+  LoadTestAdministrationCloneTestDefaultResponse,
   LoadTestAdministrationUploadTestFile201Response,
   LoadTestAdministrationUploadTestFileDefaultResponse,
   LoadTestAdministrationGetTestFile200Response,
@@ -38,6 +43,24 @@ import type {
   TestProfileAdministrationGetTestProfileDefaultResponse,
   TestProfileAdministrationListTestProfiles200Response,
   TestProfileAdministrationListTestProfilesDefaultResponse,
+  TriggerAdministrationGetTrigger200Response,
+  TriggerAdministrationGetTriggerDefaultResponse,
+  TriggerAdministrationCreateOrUpdateTrigger200Response,
+  TriggerAdministrationCreateOrUpdateTrigger201Response,
+  TriggerAdministrationCreateOrUpdateTriggerDefaultResponse,
+  TriggerAdministrationDeleteTrigger204Response,
+  TriggerAdministrationDeleteTriggerDefaultResponse,
+  TriggerAdministrationListTrigger200Response,
+  TriggerAdministrationListTriggerDefaultResponse,
+  NotificationRuleAdministrationGetNotificationRule200Response,
+  NotificationRuleAdministrationGetNotificationRuleDefaultResponse,
+  NotificationRuleAdministrationCreateOrUpdateNotificationRule200Response,
+  NotificationRuleAdministrationCreateOrUpdateNotificationRule201Response,
+  NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse,
+  NotificationRuleAdministrationDeleteNotificationRule204Response,
+  NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse,
+  NotificationRuleAdministrationListNotificationRule200Response,
+  NotificationRuleAdministrationListNotificationRuleDefaultResponse,
   LoadTestRunGetTestRun200Response,
   LoadTestRunGetTestRunDefaultResponse,
   LoadTestRunCreateOrUpdateTestRun200Response,
@@ -80,31 +103,16 @@ import type {
   TestProfileRunAdministrationStopDefaultResponse,
   TestProfileRunAdministrationListTestProfileRuns200Response,
   TestProfileRunAdministrationListTestProfileRunsDefaultResponse,
-  TriggerAdministrationGetTrigger200Response,
-  TriggerAdministrationGetTriggerDefaultResponse,
-  TriggerAdministrationCreateOrUpdateTrigger200Response,
-  TriggerAdministrationCreateOrUpdateTrigger201Response,
-  TriggerAdministrationCreateOrUpdateTriggerDefaultResponse,
-  TriggerAdministrationDeleteTrigger204Response,
-  TriggerAdministrationDeleteTriggerDefaultResponse,
-  TriggerAdministrationListTrigger200Response,
-  TriggerAdministrationListTriggerDefaultResponse,
-  NotificationRuleAdministrationGetNotificationRule200Response,
-  NotificationRuleAdministrationGetNotificationRuleDefaultResponse,
-  NotificationRuleAdministrationCreateOrUpdateNotificationRule200Response,
-  NotificationRuleAdministrationCreateOrUpdateNotificationRule201Response,
-  NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse,
-  NotificationRuleAdministrationDeleteNotificationRule204Response,
-  NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse,
-  NotificationRuleAdministrationListNotificationRule200Response,
-  NotificationRuleAdministrationListNotificationRuleDefaultResponse,
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
+  "GET /operations/{operationId}": ["200"],
   "PATCH /tests/{testId}": ["200", "201"],
   "DELETE /tests/{testId}": ["204"],
   "GET /tests/{testId}": ["200"],
   "GET /tests": ["200"],
+  "GET /tests/{testId}:clone": ["200", "202"],
+  "POST /tests/{testId}:clone": ["202"],
   "PUT /tests/{testId}/files/{fileName}": ["201"],
   "GET /tests/{testId}/files/{fileName}": ["200"],
   "DELETE /tests/{testId}/files/{fileName}": ["204"],
@@ -117,6 +125,14 @@ const responseMap: Record<string, string[]> = {
   "DELETE /test-profiles/{testProfileId}": ["204"],
   "GET /test-profiles/{testProfileId}": ["200"],
   "GET /test-profiles": ["200"],
+  "GET /triggers/{triggerId}": ["200"],
+  "PATCH /triggers/{triggerId}": ["200", "201"],
+  "DELETE /triggers/{triggerId}": ["204"],
+  "GET /triggers": ["200"],
+  "GET /notification-rules/{notificationRuleId}": ["200"],
+  "PATCH /notification-rules/{notificationRuleId}": ["200", "201"],
+  "DELETE /notification-rules/{notificationRuleId}": ["204"],
+  "GET /notification-rules": ["200"],
   "GET /test-runs/{testRunId}": ["200"],
   "PATCH /test-runs/{testRunId}": ["200", "201"],
   "DELETE /test-runs/{testRunId}": ["204"],
@@ -136,16 +152,11 @@ const responseMap: Record<string, string[]> = {
   "DELETE /test-profile-runs/{testProfileRunId}": ["204"],
   "POST /test-profile-runs/{testProfileRunId}:stop": ["200"],
   "GET /test-profile-runs": ["200"],
-  "GET /triggers/{triggerId}": ["200"],
-  "PATCH /triggers/{triggerId}": ["200", "201"],
-  "DELETE /triggers/{triggerId}": ["204"],
-  "GET /triggers": ["200"],
-  "GET /notification-rules/{notificationRuleId}": ["200"],
-  "PATCH /notification-rules/{notificationRuleId}": ["200", "201"],
-  "DELETE /notification-rules/{notificationRuleId}": ["204"],
-  "GET /notification-rules": ["200"],
 };
 
+export function isUnexpected(
+  response: OperationsGetStatus200Response | OperationsGetStatusDefaultResponse,
+): response is OperationsGetStatusDefaultResponse;
 export function isUnexpected(
   response:
     | LoadTestAdministrationCreateOrUpdateTest200Response
@@ -158,13 +169,21 @@ export function isUnexpected(
     | LoadTestAdministrationDeleteTestDefaultResponse,
 ): response is LoadTestAdministrationDeleteTestDefaultResponse;
 export function isUnexpected(
-  response: LoadTestAdministrationGetTest200Response | LoadTestAdministrationGetTestDefaultResponse,
+  response:
+    | LoadTestAdministrationGetTest200Response
+    | LoadTestAdministrationGetTestDefaultResponse,
 ): response is LoadTestAdministrationGetTestDefaultResponse;
 export function isUnexpected(
   response:
     | LoadTestAdministrationListTests200Response
     | LoadTestAdministrationListTestsDefaultResponse,
 ): response is LoadTestAdministrationListTestsDefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadTestAdministrationCloneTest202Response
+    | LoadTestAdministrationCloneTestLogicalResponse
+    | LoadTestAdministrationCloneTestDefaultResponse,
+): response is LoadTestAdministrationCloneTestDefaultResponse;
 export function isUnexpected(
   response:
     | LoadTestAdministrationUploadTestFile201Response
@@ -229,91 +248,6 @@ export function isUnexpected(
     | TestProfileAdministrationListTestProfilesDefaultResponse,
 ): response is TestProfileAdministrationListTestProfilesDefaultResponse;
 export function isUnexpected(
-  response: LoadTestRunGetTestRun200Response | LoadTestRunGetTestRunDefaultResponse,
-): response is LoadTestRunGetTestRunDefaultResponse;
-export function isUnexpected(
-  response:
-    | LoadTestRunCreateOrUpdateTestRun200Response
-    | LoadTestRunCreateOrUpdateTestRun201Response
-    | LoadTestRunCreateOrUpdateTestRunDefaultResponse,
-): response is LoadTestRunCreateOrUpdateTestRunDefaultResponse;
-export function isUnexpected(
-  response: LoadTestRunDeleteTestRun204Response | LoadTestRunDeleteTestRunDefaultResponse,
-): response is LoadTestRunDeleteTestRunDefaultResponse;
-export function isUnexpected(
-  response: LoadTestRunListTestRuns200Response | LoadTestRunListTestRunsDefaultResponse,
-): response is LoadTestRunListTestRunsDefaultResponse;
-export function isUnexpected(
-  response: LoadTestRunGetTestRunFile200Response | LoadTestRunGetTestRunFileDefaultResponse,
-): response is LoadTestRunGetTestRunFileDefaultResponse;
-export function isUnexpected(
-  response: LoadTestRunStop200Response | LoadTestRunStopDefaultResponse,
-): response is LoadTestRunStopDefaultResponse;
-export function isUnexpected(
-  response:
-    | LoadTestRunListMetricNamespaces200Response
-    | LoadTestRunListMetricNamespacesDefaultResponse,
-): response is LoadTestRunListMetricNamespacesDefaultResponse;
-export function isUnexpected(
-  response:
-    | LoadTestRunListMetricDefinitions200Response
-    | LoadTestRunListMetricDefinitionsDefaultResponse,
-): response is LoadTestRunListMetricDefinitionsDefaultResponse;
-export function isUnexpected(
-  response: LoadTestRunListMetrics200Response | LoadTestRunListMetricsDefaultResponse,
-): response is LoadTestRunListMetricsDefaultResponse;
-export function isUnexpected(
-  response:
-    | LoadTestRunListMetricDimensionValues200Response
-    | LoadTestRunListMetricDimensionValuesDefaultResponse,
-): response is LoadTestRunListMetricDimensionValuesDefaultResponse;
-export function isUnexpected(
-  response:
-    | LoadTestRunCreateOrUpdateAppComponents200Response
-    | LoadTestRunCreateOrUpdateAppComponents201Response
-    | LoadTestRunCreateOrUpdateAppComponentsDefaultResponse,
-): response is LoadTestRunCreateOrUpdateAppComponentsDefaultResponse;
-export function isUnexpected(
-  response: LoadTestRunGetAppComponents200Response | LoadTestRunGetAppComponentsDefaultResponse,
-): response is LoadTestRunGetAppComponentsDefaultResponse;
-export function isUnexpected(
-  response:
-    | LoadTestRunCreateOrUpdateServerMetricsConfig200Response
-    | LoadTestRunCreateOrUpdateServerMetricsConfig201Response
-    | LoadTestRunCreateOrUpdateServerMetricsConfigDefaultResponse,
-): response is LoadTestRunCreateOrUpdateServerMetricsConfigDefaultResponse;
-export function isUnexpected(
-  response:
-    | LoadTestRunGetServerMetricsConfig200Response
-    | LoadTestRunGetServerMetricsConfigDefaultResponse,
-): response is LoadTestRunGetServerMetricsConfigDefaultResponse;
-export function isUnexpected(
-  response:
-    | TestProfileRunAdministrationGetTestProfileRun200Response
-    | TestProfileRunAdministrationGetTestProfileRunDefaultResponse,
-): response is TestProfileRunAdministrationGetTestProfileRunDefaultResponse;
-export function isUnexpected(
-  response:
-    | TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response
-    | TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response
-    | TestProfileRunAdministrationCreateOrUpdateTestProfileRunDefaultResponse,
-): response is TestProfileRunAdministrationCreateOrUpdateTestProfileRunDefaultResponse;
-export function isUnexpected(
-  response:
-    | TestProfileRunAdministrationDeleteTestProfileRun204Response
-    | TestProfileRunAdministrationDeleteTestProfileRunDefaultResponse,
-): response is TestProfileRunAdministrationDeleteTestProfileRunDefaultResponse;
-export function isUnexpected(
-  response:
-    | TestProfileRunAdministrationStop200Response
-    | TestProfileRunAdministrationStopDefaultResponse,
-): response is TestProfileRunAdministrationStopDefaultResponse;
-export function isUnexpected(
-  response:
-    | TestProfileRunAdministrationListTestProfileRuns200Response
-    | TestProfileRunAdministrationListTestProfileRunsDefaultResponse,
-): response is TestProfileRunAdministrationListTestProfileRunsDefaultResponse;
-export function isUnexpected(
   response:
     | TriggerAdministrationGetTrigger200Response
     | TriggerAdministrationGetTriggerDefaultResponse,
@@ -357,6 +291,105 @@ export function isUnexpected(
 ): response is NotificationRuleAdministrationListNotificationRuleDefaultResponse;
 export function isUnexpected(
   response:
+    | LoadTestRunGetTestRun200Response
+    | LoadTestRunGetTestRunDefaultResponse,
+): response is LoadTestRunGetTestRunDefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadTestRunCreateOrUpdateTestRun200Response
+    | LoadTestRunCreateOrUpdateTestRun201Response
+    | LoadTestRunCreateOrUpdateTestRunDefaultResponse,
+): response is LoadTestRunCreateOrUpdateTestRunDefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadTestRunDeleteTestRun204Response
+    | LoadTestRunDeleteTestRunDefaultResponse,
+): response is LoadTestRunDeleteTestRunDefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadTestRunListTestRuns200Response
+    | LoadTestRunListTestRunsDefaultResponse,
+): response is LoadTestRunListTestRunsDefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadTestRunGetTestRunFile200Response
+    | LoadTestRunGetTestRunFileDefaultResponse,
+): response is LoadTestRunGetTestRunFileDefaultResponse;
+export function isUnexpected(
+  response: LoadTestRunStop200Response | LoadTestRunStopDefaultResponse,
+): response is LoadTestRunStopDefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadTestRunListMetricNamespaces200Response
+    | LoadTestRunListMetricNamespacesDefaultResponse,
+): response is LoadTestRunListMetricNamespacesDefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadTestRunListMetricDefinitions200Response
+    | LoadTestRunListMetricDefinitionsDefaultResponse,
+): response is LoadTestRunListMetricDefinitionsDefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadTestRunListMetrics200Response
+    | LoadTestRunListMetricsDefaultResponse,
+): response is LoadTestRunListMetricsDefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadTestRunListMetricDimensionValues200Response
+    | LoadTestRunListMetricDimensionValuesDefaultResponse,
+): response is LoadTestRunListMetricDimensionValuesDefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadTestRunCreateOrUpdateAppComponents200Response
+    | LoadTestRunCreateOrUpdateAppComponents201Response
+    | LoadTestRunCreateOrUpdateAppComponentsDefaultResponse,
+): response is LoadTestRunCreateOrUpdateAppComponentsDefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadTestRunGetAppComponents200Response
+    | LoadTestRunGetAppComponentsDefaultResponse,
+): response is LoadTestRunGetAppComponentsDefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadTestRunCreateOrUpdateServerMetricsConfig200Response
+    | LoadTestRunCreateOrUpdateServerMetricsConfig201Response
+    | LoadTestRunCreateOrUpdateServerMetricsConfigDefaultResponse,
+): response is LoadTestRunCreateOrUpdateServerMetricsConfigDefaultResponse;
+export function isUnexpected(
+  response:
+    | LoadTestRunGetServerMetricsConfig200Response
+    | LoadTestRunGetServerMetricsConfigDefaultResponse,
+): response is LoadTestRunGetServerMetricsConfigDefaultResponse;
+export function isUnexpected(
+  response:
+    | TestProfileRunAdministrationGetTestProfileRun200Response
+    | TestProfileRunAdministrationGetTestProfileRunDefaultResponse,
+): response is TestProfileRunAdministrationGetTestProfileRunDefaultResponse;
+export function isUnexpected(
+  response:
+    | TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response
+    | TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response
+    | TestProfileRunAdministrationCreateOrUpdateTestProfileRunDefaultResponse,
+): response is TestProfileRunAdministrationCreateOrUpdateTestProfileRunDefaultResponse;
+export function isUnexpected(
+  response:
+    | TestProfileRunAdministrationDeleteTestProfileRun204Response
+    | TestProfileRunAdministrationDeleteTestProfileRunDefaultResponse,
+): response is TestProfileRunAdministrationDeleteTestProfileRunDefaultResponse;
+export function isUnexpected(
+  response:
+    | TestProfileRunAdministrationStop200Response
+    | TestProfileRunAdministrationStopDefaultResponse,
+): response is TestProfileRunAdministrationStopDefaultResponse;
+export function isUnexpected(
+  response:
+    | TestProfileRunAdministrationListTestProfileRuns200Response
+    | TestProfileRunAdministrationListTestProfileRunsDefaultResponse,
+): response is TestProfileRunAdministrationListTestProfileRunsDefaultResponse;
+export function isUnexpected(
+  response:
+    | OperationsGetStatus200Response
+    | OperationsGetStatusDefaultResponse
     | LoadTestAdministrationCreateOrUpdateTest200Response
     | LoadTestAdministrationCreateOrUpdateTest201Response
     | LoadTestAdministrationCreateOrUpdateTestDefaultResponse
@@ -366,6 +399,9 @@ export function isUnexpected(
     | LoadTestAdministrationGetTestDefaultResponse
     | LoadTestAdministrationListTests200Response
     | LoadTestAdministrationListTestsDefaultResponse
+    | LoadTestAdministrationCloneTest202Response
+    | LoadTestAdministrationCloneTestLogicalResponse
+    | LoadTestAdministrationCloneTestDefaultResponse
     | LoadTestAdministrationUploadTestFile201Response
     | LoadTestAdministrationUploadTestFileDefaultResponse
     | LoadTestAdministrationGetTestFile200Response
@@ -393,6 +429,24 @@ export function isUnexpected(
     | TestProfileAdministrationGetTestProfileDefaultResponse
     | TestProfileAdministrationListTestProfiles200Response
     | TestProfileAdministrationListTestProfilesDefaultResponse
+    | TriggerAdministrationGetTrigger200Response
+    | TriggerAdministrationGetTriggerDefaultResponse
+    | TriggerAdministrationCreateOrUpdateTrigger200Response
+    | TriggerAdministrationCreateOrUpdateTrigger201Response
+    | TriggerAdministrationCreateOrUpdateTriggerDefaultResponse
+    | TriggerAdministrationDeleteTrigger204Response
+    | TriggerAdministrationDeleteTriggerDefaultResponse
+    | TriggerAdministrationListTrigger200Response
+    | TriggerAdministrationListTriggerDefaultResponse
+    | NotificationRuleAdministrationGetNotificationRule200Response
+    | NotificationRuleAdministrationGetNotificationRuleDefaultResponse
+    | NotificationRuleAdministrationCreateOrUpdateNotificationRule200Response
+    | NotificationRuleAdministrationCreateOrUpdateNotificationRule201Response
+    | NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse
+    | NotificationRuleAdministrationDeleteNotificationRule204Response
+    | NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse
+    | NotificationRuleAdministrationListNotificationRule200Response
+    | NotificationRuleAdministrationListNotificationRuleDefaultResponse
     | LoadTestRunGetTestRun200Response
     | LoadTestRunGetTestRunDefaultResponse
     | LoadTestRunCreateOrUpdateTestRun200Response
@@ -434,30 +488,14 @@ export function isUnexpected(
     | TestProfileRunAdministrationStop200Response
     | TestProfileRunAdministrationStopDefaultResponse
     | TestProfileRunAdministrationListTestProfileRuns200Response
-    | TestProfileRunAdministrationListTestProfileRunsDefaultResponse
-    | TriggerAdministrationGetTrigger200Response
-    | TriggerAdministrationGetTriggerDefaultResponse
-    | TriggerAdministrationCreateOrUpdateTrigger200Response
-    | TriggerAdministrationCreateOrUpdateTrigger201Response
-    | TriggerAdministrationCreateOrUpdateTriggerDefaultResponse
-    | TriggerAdministrationDeleteTrigger204Response
-    | TriggerAdministrationDeleteTriggerDefaultResponse
-    | TriggerAdministrationListTrigger200Response
-    | TriggerAdministrationListTriggerDefaultResponse
-    | NotificationRuleAdministrationGetNotificationRule200Response
-    | NotificationRuleAdministrationGetNotificationRuleDefaultResponse
-    | NotificationRuleAdministrationCreateOrUpdateNotificationRule200Response
-    | NotificationRuleAdministrationCreateOrUpdateNotificationRule201Response
-    | NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse
-    | NotificationRuleAdministrationDeleteNotificationRule204Response
-    | NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse
-    | NotificationRuleAdministrationListNotificationRule200Response
-    | NotificationRuleAdministrationListNotificationRuleDefaultResponse,
+    | TestProfileRunAdministrationListTestProfileRunsDefaultResponse,
 ): response is
+  | OperationsGetStatusDefaultResponse
   | LoadTestAdministrationCreateOrUpdateTestDefaultResponse
   | LoadTestAdministrationDeleteTestDefaultResponse
   | LoadTestAdministrationGetTestDefaultResponse
   | LoadTestAdministrationListTestsDefaultResponse
+  | LoadTestAdministrationCloneTestDefaultResponse
   | LoadTestAdministrationUploadTestFileDefaultResponse
   | LoadTestAdministrationGetTestFileDefaultResponse
   | LoadTestAdministrationDeleteTestFileDefaultResponse
@@ -470,6 +508,14 @@ export function isUnexpected(
   | TestProfileAdministrationDeleteTestProfileDefaultResponse
   | TestProfileAdministrationGetTestProfileDefaultResponse
   | TestProfileAdministrationListTestProfilesDefaultResponse
+  | TriggerAdministrationGetTriggerDefaultResponse
+  | TriggerAdministrationCreateOrUpdateTriggerDefaultResponse
+  | TriggerAdministrationDeleteTriggerDefaultResponse
+  | TriggerAdministrationListTriggerDefaultResponse
+  | NotificationRuleAdministrationGetNotificationRuleDefaultResponse
+  | NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse
+  | NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse
+  | NotificationRuleAdministrationListNotificationRuleDefaultResponse
   | LoadTestRunGetTestRunDefaultResponse
   | LoadTestRunCreateOrUpdateTestRunDefaultResponse
   | LoadTestRunDeleteTestRunDefaultResponse
@@ -488,15 +534,7 @@ export function isUnexpected(
   | TestProfileRunAdministrationCreateOrUpdateTestProfileRunDefaultResponse
   | TestProfileRunAdministrationDeleteTestProfileRunDefaultResponse
   | TestProfileRunAdministrationStopDefaultResponse
-  | TestProfileRunAdministrationListTestProfileRunsDefaultResponse
-  | TriggerAdministrationGetTriggerDefaultResponse
-  | TriggerAdministrationCreateOrUpdateTriggerDefaultResponse
-  | TriggerAdministrationDeleteTriggerDefaultResponse
-  | TriggerAdministrationListTriggerDefaultResponse
-  | NotificationRuleAdministrationGetNotificationRuleDefaultResponse
-  | NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse
-  | NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse
-  | NotificationRuleAdministrationListNotificationRuleDefaultResponse {
+  | TestProfileRunAdministrationListTestProfileRunsDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;
@@ -529,17 +567,24 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
-      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
+    for (
+      let i = candidateParts.length - 1, j = pathParts.length - 1;
+      i >= 1 && j >= 1;
+      i--, j--
+    ) {
+      if (
+        candidateParts[i]?.startsWith("{") &&
+        candidateParts[i]?.indexOf("}") !== -1
+      ) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || "",
-        );
+        const isMatched = new RegExp(
+          `${candidateParts[i]?.slice(start, end)}`,
+        ).test(pathParts[j] || "");
 
         if (!isMatched) {
           found = false;

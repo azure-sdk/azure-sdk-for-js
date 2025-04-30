@@ -1,6 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { ErrorModel } from "@azure-rest/core-client";
+
+/** Status of a long running operation. */
+export interface OperationStatusOutput {
+  /**
+   * The state of the operation.
+   *
+   * Possible values: "NotStarted", "Running", "Succeeded", "Failed", "Canceled"
+   */
+  status: OperationStateOutput;
+  /**
+   * The kind of the operation.
+   *
+   * Possible values: "CloneTest"
+   */
+  kind: OperationKindOutput;
+  /** Error object that describes the error when status is "Failed". */
+  error?: ErrorModel;
+  /** The unique ID of the operation. */
+  readonly id: string;
+}
+
 /** Load test model. */
 export interface TestOutput {
   /** Pass fail criteria for a test. */
@@ -159,6 +181,8 @@ export interface AutoStopCriteriaOutput {
   errorRate?: number;
   /** Time window during which the error percentage should be evaluated in seconds. */
   errorRateTimeWindowInSeconds?: number;
+  /** Maximum number of virtual users per load testing engine, at which the test run should be automatically stopped. */
+  maximumVirtualUsersPerEngine?: number;
 }
 
 /** Secret */
@@ -283,6 +307,20 @@ export interface PagedTestOutput {
   value: Array<TestOutput>;
   /** The link to the next page of items */
   nextLink?: string;
+}
+
+/** Provides status details for long running operations. */
+export interface ResourceOperationStatusTestErrorOutput {
+  /** The unique ID of the operation. */
+  id: string;
+  /**
+   * The status of the operation
+   *
+   * Possible values: "NotStarted", "Running", "Succeeded", "Failed", "Canceled"
+   */
+  status: OperationStateOutput;
+  /** Error object that describes the error when status is "Failed". */
+  error?: ErrorModel;
 }
 
 /** Paged collection of TestFileInfo items */
@@ -413,7 +451,10 @@ export interface FunctionFlexConsumptionTargetResourceConfigurationsOutput
    */
   kind: "FunctionsFlexConsumption";
   /** A map of configurations for a Function app using Flex Consumption Plan. */
-  configurations?: Record<string, FunctionFlexConsumptionResourceConfigurationOutput>;
+  configurations?: Record<
+    string,
+    FunctionFlexConsumptionResourceConfigurationOutput
+  >;
 }
 
 /** Resource configuration instance for a Flex Consumption based Azure Function App. */
@@ -428,6 +469,224 @@ export interface FunctionFlexConsumptionResourceConfigurationOutput {
 export interface PagedTestProfileOutput {
   /** The TestProfile items on this page */
   value: Array<TestProfileOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Trigger model. */
+export interface TriggerOutputParent {
+  /** The unique identifier of the trigger. */
+  readonly triggerId: string;
+  /** The name of the trigger. */
+  displayName: string;
+  /** The description of the trigger. */
+  description?: string;
+  /**
+   * The current state of the trigger.
+   *
+   * Possible values: "Active", "Paused", "Completed", "Disabled"
+   */
+  state?: TriggerStateOutput;
+  /** Details of current state of the trigger. */
+  readonly stateDetails?: StateDetailsOutput;
+  /** The creation datetime(RFC 3339 literal format). */
+  readonly createdDateTime?: string;
+  /** The user that created. */
+  readonly createdBy?: string;
+  /** The last Modified datetime(RFC 3339 literal format). */
+  readonly lastModifiedDateTime?: string;
+  /** The user that last modified. */
+  readonly lastModifiedBy?: string;
+  kind: TriggerTypeOutput;
+}
+
+/** State details of the trigger. */
+export interface StateDetailsOutput {
+  /** The error message if the trigger is in disabled state. */
+  message?: string;
+}
+
+/** ScheduleTestsTrigger model. */
+export interface ScheduleTestsTriggerOutput extends TriggerOutputParent {
+  /** The type of the trigger is ScheduleTestsTrigger. */
+  kind: "ScheduleTestsTrigger";
+  /** The test id of test to be triggered by this schedule trigger. Currently only one test is supported for a trigger. */
+  testIds: string[];
+  /** Start date time of the trigger in UTC timezone. (RFC 3339 literal format) */
+  startDateTime?: string;
+  readonly recurrenceStatus?: RecurrenceStatusOutput;
+  /** Recurrence details of the trigger. Null if schedule is not recurring. */
+  recurrence?: RecurrenceOutput;
+}
+
+/** Actual state of the recurrence for the trigger. */
+export interface RecurrenceStatusOutput {
+  /** The number of occurrences remaining for the trigger. Null if recurrence end has end date instead of number of occurrences. */
+  remainingOccurrences?: number;
+  /** The next three execution times of the trigger. (RFC 3339 literal format) */
+  nextScheduledDateTimes?: string[];
+}
+
+/** Recurrence model. */
+export interface RecurrenceOutputParent {
+  /** Recurrence end model. You can specify the end either by providing a numberOfOccurrences (which will end the recurrence after the specified number of occurrences) or by providing an endDateTime (which will end the recurrence after the specified date). If neither value is provided, the recurrence will continue until it is manually ended. However, if both values are provided, an error will be thrown. */
+  recurrenceEnd?: RecurrenceEndOutput;
+  frequency: FrequencyOutput;
+}
+
+/** Recurrence end model. Either provide numberOfOccurrences if you want recurrence to end after a specified number of occurrences or provide endDate if you want recurrence to end after a specified end date. If both values are provided, a validation error will be thrown indicating that only one field should be provided. If neither value is provided, the recurrence will end when manually ended. */
+export interface RecurrenceEndOutput {
+  /** Number of occurrences after which the recurrence will end. */
+  numberOfOccurrences?: number;
+  /** The date after which the recurrence will end. (RFC 3339 literal format) */
+  endDateTime?: string;
+}
+
+/** Recurrence model when frequency is set as Daily. */
+export interface DailyRecurrenceOutput extends RecurrenceOutputParent {
+  /** Frequency of the day recurrence. */
+  frequency: "Daily";
+  /** The interval at which the recurrence should repeat. It signifies the number of days between each recurrence. */
+  interval: number;
+}
+
+/** Recurrence model when frequency is set as Hourly. */
+export interface HourlyRecurrenceOutput extends RecurrenceOutputParent {
+  /** Frequency of the hour recurrence. */
+  frequency: "Hourly";
+  /** The interval at which the recurrence should repeat. It signifies the number of hours between each recurrence. */
+  interval: number;
+}
+
+/** Recurrence model when frequency is set as MonthlyByDays . */
+export interface MonthlyRecurrenceByWeekDaysOutput
+  extends RecurrenceOutputParent {
+  /** Frequency of the month recurrence. */
+  frequency: "MonthlyByDays";
+  /** Specific days of the week when the recurrence should repeat. */
+  weekDaysInMonth?: WeekDaysOutput[];
+  /** Index of the week in a month at which the recurrence should repeat. For example, if the index is '2', weekDay is 'Monday', interval is 3 and frequency is 'Month', the recurrence will run every second Monday of the month and repeat every 3 months. Value of index can be 1 to 5. */
+  index: number;
+  /** The interval at which the recurrence should repeat. It signifies the number of months between each recurrence. */
+  interval: number;
+}
+
+/** Recurrence model when frequency is set as MonthlyByDates. */
+export interface MonthlyRecurrenceByDatesOutput extends RecurrenceOutputParent {
+  /** Frequency of the month recurrence. */
+  frequency: "MonthlyByDates";
+  /** Recurrence set to repeat on the specified dates of the month. Value of dates can be 1 to 31 and -1. -1 represents the last day of the month. */
+  datesInMonth?: number[];
+  /** The interval at which the recurrence should repeat. It signifies the number of months between each recurrence. */
+  interval?: number;
+}
+
+/** Recurrence is set based on cron expression. */
+export interface RecurrenceWithCronOutput extends RecurrenceOutputParent {
+  /** Specify frequency using a cron expression. */
+  frequency: "Cron";
+  /** Cron expression for the recurrence. */
+  cronExpression: string;
+}
+
+/** Recurrence model when frequency is set as weekly. */
+export interface WeeklyRecurrenceOutput extends RecurrenceOutputParent {
+  /** Frequency of the week recurrence. */
+  frequency: "Weekly";
+  /** Recurrence set to repeat on the specified days of the week. */
+  daysOfWeek?: WeekDaysOutput[];
+  /** The interval at which the recurrence should repeat. It signifies the number of weeks between each recurrence. */
+  interval?: number;
+}
+
+/** Paged collection of Trigger items */
+export interface PagedTriggerOutput {
+  /** The Trigger items on this page */
+  value: Array<TriggerOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Notification rule model. */
+export interface NotificationRuleOutputParent {
+  /** The unique identifier of the notification rule. */
+  readonly notificationRuleId: string;
+  /** The name of the notification rule. */
+  displayName: string;
+  /** The action groups to notify. */
+  actionGroupIds: string[];
+  /** The creation datetime(RFC 3339 literal format). */
+  readonly createdDateTime?: string;
+  /** The user that created. */
+  readonly createdBy?: string;
+  /** The last Modified datetime(RFC 3339 literal format). */
+  readonly lastModifiedDateTime?: string;
+  /** The user that last modified. */
+  readonly lastModifiedBy?: string;
+  scope: NotificationScopeTypeOutput;
+}
+
+/** Tests Notification rule model. */
+export interface TestsNotificationRuleOutput
+  extends NotificationRuleOutputParent {
+  /** Scope of type Tests. */
+  scope: "Tests";
+  /** The test ids to include. If not provided, notification will be sent for all testIds. */
+  testIds?: string[];
+  /**
+   * The event to receive notifications for along with filtering conditions.
+   * Key is a user-assigned identifier for the event filter.
+   */
+  eventFilters: Record<string, TestsNotificationEventFilterOutput>;
+}
+
+/** The notification event filter for Tests scope. */
+export interface TestsNotificationEventFilterOutputParent {
+  kind: NotificationEventTypeOutput;
+}
+
+/** The notification event filter when the event type is TestRunEnded and scope is Tests. */
+export interface TestRunEndedNotificationEventFilterOutput
+  extends TestsNotificationEventFilterOutputParent {
+  /** Event type for test run ended event. */
+  kind: "TestRunEnded";
+  /** Event filtering condition. */
+  condition?: TestRunEndedEventConditionOutput;
+}
+
+/** TestRunEnded Event condition. */
+export interface TestRunEndedEventConditionOutput {
+  /** The test run statuses to send notification for. */
+  testRunStatuses?: TestRunStatusOutput[];
+  /** The test run results to send notification for. */
+  testRunResults?: PassFailTestResultOutput[];
+}
+
+/** The notification event filter when the event type is TestRunStarted and scope is Tests. */
+export interface TestRunStartedNotificationEventFilterOutput
+  extends TestsNotificationEventFilterOutputParent {
+  /** Event type for test run started event. */
+  kind: "TestRunStarted";
+}
+
+/** The notification event filter when the event type is TriggerCompleted. */
+export interface TriggerCompletedNotificationEventFilterOutput
+  extends TestsNotificationEventFilterOutputParent {
+  /** Event type for trigger ended event. */
+  kind: "TriggerCompleted";
+}
+
+/** The notification event filter when the event type is TriggerDisabled. */
+export interface TriggerDisabledNotificationEventFilterOutput
+  extends TestsNotificationEventFilterOutputParent {
+  /** Event type for trigger disabled event. */
+  kind: "TriggerDisabled";
+}
+
+/** Paged collection of NotificationRule items */
+export interface PagedNotificationRuleOutput {
+  /** The NotificationRule items on this page */
+  value: Array<NotificationRuleOutput>;
   /** The link to the next page of items */
   nextLink?: string;
 }
@@ -523,9 +782,11 @@ export interface TestRunOutput {
   /**
    * The type of the entity that created the test run. (E.x. User, ScheduleTrigger, etc).
    *
-   * Possible values: "User", "ScheduledTrigger"
+   * Possible values: "User", "ScheduledTrigger", "AzurePipelines", "GitHubWorkflows"
    */
   createdByType?: CreatedByTypeOutput;
+  /** The URI pointing to the entity that created the test run. */
+  readonly createdByUri?: string;
   /** The creation datetime(RFC 3339 literal format). */
   readonly createdDateTime?: string;
   /** The user that created. */
@@ -893,222 +1154,6 @@ export interface PagedTestProfileRunOutput {
   nextLink?: string;
 }
 
-/** Trigger model. */
-export interface TriggerOutputParent {
-  /** The unique identifier of the trigger. */
-  readonly triggerId: string;
-  /** The name of the trigger. */
-  displayName: string;
-  /** The description of the trigger. */
-  description?: string;
-  /**
-   * The current state of the trigger.
-   *
-   * Possible values: "Active", "Paused", "Completed", "Disabled"
-   */
-  state?: TriggerStateOutput;
-  /** Details of current state of the trigger. */
-  readonly stateDetails?: StateDetailsOutput;
-  /** The creation datetime(RFC 3339 literal format). */
-  readonly createdDateTime?: string;
-  /** The user that created. */
-  readonly createdBy?: string;
-  /** The last Modified datetime(RFC 3339 literal format). */
-  readonly lastModifiedDateTime?: string;
-  /** The user that last modified. */
-  readonly lastModifiedBy?: string;
-  kind: TriggerTypeOutput;
-}
-
-/** State details of the trigger. */
-export interface StateDetailsOutput {
-  /** The error message if the trigger is in disabled state. */
-  message?: string;
-}
-
-/** ScheduleTestsTrigger model. */
-export interface ScheduleTestsTriggerOutput extends TriggerOutputParent {
-  /** The type of the trigger is ScheduleTestsTrigger. */
-  kind: "ScheduleTestsTrigger";
-  /** The test id of test to be triggered by this schedule trigger. Currently only one test is supported for a trigger. */
-  testIds: string[];
-  /** Start date time of the trigger in UTC timezone. (RFC 3339 literal format) */
-  startDateTime?: string;
-  readonly recurrenceStatus?: RecurrenceStatusOutput;
-  /** Recurrence details of the trigger. Null if schedule is not recurring. */
-  recurrence?: RecurrenceOutput;
-}
-
-/** Actual state of the recurrence for the trigger. */
-export interface RecurrenceStatusOutput {
-  /** The number of occurrences remaining for the trigger. Null if recurrence end has end date instead of number of occurrences. */
-  remainingOccurrences?: number;
-  /** The next three execution times of the trigger. (RFC 3339 literal format) */
-  nextScheduledDateTimes?: string[];
-}
-
-/** Recurrence model. */
-export interface RecurrenceOutputParent {
-  /** Recurrence end model. You can specify the end either by providing a numberOfOccurrences (which will end the recurrence after the specified number of occurrences) or by providing an endDateTime (which will end the recurrence after the specified date). If neither value is provided, the recurrence will continue until it is manually ended. However, if both values are provided, an error will be thrown. */
-  recurrenceEnd?: RecurrenceEndOutput;
-  frequency: FrequencyOutput;
-}
-
-/** Recurrence end model. Either provide numberOfOccurrences if you want recurrence to end after a specified number of occurrences or provide endDate if you want recurrence to end after a specified end date. If both values are provided, a validation error will be thrown indicating that only one field should be provided. If neither value is provided, the recurrence will end when manually ended. */
-export interface RecurrenceEndOutput {
-  /** Number of occurrences after which the recurrence will end. */
-  numberOfOccurrences?: number;
-  /** The date after which the recurrence will end. (RFC 3339 literal format) */
-  endDateTime?: string;
-}
-
-/** Recurrence model when frequency is set as Daily. */
-export interface DailyRecurrenceOutput extends RecurrenceOutputParent {
-  /** Frequency of the day recurrence. */
-  frequency: "Daily";
-  /** The interval at which the recurrence should repeat. It signifies the number of days between each recurrence. */
-  interval: number;
-}
-
-/** Recurrence model when frequency is set as Hourly. */
-export interface HourlyRecurrenceOutput extends RecurrenceOutputParent {
-  /** Frequency of the hour recurrence. */
-  frequency: "Hourly";
-  /** The interval at which the recurrence should repeat. It signifies the number of hours between each recurrence. */
-  interval: number;
-}
-
-/** Recurrence model when frequency is set as MonthlyByDays . */
-export interface MonthlyRecurrenceByWeekDaysOutput extends RecurrenceOutputParent {
-  /** Frequency of the month recurrence. */
-  frequency: "MonthlyByDays";
-  /** Specific days of the week when the recurrence should repeat. */
-  weekDaysInMonth?: WeekDaysOutput[];
-  /** Index of the week in a month at which the recurrence should repeat. For example, if the index is '2', weekDay is 'Monday', interval is 3 and frequency is 'Month', the recurrence will run every second Monday of the month and repeat every 3 months. Value of index can be 1 to 5. */
-  index: number;
-  /** The interval at which the recurrence should repeat. It signifies the number of months between each recurrence. */
-  interval: number;
-}
-
-/** Recurrence model when frequency is set as MonthlyByDates. */
-export interface MonthlyRecurrenceByDatesOutput extends RecurrenceOutputParent {
-  /** Frequency of the month recurrence. */
-  frequency: "MonthlyByDates";
-  /** Recurrence set to repeat on the specified dates of the month. Value of dates can be 1 to 31 and -1. -1 represents the last day of the month. */
-  datesInMonth?: number[];
-  /** The interval at which the recurrence should repeat. It signifies the number of months between each recurrence. */
-  interval?: number;
-}
-
-/** Recurrence is set based on cron expression. */
-export interface RecurrenceWithCronOutput extends RecurrenceOutputParent {
-  /** Specify frequency using a cron expression. */
-  frequency: "Cron";
-  /** Cron expression for the recurrence. */
-  cronExpression: string;
-}
-
-/** Recurrence model when frequency is set as weekly. */
-export interface WeeklyRecurrenceOutput extends RecurrenceOutputParent {
-  /** Frequency of the week recurrence. */
-  frequency: "Weekly";
-  /** Recurrence set to repeat on the specified days of the week. */
-  daysOfWeek?: WeekDaysOutput[];
-  /** The interval at which the recurrence should repeat. It signifies the number of weeks between each recurrence. */
-  interval?: number;
-}
-
-/** Paged collection of Trigger items */
-export interface PagedTriggerOutput {
-  /** The Trigger items on this page */
-  value: Array<TriggerOutput>;
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-/** Notification rule model. */
-export interface NotificationRuleOutputParent {
-  /** The unique identifier of the notification rule. */
-  readonly notificationRuleId: string;
-  /** The name of the notification rule. */
-  displayName: string;
-  /** The action groups to notify. */
-  actionGroupIds: string[];
-  /** The creation datetime(RFC 3339 literal format). */
-  readonly createdDateTime?: string;
-  /** The user that created. */
-  readonly createdBy?: string;
-  /** The last Modified datetime(RFC 3339 literal format). */
-  readonly lastModifiedDateTime?: string;
-  /** The user that last modified. */
-  readonly lastModifiedBy?: string;
-  scope: NotificationScopeTypeOutput;
-}
-
-/** Tests Notification rule model. */
-export interface TestsNotificationRuleOutput extends NotificationRuleOutputParent {
-  /** Scope of type Tests. */
-  scope: "Tests";
-  /** The test ids to include. If not provided, notification will be sent for all testIds. */
-  testIds?: string[];
-  /**
-   * The event to receive notifications for along with filtering conditions.
-   * Key is a user-assigned identifier for the event filter.
-   */
-  eventFilters: Record<string, TestsNotificationEventFilterOutput>;
-}
-
-/** The notification event filter for Tests scope. */
-export interface TestsNotificationEventFilterOutputParent {
-  kind: NotificationEventTypeOutput;
-}
-
-/** The notification event filter when the event type is TestRunEnded and scope is Tests. */
-export interface TestRunEndedNotificationEventFilterOutput
-  extends TestsNotificationEventFilterOutputParent {
-  /** Event type for test run ended event. */
-  kind: "TestRunEnded";
-  /** Event filtering condition. */
-  condition?: TestRunEndedEventConditionOutput;
-}
-
-/** TestRunEnded Event condition. */
-export interface TestRunEndedEventConditionOutput {
-  /** The test run statuses to send notification for. */
-  testRunStatuses?: TestRunStatusOutput[];
-  /** The test run results to send notification for. */
-  testRunResults?: PassFailTestResultOutput[];
-}
-
-/** The notification event filter when the event type is TestRunStarted and scope is Tests. */
-export interface TestRunStartedNotificationEventFilterOutput
-  extends TestsNotificationEventFilterOutputParent {
-  /** Event type for test run started event. */
-  kind: "TestRunStarted";
-}
-
-/** The notification event filter when the event type is TriggerCompleted. */
-export interface TriggerCompletedNotificationEventFilterOutput
-  extends TestsNotificationEventFilterOutputParent {
-  /** Event type for trigger ended event. */
-  kind: "TriggerCompleted";
-}
-
-/** The notification event filter when the event type is TriggerDisabled. */
-export interface TriggerDisabledNotificationEventFilterOutput
-  extends TestsNotificationEventFilterOutputParent {
-  /** Event type for trigger disabled event. */
-  kind: "TriggerDisabled";
-}
-
-/** Paged collection of NotificationRule items */
-export interface PagedNotificationRuleOutput {
-  /** The NotificationRule items on this page */
-  value: Array<NotificationRuleOutput>;
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
 /** Configurations of a target resource. This varies with the kind of resource. */
 export type TargetResourceConfigurationsOutput =
   | TargetResourceConfigurationsOutputParent
@@ -1125,7 +1170,9 @@ export type RecurrenceOutput =
   | RecurrenceWithCronOutput
   | WeeklyRecurrenceOutput;
 /** Notification rule model. */
-export type NotificationRuleOutput = NotificationRuleOutputParent | TestsNotificationRuleOutput;
+export type NotificationRuleOutput =
+  | NotificationRuleOutputParent
+  | TestsNotificationRuleOutput;
 /** The notification event filter for Tests scope. */
 export type TestsNotificationEventFilterOutput =
   | TestsNotificationEventFilterOutputParent
@@ -1133,6 +1180,10 @@ export type TestsNotificationEventFilterOutput =
   | TestRunStartedNotificationEventFilterOutput
   | TriggerCompletedNotificationEventFilterOutput
   | TriggerDisabledNotificationEventFilterOutput;
+/** Alias for OperationStateOutput */
+export type OperationStateOutput = string;
+/** Alias for OperationKindOutput */
+export type OperationKindOutput = string;
 /** Alias for PFMetricsOutput */
 export type PFMetricsOutput = string;
 /** Alias for PassFailAggregationFunctionOutput */
@@ -1155,10 +1206,22 @@ export type TestKindOutput = string;
 export type ManagedIdentityTypeOutput = string;
 /** Alias for ResourceKindOutput */
 export type ResourceKindOutput = string;
-/** Alias for PassFailTestResultOutput */
-export type PassFailTestResultOutput = string;
+/** Alias for TriggerTypeOutput */
+export type TriggerTypeOutput = string;
+/** Alias for TriggerStateOutput */
+export type TriggerStateOutput = string;
+/** Alias for FrequencyOutput */
+export type FrequencyOutput = string;
+/** Alias for WeekDaysOutput */
+export type WeekDaysOutput = string;
+/** Alias for NotificationScopeTypeOutput */
+export type NotificationScopeTypeOutput = string;
+/** Alias for NotificationEventTypeOutput */
+export type NotificationEventTypeOutput = string;
 /** Alias for TestRunStatusOutput */
 export type TestRunStatusOutput = string;
+/** Alias for PassFailTestResultOutput */
+export type PassFailTestResultOutput = string;
 /** Alias for RequestDataLevelOutput */
 export type RequestDataLevelOutput = string;
 /** Alias for CreatedByTypeOutput */
@@ -1173,15 +1236,3 @@ export type TimeGrainOutput = string;
 export type TestProfileRunStatusOutput = string;
 /** Alias for RecommendationCategoryOutput */
 export type RecommendationCategoryOutput = string;
-/** Alias for TriggerTypeOutput */
-export type TriggerTypeOutput = string;
-/** Alias for TriggerStateOutput */
-export type TriggerStateOutput = string;
-/** Alias for FrequencyOutput */
-export type FrequencyOutput = string;
-/** Alias for WeekDaysOutput */
-export type WeekDaysOutput = string;
-/** Alias for NotificationScopeTypeOutput */
-export type NotificationScopeTypeOutput = string;
-/** Alias for NotificationEventTypeOutput */
-export type NotificationEventTypeOutput = string;

@@ -4,21 +4,23 @@
 import type { RequestParameters } from "@azure-rest/core-client";
 import type {
   Test,
+  CloneTestRequest,
   FileType,
   TestAppComponents,
   TestServerMetricsConfiguration,
   TestProfile,
+  Trigger,
+  TriggerState,
+  NotificationRule,
   TestRun,
   TimeGrain,
   MetricRequestPayload,
   TestRunAppComponents,
   TestRunServerMetricsConfiguration,
   TestProfileRun,
-  Trigger,
-  TriggerState,
-  NotificationRule,
 } from "./models.js";
 
+export type OperationsGetStatusParameters = RequestParameters;
 /** The resource instance. */
 export type TestResourceMergeAndPatch = Partial<Test>;
 
@@ -63,8 +65,15 @@ export interface LoadTestAdministrationListTestsQueryParam {
   queryParameters?: LoadTestAdministrationListTestsQueryParamProperties;
 }
 
-export type LoadTestAdministrationListTestsParameters = LoadTestAdministrationListTestsQueryParam &
-  RequestParameters;
+export type LoadTestAdministrationListTestsParameters =
+  LoadTestAdministrationListTestsQueryParam & RequestParameters;
+
+export interface LoadTestAdministrationCloneTestBodyParam {
+  body: CloneTestRequest;
+}
+
+export type LoadTestAdministrationCloneTestParameters =
+  LoadTestAdministrationCloneTestBodyParam & RequestParameters;
 
 export interface LoadTestAdministrationUploadTestFileBodyParam {
   /**
@@ -72,7 +81,11 @@ export interface LoadTestAdministrationUploadTestFileBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream;
 }
 
 export interface LoadTestAdministrationUploadTestFileQueryParamProperties {
@@ -118,7 +131,8 @@ export type LoadTestAdministrationCreateOrUpdateAppComponentsParameters =
   LoadTestAdministrationCreateOrUpdateAppComponentsMediaTypesParam &
     LoadTestAdministrationCreateOrUpdateAppComponentsBodyParam &
     RequestParameters;
-export type LoadTestAdministrationGetAppComponentsParameters = RequestParameters;
+export type LoadTestAdministrationGetAppComponentsParameters =
+  RequestParameters;
 /** Server metric configuration model. */
 export type TestServerMetricsConfigurationResourceMergeAndPatch =
   Partial<TestServerMetricsConfiguration>;
@@ -137,7 +151,8 @@ export type LoadTestAdministrationCreateOrUpdateServerMetricsConfigParameters =
   LoadTestAdministrationCreateOrUpdateServerMetricsConfigMediaTypesParam &
     LoadTestAdministrationCreateOrUpdateServerMetricsConfigBodyParam &
     RequestParameters;
-export type LoadTestAdministrationGetServerMetricsConfigParameters = RequestParameters;
+export type LoadTestAdministrationGetServerMetricsConfigParameters =
+  RequestParameters;
 /** The resource instance. */
 export type TestProfileResourceMergeAndPatch = Partial<TestProfile>;
 
@@ -155,8 +170,10 @@ export type TestProfileAdministrationCreateOrUpdateTestProfileParameters =
   TestProfileAdministrationCreateOrUpdateTestProfileMediaTypesParam &
     TestProfileAdministrationCreateOrUpdateTestProfileBodyParam &
     RequestParameters;
-export type TestProfileAdministrationDeleteTestProfileParameters = RequestParameters;
-export type TestProfileAdministrationGetTestProfileParameters = RequestParameters;
+export type TestProfileAdministrationDeleteTestProfileParameters =
+  RequestParameters;
+export type TestProfileAdministrationGetTestProfileParameters =
+  RequestParameters;
 
 /** This is the wrapper object for the parameter `testProfileIds` with explode set to false and style set to form. */
 export interface TestProfileAdministrationListTestProfilesTestProfileIdsQueryParam {
@@ -186,9 +203,13 @@ export interface TestProfileAdministrationListTestProfilesQueryParamProperties {
   /** End DateTime(RFC 3339 literal format) of the last updated time range to filter test profiles. */
   lastModifiedEndTime?: Date | string;
   /** Comma separated list of IDs of the test profiles to filter. */
-  testProfileIds?: string[] | TestProfileAdministrationListTestProfilesTestProfileIdsQueryParam;
+  testProfileIds?:
+    | string[]
+    | TestProfileAdministrationListTestProfilesTestProfileIdsQueryParam;
   /** Comma separated list IDs of the tests which should be associated with the test profiles to fetch. */
-  testIds?: string[] | TestProfileAdministrationListTestProfilesTestIdsQueryParam;
+  testIds?:
+    | string[]
+    | TestProfileAdministrationListTestProfilesTestIdsQueryParam;
 }
 
 export interface TestProfileAdministrationListTestProfilesQueryParam {
@@ -197,6 +218,91 @@ export interface TestProfileAdministrationListTestProfilesQueryParam {
 
 export type TestProfileAdministrationListTestProfilesParameters =
   TestProfileAdministrationListTestProfilesQueryParam & RequestParameters;
+export type TriggerAdministrationGetTriggerParameters = RequestParameters;
+/** The resource instance. */
+export type TriggerResourceMergeAndPatch = Partial<Trigger>;
+
+export interface TriggerAdministrationCreateOrUpdateTriggerBodyParam {
+  /** The resource instance. */
+  body: TriggerResourceMergeAndPatch;
+}
+
+export interface TriggerAdministrationCreateOrUpdateTriggerMediaTypesParam {
+  /** This request has a JSON Merge Patch body. */
+  contentType: "application/merge-patch+json";
+}
+
+export type TriggerAdministrationCreateOrUpdateTriggerParameters =
+  TriggerAdministrationCreateOrUpdateTriggerMediaTypesParam &
+    TriggerAdministrationCreateOrUpdateTriggerBodyParam &
+    RequestParameters;
+export type TriggerAdministrationDeleteTriggerParameters = RequestParameters;
+
+export interface TriggerAdministrationListTriggerQueryParamProperties {
+  /** Search based on triggers associated with the provided test ids. */
+  testIds?: string;
+  /**
+   * Filter triggers based on a comma separated list of states.
+   *
+   * Possible values: "Active", "Paused", "Completed", "Disabled"
+   */
+  states?: TriggerState;
+  /** Start DateTime(RFC 3339 literal format) of the last updated time range to filter triggers. */
+  lastModifiedStartTime?: Date | string;
+  /** End DateTime(RFC 3339 literal format) of the last updated time range to filter triggers. */
+  lastModifiedEndTime?: Date | string;
+  /** Number of results in response. Default page size is 50. */
+  maxpagesize?: number;
+}
+
+export interface TriggerAdministrationListTriggerQueryParam {
+  queryParameters?: TriggerAdministrationListTriggerQueryParamProperties;
+}
+
+export type TriggerAdministrationListTriggerParameters =
+  TriggerAdministrationListTriggerQueryParam & RequestParameters;
+export type NotificationRuleAdministrationGetNotificationRuleParameters =
+  RequestParameters;
+/** The resource instance. */
+export type NotificationRuleResourceMergeAndPatch = Partial<NotificationRule>;
+
+export interface NotificationRuleAdministrationCreateOrUpdateNotificationRuleBodyParam {
+  /** The resource instance. */
+  body: NotificationRuleResourceMergeAndPatch;
+}
+
+export interface NotificationRuleAdministrationCreateOrUpdateNotificationRuleMediaTypesParam {
+  /** This request has a JSON Merge Patch body. */
+  contentType: "application/merge-patch+json";
+}
+
+export type NotificationRuleAdministrationCreateOrUpdateNotificationRuleParameters =
+  NotificationRuleAdministrationCreateOrUpdateNotificationRuleMediaTypesParam &
+    NotificationRuleAdministrationCreateOrUpdateNotificationRuleBodyParam &
+    RequestParameters;
+export type NotificationRuleAdministrationDeleteNotificationRuleParameters =
+  RequestParameters;
+
+export interface NotificationRuleAdministrationListNotificationRuleQueryParamProperties {
+  /** Search based on notification rules associated with the provided test ids. */
+  testIds?: string;
+  /** Search based on notification rules for the provided scopes. */
+  scopes?: string;
+  /** Start DateTime(RFC 3339 literal format) of the last updated time range to filter notification rules. */
+  lastModifiedStartTime?: Date | string;
+  /** End DateTime(RFC 3339 literal format) of the last updated time range to filter notification rules. */
+  lastModifiedEndTime?: Date | string;
+  /** Number of results in response. Default page size is 50. */
+  maxpagesize?: number;
+}
+
+export interface NotificationRuleAdministrationListNotificationRuleQueryParam {
+  queryParameters?: NotificationRuleAdministrationListNotificationRuleQueryParamProperties;
+}
+
+export type NotificationRuleAdministrationListNotificationRuleParameters =
+  NotificationRuleAdministrationListNotificationRuleQueryParam &
+    RequestParameters;
 export type LoadTestRunGetTestRunParameters = RequestParameters;
 /** The resource instance. */
 export type TestRunResourceMergeAndPatch = Partial<TestRun>;
@@ -232,6 +338,16 @@ export type LoadTestRunCreateOrUpdateTestRunParameters =
     RequestParameters;
 export type LoadTestRunDeleteTestRunParameters = RequestParameters;
 
+/** This is the wrapper object for the parameter `createdByTypes` with explode set to false and style set to form. */
+export interface LoadTestRunListTestRunsCreatedByTypesQueryParam {
+  /** Value of the parameter */
+  value: string[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
 export interface LoadTestRunListTestRunsQueryParamProperties {
   /**
    * Sort on the supported fields in (field asc/desc) format. eg: executedDateTime
@@ -254,14 +370,16 @@ export interface LoadTestRunListTestRunsQueryParamProperties {
   status?: string;
   /** Number of results in response. */
   maxpagesize?: number;
+  /** Comma separated list of type of entities that have created the test run. */
+  createdByTypes?: string[] | LoadTestRunListTestRunsCreatedByTypesQueryParam;
 }
 
 export interface LoadTestRunListTestRunsQueryParam {
   queryParameters?: LoadTestRunListTestRunsQueryParamProperties;
 }
 
-export type LoadTestRunListTestRunsParameters = LoadTestRunListTestRunsQueryParam &
-  RequestParameters;
+export type LoadTestRunListTestRunsParameters =
+  LoadTestRunListTestRunsQueryParam & RequestParameters;
 export type LoadTestRunGetTestRunFileParameters = RequestParameters;
 export type LoadTestRunStopParameters = RequestParameters;
 export type LoadTestRunListMetricNamespacesParameters = RequestParameters;
@@ -304,9 +422,10 @@ export interface LoadTestRunListMetricsQueryParam {
   queryParameters: LoadTestRunListMetricsQueryParamProperties;
 }
 
-export type LoadTestRunListMetricsParameters = LoadTestRunListMetricsQueryParam &
-  LoadTestRunListMetricsBodyParam &
-  RequestParameters;
+export type LoadTestRunListMetricsParameters =
+  LoadTestRunListMetricsQueryParam &
+    LoadTestRunListMetricsBodyParam &
+    RequestParameters;
 
 export interface LoadTestRunListMetricDimensionValuesQueryParamProperties {
   /** Metric name */
@@ -330,7 +449,8 @@ export interface LoadTestRunListMetricDimensionValuesQueryParam {
 export type LoadTestRunListMetricDimensionValuesParameters =
   LoadTestRunListMetricDimensionValuesQueryParam & RequestParameters;
 /** App Component model. */
-export type TestRunAppComponentsResourceMergeAndPatch = Partial<TestRunAppComponents>;
+export type TestRunAppComponentsResourceMergeAndPatch =
+  Partial<TestRunAppComponents>;
 
 export interface LoadTestRunCreateOrUpdateAppComponentsBodyParam {
   /** App Component model. */
@@ -366,7 +486,8 @@ export type LoadTestRunCreateOrUpdateServerMetricsConfigParameters =
     LoadTestRunCreateOrUpdateServerMetricsConfigBodyParam &
     RequestParameters;
 export type LoadTestRunGetServerMetricsConfigParameters = RequestParameters;
-export type TestProfileRunAdministrationGetTestProfileRunParameters = RequestParameters;
+export type TestProfileRunAdministrationGetTestProfileRunParameters =
+  RequestParameters;
 /** The resource instance. */
 export type TestProfileRunResourceMergeAndPatch = Partial<TestProfileRun>;
 
@@ -384,7 +505,8 @@ export type TestProfileRunAdministrationCreateOrUpdateTestProfileRunParameters =
   TestProfileRunAdministrationCreateOrUpdateTestProfileRunMediaTypesParam &
     TestProfileRunAdministrationCreateOrUpdateTestProfileRunBodyParam &
     RequestParameters;
-export type TestProfileRunAdministrationDeleteTestProfileRunParameters = RequestParameters;
+export type TestProfileRunAdministrationDeleteTestProfileRunParameters =
+  RequestParameters;
 export type TestProfileRunAdministrationStopParameters = RequestParameters;
 
 /** This is the wrapper object for the parameter `testProfileRunIds` with explode set to false and style set to form. */
@@ -441,7 +563,9 @@ export interface TestProfileRunAdministrationListTestProfileRunsQueryParamProper
     | string[]
     | TestProfileRunAdministrationListTestProfileRunsTestProfileIdsQueryParam;
   /** Comma separated list of Statuses of the test profile runs to filter. */
-  statuses?: string[] | TestProfileRunAdministrationListTestProfileRunsStatusesQueryParam;
+  statuses?:
+    | string[]
+    | TestProfileRunAdministrationListTestProfileRunsStatusesQueryParam;
 }
 
 export interface TestProfileRunAdministrationListTestProfileRunsQueryParam {
@@ -450,85 +574,3 @@ export interface TestProfileRunAdministrationListTestProfileRunsQueryParam {
 
 export type TestProfileRunAdministrationListTestProfileRunsParameters =
   TestProfileRunAdministrationListTestProfileRunsQueryParam & RequestParameters;
-export type TriggerAdministrationGetTriggerParameters = RequestParameters;
-/** The resource instance. */
-export type TriggerResourceMergeAndPatch = Partial<Trigger>;
-
-export interface TriggerAdministrationCreateOrUpdateTriggerBodyParam {
-  /** The resource instance. */
-  body: TriggerResourceMergeAndPatch;
-}
-
-export interface TriggerAdministrationCreateOrUpdateTriggerMediaTypesParam {
-  /** This request has a JSON Merge Patch body. */
-  contentType: "application/merge-patch+json";
-}
-
-export type TriggerAdministrationCreateOrUpdateTriggerParameters =
-  TriggerAdministrationCreateOrUpdateTriggerMediaTypesParam &
-    TriggerAdministrationCreateOrUpdateTriggerBodyParam &
-    RequestParameters;
-export type TriggerAdministrationDeleteTriggerParameters = RequestParameters;
-
-export interface TriggerAdministrationListTriggerQueryParamProperties {
-  /** Search based on triggers associated with the provided test ids. */
-  testIds?: string;
-  /**
-   * Filter triggers based on a comma separated list of states.
-   *
-   * Possible values: "Active", "Paused", "Completed", "Disabled"
-   */
-  states?: TriggerState;
-  /** Start DateTime(RFC 3339 literal format) of the last updated time range to filter triggers. */
-  lastModifiedStartTime?: Date | string;
-  /** End DateTime(RFC 3339 literal format) of the last updated time range to filter triggers. */
-  lastModifiedEndTime?: Date | string;
-  /** Number of results in response. Default page size is 50. */
-  maxpagesize?: number;
-}
-
-export interface TriggerAdministrationListTriggerQueryParam {
-  queryParameters?: TriggerAdministrationListTriggerQueryParamProperties;
-}
-
-export type TriggerAdministrationListTriggerParameters =
-  TriggerAdministrationListTriggerQueryParam & RequestParameters;
-export type NotificationRuleAdministrationGetNotificationRuleParameters = RequestParameters;
-/** The resource instance. */
-export type NotificationRuleResourceMergeAndPatch = Partial<NotificationRule>;
-
-export interface NotificationRuleAdministrationCreateOrUpdateNotificationRuleBodyParam {
-  /** The resource instance. */
-  body: NotificationRuleResourceMergeAndPatch;
-}
-
-export interface NotificationRuleAdministrationCreateOrUpdateNotificationRuleMediaTypesParam {
-  /** This request has a JSON Merge Patch body. */
-  contentType: "application/merge-patch+json";
-}
-
-export type NotificationRuleAdministrationCreateOrUpdateNotificationRuleParameters =
-  NotificationRuleAdministrationCreateOrUpdateNotificationRuleMediaTypesParam &
-    NotificationRuleAdministrationCreateOrUpdateNotificationRuleBodyParam &
-    RequestParameters;
-export type NotificationRuleAdministrationDeleteNotificationRuleParameters = RequestParameters;
-
-export interface NotificationRuleAdministrationListNotificationRuleQueryParamProperties {
-  /** Search based on notification rules associated with the provided test ids. */
-  testIds?: string;
-  /** Search based on notification rules for the provided scopes. */
-  scopes?: string;
-  /** Start DateTime(RFC 3339 literal format) of the last updated time range to filter notification rules. */
-  lastModifiedStartTime?: Date | string;
-  /** End DateTime(RFC 3339 literal format) of the last updated time range to filter notification rules. */
-  lastModifiedEndTime?: Date | string;
-  /** Number of results in response. Default page size is 50. */
-  maxpagesize?: number;
-}
-
-export interface NotificationRuleAdministrationListNotificationRuleQueryParam {
-  queryParameters?: NotificationRuleAdministrationListNotificationRuleQueryParamProperties;
-}
-
-export type NotificationRuleAdministrationListNotificationRuleParameters =
-  NotificationRuleAdministrationListNotificationRuleQueryParam & RequestParameters;
