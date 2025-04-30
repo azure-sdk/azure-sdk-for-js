@@ -186,7 +186,7 @@ export interface PurchaseRequest {
   sku?: SkuName;
   /** The Azure region where the reserved resource lives. */
   location?: string;
-  /** The type of the resource that is being reserved. */
+  /** The type of the resource that is being reserved. In addition to below types we have also added the following: OpenAIPTU, MDC, Sentinel. */
   reservedResourceType?: ReservedResourceType;
   /** Subscription that will be charged for purchasing reservation or savings plan */
   billingScopeId?: string;
@@ -1655,7 +1655,7 @@ export enum KnownErrorResponseCode {
   /** SelfServiceRefundNotSupported */
   SelfServiceRefundNotSupported = "SelfServiceRefundNotSupported",
   /** RefundLimitExceeded */
-  RefundLimitExceeded = "RefundLimitExceeded"
+  RefundLimitExceeded = "RefundLimitExceeded",
 }
 
 /**
@@ -1729,7 +1729,7 @@ export enum KnownReservationBillingPlan {
   /** Upfront */
   Upfront = "Upfront",
   /** Monthly */
-  Monthly = "Monthly"
+  Monthly = "Monthly",
 }
 
 /**
@@ -1749,7 +1749,7 @@ export enum KnownReservationTerm {
   /** P3Y */
   P3Y = "P3Y",
   /** P5Y */
-  P5Y = "P5Y"
+  P5Y = "P5Y",
 }
 
 /**
@@ -1816,7 +1816,7 @@ export enum KnownReservedResourceType {
   /** SqlEdge */
   SqlEdge = "SqlEdge",
   /** VirtualMachineSoftware */
-  VirtualMachineSoftware = "VirtualMachineSoftware"
+  VirtualMachineSoftware = "VirtualMachineSoftware",
 }
 
 /**
@@ -1860,7 +1860,7 @@ export enum KnownAppliedScopeType {
   /** Shared */
   Shared = "Shared",
   /** ManagementGroup */
-  ManagementGroup = "ManagementGroup"
+  ManagementGroup = "ManagementGroup",
 }
 
 /**
@@ -1879,7 +1879,7 @@ export enum KnownInstanceFlexibility {
   /** On */
   On = "On",
   /** Off */
-  Off = "Off"
+  Off = "Off",
 }
 
 /**
@@ -1901,7 +1901,7 @@ export enum KnownPaymentStatus {
   /** Scheduled */
   Scheduled = "Scheduled",
   /** Cancelled */
-  Cancelled = "Cancelled"
+  Cancelled = "Cancelled",
 }
 
 /**
@@ -1937,7 +1937,7 @@ export enum KnownReservationStatusCode {
   /** Expired */
   Expired = "Expired",
   /** Succeeded */
-  Succeeded = "Succeeded"
+  Succeeded = "Succeeded",
 }
 
 /**
@@ -1985,7 +1985,7 @@ export enum KnownProvisioningState {
   /** Split */
   Split = "Split",
   /** Merged */
-  Merged = "Merged"
+  Merged = "Merged",
 }
 
 /**
@@ -2018,7 +2018,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -2038,7 +2038,7 @@ export enum KnownSavingsPlanTerm {
   /** P1Y */
   P1Y = "P1Y",
   /** P3Y */
-  P3Y = "P3Y"
+  P3Y = "P3Y",
 }
 
 /**
@@ -2054,7 +2054,7 @@ export type SavingsPlanTerm = string;
 /** Known values of {@link BillingPlan} that the service accepts. */
 export enum KnownBillingPlan {
   /** P1M */
-  P1M = "P1M"
+  P1M = "P1M",
 }
 
 /**
@@ -2069,7 +2069,7 @@ export type BillingPlan = string;
 /** Known values of {@link CommitmentGrain} that the service accepts. */
 export enum KnownCommitmentGrain {
   /** Hourly */
-  Hourly = "Hourly"
+  Hourly = "Hourly",
 }
 
 /**
@@ -2090,7 +2090,7 @@ export enum KnownCalculateExchangeOperationResultStatus {
   /** Cancelled */
   Cancelled = "Cancelled",
   /** Pending */
-  Pending = "Pending"
+  Pending = "Pending",
 }
 
 /**
@@ -2116,7 +2116,7 @@ export enum KnownExchangeOperationResultStatus {
   /** PendingRefunds */
   PendingRefunds = "PendingRefunds",
   /** PendingPurchases */
-  PendingPurchases = "PendingPurchases"
+  PendingPurchases = "PendingPurchases",
 }
 
 /**
@@ -2141,7 +2141,7 @@ export enum KnownOperationStatus {
   /** Cancelled */
   Cancelled = "Cancelled",
   /** Pending */
-  Pending = "Pending"
+  Pending = "Pending",
 }
 
 /**
@@ -2167,7 +2167,7 @@ export enum KnownResourceType {
   /** Shared */
   Shared = "shared",
   /** ServiceSpecific */
-  ServiceSpecific = "serviceSpecific"
+  ServiceSpecific = "serviceSpecific",
 }
 
 /**
@@ -2194,7 +2194,7 @@ export enum KnownQuotaRequestState {
   /** Failed */
   Failed = "Failed",
   /** InProgress */
-  InProgress = "InProgress"
+  InProgress = "InProgress",
 }
 
 /**
@@ -2259,7 +2259,7 @@ export enum KnownLocation {
   /** Westcentralus */
   Westcentralus = "westcentralus",
   /** Ukwest */
-  Ukwest = "ukwest"
+  Ukwest = "ukwest",
 }
 
 /**
@@ -2313,7 +2313,7 @@ export enum KnownDisplayProvisioningState {
   /** Warning */
   Warning = "Warning",
   /** NoBenefit */
-  NoBenefit = "NoBenefit"
+  NoBenefit = "NoBenefit",
 }
 
 /**
@@ -2344,7 +2344,7 @@ export enum KnownUserFriendlyAppliedScopeType {
   /** ResourceGroup */
   ResourceGroup = "ResourceGroup",
   /** ManagementGroup */
-  ManagementGroup = "ManagementGroup"
+  ManagementGroup = "ManagementGroup",
 }
 
 /**
@@ -2371,7 +2371,7 @@ export enum KnownUserFriendlyRenewState {
   /** NotRenewed */
   NotRenewed = "NotRenewed",
   /** NotApplicable */
-  NotApplicable = "NotApplicable"
+  NotApplicable = "NotApplicable",
 }
 
 /**
@@ -2388,8 +2388,7 @@ export enum KnownUserFriendlyRenewState {
 export type UserFriendlyRenewState = string;
 
 /** Optional parameters. */
-export interface ReservationAvailableScopesOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReservationAvailableScopesOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2400,8 +2399,7 @@ export interface ReservationAvailableScopesOptionalParams
 export type ReservationAvailableScopesResponse = AvailableScopeProperties;
 
 /** Optional parameters. */
-export interface ReservationSplitOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReservationSplitOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2412,8 +2410,7 @@ export interface ReservationSplitOptionalParams
 export type ReservationSplitResponse = ReservationResponse[];
 
 /** Optional parameters. */
-export interface ReservationMergeOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReservationMergeOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2424,15 +2421,13 @@ export interface ReservationMergeOptionalParams
 export type ReservationMergeResponse = ReservationResponse[];
 
 /** Optional parameters. */
-export interface ReservationListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ReservationListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type ReservationListResponse = ReservationList;
 
 /** Optional parameters. */
-export interface ReservationGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReservationGetOptionalParams extends coreClient.OperationOptions {
   /** Supported value of this query is renewProperties */
   expand?: string;
 }
@@ -2441,8 +2436,7 @@ export interface ReservationGetOptionalParams
 export type ReservationGetResponse = ReservationResponse;
 
 /** Optional parameters. */
-export interface ReservationUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReservationUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2453,23 +2447,19 @@ export interface ReservationUpdateOptionalParams
 export type ReservationUpdateResponse = ReservationResponse;
 
 /** Optional parameters. */
-export interface ReservationArchiveOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ReservationArchiveOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ReservationUnarchiveOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ReservationUnarchiveOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ReservationListRevisionsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ReservationListRevisionsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRevisions operation. */
 export type ReservationListRevisionsResponse = ReservationList;
 
 /** Optional parameters. */
-export interface ReservationListAllOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReservationListAllOptionalParams extends coreClient.OperationOptions {
   /** May be used to filter by reservation properties. The filter supports 'eq', 'or', and 'and'. It does not currently support 'ne', 'gt', 'le', 'ge', or 'not'. Reservation properties include sku/name, properties/{appliedScopeType, archived, displayName, displayProvisioningState, effectiveDateTime, expiryDate, expiryDateTime, provisioningState, quantity, renew, reservedResourceType, term, userFriendlyAppliedScopeType, userFriendlyRenewState} */
   filter?: string;
   /** May be used to sort order by reservation properties. */
@@ -2488,22 +2478,19 @@ export interface ReservationListAllOptionalParams
 export type ReservationListAllResponse = ReservationsListResult;
 
 /** Optional parameters. */
-export interface ReservationListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ReservationListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ReservationListNextResponse = ReservationList;
 
 /** Optional parameters. */
-export interface ReservationListRevisionsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ReservationListRevisionsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRevisionsNext operation. */
 export type ReservationListRevisionsNextResponse = ReservationList;
 
 /** Optional parameters. */
-export interface ReservationListAllNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ReservationListAllNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllNext operation. */
 export type ReservationListAllNextResponse = ReservationsListResult;
@@ -2532,36 +2519,31 @@ export interface GetCatalogOptionalParams extends coreClient.OperationOptions {
 export type GetCatalogResponse = CatalogsResult;
 
 /** Optional parameters. */
-export interface GetAppliedReservationListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GetAppliedReservationListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAppliedReservationList operation. */
 export type GetAppliedReservationListResponse = AppliedReservations;
 
 /** Optional parameters. */
-export interface GetCatalogNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GetCatalogNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getCatalogNext operation. */
 export type GetCatalogNextResponse = CatalogsResult;
 
 /** Optional parameters. */
-export interface ReservationOrderCalculateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ReservationOrderCalculateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the calculate operation. */
 export type ReservationOrderCalculateResponse = CalculatePriceResponse;
 
 /** Optional parameters. */
-export interface ReservationOrderListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ReservationOrderListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type ReservationOrderListResponse = ReservationOrderList;
 
 /** Optional parameters. */
-export interface ReservationOrderPurchaseOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReservationOrderPurchaseOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2572,8 +2554,7 @@ export interface ReservationOrderPurchaseOptionalParams
 export type ReservationOrderPurchaseResponse = ReservationOrderResponse;
 
 /** Optional parameters. */
-export interface ReservationOrderGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReservationOrderGetOptionalParams extends coreClient.OperationOptions {
   /** May be used to expand the planInformation. */
   expand?: string;
 }
@@ -2589,29 +2570,25 @@ export interface ReservationOrderChangeDirectoryOptionalParams
 export type ReservationOrderChangeDirectoryResponse = ChangeDirectoryResponse;
 
 /** Optional parameters. */
-export interface ReservationOrderListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ReservationOrderListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ReservationOrderListNextResponse = ReservationOrderList;
 
 /** Optional parameters. */
-export interface OperationListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationListResponse = OperationList;
 
 /** Optional parameters. */
-export interface OperationListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationListNextResponse = OperationList;
 
 /** Optional parameters. */
-export interface CalculateRefundPostOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CalculateRefundPostOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the post operation. */
 export type CalculateRefundPostResponse = CalculateRefundResponse;
@@ -2628,8 +2605,7 @@ export interface ReturnPostOptionalParams extends coreClient.OperationOptions {
 export type ReturnPostResponse = ReservationOrderResponse;
 
 /** Optional parameters. */
-export interface CalculateExchangePostOptionalParams
-  extends coreClient.OperationOptions {
+export interface CalculateExchangePostOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2640,8 +2616,7 @@ export interface CalculateExchangePostOptionalParams
 export type CalculateExchangePostResponse = CalculateExchangeOperationResultResponse;
 
 /** Optional parameters. */
-export interface ExchangePostOptionalParams
-  extends coreClient.OperationOptions {
+export interface ExchangePostOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2658,8 +2633,7 @@ export interface QuotaGetOptionalParams extends coreClient.OperationOptions {}
 export type QuotaGetResponse = QuotaGetHeaders & CurrentQuotaLimitBase;
 
 /** Optional parameters. */
-export interface QuotaCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface QuotaCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2687,22 +2661,19 @@ export interface QuotaListOptionalParams extends coreClient.OperationOptions {}
 export type QuotaListResponse = QuotaListHeaders & QuotaLimits;
 
 /** Optional parameters. */
-export interface QuotaListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface QuotaListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type QuotaListNextResponse = QuotaListNextHeaders & QuotaLimits;
 
 /** Optional parameters. */
-export interface QuotaRequestStatusGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface QuotaRequestStatusGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type QuotaRequestStatusGetResponse = QuotaRequestDetails;
 
 /** Optional parameters. */
-export interface QuotaRequestStatusListOptionalParams
-  extends coreClient.OperationOptions {
+export interface QuotaRequestStatusListOptionalParams extends coreClient.OperationOptions {
   /**
    * | Field | Supported operators |
    * |---------------------|------------------------|
@@ -2719,15 +2690,13 @@ export interface QuotaRequestStatusListOptionalParams
 export type QuotaRequestStatusListResponse = QuotaRequestDetailsList;
 
 /** Optional parameters. */
-export interface QuotaRequestStatusListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface QuotaRequestStatusListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type QuotaRequestStatusListNextResponse = QuotaRequestDetailsList;
 
 /** Optional parameters. */
-export interface AzureReservationAPIOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface AzureReservationAPIOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Overrides client endpoint. */

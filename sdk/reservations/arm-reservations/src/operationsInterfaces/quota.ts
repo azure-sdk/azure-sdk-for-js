@@ -16,7 +16,7 @@ import {
   QuotaCreateOrUpdateOptionalParams,
   QuotaCreateOrUpdateResponse,
   QuotaUpdateOptionalParams,
-  QuotaUpdateResponse
+  QuotaUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface Quota {
     subscriptionId: string,
     providerId: string,
     location: string,
-    options?: QuotaListOptionalParams
+    options?: QuotaListOptionalParams,
   ): PagedAsyncIterableIterator<CurrentQuotaLimitBase>;
   /**
    * Get the current quota (service limit) and usage of a resource. You can use the response from the GET
@@ -51,7 +51,7 @@ export interface Quota {
     providerId: string,
     location: string,
     resourceName: string,
-    options?: QuotaGetOptionalParams
+    options?: QuotaGetOptionalParams,
   ): Promise<QuotaGetResponse>;
   /**
    * Create or update the quota (service limits) of a resource to the requested value.
@@ -75,12 +75,9 @@ export interface Quota {
     location: string,
     resourceName: string,
     createQuotaRequest: CurrentQuotaLimitBase,
-    options?: QuotaCreateOrUpdateOptionalParams
+    options?: QuotaCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<QuotaCreateOrUpdateResponse>,
-      QuotaCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<QuotaCreateOrUpdateResponse>, QuotaCreateOrUpdateResponse>
   >;
   /**
    * Create or update the quota (service limits) of a resource to the requested value.
@@ -104,7 +101,7 @@ export interface Quota {
     location: string,
     resourceName: string,
     createQuotaRequest: CurrentQuotaLimitBase,
-    options?: QuotaCreateOrUpdateOptionalParams
+    options?: QuotaCreateOrUpdateOptionalParams,
   ): Promise<QuotaCreateOrUpdateResponse>;
   /**
    * Update the quota (service limits) of this resource to the requested value.
@@ -127,10 +124,8 @@ export interface Quota {
     location: string,
     resourceName: string,
     createQuotaRequest: CurrentQuotaLimitBase,
-    options?: QuotaUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<OperationState<QuotaUpdateResponse>, QuotaUpdateResponse>
-  >;
+    options?: QuotaUpdateOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<QuotaUpdateResponse>, QuotaUpdateResponse>>;
   /**
    * Update the quota (service limits) of this resource to the requested value.
    *   • To get the quota information for specific resource, send a GET request.
@@ -152,6 +147,6 @@ export interface Quota {
     location: string,
     resourceName: string,
     createQuotaRequest: CurrentQuotaLimitBase,
-    options?: QuotaUpdateOptionalParams
+    options?: QuotaUpdateOptionalParams,
   ): Promise<QuotaUpdateResponse>;
 }

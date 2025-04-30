@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureReservationAPI } from "../azureReservationAPI.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ReservationOrderResponse,
@@ -34,7 +30,7 @@ import {
   ChangeDirectoryRequest,
   ReservationOrderChangeDirectoryOptionalParams,
   ReservationOrderChangeDirectoryResponse,
-  ReservationOrderListNextResponse
+  ReservationOrderListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -55,7 +51,7 @@ export class ReservationOrderImpl implements ReservationOrder {
    * @param options The options parameters.
    */
   public list(
-    options?: ReservationOrderListOptionalParams
+    options?: ReservationOrderListOptionalParams,
   ): PagedAsyncIterableIterator<ReservationOrderResponse> {
     const iter = this.listPagingAll(options);
     return {
@@ -70,13 +66,13 @@ export class ReservationOrderImpl implements ReservationOrder {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: ReservationOrderListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ReservationOrderResponse[]> {
     let result: ReservationOrderListResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +93,7 @@ export class ReservationOrderImpl implements ReservationOrder {
   }
 
   private async *listPagingAll(
-    options?: ReservationOrderListOptionalParams
+    options?: ReservationOrderListOptionalParams,
   ): AsyncIterableIterator<ReservationOrderResponse> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -111,12 +107,9 @@ export class ReservationOrderImpl implements ReservationOrder {
    */
   calculate(
     body: PurchaseRequest,
-    options?: ReservationOrderCalculateOptionalParams
+    options?: ReservationOrderCalculateOptionalParams,
   ): Promise<ReservationOrderCalculateResponse> {
-    return this.client.sendOperationRequest(
-      { body, options },
-      calculateOperationSpec
-    );
+    return this.client.sendOperationRequest({ body, options }, calculateOperationSpec);
   }
 
   /**
@@ -124,7 +117,7 @@ export class ReservationOrderImpl implements ReservationOrder {
    * @param options The options parameters.
    */
   private _list(
-    options?: ReservationOrderListOptionalParams
+    options?: ReservationOrderListOptionalParams,
   ): Promise<ReservationOrderListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -138,7 +131,7 @@ export class ReservationOrderImpl implements ReservationOrder {
   async beginPurchase(
     reservationOrderId: string,
     body: PurchaseRequest,
-    options?: ReservationOrderPurchaseOptionalParams
+    options?: ReservationOrderPurchaseOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReservationOrderPurchaseResponse>,
@@ -147,21 +140,19 @@ export class ReservationOrderImpl implements ReservationOrder {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReservationOrderPurchaseResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -170,8 +161,8 @@ export class ReservationOrderImpl implements ReservationOrder {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -179,15 +170,15 @@ export class ReservationOrderImpl implements ReservationOrder {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { reservationOrderId, body, options },
-      spec: purchaseOperationSpec
+      spec: purchaseOperationSpec,
     });
     const poller = await createHttpPoller<
       ReservationOrderPurchaseResponse,
@@ -195,7 +186,7 @@ export class ReservationOrderImpl implements ReservationOrder {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -210,7 +201,7 @@ export class ReservationOrderImpl implements ReservationOrder {
   async beginPurchaseAndWait(
     reservationOrderId: string,
     body: PurchaseRequest,
-    options?: ReservationOrderPurchaseOptionalParams
+    options?: ReservationOrderPurchaseOptionalParams,
   ): Promise<ReservationOrderPurchaseResponse> {
     const poller = await this.beginPurchase(reservationOrderId, body, options);
     return poller.pollUntilDone();
@@ -223,12 +214,9 @@ export class ReservationOrderImpl implements ReservationOrder {
    */
   get(
     reservationOrderId: string,
-    options?: ReservationOrderGetOptionalParams
+    options?: ReservationOrderGetOptionalParams,
   ): Promise<ReservationOrderGetResponse> {
-    return this.client.sendOperationRequest(
-      { reservationOrderId, options },
-      getOperationSpec
-    );
+    return this.client.sendOperationRequest({ reservationOrderId, options }, getOperationSpec);
   }
 
   /**
@@ -241,11 +229,11 @@ export class ReservationOrderImpl implements ReservationOrder {
   changeDirectory(
     reservationOrderId: string,
     body: ChangeDirectoryRequest,
-    options?: ReservationOrderChangeDirectoryOptionalParams
+    options?: ReservationOrderChangeDirectoryOptionalParams,
   ): Promise<ReservationOrderChangeDirectoryResponse> {
     return this.client.sendOperationRequest(
       { reservationOrderId, body, options },
-      changeDirectoryOperationSpec
+      changeDirectoryOperationSpec,
     );
   }
 
@@ -256,12 +244,9 @@ export class ReservationOrderImpl implements ReservationOrder {
    */
   private _listNext(
     nextLink: string,
-    options?: ReservationOrderListNextOptionalParams
+    options?: ReservationOrderListNextOptionalParams,
   ): Promise<ReservationOrderListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -272,109 +257,108 @@ const calculateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CalculatePriceResponse
+      bodyMapper: Mappers.CalculatePriceResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Capacity/reservationOrders",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationOrderList
+      bodyMapper: Mappers.ReservationOrderList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const purchaseOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationOrderResponse
+      bodyMapper: Mappers.ReservationOrderResponse,
     },
     201: {
-      bodyMapper: Mappers.ReservationOrderResponse
+      bodyMapper: Mappers.ReservationOrderResponse,
     },
     202: {
-      bodyMapper: Mappers.ReservationOrderResponse
+      bodyMapper: Mappers.ReservationOrderResponse,
     },
     204: {
-      bodyMapper: Mappers.ReservationOrderResponse
+      bodyMapper: Mappers.ReservationOrderResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.reservationOrderId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationOrderResponse
+      bodyMapper: Mappers.ReservationOrderResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [Parameters.$host, Parameters.reservationOrderId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const changeDirectoryOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/changeDirectory",
+  path: "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/changeDirectory",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ChangeDirectoryResponse
+      bodyMapper: Mappers.ChangeDirectoryResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   requestBody: Parameters.body4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.reservationOrderId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationOrderList
+      bodyMapper: Mappers.ReservationOrderList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

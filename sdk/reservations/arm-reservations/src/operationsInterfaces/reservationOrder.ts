@@ -20,7 +20,7 @@ import {
   ReservationOrderGetResponse,
   ChangeDirectoryRequest,
   ReservationOrderChangeDirectoryOptionalParams,
-  ReservationOrderChangeDirectoryResponse
+  ReservationOrderChangeDirectoryResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface ReservationOrder {
    * @param options The options parameters.
    */
   list(
-    options?: ReservationOrderListOptionalParams
+    options?: ReservationOrderListOptionalParams,
   ): PagedAsyncIterableIterator<ReservationOrderResponse>;
   /**
    * Calculate price for placing a `ReservationOrder`.
@@ -40,7 +40,7 @@ export interface ReservationOrder {
    */
   calculate(
     body: PurchaseRequest,
-    options?: ReservationOrderCalculateOptionalParams
+    options?: ReservationOrderCalculateOptionalParams,
   ): Promise<ReservationOrderCalculateResponse>;
   /**
    * Purchase `ReservationOrder` and create resource under the specified URI.
@@ -51,7 +51,7 @@ export interface ReservationOrder {
   beginPurchase(
     reservationOrderId: string,
     body: PurchaseRequest,
-    options?: ReservationOrderPurchaseOptionalParams
+    options?: ReservationOrderPurchaseOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReservationOrderPurchaseResponse>,
@@ -67,7 +67,7 @@ export interface ReservationOrder {
   beginPurchaseAndWait(
     reservationOrderId: string,
     body: PurchaseRequest,
-    options?: ReservationOrderPurchaseOptionalParams
+    options?: ReservationOrderPurchaseOptionalParams,
   ): Promise<ReservationOrderPurchaseResponse>;
   /**
    * Get the details of the `ReservationOrder`.
@@ -76,7 +76,7 @@ export interface ReservationOrder {
    */
   get(
     reservationOrderId: string,
-    options?: ReservationOrderGetOptionalParams
+    options?: ReservationOrderGetOptionalParams,
   ): Promise<ReservationOrderGetResponse>;
   /**
    * Change directory (tenant) of `ReservationOrder` and all `Reservation` under it to specified tenant
@@ -88,6 +88,6 @@ export interface ReservationOrder {
   changeDirectory(
     reservationOrderId: string,
     body: ChangeDirectoryRequest,
-    options?: ReservationOrderChangeDirectoryOptionalParams
+    options?: ReservationOrderChangeDirectoryOptionalParams,
   ): Promise<ReservationOrderChangeDirectoryResponse>;
 }

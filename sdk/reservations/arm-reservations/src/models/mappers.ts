@@ -17,11 +17,11 @@ export const AvailableScopeRequest: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "AvailableScopeRequestProperties"
-        }
-      }
-    }
-  }
+          className: "AvailableScopeRequestProperties",
+        },
+      },
+    },
+  },
 };
 
 export const AvailableScopeRequestProperties: coreClient.CompositeMapper = {
@@ -35,13 +35,13 @@ export const AvailableScopeRequestProperties: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const AvailableScopeProperties: coreClient.CompositeMapper = {
@@ -53,11 +53,11 @@ export const AvailableScopeProperties: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "SubscriptionScopeProperties"
-        }
-      }
-    }
-  }
+          className: "SubscriptionScopeProperties",
+        },
+      },
+    },
+  },
 };
 
 export const SubscriptionScopeProperties: coreClient.CompositeMapper = {
@@ -72,13 +72,13 @@ export const SubscriptionScopeProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ScopeProperties"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ScopeProperties",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ScopeProperties: coreClient.CompositeMapper = {
@@ -89,17 +89,17 @@ export const ScopeProperties: coreClient.CompositeMapper = {
       scope: {
         serializedName: "scope",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       valid: {
         serializedName: "valid",
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorModel: coreClient.CompositeMapper = {
@@ -111,11 +111,11 @@ export const ErrorModel: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ExtendedErrorInfo"
-        }
-      }
-    }
-  }
+          className: "ExtendedErrorInfo",
+        },
+      },
+    },
+  },
 };
 
 export const ExtendedErrorInfo: coreClient.CompositeMapper = {
@@ -126,17 +126,17 @@ export const ExtendedErrorInfo: coreClient.CompositeMapper = {
       code: {
         serializedName: "code",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const CatalogsResult: coreClient.CompositeMapper = {
@@ -152,26 +152,26 @@ export const CatalogsResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Catalog"
-            }
-          }
-        }
+              className: "Catalog",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       totalItems: {
         serializedName: "totalItems",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const Catalog: coreClient.CompositeMapper = {
@@ -183,24 +183,24 @@ export const Catalog: coreClient.CompositeMapper = {
         serializedName: "resourceType",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       billingPlans: {
         serializedName: "billingPlans",
         type: {
           name: "Dictionary",
           value: {
-            type: { name: "Sequence", element: { type: { name: "String" } } }
-          }
-        }
+            type: { name: "Sequence", element: { type: { name: "String" } } },
+          },
+        },
       },
       terms: {
         serializedName: "terms",
@@ -209,10 +209,10 @@ export const Catalog: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       locations: {
         serializedName: "locations",
@@ -221,10 +221,10 @@ export const Catalog: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       skuProperties: {
         serializedName: "skuProperties",
@@ -234,17 +234,17 @@ export const Catalog: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SkuProperty"
-            }
-          }
-        }
+              className: "SkuProperty",
+            },
+          },
+        },
       },
       msrp: {
         serializedName: "msrp",
         type: {
           name: "Composite",
-          className: "CatalogMsrp"
-        }
+          className: "CatalogMsrp",
+        },
       },
       restrictions: {
         serializedName: "restrictions",
@@ -254,24 +254,24 @@ export const Catalog: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SkuRestriction"
-            }
-          }
-        }
+              className: "SkuRestriction",
+            },
+          },
+        },
       },
       tier: {
         serializedName: "tier",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       size: {
         serializedName: "size",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       capabilities: {
         serializedName: "capabilities",
@@ -281,13 +281,13 @@ export const Catalog: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SkuCapability"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "SkuCapability",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const SkuProperty: coreClient.CompositeMapper = {
@@ -298,17 +298,17 @@ export const SkuProperty: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       value: {
         serializedName: "value",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const CatalogMsrp: coreClient.CompositeMapper = {
@@ -320,25 +320,25 @@ export const CatalogMsrp: coreClient.CompositeMapper = {
         serializedName: "p1Y",
         type: {
           name: "Composite",
-          className: "Price"
-        }
+          className: "Price",
+        },
       },
       p3Y: {
         serializedName: "p3Y",
         type: {
           name: "Composite",
-          className: "Price"
-        }
+          className: "Price",
+        },
       },
       p5Y: {
         serializedName: "p5Y",
         type: {
           name: "Composite",
-          className: "Price"
-        }
-      }
-    }
-  }
+          className: "Price",
+        },
+      },
+    },
+  },
 };
 
 export const Price: coreClient.CompositeMapper = {
@@ -349,17 +349,17 @@ export const Price: coreClient.CompositeMapper = {
       currencyCode: {
         serializedName: "currencyCode",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       amount: {
         serializedName: "amount",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const SkuRestriction: coreClient.CompositeMapper = {
@@ -370,8 +370,8 @@ export const SkuRestriction: coreClient.CompositeMapper = {
       type: {
         serializedName: "type",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       values: {
         serializedName: "values",
@@ -379,19 +379,19 @@ export const SkuRestriction: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       reasonCode: {
         serializedName: "reasonCode",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SkuCapability: coreClient.CompositeMapper = {
@@ -402,17 +402,17 @@ export const SkuCapability: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       value: {
         serializedName: "value",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const AppliedReservations: coreClient.CompositeMapper = {
@@ -424,32 +424,32 @@ export const AppliedReservations: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       reservationOrderIds: {
         serializedName: "properties.reservationOrderIds",
         type: {
           name: "Composite",
-          className: "AppliedReservationList"
-        }
-      }
-    }
-  }
+          className: "AppliedReservationList",
+        },
+      },
+    },
+  },
 };
 
 export const AppliedReservationList: coreClient.CompositeMapper = {
@@ -463,19 +463,19 @@ export const AppliedReservationList: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PurchaseRequest: coreClient.CompositeMapper = {
@@ -487,56 +487,56 @@ export const PurchaseRequest: coreClient.CompositeMapper = {
         serializedName: "sku",
         type: {
           name: "Composite",
-          className: "SkuName"
-        }
+          className: "SkuName",
+        },
       },
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       reservedResourceType: {
         serializedName: "properties.reservedResourceType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       billingScopeId: {
         serializedName: "properties.billingScopeId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       term: {
         serializedName: "properties.term",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       billingPlan: {
         serializedName: "properties.billingPlan",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       quantity: {
         serializedName: "properties.quantity",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       displayName: {
         serializedName: "properties.displayName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       appliedScopeType: {
         serializedName: "properties.appliedScopeType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       appliedScopes: {
         serializedName: "properties.appliedScopes",
@@ -544,40 +544,40 @@ export const PurchaseRequest: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       appliedScopeProperties: {
         serializedName: "properties.appliedScopeProperties",
         type: {
           name: "Composite",
-          className: "AppliedScopeProperties"
-        }
+          className: "AppliedScopeProperties",
+        },
       },
       renew: {
         defaultValue: false,
         serializedName: "properties.renew",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       reservedResourceProperties: {
         serializedName: "properties.reservedResourceProperties",
         type: {
           name: "Composite",
-          className: "PurchaseRequestPropertiesReservedResourceProperties"
-        }
+          className: "PurchaseRequestPropertiesReservedResourceProperties",
+        },
       },
       reviewDateTime: {
         serializedName: "properties.reviewDateTime",
         type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
 export const SkuName: coreClient.CompositeMapper = {
@@ -588,11 +588,11 @@ export const SkuName: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const AppliedScopeProperties: coreClient.CompositeMapper = {
@@ -603,35 +603,35 @@ export const AppliedScopeProperties: coreClient.CompositeMapper = {
       tenantId: {
         serializedName: "tenantId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       managementGroupId: {
         serializedName: "managementGroupId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       subscriptionId: {
         serializedName: "subscriptionId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resourceGroupId: {
         serializedName: "resourceGroupId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       displayName: {
         serializedName: "displayName",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PurchaseRequestPropertiesReservedResourceProperties: coreClient.CompositeMapper = {
@@ -642,11 +642,11 @@ export const PurchaseRequestPropertiesReservedResourceProperties: coreClient.Com
       instanceFlexibility: {
         serializedName: "instanceFlexibility",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const CalculatePriceResponse: coreClient.CompositeMapper = {
@@ -658,11 +658,11 @@ export const CalculatePriceResponse: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "CalculatePriceResponseProperties"
-        }
-      }
-    }
-  }
+          className: "CalculatePriceResponseProperties",
+        },
+      },
+    },
+  },
 };
 
 export const CalculatePriceResponseProperties: coreClient.CompositeMapper = {
@@ -674,63 +674,63 @@ export const CalculatePriceResponseProperties: coreClient.CompositeMapper = {
         serializedName: "billingCurrencyTotal",
         type: {
           name: "Composite",
-          className: "CalculatePriceResponsePropertiesBillingCurrencyTotal"
-        }
+          className: "CalculatePriceResponsePropertiesBillingCurrencyTotal",
+        },
       },
       netTotal: {
         serializedName: "netTotal",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       taxTotal: {
         serializedName: "taxTotal",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       grandTotal: {
         serializedName: "grandTotal",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       isTaxIncluded: {
         serializedName: "isTaxIncluded",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       isBillingPartnerManaged: {
         serializedName: "isBillingPartnerManaged",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       reservationOrderId: {
         serializedName: "reservationOrderId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       skuTitle: {
         serializedName: "skuTitle",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       skuDescription: {
         serializedName: "skuDescription",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       pricingCurrencyTotal: {
         serializedName: "pricingCurrencyTotal",
         type: {
           name: "Composite",
-          className: "CalculatePriceResponsePropertiesPricingCurrencyTotal"
-        }
+          className: "CalculatePriceResponsePropertiesPricingCurrencyTotal",
+        },
       },
       paymentSchedule: {
         serializedName: "paymentSchedule",
@@ -739,13 +739,13 @@ export const CalculatePriceResponseProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "PaymentDetail"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "PaymentDetail",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const CalculatePriceResponsePropertiesBillingCurrencyTotal: coreClient.CompositeMapper = {
@@ -756,17 +756,17 @@ export const CalculatePriceResponsePropertiesBillingCurrencyTotal: coreClient.Co
       currencyCode: {
         serializedName: "currencyCode",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       amount: {
         serializedName: "amount",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const CalculatePriceResponsePropertiesPricingCurrencyTotal: coreClient.CompositeMapper = {
@@ -777,17 +777,17 @@ export const CalculatePriceResponsePropertiesPricingCurrencyTotal: coreClient.Co
       currencyCode: {
         serializedName: "currencyCode",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       amount: {
         serializedName: "amount",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const PaymentDetail: coreClient.CompositeMapper = {
@@ -798,50 +798,50 @@ export const PaymentDetail: coreClient.CompositeMapper = {
       dueDate: {
         serializedName: "dueDate",
         type: {
-          name: "Date"
-        }
+          name: "Date",
+        },
       },
       paymentDate: {
         serializedName: "paymentDate",
         type: {
-          name: "Date"
-        }
+          name: "Date",
+        },
       },
       pricingCurrencyTotal: {
         serializedName: "pricingCurrencyTotal",
         type: {
           name: "Composite",
-          className: "Price"
-        }
+          className: "Price",
+        },
       },
       billingCurrencyTotal: {
         serializedName: "billingCurrencyTotal",
         type: {
           name: "Composite",
-          className: "Price"
-        }
+          className: "Price",
+        },
       },
       billingAccount: {
         serializedName: "billingAccount",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       status: {
         serializedName: "status",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       extendedStatusInfo: {
         serializedName: "extendedStatusInfo",
         type: {
           name: "Composite",
-          className: "ExtendedStatusInfo"
-        }
-      }
-    }
-  }
+          className: "ExtendedStatusInfo",
+        },
+      },
+    },
+  },
 };
 
 export const ExtendedStatusInfo: coreClient.CompositeMapper = {
@@ -852,17 +852,17 @@ export const ExtendedStatusInfo: coreClient.CompositeMapper = {
       statusCode: {
         serializedName: "statusCode",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ReservationOrderList: coreClient.CompositeMapper = {
@@ -877,19 +877,19 @@ export const ReservationOrderList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReservationOrderResponse"
-            }
-          }
-        }
+              className: "ReservationOrderResponse",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ReservationOrderResponse: coreClient.CompositeMapper = {
@@ -900,103 +900,103 @@ export const ReservationOrderResponse: coreClient.CompositeMapper = {
       etag: {
         serializedName: "etag",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       id: {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       systemData: {
         serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "SystemData"
-        }
+          className: "SystemData",
+        },
       },
       displayName: {
         serializedName: "properties.displayName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       requestDateTime: {
         serializedName: "properties.requestDateTime",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       createdDateTime: {
         serializedName: "properties.createdDateTime",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       expiryDate: {
         serializedName: "properties.expiryDate",
         type: {
-          name: "Date"
-        }
+          name: "Date",
+        },
       },
       expiryDateTime: {
         serializedName: "properties.expiryDateTime",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       benefitStartTime: {
         serializedName: "properties.benefitStartTime",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       originalQuantity: {
         serializedName: "properties.originalQuantity",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       term: {
         serializedName: "properties.term",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       billingPlan: {
         serializedName: "properties.billingPlan",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       planInformation: {
         serializedName: "properties.planInformation",
         type: {
           name: "Composite",
-          className: "ReservationOrderBillingPlanInformation"
-        }
+          className: "ReservationOrderBillingPlanInformation",
+        },
       },
       reservations: {
         serializedName: "properties.reservations",
@@ -1005,19 +1005,19 @@ export const ReservationOrderResponse: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReservationResponse"
-            }
-          }
-        }
+              className: "ReservationResponse",
+            },
+          },
+        },
       },
       reviewDateTime: {
         serializedName: "properties.reviewDateTime",
         type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
 export const ReservationOrderBillingPlanInformation: coreClient.CompositeMapper = {
@@ -1029,20 +1029,20 @@ export const ReservationOrderBillingPlanInformation: coreClient.CompositeMapper 
         serializedName: "pricingCurrencyTotal",
         type: {
           name: "Composite",
-          className: "Price"
-        }
+          className: "Price",
+        },
       },
       startDate: {
         serializedName: "startDate",
         type: {
-          name: "Date"
-        }
+          name: "Date",
+        },
       },
       nextPaymentDueDate: {
         serializedName: "nextPaymentDueDate",
         type: {
-          name: "Date"
-        }
+          name: "Date",
+        },
       },
       transactions: {
         serializedName: "transactions",
@@ -1051,13 +1051,13 @@ export const ReservationOrderBillingPlanInformation: coreClient.CompositeMapper 
           element: {
             type: {
               name: "Composite",
-              className: "PaymentDetail"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "PaymentDetail",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ReservationsProperties: coreClient.CompositeMapper = {
@@ -1068,20 +1068,20 @@ export const ReservationsProperties: coreClient.CompositeMapper = {
       reservedResourceType: {
         serializedName: "reservedResourceType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       instanceFlexibility: {
         serializedName: "instanceFlexibility",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       displayName: {
         serializedName: "displayName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       appliedScopes: {
         serializedName: "appliedScopes",
@@ -1089,212 +1089,212 @@ export const ReservationsProperties: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       appliedScopeType: {
         serializedName: "appliedScopeType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       archived: {
         serializedName: "archived",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       capabilities: {
         serializedName: "capabilities",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       quantity: {
         serializedName: "quantity",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       provisioningState: {
         serializedName: "provisioningState",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       effectiveDateTime: {
         serializedName: "effectiveDateTime",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       benefitStartTime: {
         serializedName: "benefitStartTime",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       lastUpdatedDateTime: {
         serializedName: "lastUpdatedDateTime",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       expiryDate: {
         serializedName: "expiryDate",
         type: {
-          name: "Date"
-        }
+          name: "Date",
+        },
       },
       expiryDateTime: {
         serializedName: "expiryDateTime",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       reviewDateTime: {
         serializedName: "reviewDateTime",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       skuDescription: {
         serializedName: "skuDescription",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       extendedStatusInfo: {
         serializedName: "extendedStatusInfo",
         type: {
           name: "Composite",
-          className: "ExtendedStatusInfo"
-        }
+          className: "ExtendedStatusInfo",
+        },
       },
       billingPlan: {
         serializedName: "billingPlan",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       displayProvisioningState: {
         serializedName: "displayProvisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       provisioningSubState: {
         serializedName: "provisioningSubState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       purchaseDate: {
         serializedName: "purchaseDate",
         type: {
-          name: "Date"
-        }
+          name: "Date",
+        },
       },
       purchaseDateTime: {
         serializedName: "purchaseDateTime",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       splitProperties: {
         serializedName: "splitProperties",
         type: {
           name: "Composite",
-          className: "ReservationSplitProperties"
-        }
+          className: "ReservationSplitProperties",
+        },
       },
       mergeProperties: {
         serializedName: "mergeProperties",
         type: {
           name: "Composite",
-          className: "ReservationMergeProperties"
-        }
+          className: "ReservationMergeProperties",
+        },
       },
       swapProperties: {
         serializedName: "swapProperties",
         type: {
           name: "Composite",
-          className: "ReservationSwapProperties"
-        }
+          className: "ReservationSwapProperties",
+        },
       },
       appliedScopeProperties: {
         serializedName: "appliedScopeProperties",
         type: {
           name: "Composite",
-          className: "AppliedScopeProperties"
-        }
+          className: "AppliedScopeProperties",
+        },
       },
       billingScopeId: {
         serializedName: "billingScopeId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       renew: {
         defaultValue: false,
         serializedName: "renew",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       renewSource: {
         serializedName: "renewSource",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       renewDestination: {
         serializedName: "renewDestination",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       renewProperties: {
         serializedName: "renewProperties",
         type: {
           name: "Composite",
-          className: "RenewPropertiesResponse"
-        }
+          className: "RenewPropertiesResponse",
+        },
       },
       term: {
         serializedName: "term",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       userFriendlyAppliedScopeType: {
         serializedName: "userFriendlyAppliedScopeType",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       userFriendlyRenewState: {
         serializedName: "userFriendlyRenewState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       utilization: {
         serializedName: "utilization",
         type: {
           name: "Composite",
-          className: "ReservationsPropertiesUtilization"
-        }
-      }
-    }
-  }
+          className: "ReservationsPropertiesUtilization",
+        },
+      },
+    },
+  },
 };
 
 export const ReservationSplitProperties: coreClient.CompositeMapper = {
@@ -1308,19 +1308,19 @@ export const ReservationSplitProperties: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       splitSource: {
         serializedName: "splitSource",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ReservationMergeProperties: coreClient.CompositeMapper = {
@@ -1331,8 +1331,8 @@ export const ReservationMergeProperties: coreClient.CompositeMapper = {
       mergeDestination: {
         serializedName: "mergeDestination",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       mergeSources: {
         serializedName: "mergeSources",
@@ -1340,13 +1340,13 @@ export const ReservationMergeProperties: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ReservationSwapProperties: coreClient.CompositeMapper = {
@@ -1357,17 +1357,17 @@ export const ReservationSwapProperties: coreClient.CompositeMapper = {
       swapSource: {
         serializedName: "swapSource",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       swapDestination: {
         serializedName: "swapDestination",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const RenewPropertiesResponse: coreClient.CompositeMapper = {
@@ -1379,25 +1379,25 @@ export const RenewPropertiesResponse: coreClient.CompositeMapper = {
         serializedName: "purchaseProperties",
         type: {
           name: "Composite",
-          className: "PurchaseRequest"
-        }
+          className: "PurchaseRequest",
+        },
       },
       pricingCurrencyTotal: {
         serializedName: "pricingCurrencyTotal",
         type: {
           name: "Composite",
-          className: "RenewPropertiesResponsePricingCurrencyTotal"
-        }
+          className: "RenewPropertiesResponsePricingCurrencyTotal",
+        },
       },
       billingCurrencyTotal: {
         serializedName: "billingCurrencyTotal",
         type: {
           name: "Composite",
-          className: "RenewPropertiesResponseBillingCurrencyTotal"
-        }
-      }
-    }
-  }
+          className: "RenewPropertiesResponseBillingCurrencyTotal",
+        },
+      },
+    },
+  },
 };
 
 export const RenewPropertiesResponsePricingCurrencyTotal: coreClient.CompositeMapper = {
@@ -1408,17 +1408,17 @@ export const RenewPropertiesResponsePricingCurrencyTotal: coreClient.CompositeMa
       currencyCode: {
         serializedName: "currencyCode",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       amount: {
         serializedName: "amount",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const RenewPropertiesResponseBillingCurrencyTotal: coreClient.CompositeMapper = {
@@ -1429,17 +1429,17 @@ export const RenewPropertiesResponseBillingCurrencyTotal: coreClient.CompositeMa
       currencyCode: {
         serializedName: "currencyCode",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       amount: {
         serializedName: "amount",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const ReservationsPropertiesUtilization: coreClient.CompositeMapper = {
@@ -1451,8 +1451,8 @@ export const ReservationsPropertiesUtilization: coreClient.CompositeMapper = {
         serializedName: "trend",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       aggregates: {
         serializedName: "aggregates",
@@ -1461,13 +1461,13 @@ export const ReservationsPropertiesUtilization: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReservationUtilizationAggregates"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ReservationUtilizationAggregates",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ReservationUtilizationAggregates: coreClient.CompositeMapper = {
@@ -1479,32 +1479,32 @@ export const ReservationUtilizationAggregates: coreClient.CompositeMapper = {
         serializedName: "grain",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       grainUnit: {
         serializedName: "grainUnit",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       value: {
         serializedName: "value",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       valueUnit: {
         serializedName: "valueUnit",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Resource: coreClient.CompositeMapper = {
@@ -1516,32 +1516,32 @@ export const Resource: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       systemData: {
         serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "SystemData"
-        }
-      }
-    }
-  }
+          className: "SystemData",
+        },
+      },
+    },
+  },
 };
 
 export const SystemData: coreClient.CompositeMapper = {
@@ -1552,41 +1552,41 @@ export const SystemData: coreClient.CompositeMapper = {
       createdBy: {
         serializedName: "createdBy",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       createdByType: {
         serializedName: "createdByType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       createdAt: {
         serializedName: "createdAt",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       lastModifiedBy: {
         serializedName: "lastModifiedBy",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastModifiedByType: {
         serializedName: "lastModifiedByType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastModifiedAt: {
         serializedName: "lastModifiedAt",
         type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
 export const SplitRequest: coreClient.CompositeMapper = {
@@ -1600,19 +1600,19 @@ export const SplitRequest: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "Number"
-            }
-          }
-        }
+              name: "Number",
+            },
+          },
+        },
       },
       reservationId: {
         serializedName: "properties.reservationId",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const MergeRequest: coreClient.CompositeMapper = {
@@ -1626,13 +1626,13 @@ export const MergeRequest: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ReservationList: coreClient.CompositeMapper = {
@@ -1647,19 +1647,19 @@ export const ReservationList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReservationResponse"
-            }
-          }
-        }
+              className: "ReservationResponse",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Patch: coreClient.CompositeMapper = {
@@ -1670,8 +1670,8 @@ export const Patch: coreClient.CompositeMapper = {
       appliedScopeType: {
         serializedName: "properties.appliedScopeType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       appliedScopes: {
         serializedName: "properties.appliedScopes",
@@ -1679,52 +1679,52 @@ export const Patch: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       appliedScopeProperties: {
         serializedName: "properties.appliedScopeProperties",
         type: {
           name: "Composite",
-          className: "AppliedScopeProperties"
-        }
+          className: "AppliedScopeProperties",
+        },
       },
       instanceFlexibility: {
         serializedName: "properties.instanceFlexibility",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "properties.name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       renew: {
         defaultValue: false,
         serializedName: "properties.renew",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       renewProperties: {
         serializedName: "properties.renewProperties",
         type: {
           name: "Composite",
-          className: "PatchPropertiesRenewProperties"
-        }
+          className: "PatchPropertiesRenewProperties",
+        },
       },
       reviewDateTime: {
         serializedName: "properties.reviewDateTime",
         type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
 export const PatchPropertiesRenewProperties: coreClient.CompositeMapper = {
@@ -1736,11 +1736,11 @@ export const PatchPropertiesRenewProperties: coreClient.CompositeMapper = {
         serializedName: "purchaseProperties",
         type: {
           name: "Composite",
-          className: "PurchaseRequest"
-        }
-      }
-    }
-  }
+          className: "PurchaseRequest",
+        },
+      },
+    },
+  },
 };
 
 export const OperationList: coreClient.CompositeMapper = {
@@ -1755,19 +1755,19 @@ export const OperationList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "OperationResponse"
-            }
-          }
-        }
+              className: "OperationResponse",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const OperationResponse: coreClient.CompositeMapper = {
@@ -1778,37 +1778,37 @@ export const OperationResponse: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       isDataAction: {
         serializedName: "isDataAction",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       display: {
         serializedName: "display",
         type: {
           name: "Composite",
-          className: "OperationDisplay"
-        }
+          className: "OperationDisplay",
+        },
       },
       origin: {
         serializedName: "origin",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
 };
 
 export const OperationDisplay: coreClient.CompositeMapper = {
@@ -1819,29 +1819,29 @@ export const OperationDisplay: coreClient.CompositeMapper = {
       provider: {
         serializedName: "provider",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resource: {
         serializedName: "resource",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       operation: {
         serializedName: "operation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       description: {
         serializedName: "description",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const CalculateRefundRequest: coreClient.CompositeMapper = {
@@ -1852,18 +1852,18 @@ export const CalculateRefundRequest: coreClient.CompositeMapper = {
       id: {
         serializedName: "id",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "CalculateRefundRequestProperties"
-        }
-      }
-    }
-  }
+          className: "CalculateRefundRequestProperties",
+        },
+      },
+    },
+  },
 };
 
 export const CalculateRefundRequestProperties: coreClient.CompositeMapper = {
@@ -1874,18 +1874,18 @@ export const CalculateRefundRequestProperties: coreClient.CompositeMapper = {
       scope: {
         serializedName: "scope",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       reservationToReturn: {
         serializedName: "reservationToReturn",
         type: {
           name: "Composite",
-          className: "ReservationToReturn"
-        }
-      }
-    }
-  }
+          className: "ReservationToReturn",
+        },
+      },
+    },
+  },
 };
 
 export const ReservationToReturn: coreClient.CompositeMapper = {
@@ -1896,17 +1896,17 @@ export const ReservationToReturn: coreClient.CompositeMapper = {
       reservationId: {
         serializedName: "reservationId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       quantity: {
         serializedName: "quantity",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const CalculateRefundResponse: coreClient.CompositeMapper = {
@@ -1917,18 +1917,18 @@ export const CalculateRefundResponse: coreClient.CompositeMapper = {
       id: {
         serializedName: "id",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "RefundResponseProperties"
-        }
-      }
-    }
-  }
+          className: "RefundResponseProperties",
+        },
+      },
+    },
+  },
 };
 
 export const RefundResponseProperties: coreClient.CompositeMapper = {
@@ -1939,45 +1939,45 @@ export const RefundResponseProperties: coreClient.CompositeMapper = {
       sessionId: {
         serializedName: "sessionId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       quantity: {
         serializedName: "quantity",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       billingRefundAmount: {
         serializedName: "billingRefundAmount",
         type: {
           name: "Composite",
-          className: "Price"
-        }
+          className: "Price",
+        },
       },
       pricingRefundAmount: {
         serializedName: "pricingRefundAmount",
         type: {
           name: "Composite",
-          className: "Price"
-        }
+          className: "Price",
+        },
       },
       policyResult: {
         serializedName: "policyResult",
         type: {
           name: "Composite",
-          className: "RefundPolicyResult"
-        }
+          className: "RefundPolicyResult",
+        },
       },
       billingInformation: {
         serializedName: "billingInformation",
         type: {
           name: "Composite",
-          className: "RefundBillingInformation"
-        }
-      }
-    }
-  }
+          className: "RefundBillingInformation",
+        },
+      },
+    },
+  },
 };
 
 export const RefundPolicyResult: coreClient.CompositeMapper = {
@@ -1989,11 +1989,11 @@ export const RefundPolicyResult: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "RefundPolicyResultProperty"
-        }
-      }
-    }
-  }
+          className: "RefundPolicyResultProperty",
+        },
+      },
+    },
+  },
 };
 
 export const RefundPolicyResultProperty: coreClient.CompositeMapper = {
@@ -2005,15 +2005,15 @@ export const RefundPolicyResultProperty: coreClient.CompositeMapper = {
         serializedName: "consumedRefundsTotal",
         type: {
           name: "Composite",
-          className: "Price"
-        }
+          className: "Price",
+        },
       },
       maxRefundLimit: {
         serializedName: "maxRefundLimit",
         type: {
           name: "Composite",
-          className: "Price"
-        }
+          className: "Price",
+        },
       },
       policyErrors: {
         serializedName: "policyErrors",
@@ -2022,13 +2022,13 @@ export const RefundPolicyResultProperty: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "RefundPolicyError"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "RefundPolicyError",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const RefundPolicyError: coreClient.CompositeMapper = {
@@ -2039,17 +2039,17 @@ export const RefundPolicyError: coreClient.CompositeMapper = {
       code: {
         serializedName: "code",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const RefundBillingInformation: coreClient.CompositeMapper = {
@@ -2060,44 +2060,44 @@ export const RefundBillingInformation: coreClient.CompositeMapper = {
       billingPlan: {
         serializedName: "billingPlan",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       completedTransactions: {
         serializedName: "completedTransactions",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       totalTransactions: {
         serializedName: "totalTransactions",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       billingCurrencyTotalPaidAmount: {
         serializedName: "billingCurrencyTotalPaidAmount",
         type: {
           name: "Composite",
-          className: "Price"
-        }
+          className: "Price",
+        },
       },
       billingCurrencyProratedAmount: {
         serializedName: "billingCurrencyProratedAmount",
         type: {
           name: "Composite",
-          className: "Price"
-        }
+          className: "Price",
+        },
       },
       billingCurrencyRemainingCommitmentAmount: {
         serializedName: "billingCurrencyRemainingCommitmentAmount",
         type: {
           name: "Composite",
-          className: "Price"
-        }
-      }
-    }
-  }
+          className: "Price",
+        },
+      },
+    },
+  },
 };
 
 export const RefundRequest: coreClient.CompositeMapper = {
@@ -2109,11 +2109,11 @@ export const RefundRequest: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "RefundRequestProperties"
-        }
-      }
-    }
-  }
+          className: "RefundRequestProperties",
+        },
+      },
+    },
+  },
 };
 
 export const RefundRequestProperties: coreClient.CompositeMapper = {
@@ -2124,30 +2124,30 @@ export const RefundRequestProperties: coreClient.CompositeMapper = {
       sessionId: {
         serializedName: "sessionId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       scope: {
         serializedName: "scope",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       reservationToReturn: {
         serializedName: "reservationToReturn",
         type: {
           name: "Composite",
-          className: "ReservationToReturn"
-        }
+          className: "ReservationToReturn",
+        },
       },
       returnReason: {
         serializedName: "returnReason",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const RefundResponse: coreClient.CompositeMapper = {
@@ -2158,18 +2158,18 @@ export const RefundResponse: coreClient.CompositeMapper = {
       id: {
         serializedName: "id",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "RefundResponseProperties"
-        }
-      }
-    }
-  }
+          className: "RefundResponseProperties",
+        },
+      },
+    },
+  },
 };
 
 export const CalculateExchangeRequest: coreClient.CompositeMapper = {
@@ -2181,11 +2181,11 @@ export const CalculateExchangeRequest: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "CalculateExchangeRequestProperties"
-        }
-      }
-    }
-  }
+          className: "CalculateExchangeRequestProperties",
+        },
+      },
+    },
+  },
 };
 
 export const CalculateExchangeRequestProperties: coreClient.CompositeMapper = {
@@ -2200,10 +2200,10 @@ export const CalculateExchangeRequestProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "PurchaseRequest"
-            }
-          }
-        }
+              className: "PurchaseRequest",
+            },
+          },
+        },
       },
       savingsPlansToPurchase: {
         serializedName: "savingsPlansToPurchase",
@@ -2212,10 +2212,10 @@ export const CalculateExchangeRequestProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SavingsPlanPurchaseRequest"
-            }
-          }
-        }
+              className: "SavingsPlanPurchaseRequest",
+            },
+          },
+        },
       },
       reservationsToExchange: {
         serializedName: "reservationsToExchange",
@@ -2224,13 +2224,13 @@ export const CalculateExchangeRequestProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReservationToReturn"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ReservationToReturn",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const SavingsPlanPurchaseRequest: coreClient.CompositeMapper = {
@@ -2242,55 +2242,55 @@ export const SavingsPlanPurchaseRequest: coreClient.CompositeMapper = {
         serializedName: "sku",
         type: {
           name: "Composite",
-          className: "SkuName"
-        }
+          className: "SkuName",
+        },
       },
       displayName: {
         serializedName: "properties.displayName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       billingScopeId: {
         serializedName: "properties.billingScopeId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       term: {
         serializedName: "properties.term",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       billingPlan: {
         serializedName: "properties.billingPlan",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       appliedScopeType: {
         serializedName: "properties.appliedScopeType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       appliedScopeProperties: {
         serializedName: "properties.appliedScopeProperties",
         type: {
           name: "Composite",
-          className: "AppliedScopeProperties"
-        }
+          className: "AppliedScopeProperties",
+        },
       },
       commitment: {
         serializedName: "properties.commitment",
         type: {
           name: "Composite",
-          className: "Commitment"
-        }
-      }
-    }
-  }
+          className: "Commitment",
+        },
+      },
+    },
+  },
 };
 
 export const CalculateExchangeOperationResultResponse: coreClient.CompositeMapper = {
@@ -2301,37 +2301,37 @@ export const CalculateExchangeOperationResultResponse: coreClient.CompositeMappe
       id: {
         serializedName: "id",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       status: {
         serializedName: "status",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "CalculateExchangeResponseProperties"
-        }
+          className: "CalculateExchangeResponseProperties",
+        },
       },
       error: {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "OperationResultError"
-        }
-      }
-    }
-  }
+          className: "OperationResultError",
+        },
+      },
+    },
+  },
 };
 
 export const CalculateExchangeResponseProperties: coreClient.CompositeMapper = {
@@ -2342,29 +2342,29 @@ export const CalculateExchangeResponseProperties: coreClient.CompositeMapper = {
       sessionId: {
         serializedName: "sessionId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       netPayable: {
         serializedName: "netPayable",
         type: {
           name: "Composite",
-          className: "Price"
-        }
+          className: "Price",
+        },
       },
       refundsTotal: {
         serializedName: "refundsTotal",
         type: {
           name: "Composite",
-          className: "Price"
-        }
+          className: "Price",
+        },
       },
       purchasesTotal: {
         serializedName: "purchasesTotal",
         type: {
           name: "Composite",
-          className: "Price"
-        }
+          className: "Price",
+        },
       },
       reservationsToPurchase: {
         serializedName: "reservationsToPurchase",
@@ -2373,10 +2373,10 @@ export const CalculateExchangeResponseProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReservationToPurchaseCalculateExchange"
-            }
-          }
-        }
+              className: "ReservationToPurchaseCalculateExchange",
+            },
+          },
+        },
       },
       savingsPlansToPurchase: {
         serializedName: "savingsPlansToPurchase",
@@ -2385,10 +2385,10 @@ export const CalculateExchangeResponseProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SavingsPlanToPurchaseCalculateExchange"
-            }
-          }
-        }
+              className: "SavingsPlanToPurchaseCalculateExchange",
+            },
+          },
+        },
       },
       reservationsToExchange: {
         serializedName: "reservationsToExchange",
@@ -2397,20 +2397,20 @@ export const CalculateExchangeResponseProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReservationToExchange"
-            }
-          }
-        }
+              className: "ReservationToExchange",
+            },
+          },
+        },
       },
       policyResult: {
         serializedName: "policyResult",
         type: {
           name: "Composite",
-          className: "ExchangePolicyErrors"
-        }
-      }
-    }
-  }
+          className: "ExchangePolicyErrors",
+        },
+      },
+    },
+  },
 };
 
 export const ReservationToPurchaseCalculateExchange: coreClient.CompositeMapper = {
@@ -2422,18 +2422,18 @@ export const ReservationToPurchaseCalculateExchange: coreClient.CompositeMapper 
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "PurchaseRequest"
-        }
+          className: "PurchaseRequest",
+        },
       },
       billingCurrencyTotal: {
         serializedName: "billingCurrencyTotal",
         type: {
           name: "Composite",
-          className: "Price"
-        }
-      }
-    }
-  }
+          className: "Price",
+        },
+      },
+    },
+  },
 };
 
 export const SavingsPlanToPurchaseCalculateExchange: coreClient.CompositeMapper = {
@@ -2445,18 +2445,18 @@ export const SavingsPlanToPurchaseCalculateExchange: coreClient.CompositeMapper 
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "SavingsPlanPurchaseRequest"
-        }
+          className: "SavingsPlanPurchaseRequest",
+        },
       },
       billingCurrencyTotal: {
         serializedName: "billingCurrencyTotal",
         type: {
           name: "Composite",
-          className: "Price"
-        }
-      }
-    }
-  }
+          className: "Price",
+        },
+      },
+    },
+  },
 };
 
 export const ReservationToExchange: coreClient.CompositeMapper = {
@@ -2467,31 +2467,31 @@ export const ReservationToExchange: coreClient.CompositeMapper = {
       reservationId: {
         serializedName: "reservationId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       quantity: {
         serializedName: "quantity",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       billingRefundAmount: {
         serializedName: "billingRefundAmount",
         type: {
           name: "Composite",
-          className: "Price"
-        }
+          className: "Price",
+        },
       },
       billingInformation: {
         serializedName: "billingInformation",
         type: {
           name: "Composite",
-          className: "BillingInformation"
-        }
-      }
-    }
-  }
+          className: "BillingInformation",
+        },
+      },
+    },
+  },
 };
 
 export const BillingInformation: coreClient.CompositeMapper = {
@@ -2503,25 +2503,25 @@ export const BillingInformation: coreClient.CompositeMapper = {
         serializedName: "billingCurrencyTotalPaidAmount",
         type: {
           name: "Composite",
-          className: "Price"
-        }
+          className: "Price",
+        },
       },
       billingCurrencyProratedAmount: {
         serializedName: "billingCurrencyProratedAmount",
         type: {
           name: "Composite",
-          className: "Price"
-        }
+          className: "Price",
+        },
       },
       billingCurrencyRemainingCommitmentAmount: {
         serializedName: "billingCurrencyRemainingCommitmentAmount",
         type: {
           name: "Composite",
-          className: "Price"
-        }
-      }
-    }
-  }
+          className: "Price",
+        },
+      },
+    },
+  },
 };
 
 export const ExchangePolicyErrors: coreClient.CompositeMapper = {
@@ -2536,13 +2536,13 @@ export const ExchangePolicyErrors: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ExchangePolicyError"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ExchangePolicyError",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ExchangePolicyError: coreClient.CompositeMapper = {
@@ -2553,17 +2553,17 @@ export const ExchangePolicyError: coreClient.CompositeMapper = {
       code: {
         serializedName: "code",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const OperationResultError: coreClient.CompositeMapper = {
@@ -2574,17 +2574,17 @@ export const OperationResultError: coreClient.CompositeMapper = {
       code: {
         serializedName: "code",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ExchangeRequest: coreClient.CompositeMapper = {
@@ -2596,11 +2596,11 @@ export const ExchangeRequest: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "ExchangeRequestProperties"
-        }
-      }
-    }
-  }
+          className: "ExchangeRequestProperties",
+        },
+      },
+    },
+  },
 };
 
 export const ExchangeRequestProperties: coreClient.CompositeMapper = {
@@ -2611,11 +2611,11 @@ export const ExchangeRequestProperties: coreClient.CompositeMapper = {
       sessionId: {
         serializedName: "sessionId",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ExchangeOperationResultResponse: coreClient.CompositeMapper = {
@@ -2626,37 +2626,37 @@ export const ExchangeOperationResultResponse: coreClient.CompositeMapper = {
       id: {
         serializedName: "id",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       status: {
         serializedName: "status",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "ExchangeResponseProperties"
-        }
+          className: "ExchangeResponseProperties",
+        },
       },
       error: {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "OperationResultError"
-        }
-      }
-    }
-  }
+          className: "OperationResultError",
+        },
+      },
+    },
+  },
 };
 
 export const ExchangeResponseProperties: coreClient.CompositeMapper = {
@@ -2667,29 +2667,29 @@ export const ExchangeResponseProperties: coreClient.CompositeMapper = {
       sessionId: {
         serializedName: "sessionId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       netPayable: {
         serializedName: "netPayable",
         type: {
           name: "Composite",
-          className: "Price"
-        }
+          className: "Price",
+        },
       },
       refundsTotal: {
         serializedName: "refundsTotal",
         type: {
           name: "Composite",
-          className: "Price"
-        }
+          className: "Price",
+        },
       },
       purchasesTotal: {
         serializedName: "purchasesTotal",
         type: {
           name: "Composite",
-          className: "Price"
-        }
+          className: "Price",
+        },
       },
       reservationsToPurchase: {
         serializedName: "reservationsToPurchase",
@@ -2698,10 +2698,10 @@ export const ExchangeResponseProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReservationToPurchaseExchange"
-            }
-          }
-        }
+              className: "ReservationToPurchaseExchange",
+            },
+          },
+        },
       },
       savingsPlansToPurchase: {
         serializedName: "savingsPlansToPurchase",
@@ -2710,10 +2710,10 @@ export const ExchangeResponseProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SavingsPlanToPurchaseExchange"
-            }
-          }
-        }
+              className: "SavingsPlanToPurchaseExchange",
+            },
+          },
+        },
       },
       reservationsToExchange: {
         serializedName: "reservationsToExchange",
@@ -2722,20 +2722,20 @@ export const ExchangeResponseProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReservationToReturnForExchange"
-            }
-          }
-        }
+              className: "ReservationToReturnForExchange",
+            },
+          },
+        },
       },
       policyResult: {
         serializedName: "policyResult",
         type: {
           name: "Composite",
-          className: "ExchangePolicyErrors"
-        }
-      }
-    }
-  }
+          className: "ExchangePolicyErrors",
+        },
+      },
+    },
+  },
 };
 
 export const ReservationToPurchaseExchange: coreClient.CompositeMapper = {
@@ -2746,37 +2746,37 @@ export const ReservationToPurchaseExchange: coreClient.CompositeMapper = {
       reservationOrderId: {
         serializedName: "reservationOrderId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       reservationId: {
         serializedName: "reservationId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "PurchaseRequest"
-        }
+          className: "PurchaseRequest",
+        },
       },
       billingCurrencyTotal: {
         serializedName: "billingCurrencyTotal",
         type: {
           name: "Composite",
-          className: "Price"
-        }
+          className: "Price",
+        },
       },
       status: {
         serializedName: "status",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SavingsPlanToPurchaseExchange: coreClient.CompositeMapper = {
@@ -2787,37 +2787,37 @@ export const SavingsPlanToPurchaseExchange: coreClient.CompositeMapper = {
       savingsPlanOrderId: {
         serializedName: "savingsPlanOrderId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       savingsPlanId: {
         serializedName: "savingsPlanId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "SavingsPlanPurchaseRequest"
-        }
+          className: "SavingsPlanPurchaseRequest",
+        },
       },
       billingCurrencyTotal: {
         serializedName: "billingCurrencyTotal",
         type: {
           name: "Composite",
-          className: "Price"
-        }
+          className: "Price",
+        },
       },
       status: {
         serializedName: "status",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ReservationToReturnForExchange: coreClient.CompositeMapper = {
@@ -2828,37 +2828,37 @@ export const ReservationToReturnForExchange: coreClient.CompositeMapper = {
       reservationId: {
         serializedName: "reservationId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       quantity: {
         serializedName: "quantity",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       billingRefundAmount: {
         serializedName: "billingRefundAmount",
         type: {
           name: "Composite",
-          className: "Price"
-        }
+          className: "Price",
+        },
       },
       billingInformation: {
         serializedName: "billingInformation",
         type: {
           name: "Composite",
-          className: "BillingInformation"
-        }
+          className: "BillingInformation",
+        },
       },
       status: {
         serializedName: "status",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ReservationsListResult: coreClient.CompositeMapper = {
@@ -2874,27 +2874,27 @@ export const ReservationsListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReservationResponse"
-            }
-          }
-        }
+              className: "ReservationResponse",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       summary: {
         serializedName: "summary",
         type: {
           name: "Composite",
-          className: "ReservationSummary"
-        }
-      }
-    }
-  }
+          className: "ReservationSummary",
+        },
+      },
+    },
+  },
 };
 
 export const ReservationSummary: coreClient.CompositeMapper = {
@@ -2906,67 +2906,67 @@ export const ReservationSummary: coreClient.CompositeMapper = {
         serializedName: "succeededCount",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       failedCount: {
         serializedName: "failedCount",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       expiringCount: {
         serializedName: "expiringCount",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       expiredCount: {
         serializedName: "expiredCount",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       pendingCount: {
         serializedName: "pendingCount",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       cancelledCount: {
         serializedName: "cancelledCount",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       processingCount: {
         serializedName: "processingCount",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       warningCount: {
         serializedName: "warningCount",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       noBenefitCount: {
         serializedName: "noBenefitCount",
         readOnly: true,
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorResponse: coreClient.CompositeMapper = {
@@ -2978,11 +2978,11 @@ export const ErrorResponse: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorDetails"
-        }
-      }
-    }
-  }
+          className: "ErrorDetails",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorDetails: coreClient.CompositeMapper = {
@@ -2994,25 +2994,25 @@ export const ErrorDetails: coreClient.CompositeMapper = {
         serializedName: "code",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       target: {
         serializedName: "target",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ChangeDirectoryRequest: coreClient.CompositeMapper = {
@@ -3023,11 +3023,11 @@ export const ChangeDirectoryRequest: coreClient.CompositeMapper = {
       destinationTenantId: {
         serializedName: "destinationTenantId",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ChangeDirectoryResponse: coreClient.CompositeMapper = {
@@ -3039,8 +3039,8 @@ export const ChangeDirectoryResponse: coreClient.CompositeMapper = {
         serializedName: "reservationOrder",
         type: {
           name: "Composite",
-          className: "ChangeDirectoryResult"
-        }
+          className: "ChangeDirectoryResult",
+        },
       },
       reservations: {
         serializedName: "reservations",
@@ -3049,13 +3049,13 @@ export const ChangeDirectoryResponse: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ChangeDirectoryResult"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ChangeDirectoryResult",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ChangeDirectoryResult: coreClient.CompositeMapper = {
@@ -3066,29 +3066,29 @@ export const ChangeDirectoryResult: coreClient.CompositeMapper = {
       id: {
         serializedName: "id",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       isSucceeded: {
         serializedName: "isSucceeded",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       error: {
         serializedName: "error",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const CurrentQuotaLimitBase: coreClient.CompositeMapper = {
@@ -3100,32 +3100,32 @@ export const CurrentQuotaLimitBase: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "QuotaProperties"
-        }
-      }
-    }
-  }
+          className: "QuotaProperties",
+        },
+      },
+    },
+  },
 };
 
 export const QuotaProperties: coreClient.CompositeMapper = {
@@ -3136,51 +3136,51 @@ export const QuotaProperties: coreClient.CompositeMapper = {
       limit: {
         serializedName: "limit",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       currentValue: {
         serializedName: "currentValue",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       unit: {
         serializedName: "unit",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         type: {
           name: "Composite",
-          className: "ResourceName"
-        }
+          className: "ResourceName",
+        },
       },
       resourceType: {
         serializedName: "resourceType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       quotaPeriod: {
         serializedName: "quotaPeriod",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
 };
 
 export const ResourceName: coreClient.CompositeMapper = {
@@ -3191,18 +3191,18 @@ export const ResourceName: coreClient.CompositeMapper = {
       value: {
         serializedName: "value",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       localizedValue: {
         serializedName: "localizedValue",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ExceptionResponse: coreClient.CompositeMapper = {
@@ -3214,11 +3214,11 @@ export const ExceptionResponse: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ServiceError"
-        }
-      }
-    }
-  }
+          className: "ServiceError",
+        },
+      },
+    },
+  },
 };
 
 export const ServiceError: coreClient.CompositeMapper = {
@@ -3229,14 +3229,14 @@ export const ServiceError: coreClient.CompositeMapper = {
       code: {
         serializedName: "code",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       details: {
         serializedName: "details",
@@ -3246,13 +3246,13 @@ export const ServiceError: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ServiceErrorDetail"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ServiceErrorDetail",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ServiceErrorDetail: coreClient.CompositeMapper = {
@@ -3264,18 +3264,18 @@ export const ServiceErrorDetail: coreClient.CompositeMapper = {
         serializedName: "code",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const QuotaRequestSubmitResponse201: coreClient.CompositeMapper = {
@@ -3287,39 +3287,39 @@ export const QuotaRequestSubmitResponse201: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "properties.message",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const QuotaLimits: coreClient.CompositeMapper = {
@@ -3334,19 +3334,19 @@ export const QuotaLimits: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "CurrentQuotaLimitBase"
-            }
-          }
-        }
+              className: "CurrentQuotaLimitBase",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const QuotaRequestDetails: coreClient.CompositeMapper = {
@@ -3358,42 +3358,42 @@ export const QuotaRequestDetails: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "properties.message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       requestSubmitTime: {
         serializedName: "properties.requestSubmitTime",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       value: {
         serializedName: "properties.value",
@@ -3402,13 +3402,13 @@ export const QuotaRequestDetails: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SubRequest"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "SubRequest",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const QuotaRequestProperties: coreClient.CompositeMapper = {
@@ -3419,22 +3419,22 @@ export const QuotaRequestProperties: coreClient.CompositeMapper = {
       provisioningState: {
         serializedName: "provisioningState",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       requestSubmitTime: {
         serializedName: "requestSubmitTime",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       value: {
         serializedName: "value",
@@ -3443,13 +3443,13 @@ export const QuotaRequestProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SubRequest"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "SubRequest",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const SubRequest: coreClient.CompositeMapper = {
@@ -3461,51 +3461,51 @@ export const SubRequest: coreClient.CompositeMapper = {
         serializedName: "limit",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       name: {
         serializedName: "name",
         type: {
           name: "Composite",
-          className: "ResourceName"
-        }
+          className: "ResourceName",
+        },
       },
       resourceType: {
         serializedName: "resourceType",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       unit: {
         serializedName: "unit",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       provisioningState: {
         serializedName: "provisioningState",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       subRequestId: {
         serializedName: "subRequestId",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const QuotaRequestDetailsList: coreClient.CompositeMapper = {
@@ -3520,19 +3520,19 @@ export const QuotaRequestDetailsList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "QuotaRequestDetails"
-            }
-          }
-        }
+              className: "QuotaRequestDetails",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const CurrentQuotaLimit: coreClient.CompositeMapper = {
@@ -3544,46 +3544,46 @@ export const CurrentQuotaLimit: coreClient.CompositeMapper = {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "properties.message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       id: {
         serializedName: "quotaInformation.id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "quotaInformation.name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "quotaInformation.type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "quotaInformation.properties",
         type: {
           name: "Composite",
-          className: "QuotaProperties"
-        }
-      }
-    }
-  }
+          className: "QuotaProperties",
+        },
+      },
+    },
+  },
 };
 
 export const QuotaLimitsResponse: coreClient.CompositeMapper = {
@@ -3598,19 +3598,19 @@ export const QuotaLimitsResponse: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "CurrentQuotaLimit"
-            }
-          }
-        }
+              className: "CurrentQuotaLimit",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const CreateGenericQuotaRequestParameters: coreClient.CompositeMapper = {
@@ -3625,13 +3625,13 @@ export const CreateGenericQuotaRequestParameters: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "CurrentQuotaLimitBase"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "CurrentQuotaLimitBase",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const QuotaRequestOneResourceSubmitResponse: coreClient.CompositeMapper = {
@@ -3643,74 +3643,74 @@ export const QuotaRequestOneResourceSubmitResponse: coreClient.CompositeMapper =
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "properties.message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       requestSubmitTime: {
         serializedName: "properties.requestSubmitTime",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       idPropertiesId: {
         serializedName: "properties.properties.id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       namePropertiesName: {
         serializedName: "properties.properties.name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       typePropertiesType: {
         serializedName: "properties.properties.type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties.properties.properties",
         type: {
           name: "Composite",
-          className: "QuotaProperties"
-        }
-      }
-    }
-  }
+          className: "QuotaProperties",
+        },
+      },
+    },
+  },
 };
 
 export const QuotaRequestSubmitResponse: coreClient.CompositeMapper = {
@@ -3722,32 +3722,32 @@ export const QuotaRequestSubmitResponse: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "QuotaRequestProperties"
-        }
+          className: "QuotaRequestProperties",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Commitment: coreClient.CompositeMapper = {
@@ -3759,11 +3759,11 @@ export const Commitment: coreClient.CompositeMapper = {
       grain: {
         serializedName: "grain",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ProxyResource: coreClient.CompositeMapper = {
@@ -3771,9 +3771,9 @@ export const ProxyResource: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ProxyResource",
     modelProperties: {
-      ...Resource.type.modelProperties
-    }
-  }
+      ...Resource.type.modelProperties,
+    },
+  },
 };
 
 export const ReservationResponse: coreClient.CompositeMapper = {
@@ -3785,39 +3785,39 @@ export const ReservationResponse: coreClient.CompositeMapper = {
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       etag: {
         serializedName: "etag",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       sku: {
         serializedName: "sku",
         type: {
           name: "Composite",
-          className: "SkuName"
-        }
+          className: "SkuName",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "ReservationsProperties"
-        }
+          className: "ReservationsProperties",
+        },
       },
       kind: {
         defaultValue: "Microsoft.Compute",
         isConstant: true,
         serializedName: "kind",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ReservationSplitHeaders: coreClient.CompositeMapper = {
@@ -3828,17 +3828,17 @@ export const ReservationSplitHeaders: coreClient.CompositeMapper = {
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       retryAfter: {
         serializedName: "retry-after",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const ReservationMergeHeaders: coreClient.CompositeMapper = {
@@ -3849,17 +3849,17 @@ export const ReservationMergeHeaders: coreClient.CompositeMapper = {
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       retryAfter: {
         serializedName: "retry-after",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const ReservationUpdateHeaders: coreClient.CompositeMapper = {
@@ -3870,23 +3870,23 @@ export const ReservationUpdateHeaders: coreClient.CompositeMapper = {
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       retryAfter: {
         serializedName: "retry-after",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const ReservationOrderPurchaseHeaders: coreClient.CompositeMapper = {
@@ -3897,17 +3897,17 @@ export const ReservationOrderPurchaseHeaders: coreClient.CompositeMapper = {
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       retryAfter: {
         serializedName: "retry-after",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const ReturnPostHeaders: coreClient.CompositeMapper = {
@@ -3918,11 +3918,11 @@ export const ReturnPostHeaders: coreClient.CompositeMapper = {
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const CalculateExchangePostHeaders: coreClient.CompositeMapper = {
@@ -3933,23 +3933,23 @@ export const CalculateExchangePostHeaders: coreClient.CompositeMapper = {
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       retryAfter: {
         serializedName: "retry-after",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const ExchangePostHeaders: coreClient.CompositeMapper = {
@@ -3960,23 +3960,23 @@ export const ExchangePostHeaders: coreClient.CompositeMapper = {
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       retryAfter: {
         serializedName: "retry-after",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const QuotaGetHeaders: coreClient.CompositeMapper = {
@@ -3987,11 +3987,11 @@ export const QuotaGetHeaders: coreClient.CompositeMapper = {
       eTag: {
         serializedName: "etag",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const QuotaListHeaders: coreClient.CompositeMapper = {
@@ -4002,11 +4002,11 @@ export const QuotaListHeaders: coreClient.CompositeMapper = {
       eTag: {
         serializedName: "etag",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const QuotaListNextHeaders: coreClient.CompositeMapper = {
@@ -4017,9 +4017,9 @@ export const QuotaListNextHeaders: coreClient.CompositeMapper = {
       eTag: {
         serializedName: "etag",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };

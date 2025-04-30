@@ -10,7 +10,7 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CalculateExchangeRequest,
   CalculateExchangePostOptionalParams,
-  CalculateExchangePostResponse
+  CalculateExchangePostResponse,
 } from "../models/index.js";
 
 /** Interface representing a CalculateExchange. */
@@ -23,12 +23,9 @@ export interface CalculateExchange {
    */
   beginPost(
     body: CalculateExchangeRequest,
-    options?: CalculateExchangePostOptionalParams
+    options?: CalculateExchangePostOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<CalculateExchangePostResponse>,
-      CalculateExchangePostResponse
-    >
+    SimplePollerLike<OperationState<CalculateExchangePostResponse>, CalculateExchangePostResponse>
   >;
   /**
    * Calculates price for exchanging `Reservations` if there are no policy errors.
@@ -38,6 +35,6 @@ export interface CalculateExchange {
    */
   beginPostAndWait(
     body: CalculateExchangeRequest,
-    options?: CalculateExchangePostOptionalParams
+    options?: CalculateExchangePostOptionalParams,
   ): Promise<CalculateExchangePostResponse>;
 }

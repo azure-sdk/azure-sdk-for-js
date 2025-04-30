@@ -11,17 +11,9 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureReservationAPI } from "../azureReservationAPI.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import {
-  RefundRequest,
-  ReturnPostOptionalParams,
-  ReturnPostResponse
-} from "../models/index.js";
+import { RefundRequest, ReturnPostOptionalParams, ReturnPostResponse } from "../models/index.js";
 
 /** Class containing Return operations. */
 export class ReturnImpl implements Return {
@@ -44,27 +36,23 @@ export class ReturnImpl implements Return {
   async beginPost(
     reservationOrderId: string,
     body: RefundRequest,
-    options?: ReturnPostOptionalParams
-  ): Promise<
-    SimplePollerLike<OperationState<ReturnPostResponse>, ReturnPostResponse>
-  > {
+    options?: ReturnPostOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<ReturnPostResponse>, ReturnPostResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReturnPostResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -73,8 +61,8 @@ export class ReturnImpl implements Return {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -82,24 +70,24 @@ export class ReturnImpl implements Return {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { reservationOrderId, body, options },
-      spec: postOperationSpec
+      spec: postOperationSpec,
     });
-    const poller = await createHttpPoller<
-      ReturnPostResponse,
-      OperationState<ReturnPostResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
+    const poller = await createHttpPoller<ReturnPostResponse, OperationState<ReturnPostResponse>>(
+      lro,
+      {
+        restoreFrom: options?.resumeFrom,
+        intervalInMs: options?.updateIntervalInMs,
+        resourceLocationConfig: "location",
+      },
+    );
     await poller.poll();
     return poller;
   }
@@ -113,7 +101,7 @@ export class ReturnImpl implements Return {
   async beginPostAndWait(
     reservationOrderId: string,
     body: RefundRequest,
-    options?: ReturnPostOptionalParams
+    options?: ReturnPostOptionalParams,
   ): Promise<ReturnPostResponse> {
     const poller = await this.beginPost(reservationOrderId, body, options);
     return poller.pollUntilDone();
@@ -123,30 +111,29 @@ export class ReturnImpl implements Return {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const postOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/return",
+  path: "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/return",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationOrderResponse
+      bodyMapper: Mappers.ReservationOrderResponse,
     },
     201: {
-      bodyMapper: Mappers.ReservationOrderResponse
+      bodyMapper: Mappers.ReservationOrderResponse,
     },
     202: {
-      bodyMapper: Mappers.ReservationOrderResponse
+      bodyMapper: Mappers.ReservationOrderResponse,
     },
     204: {
-      bodyMapper: Mappers.ReservationOrderResponse
+      bodyMapper: Mappers.ReservationOrderResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.reservationOrderId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

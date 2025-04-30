@@ -14,7 +14,7 @@ import { AzureReservationAPI } from "../azureReservationAPI.js";
 import {
   CalculateRefundRequest,
   CalculateRefundPostOptionalParams,
-  CalculateRefundPostResponse
+  CalculateRefundPostResponse,
 } from "../models/index.js";
 
 /** Class containing CalculateRefund operations. */
@@ -39,11 +39,11 @@ export class CalculateRefundImpl implements CalculateRefund {
   post(
     reservationOrderId: string,
     body: CalculateRefundRequest,
-    options?: CalculateRefundPostOptionalParams
+    options?: CalculateRefundPostOptionalParams,
   ): Promise<CalculateRefundPostResponse> {
     return this.client.sendOperationRequest(
       { reservationOrderId, body, options },
-      postOperationSpec
+      postOperationSpec,
     );
   }
 }
@@ -51,21 +51,20 @@ export class CalculateRefundImpl implements CalculateRefund {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const postOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/calculateRefund",
+  path: "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/calculateRefund",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CalculateRefundResponse
+      bodyMapper: Mappers.CalculateRefundResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   requestBody: Parameters.body5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.reservationOrderId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

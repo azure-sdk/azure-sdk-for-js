@@ -11,7 +11,7 @@ import {
   QuotaRequestDetails,
   QuotaRequestStatusListOptionalParams,
   QuotaRequestStatusGetOptionalParams,
-  QuotaRequestStatusGetResponse
+  QuotaRequestStatusGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface QuotaRequestStatus {
     subscriptionId: string,
     providerId: string,
     location: string,
-    options?: QuotaRequestStatusListOptionalParams
+    options?: QuotaRequestStatusListOptionalParams,
   ): PagedAsyncIterableIterator<QuotaRequestDetails>;
   /**
    * For the specified Azure region (location), get the details and status of the quota request by the
@@ -46,6 +46,6 @@ export interface QuotaRequestStatus {
     providerId: string,
     location: string,
     id: string,
-    options?: QuotaRequestStatusGetOptionalParams
+    options?: QuotaRequestStatusGetOptionalParams,
   ): Promise<QuotaRequestStatusGetResponse>;
 }

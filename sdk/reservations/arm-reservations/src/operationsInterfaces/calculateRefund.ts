@@ -9,7 +9,7 @@
 import {
   CalculateRefundRequest,
   CalculateRefundPostOptionalParams,
-  CalculateRefundPostResponse
+  CalculateRefundPostResponse,
 } from "../models/index.js";
 
 /** Interface representing a CalculateRefund. */
@@ -24,6 +24,6 @@ export interface CalculateRefund {
   post(
     reservationOrderId: string,
     body: CalculateRefundRequest,
-    options?: CalculateRefundPostOptionalParams
+    options?: CalculateRefundPostOptionalParams,
   ): Promise<CalculateRefundPostResponse>;
 }

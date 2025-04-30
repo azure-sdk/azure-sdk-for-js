@@ -10,7 +10,7 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ExchangeRequest,
   ExchangePostOptionalParams,
-  ExchangePostResponse
+  ExchangePostResponse,
 } from "../models/index.js";
 
 /** Interface representing a Exchange. */
@@ -23,10 +23,8 @@ export interface Exchange {
    */
   beginPost(
     body: ExchangeRequest,
-    options?: ExchangePostOptionalParams
-  ): Promise<
-    SimplePollerLike<OperationState<ExchangePostResponse>, ExchangePostResponse>
-  >;
+    options?: ExchangePostOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<ExchangePostResponse>, ExchangePostResponse>>;
   /**
    * Returns one or more `Reservations` in exchange for one or more `Reservation` purchases.
    *
@@ -35,6 +33,6 @@ export interface Exchange {
    */
   beginPostAndWait(
     body: ExchangeRequest,
-    options?: ExchangePostOptionalParams
+    options?: ExchangePostOptionalParams,
   ): Promise<ExchangePostResponse>;
 }

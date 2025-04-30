@@ -28,7 +28,7 @@ import {
   ReservationUpdateOptionalParams,
   ReservationUpdateResponse,
   ReservationArchiveOptionalParams,
-  ReservationUnarchiveOptionalParams
+  ReservationUnarchiveOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export interface Reservation {
    */
   list(
     reservationOrderId: string,
-    options?: ReservationListOptionalParams
+    options?: ReservationListOptionalParams,
   ): PagedAsyncIterableIterator<ReservationResponse>;
   /**
    * List of all the revisions for the `Reservation`.
@@ -52,7 +52,7 @@ export interface Reservation {
   listRevisions(
     reservationOrderId: string,
     reservationId: string,
-    options?: ReservationListRevisionsOptionalParams
+    options?: ReservationListRevisionsOptionalParams,
   ): PagedAsyncIterableIterator<ReservationResponse>;
   /**
    * List the reservations and the roll up counts of reservations group by provisioning states that the
@@ -60,7 +60,7 @@ export interface Reservation {
    * @param options The options parameters.
    */
   listAll(
-    options?: ReservationListAllOptionalParams
+    options?: ReservationListAllOptionalParams,
   ): PagedAsyncIterableIterator<ReservationResponse>;
   /**
    * Check whether the scopes from request is valid for `Reservation`.
@@ -74,7 +74,7 @@ export interface Reservation {
     reservationOrderId: string,
     reservationId: string,
     body: AvailableScopeRequest,
-    options?: ReservationAvailableScopesOptionalParams
+    options?: ReservationAvailableScopesOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReservationAvailableScopesResponse>,
@@ -93,7 +93,7 @@ export interface Reservation {
     reservationOrderId: string,
     reservationId: string,
     body: AvailableScopeRequest,
-    options?: ReservationAvailableScopesOptionalParams
+    options?: ReservationAvailableScopesOptionalParams,
   ): Promise<ReservationAvailableScopesResponse>;
   /**
    * Split a `Reservation` into two `Reservation`s with specified quantity distribution.
@@ -104,13 +104,8 @@ export interface Reservation {
   beginSplit(
     reservationOrderId: string,
     body: SplitRequest,
-    options?: ReservationSplitOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ReservationSplitResponse>,
-      ReservationSplitResponse
-    >
-  >;
+    options?: ReservationSplitOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<ReservationSplitResponse>, ReservationSplitResponse>>;
   /**
    * Split a `Reservation` into two `Reservation`s with specified quantity distribution.
    * @param reservationOrderId Order Id of the reservation
@@ -120,7 +115,7 @@ export interface Reservation {
   beginSplitAndWait(
     reservationOrderId: string,
     body: SplitRequest,
-    options?: ReservationSplitOptionalParams
+    options?: ReservationSplitOptionalParams,
   ): Promise<ReservationSplitResponse>;
   /**
    * Merge the specified `Reservation`s into a new `Reservation`. The two `Reservation`s being merged
@@ -132,13 +127,8 @@ export interface Reservation {
   beginMerge(
     reservationOrderId: string,
     body: MergeRequest,
-    options?: ReservationMergeOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ReservationMergeResponse>,
-      ReservationMergeResponse
-    >
-  >;
+    options?: ReservationMergeOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<ReservationMergeResponse>, ReservationMergeResponse>>;
   /**
    * Merge the specified `Reservation`s into a new `Reservation`. The two `Reservation`s being merged
    * must have same properties.
@@ -149,7 +139,7 @@ export interface Reservation {
   beginMergeAndWait(
     reservationOrderId: string,
     body: MergeRequest,
-    options?: ReservationMergeOptionalParams
+    options?: ReservationMergeOptionalParams,
   ): Promise<ReservationMergeResponse>;
   /**
    * Get specific `Reservation` details.
@@ -160,7 +150,7 @@ export interface Reservation {
   get(
     reservationOrderId: string,
     reservationId: string,
-    options?: ReservationGetOptionalParams
+    options?: ReservationGetOptionalParams,
   ): Promise<ReservationGetResponse>;
   /**
    * Updates the applied scopes of the `Reservation`.
@@ -173,12 +163,9 @@ export interface Reservation {
     reservationOrderId: string,
     reservationId: string,
     parameters: Patch,
-    options?: ReservationUpdateOptionalParams
+    options?: ReservationUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ReservationUpdateResponse>,
-      ReservationUpdateResponse
-    >
+    SimplePollerLike<OperationState<ReservationUpdateResponse>, ReservationUpdateResponse>
   >;
   /**
    * Updates the applied scopes of the `Reservation`.
@@ -191,7 +178,7 @@ export interface Reservation {
     reservationOrderId: string,
     reservationId: string,
     parameters: Patch,
-    options?: ReservationUpdateOptionalParams
+    options?: ReservationUpdateOptionalParams,
   ): Promise<ReservationUpdateResponse>;
   /**
    * Archiving a `Reservation` moves it to `Archived` state.
@@ -202,7 +189,7 @@ export interface Reservation {
   archive(
     reservationOrderId: string,
     reservationId: string,
-    options?: ReservationArchiveOptionalParams
+    options?: ReservationArchiveOptionalParams,
   ): Promise<void>;
   /**
    * Restores a `Reservation` to the state it was before archiving.
@@ -214,6 +201,6 @@ export interface Reservation {
   unarchive(
     reservationOrderId: string,
     reservationId: string,
-    options?: ReservationUnarchiveOptionalParams
+    options?: ReservationUnarchiveOptionalParams,
   ): Promise<void>;
 }
