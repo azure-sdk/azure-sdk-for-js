@@ -14,7 +14,7 @@ import {
   BuildServiceAgentPoolGetOptionalParams,
   BuildServiceAgentPoolGetResponse,
   BuildServiceAgentPoolUpdatePutOptionalParams,
-  BuildServiceAgentPoolUpdatePutResponse
+  BuildServiceAgentPoolUpdatePutResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface BuildServiceAgentPool {
     resourceGroupName: string,
     serviceName: string,
     buildServiceName: string,
-    options?: BuildServiceAgentPoolListOptionalParams
+    options?: BuildServiceAgentPoolListOptionalParams,
   ): PagedAsyncIterableIterator<BuildServiceAgentPoolResource>;
   /**
    * Get build service agent pool.
@@ -48,7 +48,7 @@ export interface BuildServiceAgentPool {
     serviceName: string,
     buildServiceName: string,
     agentPoolName: string,
-    options?: BuildServiceAgentPoolGetOptionalParams
+    options?: BuildServiceAgentPoolGetOptionalParams,
   ): Promise<BuildServiceAgentPoolGetResponse>;
   /**
    * Create or update build service agent pool.
@@ -66,7 +66,7 @@ export interface BuildServiceAgentPool {
     buildServiceName: string,
     agentPoolName: string,
     agentPoolResource: BuildServiceAgentPoolResource,
-    options?: BuildServiceAgentPoolUpdatePutOptionalParams
+    options?: BuildServiceAgentPoolUpdatePutOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BuildServiceAgentPoolUpdatePutResponse>,
@@ -89,6 +89,6 @@ export interface BuildServiceAgentPool {
     buildServiceName: string,
     agentPoolName: string,
     agentPoolResource: BuildServiceAgentPoolResource,
-    options?: BuildServiceAgentPoolUpdatePutOptionalParams
+    options?: BuildServiceAgentPoolUpdatePutOptionalParams,
   ): Promise<BuildServiceAgentPoolUpdatePutResponse>;
 }

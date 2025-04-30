@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AppPlatformManagementClient } from "../appPlatformManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   AppResource,
@@ -39,7 +35,7 @@ import {
   CustomDomainValidatePayload,
   AppsValidateDomainOptionalParams,
   AppsValidateDomainResponse,
-  AppsListNextResponse
+  AppsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -65,7 +61,7 @@ export class AppsImpl implements Apps {
   public list(
     resourceGroupName: string,
     serviceName: string,
-    options?: AppsListOptionalParams
+    options?: AppsListOptionalParams,
   ): PagedAsyncIterableIterator<AppResource> {
     const iter = this.listPagingAll(resourceGroupName, serviceName, options);
     return {
@@ -79,13 +75,8 @@ export class AppsImpl implements Apps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          serviceName,
-          options,
-          settings
-        );
-      }
+        return this.listPagingPage(resourceGroupName, serviceName, options, settings);
+      },
     };
   }
 
@@ -93,7 +84,7 @@ export class AppsImpl implements Apps {
     resourceGroupName: string,
     serviceName: string,
     options?: AppsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AppResource[]> {
     let result: AppsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -105,12 +96,7 @@ export class AppsImpl implements Apps {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        serviceName,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(resourceGroupName, serviceName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -121,13 +107,9 @@ export class AppsImpl implements Apps {
   private async *listPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: AppsListOptionalParams
+    options?: AppsListOptionalParams,
   ): AsyncIterableIterator<AppResource> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      serviceName,
-      options
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, serviceName, options)) {
       yield* page;
     }
   }
@@ -144,11 +126,11 @@ export class AppsImpl implements Apps {
     resourceGroupName: string,
     serviceName: string,
     appName: string,
-    options?: AppsGetOptionalParams
+    options?: AppsGetOptionalParams,
   ): Promise<AppsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, appName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -166,30 +148,25 @@ export class AppsImpl implements Apps {
     serviceName: string,
     appName: string,
     appResource: AppResource,
-    options?: AppsCreateOrUpdateOptionalParams
+    options?: AppsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<AppsCreateOrUpdateResponse>,
-      AppsCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<AppsCreateOrUpdateResponse>, AppsCreateOrUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AppsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -198,8 +175,8 @@ export class AppsImpl implements Apps {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -207,22 +184,22 @@ export class AppsImpl implements Apps {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, appName, appResource, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       AppsCreateOrUpdateResponse,
       OperationState<AppsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -242,14 +219,14 @@ export class AppsImpl implements Apps {
     serviceName: string,
     appName: string,
     appResource: AppResource,
-    options?: AppsCreateOrUpdateOptionalParams
+    options?: AppsCreateOrUpdateOptionalParams,
   ): Promise<AppsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
       appName,
       appResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -266,25 +243,23 @@ export class AppsImpl implements Apps {
     resourceGroupName: string,
     serviceName: string,
     appName: string,
-    options?: AppsDeleteOptionalParams
+    options?: AppsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -293,8 +268,8 @@ export class AppsImpl implements Apps {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -302,19 +277,19 @@ export class AppsImpl implements Apps {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, appName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -332,14 +307,9 @@ export class AppsImpl implements Apps {
     resourceGroupName: string,
     serviceName: string,
     appName: string,
-    options?: AppsDeleteOptionalParams
+    options?: AppsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      serviceName,
-      appName,
-      options
-    );
+    const poller = await this.beginDelete(resourceGroupName, serviceName, appName, options);
     return poller.pollUntilDone();
   }
 
@@ -357,27 +327,23 @@ export class AppsImpl implements Apps {
     serviceName: string,
     appName: string,
     appResource: AppResource,
-    options?: AppsUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<OperationState<AppsUpdateResponse>, AppsUpdateResponse>
-  > {
+    options?: AppsUpdateOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<AppsUpdateResponse>, AppsUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AppsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -386,8 +352,8 @@ export class AppsImpl implements Apps {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -395,23 +361,23 @@ export class AppsImpl implements Apps {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, appName, appResource, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
-    const poller = await createHttpPoller<
-      AppsUpdateResponse,
-      OperationState<AppsUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
+    const poller = await createHttpPoller<AppsUpdateResponse, OperationState<AppsUpdateResponse>>(
+      lro,
+      {
+        restoreFrom: options?.resumeFrom,
+        intervalInMs: options?.updateIntervalInMs,
+      },
+    );
     await poller.poll();
     return poller;
   }
@@ -430,14 +396,14 @@ export class AppsImpl implements Apps {
     serviceName: string,
     appName: string,
     appResource: AppResource,
-    options?: AppsUpdateOptionalParams
+    options?: AppsUpdateOptionalParams,
   ): Promise<AppsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       serviceName,
       appName,
       appResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -452,11 +418,11 @@ export class AppsImpl implements Apps {
   private _list(
     resourceGroupName: string,
     serviceName: string,
-    options?: AppsListOptionalParams
+    options?: AppsListOptionalParams,
   ): Promise<AppsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -472,11 +438,11 @@ export class AppsImpl implements Apps {
     resourceGroupName: string,
     serviceName: string,
     appName: string,
-    options?: AppsGetResourceUploadUrlOptionalParams
+    options?: AppsGetResourceUploadUrlOptionalParams,
   ): Promise<AppsGetResourceUploadUrlResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, appName, options },
-      getResourceUploadUrlOperationSpec
+      getResourceUploadUrlOperationSpec,
     );
   }
 
@@ -494,7 +460,7 @@ export class AppsImpl implements Apps {
     serviceName: string,
     appName: string,
     activeDeploymentCollection: ActiveDeploymentCollection,
-    options?: AppsSetActiveDeploymentsOptionalParams
+    options?: AppsSetActiveDeploymentsOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AppsSetActiveDeploymentsResponse>,
@@ -503,21 +469,19 @@ export class AppsImpl implements Apps {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AppsSetActiveDeploymentsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -526,8 +490,8 @@ export class AppsImpl implements Apps {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -535,8 +499,8 @@ export class AppsImpl implements Apps {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -547,16 +511,16 @@ export class AppsImpl implements Apps {
         serviceName,
         appName,
         activeDeploymentCollection,
-        options
+        options,
       },
-      spec: setActiveDeploymentsOperationSpec
+      spec: setActiveDeploymentsOperationSpec,
     });
     const poller = await createHttpPoller<
       AppsSetActiveDeploymentsResponse,
       OperationState<AppsSetActiveDeploymentsResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -576,14 +540,14 @@ export class AppsImpl implements Apps {
     serviceName: string,
     appName: string,
     activeDeploymentCollection: ActiveDeploymentCollection,
-    options?: AppsSetActiveDeploymentsOptionalParams
+    options?: AppsSetActiveDeploymentsOptionalParams,
   ): Promise<AppsSetActiveDeploymentsResponse> {
     const poller = await this.beginSetActiveDeployments(
       resourceGroupName,
       serviceName,
       appName,
       activeDeploymentCollection,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -602,11 +566,11 @@ export class AppsImpl implements Apps {
     serviceName: string,
     appName: string,
     validatePayload: CustomDomainValidatePayload,
-    options?: AppsValidateDomainOptionalParams
+    options?: AppsValidateDomainOptionalParams,
   ): Promise<AppsValidateDomainResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, appName, validatePayload, options },
-      validateDomainOperationSpec
+      validateDomainOperationSpec,
     );
   }
 
@@ -622,11 +586,11 @@ export class AppsImpl implements Apps {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: AppsListNextOptionalParams
+    options?: AppsListNextOptionalParams,
   ): Promise<AppsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -634,16 +598,15 @@ export class AppsImpl implements Apps {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AppResource
+      bodyMapper: Mappers.AppResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.syncStatus],
   urlParameters: [
@@ -651,31 +614,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.appName
+    Parameters.appName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AppResource
+      bodyMapper: Mappers.AppResource,
     },
     201: {
-      bodyMapper: Mappers.AppResource
+      bodyMapper: Mappers.AppResource,
     },
     202: {
-      bodyMapper: Mappers.AppResource
+      bodyMapper: Mappers.AppResource,
     },
     204: {
-      bodyMapper: Mappers.AppResource
+      bodyMapper: Mappers.AppResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.appResource,
   queryParameters: [Parameters.apiVersion],
@@ -684,15 +646,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.appName
+    Parameters.appName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -700,8 +661,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -709,31 +670,30 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.appName
+    Parameters.appName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.AppResource
+      bodyMapper: Mappers.AppResource,
     },
     201: {
-      bodyMapper: Mappers.AppResource
+      bodyMapper: Mappers.AppResource,
     },
     202: {
-      bodyMapper: Mappers.AppResource
+      bodyMapper: Mappers.AppResource,
     },
     204: {
-      bodyMapper: Mappers.AppResource
+      bodyMapper: Mappers.AppResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.appResource,
   queryParameters: [Parameters.apiVersion],
@@ -742,45 +702,22 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.appName
+    Parameters.appName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AppResourceCollection
+      bodyMapper: Mappers.AppResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getResourceUploadUrlOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/getResourceUploadUrl",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceUploadDefinition
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -788,31 +725,51 @@ const getResourceUploadUrlOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.appName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const setActiveDeploymentsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/setActiveDeployments",
+const getResourceUploadUrlOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/getResourceUploadUrl",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AppResource
-    },
-    201: {
-      bodyMapper: Mappers.AppResource
-    },
-    202: {
-      bodyMapper: Mappers.AppResource
-    },
-    204: {
-      bodyMapper: Mappers.AppResource
+      bodyMapper: Mappers.ResourceUploadDefinition,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.appName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const setActiveDeploymentsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/setActiveDeployments",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AppResource,
+    },
+    201: {
+      bodyMapper: Mappers.AppResource,
+    },
+    202: {
+      bodyMapper: Mappers.AppResource,
+    },
+    204: {
+      bodyMapper: Mappers.AppResource,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.activeDeploymentCollection,
   queryParameters: [Parameters.apiVersion],
@@ -821,23 +778,22 @@ const setActiveDeploymentsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.appName
+    Parameters.appName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const validateDomainOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/validateDomain",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/validateDomain",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomDomainValidateResult
+      bodyMapper: Mappers.CustomDomainValidateResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.validatePayload,
   queryParameters: [Parameters.apiVersion],
@@ -846,30 +802,30 @@ const validateDomainOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.appName
+    Parameters.appName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AppResourceCollection
+      bodyMapper: Mappers.AppResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -1,15 +1,152 @@
 # Release History
-
-## 3.0.1 (Unreleased)
-
+    
+## 3.1.0-beta.1 (2025-04-30)
+Compared with version 3.0.0
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group EurekaServers
+  - Added operation group Job
+  - Added operation group JobExecutionOperations
+  - Added operation group JobExecutions
+  - Added operation group Jobs
+  - Added operation ConfigServers.beginDelete
+  - Added operation ConfigServers.beginDeleteAndWait
+  - Added operation ConfigServers.list
+  - Added operation Gateways.beginUpdateCapacity
+  - Added operation Gateways.beginUpdateCapacityAndWait
+  - Added Interface ConfigServerInstance
+  - Added Interface ConfigServerResourceCollection
+  - Added Interface ConfigServerResourceRequests
+  - Added Interface ConfigServersDeleteHeaders
+  - Added Interface ConfigServersDeleteOptionalParams
+  - Added Interface ConfigServersListNextOptionalParams
+  - Added Interface ConfigServersListOptionalParams
+  - Added Interface CustomScaleRule
+  - Added Interface EnvSecretsCollection
+  - Added Interface EnvVar
+  - Added Interface EurekaServerProperties
+  - Added Interface EurekaServerResource
+  - Added Interface EurekaServerResourceCollection
+  - Added Interface EurekaServersGetOptionalParams
+  - Added Interface EurekaServersListOptionalParams
+  - Added Interface EurekaServersUpdatePatchHeaders
+  - Added Interface EurekaServersUpdatePatchOptionalParams
+  - Added Interface EurekaServersUpdatePutHeaders
+  - Added Interface EurekaServersUpdatePutOptionalParams
+  - Added Interface GatewayLocalResponseCachePerInstanceProperties
+  - Added Interface GatewayLocalResponseCachePerRouteProperties
+  - Added Interface GatewayResponseCacheProperties
+  - Added Interface GatewaysUpdateCapacityHeaders
+  - Added Interface GatewaysUpdateCapacityOptionalParams
+  - Added Interface HttpScaleRule
+  - Added Interface JobCreateOrUpdateOptionalParams
+  - Added Interface JobDeleteHeaders
+  - Added Interface JobDeleteOptionalParams
+  - Added Interface JobExecution
+  - Added Interface JobExecutionCancelHeaders
+  - Added Interface JobExecutionCancelOptionalParams
+  - Added Interface JobExecutionCollection
+  - Added Interface JobExecutionGetOptionalParams
+  - Added Interface JobExecutionListEnvSecretsOptionalParams
+  - Added Interface JobExecutionsListNextOptionalParams
+  - Added Interface JobExecutionsListOptionalParams
+  - Added Interface JobExecutionTemplate
+  - Added Interface JobGetOptionalParams
+  - Added Interface JobListEnvSecretsOptionalParams
+  - Added Interface JobResource
+  - Added Interface JobResourceCollection
+  - Added Interface JobResourceProperties
+  - Added Interface JobResourceRequests
+  - Added Interface JobsListNextOptionalParams
+  - Added Interface JobsListOptionalParams
+  - Added Interface JobStartHeaders
+  - Added Interface JobStartOptionalParams
+  - Added Interface JobTriggerConfig
+  - Added Interface MaintenanceScheduleConfiguration
+  - Added Interface ManagedComponentReference
+  - Added Interface ManualJobTriggerConfig
+  - Added Interface QueueScaleRule
+  - Added Interface Scale
+  - Added Interface ScaleRule
+  - Added Interface ScaleRuleAuth
+  - Added Interface Secret
+  - Added Interface SystemAssignedServiceIdentity
+  - Added Interface TcpScaleRule
+  - Added Interface WeeklyMaintenanceScheduleConfiguration
+  - Added Type Alias ApmType
+  - Added Type Alias ConfigServerEnabledState
+  - Added Type Alias ConfigServersDeleteResponse
+  - Added Type Alias ConfigServersListNextResponse
+  - Added Type Alias ConfigServersListResponse
+  - Added Type Alias EurekaServerEnabledState
+  - Added Type Alias EurekaServersGetResponse
+  - Added Type Alias EurekaServersListResponse
+  - Added Type Alias EurekaServerState
+  - Added Type Alias EurekaServersUpdatePatchResponse
+  - Added Type Alias EurekaServersUpdatePutResponse
+  - Added Type Alias Frequency
+  - Added Type Alias GatewayResponseCachePropertiesUnion
+  - Added Type Alias GatewaysUpdateCapacityResponse
+  - Added Type Alias JobCreateOrUpdateResponse
+  - Added Type Alias JobDeleteResponse
+  - Added Type Alias JobExecutionCancelResponse
+  - Added Type Alias JobExecutionGetResponse
+  - Added Type Alias JobExecutionListEnvSecretsResponse
+  - Added Type Alias JobExecutionRunningState
+  - Added Type Alias JobExecutionsListNextResponse
+  - Added Type Alias JobExecutionsListResponse
+  - Added Type Alias JobGetResponse
+  - Added Type Alias JobListEnvSecretsResponse
+  - Added Type Alias JobResourceProvisioningState
+  - Added Type Alias JobsListNextResponse
+  - Added Type Alias JobsListResponse
+  - Added Type Alias JobStartResponse
+  - Added Type Alias JobTriggerConfigUnion
+  - Added Type Alias MaintenanceScheduleConfigurationUnion
+  - Added Type Alias PrivateStorageAccess
+  - Added Type Alias SystemAssignedServiceIdentityType
+  - Added Type Alias TestEndpointAuthState
+  - Added Type Alias TriggerType
+  - Added Type Alias WeekDay
+  - Interface AppResourceProperties has a new optional parameter secrets
+  - Interface AppResourceProperties has a new optional parameter testEndpointAuthState
+  - Interface AppResourceProperties has a new optional parameter workloadProfileName
+  - Interface BuildpackProperties has a new optional parameter version
+  - Interface ClusterResourceProperties has a new optional parameter infraResourceGroup
+  - Interface ClusterResourceProperties has a new optional parameter maintenanceScheduleConfiguration
+  - Interface ClusterResourceProperties has a new optional parameter managedEnvironmentId
+  - Interface ConfigServerProperties has a new optional parameter enabledState
+  - Interface ConfigServerProperties has a new optional parameter instances
+  - Interface ConfigServerProperties has a new optional parameter resourceRequests
+  - Interface ConfigurationServiceSettings has a new optional parameter refreshIntervalInSeconds
+  - Interface DeploymentSettings has a new optional parameter scale
+  - Interface DeploymentsListOptionalParams has a new optional parameter expand
+  - Interface GatewayProperties has a new optional parameter addonConfigs
+  - Interface GatewayProperties has a new optional parameter apmTypes
+  - Interface GatewayProperties has a new optional parameter responseCacheProperties
+  - Interface ServiceResource has a new optional parameter identity
+  - Interface ServiceVNetAddons has a new optional parameter privateDnsZoneId
+  - Interface ServiceVNetAddons has a new optional parameter privateStorageAccess
+  - Interface SupportedBuildpackResourceProperties has a new optional parameter version
+  - Added Enum KnownApmType
+  - Added Enum KnownConfigServerEnabledState
+  - Added Enum KnownEurekaServerEnabledState
+  - Added Enum KnownEurekaServerState
+  - Added Enum KnownFrequency
+  - Added Enum KnownJobExecutionRunningState
+  - Added Enum KnownJobResourceProvisioningState
+  - Added Enum KnownPrivateStorageAccess
+  - Added Enum KnownSystemAssignedServiceIdentityType
+  - Added Enum KnownTestEndpointAuthState
+  - Added Enum KnownTriggerType
+  - Added Enum KnownWeekDay
+  - Enum KnownBindingType has a new value CACertificates
+  - Enum KnownConfigServerState has a new value Creating
+  - Enum KnownConfigServerState has a new value Deleting
+  - Enum KnownSupportedRuntimeValue has a new value Java21
+    
+    
 ## 3.0.0 (2024-01-10)
     
 ### Features Added

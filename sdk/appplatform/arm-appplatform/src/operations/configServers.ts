@@ -6,30 +6,35 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
 import { ConfigServers } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AppPlatformManagementClient } from "../appPlatformManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
+  ConfigServerResource,
+  ConfigServersListNextOptionalParams,
+  ConfigServersListOptionalParams,
+  ConfigServersListResponse,
   ConfigServersGetOptionalParams,
   ConfigServersGetResponse,
-  ConfigServerResource,
   ConfigServersUpdatePutOptionalParams,
   ConfigServersUpdatePutResponse,
   ConfigServersUpdatePatchOptionalParams,
   ConfigServersUpdatePatchResponse,
+  ConfigServersDeleteOptionalParams,
+  ConfigServersDeleteResponse,
   ConfigServerSettings,
   ConfigServersValidateOptionalParams,
-  ConfigServersValidateResponse
+  ConfigServersValidateResponse,
+  ConfigServersListNextResponse,
 } from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing ConfigServers operations. */
 export class ConfigServersImpl implements ConfigServers {
   private readonly client: AppPlatformManagementClient;
@@ -43,6 +48,69 @@ export class ConfigServersImpl implements ConfigServers {
   }
 
   /**
+   * Handles requests to list all config server resources in a Service.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param options The options parameters.
+   */
+  public list(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: ConfigServersListOptionalParams,
+  ): PagedAsyncIterableIterator<ConfigServerResource> {
+    const iter = this.listPagingAll(resourceGroupName, serviceName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, serviceName, options, settings);
+      },
+    };
+  }
+
+  private async *listPagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: ConfigServersListOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<ConfigServerResource[]> {
+    let result: ConfigServersListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, serviceName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(resourceGroupName, serviceName, continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: ConfigServersListOptionalParams,
+  ): AsyncIterableIterator<ConfigServerResource> {
+    for await (const page of this.listPagingPage(resourceGroupName, serviceName, options)) {
+      yield* page;
+    }
+  }
+
+  /**
    * Get the config server and its properties.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -52,11 +120,11 @@ export class ConfigServersImpl implements ConfigServers {
   get(
     resourceGroupName: string,
     serviceName: string,
-    options?: ConfigServersGetOptionalParams
+    options?: ConfigServersGetOptionalParams,
   ): Promise<ConfigServersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -72,30 +140,25 @@ export class ConfigServersImpl implements ConfigServers {
     resourceGroupName: string,
     serviceName: string,
     configServerResource: ConfigServerResource,
-    options?: ConfigServersUpdatePutOptionalParams
+    options?: ConfigServersUpdatePutOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ConfigServersUpdatePutResponse>,
-      ConfigServersUpdatePutResponse
-    >
+    SimplePollerLike<OperationState<ConfigServersUpdatePutResponse>, ConfigServersUpdatePutResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ConfigServersUpdatePutResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -104,8 +167,8 @@ export class ConfigServersImpl implements ConfigServers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -113,22 +176,22 @@ export class ConfigServersImpl implements ConfigServers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, configServerResource, options },
-      spec: updatePutOperationSpec
+      spec: updatePutOperationSpec,
     });
     const poller = await createHttpPoller<
       ConfigServersUpdatePutResponse,
       OperationState<ConfigServersUpdatePutResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -146,13 +209,13 @@ export class ConfigServersImpl implements ConfigServers {
     resourceGroupName: string,
     serviceName: string,
     configServerResource: ConfigServerResource,
-    options?: ConfigServersUpdatePutOptionalParams
+    options?: ConfigServersUpdatePutOptionalParams,
   ): Promise<ConfigServersUpdatePutResponse> {
     const poller = await this.beginUpdatePut(
       resourceGroupName,
       serviceName,
       configServerResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -169,7 +232,7 @@ export class ConfigServersImpl implements ConfigServers {
     resourceGroupName: string,
     serviceName: string,
     configServerResource: ConfigServerResource,
-    options?: ConfigServersUpdatePatchOptionalParams
+    options?: ConfigServersUpdatePatchOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigServersUpdatePatchResponse>,
@@ -178,21 +241,19 @@ export class ConfigServersImpl implements ConfigServers {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ConfigServersUpdatePatchResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -201,8 +262,8 @@ export class ConfigServersImpl implements ConfigServers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -210,22 +271,22 @@ export class ConfigServersImpl implements ConfigServers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, configServerResource, options },
-      spec: updatePatchOperationSpec
+      spec: updatePatchOperationSpec,
     });
     const poller = await createHttpPoller<
       ConfigServersUpdatePatchResponse,
       OperationState<ConfigServersUpdatePatchResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -243,15 +304,116 @@ export class ConfigServersImpl implements ConfigServers {
     resourceGroupName: string,
     serviceName: string,
     configServerResource: ConfigServerResource,
-    options?: ConfigServersUpdatePatchOptionalParams
+    options?: ConfigServersUpdatePatchOptionalParams,
   ): Promise<ConfigServersUpdatePatchResponse> {
     const poller = await this.beginUpdatePatch(
       resourceGroupName,
       serviceName,
       configServerResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Disable the default Config Server, only available in Enterprise Plan.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param options The options parameters.
+   */
+  async beginDelete(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: ConfigServersDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<ConfigServersDeleteResponse>, ConfigServersDeleteResponse>
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ConfigServersDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, serviceName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ConfigServersDeleteResponse,
+      OperationState<ConfigServersDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Disable the default Config Server, only available in Enterprise Plan.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: ConfigServersDeleteOptionalParams,
+  ): Promise<ConfigServersDeleteResponse> {
+    const poller = await this.beginDelete(resourceGroupName, serviceName, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Handles requests to list all config server resources in a Service.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: ConfigServersListOptionalParams,
+  ): Promise<ConfigServersListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, options },
+      listOperationSpec,
+    );
   }
 
   /**
@@ -266,30 +428,25 @@ export class ConfigServersImpl implements ConfigServers {
     resourceGroupName: string,
     serviceName: string,
     configServerSettings: ConfigServerSettings,
-    options?: ConfigServersValidateOptionalParams
+    options?: ConfigServersValidateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ConfigServersValidateResponse>,
-      ConfigServersValidateResponse
-    >
+    SimplePollerLike<OperationState<ConfigServersValidateResponse>, ConfigServersValidateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ConfigServersValidateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -298,8 +455,8 @@ export class ConfigServersImpl implements ConfigServers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -307,15 +464,15 @@ export class ConfigServersImpl implements ConfigServers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, configServerSettings, options },
-      spec: validateOperationSpec
+      spec: validateOperationSpec,
     });
     const poller = await createHttpPoller<
       ConfigServersValidateResponse,
@@ -323,7 +480,7 @@ export class ConfigServersImpl implements ConfigServers {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -341,62 +498,80 @@ export class ConfigServersImpl implements ConfigServers {
     resourceGroupName: string,
     serviceName: string,
     configServerSettings: ConfigServerSettings,
-    options?: ConfigServersValidateOptionalParams
+    options?: ConfigServersValidateOptionalParams,
   ): Promise<ConfigServersValidateResponse> {
     const poller = await this.beginValidate(
       resourceGroupName,
       serviceName,
       configServerSettings,
-      options
+      options,
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * ListNext
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    resourceGroupName: string,
+    serviceName: string,
+    nextLink: string,
+    options?: ConfigServersListNextOptionalParams,
+  ): Promise<ConfigServersListNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, nextLink, options },
+      listNextOperationSpec,
+    );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configServers/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configServers/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigServerResource
+      bodyMapper: Mappers.ConfigServerResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updatePutOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configServers/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configServers/default",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigServerResource
+      bodyMapper: Mappers.ConfigServerResource,
     },
     201: {
-      bodyMapper: Mappers.ConfigServerResource
+      bodyMapper: Mappers.ConfigServerResource,
     },
     202: {
-      bodyMapper: Mappers.ConfigServerResource
+      bodyMapper: Mappers.ConfigServerResource,
     },
     204: {
-      bodyMapper: Mappers.ConfigServerResource
+      bodyMapper: Mappers.ConfigServerResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.configServerResource,
   queryParameters: [Parameters.apiVersion],
@@ -404,32 +579,31 @@ const updatePutOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updatePatchOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configServers/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configServers/default",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigServerResource
+      bodyMapper: Mappers.ConfigServerResource,
     },
     201: {
-      bodyMapper: Mappers.ConfigServerResource
+      bodyMapper: Mappers.ConfigServerResource,
     },
     202: {
-      bodyMapper: Mappers.ConfigServerResource
+      bodyMapper: Mappers.ConfigServerResource,
     },
     204: {
-      bodyMapper: Mappers.ConfigServerResource
+      bodyMapper: Mappers.ConfigServerResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.configServerResource,
   queryParameters: [Parameters.apiVersion],
@@ -437,32 +611,82 @@ const updatePatchOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configServers/default",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.ConfigServersDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ConfigServersDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ConfigServersDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ConfigServersDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configServers",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ConfigServerResourceCollection,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const validateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configServers/validate",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configServers/validate",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigServerSettingsValidateResult
+      bodyMapper: Mappers.ConfigServerSettingsValidateResult,
     },
     201: {
-      bodyMapper: Mappers.ConfigServerSettingsValidateResult
+      bodyMapper: Mappers.ConfigServerSettingsValidateResult,
     },
     202: {
-      bodyMapper: Mappers.ConfigServerSettingsValidateResult
+      bodyMapper: Mappers.ConfigServerSettingsValidateResult,
     },
     204: {
-      bodyMapper: Mappers.ConfigServerSettingsValidateResult
+      bodyMapper: Mappers.ConfigServerSettingsValidateResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.configServerSettings,
   queryParameters: [Parameters.apiVersion],
@@ -470,9 +694,30 @@ const validateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ConfigServerResourceCollection,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

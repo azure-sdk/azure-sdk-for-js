@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AppPlatformManagementClient } from "../appPlatformManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ApiPortalResource,
@@ -32,7 +28,7 @@ import {
   CustomDomainValidatePayload,
   ApiPortalsValidateDomainOptionalParams,
   ApiPortalsValidateDomainResponse,
-  ApiPortalsListNextResponse
+  ApiPortalsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,7 +54,7 @@ export class ApiPortalsImpl implements ApiPortals {
   public list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApiPortalsListOptionalParams
+    options?: ApiPortalsListOptionalParams,
   ): PagedAsyncIterableIterator<ApiPortalResource> {
     const iter = this.listPagingAll(resourceGroupName, serviceName, options);
     return {
@@ -72,13 +68,8 @@ export class ApiPortalsImpl implements ApiPortals {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          serviceName,
-          options,
-          settings
-        );
-      }
+        return this.listPagingPage(resourceGroupName, serviceName, options, settings);
+      },
     };
   }
 
@@ -86,7 +77,7 @@ export class ApiPortalsImpl implements ApiPortals {
     resourceGroupName: string,
     serviceName: string,
     options?: ApiPortalsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ApiPortalResource[]> {
     let result: ApiPortalsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,12 +89,7 @@ export class ApiPortalsImpl implements ApiPortals {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        serviceName,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(resourceGroupName, serviceName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -114,13 +100,9 @@ export class ApiPortalsImpl implements ApiPortals {
   private async *listPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApiPortalsListOptionalParams
+    options?: ApiPortalsListOptionalParams,
   ): AsyncIterableIterator<ApiPortalResource> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      serviceName,
-      options
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, serviceName, options)) {
       yield* page;
     }
   }
@@ -137,11 +119,11 @@ export class ApiPortalsImpl implements ApiPortals {
     resourceGroupName: string,
     serviceName: string,
     apiPortalName: string,
-    options?: ApiPortalsGetOptionalParams
+    options?: ApiPortalsGetOptionalParams,
   ): Promise<ApiPortalsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiPortalName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -159,7 +141,7 @@ export class ApiPortalsImpl implements ApiPortals {
     serviceName: string,
     apiPortalName: string,
     apiPortalResource: ApiPortalResource,
-    options?: ApiPortalsCreateOrUpdateOptionalParams
+    options?: ApiPortalsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApiPortalsCreateOrUpdateResponse>,
@@ -168,21 +150,19 @@ export class ApiPortalsImpl implements ApiPortals {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ApiPortalsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -191,8 +171,8 @@ export class ApiPortalsImpl implements ApiPortals {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -200,8 +180,8 @@ export class ApiPortalsImpl implements ApiPortals {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -212,16 +192,16 @@ export class ApiPortalsImpl implements ApiPortals {
         serviceName,
         apiPortalName,
         apiPortalResource,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ApiPortalsCreateOrUpdateResponse,
       OperationState<ApiPortalsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -241,14 +221,14 @@ export class ApiPortalsImpl implements ApiPortals {
     serviceName: string,
     apiPortalName: string,
     apiPortalResource: ApiPortalResource,
-    options?: ApiPortalsCreateOrUpdateOptionalParams
+    options?: ApiPortalsCreateOrUpdateOptionalParams,
   ): Promise<ApiPortalsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
       apiPortalName,
       apiPortalResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -265,25 +245,23 @@ export class ApiPortalsImpl implements ApiPortals {
     resourceGroupName: string,
     serviceName: string,
     apiPortalName: string,
-    options?: ApiPortalsDeleteOptionalParams
+    options?: ApiPortalsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -292,8 +270,8 @@ export class ApiPortalsImpl implements ApiPortals {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -301,19 +279,19 @@ export class ApiPortalsImpl implements ApiPortals {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, apiPortalName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -331,14 +309,9 @@ export class ApiPortalsImpl implements ApiPortals {
     resourceGroupName: string,
     serviceName: string,
     apiPortalName: string,
-    options?: ApiPortalsDeleteOptionalParams
+    options?: ApiPortalsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      serviceName,
-      apiPortalName,
-      options
-    );
+    const poller = await this.beginDelete(resourceGroupName, serviceName, apiPortalName, options);
     return poller.pollUntilDone();
   }
 
@@ -352,11 +325,11 @@ export class ApiPortalsImpl implements ApiPortals {
   private _list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApiPortalsListOptionalParams
+    options?: ApiPortalsListOptionalParams,
   ): Promise<ApiPortalsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -374,7 +347,7 @@ export class ApiPortalsImpl implements ApiPortals {
     serviceName: string,
     apiPortalName: string,
     validatePayload: CustomDomainValidatePayload,
-    options?: ApiPortalsValidateDomainOptionalParams
+    options?: ApiPortalsValidateDomainOptionalParams,
   ): Promise<ApiPortalsValidateDomainResponse> {
     return this.client.sendOperationRequest(
       {
@@ -382,9 +355,9 @@ export class ApiPortalsImpl implements ApiPortals {
         serviceName,
         apiPortalName,
         validatePayload,
-        options
+        options,
       },
-      validateDomainOperationSpec
+      validateDomainOperationSpec,
     );
   }
 
@@ -400,11 +373,11 @@ export class ApiPortalsImpl implements ApiPortals {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: ApiPortalsListNextOptionalParams
+    options?: ApiPortalsListNextOptionalParams,
   ): Promise<ApiPortalsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -412,16 +385,15 @@ export class ApiPortalsImpl implements ApiPortals {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apiPortals/{apiPortalName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apiPortals/{apiPortalName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiPortalResource
+      bodyMapper: Mappers.ApiPortalResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -429,31 +401,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.apiPortalName
+    Parameters.apiPortalName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apiPortals/{apiPortalName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apiPortals/{apiPortalName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiPortalResource
+      bodyMapper: Mappers.ApiPortalResource,
     },
     201: {
-      bodyMapper: Mappers.ApiPortalResource
+      bodyMapper: Mappers.ApiPortalResource,
     },
     202: {
-      bodyMapper: Mappers.ApiPortalResource
+      bodyMapper: Mappers.ApiPortalResource,
     },
     204: {
-      bodyMapper: Mappers.ApiPortalResource
+      bodyMapper: Mappers.ApiPortalResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.apiPortalResource,
   queryParameters: [Parameters.apiVersion],
@@ -462,15 +433,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.apiPortalName
+    Parameters.apiPortalName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apiPortals/{apiPortalName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apiPortals/{apiPortalName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -478,8 +448,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -487,44 +457,42 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.apiPortalName
+    Parameters.apiPortalName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apiPortals",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apiPortals",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiPortalResourceCollection
+      bodyMapper: Mappers.ApiPortalResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const validateDomainOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apiPortals/{apiPortalName}/validateDomain",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apiPortals/{apiPortalName}/validateDomain",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomDomainValidateResult
+      bodyMapper: Mappers.CustomDomainValidateResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.validatePayload,
   queryParameters: [Parameters.apiVersion],
@@ -533,30 +501,30 @@ const validateDomainOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.apiPortalName
+    Parameters.apiPortalName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiPortalResourceCollection
+      bodyMapper: Mappers.ApiPortalResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

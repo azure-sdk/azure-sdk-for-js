@@ -33,7 +33,7 @@ import {
   DiagnosticParameters,
   DeploymentsGenerateHeapDumpOptionalParams,
   DeploymentsGenerateThreadDumpOptionalParams,
-  DeploymentsStartJFROptionalParams
+  DeploymentsStartJFROptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,7 +51,7 @@ export interface Deployments {
     resourceGroupName: string,
     serviceName: string,
     appName: string,
-    options?: DeploymentsListOptionalParams
+    options?: DeploymentsListOptionalParams,
   ): PagedAsyncIterableIterator<DeploymentResource>;
   /**
    * List deployments for a certain service
@@ -63,7 +63,7 @@ export interface Deployments {
   listForCluster(
     resourceGroupName: string,
     serviceName: string,
-    options?: DeploymentsListForClusterOptionalParams
+    options?: DeploymentsListForClusterOptionalParams,
   ): PagedAsyncIterableIterator<DeploymentResource>;
   /**
    * Get a Deployment and its properties.
@@ -79,7 +79,7 @@ export interface Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsGetOptionalParams
+    options?: DeploymentsGetOptionalParams,
   ): Promise<DeploymentsGetResponse>;
   /**
    * Create a new Deployment or update an exiting Deployment.
@@ -97,7 +97,7 @@ export interface Deployments {
     appName: string,
     deploymentName: string,
     deploymentResource: DeploymentResource,
-    options?: DeploymentsCreateOrUpdateOptionalParams
+    options?: DeploymentsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentsCreateOrUpdateResponse>,
@@ -120,7 +120,7 @@ export interface Deployments {
     appName: string,
     deploymentName: string,
     deploymentResource: DeploymentResource,
-    options?: DeploymentsCreateOrUpdateOptionalParams
+    options?: DeploymentsCreateOrUpdateOptionalParams,
   ): Promise<DeploymentsCreateOrUpdateResponse>;
   /**
    * Operation to delete a Deployment.
@@ -136,7 +136,7 @@ export interface Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsDeleteOptionalParams
+    options?: DeploymentsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Operation to delete a Deployment.
@@ -152,7 +152,7 @@ export interface Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsDeleteOptionalParams
+    options?: DeploymentsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Operation to update an exiting Deployment.
@@ -170,12 +170,9 @@ export interface Deployments {
     appName: string,
     deploymentName: string,
     deploymentResource: DeploymentResource,
-    options?: DeploymentsUpdateOptionalParams
+    options?: DeploymentsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<DeploymentsUpdateResponse>,
-      DeploymentsUpdateResponse
-    >
+    SimplePollerLike<OperationState<DeploymentsUpdateResponse>, DeploymentsUpdateResponse>
   >;
   /**
    * Operation to update an exiting Deployment.
@@ -193,7 +190,7 @@ export interface Deployments {
     appName: string,
     deploymentName: string,
     deploymentResource: DeploymentResource,
-    options?: DeploymentsUpdateOptionalParams
+    options?: DeploymentsUpdateOptionalParams,
   ): Promise<DeploymentsUpdateResponse>;
   /**
    * Start the deployment.
@@ -209,7 +206,7 @@ export interface Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsStartOptionalParams
+    options?: DeploymentsStartOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Start the deployment.
@@ -225,7 +222,7 @@ export interface Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsStartOptionalParams
+    options?: DeploymentsStartOptionalParams,
   ): Promise<void>;
   /**
    * Stop the deployment.
@@ -241,7 +238,7 @@ export interface Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsStopOptionalParams
+    options?: DeploymentsStopOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Stop the deployment.
@@ -257,7 +254,7 @@ export interface Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsStopOptionalParams
+    options?: DeploymentsStopOptionalParams,
   ): Promise<void>;
   /**
    * Restart the deployment.
@@ -273,7 +270,7 @@ export interface Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsRestartOptionalParams
+    options?: DeploymentsRestartOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Restart the deployment.
@@ -289,7 +286,7 @@ export interface Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsRestartOptionalParams
+    options?: DeploymentsRestartOptionalParams,
   ): Promise<void>;
   /**
    * Enable remote debugging.
@@ -305,7 +302,7 @@ export interface Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsEnableRemoteDebuggingOptionalParams
+    options?: DeploymentsEnableRemoteDebuggingOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentsEnableRemoteDebuggingResponse>,
@@ -326,7 +323,7 @@ export interface Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsEnableRemoteDebuggingOptionalParams
+    options?: DeploymentsEnableRemoteDebuggingOptionalParams,
   ): Promise<DeploymentsEnableRemoteDebuggingResponse>;
   /**
    * Disable remote debugging.
@@ -342,7 +339,7 @@ export interface Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsDisableRemoteDebuggingOptionalParams
+    options?: DeploymentsDisableRemoteDebuggingOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentsDisableRemoteDebuggingResponse>,
@@ -363,7 +360,7 @@ export interface Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsDisableRemoteDebuggingOptionalParams
+    options?: DeploymentsDisableRemoteDebuggingOptionalParams,
   ): Promise<DeploymentsDisableRemoteDebuggingResponse>;
   /**
    * Get remote debugging config.
@@ -379,7 +376,7 @@ export interface Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsGetRemoteDebuggingConfigOptionalParams
+    options?: DeploymentsGetRemoteDebuggingConfigOptionalParams,
   ): Promise<DeploymentsGetRemoteDebuggingConfigResponse>;
   /**
    * Get deployment log file URL
@@ -395,7 +392,7 @@ export interface Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsGetLogFileUrlOptionalParams
+    options?: DeploymentsGetLogFileUrlOptionalParams,
   ): Promise<DeploymentsGetLogFileUrlResponse>;
   /**
    * Generate Heap Dump
@@ -413,7 +410,7 @@ export interface Deployments {
     appName: string,
     deploymentName: string,
     diagnosticParameters: DiagnosticParameters,
-    options?: DeploymentsGenerateHeapDumpOptionalParams
+    options?: DeploymentsGenerateHeapDumpOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Generate Heap Dump
@@ -431,7 +428,7 @@ export interface Deployments {
     appName: string,
     deploymentName: string,
     diagnosticParameters: DiagnosticParameters,
-    options?: DeploymentsGenerateHeapDumpOptionalParams
+    options?: DeploymentsGenerateHeapDumpOptionalParams,
   ): Promise<void>;
   /**
    * Generate Thread Dump
@@ -449,7 +446,7 @@ export interface Deployments {
     appName: string,
     deploymentName: string,
     diagnosticParameters: DiagnosticParameters,
-    options?: DeploymentsGenerateThreadDumpOptionalParams
+    options?: DeploymentsGenerateThreadDumpOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Generate Thread Dump
@@ -467,7 +464,7 @@ export interface Deployments {
     appName: string,
     deploymentName: string,
     diagnosticParameters: DiagnosticParameters,
-    options?: DeploymentsGenerateThreadDumpOptionalParams
+    options?: DeploymentsGenerateThreadDumpOptionalParams,
   ): Promise<void>;
   /**
    * Start JFR
@@ -485,7 +482,7 @@ export interface Deployments {
     appName: string,
     deploymentName: string,
     diagnosticParameters: DiagnosticParameters,
-    options?: DeploymentsStartJFROptionalParams
+    options?: DeploymentsStartJFROptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Start JFR
@@ -503,6 +500,6 @@ export interface Deployments {
     appName: string,
     deploymentName: string,
     diagnosticParameters: DiagnosticParameters,
-    options?: DeploymentsStartJFROptionalParams
+    options?: DeploymentsStartJFROptionalParams,
   ): Promise<void>;
 }

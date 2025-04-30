@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AppPlatformManagementClient } from "../appPlatformManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ApplicationAcceleratorResource,
@@ -30,7 +26,7 @@ import {
   ApplicationAcceleratorsCreateOrUpdateResponse,
   ApplicationAcceleratorsDeleteOptionalParams,
   ApplicationAcceleratorsDeleteResponse,
-  ApplicationAcceleratorsListNextResponse
+  ApplicationAcceleratorsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,7 +52,7 @@ export class ApplicationAcceleratorsImpl implements ApplicationAccelerators {
   public list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApplicationAcceleratorsListOptionalParams
+    options?: ApplicationAcceleratorsListOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationAcceleratorResource> {
     const iter = this.listPagingAll(resourceGroupName, serviceName, options);
     return {
@@ -70,13 +66,8 @@ export class ApplicationAcceleratorsImpl implements ApplicationAccelerators {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          serviceName,
-          options,
-          settings
-        );
-      }
+        return this.listPagingPage(resourceGroupName, serviceName, options, settings);
+      },
     };
   }
 
@@ -84,7 +75,7 @@ export class ApplicationAcceleratorsImpl implements ApplicationAccelerators {
     resourceGroupName: string,
     serviceName: string,
     options?: ApplicationAcceleratorsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ApplicationAcceleratorResource[]> {
     let result: ApplicationAcceleratorsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -96,12 +87,7 @@ export class ApplicationAcceleratorsImpl implements ApplicationAccelerators {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        serviceName,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(resourceGroupName, serviceName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -112,13 +98,9 @@ export class ApplicationAcceleratorsImpl implements ApplicationAccelerators {
   private async *listPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApplicationAcceleratorsListOptionalParams
+    options?: ApplicationAcceleratorsListOptionalParams,
   ): AsyncIterableIterator<ApplicationAcceleratorResource> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      serviceName,
-      options
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, serviceName, options)) {
       yield* page;
     }
   }
@@ -133,11 +115,11 @@ export class ApplicationAcceleratorsImpl implements ApplicationAccelerators {
   private _list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApplicationAcceleratorsListOptionalParams
+    options?: ApplicationAcceleratorsListOptionalParams,
   ): Promise<ApplicationAcceleratorsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -153,11 +135,11 @@ export class ApplicationAcceleratorsImpl implements ApplicationAccelerators {
     resourceGroupName: string,
     serviceName: string,
     applicationAcceleratorName: string,
-    options?: ApplicationAcceleratorsGetOptionalParams
+    options?: ApplicationAcceleratorsGetOptionalParams,
   ): Promise<ApplicationAcceleratorsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, applicationAcceleratorName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -175,7 +157,7 @@ export class ApplicationAcceleratorsImpl implements ApplicationAccelerators {
     serviceName: string,
     applicationAcceleratorName: string,
     applicationAcceleratorResource: ApplicationAcceleratorResource,
-    options?: ApplicationAcceleratorsCreateOrUpdateOptionalParams
+    options?: ApplicationAcceleratorsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApplicationAcceleratorsCreateOrUpdateResponse>,
@@ -184,21 +166,19 @@ export class ApplicationAcceleratorsImpl implements ApplicationAccelerators {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ApplicationAcceleratorsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -207,8 +187,8 @@ export class ApplicationAcceleratorsImpl implements ApplicationAccelerators {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -216,8 +196,8 @@ export class ApplicationAcceleratorsImpl implements ApplicationAccelerators {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -228,16 +208,16 @@ export class ApplicationAcceleratorsImpl implements ApplicationAccelerators {
         serviceName,
         applicationAcceleratorName,
         applicationAcceleratorResource,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ApplicationAcceleratorsCreateOrUpdateResponse,
       OperationState<ApplicationAcceleratorsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -257,14 +237,14 @@ export class ApplicationAcceleratorsImpl implements ApplicationAccelerators {
     serviceName: string,
     applicationAcceleratorName: string,
     applicationAcceleratorResource: ApplicationAcceleratorResource,
-    options?: ApplicationAcceleratorsCreateOrUpdateOptionalParams
+    options?: ApplicationAcceleratorsCreateOrUpdateOptionalParams,
   ): Promise<ApplicationAcceleratorsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
       applicationAcceleratorName,
       applicationAcceleratorResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -281,7 +261,7 @@ export class ApplicationAcceleratorsImpl implements ApplicationAccelerators {
     resourceGroupName: string,
     serviceName: string,
     applicationAcceleratorName: string,
-    options?: ApplicationAcceleratorsDeleteOptionalParams
+    options?: ApplicationAcceleratorsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApplicationAcceleratorsDeleteResponse>,
@@ -290,21 +270,19 @@ export class ApplicationAcceleratorsImpl implements ApplicationAccelerators {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ApplicationAcceleratorsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -313,8 +291,8 @@ export class ApplicationAcceleratorsImpl implements ApplicationAccelerators {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -322,8 +300,8 @@ export class ApplicationAcceleratorsImpl implements ApplicationAccelerators {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -333,16 +311,16 @@ export class ApplicationAcceleratorsImpl implements ApplicationAccelerators {
         resourceGroupName,
         serviceName,
         applicationAcceleratorName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       ApplicationAcceleratorsDeleteResponse,
       OperationState<ApplicationAcceleratorsDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -360,13 +338,13 @@ export class ApplicationAcceleratorsImpl implements ApplicationAccelerators {
     resourceGroupName: string,
     serviceName: string,
     applicationAcceleratorName: string,
-    options?: ApplicationAcceleratorsDeleteOptionalParams
+    options?: ApplicationAcceleratorsDeleteOptionalParams,
   ): Promise<ApplicationAcceleratorsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
       applicationAcceleratorName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -383,11 +361,11 @@ export class ApplicationAcceleratorsImpl implements ApplicationAccelerators {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: ApplicationAcceleratorsListNextOptionalParams
+    options?: ApplicationAcceleratorsListNextOptionalParams,
   ): Promise<ApplicationAcceleratorsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -395,38 +373,15 @@ export class ApplicationAcceleratorsImpl implements ApplicationAccelerators {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationAccelerators",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationAccelerators",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationAcceleratorResourceCollection
+      bodyMapper: Mappers.ApplicationAcceleratorResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationAccelerators/{applicationAcceleratorName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApplicationAcceleratorResource
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -434,31 +389,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.applicationAcceleratorName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationAccelerators/{applicationAcceleratorName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplicationAcceleratorResource,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.applicationAcceleratorName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationAccelerators/{applicationAcceleratorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationAccelerators/{applicationAcceleratorName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationAcceleratorResource
+      bodyMapper: Mappers.ApplicationAcceleratorResource,
     },
     201: {
-      bodyMapper: Mappers.ApplicationAcceleratorResource
+      bodyMapper: Mappers.ApplicationAcceleratorResource,
     },
     202: {
-      bodyMapper: Mappers.ApplicationAcceleratorResource
+      bodyMapper: Mappers.ApplicationAcceleratorResource,
     },
     204: {
-      bodyMapper: Mappers.ApplicationAcceleratorResource
+      bodyMapper: Mappers.ApplicationAcceleratorResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.applicationAcceleratorResource,
   queryParameters: [Parameters.apiVersion],
@@ -467,32 +442,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.applicationAcceleratorName
+    Parameters.applicationAcceleratorName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationAccelerators/{applicationAcceleratorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationAccelerators/{applicationAcceleratorName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.ApplicationAcceleratorsDeleteHeaders
+      headersMapper: Mappers.ApplicationAcceleratorsDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.ApplicationAcceleratorsDeleteHeaders
+      headersMapper: Mappers.ApplicationAcceleratorsDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.ApplicationAcceleratorsDeleteHeaders
+      headersMapper: Mappers.ApplicationAcceleratorsDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.ApplicationAcceleratorsDeleteHeaders
+      headersMapper: Mappers.ApplicationAcceleratorsDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -500,29 +474,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.applicationAcceleratorName
+    Parameters.applicationAcceleratorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationAcceleratorResourceCollection
+      bodyMapper: Mappers.ApplicationAcceleratorResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

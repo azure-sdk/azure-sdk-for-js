@@ -16,7 +16,5 @@ export interface Skus {
    * Lists all of the available skus of the Microsoft.AppPlatform provider.
    * @param options The options parameters.
    */
-  list(
-    options?: SkusListOptionalParams
-  ): PagedAsyncIterableIterator<ResourceSku>;
+  list(options?: SkusListOptionalParams): PagedAsyncIterableIterator<ResourceSku>;
 }

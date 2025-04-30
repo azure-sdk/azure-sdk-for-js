@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AppPlatformManagementClient } from "../appPlatformManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ConfigurationServiceResource,
@@ -34,7 +30,7 @@ import {
   ConfigurationServicesValidateResponse,
   ConfigurationServicesValidateResourceOptionalParams,
   ConfigurationServicesValidateResourceResponse,
-  ConfigurationServicesListNextResponse
+  ConfigurationServicesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -60,7 +56,7 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
   public list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ConfigurationServicesListOptionalParams
+    options?: ConfigurationServicesListOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationServiceResource> {
     const iter = this.listPagingAll(resourceGroupName, serviceName, options);
     return {
@@ -74,13 +70,8 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          serviceName,
-          options,
-          settings
-        );
-      }
+        return this.listPagingPage(resourceGroupName, serviceName, options, settings);
+      },
     };
   }
 
@@ -88,7 +79,7 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
     resourceGroupName: string,
     serviceName: string,
     options?: ConfigurationServicesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ConfigurationServiceResource[]> {
     let result: ConfigurationServicesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,12 +91,7 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        serviceName,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(resourceGroupName, serviceName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -116,13 +102,9 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
   private async *listPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: ConfigurationServicesListOptionalParams
+    options?: ConfigurationServicesListOptionalParams,
   ): AsyncIterableIterator<ConfigurationServiceResource> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      serviceName,
-      options
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, serviceName, options)) {
       yield* page;
     }
   }
@@ -139,11 +121,11 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
     resourceGroupName: string,
     serviceName: string,
     configurationServiceName: string,
-    options?: ConfigurationServicesGetOptionalParams
+    options?: ConfigurationServicesGetOptionalParams,
   ): Promise<ConfigurationServicesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, configurationServiceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -162,7 +144,7 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
     serviceName: string,
     configurationServiceName: string,
     configurationServiceResource: ConfigurationServiceResource,
-    options?: ConfigurationServicesCreateOrUpdateOptionalParams
+    options?: ConfigurationServicesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationServicesCreateOrUpdateResponse>,
@@ -171,21 +153,19 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ConfigurationServicesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -194,8 +174,8 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -203,8 +183,8 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -215,16 +195,16 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
         serviceName,
         configurationServiceName,
         configurationServiceResource,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ConfigurationServicesCreateOrUpdateResponse,
       OperationState<ConfigurationServicesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -245,14 +225,14 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
     serviceName: string,
     configurationServiceName: string,
     configurationServiceResource: ConfigurationServiceResource,
-    options?: ConfigurationServicesCreateOrUpdateOptionalParams
+    options?: ConfigurationServicesCreateOrUpdateOptionalParams,
   ): Promise<ConfigurationServicesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
       configurationServiceName,
       configurationServiceResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -269,25 +249,23 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
     resourceGroupName: string,
     serviceName: string,
     configurationServiceName: string,
-    options?: ConfigurationServicesDeleteOptionalParams
+    options?: ConfigurationServicesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -296,8 +274,8 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -305,8 +283,8 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -316,13 +294,13 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
         resourceGroupName,
         serviceName,
         configurationServiceName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -340,13 +318,13 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
     resourceGroupName: string,
     serviceName: string,
     configurationServiceName: string,
-    options?: ConfigurationServicesDeleteOptionalParams
+    options?: ConfigurationServicesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
       configurationServiceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -361,11 +339,11 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
   private _list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ConfigurationServicesListOptionalParams
+    options?: ConfigurationServicesListOptionalParams,
   ): Promise<ConfigurationServicesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -383,7 +361,7 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
     serviceName: string,
     configurationServiceName: string,
     settings: ConfigurationServiceSettings,
-    options?: ConfigurationServicesValidateOptionalParams
+    options?: ConfigurationServicesValidateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationServicesValidateResponse>,
@@ -392,21 +370,19 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ConfigurationServicesValidateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -415,8 +391,8 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -424,8 +400,8 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -436,9 +412,9 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
         serviceName,
         configurationServiceName,
         settings,
-        options
+        options,
       },
-      spec: validateOperationSpec
+      spec: validateOperationSpec,
     });
     const poller = await createHttpPoller<
       ConfigurationServicesValidateResponse,
@@ -446,7 +422,7 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -466,14 +442,14 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
     serviceName: string,
     configurationServiceName: string,
     settings: ConfigurationServiceSettings,
-    options?: ConfigurationServicesValidateOptionalParams
+    options?: ConfigurationServicesValidateOptionalParams,
   ): Promise<ConfigurationServicesValidateResponse> {
     const poller = await this.beginValidate(
       resourceGroupName,
       serviceName,
       configurationServiceName,
       settings,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -492,7 +468,7 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
     serviceName: string,
     configurationServiceName: string,
     configurationServiceResource: ConfigurationServiceResource,
-    options?: ConfigurationServicesValidateResourceOptionalParams
+    options?: ConfigurationServicesValidateResourceOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationServicesValidateResourceResponse>,
@@ -501,21 +477,19 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ConfigurationServicesValidateResourceResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -524,8 +498,8 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -533,8 +507,8 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -545,9 +519,9 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
         serviceName,
         configurationServiceName,
         configurationServiceResource,
-        options
+        options,
       },
-      spec: validateResourceOperationSpec
+      spec: validateResourceOperationSpec,
     });
     const poller = await createHttpPoller<
       ConfigurationServicesValidateResourceResponse,
@@ -555,7 +529,7 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -575,14 +549,14 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
     serviceName: string,
     configurationServiceName: string,
     configurationServiceResource: ConfigurationServiceResource,
-    options?: ConfigurationServicesValidateResourceOptionalParams
+    options?: ConfigurationServicesValidateResourceOptionalParams,
   ): Promise<ConfigurationServicesValidateResourceResponse> {
     const poller = await this.beginValidateResource(
       resourceGroupName,
       serviceName,
       configurationServiceName,
       configurationServiceResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -599,11 +573,11 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: ConfigurationServicesListNextOptionalParams
+    options?: ConfigurationServicesListNextOptionalParams,
   ): Promise<ConfigurationServicesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -611,16 +585,15 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configurationServices/{configurationServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configurationServices/{configurationServiceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationServiceResource
+      bodyMapper: Mappers.ConfigurationServiceResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -628,31 +601,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.configurationServiceName
+    Parameters.configurationServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configurationServices/{configurationServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configurationServices/{configurationServiceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationServiceResource
+      bodyMapper: Mappers.ConfigurationServiceResource,
     },
     201: {
-      bodyMapper: Mappers.ConfigurationServiceResource
+      bodyMapper: Mappers.ConfigurationServiceResource,
     },
     202: {
-      bodyMapper: Mappers.ConfigurationServiceResource
+      bodyMapper: Mappers.ConfigurationServiceResource,
     },
     204: {
-      bodyMapper: Mappers.ConfigurationServiceResource
+      bodyMapper: Mappers.ConfigurationServiceResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.configurationServiceResource,
   queryParameters: [Parameters.apiVersion],
@@ -661,15 +633,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.configurationServiceName
+    Parameters.configurationServiceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configurationServices/{configurationServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configurationServices/{configurationServiceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -677,8 +648,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -686,53 +657,51 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.configurationServiceName
+    Parameters.configurationServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configurationServices",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configurationServices",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationServiceResourceCollection
+      bodyMapper: Mappers.ConfigurationServiceResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const validateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configurationServices/{configurationServiceName}/validate",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configurationServices/{configurationServiceName}/validate",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationServiceSettingsValidateResult
+      bodyMapper: Mappers.ConfigurationServiceSettingsValidateResult,
     },
     201: {
-      bodyMapper: Mappers.ConfigurationServiceSettingsValidateResult
+      bodyMapper: Mappers.ConfigurationServiceSettingsValidateResult,
     },
     202: {
-      bodyMapper: Mappers.ConfigurationServiceSettingsValidateResult
+      bodyMapper: Mappers.ConfigurationServiceSettingsValidateResult,
     },
     204: {
-      bodyMapper: Mappers.ConfigurationServiceSettingsValidateResult
+      bodyMapper: Mappers.ConfigurationServiceSettingsValidateResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.settings,
   queryParameters: [Parameters.apiVersion],
@@ -741,32 +710,31 @@ const validateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.configurationServiceName
+    Parameters.configurationServiceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const validateResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configurationServices/{configurationServiceName}/validateResource",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configurationServices/{configurationServiceName}/validateResource",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationServiceSettingsValidateResult
+      bodyMapper: Mappers.ConfigurationServiceSettingsValidateResult,
     },
     201: {
-      bodyMapper: Mappers.ConfigurationServiceSettingsValidateResult
+      bodyMapper: Mappers.ConfigurationServiceSettingsValidateResult,
     },
     202: {
-      bodyMapper: Mappers.ConfigurationServiceSettingsValidateResult
+      bodyMapper: Mappers.ConfigurationServiceSettingsValidateResult,
     },
     204: {
-      bodyMapper: Mappers.ConfigurationServiceSettingsValidateResult
+      bodyMapper: Mappers.ConfigurationServiceSettingsValidateResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.configurationServiceResource,
   queryParameters: [Parameters.apiVersion],
@@ -775,30 +743,30 @@ const validateResourceOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.configurationServiceName
+    Parameters.configurationServiceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationServiceResourceCollection
+      bodyMapper: Mappers.ConfigurationServiceResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -15,13 +15,16 @@ import {
   GatewaysGetResponse,
   GatewaysCreateOrUpdateOptionalParams,
   GatewaysCreateOrUpdateResponse,
+  SkuObject,
+  GatewaysUpdateCapacityOptionalParams,
+  GatewaysUpdateCapacityResponse,
   GatewaysDeleteOptionalParams,
   GatewaysListEnvSecretsOptionalParams,
   GatewaysListEnvSecretsResponse,
   GatewaysRestartOptionalParams,
   CustomDomainValidatePayload,
   GatewaysValidateDomainOptionalParams,
-  GatewaysValidateDomainResponse
+  GatewaysValidateDomainResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,7 +40,7 @@ export interface Gateways {
   list(
     resourceGroupName: string,
     serviceName: string,
-    options?: GatewaysListOptionalParams
+    options?: GatewaysListOptionalParams,
   ): PagedAsyncIterableIterator<GatewayResource>;
   /**
    * Get the Spring Cloud Gateway and its properties.
@@ -51,7 +54,7 @@ export interface Gateways {
     resourceGroupName: string,
     serviceName: string,
     gatewayName: string,
-    options?: GatewaysGetOptionalParams
+    options?: GatewaysGetOptionalParams,
   ): Promise<GatewaysGetResponse>;
   /**
    * Create the default Spring Cloud Gateway or update the existing Spring Cloud Gateway.
@@ -67,12 +70,9 @@ export interface Gateways {
     serviceName: string,
     gatewayName: string,
     gatewayResource: GatewayResource,
-    options?: GatewaysCreateOrUpdateOptionalParams
+    options?: GatewaysCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<GatewaysCreateOrUpdateResponse>,
-      GatewaysCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<GatewaysCreateOrUpdateResponse>, GatewaysCreateOrUpdateResponse>
   >;
   /**
    * Create the default Spring Cloud Gateway or update the existing Spring Cloud Gateway.
@@ -88,8 +88,42 @@ export interface Gateways {
     serviceName: string,
     gatewayName: string,
     gatewayResource: GatewayResource,
-    options?: GatewaysCreateOrUpdateOptionalParams
+    options?: GatewaysCreateOrUpdateOptionalParams,
   ): Promise<GatewaysCreateOrUpdateResponse>;
+  /**
+   * Operation to update an exiting Spring Cloud Gateway capacity.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param gatewayCapacityResource The gateway capacity for the update operation
+   * @param options The options parameters.
+   */
+  beginUpdateCapacity(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayName: string,
+    gatewayCapacityResource: SkuObject,
+    options?: GatewaysUpdateCapacityOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<GatewaysUpdateCapacityResponse>, GatewaysUpdateCapacityResponse>
+  >;
+  /**
+   * Operation to update an exiting Spring Cloud Gateway capacity.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param gatewayCapacityResource The gateway capacity for the update operation
+   * @param options The options parameters.
+   */
+  beginUpdateCapacityAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayName: string,
+    gatewayCapacityResource: SkuObject,
+    options?: GatewaysUpdateCapacityOptionalParams,
+  ): Promise<GatewaysUpdateCapacityResponse>;
   /**
    * Disable the default Spring Cloud Gateway.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -102,7 +136,7 @@ export interface Gateways {
     resourceGroupName: string,
     serviceName: string,
     gatewayName: string,
-    options?: GatewaysDeleteOptionalParams
+    options?: GatewaysDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Disable the default Spring Cloud Gateway.
@@ -116,7 +150,7 @@ export interface Gateways {
     resourceGroupName: string,
     serviceName: string,
     gatewayName: string,
-    options?: GatewaysDeleteOptionalParams
+    options?: GatewaysDeleteOptionalParams,
   ): Promise<void>;
   /**
    * List sensitive environment variables of Spring Cloud Gateway.
@@ -130,7 +164,7 @@ export interface Gateways {
     resourceGroupName: string,
     serviceName: string,
     gatewayName: string,
-    options?: GatewaysListEnvSecretsOptionalParams
+    options?: GatewaysListEnvSecretsOptionalParams,
   ): Promise<GatewaysListEnvSecretsResponse>;
   /**
    * Restart the Spring Cloud Gateway.
@@ -144,7 +178,7 @@ export interface Gateways {
     resourceGroupName: string,
     serviceName: string,
     gatewayName: string,
-    options?: GatewaysRestartOptionalParams
+    options?: GatewaysRestartOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Restart the Spring Cloud Gateway.
@@ -158,7 +192,7 @@ export interface Gateways {
     resourceGroupName: string,
     serviceName: string,
     gatewayName: string,
-    options?: GatewaysRestartOptionalParams
+    options?: GatewaysRestartOptionalParams,
   ): Promise<void>;
   /**
    * Check the domains are valid as well as not in use.
@@ -174,6 +208,6 @@ export interface Gateways {
     serviceName: string,
     gatewayName: string,
     validatePayload: CustomDomainValidatePayload,
-    options?: GatewaysValidateDomainOptionalParams
+    options?: GatewaysValidateDomainOptionalParams,
   ): Promise<GatewaysValidateDomainResponse>;
 }
