@@ -31,9 +31,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApplicationPackageOperations operations. */
-export class ApplicationPackageOperationsImpl
-  implements ApplicationPackageOperations
-{
+export class ApplicationPackageOperationsImpl implements ApplicationPackageOperations {
   private readonly client: BatchManagementClient;
 
   /**
@@ -57,12 +55,7 @@ export class ApplicationPackageOperationsImpl
     applicationName: string,
     options?: ApplicationPackageListOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationPackage> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      accountName,
-      applicationName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, accountName, applicationName, options);
     return {
       next() {
         return iter.next();
@@ -95,12 +88,7 @@ export class ApplicationPackageOperationsImpl
     let result: ApplicationPackageListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        accountName,
-        applicationName,
-        options,
-      );
+      result = await this._list(resourceGroupName, accountName, applicationName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

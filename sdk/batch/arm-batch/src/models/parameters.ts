@@ -361,17 +361,16 @@ export const poolName: OperationURLParameter = {
   },
 };
 
-export const networkSecurityPerimeterConfigurationName: OperationURLParameter =
-  {
-    parameterPath: "networkSecurityPerimeterConfigurationName",
-    mapper: {
-      constraints: {
-        Pattern: new RegExp("^.*$"),
-      },
-      serializedName: "networkSecurityPerimeterConfigurationName",
-      required: true,
-      type: {
-        name: "String",
-      },
+export const networkSecurityPerimeterConfigurationName: OperationURLParameter = {
+  parameterPath: "networkSecurityPerimeterConfigurationName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^.*$"),
     },
-  };
+    serializedName: "networkSecurityPerimeterConfigurationName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};

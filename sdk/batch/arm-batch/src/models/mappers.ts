@@ -692,22 +692,21 @@ export const BatchAccountKeys: coreClient.CompositeMapper = {
   },
 };
 
-export const ActivateApplicationPackageParameters: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "ActivateApplicationPackageParameters",
-      modelProperties: {
-        format: {
-          serializedName: "format",
-          required: true,
-          type: {
-            name: "String",
-          },
+export const ActivateApplicationPackageParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ActivateApplicationPackageParameters",
+    modelProperties: {
+      format: {
+        serializedName: "format",
+        required: true,
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const ListApplicationsResult: coreClient.CompositeMapper = {
   type: {
@@ -1180,33 +1179,32 @@ export const ListPrivateLinkResourcesResult: coreClient.CompositeMapper = {
   },
 };
 
-export const ListPrivateEndpointConnectionsResult: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "ListPrivateEndpointConnectionsResult",
-      modelProperties: {
-        value: {
-          serializedName: "value",
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "PrivateEndpointConnection",
-              },
+export const ListPrivateEndpointConnectionsResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ListPrivateEndpointConnectionsResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateEndpointConnection",
             },
           },
         },
-        nextLink: {
-          serializedName: "nextLink",
-          type: {
-            name: "String",
-          },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const ListPoolsResult: coreClient.CompositeMapper = {
   type: {
@@ -1853,12 +1851,7 @@ export const FixedScaleSettings: coreClient.CompositeMapper = {
         serializedName: "nodeDeallocationOption",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Requeue",
-            "Terminate",
-            "TaskCompletion",
-            "RetainedData",
-          ],
+          allowedValues: ["Requeue", "Terminate", "TaskCompletion", "RetainedData"],
         },
       },
     },
@@ -2614,12 +2607,7 @@ export const ResizeOperationStatus: coreClient.CompositeMapper = {
         serializedName: "nodeDeallocationOption",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Requeue",
-            "Terminate",
-            "TaskCompletion",
-            "RetainedData",
-          ],
+          allowedValues: ["Requeue", "Terminate", "TaskCompletion", "RetainedData"],
         },
       },
       startTime: {
@@ -3039,34 +3027,33 @@ export const BatchPoolIdentity: coreClient.CompositeMapper = {
   },
 };
 
-export const OutboundEnvironmentEndpointCollection: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "OutboundEnvironmentEndpointCollection",
-      modelProperties: {
-        value: {
-          serializedName: "value",
-          readOnly: true,
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "OutboundEnvironmentEndpoint",
-              },
+export const OutboundEnvironmentEndpointCollection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OutboundEnvironmentEndpointCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OutboundEnvironmentEndpoint",
             },
           },
         },
-        nextLink: {
-          serializedName: "nextLink",
-          type: {
-            name: "String",
-          },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const OutboundEnvironmentEndpoint: coreClient.CompositeMapper = {
   type: {
@@ -3149,84 +3136,82 @@ export const EndpointDetail: coreClient.CompositeMapper = {
   },
 };
 
-export const NetworkSecurityPerimeterConfigurationListResult: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "NetworkSecurityPerimeterConfigurationListResult",
-      modelProperties: {
-        value: {
-          serializedName: "value",
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "NetworkSecurityPerimeterConfiguration",
-              },
+export const NetworkSecurityPerimeterConfigurationListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NetworkSecurityPerimeterConfigurationListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NetworkSecurityPerimeterConfiguration",
             },
           },
         },
-        nextLink: {
-          serializedName: "nextLink",
-          type: {
-            name: "String",
-          },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
-export const NetworkSecurityPerimeterConfigurationProperties: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "NetworkSecurityPerimeterConfigurationProperties",
-      modelProperties: {
-        provisioningState: {
-          serializedName: "provisioningState",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+export const NetworkSecurityPerimeterConfigurationProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NetworkSecurityPerimeterConfigurationProperties",
+    modelProperties: {
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        provisioningIssues: {
-          serializedName: "provisioningIssues",
-          readOnly: true,
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "ProvisioningIssue",
-              },
+      },
+      provisioningIssues: {
+        serializedName: "provisioningIssues",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ProvisioningIssue",
             },
           },
         },
-        networkSecurityPerimeter: {
-          serializedName: "networkSecurityPerimeter",
-          type: {
-            name: "Composite",
-            className: "NetworkSecurityPerimeter",
-          },
+      },
+      networkSecurityPerimeter: {
+        serializedName: "networkSecurityPerimeter",
+        type: {
+          name: "Composite",
+          className: "NetworkSecurityPerimeter",
         },
-        resourceAssociation: {
-          serializedName: "resourceAssociation",
-          type: {
-            name: "Composite",
-            className: "ResourceAssociation",
-          },
+      },
+      resourceAssociation: {
+        serializedName: "resourceAssociation",
+        type: {
+          name: "Composite",
+          className: "ResourceAssociation",
         },
-        profile: {
-          serializedName: "profile",
-          type: {
-            name: "Composite",
-            className: "NetworkSecurityProfile",
-          },
+      },
+      profile: {
+        serializedName: "profile",
+        type: {
+          name: "Composite",
+          className: "NetworkSecurityProfile",
         },
       },
     },
-  };
+  },
+};
 
 export const ProvisioningIssue: coreClient.CompositeMapper = {
   type: {
@@ -3411,21 +3396,20 @@ export const AccessRuleProperties: coreClient.CompositeMapper = {
   },
 };
 
-export const AccessRulePropertiesSubscriptionsItem: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "AccessRulePropertiesSubscriptionsItem",
-      modelProperties: {
-        id: {
-          serializedName: "id",
-          type: {
-            name: "String",
-          },
+export const AccessRulePropertiesSubscriptionsItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccessRulePropertiesSubscriptionsItem",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const NetworkSecurityPerimeter: coreClient.CompositeMapper = {
   type: {
@@ -3731,14 +3715,7 @@ export const PrivateEndpointConnection: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Enum",
-          allowedValues: [
-            "Creating",
-            "Updating",
-            "Deleting",
-            "Succeeded",
-            "Failed",
-            "Cancelled",
-          ],
+          allowedValues: ["Creating", "Updating", "Deleting", "Succeeded", "Failed", "Cancelled"],
         },
       },
       privateEndpoint: {
@@ -4299,14 +4276,7 @@ export const BatchAccount: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Enum",
-          allowedValues: [
-            "Invalid",
-            "Creating",
-            "Deleting",
-            "Succeeded",
-            "Failed",
-            "Cancelled",
-          ],
+          allowedValues: ["Invalid", "Creating", "Deleting", "Succeeded", "Failed", "Cancelled"],
         },
       },
       poolAllocationMode: {
@@ -4524,23 +4494,22 @@ export const ProxyResource: coreClient.CompositeMapper = {
   },
 };
 
-export const NetworkSecurityPerimeterConfiguration: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "NetworkSecurityPerimeterConfiguration",
-      modelProperties: {
-        ...ProxyResource.type.modelProperties,
-        properties: {
-          serializedName: "properties",
-          type: {
-            name: "Composite",
-            className: "NetworkSecurityPerimeterConfigurationProperties",
-          },
+export const NetworkSecurityPerimeterConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NetworkSecurityPerimeterConfiguration",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "NetworkSecurityPerimeterConfigurationProperties",
         },
       },
     },
-  };
+  },
+};
 
 export const BatchAccountCreateHeaders: coreClient.CompositeMapper = {
   type: {
@@ -4665,49 +4634,47 @@ export const CertificateCancelDeletionHeaders: coreClient.CompositeMapper = {
   },
 };
 
-export const PrivateEndpointConnectionUpdateHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "PrivateEndpointConnectionUpdateHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const PrivateEndpointConnectionUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnectionUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
-export const PrivateEndpointConnectionDeleteHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "PrivateEndpointConnectionDeleteHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const PrivateEndpointConnectionDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnectionDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
 export const PoolCreateHeaders: coreClient.CompositeMapper = {
   type: {
@@ -4805,24 +4772,23 @@ export const PoolStopResizeHeaders: coreClient.CompositeMapper = {
   },
 };
 
-export const NetworkSecurityPerimeterReconcileConfigurationHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "NetworkSecurityPerimeterReconcileConfigurationHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const NetworkSecurityPerimeterReconcileConfigurationHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NetworkSecurityPerimeterReconcileConfigurationHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};

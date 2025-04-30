@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Warning: This operation is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/CertificateList.json
  */
-async function listCertificates() {
+async function listCertificates(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -41,7 +41,7 @@ async function listCertificates() {
  * @summary Warning: This operation is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/CertificateListWithFilter.json
  */
-async function listCertificatesFilterAndSelect() {
+async function listCertificatesFilterAndSelect(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -66,7 +66,7 @@ async function listCertificatesFilterAndSelect() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listCertificates();
   listCertificatesFilterAndSelect();
 }

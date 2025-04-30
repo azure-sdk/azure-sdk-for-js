@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { BatchManagementClient } from "../batchManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   NetworkSecurityPerimeterConfiguration,
@@ -33,9 +29,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NetworkSecurityPerimeterOperations operations. */
-export class NetworkSecurityPerimeterOperationsImpl
-  implements NetworkSecurityPerimeterOperations
-{
+export class NetworkSecurityPerimeterOperationsImpl implements NetworkSecurityPerimeterOperations {
   private readonly client: BatchManagementClient;
 
   /**
@@ -57,11 +51,7 @@ export class NetworkSecurityPerimeterOperationsImpl
     accountName: string,
     options?: NetworkSecurityPerimeterListConfigurationsOptionalParams,
   ): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration> {
-    const iter = this.listConfigurationsPagingAll(
-      resourceGroupName,
-      accountName,
-      options,
-    );
+    const iter = this.listConfigurationsPagingAll(resourceGroupName, accountName, options);
     return {
       next() {
         return iter.next();
@@ -73,12 +63,7 @@ export class NetworkSecurityPerimeterOperationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listConfigurationsPagingPage(
-          resourceGroupName,
-          accountName,
-          options,
-          settings,
-        );
+        return this.listConfigurationsPagingPage(resourceGroupName, accountName, options, settings);
       },
     };
   }
@@ -92,11 +77,7 @@ export class NetworkSecurityPerimeterOperationsImpl
     let result: NetworkSecurityPerimeterListConfigurationsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listConfigurations(
-        resourceGroupName,
-        accountName,
-        options,
-      );
+      result = await this._listConfigurations(resourceGroupName, accountName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -201,8 +182,7 @@ export class NetworkSecurityPerimeterOperationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -344,20 +324,16 @@ const reconcileConfigurationOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper:
-        Mappers.NetworkSecurityPerimeterReconcileConfigurationHeaders,
+      headersMapper: Mappers.NetworkSecurityPerimeterReconcileConfigurationHeaders,
     },
     201: {
-      headersMapper:
-        Mappers.NetworkSecurityPerimeterReconcileConfigurationHeaders,
+      headersMapper: Mappers.NetworkSecurityPerimeterReconcileConfigurationHeaders,
     },
     202: {
-      headersMapper:
-        Mappers.NetworkSecurityPerimeterReconcileConfigurationHeaders,
+      headersMapper: Mappers.NetworkSecurityPerimeterReconcileConfigurationHeaders,
     },
     204: {
-      headersMapper:
-        Mappers.NetworkSecurityPerimeterReconcileConfigurationHeaders,
+      headersMapper: Mappers.NetworkSecurityPerimeterReconcileConfigurationHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

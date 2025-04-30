@@ -8,11 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest,
-} from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   BatchAccountOperationsImpl,
@@ -73,7 +69,7 @@ export class BatchManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-batch/10.0.1`;
+    const packageDetails = `azsdk-js-arm-batch/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -85,8 +81,7 @@ export class BatchManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
@@ -96,8 +91,7 @@ export class BatchManagementClient extends coreClient.ServiceClient {
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -113,11 +107,9 @@ export class BatchManagementClient extends coreClient.ServiceClient {
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
@@ -129,21 +121,15 @@ export class BatchManagementClient extends coreClient.ServiceClient {
     this.$host = options.$host || "https://management.azure.com";
     this.apiVersion = options.apiVersion || "2024-07-01";
     this.batchAccountOperations = new BatchAccountOperationsImpl(this);
-    this.applicationPackageOperations = new ApplicationPackageOperationsImpl(
-      this,
-    );
+    this.applicationPackageOperations = new ApplicationPackageOperationsImpl(this);
     this.applicationOperations = new ApplicationOperationsImpl(this);
     this.location = new LocationImpl(this);
     this.operations = new OperationsImpl(this);
     this.certificateOperations = new CertificateOperationsImpl(this);
-    this.privateLinkResourceOperations = new PrivateLinkResourceOperationsImpl(
-      this,
-    );
-    this.privateEndpointConnectionOperations =
-      new PrivateEndpointConnectionOperationsImpl(this);
+    this.privateLinkResourceOperations = new PrivateLinkResourceOperationsImpl(this);
+    this.privateEndpointConnectionOperations = new PrivateEndpointConnectionOperationsImpl(this);
     this.poolOperations = new PoolOperationsImpl(this);
-    this.networkSecurityPerimeterOperations =
-      new NetworkSecurityPerimeterOperationsImpl(this);
+    this.networkSecurityPerimeterOperations = new NetworkSecurityPerimeterOperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -154,10 +140,7 @@ export class BatchManagementClient extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest,
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {

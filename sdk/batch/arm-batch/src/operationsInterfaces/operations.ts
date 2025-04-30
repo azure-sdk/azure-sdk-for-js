@@ -16,7 +16,5 @@ export interface Operations {
    * Lists available operations for the Microsoft.Batch provider
    * @param options The options parameters.
    */
-  list(
-    options?: OperationsListOptionalParams,
-  ): PagedAsyncIterableIterator<Operation>;
+  list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }

@@ -48,10 +48,7 @@ export class LocationImpl implements Location {
     locationName: string,
     options?: LocationListSupportedVirtualMachineSkusOptionalParams,
   ): PagedAsyncIterableIterator<SupportedSku> {
-    const iter = this.listSupportedVirtualMachineSkusPagingAll(
-      locationName,
-      options,
-    );
+    const iter = this.listSupportedVirtualMachineSkusPagingAll(locationName, options);
     return {
       next() {
         return iter.next();
@@ -63,11 +60,7 @@ export class LocationImpl implements Location {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listSupportedVirtualMachineSkusPagingPage(
-          locationName,
-          options,
-          settings,
-        );
+        return this.listSupportedVirtualMachineSkusPagingPage(locationName, options, settings);
       },
     };
   }
@@ -80,10 +73,7 @@ export class LocationImpl implements Location {
     let result: LocationListSupportedVirtualMachineSkusResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listSupportedVirtualMachineSkus(
-        locationName,
-        options,
-      );
+      result = await this._listSupportedVirtualMachineSkus(locationName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -123,10 +113,7 @@ export class LocationImpl implements Location {
     locationName: string,
     options?: LocationGetQuotasOptionalParams,
   ): Promise<LocationGetQuotasResponse> {
-    return this.client.sendOperationRequest(
-      { locationName, options },
-      getQuotasOperationSpec,
-    );
+    return this.client.sendOperationRequest({ locationName, options }, getQuotasOperationSpec);
   }
 
   /**
@@ -194,11 +181,7 @@ const getQuotasOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.locationName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.locationName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -213,16 +196,8 @@ const listSupportedVirtualMachineSkusOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxresults,
-    Parameters.filter,
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.locationName,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.maxresults, Parameters.filter],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.locationName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -239,33 +214,28 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.locationName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.locationName],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
-const listSupportedVirtualMachineSkusNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.SupportedSkusResult,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+const listSupportedVirtualMachineSkusNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SupportedSkusResult,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.nextLink,
-      Parameters.locationName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.locationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};

@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets information about the Batch accounts associated with the specified resource group.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/BatchAccountListByResourceGroup.json
  */
-async function batchAccountListByResourceGroup() {
+async function batchAccountListByResourceGroup(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -30,7 +30,7 @@ async function batchAccountListByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   batchAccountListByResourceGroup();
 }
 
