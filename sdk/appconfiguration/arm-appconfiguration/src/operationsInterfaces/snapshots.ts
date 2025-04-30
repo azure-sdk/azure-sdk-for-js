@@ -48,12 +48,7 @@ export interface Snapshots {
     snapshotName: string,
     body: Snapshot,
     options?: SnapshotsCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SnapshotsCreateResponse>,
-      SnapshotsCreateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<SnapshotsCreateResponse>, SnapshotsCreateResponse>>;
   /**
    * Creates a snapshot. NOTE: This operation is intended for use in Azure Resource Manager (ARM)
    * Template deployments. For all other scenarios involving App Configuration snapshots the data plane

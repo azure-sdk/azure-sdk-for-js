@@ -113,9 +113,7 @@ export class OperationsImpl implements Operations {
    * Lists the operations available from this provider.
    * @param options The options parameters.
    */
-  private _list(
-    options?: OperationsListOptionalParams,
-  ): Promise<OperationsListResponse> {
+  private _list(options?: OperationsListOptionalParams): Promise<OperationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -146,10 +144,7 @@ export class OperationsImpl implements Operations {
     nextLink: string,
     options?: OperationsListNextOptionalParams,
   ): Promise<OperationsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -202,11 +197,7 @@ const regionalCheckNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.checkNameAvailabilityParameters,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,

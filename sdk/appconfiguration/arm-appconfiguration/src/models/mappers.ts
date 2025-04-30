@@ -471,6 +471,12 @@ export const ConfigurationStoreUpdateParameters: coreClient.CompositeMapper = {
           className: "DataPlaneProxyProperties",
         },
       },
+      defaultKeyValueRevisionRetentionPeriodInSeconds: {
+        serializedName: "properties.defaultKeyValueRevisionRetentionPeriodInSeconds",
+        type: {
+          name: "Number",
+        },
+      },
     },
   },
 };
@@ -1674,6 +1680,12 @@ export const ConfigurationStore: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      defaultKeyValueRevisionRetentionPeriodInSeconds: {
+        serializedName: "properties.defaultKeyValueRevisionRetentionPeriodInSeconds",
+        type: {
+          name: "Number",
+        },
+      },
       enablePurgeProtection: {
         defaultValue: false,
         serializedName: "properties.enablePurgeProtection",
@@ -1693,6 +1705,33 @@ export const ConfigurationStore: coreClient.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: ["Recover", "Default"],
+        },
+      },
+    },
+  },
+};
+
+export const ConfigurationStoresDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConfigurationStoresDeleteHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },

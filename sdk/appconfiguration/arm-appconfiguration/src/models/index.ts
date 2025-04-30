@@ -215,6 +215,8 @@ export interface ConfigurationStoreUpdateParameters {
   enablePurgeProtection?: boolean;
   /** Property specifying the configuration of data plane proxy for Azure Resource Manager (ARM). */
   dataPlaneProxy?: DataPlaneProxyProperties;
+  /** The duration in seconds to retain new key value revisions. Defaults to 604800 (7 days) for Free SKU stores and 2592000 (30 days) for Standard SKU stores and Premium SKU stores. */
+  defaultKeyValueRevisionRetentionPeriodInSeconds?: number;
 }
 
 /** Parameters used for checking whether a resource name is available. */
@@ -778,12 +780,24 @@ export interface ConfigurationStore extends TrackedResource {
   disableLocalAuth?: boolean;
   /** The amount of time in days that the configuration store will be retained when it is soft deleted. */
   softDeleteRetentionInDays?: number;
+  /** The duration in seconds to retain new key value revisions. Defaults to 604800 (7 days) for Free SKU stores and 2592000 (30 days) for Standard SKU stores and Premium SKU stores. */
+  defaultKeyValueRevisionRetentionPeriodInSeconds?: number;
   /** Property specifying whether protection against purge is enabled for this configuration store. */
   enablePurgeProtection?: boolean;
   /** Property specifying the configuration of data plane proxy for Azure Resource Manager (ARM). */
   dataPlaneProxy?: DataPlaneProxyProperties;
   /** Indicates whether the configuration store need to be recovered. */
   createMode?: CreateMode;
+}
+
+/** Defines headers for ConfigurationStores_delete operation. */
+export interface ConfigurationStoresDeleteHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+  /** URL to query for the operation result */
+  location?: string;
+  /** Indicates how long the client should wait before polling the URL in the Location or Azure-AsyncOperation header. */
+  retryAfter?: number;
 }
 
 /** Defines headers for Replicas_delete operation. */
@@ -1053,8 +1067,7 @@ export type CompositionType = string;
 export type CreateMode = "Recover" | "Default";
 
 /** Optional parameters. */
-export interface ConfigurationStoresListOptionalParams
-  extends coreClient.OperationOptions {
+export interface ConfigurationStoresListOptionalParams extends coreClient.OperationOptions {
   /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
   skipToken?: string;
 }
@@ -1070,19 +1083,16 @@ export interface ConfigurationStoresListByResourceGroupOptionalParams
 }
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ConfigurationStoresListByResourceGroupResponse =
-  ConfigurationStoreListResult;
+export type ConfigurationStoresListByResourceGroupResponse = ConfigurationStoreListResult;
 
 /** Optional parameters. */
-export interface ConfigurationStoresGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConfigurationStoresGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ConfigurationStoresGetResponse = ConfigurationStore;
 
 /** Optional parameters. */
-export interface ConfigurationStoresCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ConfigurationStoresCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1093,8 +1103,7 @@ export interface ConfigurationStoresCreateOptionalParams
 export type ConfigurationStoresCreateResponse = ConfigurationStore;
 
 /** Optional parameters. */
-export interface ConfigurationStoresDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface ConfigurationStoresDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1102,8 +1111,7 @@ export interface ConfigurationStoresDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface ConfigurationStoresUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ConfigurationStoresUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1114,8 +1122,7 @@ export interface ConfigurationStoresUpdateOptionalParams
 export type ConfigurationStoresUpdateResponse = ConfigurationStore;
 
 /** Optional parameters. */
-export interface ConfigurationStoresListKeysOptionalParams
-  extends coreClient.OperationOptions {
+export interface ConfigurationStoresListKeysOptionalParams extends coreClient.OperationOptions {
   /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
   skipToken?: string;
 }
@@ -1131,23 +1138,19 @@ export interface ConfigurationStoresRegenerateKeyOptionalParams
 export type ConfigurationStoresRegenerateKeyResponse = ApiKey;
 
 /** Optional parameters. */
-export interface ConfigurationStoresListDeletedOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConfigurationStoresListDeletedOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDeleted operation. */
-export type ConfigurationStoresListDeletedResponse =
-  DeletedConfigurationStoreListResult;
+export type ConfigurationStoresListDeletedResponse = DeletedConfigurationStoreListResult;
 
 /** Optional parameters. */
-export interface ConfigurationStoresGetDeletedOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConfigurationStoresGetDeletedOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDeleted operation. */
 export type ConfigurationStoresGetDeletedResponse = DeletedConfigurationStore;
 
 /** Optional parameters. */
-export interface ConfigurationStoresPurgeDeletedOptionalParams
-  extends coreClient.OperationOptions {
+export interface ConfigurationStoresPurgeDeletedOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1155,8 +1158,7 @@ export interface ConfigurationStoresPurgeDeletedOptionalParams
 }
 
 /** Optional parameters. */
-export interface ConfigurationStoresListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConfigurationStoresListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ConfigurationStoresListNextResponse = ConfigurationStoreListResult;
@@ -1166,8 +1168,7 @@ export interface ConfigurationStoresListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ConfigurationStoresListByResourceGroupNextResponse =
-  ConfigurationStoreListResult;
+export type ConfigurationStoresListByResourceGroupNextResponse = ConfigurationStoreListResult;
 
 /** Optional parameters. */
 export interface ConfigurationStoresListKeysNextOptionalParams
@@ -1181,8 +1182,7 @@ export interface ConfigurationStoresListDeletedNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDeletedNext operation. */
-export type ConfigurationStoresListDeletedNextResponse =
-  DeletedConfigurationStoreListResult;
+export type ConfigurationStoresListDeletedNextResponse = DeletedConfigurationStoreListResult;
 
 /** Optional parameters. */
 export interface OperationsCheckNameAvailabilityOptionalParams
@@ -1192,8 +1192,7 @@ export interface OperationsCheckNameAvailabilityOptionalParams
 export type OperationsCheckNameAvailabilityResponse = NameAvailabilityStatus;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {
   /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
   skipToken?: string;
 }
@@ -1206,12 +1205,10 @@ export interface OperationsRegionalCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the regionalCheckNameAvailability operation. */
-export type OperationsRegionalCheckNameAvailabilityResponse =
-  NameAvailabilityStatus;
+export type OperationsRegionalCheckNameAvailabilityResponse = NameAvailabilityStatus;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationDefinitionListResult;
@@ -1225,8 +1222,7 @@ export type PrivateEndpointConnectionsListByConfigurationStoreResponse =
   PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
@@ -1241,8 +1237,7 @@ export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type PrivateEndpointConnectionsCreateOrUpdateResponse =
-  PrivateEndpointConnection;
+export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -1266,12 +1261,10 @@ export interface PrivateLinkResourcesListByConfigurationStoreOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByConfigurationStore operation. */
-export type PrivateLinkResourcesListByConfigurationStoreResponse =
-  PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByConfigurationStoreResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
-export interface PrivateLinkResourcesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateLinkResourcesGetResponse = PrivateLinkResource;
@@ -1285,25 +1278,19 @@ export type PrivateLinkResourcesListByConfigurationStoreNextResponse =
   PrivateLinkResourceListResult;
 
 /** Optional parameters. */
-export interface KeyValuesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface KeyValuesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type KeyValuesGetResponse = KeyValue;
 
 /** Optional parameters. */
-export interface KeyValuesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The parameters for creating a key-value. */
-  keyValueParameters?: KeyValue;
-}
+export interface KeyValuesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type KeyValuesCreateOrUpdateResponse = KeyValue;
 
 /** Optional parameters. */
-export interface KeyValuesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface KeyValuesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1321,15 +1308,13 @@ export interface ReplicasListByConfigurationStoreOptionalParams
 export type ReplicasListByConfigurationStoreResponse = ReplicaListResult;
 
 /** Optional parameters. */
-export interface ReplicasGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ReplicasGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ReplicasGetResponse = Replica;
 
 /** Optional parameters. */
-export interface ReplicasCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReplicasCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1340,8 +1325,7 @@ export interface ReplicasCreateOptionalParams
 export type ReplicasCreateResponse = Replica;
 
 /** Optional parameters. */
-export interface ReplicasDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReplicasDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1356,15 +1340,13 @@ export interface ReplicasListByConfigurationStoreNextOptionalParams
 export type ReplicasListByConfigurationStoreNextResponse = ReplicaListResult;
 
 /** Optional parameters. */
-export interface SnapshotsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SnapshotsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type SnapshotsGetResponse = Snapshot;
 
 /** Optional parameters. */
-export interface SnapshotsCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface SnapshotsCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
