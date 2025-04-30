@@ -1,15 +1,14 @@
 # Release History
-
-## 5.3.1 (Unreleased)
-
+    
+## 5.4.0 (2025-04-30)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface PolicySettings has a new optional parameter captchaExpirationInMinutes
+  - Enum KnownActionType has a new value Captcha
+  - Enum KnownOperator has a new value ServiceTagMatch
+    
+    
 ## 5.3.0 (2024-04-15)
     
 ### Features Added

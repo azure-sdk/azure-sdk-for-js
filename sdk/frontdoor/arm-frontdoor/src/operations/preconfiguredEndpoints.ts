@@ -57,12 +57,7 @@ export class PreconfiguredEndpointsImpl implements PreconfiguredEndpoints {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          profileName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, profileName, options, settings);
       },
     };
   }
@@ -83,12 +78,7 @@ export class PreconfiguredEndpointsImpl implements PreconfiguredEndpoints {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        profileName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, profileName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -101,11 +91,7 @@ export class PreconfiguredEndpointsImpl implements PreconfiguredEndpoints {
     profileName: string,
     options?: PreconfiguredEndpointsListOptionalParams,
   ): AsyncIterableIterator<PreconfiguredEndpoint> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      profileName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, profileName, options)) {
       yield* page;
     }
   }
