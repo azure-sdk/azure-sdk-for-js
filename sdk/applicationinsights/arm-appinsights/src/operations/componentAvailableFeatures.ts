@@ -17,9 +17,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing ComponentAvailableFeatures operations. */
-export class ComponentAvailableFeaturesImpl
-  implements ComponentAvailableFeatures
-{
+export class ComponentAvailableFeaturesImpl implements ComponentAvailableFeatures {
   private readonly client: ApplicationInsightsManagementClient;
 
   /**

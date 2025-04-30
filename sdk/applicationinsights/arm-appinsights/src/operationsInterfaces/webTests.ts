@@ -38,9 +38,7 @@ export interface WebTests {
    * Get all Application Insights web test definitions for the specified subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: WebTestsListOptionalParams,
-  ): PagedAsyncIterableIterator<WebTest>;
+  list(options?: WebTestsListOptionalParams): PagedAsyncIterableIterator<WebTest>;
   /**
    * Get all Application Insights web tests defined for the specified component.
    * @param componentName The name of the Application Insights component resource.

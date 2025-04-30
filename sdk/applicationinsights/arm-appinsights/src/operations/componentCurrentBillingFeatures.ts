@@ -20,9 +20,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing ComponentCurrentBillingFeatures operations. */
-export class ComponentCurrentBillingFeaturesImpl
-  implements ComponentCurrentBillingFeatures
-{
+export class ComponentCurrentBillingFeaturesImpl implements ComponentCurrentBillingFeatures {
   private readonly client: ApplicationInsightsManagementClient;
 
   /**

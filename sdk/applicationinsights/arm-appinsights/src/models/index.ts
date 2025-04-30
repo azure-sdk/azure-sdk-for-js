@@ -1806,62 +1806,52 @@ export type FavoriteType = "shared" | "user";
 export type WebTestKind = "ping" | "multistep" | "standard";
 
 /** Optional parameters. */
-export interface ComponentsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ComponentsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type ComponentsListResponse = ApplicationInsightsComponentListResult;
 
 /** Optional parameters. */
-export interface ComponentsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ComponentsListByResourceGroupOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ComponentsListByResourceGroupResponse =
-  ApplicationInsightsComponentListResult;
+export type ComponentsListByResourceGroupResponse = ApplicationInsightsComponentListResult;
 
 /** Optional parameters. */
-export interface ComponentsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ComponentsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ComponentsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ComponentsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ComponentsGetResponse = ApplicationInsightsComponent;
 
 /** Optional parameters. */
-export interface ComponentsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ComponentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type ComponentsCreateOrUpdateResponse = ApplicationInsightsComponent;
 
 /** Optional parameters. */
-export interface ComponentsUpdateTagsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ComponentsUpdateTagsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateTags operation. */
 export type ComponentsUpdateTagsResponse = ApplicationInsightsComponent;
 
 /** Optional parameters. */
-export interface ComponentsPurgeOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ComponentsPurgeOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the purge operation. */
 export type ComponentsPurgeResponse = ComponentPurgeResponse;
 
 /** Optional parameters. */
-export interface ComponentsGetPurgeStatusOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ComponentsGetPurgeStatusOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getPurgeStatus operation. */
 export type ComponentsGetPurgeStatusResponse = ComponentPurgeStatusResponse;
 
 /** Optional parameters. */
-export interface ComponentsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ComponentsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ComponentsListNextResponse = ApplicationInsightsComponentListResult;
@@ -1871,51 +1861,43 @@ export interface ComponentsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ComponentsListByResourceGroupNextResponse =
-  ApplicationInsightsComponentListResult;
+export type ComponentsListByResourceGroupNextResponse = ApplicationInsightsComponentListResult;
 
 /** Optional parameters. */
-export interface AnnotationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AnnotationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type AnnotationsListResponse = AnnotationsListResult;
 
 /** Optional parameters. */
-export interface AnnotationsCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AnnotationsCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type AnnotationsCreateResponse = Annotation[];
 
 /** Optional parameters. */
-export interface AnnotationsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AnnotationsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface AnnotationsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AnnotationsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AnnotationsGetResponse = Annotation[];
 
 /** Optional parameters. */
-export interface APIKeysListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface APIKeysListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type APIKeysListResponse = ApplicationInsightsComponentAPIKeyListResult;
 
 /** Optional parameters. */
-export interface APIKeysCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface APIKeysCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type APIKeysCreateResponse = ApplicationInsightsComponentAPIKey;
 
 /** Optional parameters. */
-export interface APIKeysDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface APIKeysDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the delete operation. */
 export type APIKeysDeleteResponse = ApplicationInsightsComponentAPIKey;
@@ -1927,44 +1909,34 @@ export interface APIKeysGetOptionalParams extends coreClient.OperationOptions {}
 export type APIKeysGetResponse = ApplicationInsightsComponentAPIKey;
 
 /** Optional parameters. */
-export interface ExportConfigurationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ExportConfigurationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ExportConfigurationsListResponse =
-  ApplicationInsightsComponentExportConfiguration[];
+export type ExportConfigurationsListResponse = ApplicationInsightsComponentExportConfiguration[];
 
 /** Optional parameters. */
-export interface ExportConfigurationsCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ExportConfigurationsCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
-export type ExportConfigurationsCreateResponse =
-  ApplicationInsightsComponentExportConfiguration[];
+export type ExportConfigurationsCreateResponse = ApplicationInsightsComponentExportConfiguration[];
 
 /** Optional parameters. */
-export interface ExportConfigurationsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ExportConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the delete operation. */
-export type ExportConfigurationsDeleteResponse =
-  ApplicationInsightsComponentExportConfiguration;
+export type ExportConfigurationsDeleteResponse = ApplicationInsightsComponentExportConfiguration;
 
 /** Optional parameters. */
-export interface ExportConfigurationsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ExportConfigurationsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ExportConfigurationsGetResponse =
-  ApplicationInsightsComponentExportConfiguration;
+export type ExportConfigurationsGetResponse = ApplicationInsightsComponentExportConfiguration;
 
 /** Optional parameters. */
-export interface ExportConfigurationsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ExportConfigurationsUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type ExportConfigurationsUpdateResponse =
-  ApplicationInsightsComponentExportConfiguration;
+export type ExportConfigurationsUpdateResponse = ApplicationInsightsComponentExportConfiguration;
 
 /** Optional parameters. */
 export interface ComponentCurrentBillingFeaturesGetOptionalParams
@@ -1983,12 +1955,10 @@ export type ComponentCurrentBillingFeaturesUpdateResponse =
   ApplicationInsightsComponentBillingFeatures;
 
 /** Optional parameters. */
-export interface ComponentQuotaStatusGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ComponentQuotaStatusGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ComponentQuotaStatusGetResponse =
-  ApplicationInsightsComponentQuotaStatus;
+export type ComponentQuotaStatusGetResponse = ApplicationInsightsComponentQuotaStatus;
 
 /** Optional parameters. */
 export interface ComponentFeatureCapabilitiesGetOptionalParams
@@ -1999,12 +1969,10 @@ export type ComponentFeatureCapabilitiesGetResponse =
   ApplicationInsightsComponentFeatureCapabilities;
 
 /** Optional parameters. */
-export interface ComponentAvailableFeaturesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ComponentAvailableFeaturesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ComponentAvailableFeaturesGetResponse =
-  ApplicationInsightsComponentAvailableFeatures;
+export type ComponentAvailableFeaturesGetResponse = ApplicationInsightsComponentAvailableFeatures;
 
 /** Optional parameters. */
 export interface ProactiveDetectionConfigurationsListOptionalParams
@@ -2031,16 +1999,13 @@ export type ProactiveDetectionConfigurationsUpdateResponse =
   ApplicationInsightsComponentProactiveDetectionConfiguration;
 
 /** Optional parameters. */
-export interface WorkItemConfigurationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkItemConfigurationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type WorkItemConfigurationsListResponse =
-  WorkItemConfigurationsListResult;
+export type WorkItemConfigurationsListResponse = WorkItemConfigurationsListResult;
 
 /** Optional parameters. */
-export interface WorkItemConfigurationsCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkItemConfigurationsCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type WorkItemConfigurationsCreateResponse = WorkItemConfiguration;
@@ -2053,12 +2018,10 @@ export interface WorkItemConfigurationsGetDefaultOptionalParams
 export type WorkItemConfigurationsGetDefaultResponse = WorkItemConfiguration;
 
 /** Optional parameters. */
-export interface WorkItemConfigurationsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkItemConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WorkItemConfigurationsGetItemOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkItemConfigurationsGetItemOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getItem operation. */
 export type WorkItemConfigurationsGetItemResponse = WorkItemConfiguration;
@@ -2071,8 +2034,7 @@ export interface WorkItemConfigurationsUpdateItemOptionalParams
 export type WorkItemConfigurationsUpdateItemResponse = WorkItemConfiguration;
 
 /** Optional parameters. */
-export interface FavoritesListOptionalParams
-  extends coreClient.OperationOptions {
+export interface FavoritesListOptionalParams extends coreClient.OperationOptions {
   /** The type of favorite. Value can be either shared or user. */
   favoriteType?: FavoriteType;
   /** Source type of favorite to return. When left out, the source type defaults to 'other' (not present in this enum). */
@@ -2087,80 +2049,67 @@ export interface FavoritesListOptionalParams
 export type FavoritesListResponse = ApplicationInsightsComponentFavorite[];
 
 /** Optional parameters. */
-export interface FavoritesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FavoritesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type FavoritesGetResponse = ApplicationInsightsComponentFavorite;
 
 /** Optional parameters. */
-export interface FavoritesAddOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FavoritesAddOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the add operation. */
 export type FavoritesAddResponse = ApplicationInsightsComponentFavorite;
 
 /** Optional parameters. */
-export interface FavoritesUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FavoritesUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type FavoritesUpdateResponse = ApplicationInsightsComponentFavorite;
 
 /** Optional parameters. */
-export interface FavoritesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FavoritesDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebTestLocationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebTestLocationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type WebTestLocationsListResponse =
-  ApplicationInsightsWebTestLocationsListResult;
+export type WebTestLocationsListResponse = ApplicationInsightsWebTestLocationsListResult;
 
 /** Optional parameters. */
-export interface WebTestsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebTestsListByResourceGroupOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type WebTestsListByResourceGroupResponse = WebTestListResult;
 
 /** Optional parameters. */
-export interface WebTestsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebTestsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type WebTestsGetResponse = WebTest;
 
 /** Optional parameters. */
-export interface WebTestsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebTestsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type WebTestsCreateOrUpdateResponse = WebTest;
 
 /** Optional parameters. */
-export interface WebTestsUpdateTagsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebTestsUpdateTagsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateTags operation. */
 export type WebTestsUpdateTagsResponse = WebTest;
 
 /** Optional parameters. */
-export interface WebTestsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebTestsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebTestsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebTestsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type WebTestsListResponse = WebTestListResult;
 
 /** Optional parameters. */
-export interface WebTestsListByComponentOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebTestsListByComponentOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByComponent operation. */
 export type WebTestsListByComponentResponse = WebTestListResult;
@@ -2173,22 +2122,19 @@ export interface WebTestsListByResourceGroupNextOptionalParams
 export type WebTestsListByResourceGroupNextResponse = WebTestListResult;
 
 /** Optional parameters. */
-export interface WebTestsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebTestsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type WebTestsListNextResponse = WebTestListResult;
 
 /** Optional parameters. */
-export interface WebTestsListByComponentNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebTestsListByComponentNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByComponentNext operation. */
 export type WebTestsListByComponentNextResponse = WebTestListResult;
 
 /** Optional parameters. */
-export interface AnalyticsItemsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface AnalyticsItemsListOptionalParams extends coreClient.OperationOptions {
   /** Enum indicating if this item definition is owned by a specific user or is shared between all users with access to the Application Insights component. */
   scope?: ItemScope;
   /** Enum indicating the type of the Analytics item. */
@@ -2198,12 +2144,10 @@ export interface AnalyticsItemsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type AnalyticsItemsListResponse =
-  ApplicationInsightsComponentAnalyticsItem[];
+export type AnalyticsItemsListResponse = ApplicationInsightsComponentAnalyticsItem[];
 
 /** Optional parameters. */
-export interface AnalyticsItemsGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface AnalyticsItemsGetOptionalParams extends coreClient.OperationOptions {
   /** The Id of a specific item defined in the Application Insights component */
   id?: string;
   /** The name of a specific item defined in the Application Insights component */
@@ -2211,23 +2155,19 @@ export interface AnalyticsItemsGetOptionalParams
 }
 
 /** Contains response data for the get operation. */
-export type AnalyticsItemsGetResponse =
-  ApplicationInsightsComponentAnalyticsItem;
+export type AnalyticsItemsGetResponse = ApplicationInsightsComponentAnalyticsItem;
 
 /** Optional parameters. */
-export interface AnalyticsItemsPutOptionalParams
-  extends coreClient.OperationOptions {
+export interface AnalyticsItemsPutOptionalParams extends coreClient.OperationOptions {
   /** Flag indicating whether or not to force save an item. This allows overriding an item if it already exists. */
   overrideItem?: boolean;
 }
 
 /** Contains response data for the put operation. */
-export type AnalyticsItemsPutResponse =
-  ApplicationInsightsComponentAnalyticsItem;
+export type AnalyticsItemsPutResponse = ApplicationInsightsComponentAnalyticsItem;
 
 /** Optional parameters. */
-export interface AnalyticsItemsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface AnalyticsItemsDeleteOptionalParams extends coreClient.OperationOptions {
   /** The Id of a specific item defined in the Application Insights component */
   id?: string;
   /** The name of a specific item defined in the Application Insights component */
@@ -2235,15 +2175,13 @@ export interface AnalyticsItemsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
@@ -2253,19 +2191,16 @@ export interface WorkbookTemplatesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type WorkbookTemplatesListByResourceGroupResponse =
-  WorkbookTemplatesListResult;
+export type WorkbookTemplatesListByResourceGroupResponse = WorkbookTemplatesListResult;
 
 /** Optional parameters. */
-export interface WorkbookTemplatesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkbookTemplatesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type WorkbookTemplatesGetResponse = WorkbookTemplate;
 
 /** Optional parameters. */
-export interface WorkbookTemplatesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkbookTemplatesDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WorkbookTemplatesCreateOrUpdateOptionalParams
@@ -2275,8 +2210,7 @@ export interface WorkbookTemplatesCreateOrUpdateOptionalParams
 export type WorkbookTemplatesCreateOrUpdateResponse = WorkbookTemplate;
 
 /** Optional parameters. */
-export interface WorkbookTemplatesUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkbookTemplatesUpdateOptionalParams extends coreClient.OperationOptions {
   /** Properties that need to be specified to patch a workbook template. */
   workbookTemplateUpdateParameters?: WorkbookTemplateUpdateParameters;
 }
@@ -2285,8 +2219,7 @@ export interface WorkbookTemplatesUpdateOptionalParams
 export type WorkbookTemplatesUpdateResponse = WorkbookTemplate;
 
 /** Optional parameters. */
-export interface WorkbooksListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkbooksListBySubscriptionOptionalParams extends coreClient.OperationOptions {
   /** Flag indicating whether or not to return the full content for each applicable workbook. If false, only return summary content for workbooks. */
   canFetchContent?: boolean;
   /** Tags presents on each workbook returned. */
@@ -2297,8 +2230,7 @@ export interface WorkbooksListBySubscriptionOptionalParams
 export type WorkbooksListBySubscriptionResponse = WorkbooksListResult;
 
 /** Optional parameters. */
-export interface WorkbooksListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkbooksListByResourceGroupOptionalParams extends coreClient.OperationOptions {
   /** Flag indicating whether or not to return the full content for each applicable workbook. If false, only return summary content for workbooks. */
   canFetchContent?: boolean;
   /** Tags presents on each workbook returned. */
@@ -2311,8 +2243,7 @@ export interface WorkbooksListByResourceGroupOptionalParams
 export type WorkbooksListByResourceGroupResponse = WorkbooksListResult;
 
 /** Optional parameters. */
-export interface WorkbooksGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkbooksGetOptionalParams extends coreClient.OperationOptions {
   /** Flag indicating whether or not to return the full content for each applicable workbook. If false, only return summary content for workbooks. */
   canFetchContent?: boolean;
 }
@@ -2321,12 +2252,10 @@ export interface WorkbooksGetOptionalParams
 export type WorkbooksGetResponse = Workbook;
 
 /** Optional parameters. */
-export interface WorkbooksDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkbooksDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WorkbooksCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkbooksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Azure Resource Id that will fetch all linked workbooks. */
   sourceId?: string;
 }
@@ -2335,8 +2264,7 @@ export interface WorkbooksCreateOrUpdateOptionalParams
 export type WorkbooksCreateOrUpdateResponse = Workbook;
 
 /** Optional parameters. */
-export interface WorkbooksUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkbooksUpdateOptionalParams extends coreClient.OperationOptions {
   /** Azure Resource Id that will fetch all linked workbooks. */
   sourceId?: string;
   /** Properties that need to be specified to create a new workbook. */
@@ -2347,15 +2275,13 @@ export interface WorkbooksUpdateOptionalParams
 export type WorkbooksUpdateResponse = Workbook;
 
 /** Optional parameters. */
-export interface WorkbooksRevisionsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkbooksRevisionsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the revisionsList operation. */
 export type WorkbooksRevisionsListResponse = WorkbooksListResult;
 
 /** Optional parameters. */
-export interface WorkbooksRevisionGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkbooksRevisionGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the revisionGet operation. */
 export type WorkbooksRevisionGetResponse = Workbook;
@@ -2375,15 +2301,13 @@ export interface WorkbooksListByResourceGroupNextOptionalParams
 export type WorkbooksListByResourceGroupNextResponse = WorkbooksListResult;
 
 /** Optional parameters. */
-export interface WorkbooksRevisionsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkbooksRevisionsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the revisionsListNext operation. */
 export type WorkbooksRevisionsListNextResponse = WorkbooksListResult;
 
 /** Optional parameters. */
-export interface LiveTokenGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LiveTokenGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type LiveTokenGetResponse = LiveTokenResponse;
@@ -2393,24 +2317,21 @@ export interface ComponentLinkedStorageAccountsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ComponentLinkedStorageAccountsGetResponse =
-  ComponentLinkedStorageAccounts;
+export type ComponentLinkedStorageAccountsGetResponse = ComponentLinkedStorageAccounts;
 
 /** Optional parameters. */
 export interface ComponentLinkedStorageAccountsCreateAndUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createAndUpdate operation. */
-export type ComponentLinkedStorageAccountsCreateAndUpdateResponse =
-  ComponentLinkedStorageAccounts;
+export type ComponentLinkedStorageAccountsCreateAndUpdateResponse = ComponentLinkedStorageAccounts;
 
 /** Optional parameters. */
 export interface ComponentLinkedStorageAccountsUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type ComponentLinkedStorageAccountsUpdateResponse =
-  ComponentLinkedStorageAccounts;
+export type ComponentLinkedStorageAccountsUpdateResponse = ComponentLinkedStorageAccounts;
 
 /** Optional parameters. */
 export interface ComponentLinkedStorageAccountsDeleteOptionalParams
@@ -2426,16 +2347,14 @@ export interface DeletedWorkbooksListBySubscriptionOptionalParams
 }
 
 /** Contains response data for the listBySubscription operation. */
-export type DeletedWorkbooksListBySubscriptionResponse =
-  DeletedWorkbooksListResult;
+export type DeletedWorkbooksListBySubscriptionResponse = DeletedWorkbooksListResult;
 
 /** Optional parameters. */
 export interface DeletedWorkbooksListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type DeletedWorkbooksListBySubscriptionNextResponse =
-  DeletedWorkbooksListResult;
+export type DeletedWorkbooksListBySubscriptionNextResponse = DeletedWorkbooksListResult;
 
 /** Optional parameters. */
 export interface ApplicationInsightsManagementClientOptionalParams

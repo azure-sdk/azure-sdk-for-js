@@ -71,11 +71,7 @@ export class WebTestsImpl implements WebTests {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -95,11 +91,7 @@ export class WebTestsImpl implements WebTests {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -111,10 +103,7 @@ export class WebTestsImpl implements WebTests {
     resourceGroupName: string,
     options?: WebTestsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<WebTest> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -123,9 +112,7 @@ export class WebTestsImpl implements WebTests {
    * Get all Application Insights web test definitions for the specified subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: WebTestsListOptionalParams,
-  ): PagedAsyncIterableIterator<WebTest> {
+  public list(options?: WebTestsListOptionalParams): PagedAsyncIterableIterator<WebTest> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -184,11 +171,7 @@ export class WebTestsImpl implements WebTests {
     resourceGroupName: string,
     options?: WebTestsListByComponentOptionalParams,
   ): PagedAsyncIterableIterator<WebTest> {
-    const iter = this.listByComponentPagingAll(
-      componentName,
-      resourceGroupName,
-      options,
-    );
+    const iter = this.listByComponentPagingAll(componentName, resourceGroupName, options);
     return {
       next() {
         return iter.next();
@@ -200,12 +183,7 @@ export class WebTestsImpl implements WebTests {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByComponentPagingPage(
-          componentName,
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByComponentPagingPage(componentName, resourceGroupName, options, settings);
       },
     };
   }
@@ -219,11 +197,7 @@ export class WebTestsImpl implements WebTests {
     let result: WebTestsListByComponentResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByComponent(
-        componentName,
-        resourceGroupName,
-        options,
-      );
+      result = await this._listByComponent(componentName, resourceGroupName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -349,9 +323,7 @@ export class WebTestsImpl implements WebTests {
    * Get all Application Insights web test definitions for the specified subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: WebTestsListOptionalParams,
-  ): Promise<WebTestsListResponse> {
+  private _list(options?: WebTestsListOptionalParams): Promise<WebTestsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -398,10 +370,7 @@ export class WebTestsImpl implements WebTests {
     nextLink: string,
     options?: WebTestsListNextOptionalParams,
   ): Promise<WebTestsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -435,11 +404,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -570,11 +535,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WebTestListResult,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

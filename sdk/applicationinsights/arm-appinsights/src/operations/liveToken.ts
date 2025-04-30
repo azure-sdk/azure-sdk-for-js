@@ -30,14 +30,8 @@ export class LiveTokenImpl implements LiveToken {
    * @param resourceUri The identifier of the resource.
    * @param options The options parameters.
    */
-  get(
-    resourceUri: string,
-    options?: LiveTokenGetOptionalParams,
-  ): Promise<LiveTokenGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceUri, options },
-      getOperationSpec,
-    );
+  get(resourceUri: string, options?: LiveTokenGetOptionalParams): Promise<LiveTokenGetResponse> {
+    return this.client.sendOperationRequest({ resourceUri, options }, getOperationSpec);
   }
 }
 // Operation Specifications

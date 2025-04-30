@@ -76,9 +76,7 @@ export class ApplicationInsightsManagementClient extends coreClient.ServiceClien
   );
   constructor(
     credentials: coreAuth.TokenCredential,
-    subscriptionIdOrOptions?:
-      | ApplicationInsightsManagementClientOptionalParams
-      | string,
+    subscriptionIdOrOptions?: ApplicationInsightsManagementClientOptionalParams | string,
     options?: ApplicationInsightsManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
@@ -102,7 +100,7 @@ export class ApplicationInsightsManagementClient extends coreClient.ServiceClien
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-appinsights/5.0.0-beta.8`;
+    const packageDetails = `azsdk-js-arm-appinsights/5.0.0-beta.9`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -114,8 +112,7 @@ export class ApplicationInsightsManagementClient extends coreClient.ServiceClien
       userAgentOptions: {
         userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
@@ -125,8 +122,7 @@ export class ApplicationInsightsManagementClient extends coreClient.ServiceClien
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -142,11 +138,9 @@ export class ApplicationInsightsManagementClient extends coreClient.ServiceClien
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
@@ -160,15 +154,11 @@ export class ApplicationInsightsManagementClient extends coreClient.ServiceClien
     this.annotations = new AnnotationsImpl(this);
     this.aPIKeys = new APIKeysImpl(this);
     this.exportConfigurations = new ExportConfigurationsImpl(this);
-    this.componentCurrentBillingFeatures =
-      new ComponentCurrentBillingFeaturesImpl(this);
+    this.componentCurrentBillingFeatures = new ComponentCurrentBillingFeaturesImpl(this);
     this.componentQuotaStatus = new ComponentQuotaStatusImpl(this);
-    this.componentFeatureCapabilities = new ComponentFeatureCapabilitiesImpl(
-      this,
-    );
+    this.componentFeatureCapabilities = new ComponentFeatureCapabilitiesImpl(this);
     this.componentAvailableFeatures = new ComponentAvailableFeaturesImpl(this);
-    this.proactiveDetectionConfigurations =
-      new ProactiveDetectionConfigurationsImpl(this);
+    this.proactiveDetectionConfigurations = new ProactiveDetectionConfigurationsImpl(this);
     this.workItemConfigurations = new WorkItemConfigurationsImpl(this);
     this.favorites = new FavoritesImpl(this);
     this.webTestLocations = new WebTestLocationsImpl(this);

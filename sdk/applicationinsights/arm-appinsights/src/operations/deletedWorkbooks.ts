@@ -95,10 +95,7 @@ export class DeletedWorkbooksImpl implements DeletedWorkbooks {
   private _listBySubscription(
     options?: DeletedWorkbooksListBySubscriptionOptionalParams,
   ): Promise<DeletedWorkbooksListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -130,11 +127,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DeletedWorkbookError,
     },
   },
-  queryParameters: [
-    Parameters.tags,
-    Parameters.category1,
-    Parameters.apiVersion8,
-  ],
+  queryParameters: [Parameters.tags, Parameters.category1, Parameters.apiVersion8],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -150,11 +143,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DeletedWorkbookError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
