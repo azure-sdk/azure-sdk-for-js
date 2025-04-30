@@ -21,7 +21,7 @@ import {
   RegistrationsUpdateResponse,
   RegistrationsGetActivationKeyOptionalParams,
   RegistrationsGetActivationKeyResponse,
-  RegistrationsEnableRemoteManagementOptionalParams
+  RegistrationsEnableRemoteManagementOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,14 +34,14 @@ export interface Registrations {
    */
   list(
     resourceGroup: string,
-    options?: RegistrationsListOptionalParams
+    options?: RegistrationsListOptionalParams,
   ): PagedAsyncIterableIterator<Registration>;
   /**
    * Returns a list of all registrations under current subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: RegistrationsListBySubscriptionOptionalParams
+    options?: RegistrationsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Registration>;
   /**
    * Returns the properties of an Azure Stack registration.
@@ -52,7 +52,7 @@ export interface Registrations {
   get(
     resourceGroup: string,
     registrationName: string,
-    options?: RegistrationsGetOptionalParams
+    options?: RegistrationsGetOptionalParams,
   ): Promise<RegistrationsGetResponse>;
   /**
    * Delete the requested Azure Stack registration.
@@ -63,7 +63,7 @@ export interface Registrations {
   delete(
     resourceGroup: string,
     registrationName: string,
-    options?: RegistrationsDeleteOptionalParams
+    options?: RegistrationsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Create or update an Azure Stack registration.
@@ -76,7 +76,7 @@ export interface Registrations {
     resourceGroup: string,
     registrationName: string,
     token: RegistrationParameter,
-    options?: RegistrationsCreateOrUpdateOptionalParams
+    options?: RegistrationsCreateOrUpdateOptionalParams,
   ): Promise<RegistrationsCreateOrUpdateResponse>;
   /**
    * Patch an Azure Stack registration.
@@ -89,7 +89,7 @@ export interface Registrations {
     resourceGroup: string,
     registrationName: string,
     token: RegistrationParameter,
-    options?: RegistrationsUpdateOptionalParams
+    options?: RegistrationsUpdateOptionalParams,
   ): Promise<RegistrationsUpdateResponse>;
   /**
    * Returns Azure Stack Activation Key.
@@ -100,7 +100,7 @@ export interface Registrations {
   getActivationKey(
     resourceGroup: string,
     registrationName: string,
-    options?: RegistrationsGetActivationKeyOptionalParams
+    options?: RegistrationsGetActivationKeyOptionalParams,
   ): Promise<RegistrationsGetActivationKeyResponse>;
   /**
    * Enables remote management for device under the Azure Stack registration.
@@ -111,6 +111,6 @@ export interface Registrations {
   enableRemoteManagement(
     resourceGroup: string,
     registrationName: string,
-    options?: RegistrationsEnableRemoteManagementOptionalParams
+    options?: RegistrationsEnableRemoteManagementOptionalParams,
   ): Promise<void>;
 }
