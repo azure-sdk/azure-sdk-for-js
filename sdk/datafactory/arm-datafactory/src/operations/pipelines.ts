@@ -52,11 +52,7 @@ export class PipelinesImpl implements Pipelines {
     factoryName: string,
     options?: PipelinesListByFactoryOptionalParams,
   ): PagedAsyncIterableIterator<PipelineResource> {
-    const iter = this.listByFactoryPagingAll(
-      resourceGroupName,
-      factoryName,
-      options,
-    );
+    const iter = this.listByFactoryPagingAll(resourceGroupName, factoryName, options);
     return {
       next() {
         return iter.next();
@@ -68,12 +64,7 @@ export class PipelinesImpl implements Pipelines {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByFactoryPagingPage(
-          resourceGroupName,
-          factoryName,
-          options,
-          settings,
-        );
+        return this.listByFactoryPagingPage(resourceGroupName, factoryName, options, settings);
       },
     };
   }
@@ -87,11 +78,7 @@ export class PipelinesImpl implements Pipelines {
     let result: PipelinesListByFactoryResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByFactory(
-        resourceGroupName,
-        factoryName,
-        options,
-      );
+      result = await this._listByFactory(resourceGroupName, factoryName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -283,11 +270,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.factoryName,
     Parameters.pipelineName,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };

@@ -267,19 +267,9 @@ export type TriggerUnion =
   | TumblingWindowTrigger
   | RerunTumblingWindowTrigger
   | ChainingTrigger;
-export type DataFlowUnion =
-  | DataFlow
-  | MappingDataFlow
-  | Flowlet
-  | WranglingDataFlow;
-export type CredentialUnion =
-  | Credential
-  | ServicePrincipalCredential
-  | ManagedIdentityCredential;
-export type SecretBaseUnion =
-  | SecretBase
-  | SecureString
-  | AzureKeyVaultSecretReference;
+export type DataFlowUnion = DataFlow | MappingDataFlow | Flowlet | WranglingDataFlow;
+export type CredentialUnion = Credential | ServicePrincipalCredential | ManagedIdentityCredential;
+export type SecretBaseUnion = SecretBase | SecureString | AzureKeyVaultSecretReference;
 export type DatasetLocationUnion =
   | DatasetLocation
   | AzureBlobStorageLocation
@@ -2698,12 +2688,7 @@ export interface DatasetSchemaDataElement {
 /** The format definition of a storage. */
 export interface DatasetStorageFormat {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type:
-    | "TextFormat"
-    | "JsonFormat"
-    | "AvroFormat"
-    | "OrcFormat"
-    | "ParquetFormat";
+  type: "TextFormat" | "JsonFormat" | "AvroFormat" | "OrcFormat" | "ParquetFormat";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Serializer. Type: string (or Expression with resultType string). */
@@ -2870,11 +2855,7 @@ export interface EntityReference {
 /** The base definition of the custom setup. */
 export interface CustomSetupBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type:
-    | "CmdkeySetup"
-    | "EnvironmentVariableSetup"
-    | "ComponentSetup"
-    | "AzPowerShellSetup";
+  type: "CmdkeySetup" | "EnvironmentVariableSetup" | "ComponentSetup" | "AzPowerShellSetup";
 }
 
 /** Package store for the SSIS integration runtime. */
@@ -4247,8 +4228,7 @@ export interface PrivateEndpointConnectionResource extends SubResource {
 }
 
 /** Private Endpoint Connection Approval ARM resource. */
-export interface PrivateLinkConnectionApprovalRequestResource
-  extends SubResource {
+export interface PrivateLinkConnectionApprovalRequestResource extends SubResource {
   /** Core resource properties */
   properties?: PrivateLinkConnectionApprovalRequest;
 }
@@ -4286,8 +4266,7 @@ export interface ChangeDataCaptureResource extends SubResource {
 }
 
 /** Managed integration runtime status. */
-export interface ManagedIntegrationRuntimeStatus
-  extends IntegrationRuntimeStatus {
+export interface ManagedIntegrationRuntimeStatus extends IntegrationRuntimeStatus {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Managed";
   /**
@@ -4313,8 +4292,7 @@ export interface ManagedIntegrationRuntimeStatus
 }
 
 /** Self-hosted integration runtime status. */
-export interface SelfHostedIntegrationRuntimeStatus
-  extends IntegrationRuntimeStatus {
+export interface SelfHostedIntegrationRuntimeStatus extends IntegrationRuntimeStatus {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SelfHosted";
   /**
@@ -5144,14 +5122,42 @@ export interface OracleLinkedService extends LinkedService {
   encryptedCredential?: string;
 }
 
-/** AmazonRdsForOracle database. */
+/** AmazonRdsForOracle database. This linked service has supported version property. The Version 1.0 is scheduled for deprecation while your pipeline will continue to run after EOL but without any bug fix or new features. */
 export interface AmazonRdsForOracleLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonRdsForOracle";
-  /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString: any;
+  /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. Only used for Version 1.0. */
+  connectionString?: any;
+  /** The location of AmazonRdsForOracle database you want to connect to, the supported forms include connector descriptor, Easy Connect (Plus) Naming and Oracle Net Services Name (Only self-hosted IR). Type: string. Only used for Version 2.0. */
+  server?: any;
+  /** Authentication type for connecting to the AmazonRdsForOracle database. Only used for Version 2.0. */
+  authenticationType?: AmazonRdsForOracleAuthenticationType;
+  /** The AmazonRdsForOracle database username. Type: string. Only used for Version 2.0. */
+  username?: any;
   /** The Azure key vault secret reference of password in connection string. */
   password?: SecretBaseUnion;
+  /** Specifies the encryption client behavior. Supported values are accepted, rejected, requested or required, default value is required. Type: string. Only used for Version 2.0. */
+  encryptionClient?: any;
+  /** Specifies the encryption algorithms that client can use. Supported values are AES128, AES192, AES256, 3DES112, 3DES168, default value is (AES256). Type: string. Only used for Version 2.0. */
+  encryptionTypesClient?: any;
+  /** Specifies the desired data integrity behavior when this client connects to a server. Supported values are accepted, rejected, requested or required, default value is required. Type: string. Only used for Version 2.0. */
+  cryptoChecksumClient?: any;
+  /** Specifies the crypto-checksum algorithms that client can use. Supported values are SHA1, SHA256, SHA384, SHA512, default value is (SHA512). Type: string. Only used for Version 2.0. */
+  cryptoChecksumTypesClient?: any;
+  /** Specifies the amount that the source initially fetches for LOB columns, default value is 0. Type: integer. Only used for Version 2.0. */
+  initialLobFetchSize?: any;
+  /** Specifies the number of bytes that the driver allocates to fetch the data in one database round-trip, default value is 10485760. Type: integer. Only used for Version 2.0. */
+  fetchSize?: any;
+  /** Specifies the number of cursors or statements to be cached for each database connection, default value is 0. Type: integer. Only used for Version 2.0. */
+  statementCacheSize?: any;
+  /** Specifies a command that is issued immediately after connecting to the database to manage session settings. Type: string. Only used for Version 2.0. */
+  initializationString?: any;
+  /** Specifies whether to use bulk copy or batch insert when loading data into the database, default value is true. Type: boolean. Only used for Version 2.0. */
+  enableBulkLoad?: any;
+  /** Specifies whether to use the Version 1.0 data type mappings. Do not set this to true unless you want to keep backward compatibility with Version 1.0's data type mappings, default value is false. Type: boolean. Only used for Version 2.0. */
+  supportV1DataTypes?: any;
+  /** Specifies whether the driver returns column value with the TIMESTAMP WITH TIME ZONE data type as DateTime or string. This setting is ignored if supportV1DataTypes is not true, default value is true. Type: boolean. Only used for Version 2.0. */
+  fetchTswtzAsTimestamp?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
   encryptedCredential?: string;
 }
@@ -6436,8 +6442,12 @@ export interface ImpalaLinkedService extends LinkedService {
   username?: any;
   /** The password corresponding to the user name when using UsernameAndPassword. */
   password?: SecretBaseUnion;
+  /** The transport protocol to use in the Thrift layer (for V2 only). Default value is Binary. */
+  thriftTransportProtocol?: ImpalaThriftTransportProtocol;
   /** Specifies whether the connections to the server are encrypted using SSL. The default value is false. */
   enableSsl?: any;
+  /** Specify whether to enable server SSL certificate validation when you connect.Always use System Trust Store (for V2 only). The default value is true. */
+  enableServerCertificateValidation?: any;
   /** The full path of the .pem file containing trusted CA certificates for verifying the server when connecting over SSL. This property can only be set when using SSL on self-hosted IR. The default value is the cacerts.pem file installed with the IR. */
   trustedCertPath?: any;
   /** Specifies whether to use a CA certificate from the system trust store or from a specified PEM file. The default value is false. */
@@ -6995,6 +7005,8 @@ export interface AzureDatabricksLinkedService extends LinkedService {
   policyId?: any;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
+  /** The data security mode for the Databricks Cluster. Type: string (or Expression with resultType string). */
+  dataSecurityMode?: any;
 }
 
 /** Azure Databricks Delta Lake linked service. */
@@ -8644,8 +8656,7 @@ export interface WranglingDataFlow extends DataFlow {
 }
 
 /** Integration runtime debug resource. */
-export interface IntegrationRuntimeDebugResource
-  extends SubResourceDebugResource {
+export interface IntegrationRuntimeDebugResource extends SubResourceDebugResource {
   /** Integration runtime properties. */
   properties: IntegrationRuntimeUnion;
 }
@@ -8927,8 +8938,7 @@ export interface AzPowerShellSetup extends CustomSetupBase {
 }
 
 /** The key authorization type integration runtime. */
-export interface LinkedIntegrationRuntimeKeyAuthorization
-  extends LinkedIntegrationRuntimeType {
+export interface LinkedIntegrationRuntimeKeyAuthorization extends LinkedIntegrationRuntimeType {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authorizationType: "Key";
   /** The key used for authorization. */
@@ -8936,8 +8946,7 @@ export interface LinkedIntegrationRuntimeKeyAuthorization
 }
 
 /** The role based access control (RBAC) authorization type integration runtime. */
-export interface LinkedIntegrationRuntimeRbacAuthorization
-  extends LinkedIntegrationRuntimeType {
+export interface LinkedIntegrationRuntimeRbacAuthorization extends LinkedIntegrationRuntimeType {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authorizationType: "RBAC";
   /** The resource identifier of the integration runtime to be shared. */
@@ -9083,8 +9092,7 @@ export interface AzureSqlMILinkedServiceTypeProperties
 }
 
 /** A WebLinkedService that uses anonymous authentication to communicate with an HTTP endpoint. */
-export interface WebAnonymousAuthentication
-  extends WebLinkedServiceTypeProperties {
+export interface WebAnonymousAuthentication extends WebLinkedServiceTypeProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authenticationType: "Anonymous";
 }
@@ -9100,8 +9108,7 @@ export interface WebBasicAuthentication extends WebLinkedServiceTypeProperties {
 }
 
 /** A WebLinkedService that uses client certificate based authentication to communicate with an HTTP endpoint. This scheme follows mutual authentication; the server must also provide valid credentials to the client. */
-export interface WebClientCertificateAuthentication
-  extends WebLinkedServiceTypeProperties {
+export interface WebClientCertificateAuthentication extends WebLinkedServiceTypeProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authenticationType: "ClientCertificate";
   /** Base64-encoded contents of a PFX file. */
@@ -10829,16 +10836,13 @@ export interface ExecutePowerQueryActivityTypeProperties
 /** Trigger referenced dependency. */
 export interface TriggerDependencyReference extends DependencyReference {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type:
-    | "TriggerDependencyReference"
-    | "TumblingWindowTriggerDependencyReference";
+  type: "TriggerDependencyReference" | "TumblingWindowTriggerDependencyReference";
   /** Referenced trigger. */
   referenceTrigger: TriggerReference;
 }
 
 /** Self referenced tumbling window trigger dependency. */
-export interface SelfDependencyTumblingWindowTriggerReference
-  extends DependencyReference {
+export interface SelfDependencyTumblingWindowTriggerReference extends DependencyReference {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SelfDependencyTumblingWindowTriggerReference";
   /** Timespan applied to the start time of a tumbling window when evaluating dependency. */
@@ -12236,8 +12240,7 @@ export interface ServiceNowV2Source extends TabularSource {
 }
 
 /** Referenced tumbling window trigger dependency. */
-export interface TumblingWindowTriggerDependencyReference
-  extends TriggerDependencyReference {
+export interface TumblingWindowTriggerDependencyReference extends TriggerDependencyReference {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "TumblingWindowTriggerDependencyReference";
   /** Timespan applied to the start time of a tumbling window when evaluating dependency. */
@@ -13307,6 +13310,21 @@ export enum KnownOracleAuthenticationType {
  * **Basic**
  */
 export type OracleAuthenticationType = string;
+
+/** Known values of {@link AmazonRdsForOracleAuthenticationType} that the service accepts. */
+export enum KnownAmazonRdsForOracleAuthenticationType {
+  /** Basic */
+  Basic = "Basic",
+}
+
+/**
+ * Defines values for AmazonRdsForOracleAuthenticationType. \
+ * {@link KnownAmazonRdsForOracleAuthenticationType} can be used interchangeably with AmazonRdsForOracleAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic**
+ */
+export type AmazonRdsForOracleAuthenticationType = string;
 
 /** Known values of {@link SybaseAuthenticationType} that the service accepts. */
 export enum KnownSybaseAuthenticationType {
@@ -15044,6 +15062,8 @@ export enum KnownNetezzaPartitionOption {
  * **DynamicRange**
  */
 export type NetezzaPartitionOption = string;
+/** Defines values for ImpalaThriftTransportProtocol. */
+export type ImpalaThriftTransportProtocol = "Binary" | "HTTP";
 /** Defines values for DaysOfWeek. */
 export type DaysOfWeek =
   | "Sunday"
@@ -15064,43 +15084,37 @@ export type DayOfWeek =
   | "Saturday";
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResponse;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResponse;
 
 /** Optional parameters. */
-export interface FactoriesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FactoriesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type FactoriesListResponse = FactoryListResponse;
 
 /** Optional parameters. */
-export interface FactoriesConfigureFactoryRepoOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FactoriesConfigureFactoryRepoOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the configureFactoryRepo operation. */
 export type FactoriesConfigureFactoryRepoResponse = Factory;
 
 /** Optional parameters. */
-export interface FactoriesListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FactoriesListByResourceGroupOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type FactoriesListByResourceGroupResponse = FactoryListResponse;
 
 /** Optional parameters. */
-export interface FactoriesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface FactoriesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the factory entity. Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
   ifMatch?: string;
 }
@@ -15109,15 +15123,13 @@ export interface FactoriesCreateOrUpdateOptionalParams
 export type FactoriesCreateOrUpdateResponse = Factory;
 
 /** Optional parameters. */
-export interface FactoriesUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FactoriesUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type FactoriesUpdateResponse = Factory;
 
 /** Optional parameters. */
-export interface FactoriesGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface FactoriesGetOptionalParams extends coreClient.OperationOptions {
   /** ETag of the factory entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -15126,26 +15138,22 @@ export interface FactoriesGetOptionalParams
 export type FactoriesGetResponse = Factory;
 
 /** Optional parameters. */
-export interface FactoriesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FactoriesDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface FactoriesGetGitHubAccessTokenOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FactoriesGetGitHubAccessTokenOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getGitHubAccessToken operation. */
 export type FactoriesGetGitHubAccessTokenResponse = GitHubAccessTokenResponse;
 
 /** Optional parameters. */
-export interface FactoriesGetDataPlaneAccessOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FactoriesGetDataPlaneAccessOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDataPlaneAccess operation. */
 export type FactoriesGetDataPlaneAccessResponse = AccessPolicyResponse;
 
 /** Optional parameters. */
-export interface FactoriesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FactoriesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type FactoriesListNextResponse = FactoryListResponse;
@@ -15158,8 +15166,7 @@ export interface FactoriesListByResourceGroupNextOptionalParams
 export type FactoriesListByResourceGroupNextResponse = FactoryListResponse;
 
 /** Optional parameters. */
-export interface ExposureControlGetFeatureValueOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ExposureControlGetFeatureValueOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getFeatureValue operation. */
 export type ExposureControlGetFeatureValueResponse = ExposureControlResponse;
@@ -15169,24 +15176,21 @@ export interface ExposureControlGetFeatureValueByFactoryOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getFeatureValueByFactory operation. */
-export type ExposureControlGetFeatureValueByFactoryResponse =
-  ExposureControlResponse;
+export type ExposureControlGetFeatureValueByFactoryResponse = ExposureControlResponse;
 
 /** Optional parameters. */
 export interface ExposureControlQueryFeatureValuesByFactoryOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the queryFeatureValuesByFactory operation. */
-export type ExposureControlQueryFeatureValuesByFactoryResponse =
-  ExposureControlBatchResponse;
+export type ExposureControlQueryFeatureValuesByFactoryResponse = ExposureControlBatchResponse;
 
 /** Optional parameters. */
 export interface IntegrationRuntimesListByFactoryOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactory operation. */
-export type IntegrationRuntimesListByFactoryResponse =
-  IntegrationRuntimeListResponse;
+export type IntegrationRuntimesListByFactoryResponse = IntegrationRuntimeListResponse;
 
 /** Optional parameters. */
 export interface IntegrationRuntimesCreateOrUpdateOptionalParams
@@ -15196,12 +15200,10 @@ export interface IntegrationRuntimesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type IntegrationRuntimesCreateOrUpdateResponse =
-  IntegrationRuntimeResource;
+export type IntegrationRuntimesCreateOrUpdateResponse = IntegrationRuntimeResource;
 
 /** Optional parameters. */
-export interface IntegrationRuntimesGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface IntegrationRuntimesGetOptionalParams extends coreClient.OperationOptions {
   /** ETag of the integration runtime entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -15210,23 +15212,19 @@ export interface IntegrationRuntimesGetOptionalParams
 export type IntegrationRuntimesGetResponse = IntegrationRuntimeResource;
 
 /** Optional parameters. */
-export interface IntegrationRuntimesUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IntegrationRuntimesUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type IntegrationRuntimesUpdateResponse = IntegrationRuntimeResource;
 
 /** Optional parameters. */
-export interface IntegrationRuntimesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IntegrationRuntimesDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface IntegrationRuntimesGetStatusOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IntegrationRuntimesGetStatusOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getStatus operation. */
-export type IntegrationRuntimesGetStatusResponse =
-  IntegrationRuntimeStatusResponse;
+export type IntegrationRuntimesGetStatusResponse = IntegrationRuntimeStatusResponse;
 
 /** Optional parameters. */
 export interface IntegrationRuntimesListOutboundNetworkDependenciesEndpointsOptionalParams
@@ -15241,28 +15239,24 @@ export interface IntegrationRuntimesGetConnectionInfoOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getConnectionInfo operation. */
-export type IntegrationRuntimesGetConnectionInfoResponse =
-  IntegrationRuntimeConnectionInfo;
+export type IntegrationRuntimesGetConnectionInfoResponse = IntegrationRuntimeConnectionInfo;
 
 /** Optional parameters. */
 export interface IntegrationRuntimesRegenerateAuthKeyOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the regenerateAuthKey operation. */
-export type IntegrationRuntimesRegenerateAuthKeyResponse =
-  IntegrationRuntimeAuthKeys;
+export type IntegrationRuntimesRegenerateAuthKeyResponse = IntegrationRuntimeAuthKeys;
 
 /** Optional parameters. */
 export interface IntegrationRuntimesListAuthKeysOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthKeys operation. */
-export type IntegrationRuntimesListAuthKeysResponse =
-  IntegrationRuntimeAuthKeys;
+export type IntegrationRuntimesListAuthKeysResponse = IntegrationRuntimeAuthKeys;
 
 /** Optional parameters. */
-export interface IntegrationRuntimesStartOptionalParams
-  extends coreClient.OperationOptions {
+export interface IntegrationRuntimesStartOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15273,8 +15267,7 @@ export interface IntegrationRuntimesStartOptionalParams
 export type IntegrationRuntimesStartResponse = IntegrationRuntimeStatusResponse;
 
 /** Optional parameters. */
-export interface IntegrationRuntimesStopOptionalParams
-  extends coreClient.OperationOptions {
+export interface IntegrationRuntimesStopOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15290,16 +15283,13 @@ export interface IntegrationRuntimesGetMonitoringDataOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getMonitoringData operation. */
-export type IntegrationRuntimesGetMonitoringDataResponse =
-  IntegrationRuntimeMonitoringData;
+export type IntegrationRuntimesGetMonitoringDataResponse = IntegrationRuntimeMonitoringData;
 
 /** Optional parameters. */
-export interface IntegrationRuntimesUpgradeOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IntegrationRuntimesUpgradeOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface IntegrationRuntimesRemoveLinksOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IntegrationRuntimesRemoveLinksOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface IntegrationRuntimesCreateLinkedIntegrationRuntimeOptionalParams
@@ -15314,8 +15304,7 @@ export interface IntegrationRuntimesListByFactoryNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactoryNext operation. */
-export type IntegrationRuntimesListByFactoryNextResponse =
-  IntegrationRuntimeListResponse;
+export type IntegrationRuntimesListByFactoryNextResponse = IntegrationRuntimeListResponse;
 
 /** Optional parameters. */
 export interface IntegrationRuntimeObjectMetadataRefreshOptionalParams
@@ -15327,8 +15316,7 @@ export interface IntegrationRuntimeObjectMetadataRefreshOptionalParams
 }
 
 /** Contains response data for the refresh operation. */
-export type IntegrationRuntimeObjectMetadataRefreshResponse =
-  SsisObjectMetadataStatusResponse;
+export type IntegrationRuntimeObjectMetadataRefreshResponse = SsisObjectMetadataStatusResponse;
 
 /** Optional parameters. */
 export interface IntegrationRuntimeObjectMetadataGetOptionalParams
@@ -15338,47 +15326,38 @@ export interface IntegrationRuntimeObjectMetadataGetOptionalParams
 }
 
 /** Contains response data for the get operation. */
-export type IntegrationRuntimeObjectMetadataGetResponse =
-  SsisObjectMetadataListResponse;
+export type IntegrationRuntimeObjectMetadataGetResponse = SsisObjectMetadataListResponse;
 
 /** Optional parameters. */
-export interface IntegrationRuntimeNodesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IntegrationRuntimeNodesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type IntegrationRuntimeNodesGetResponse =
-  SelfHostedIntegrationRuntimeNode;
+export type IntegrationRuntimeNodesGetResponse = SelfHostedIntegrationRuntimeNode;
 
 /** Optional parameters. */
-export interface IntegrationRuntimeNodesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IntegrationRuntimeNodesDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface IntegrationRuntimeNodesUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IntegrationRuntimeNodesUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type IntegrationRuntimeNodesUpdateResponse =
-  SelfHostedIntegrationRuntimeNode;
+export type IntegrationRuntimeNodesUpdateResponse = SelfHostedIntegrationRuntimeNode;
 
 /** Optional parameters. */
 export interface IntegrationRuntimeNodesGetIpAddressOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getIpAddress operation. */
-export type IntegrationRuntimeNodesGetIpAddressResponse =
-  IntegrationRuntimeNodeIpAddress;
+export type IntegrationRuntimeNodesGetIpAddressResponse = IntegrationRuntimeNodeIpAddress;
 
 /** Optional parameters. */
-export interface LinkedServicesListByFactoryOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LinkedServicesListByFactoryOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactory operation. */
 export type LinkedServicesListByFactoryResponse = LinkedServiceListResponse;
 
 /** Optional parameters. */
-export interface LinkedServicesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface LinkedServicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the linkedService entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
   ifMatch?: string;
 }
@@ -15387,8 +15366,7 @@ export interface LinkedServicesCreateOrUpdateOptionalParams
 export type LinkedServicesCreateOrUpdateResponse = LinkedServiceResource;
 
 /** Optional parameters. */
-export interface LinkedServicesGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface LinkedServicesGetOptionalParams extends coreClient.OperationOptions {
   /** ETag of the linked service entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -15397,8 +15375,7 @@ export interface LinkedServicesGetOptionalParams
 export type LinkedServicesGetResponse = LinkedServiceResource;
 
 /** Optional parameters. */
-export interface LinkedServicesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LinkedServicesDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface LinkedServicesListByFactoryNextOptionalParams
@@ -15408,15 +15385,13 @@ export interface LinkedServicesListByFactoryNextOptionalParams
 export type LinkedServicesListByFactoryNextResponse = LinkedServiceListResponse;
 
 /** Optional parameters. */
-export interface DatasetsListByFactoryOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DatasetsListByFactoryOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactory operation. */
 export type DatasetsListByFactoryResponse = DatasetListResponse;
 
 /** Optional parameters. */
-export interface DatasetsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface DatasetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the dataset entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
   ifMatch?: string;
 }
@@ -15434,26 +15409,22 @@ export interface DatasetsGetOptionalParams extends coreClient.OperationOptions {
 export type DatasetsGetResponse = DatasetResource;
 
 /** Optional parameters. */
-export interface DatasetsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DatasetsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface DatasetsListByFactoryNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DatasetsListByFactoryNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactoryNext operation. */
 export type DatasetsListByFactoryNextResponse = DatasetListResponse;
 
 /** Optional parameters. */
-export interface PipelinesListByFactoryOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PipelinesListByFactoryOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactory operation. */
 export type PipelinesListByFactoryResponse = PipelineListResponse;
 
 /** Optional parameters. */
-export interface PipelinesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface PipelinesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the pipeline entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
   ifMatch?: string;
 }
@@ -15462,8 +15433,7 @@ export interface PipelinesCreateOrUpdateOptionalParams
 export type PipelinesCreateOrUpdateResponse = PipelineResource;
 
 /** Optional parameters. */
-export interface PipelinesGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface PipelinesGetOptionalParams extends coreClient.OperationOptions {
   /** ETag of the pipeline entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -15472,12 +15442,10 @@ export interface PipelinesGetOptionalParams
 export type PipelinesGetResponse = PipelineResource;
 
 /** Optional parameters. */
-export interface PipelinesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PipelinesDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface PipelinesCreateRunOptionalParams
-  extends coreClient.OperationOptions {
+export interface PipelinesCreateRunOptionalParams extends coreClient.OperationOptions {
   /** Parameters of the pipeline run. These parameters will be used only if the runId is not specified. */
   parameters?: { [propertyName: string]: any };
   /** The pipeline run identifier. If run ID is specified the parameters of the specified run will be used to create a new run. */
@@ -15494,57 +15462,49 @@ export interface PipelinesCreateRunOptionalParams
 export type PipelinesCreateRunResponse = CreateRunResponse;
 
 /** Optional parameters. */
-export interface PipelinesListByFactoryNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PipelinesListByFactoryNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactoryNext operation. */
 export type PipelinesListByFactoryNextResponse = PipelineListResponse;
 
 /** Optional parameters. */
-export interface PipelineRunsQueryByFactoryOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PipelineRunsQueryByFactoryOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the queryByFactory operation. */
 export type PipelineRunsQueryByFactoryResponse = PipelineRunsQueryResponse;
 
 /** Optional parameters. */
-export interface PipelineRunsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PipelineRunsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PipelineRunsGetResponse = PipelineRun;
 
 /** Optional parameters. */
-export interface PipelineRunsCancelOptionalParams
-  extends coreClient.OperationOptions {
+export interface PipelineRunsCancelOptionalParams extends coreClient.OperationOptions {
   /** If true, cancel all the Child pipelines that are triggered by the current pipeline. */
   isRecursive?: boolean;
 }
 
 /** Optional parameters. */
-export interface ActivityRunsQueryByPipelineRunOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ActivityRunsQueryByPipelineRunOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the queryByPipelineRun operation. */
 export type ActivityRunsQueryByPipelineRunResponse = ActivityRunsQueryResponse;
 
 /** Optional parameters. */
-export interface TriggersListByFactoryOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TriggersListByFactoryOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactory operation. */
 export type TriggersListByFactoryResponse = TriggerListResponse;
 
 /** Optional parameters. */
-export interface TriggersQueryByFactoryOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TriggersQueryByFactoryOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the queryByFactory operation. */
 export type TriggersQueryByFactoryResponse = TriggerQueryResponse;
 
 /** Optional parameters. */
-export interface TriggersCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface TriggersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the trigger entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
   ifMatch?: string;
 }
@@ -15562,12 +15522,10 @@ export interface TriggersGetOptionalParams extends coreClient.OperationOptions {
 export type TriggersGetResponse = TriggerResource;
 
 /** Optional parameters. */
-export interface TriggersDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TriggersDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface TriggersSubscribeToEventsOptionalParams
-  extends coreClient.OperationOptions {
+export interface TriggersSubscribeToEventsOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15575,20 +15533,17 @@ export interface TriggersSubscribeToEventsOptionalParams
 }
 
 /** Contains response data for the subscribeToEvents operation. */
-export type TriggersSubscribeToEventsResponse =
-  TriggerSubscriptionOperationStatus;
+export type TriggersSubscribeToEventsResponse = TriggerSubscriptionOperationStatus;
 
 /** Optional parameters. */
 export interface TriggersGetEventSubscriptionStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEventSubscriptionStatus operation. */
-export type TriggersGetEventSubscriptionStatusResponse =
-  TriggerSubscriptionOperationStatus;
+export type TriggersGetEventSubscriptionStatusResponse = TriggerSubscriptionOperationStatus;
 
 /** Optional parameters. */
-export interface TriggersUnsubscribeFromEventsOptionalParams
-  extends coreClient.OperationOptions {
+export interface TriggersUnsubscribeFromEventsOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15596,12 +15551,10 @@ export interface TriggersUnsubscribeFromEventsOptionalParams
 }
 
 /** Contains response data for the unsubscribeFromEvents operation. */
-export type TriggersUnsubscribeFromEventsResponse =
-  TriggerSubscriptionOperationStatus;
+export type TriggersUnsubscribeFromEventsResponse = TriggerSubscriptionOperationStatus;
 
 /** Optional parameters. */
-export interface TriggersStartOptionalParams
-  extends coreClient.OperationOptions {
+export interface TriggersStartOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15609,8 +15562,7 @@ export interface TriggersStartOptionalParams
 }
 
 /** Optional parameters. */
-export interface TriggersStopOptionalParams
-  extends coreClient.OperationOptions {
+export interface TriggersStopOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15618,30 +15570,25 @@ export interface TriggersStopOptionalParams
 }
 
 /** Optional parameters. */
-export interface TriggersListByFactoryNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TriggersListByFactoryNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactoryNext operation. */
 export type TriggersListByFactoryNextResponse = TriggerListResponse;
 
 /** Optional parameters. */
-export interface TriggerRunsRerunOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TriggerRunsRerunOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface TriggerRunsCancelOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TriggerRunsCancelOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface TriggerRunsQueryByFactoryOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TriggerRunsQueryByFactoryOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the queryByFactory operation. */
 export type TriggerRunsQueryByFactoryResponse = TriggerRunsQueryResponse;
 
 /** Optional parameters. */
-export interface DataFlowsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface DataFlowsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the data flow entity. Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
   ifMatch?: string;
 }
@@ -15650,8 +15597,7 @@ export interface DataFlowsCreateOrUpdateOptionalParams
 export type DataFlowsCreateOrUpdateResponse = DataFlowResource;
 
 /** Optional parameters. */
-export interface DataFlowsGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface DataFlowsGetOptionalParams extends coreClient.OperationOptions {
   /** ETag of the data flow entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -15660,26 +15606,22 @@ export interface DataFlowsGetOptionalParams
 export type DataFlowsGetResponse = DataFlowResource;
 
 /** Optional parameters. */
-export interface DataFlowsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DataFlowsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface DataFlowsListByFactoryOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DataFlowsListByFactoryOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactory operation. */
 export type DataFlowsListByFactoryResponse = DataFlowListResponse;
 
 /** Optional parameters. */
-export interface DataFlowsListByFactoryNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DataFlowsListByFactoryNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactoryNext operation. */
 export type DataFlowsListByFactoryNextResponse = DataFlowListResponse;
 
 /** Optional parameters. */
-export interface DataFlowDebugSessionCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface DataFlowDebugSessionCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15687,28 +15629,24 @@ export interface DataFlowDebugSessionCreateOptionalParams
 }
 
 /** Contains response data for the create operation. */
-export type DataFlowDebugSessionCreateResponse =
-  CreateDataFlowDebugSessionResponse;
+export type DataFlowDebugSessionCreateResponse = CreateDataFlowDebugSessionResponse;
 
 /** Optional parameters. */
 export interface DataFlowDebugSessionQueryByFactoryOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the queryByFactory operation. */
-export type DataFlowDebugSessionQueryByFactoryResponse =
-  QueryDataFlowDebugSessionsResponse;
+export type DataFlowDebugSessionQueryByFactoryResponse = QueryDataFlowDebugSessionsResponse;
 
 /** Optional parameters. */
 export interface DataFlowDebugSessionAddDataFlowOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the addDataFlow operation. */
-export type DataFlowDebugSessionAddDataFlowResponse =
-  AddDataFlowToDebugSessionResponse;
+export type DataFlowDebugSessionAddDataFlowResponse = AddDataFlowToDebugSessionResponse;
 
 /** Optional parameters. */
-export interface DataFlowDebugSessionDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DataFlowDebugSessionDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface DataFlowDebugSessionExecuteCommandOptionalParams
@@ -15720,24 +15658,21 @@ export interface DataFlowDebugSessionExecuteCommandOptionalParams
 }
 
 /** Contains response data for the executeCommand operation. */
-export type DataFlowDebugSessionExecuteCommandResponse =
-  DataFlowDebugCommandResponse;
+export type DataFlowDebugSessionExecuteCommandResponse = DataFlowDebugCommandResponse;
 
 /** Optional parameters. */
 export interface DataFlowDebugSessionQueryByFactoryNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the queryByFactoryNext operation. */
-export type DataFlowDebugSessionQueryByFactoryNextResponse =
-  QueryDataFlowDebugSessionsResponse;
+export type DataFlowDebugSessionQueryByFactoryNextResponse = QueryDataFlowDebugSessionsResponse;
 
 /** Optional parameters. */
 export interface ManagedVirtualNetworksListByFactoryOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactory operation. */
-export type ManagedVirtualNetworksListByFactoryResponse =
-  ManagedVirtualNetworkListResponse;
+export type ManagedVirtualNetworksListByFactoryResponse = ManagedVirtualNetworkListResponse;
 
 /** Optional parameters. */
 export interface ManagedVirtualNetworksCreateOrUpdateOptionalParams
@@ -15747,12 +15682,10 @@ export interface ManagedVirtualNetworksCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ManagedVirtualNetworksCreateOrUpdateResponse =
-  ManagedVirtualNetworkResource;
+export type ManagedVirtualNetworksCreateOrUpdateResponse = ManagedVirtualNetworkResource;
 
 /** Optional parameters. */
-export interface ManagedVirtualNetworksGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface ManagedVirtualNetworksGetOptionalParams extends coreClient.OperationOptions {
   /** ETag of the managed Virtual Network entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -15765,16 +15698,14 @@ export interface ManagedVirtualNetworksListByFactoryNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactoryNext operation. */
-export type ManagedVirtualNetworksListByFactoryNextResponse =
-  ManagedVirtualNetworkListResponse;
+export type ManagedVirtualNetworksListByFactoryNextResponse = ManagedVirtualNetworkListResponse;
 
 /** Optional parameters. */
 export interface ManagedPrivateEndpointsListByFactoryOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactory operation. */
-export type ManagedPrivateEndpointsListByFactoryResponse =
-  ManagedPrivateEndpointListResponse;
+export type ManagedPrivateEndpointsListByFactoryResponse = ManagedPrivateEndpointListResponse;
 
 /** Optional parameters. */
 export interface ManagedPrivateEndpointsCreateOrUpdateOptionalParams
@@ -15784,12 +15715,10 @@ export interface ManagedPrivateEndpointsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ManagedPrivateEndpointsCreateOrUpdateResponse =
-  ManagedPrivateEndpointResource;
+export type ManagedPrivateEndpointsCreateOrUpdateResponse = ManagedPrivateEndpointResource;
 
 /** Optional parameters. */
-export interface ManagedPrivateEndpointsGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface ManagedPrivateEndpointsGetOptionalParams extends coreClient.OperationOptions {
   /** ETag of the managed private endpoint entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -15798,16 +15727,14 @@ export interface ManagedPrivateEndpointsGetOptionalParams
 export type ManagedPrivateEndpointsGetResponse = ManagedPrivateEndpointResource;
 
 /** Optional parameters. */
-export interface ManagedPrivateEndpointsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ManagedPrivateEndpointsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ManagedPrivateEndpointsListByFactoryNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactoryNext operation. */
-export type ManagedPrivateEndpointsListByFactoryNextResponse =
-  ManagedPrivateEndpointListResponse;
+export type ManagedPrivateEndpointsListByFactoryNextResponse = ManagedPrivateEndpointListResponse;
 
 /** Optional parameters. */
 export interface CredentialOperationsListByFactoryOptionalParams
@@ -15827,8 +15754,7 @@ export interface CredentialOperationsCreateOrUpdateOptionalParams
 export type CredentialOperationsCreateOrUpdateResponse = CredentialResource;
 
 /** Optional parameters. */
-export interface CredentialOperationsGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface CredentialOperationsGetOptionalParams extends coreClient.OperationOptions {
   /** ETag of the credential entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -15837,24 +15763,21 @@ export interface CredentialOperationsGetOptionalParams
 export type CredentialOperationsGetResponse = CredentialResource;
 
 /** Optional parameters. */
-export interface CredentialOperationsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CredentialOperationsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface CredentialOperationsListByFactoryNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactoryNext operation. */
-export type CredentialOperationsListByFactoryNextResponse =
-  CredentialListResponse;
+export type CredentialOperationsListByFactoryNextResponse = CredentialListResponse;
 
 /** Optional parameters. */
 export interface PrivateEndPointConnectionsListByFactoryOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactory operation. */
-export type PrivateEndPointConnectionsListByFactoryResponse =
-  PrivateEndpointConnectionListResponse;
+export type PrivateEndPointConnectionsListByFactoryResponse = PrivateEndpointConnectionListResponse;
 
 /** Optional parameters. */
 export interface PrivateEndPointConnectionsListByFactoryNextOptionalParams
@@ -15872,75 +15795,63 @@ export interface PrivateEndpointConnectionCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type PrivateEndpointConnectionCreateOrUpdateResponse =
-  PrivateEndpointConnectionResource;
+export type PrivateEndpointConnectionCreateOrUpdateResponse = PrivateEndpointConnectionResource;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionGetOptionalParams extends coreClient.OperationOptions {
   /** ETag of the private endpoint connection entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
 
 /** Contains response data for the get operation. */
-export type PrivateEndpointConnectionGetResponse =
-  PrivateEndpointConnectionResource;
+export type PrivateEndpointConnectionGetResponse = PrivateEndpointConnectionResource;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface PrivateLinkResourcesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateLinkResourcesGetResponse = PrivateLinkResourcesWrapper;
 
 /** Optional parameters. */
-export interface GlobalParametersListByFactoryOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GlobalParametersListByFactoryOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactory operation. */
 export type GlobalParametersListByFactoryResponse = GlobalParameterListResponse;
 
 /** Optional parameters. */
-export interface GlobalParametersGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GlobalParametersGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type GlobalParametersGetResponse = GlobalParameterResource;
 
 /** Optional parameters. */
-export interface GlobalParametersCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GlobalParametersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type GlobalParametersCreateOrUpdateResponse = GlobalParameterResource;
 
 /** Optional parameters. */
-export interface GlobalParametersDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GlobalParametersDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface GlobalParametersListByFactoryNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactoryNext operation. */
-export type GlobalParametersListByFactoryNextResponse =
-  GlobalParameterListResponse;
+export type GlobalParametersListByFactoryNextResponse = GlobalParameterListResponse;
 
 /** Optional parameters. */
-export interface ChangeDataCaptureListByFactoryOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ChangeDataCaptureListByFactoryOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactory operation. */
-export type ChangeDataCaptureListByFactoryResponse =
-  ChangeDataCaptureListResponse;
+export type ChangeDataCaptureListByFactoryResponse = ChangeDataCaptureListResponse;
 
 /** Optional parameters. */
-export interface ChangeDataCaptureCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ChangeDataCaptureCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the change data capture entity. Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
   ifMatch?: string;
 }
@@ -15949,8 +15860,7 @@ export interface ChangeDataCaptureCreateOrUpdateOptionalParams
 export type ChangeDataCaptureCreateOrUpdateResponse = ChangeDataCaptureResource;
 
 /** Optional parameters. */
-export interface ChangeDataCaptureGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface ChangeDataCaptureGetOptionalParams extends coreClient.OperationOptions {
   /** ETag of the change data capture entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -15959,20 +15869,16 @@ export interface ChangeDataCaptureGetOptionalParams
 export type ChangeDataCaptureGetResponse = ChangeDataCaptureResource;
 
 /** Optional parameters. */
-export interface ChangeDataCaptureDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ChangeDataCaptureDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ChangeDataCaptureStartOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ChangeDataCaptureStartOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ChangeDataCaptureStopOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ChangeDataCaptureStopOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ChangeDataCaptureStatusOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ChangeDataCaptureStatusOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the status operation. */
 export type ChangeDataCaptureStatusResponse = {
@@ -15985,12 +15891,10 @@ export interface ChangeDataCaptureListByFactoryNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactoryNext operation. */
-export type ChangeDataCaptureListByFactoryNextResponse =
-  ChangeDataCaptureListResponse;
+export type ChangeDataCaptureListByFactoryNextResponse = ChangeDataCaptureListResponse;
 
 /** Optional parameters. */
-export interface DataFactoryManagementClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface DataFactoryManagementClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

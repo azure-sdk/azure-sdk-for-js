@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { DataFactoryManagementClient } from "../dataFactoryManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   DataFlowDebugSessionInfo,
@@ -62,11 +58,7 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
     factoryName: string,
     options?: DataFlowDebugSessionQueryByFactoryOptionalParams,
   ): PagedAsyncIterableIterator<DataFlowDebugSessionInfo> {
-    const iter = this.queryByFactoryPagingAll(
-      resourceGroupName,
-      factoryName,
-      options,
-    );
+    const iter = this.queryByFactoryPagingAll(resourceGroupName, factoryName, options);
     return {
       next() {
         return iter.next();
@@ -78,12 +70,7 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.queryByFactoryPagingPage(
-          resourceGroupName,
-          factoryName,
-          options,
-          settings,
-        );
+        return this.queryByFactoryPagingPage(resourceGroupName, factoryName, options, settings);
       },
     };
   }
@@ -97,11 +84,7 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
     let result: DataFlowDebugSessionQueryByFactoryResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._queryByFactory(
-        resourceGroupName,
-        factoryName,
-        options,
-      );
+      result = await this._queryByFactory(resourceGroupName, factoryName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -163,8 +146,7 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -220,12 +202,7 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
     request: CreateDataFlowDebugSessionRequest,
     options?: DataFlowDebugSessionCreateOptionalParams,
   ): Promise<DataFlowDebugSessionCreateResponse> {
-    const poller = await this.beginCreate(
-      resourceGroupName,
-      factoryName,
-      request,
-      options,
-    );
+    const poller = await this.beginCreate(resourceGroupName, factoryName, request, options);
     return poller.pollUntilDone();
   }
 
@@ -312,8 +289,7 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -369,12 +345,7 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
     request: DataFlowDebugCommandRequest,
     options?: DataFlowDebugSessionExecuteCommandOptionalParams,
   ): Promise<DataFlowDebugSessionExecuteCommandResponse> {
-    const poller = await this.beginExecuteCommand(
-      resourceGroupName,
-      factoryName,
-      request,
-      options,
-    );
+    const poller = await this.beginExecuteCommand(resourceGroupName, factoryName, request, options);
     return poller.pollUntilDone();
   }
 

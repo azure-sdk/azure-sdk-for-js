@@ -130,11 +130,28 @@ export interface AmazonMWSSource extends TabularSource {
 }
 
 // @public
+export type AmazonRdsForOracleAuthenticationType = string;
+
+// @public
 export interface AmazonRdsForOracleLinkedService extends LinkedService {
-    connectionString: any;
+    authenticationType?: AmazonRdsForOracleAuthenticationType;
+    connectionString?: any;
+    cryptoChecksumClient?: any;
+    cryptoChecksumTypesClient?: any;
+    enableBulkLoad?: any;
     encryptedCredential?: string;
+    encryptionClient?: any;
+    encryptionTypesClient?: any;
+    fetchSize?: any;
+    fetchTswtzAsTimestamp?: any;
+    initializationString?: any;
+    initialLobFetchSize?: any;
     password?: SecretBaseUnion;
+    server?: any;
+    statementCacheSize?: any;
+    supportV1DataTypes?: any;
     type: "AmazonRdsForOracle";
+    username?: any;
 }
 
 // @public
@@ -592,6 +609,7 @@ export interface AzureDatabricksLinkedService extends LinkedService {
     accessToken?: SecretBaseUnion;
     authentication?: any;
     credential?: CredentialReference;
+    dataSecurityMode?: any;
     domain: any;
     encryptedCredential?: string;
     existingClusterId?: any;
@@ -3952,11 +3970,13 @@ export interface ImpalaLinkedService extends LinkedService {
     allowHostNameCNMismatch?: any;
     allowSelfSignedServerCert?: any;
     authenticationType: ImpalaAuthenticationType;
+    enableServerCertificateValidation?: any;
     enableSsl?: any;
     encryptedCredential?: string;
     host: any;
     password?: SecretBaseUnion;
     port?: any;
+    thriftTransportProtocol?: ImpalaThriftTransportProtocol;
     trustedCertPath?: any;
     type: "Impala";
     username?: any;
@@ -3976,6 +3996,9 @@ export interface ImpalaSource extends TabularSource {
     query?: any;
     type: "ImpalaSource";
 }
+
+// @public
+export type ImpalaThriftTransportProtocol = "Binary" | "HTTP";
 
 // @public
 export interface ImportSettings {
@@ -4534,6 +4557,11 @@ export enum KnownActivityOnInactiveMarkAs {
 export enum KnownActivityState {
     Active = "Active",
     Inactive = "Inactive"
+}
+
+// @public
+export enum KnownAmazonRdsForOracleAuthenticationType {
+    Basic = "Basic"
 }
 
 // @public
